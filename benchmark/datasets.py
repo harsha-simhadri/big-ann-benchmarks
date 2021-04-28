@@ -16,85 +16,129 @@ from faiss import ResultHeap
 
 def download(src, dst):
     if not os.path.exists(dst):
-        # TODO: should be atomic
+        # TODO: also check without suffix?
         print('downloading %s -> %s...' % (src, dst))
         urlretrieve(src, dst)
 
 
-def get_dataset_fn(dataset):
-    if not os.path.exists('data'):
-        os.mkdir('data')
-    return os.path.join('data', '%s.hdf5' % dataset)
-
-
-def get_dataset(which):
-    hdf5_fn = get_dataset_fn(which)
-    try:
-        url = 'http://TODO/%s.hdf5' % which
-        download(url, hdf5_fn)
-    except:
-        print("Cannot download %s" % url)
-        if which in DATASETS:
-            print("Creating dataset locally")
-            DATASETS[which](hdf5_fn)
-    hdf5_f = h5py.File(hdf5_fn, 'r')
-    return hdf5_f
-
-
 # Everything below this line is related to creating datasets
 # TODO: This is supposed to be carried out in a docker container
+
+class Dataset():
+    def prepare(self):
+        """
+        Download and prepare dataset, queries, groundtruth.
+        """
+        pass
+    def get_dataset_fn(self):
+        """
+        Return filename of dataset file.
+        """
+        pass
+    def get_dataset(self):
+        """
+        Return memmapped version of the dataset.
+        """
+        pass
+    def get_dataset_iterator(self, bs=512):
+        """
+        Return iterator over blocks of dataset..
+        """
+        pass
+    def get_queries(self):
+        """
+        Return (nq, d) array containing the nq queries.
+        """
+        pass
+    def get_groundtruth(self, k=None):
+        """
+        Return (nq, k) array containing groundtruth indices
+        for each query."""
+        pass
+
+    def query_type(self):
+        """
+        "knn" or "range"
+        """
+        pass
+
+    def __str__(self):
+        """
+        Return identifier.
+        """
+        pass
 
 def bvecs_mmap(fname):
     x = numpy.memmap(fname, dtype='uint8', mode='r')
     d = x[:4].view('int32')[0]
     return x.reshape(-1, d + 4)[:, 4:]
 
+def ivecs_read(fname):
+    a = numpy.fromfile(fname, dtype='int32')
+    d = a[0]
+    return a.reshape(-1, d + 1)[:, 1:].copy()
+
 def sanitize(x):
     return numpy.ascontiguousarray(x, dtype='float32')
 
-def sift(out_fn, batchsize):
-#    import tarfile
-#
-#    url = 'ftp://ftp.irisa.fr/local/texmex/corpus/sift.tar.gz'
-#    fn = os.path.join('data', 'sift.tar.tz')
-#    download(url, fn)
-#    with tarfile.open(fn, 'r:gz') as t:
-#        train = _get_irisa_matrix(t, 'sift/sift_base.fvecs')
-#        test = _get_irisa_matrix(t, 'sift/sift_query.fvecs')
-#        write_output(train, test, out_fn, 'euclidean')
-    # for now assume vectors exist locally
-    f = h5py.File(out_fn, 'w')
-    f.attrs['distance'] = 'euclidean'
-    f.attrs['type'] = 'knn' # carry out k-nn queries (as opposed to range)
+class Sift1B(Dataset):
+    def __init__(self, nb_M=1000):
+        self.nb_M = nb_M
+        self.nb = 10**6 * nb_M
+        self.d = 128
+        self.nq = 10000
 
-    queries = bvecs_mmap('bigann_query.bvecs')
-    f['queries'] = queries
+    def prepare(self):
+        import gzip, tarfile
+        ds_fn = "bigann_base.bvecs"
+        ds_url = f"ftp://ftp.irisa.fr/local/texmex/corpus/{ds_fn}.gz"
+        qs_fn = "bigann_query.bvecs"
+        qs_url = f"ftp://ftp.irisa.fr/local/texmex/corpus/{qs_fn}.gz"
+        gt_fn = "bigann_gnd.tar.gz"
+        gt_url = f"ftp://ftp.irisa.fr/local/texmex/corpus/{gt_fn}"
 
-    data = bvecs_mmap('bigann_base.bvecs')
-    parts = (data.shape[0] - 1) // batchsize + 1
-    #parts = 4
-    res = ResultHeap(nq=len(queries), k=100)
-    for part in range(parts):
-        print(f"Running part {part}/{parts}")
-        name = f"data_{part}"
-        part_data = data[part * batchsize : (part + 1) * batchsize, :]
-        f[name] = part_data
-        D, I = knn(sanitize(queries), sanitize(part_data), 100)
-        res.add_result(D=D, I=I + part * batchsize)
-        f[name + "_D"] = res.D
-        f[name + "_I"] = res.I
+        for fn in []:#[ds_fn, qs_fn]:
+            download(ds_url, f"data/{fn}.gz")
+            with gzip.open(f"data/{fn}.gz") as g:
+                with open(f"data/{fn}", "wb") as f:
+                    f.write(g.read())
 
-    f.close()
+        download(gt_url, f"data/{gt_fn}")
+        with tarfile.open(f"data/{gt_fn}") as f:
+            f.extractall("data/")
+
+    def get_dataset_fn(self):
+        return 'data/bigann_base.bvecs'
+
+    def get_dataset(self):
+        assert self.nb_M < 100, "dataset too large, use iterator"
+        return sanitize(bvecs_mmap('data/bigann_base.bvecs')[:self.nb])
+
+    def get_dataset_iterator(self, bs=512, split=(1,0)):
+        xb = bvecs_mmap('data/bigann_base.bvecs')
+        nsplit, rank = split
+        i0, i1 = self.nb * rank // nsplit, self.nb * (rank + 1) // nsplit
+        for j0 in range(i0, i1, bs):
+            yield sanitize(xb[j0: min(j0 + bs, i1)])
+
+    def get_queries(self):
+        return sanitize(bvecs_mmap('data/bigann_query.bvecs')[:])
+
+    def get_groundtruth(self, k=None):
+        gt = ivecs_read('data/gnd/idx_%dM.ivecs' % self.nb_M)
+        if k is not None:
+            assert k <= 100
+            gt = gt[:, :k]
+        return gt
+
+    def query_type(self):
+        return "knn"
+
+    def __str__(self):
+        return f"Sift1B(M={self.nb_M})"
 
 
 DATASETS = {
-    'random-xs-20-euclidean': lambda out_fn, batchsize: random_float(out_fn, 20, 10000, 100,
-                                                    'euclidean'),
-    'random-s-100-euclidean': lambda out_fn, batchsize: random_float(out_fn, 100, 100000, 1000,
-                                                    'euclidean'),
-    'random-xs-20-angular': lambda out_fn, batchsize: random_float(out_fn, 20, 10000, 100,
-                                                  'angular'),
-    'random-s-100-angular': lambda out_fn, batchsize: random_float(out_fn, 100, 100000, 1000,
-                                                  'angular'),
-    'sift-128-euclidean': sift,
+    'sift-1B': Sift1B(1000),
+    'sift-1M': Sift1B(1),
 }

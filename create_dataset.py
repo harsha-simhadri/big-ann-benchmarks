@@ -7,11 +7,6 @@ if __name__ == "__main__":
         '--dataset',
         choices=DATASETS.keys(),
         required=True)
-    parser.add_argument(
-        '--batchsize',
-        default=10000000,
-        type=int
-        )
     args = parser.parse_args()
-    fn = get_dataset_fn(args.dataset)
-    DATASETS[args.dataset](fn, args.batchsize)
+    ds = DATASETS[args.dataset]
+    ds.prepare()
