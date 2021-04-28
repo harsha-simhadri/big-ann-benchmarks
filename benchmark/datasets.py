@@ -4,8 +4,13 @@ import os
 import random
 import sys
 
+from benchmark.distances import metrics
+
 from urllib.request import urlopen
 from urllib.request import urlretrieve
+
+from faiss.contrib.exhaustive_search import knn_ground_truth, knn, range_ground_truth
+from faiss import ResultHeap
 
 
 
@@ -37,68 +42,50 @@ def get_dataset(which):
 
 
 # Everything below this line is related to creating datasets
+# TODO: This is supposed to be carried out in a docker container
 
-# Probably want to split the process up
-# 1) Read the dataset, create the hdf5 file with batched data points.
-# 2) Compute groundtruth based on these data points.
+def bvecs_mmap(fname):
+    x = numpy.memmap(fname, dtype='uint8', mode='r')
+    d = x[:4].view('int32')[0]
+    return x.reshape(-1, d + 4)[:, 4:]
 
-def write_output(train, test, fn, distance, point_type='float', count=100):
-    from benchmark.algorithms.bruteforce import BruteForceBLAS
-    n = 0
-    f = h5py.File(fn, 'w')
-    f.attrs['distance'] = distance
-    f.attrs['point_type'] = point_type
-    print('train size: %9d * %4d' % train.shape)
-    print('test size:  %9d * %4d' % test.shape)
-    f.create_dataset('train', (len(train), len(
-        train[0])), dtype=train.dtype)[:] = train
-    f.create_dataset('test', (len(test), len(
-        test[0])), dtype=test.dtype)[:] = test
-    neighbors = f.create_dataset('neighbors', (len(test), count), dtype='i')
-    distances = f.create_dataset('distances', (len(test), count), dtype='f')
-    bf = BruteForceBLAS(distance, precision=train.dtype)
-    bf.fit(train)
-    queries = []
-    for i, x in enumerate(test):
-        if i % 1000 == 0:
-            print('%d/%d...' % (i, len(test)))
-        res = list(bf.query_with_distances(x, count))
-        res.sort(key=lambda t: t[-1])
-        neighbors[i] = [j for j, _ in res]
-        distances[i] = [d for _, d in res]
-    f.close()
-
-def _load_texmex_vectors(f, n, k):
-    import struct
-
-    v = numpy.zeros((n, k))
-    for i in range(n):
-        f.read(4)  # ignore vec length
-        v[i] = struct.unpack('f' * k, f.read(k * 4))
-
-    return v
-
-
-def _get_irisa_matrix(t, fn):
-    import struct
-    m = t.getmember(fn)
-    f = t.extractfile(m)
-    k, = struct.unpack('i', f.read(4))
-    n = m.size // (4 + 4 * k)
-    f.seek(0)
-    return _load_texmex_vectors(f, n, k)
-
+def sanitize(x):
+    return numpy.ascontiguousarray(x, dtype='float32')
 
 def sift(out_fn, batchsize):
-    import tarfile
+#    import tarfile
+#
+#    url = 'ftp://ftp.irisa.fr/local/texmex/corpus/sift.tar.gz'
+#    fn = os.path.join('data', 'sift.tar.tz')
+#    download(url, fn)
+#    with tarfile.open(fn, 'r:gz') as t:
+#        train = _get_irisa_matrix(t, 'sift/sift_base.fvecs')
+#        test = _get_irisa_matrix(t, 'sift/sift_query.fvecs')
+#        write_output(train, test, out_fn, 'euclidean')
+    # for now assume vectors exist locally
+    f = h5py.File(out_fn, 'w')
+    f.attrs['distance'] = 'euclidean'
+    f.attrs['type'] = 'knn' # carry out k-nn queries (as opposed to range)
 
-    url = 'ftp://ftp.irisa.fr/local/texmex/corpus/sift.tar.gz'
-    fn = os.path.join('data', 'sift.tar.tz')
-    download(url, fn)
-    with tarfile.open(fn, 'r:gz') as t:
-        train = _get_irisa_matrix(t, 'sift/sift_base.fvecs')
-        test = _get_irisa_matrix(t, 'sift/sift_query.fvecs')
-        write_output(train, test, out_fn, 'euclidean')
+    queries = bvecs_mmap('bigann_query.bvecs')
+    f['queries'] = queries
+
+    data = bvecs_mmap('bigann_base.bvecs')
+    parts = (data.shape[0] - 1) // batchsize + 1
+    #parts = 4
+    res = ResultHeap(nq=len(queries), k=100)
+    for part in range(parts):
+        print(f"Running part {part}/{parts}")
+        name = f"data_{part}"
+        part_data = data[part * batchsize : (part + 1) * batchsize, :]
+        f[name] = part_data
+        D, I = knn(sanitize(queries), sanitize(part_data), 100)
+        res.add_result(D=D, I=I + part * batchsize)
+        f[name + "_D"] = res.D
+        f[name + "_I"] = res.I
+
+    f.close()
+
 
 DATASETS = {
     'random-xs-20-euclidean': lambda out_fn, batchsize: random_float(out_fn, 20, 10000, 100,

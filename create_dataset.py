@@ -10,6 +10,7 @@ if __name__ == "__main__":
     parser.add_argument(
         '--batchsize',
         default=10000000,
+        type=int
         )
     args = parser.parse_args()
     fn = get_dataset_fn(args.dataset)
