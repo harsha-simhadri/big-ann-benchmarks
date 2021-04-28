@@ -23,9 +23,13 @@ Singularity vs. Docker?
 ## TODO
 
 - Implement baselines
-   - FAISS: Martin can do it based on the faiss 1B wiki code
-   - DiskANN: Use ann-benchmarks implementation, unsure about the T2 setup.
+   - FAISS: Martin can do it based on the FAISS 1B wiki code, only T1?
+   - DiskANN: Use ann-benchmarks implementation, unsure about the T1/T2 setup.
 - Include datasets
-  - SIFT-1B (kind of done)
+  - SIFT-1B (takes around 12h to preprocess in 100x10M batches)
   - ...
+- Implement framework
+  - pretty easy, most ann-benchmarks code can be re-used
+- Implement evaluation
+  - Martin: What do we need? I can create the plots/website, what about the competition table?
 - Test framework
