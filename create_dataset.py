@@ -10,4 +10,3 @@ if __name__ == "__main__":
     args = parser.parse_args()
     ds = DATASETS[args.dataset]
     ds.prepare()
-    print(ds.get_queries())

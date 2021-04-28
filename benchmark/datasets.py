@@ -28,7 +28,6 @@ def download(src, dst=None):
     if not dst:
         dst = "data/" + src.split("/")[-1]
     if not os.path.exists(dst):
-        # TODO: also check without suffix?
         print('downloading %s -> %s...' % (src, dst))
         urlretrieve(src, dst, show_progress)
 
@@ -93,7 +92,6 @@ def ivecs_read(fname):
 def read_fdata(filename, nvecs, dim):
     with open(filename, 'rb') as f:
         buf = f.read(dim * 4 * nvecs)
-        print(len(buf))
         vecs = numpy.array(struct.unpack('f' * dim * nvecs, buf))
     return vecs.reshape((nvecs, dim))
 
@@ -157,6 +155,9 @@ class Sift1B(Dataset):
             gt = gt[:, :k]
         return gt
 
+    def distance(self):
+        return "Euclidean"
+
     def query_type(self):
         return "knn"
 
@@ -173,13 +174,12 @@ class Deep1B(Dataset):
         self.ds_fn = "base.1B.fdata"
         self.qs_fn = "query.public.10K.fdata"
         self.gt_fn = "groundtruth.public.10K.idata"
+        self.base_url = "https://storage.yandexcloud.net/yandex-research/ann-datasets/DEEP/"
 
     def prepare(self):
-        import gzip, tarfile
-        base_url = "https://storage.yandexcloud.net/yandex-research/ann-datasets/DEEP/"
-        ds_url = base_url + self.ds_fn
-        qs_url = base_url + self.qs_fn
-        qt_url = base_url + self.gt_fn
+        ds_url = self.base_url + self.ds_fn
+        qs_url = self.base_url + self.qs_fn
+        qt_url = self.base_url + self.gt_fn
 
         for fn in [ds_url, qs_url, qt_url]:
             download(fn)
@@ -207,12 +207,33 @@ class Deep1B(Dataset):
     def query_type(self):
         return "knn"
 
+    def distance(self):
+        return "Euclidean"
+
     def __str__(self):
         return f"Deep1B"
 
+class Text2Image1B(Deep1B):
+    def __init__(self, nb_M=1000):
+        assert nb_M in (10, 1000)
+        self.nb_M = nb_M
+        self.nb = 10**6 * nb_M
+        self.d = 200
+        self.nq = 100000
+        self.ds_fn = "base.1B.fdata"
+        self.qs_fn = "query.public.100K.fdata"
+        self.gt_fn = "groundtruth.public.100K.idata"
+        self.base_url = "https://storage.yandexcloud.net/yandex-research/ann-datasets/T2I/"
+
+    def distance(self):
+        return "IP"
+
+    def __str__(self):
+        return f"TextToImage"
 
 DATASETS = {
     'sift-1B': Sift1B(1000),
     'sift-1M': Sift1B(1),
     'deep-1B': Deep1B(),
+    'text-to-image-1B': Text2Image1B(),
 }
