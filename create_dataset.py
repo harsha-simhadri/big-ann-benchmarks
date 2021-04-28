@@ -1,5 +1,5 @@
 import argparse
-from benchmark.datasets import DATASETS, get_dataset_fn
+from benchmark.datasets import DATASETS
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -10,3 +10,4 @@ if __name__ == "__main__":
     args = parser.parse_args()
     ds = DATASETS[args.dataset]
     ds.prepare()
+    print(ds.get_queries())

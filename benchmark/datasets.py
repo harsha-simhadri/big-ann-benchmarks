@@ -3,22 +3,34 @@ import numpy
 import os
 import random
 import sys
-
-from benchmark.distances import metrics
+import progressbar
+import struct
 
 from urllib.request import urlopen
 from urllib.request import urlretrieve
 
-from faiss.contrib.exhaustive_search import knn_ground_truth, knn, range_ground_truth
-from faiss import ResultHeap
+pbar = None
 
+def show_progress(block_num, block_size, total_size):
+    global pbar
+    if pbar is None:
+        pbar = progressbar.ProgressBar(maxval=total_size)
+        pbar.start()
 
+    downloaded = block_num * block_size
+    if downloaded < total_size:
+        pbar.update(downloaded)
+    else:
+        pbar.finish()
+        pbar = None
 
-def download(src, dst):
+def download(src, dst=None):
+    if not dst:
+        dst = "data/" + src.split("/")[-1]
     if not os.path.exists(dst):
         # TODO: also check without suffix?
         print('downloading %s -> %s...' % (src, dst))
-        urlretrieve(src, dst)
+        urlretrieve(src, dst, show_progress)
 
 
 # Everything below this line is related to creating datasets
@@ -78,6 +90,20 @@ def ivecs_read(fname):
     d = a[0]
     return a.reshape(-1, d + 1)[:, 1:].copy()
 
+def read_fdata(filename, nvecs, dim):
+    with open(filename, 'rb') as f:
+        buf = f.read(dim * 4 * nvecs)
+        print(len(buf))
+        vecs = numpy.array(struct.unpack('f' * dim * nvecs, buf))
+    return vecs.reshape((nvecs, dim))
+
+
+def read_idata(filename, nvecs, dim):
+    with open(filename, 'rb') as f:
+        buf = f.read(dim * 4 * nvecs)
+        vecs = numpy.array(struct.unpack('i' * dim * nvecs, buf))
+    return vecs.reshape((nvecs, dim))
+
 def sanitize(x):
     return numpy.ascontiguousarray(x, dtype='float32')
 
@@ -97,7 +123,7 @@ class Sift1B(Dataset):
         gt_fn = "bigann_gnd.tar.gz"
         gt_url = f"ftp://ftp.irisa.fr/local/texmex/corpus/{gt_fn}"
 
-        for fn in []:#[ds_fn, qs_fn]:
+        for fn in [ds_fn, qs_fn]:
             download(ds_url, f"data/{fn}.gz")
             with gzip.open(f"data/{fn}.gz") as g:
                 with open(f"data/{fn}", "wb") as f:
@@ -137,8 +163,56 @@ class Sift1B(Dataset):
     def __str__(self):
         return f"Sift1B(M={self.nb_M})"
 
+class Deep1B(Dataset):
+    def __init__(self, nb_M=1000):
+        assert nb_M in (10, 1000)
+        self.nb_M = nb_M
+        self.nb = 10**6 * nb_M
+        self.d = 96
+        self.nq = 10000
+        self.ds_fn = "base.1B.fdata"
+        self.qs_fn = "query.public.10K.fdata"
+        self.gt_fn = "groundtruth.public.10K.idata"
+
+    def prepare(self):
+        import gzip, tarfile
+        base_url = "https://storage.yandexcloud.net/yandex-research/ann-datasets/DEEP/"
+        ds_url = base_url + self.ds_fn
+        qs_url = base_url + self.qs_fn
+        qt_url = base_url + self.gt_fn
+
+        for fn in [ds_url, qs_url, qt_url]:
+            download(fn)
+
+    def get_dataset_fn(self):
+        return 'data/' + self.ds_fn
+
+    def get_dataset(self):
+        assert self.nb < 10**8, "dataset too large, use iterator"
+        return sanitize(read_fdata('data/' + self.ds_fn, self.nq, self.d))
+
+    def get_dataset_iterator(self, bs=512, split=(1,0)):
+        pass
+
+    def get_queries(self):
+        return sanitize(read_fdata('data/' + self.qs_fn, self.nq, self.d))
+
+    def get_groundtruth(self, k=None):
+        gt = read_idata('data/' + self.gt_fn, self.nq, self.d)
+        if k is not None:
+            assert k <= 100
+            gt = gt[:, :k]
+        return gt
+
+    def query_type(self):
+        return "knn"
+
+    def __str__(self):
+        return f"Deep1B"
+
 
 DATASETS = {
     'sift-1B': Sift1B(1000),
     'sift-1M': Sift1B(1),
+    'deep-1B': Deep1B(),
 }
