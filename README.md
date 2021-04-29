@@ -27,10 +27,16 @@ Singularity vs. Docker?
   - FB dataset?
   - 2 MSR datasets?
 - Implement framework
-  - pretty easy, most ann-benchmarks code can be re-used
+  - a few small todos left
 - Implement baselines
+   - FAISS: inmem version from ann-benchmarks adapted to the new api.
    - FAISS: Martin can do it based on the FAISS 1B wiki code, only T1? -> Dmitry is going to help.
    - DiskANN: Harsha writes Python wrapper for DiskANN with SSD
 - Implement evaluation
   - Martin: What do we need? I can create the plots/website, what about the competition table?
+  - for now: ann-benchmarks style png plots.
 - Test framework
+- automatic deployment in the cloud?
+- docker vs. singularity:
+  - benchmark disk i/o
+  - https://www.diva-portal.org/smash/get/diva2:1277794/FULLTEXT01.pdf sees singularity as clear winner for i/o
