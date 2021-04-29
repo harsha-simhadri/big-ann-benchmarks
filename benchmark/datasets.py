@@ -1,4 +1,3 @@
-import h5py
 import numpy
 import os
 import random
@@ -67,7 +66,7 @@ class Dataset():
         for each query."""
         pass
 
-    def query_type(self):
+    def search_type(self):
         """
         "knn" or "range"
         """
@@ -156,9 +155,9 @@ class Sift1B(Dataset):
         return gt
 
     def distance(self):
-        return "Euclidean"
+        return "euclidean"
 
-    def query_type(self):
+    def search_type(self):
         return "knn"
 
     def __str__(self):
@@ -204,11 +203,11 @@ class Deep1B(Dataset):
             gt = gt[:, :k]
         return gt
 
-    def query_type(self):
+    def search_type(self):
         return "knn"
 
     def distance(self):
-        return "Euclidean"
+        return "euclidean"
 
     def __str__(self):
         return f"Deep1B"
@@ -226,7 +225,7 @@ class Text2Image1B(Deep1B):
         self.base_url = "https://storage.yandexcloud.net/yandex-research/ann-datasets/T2I/"
 
     def distance(self):
-        return "IP"
+        return "ip"
 
     def __str__(self):
         return f"TextToImage"
