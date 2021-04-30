@@ -16,7 +16,7 @@ The only prerequisite is Python (tested with 3.6) and Docker. Works with newer v
 | Dataset                                                           | Dimensions | Train size | Test size | Neighbors | Distance
 | ----------------------------------------------------------------- | ---------: | ---------: | --------: | --------: | --------- |
 | [DEEP1B](https://research.yandex.com/datasets/biganns)              |         96 |  1,000,000,000 |    10,000 |       100 | Euclidean 
-| [SIFT1B](http://corpus-texmex.irisa.fr/)              |         128 |  1,000,000,000 | 1,000,000,000 |       100 | Euclidean
+| [SIFT1B](http://corpus-texmex.irisa.fr/)              |         128 |  1,000,000,000 | 10,000 |       100 | Euclidean
 | [Text-to-Image-1B](https://research.yandex.com/datasets/biganns)              |         200 |  1,000,000,000 |    10,000 |       100 | Inner Product
 
 ### Dataset Preparation
