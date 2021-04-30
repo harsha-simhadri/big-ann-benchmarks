@@ -180,30 +180,36 @@ class Deep1B(Dataset):
         self.qs_fn = "query.public.10K.fdata"
         self.gt_fn = "groundtruth.public.10K.idata"
         self.base_url = "https://storage.yandexcloud.net/yandex-research/ann-datasets/DEEP/"
+        self.basedir = os.path.join(BASEDIR, "deep1b")
+        if not os.path.exists(self.basedir):
+            os.makedirs(self.basedir)
 
     def prepare(self):
+        if os.path.exists(os.path.join(self.basedir, self.ds_fn)):
+            print(f"{self} exists?")
+            return
         ds_url = self.base_url + self.ds_fn
         qs_url = self.base_url + self.qs_fn
         qt_url = self.base_url + self.gt_fn
 
-        for fn in [ds_url, qs_url, qt_url]:
-            download(fn)
+        for fn in [self.ds_fn, self.qs_fn, self.gt_fn]:
+            download(os.path.join(self.base_url, fn), os.path.join(self.basedir, fn))
 
     def get_dataset_fn(self):
-        return 'data/' + self.ds_fn
+        return os.path.join(self.basedir, self.ds_fn)
 
     def get_dataset(self):
         assert self.nb < 10**8, "dataset too large, use iterator"
-        return sanitize(read_fdata('data/' + self.ds_fn, self.nq, self.d))
+        return sanitize(read_fdata(self.get_dataset_fn(), self.nq, self.d))
 
     def get_dataset_iterator(self, bs=512, split=(1,0)):
-        pass
+        raise NotImplementedError()
 
     def get_queries(self):
-        return sanitize(read_fdata('data/' + self.qs_fn, self.nq, self.d))
+        return sanitize(read_fdata(os.path.join(self.basedir, self.qs_fn), self.nq, self.d))
 
     def get_groundtruth(self, k=None):
-        gt = read_idata('data/' + self.gt_fn, self.nq, self.d)
+        gt = read_idata(os.path.join(self.basedir, self.gt_fn), self.nq, self.d)
         if k is not None:
             assert k <= 100
             gt = gt[:, :k]
@@ -229,6 +235,9 @@ class Text2Image1B(Deep1B):
         self.qs_fn = "query.public.100K.fdata"
         self.gt_fn = "groundtruth.public.100K.idata"
         self.base_url = "https://storage.yandexcloud.net/yandex-research/ann-datasets/T2I/"
+        self.basedir = os.path.join(BASEDIR, "text2image1B")
+        if not os.path.exists(self.basedir):
+            os.makedirs(self.basedir)
 
     def distance(self):
         return "ip"
@@ -240,5 +249,5 @@ DATASETS = {
     'sift-1B': Sift1B(1000),
     'sift-1M': Sift1B(1),
     'deep-1B': Deep1B(),
-    'text-to-image-1B': Text2Image1B(),
+    'text2image-1B': Text2Image1B(),
 }
