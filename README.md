@@ -41,6 +41,15 @@ You can customize the algorithms and datasets if you want to:
 ## Evaluating the Results
 Run `python plot.py --dataset ...` or `python data_export.py --output res.csv` to plot results or dump all of them to csv for further post-processing.
 
+In general, consult the `--help` options of the scripts for more arguments.
+
+## Example run
+After running the installation, we can run a quick test using in-memory FAISS on a small sample of SIFT-1B as follows:
+
+1. First, download and setup `SIFT1B` using `python create_dataset.py --dataset sift-1B`. 
+2. Next, run `python run.py --dataset sift-1M  --algorithm faiss-ivf`
+3. Plot the results using `sudo python plot.py --dataset sift-1M -Y` for a qps/recall plot with y axis in log scale.
+
 ## Including your algorithm
 
 1. Add your algorithm into `benchmark/algorithms` by providing a small Python wrapper inheriting from `BaseANN`  defined in `benchmark/algorithms/base.py`.
