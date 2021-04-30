@@ -8,6 +8,7 @@ import struct
 from urllib.request import urlopen
 from urllib.request import urlretrieve
 
+# https://stackoverflow.com/questions/37748105/how-to-use-progressbar-module-with-urlretrieve
 pbar = None
 
 def show_progress(block_num, block_size, total_size):
@@ -30,9 +31,6 @@ def download(src, dst=None):
         print('downloading %s -> %s...' % (src, dst))
         urlretrieve(src, dst, show_progress)
 
-
-# Everything below this line is related to creating datasets
-# TODO: This is supposed to be carried out in a docker container
 
 class Dataset():
     def prepare(self):
