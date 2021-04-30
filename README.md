@@ -1,17 +1,64 @@
 # Billion-Scale ANN
 
+<http://big-ann-benchmarks.com/>
+
+## Install
+
+The only prerequisite is Python (tested with 3.6) and Docker. Works with newer versions of Python as well but probably requires an updated `requirements.txt` on the host. (Suggestion: copy `requirements.txt` to `requirements${PYTHON_VERSION}.txt` and remove all fixed versions. `requirements.txt` has to be kept for the docker containers.)
+
+1. Clone the repo.
+2. Run `pip install -r requirements.txt`.
+3. Run `python install.py` to build all the libraries inside Docker containers.
+
+## Data sets
+
+
+| Dataset                                                           | Dimensions | Train size | Test size | Neighbors | Distance
+| ----------------------------------------------------------------- | ---------: | ---------: | --------: | --------: | --------- |
+| [DEEP1B](https://research.yandex.com/datasets/biganns)              |         96 |  1,000,000,000 |    10,000 |       100 | Euclidean 
+| [SIFT1B](http://corpus-texmex.irisa.fr/)              |         128 |  1,000,000,000 | 1,000,000,000 |       100 | Euclidean
+| [Text-to-Image-1B](https://research.yandex.com/datasets/biganns)              |         200 |  1,000,000,000 |    10,000 |       100 | Inner Product
+
+### Dataset Preparation
+
+Before running experiments, datasets have to be downloaded. All preparation can be carried out by calling
+
+```python
+python create_dataset.py --dataset [sift-1M | sift-1B | deep-1B | text2image-1B]
+```
+
+Note that downloading the datasets can potentially take many hours.
+
+## Running the benchmark
+
+Run `python run.py` (this can take an extremely long time, potentially days)
+
+You can customize the algorithms and datasets if you want to:
+
+* Check that `algos.yaml` contains the parameter settings that you want to test
+* To run experiments on SIFT-1M, invoke `python run.py --dataset sift-1M`. See `python run.py --help` for more information on possible settings. Note that index building can take many days. 
+
+## Evaluating the Results
+Run `python plot.py --dataset ...` or `python data_export.py --output res.csv` to plot results or dump all of them to csv for further post-processing.
+
+## Including your algorithm
+
+1. Add your algorithm into `benchmark/algorithms` by providing a small Python wrapper inheriting from `BaseANN`  defined in `benchmark/algorithms/base.py`.
+2. Add a Dockerfile in `install/` 
+3. Add it to `algos.yaml with the parameter choices you would like to run.
+
+
+# Some notes
+
 ## Dataset creation
 
-- Do we want to have everything 'automatically' be set up?
-  - use the original datasets as they are, wrapped in a class
-  - wrappers to move to numpy arrays in `benchmark/datasets.py`
 - How do we create query workloads for the actual competition? (Or: Should they be the same?)
 
 ## Algorithms
 
 - API proposal in <benchmark/algorithms/base.py>
-- Idea: algorithms fit dataset (given a reference to the hdf5 file or the whole dataset?) -> write index to disk (separate process, but we should be able to re-run it).
-   - Index can be shared, will usually be build in-memory? (Requirement: has to fit in 128GB RAM, so has to be built out-of-memory as well)
+- Idea: algorithms fit dataset (given path to base vectors and dataset name?) -> write index to disk (separate process, but we should be able to re-run it).
+   - Requirement: has to fit in 128GB RAM, so index has to be built out-of-memory as well
 - Running experiment: Load index (implementation checks if index is available) -> run queries -> write down metadata (query time etc.) and true answers (what does the algorithm think are the nearest neighbors/the points in the range) as hdf5
 - Evaluating: Check hdf5 results against groundtruth data (`plot.py` and `data_export.py` can be used for export)
 
