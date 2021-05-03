@@ -41,7 +41,7 @@ def run_worker(args, queue):
         cpu_limit = "0-%d" % (multiprocessing.cpu_count() - 1)
 
         run_docker(definition, args.dataset, args.count,
-                   args.runs, args.timeout, cpu_limit, mem_limit)
+                   args.runs, args.timeout, args.rebuild, cpu_limit, mem_limit)
 
 
 def main():
@@ -80,6 +80,10 @@ def main():
     parser.add_argument(
         '--force',
         help='re-run algorithms even if their results already exist',
+        action='store_true')
+    parser.add_argument(
+        '--rebuild',
+        help='re-build index even if it exists',
         action='store_true')
     parser.add_argument(
         '--runs',

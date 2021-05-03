@@ -48,7 +48,7 @@ def run_individual_query(algo, X, distance, count, run_count, search_type):
     return (attrs, results)
 
 
-def run(definition, dataset, count, run_count):
+def run(definition, dataset, count, run_count, rebuild):
     algo = instantiate_algorithm(definition)
     assert not definition.query_argument_groups \
            or hasattr(algo, "set_query_arguments"), """\
@@ -67,12 +67,14 @@ function""" % (definition.module, definition.constructor, definition.arguments)
     try:
         # Try loading the index from the file
         memory_usage_before = algo.get_memory_usage()
-        if not algo.load_index(dataset):
+        if rebuild or not algo.load_index(dataset):
             # Build the index if it is not available
             t0 = time.time()
             algo.fit(dataset)
             build_time = time.time() - t0
             print('Built index in', build_time)
+        else:
+            print("Loaded existing index")
 
         index_size = algo.get_memory_usage() - memory_usage_before
         print('Index size: ', index_size)
@@ -130,6 +132,10 @@ def run_from_cmdline():
         required=True,
         type=int)
     parser.add_argument(
+        '--rebuild',
+        help='re-build index even if it exists',
+        action='store_true')
+    parser.add_argument(
         '--runs',
         help='Number of times to run the algorihm. Will use the fastest run-time over the bunch.',
         required=True,
@@ -157,17 +163,19 @@ def run_from_cmdline():
         query_argument_groups=query_args,
         disabled=False
     )
-    run(definition, args.dataset, args.count, args.runs)
+    run(definition, args.dataset, args.count, args.runs, args.rebuild)
 
 
-def run_docker(definition, dataset, count, runs, timeout, cpu_limit,
-               mem_limit=None):
+def run_docker(definition, dataset, count, runs, timeout, rebuild,
+        cpu_limit, mem_limit=None):
     cmd = ['--dataset', dataset,
            '--algorithm', definition.algorithm,
            '--module', definition.module,
            '--constructor', definition.constructor,
            '--runs', str(runs),
            '--count', str(count)]
+    if rebuild:
+        cmd.append("--rebuild")
     cmd.append(json.dumps(definition.arguments))
     cmd += [json.dumps(qag) for qag in definition.query_argument_groups]
 
