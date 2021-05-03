@@ -224,6 +224,80 @@ class Deep1B(Dataset):
     def __str__(self):
         return f"Deep1B"
 
+class RandomDS(Dataset):
+    def __init__(self, nb, nq, d):
+        self.nb = nb
+        self.nq = nq
+        self.d = d
+        self.ds_fn = f"data_{self.nb}_{self.d}"
+        self.qs_fn = f"queries_{self.nq}_{self.d}"
+        self.gt_fn = f"gt_{self.nb}_{self.nq}_{self.d}"
+        self.basedir = os.path.join(BASEDIR, f"random{self.nb}")
+        if not os.path.exists(self.basedir):
+            os.makedirs(self.basedir)
+
+    def prepare(self):
+        import sklearn.datasets
+        import sklearn.model_selection
+        from sklearn.neighbors import NearestNeighbors
+
+        print(f"Preparing datasets with {self.nb} random points and {self.nq} queries.")
+
+
+        X, _ = sklearn.datasets.make_blobs(
+            n_samples=self.nb + self.nq, n_features=self.d,
+            centers=self.nq, random_state=1)
+
+        data, queries = sklearn.model_selection.train_test_split(
+            X, test_size=self.nq, random_state=1)
+
+
+        with open(os.path.join(self.basedir, self.ds_fn), "wb") as f:
+            data.tofile(f)
+        with open(os.path.join(self.basedir, self.qs_fn), "wb") as f:
+            queries.tofile(f)
+
+        print("Computing groundtruth")
+
+        nbrs = NearestNeighbors(n_neighbors=100, metric="euclidean", algorithm='brute').fit(data)
+        D, I = nbrs.kneighbors(queries)
+        with open(os.path.join(self.basedir, self.gt_fn), "wb") as f:
+            I.tofile(f)
+
+    def get_dataset_fn(self):
+        return os.path.join(self.basedir, self.ds_fn)
+
+    def get_dataset(self):
+        assert self.nb < 10**8, "dataset too large, use iterator"
+        with open(self.get_dataset_fn(), "rb") as f:
+            X = sanitize(numpy.fromfile(f).reshape((self.nb, self.d)))
+        return X
+
+    def get_dataset_iterator(self, bs=512, split=(1,0)):
+        raise NotImplementedError()
+
+    def get_queries(self):
+        with open(os.path.join(self.basedir, self.qs_fn), "rb") as f:
+            X = sanitize(numpy.fromfile(f).reshape((self.nq, self.d)))
+        return X
+
+    def get_groundtruth(self, k=None):
+        with open(os.path.join(self.basedir, self.gt_fn), "rb") as f:
+            gt = numpy.fromfile(f, dtype=numpy.int64).reshape((self.nq, 100))
+        if k is not None:
+            assert k <= 100
+            gt = gt[:, :k]
+        return gt
+
+    def search_type(self):
+        return "knn"
+
+    def distance(self):
+        return "euclidean"
+
+    def __str__(self):
+        return f"Random({self.nb})"
+
 class Text2Image1B(Deep1B):
     def __init__(self, nb_M=1000):
         assert nb_M in (10, 1000)
@@ -250,4 +324,6 @@ DATASETS = {
     'sift-1M': Sift1B(1),
     'deep-1B': Deep1B(),
     'text2image-1B': Text2Image1B(),
+    'random-xs': RandomDS(10000, 1000, 20),
+    'random-s': RandomDS(100000, 1000, 50),
 }
