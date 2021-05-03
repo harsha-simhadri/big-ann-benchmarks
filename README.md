@@ -24,7 +24,7 @@ The only prerequisite is Python (tested with 3.6) and Docker. Works with newer v
 Before running experiments, datasets have to be downloaded. All preparation can be carried out by calling
 
 ```python
-python create_dataset.py --dataset [sift-1M | sift-1B | deep-1B | text2image-1B]
+python create_dataset.py --dataset [sift-1M | sift-1B | deep-1B | text2image-1B | random-xs | random-s]
 ```
 
 Note that downloading the datasets can potentially take many hours.
