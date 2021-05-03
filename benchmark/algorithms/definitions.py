@@ -103,7 +103,8 @@ def get_definitions(definition_file, dimension, point_type="float",
     algorithm_definitions = {}
     if "any" in definitions[point_type]:
         algorithm_definitions.update(definitions[point_type]["any"])
-    algorithm_definitions.update(definitions[point_type][distance_metric])
+    if distance_metric in definitions[point_type]:
+        algorithm_definitions.update(definitions[point_type][distance_metric])
 
     definitions = []
     for (name, algo) in algorithm_definitions.items():

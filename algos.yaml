@@ -9,13 +9,3 @@ float:
         base:
           args: [[1024,2048,4096,8192]]
           query-args: [[1, 5, 10, 50, 100, 200]]
-  euclidean:
-    faiss-ivf:
-      docker-tag: billion-scale-benchmark-faiss
-      module: benchmark.algorithms.faiss_inmem
-      constructor: FaissIVF
-      base-args: ["euclidean"]
-      run-groups:
-        base:
-          args: [[1024]]
-          query-args: [[1, 5, 10, 50, 100, 200]]
