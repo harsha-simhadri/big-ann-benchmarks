@@ -207,9 +207,10 @@ class Deep1B(Dataset):
         i0, i1 = self.nb * rank // nsplit, self.nb * (rank + 1) // nsplit
         d = self.d
         f = open(self.get_dataset_fn(), "rb")
+        f.seek(i0 * d * 4)
         for j0 in range(i0, i1, bs):
             j1 = min(j0 + bs, i1)
-            x = np.fromfile(f, dtype='float32', count=(j1 - j0) * d, offset=j0 * d * 4)
+            x = np.fromfile(f, dtype='float32', count=(j1 - j0) * d)
             yield x.reshape(j1 - j0, d)
 
     def get_queries(self):
