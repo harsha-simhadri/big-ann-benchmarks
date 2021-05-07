@@ -76,9 +76,13 @@ class Dataset():
         Return memmapped version of the dataset.
         """
         pass
-    def get_dataset_iterator(self, bs=512):
+    def get_dataset_iterator(self, bs=512, split=(1, 0)):
         """
-        Return iterator over blocks of dataset..
+        Return iterator over blocks of dataset of size at most 512.
+        The split argument takes a pair of integers (n, p) where p = 0..n-1
+        The dataset is split in n shards, and the iterator returns only shard #p
+        This makes it possible to process the dataset independently from several
+        processes / threads.
         """
         pass
     def get_queries(self):
