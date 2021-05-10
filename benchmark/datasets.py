@@ -43,18 +43,41 @@ def ivecs_read(fname):
     d = a[0]
     return a.reshape(-1, d + 1)[:, 1:].copy()
 
-# TODO also memmap those?
-def read_fdata(filename, nvecs, dim):
-    with open(filename, 'rb') as f:
-        buf = f.read(dim * 4 * nvecs)
-        vecs = numpy.array(struct.unpack('f' * dim * nvecs, buf))
-    return vecs.reshape((nvecs, dim))
+def read_fbin(filename, start_idx=0, chunk_size=None):
+    """ Read *.fbin file that contains float32 vectors
+    Args:
+        :param filename (str): path to *.fbin file
+        :param start_idx (int): start reading vectors from this index
+        :param chunk_size (int): number of vectors to read.
+                                 If None, read all vectors
+    Returns:
+        Array of float32 vectors (numpy.ndarray)
+    """
+    with open(filename, "rb") as f:
+        nvecs, dim = np.fromfile(f, count=2, dtype=np.int32)
+        nvecs = (nvecs - start_idx) if chunk_size is None else chunk_size
+        arr = np.fromfile(f, count=nvecs * dim, dtype=np.float32,
+                          offset=start_idx * 4 * dim)
+    return arr.reshape(nvecs, dim)
 
-def read_idata(filename, nvecs, dim):
-    with open(filename, 'rb') as f:
-        buf = f.read(dim * 4 * nvecs)
-        vecs = numpy.array(struct.unpack('i' * dim * nvecs, buf))
-    return vecs.reshape((nvecs, dim))
+
+def read_ibin(filename, start_idx=0, chunk_size=None):
+    """ Read *.ibin file that contains int32 vectors
+    Args:
+        :param filename (str): path to *.ibin file
+        :param start_idx (int): start reading vectors from this index
+        :param chunk_size (int): number of vectors to read.
+                                 If None, read all vectors
+    Returns:
+        Array of int32 vectors (numpy.ndarray)
+    """
+    with open(filename, "rb") as f:
+        nvecs, dim = np.fromfile(f, count=2, dtype=np.int32)
+        nvecs = (nvecs - start_idx) if chunk_size is None else chunk_size
+        arr = np.fromfile(f, count=nvecs * dim, dtype=np.int32,
+                          offset=start_idx * 4 * dim)
+    return arr.reshape(nvecs, dim)
+
 
 def sanitize(x):
     return numpy.ascontiguousarray(x, dtype='float32')
