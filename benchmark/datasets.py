@@ -5,6 +5,8 @@ import sys
 import struct
 import time
 
+import numpy as np
+
 from urllib.request import urlopen
 from urllib.request import urlretrieve
 
@@ -40,7 +42,6 @@ def ivecs_read(fname):
     a = numpy.fromfile(fname, dtype='int32')
     d = a[0]
     return a.reshape(-1, d + 1)[:, 1:].copy()
-
 
 def read_fbin(filename, start_idx=0, chunk_size=None):
     """ Read *.fbin file that contains float32 vectors
@@ -121,10 +122,9 @@ class Dataset():
         pass
 
     def __str__(self):
-        """
-        Return identifier.
-        """
-        pass
+        return (
+            f"Dataset {self.__class__.__name__} in dimension {self.d}, with distance {self.distance()}, "
+            f"search_type {self.search_type()}, size: Q {self.nq} B {self.nb}")
 
 
 class Sift1B(Dataset):
@@ -189,7 +189,7 @@ class Sift1B(Dataset):
     def search_type(self):
         return "knn"
 
-    def __str__(self):
+    def __str__x(self):
         return f"Sift1B(M={self.nb_M})"
 
 class Deep1B(Dataset):
@@ -223,10 +223,18 @@ class Deep1B(Dataset):
 
     def get_dataset(self):
         assert self.nb < 10**8, "dataset too large, use iterator"
-        return sanitize(read_fdata(self.get_dataset_fn(), self.nq, self.d))
+        return sanitize(read_fdata(self.get_dataset_fn(), self.nb, self.d))
 
     def get_dataset_iterator(self, bs=512, split=(1,0)):
-        raise NotImplementedError()
+        nsplit, rank = split
+        i0, i1 = self.nb * rank // nsplit, self.nb * (rank + 1) // nsplit
+        d = self.d
+        f = open(self.get_dataset_fn(), "rb")
+        f.seek(i0 * d * 4)
+        for j0 in range(i0, i1, bs):
+            j1 = min(j0 + bs, i1)
+            x = np.fromfile(f, dtype='float32', count=(j1 - j0) * d)
+            yield x.reshape(j1 - j0, d)
 
     def get_queries(self):
         return sanitize(read_fdata(os.path.join(self.basedir, self.qs_fn), self.nq, self.d))
@@ -244,8 +252,9 @@ class Deep1B(Dataset):
     def distance(self):
         return "euclidean"
 
-    def __str__(self):
+    def __str__x(self):
         return f"Deep1B"
+
 
 class RandomDS(Dataset):
     def __init__(self, nb, nq, d):
@@ -344,8 +353,9 @@ class Text2Image1B(Deep1B):
 
 DATASETS = {
     'sift-1B': Sift1B(1000),
-    'sift-1M': Sift1B(1),
+    'sift-10M': Sift1B(10),
     'deep-1B': Deep1B(),
+    'deep-10M': Deep1B(10),
     'text2image-1B': Text2Image1B(),
     'random-xs': RandomDS(10000, 1000, 20),
     'random-s': RandomDS(100000, 1000, 50),
