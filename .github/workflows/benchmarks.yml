@@ -1,0 +1,42 @@
+# Contributed by @GuilhemN in https://github.com/erikbern/ann-benchmarks/pull/233
+name: Billion-Scale ANN Benchmarks
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - library: faiss 
+            dataset: random-xs
+      fail-fast: false
+
+    steps:
+    - uses: actions/checkout@v2 # Pull the repository
+
+    - name: Set up Python 3.6
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.6
+
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
+        python install.py
+      env:
+        LIBRARY: ${{ matrix.library }}
+        DATASET: ${{ matrix.dataset }}
+
+    - name: Run the benchmark
+      run: |
+        python create_dataset.py --dataset $DATASET
+        python run.py --docker-tag billion-scale-benchmark-${LIBRARY} --max-n-algorithms 2 --dataset $DATASET --timeout 600
+        sudo chmod -R 777 results/
+        python plot.py --dataset $DATASET --output plot.png
+        python data_export.py --output test.csv
+
+      env:
+        LIBRARY: ${{ matrix.library }}
+        DATASET: ${{ matrix.dataset }} 
