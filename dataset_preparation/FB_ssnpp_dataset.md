@@ -58,6 +58,20 @@ This happens for a squared L2 threshold of **96237**.
 
 The challenge ground truth is recomputed *after* compression with this threshold. 
 
+## Data files
+
+Database:
+
+https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/FB_ssnpp_database.u8bin
+
+100k public queries:
+
+https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/FB_ssnpp_public_queries.u8bin
+
+100k held-out queries (the XXXX is known only to the organizers):
+
+https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/FB_ssnpp_heldout_queries_XXXX.u8bin
+
 ## License
 
 The FB SSN++ dataset is licensed under the [CC-by-NC](https://creativecommons.org/licenses/by-nc/2.0/) license.
