@@ -43,6 +43,12 @@ def ivecs_read(fname):
     d = a[0]
     return a.reshape(-1, d + 1)[:, 1:].copy()
 
+def u8bin_mmap(fname, maxn=-1):
+    n, d = map(int, np.fromfile(fname, dtype="uint32", count=2))
+    assert os.stat(fname).st_size == 8 + n * d
+    n = max(n, maxn)
+    return np.memmap(fname, dtype="uint8", mode="r", offset=8, shape=(n, d))
+
 def read_fbin(filename, start_idx=0, chunk_size=None):
     """ Read *.fbin file that contains float32 vectors
     Args:
@@ -259,6 +265,64 @@ class Deep1B(Dataset):
     def __str__x(self):
         return f"Deep1B"
 
+class SSNPPDataset(Dataset):
+    def __init__(self, nb_M=1000):
+        # assert nb_M in (10, 1000)
+        self.nb_M = nb_M
+        self.nb = 10**6 * nb_M
+        self.d = 256
+        self.nq = 100000
+        self.ds_fn = "FB_ssnpp_database.u8bin"
+        self.qs_fn = "FB_ssnpp_public_queries.u8bin"
+        self.gt_fn = ""
+        self.base_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/"
+        self.basedir = os.path.join(BASEDIR, "FB_ssnpp")
+        if not os.path.exists(self.basedir):
+            os.makedirs(self.basedir)
+
+    def prepare(self):
+        if os.path.exists(os.path.join(self.basedir, self.ds_fn)):
+            print(f"{self} exists?")
+            return
+        ds_url = self.base_url + self.ds_fn
+        qs_url = self.base_url + self.qs_fn
+        qt_url = self.base_url + self.gt_fn
+
+        for fn in [self.ds_fn, self.qs_fn, self.gt_fn]:
+            download(os.path.join(self.base_url, fn), os.path.join(self.basedir, fn))
+
+    def get_dataset_fn(self):
+        return os.path.join(self.basedir, self.ds_fn)
+
+    def get_dataset(self):
+        assert self.nb < 10**8, "dataset too large, use iterator"
+        return sanitize(u8bin_mmap(self.get_dataset_fn(), maxn=self.nb))
+
+    def get_dataset_iterator(self, bs=512, split=(1,0)):
+        nsplit, rank = split
+        i0, i1 = self.nb * rank // nsplit, self.nb * (rank + 1) // nsplit
+        x = u8bin_mmap(self.get_dataset_fn())
+        for j0 in range(i0, i1, bs):
+            j1 = min(j0 + bs, i1)
+            yield sanitize(x[j0:j1])
+
+    def get_queries(self):
+        return sanitize(u8bin_mmap(os.path.join(self.basedir, self.qs_fn)))
+
+    def get_groundtruth(self, k=None):
+        gt = read_idata(os.path.join(self.basedir, self.gt_fn), self.nq, self.d)
+        if k is not None:
+            assert k <= 100
+            gt = gt[:, :k]
+        return gt
+
+    def search_type(self):
+        return "range"
+
+    def distance(self):
+        return "euclidean"
+
+
 
 class RandomDS(Dataset):
     def __init__(self, nb, nq, d):
@@ -360,6 +424,9 @@ DATASETS = {
     'sift-10M': Sift1B(10),
     'deep-1B': Deep1B(),
     'deep-10M': Deep1B(10),
+    'ssnpp-1B': SSNPPDataset(1000),
+    'ssnpp-10M': SSNPPDataset(10),
+    'ssnpp-1M': SSNPPDataset(1),
     'text2image-1B': Text2Image1B(),
     'random-xs': RandomDS(10000, 1000, 20),
     'random-s': RandomDS(100000, 1000, 50),
