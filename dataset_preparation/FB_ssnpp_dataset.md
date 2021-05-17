@@ -68,9 +68,15 @@ https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/FB_ssnpp_database.u8
 
 https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/FB_ssnpp_public_queries.u8bin
 
+Ground truth: 
+
+https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/FB_ssnpp_public_queries_GT.rangeres
+
 100k held-out queries (the XXXX is known only to the organizers):
 
 https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/FB_ssnpp_heldout_queries_XXXX.u8bin
+
+Ground truth: TODO 
 
 ## License
 
