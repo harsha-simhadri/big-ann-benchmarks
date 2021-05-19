@@ -49,6 +49,16 @@ def u8bin_mmap(fname, maxn=-1):
     n = max(n, maxn)
     return np.memmap(fname, dtype="uint8", mode="r", offset=8, shape=(n, d))
 
+def range_result_read(fname):
+    """ read the range search result file format """
+    f = open(fname, "rb")
+    nq, total_res = np.fromfile(f, count=2, dtype="int32")
+    nres = np.fromfile(f, count=nq, dtype="int32")
+    assert nres.sum() == total_res
+    I = np.fromfile(f, count=total_res, dtype="int32")
+    return nres, I
+
+
 def read_fbin(filename, start_idx=0, chunk_size=None):
     """ Read *.fbin file that contains float32 vectors
     Args:
