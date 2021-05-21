@@ -175,6 +175,8 @@ if __name__ == "__main__":
 
     group = parser.add_argument_group('dataset options')
     aa('--dataset', choices=DATASETS.keys(), required=True)
+    aa('--prepare', default=False, action="store_true",
+        help="call prepare() to download the dataset before computing")
 
     group = parser.add_argument_group('computation options')
     # determined from ds
@@ -198,6 +200,11 @@ if __name__ == "__main__":
     ds = DATASETS[args.dataset]
 
     print(ds)
+
+    if args.prepare:
+        print("downloading dataset...")
+        ds.prepare()
+        print("dataset ready")
 
     if ds.search_type() == "knn":
         D, I = knn_ground_truth(ds, k=args.k, bs=args.bs)
