@@ -329,7 +329,7 @@ class Text2Image1B(DatasetCompetitionFormat):
         self.d = 200
         self.nq = 100000
         self.dtype = "float32"
-        self.ds_fn = "base.1B.fdata"
+        self.ds_fn = "base.1B.fbin"
         self.qs_fn = "query.public.100K.fbin"
         self.gt_fn = "groundtruth.public.100K.ibin" if self.nb == 10**9 else None
         self.base_url = "https://storage.yandexcloud.net/yandex-research/ann-datasets/T2I/"
