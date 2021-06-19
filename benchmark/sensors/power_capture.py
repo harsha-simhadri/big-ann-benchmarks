@@ -5,11 +5,11 @@ import json
 class power_capture:
 
     """
-    This class provides various capabilites related to the T3 track
+    This singleton class provides various capabilites related to the T3 track
     of the Big ANN Competition for NeurIPS 2021:
         * communicates with an ipmicap server ( see http://github.com/fractalsproject/ipmicap )
         * leverage's servers power sensor capture abilities
-        * retrieves power statistics computed by the serer
+        * retrieves power statistics computed by the server
     """
     
     ipmicap_ip          = None
@@ -104,8 +104,13 @@ class power_capture:
         return stats
         
 
+    @classmethod
+    def run_has_power_stats(cls, properties):
+        if "power_consumption" in properties: return True
+        else: return False
+
 #
-# To run these unit tests for the T3 class, type 'python t3.py'
+# To run these unit tests for the power_capture class, type 'python power_capture.py'
 #
 if __name__ == "__main__":
     

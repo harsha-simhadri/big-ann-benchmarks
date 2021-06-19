@@ -3,7 +3,7 @@ from __future__ import absolute_import
 import itertools
 import numpy
 from benchmark.plotting.metrics import all_metrics as metrics
-
+from benchmark.sensors.power_capture import power_capture
 
 def get_or_create_metrics(run):
     if 'metrics' not in run:
@@ -68,7 +68,7 @@ def compute_metrics_all_runs(dataset, res, recompute=False):
     except:
         print(f"Groundtruth for {dataset} not found.")
         return
-
+            
     for i, (properties, run) in enumerate(res):
         algo = properties['algo']
         algo_name = properties['name']
@@ -94,6 +94,7 @@ def compute_metrics_all_runs(dataset, res, recompute=False):
             'count': properties['count'],
         }
         for name, metric in metrics.items():
+            if not power_capture.run_has_power_stats(properties): continue
             v = metric["function"](true_nn, run_nn, metrics_cache, properties)
             run_result[name] = v
         yield run_result

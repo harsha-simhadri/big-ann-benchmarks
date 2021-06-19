@@ -53,7 +53,6 @@ def watt_seconds_per_query(queries, attrs):
     # ie, energy use per query
     calc = tot_power_cons/tot_queries
 
-    print(tot_queries, tot_power_cons, calc)
     return calc
 
 all_metrics = {
