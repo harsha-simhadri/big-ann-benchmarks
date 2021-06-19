@@ -17,10 +17,6 @@ class power_capture:
     min_capture_time    = None
     raise_exc_on_fail   = None
     started             = False
-    algo                = None
-    dataset             = None
-    arguments           = None
-    query_arguments     = None
     current_id          = None
 
     @classmethod
@@ -38,8 +34,8 @@ class power_capture:
     @classmethod
     def _send_msg_to_ipmicap_server(cls, uri, parms):
         url = "http://%s:%d/%s" % (cls.ipmicap_ip,cls.ipmicap_port,uri)
-        ret = requests.get(url,parms)
-        if ret.status_code!=200:
+        resp = requests.get(url,parms)
+        if resp.status_code!=200:
             msg = "T3: Failed to ping ipmicapserver."
             if cls.raise_exc_on_fail: 
                 raise Exception(msg)
@@ -47,7 +43,8 @@ class power_capture:
                 print("Power: Failed to ping ipmicap server.")
                 return False
         else: 
-            return True
+            ret_json = resp.json()
+            return resp.json()
     
     @classmethod
     def enabled(cls):
@@ -67,16 +64,12 @@ class power_capture:
         return cls._send_msg_to_ipmicap_server("log",{"ping":1})
 
     @classmethod
-    def start(cls): #, algo, dataset, arguments, query_arguments):
+    def start(cls): 
         """
         Start power capture at the IPMI server.
         """
-        #cls.algo = algo
-        #cls.dataset = dataset
-        #cls.arguments = arguments
-        #cls.query_arguments = query_arguments
         cls.current_id = str(uuid.uuid4())
-        status = cls._send_msg_to_ipmicap_server("log",
+        status = cls._send_msg_to_ipmicap_server("session",
             {"start":1,"id":cls.current_id})
         if status:
             cls.started = True
@@ -92,12 +85,11 @@ class power_capture:
         if not cls.started:
             print("Power: Capture recording not started.")  
             return False
-        
-        status =  cls._send_msg_to_ipmicap_server("log",
+        status =  cls._send_msg_to_ipmicap_server("session",
             {"stop":0, "id":cls.current_id})
         if status:
             cls.started = False 
-            return True
+            return status
         else:
             return False
 
@@ -110,8 +102,6 @@ class power_capture:
         for cid in capture_ids:
             stats[cid]=0
         return stats
-        #status =  cls._send_msg_to_ipmicap_server("stats",
-        #    {"stop":0, "id":cls.current_id})
         
 
 #
@@ -135,7 +125,7 @@ if __name__ == "__main__":
     print("enabled=", power_capture.enabled())
 
     print("start")  
-    cid=power_capture.start() #"algo","dataset",['euclidean',8192],50 )
+    cid=power_capture.start()
     print("cid=",cid)
 
     print("stop")   

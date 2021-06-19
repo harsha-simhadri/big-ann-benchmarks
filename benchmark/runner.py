@@ -15,7 +15,7 @@ from benchmark.algorithms.definitions import (Definition,
                                                instantiate_algorithm)
 from benchmark.datasets import DATASETS
 from benchmark.results import store_results
-
+from benchmark.sensors.power_capture import power_capture
 
 def run_individual_query(algo, X, distance, count, run_count, search_type):
     best_search_time = float('inf')
@@ -46,6 +46,36 @@ def run_individual_query(algo, X, distance, count, run_count, search_type):
     for k in additional:
         attrs[k] = additional[k]
     return (attrs, results)
+
+def run_for_power_capture(algo, X, distance, count, search_type, descriptor ):
+
+    capture_time = power_capture.min_capture_time
+    best_search_time = descriptor["best_search_time"]
+
+    run_count = int(capture_time/best_search_time) if capture_time > best_search_time else 1
+
+    print('Run for power capture with %d iterations (via %d/%f).' % (run_count, capture_time, best_search_time ) )
+
+    cap_id = power_capture.start()
+    start = time.time()
+    for i in range(run_count):
+        if search_type == "knn":
+            algo.query(X, count)
+        else:
+            algo.range_query(X, count)
+    total = (time.time() - start)
+    power = power_capture.stop()
+
+    #power_stats = power_capture.get_stats([cap_id])
+    #tot_power_consumption = power_stats[cap_id]
+
+    power_stats = {"power_cap_id": cap_id,
+             "power_run_count": run_count,
+             "power_run_time": total,
+             "power_consumption":power}
+
+    for k in power_stats.keys():
+        descriptor[k] = power_stats[k]
 
 
 def run(definition, dataset, count, run_count, rebuild):
@@ -97,6 +127,11 @@ function""" % (definition.module, definition.constructor, definition.arguments)
             descriptor["index_size"] = index_size
             descriptor["algo"] = definition.algorithm
             descriptor["dataset"] = dataset
+
+            if power_capture.enabled():
+                power_stats = run_for_power_capture(algo, X, distance, count,
+                                search_type, descriptor)
+
             store_results(dataset, count, definition,
                     query_arguments, descriptor, results)
     finally:
@@ -149,10 +184,19 @@ def run_from_cmdline():
         help='JSON of arguments to pass to the queries. E.g. [100]',
         nargs='*',
         default=[])
+    parser.add_argument(
+        '--power-capture',
+        help='Power capture parameters for the T3 competition. '
+            'Format is "ip:port:capture_time_in_seconds (ie, 127.0.0.1:3000:10).',
+        default="")
     args = parser.parse_args()
     algo_args = json.loads(args.build)
     print(algo_args)
     query_args = [json.loads(q) for q in args.queries]
+
+    if args.power_capture:
+        power_capture( args.power_capture )
+        power_capture.ping()
 
     definition = Definition(
         algorithm=args.algorithm,
@@ -167,13 +211,15 @@ def run_from_cmdline():
 
 
 def run_docker(definition, dataset, count, runs, timeout, rebuild,
-        cpu_limit, mem_limit=None):
+        cpu_limit, mem_limit=None, power_capture=None):
     cmd = ['--dataset', dataset,
            '--algorithm', definition.algorithm,
            '--module', definition.module,
            '--constructor', definition.constructor,
            '--runs', str(runs),
            '--count', str(count)]
+    if power_capture:
+        cmd += ["--power-capture", power_capture ]
     if rebuild:
         cmd.append("--rebuild")
     cmd.append(json.dumps(definition.arguments))

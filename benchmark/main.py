@@ -20,6 +20,7 @@ from benchmark.algorithms.definitions import (get_definitions,
 from benchmark.results import get_result_filename
 from benchmark.runner import run, run_docker
 
+from benchmark.sensors.power_capture import power_capture
 
 def positive_int(s):
     i = None
@@ -41,7 +42,8 @@ def run_worker(args, queue):
         cpu_limit = "0-%d" % (multiprocessing.cpu_count() - 1)
 
         run_docker(definition, args.dataset, args.count,
-                   args.runs, args.timeout, args.rebuild, cpu_limit, mem_limit)
+                   args.runs, args.timeout, args.rebuild, cpu_limit, mem_limit,
+                    args.power_capture )
 
 
 def main():
@@ -103,6 +105,11 @@ def main():
         type=int,
         help='Max number of algorithms to run (just used for testing)',
         default=-1)
+    parser.add_argument(
+        '--power-capture',
+        help='Power capture parameters for the T3 competition. '
+            'Format is "ip:port:capture_time_in seconds" (ie, 127.0.0.1:3000:10).',
+        default="")
 
     args = parser.parse_args()
     if args.timeout == -1:
@@ -111,6 +118,11 @@ def main():
     if args.list_algorithms:
         list_algorithms(args.definitions)
         sys.exit(0)
+
+    if args.power_capture:
+        # validate power capture environment
+        power_capture( args.power_capture )
+        power_capture.ping()
 
     logging.config.fileConfig("logging.conf")
     logger = logging.getLogger("annb")

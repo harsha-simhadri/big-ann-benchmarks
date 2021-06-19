@@ -41,6 +41,20 @@ def build_time(queries, attrs):
 def dist_computations(queries, attrs):
     return attrs.get("dist_comps", 0) / (attrs['run_count'] * len(queries))
 
+def watt_seconds_per_query(queries, attrs):
+
+    # query set was run many times ( queries )
+    tot_queries = len(queries) * attrs["power_run_count"]
+
+    # power consumption during that time ( watt * seconds )
+    tot_power_cons = attrs["power_consumption"]
+
+    # we want (watt*second)/query
+    # ie, energy use per query
+    calc = tot_power_cons/tot_queries
+
+    print(tot_queries, tot_power_cons, calc)
+    return calc
 
 all_metrics = {
     "k-nn": {
@@ -73,5 +87,11 @@ all_metrics = {
         "description": "Index size (kB)/Queries per second (s)",
         "function": lambda true_nn, run_nn, metrics, run_attrs: index_size(true_nn, run_attrs) / queries_per_second(true_nn, run_attrs), # noqa
         "worst": float("inf")
-    }
+    },
+    "wspq": {
+        "description": "Watt seconds per query (watt*s/query)",
+        "function": lambda true_nn, run_nn, metrics, run_attrs: watt_seconds_per_query(true_nn, run_attrs),  # noqa
+        "worst": float("-inf")
+    },
+
 }
