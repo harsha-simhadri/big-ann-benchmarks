@@ -13,6 +13,7 @@ from urllib.request import urlretrieve
 BASEDIR = "data/"
 
 def download(src, dst=None, max_size=None):
+    """ download an URL, possibly cropped """
     if os.path.exists(dst):
         return
     print('downloading %s -> %s...' % (src, dst))
@@ -49,6 +50,18 @@ def download(src, dst=None, max_size=None):
         time.time() - t0, totsz
     ))
 
+
+def download_accelerated(src, dst):
+    """ dowload using an accelerator. Make sure the executable is in the path """
+    print('downloading %s -> %s...' % (src, dst))
+    if "windows.net" in src:
+        cmd = f"azcopy copy {src} {dst}"
+    else:
+        cmd = f"axel --alternate -n 10 {src} -o {dst}"
+
+    print("running", cmd)
+    ret = os.system(cmd)
+    assert ret == 0
 
 
 def bvecs_mmap(fname):
@@ -212,7 +225,7 @@ class DatasetCompetitionFormat(Dataset):
             if os.path.exists(outfile):
                 print("file %s already exists" % outfile)
                 return
-            download(sourceurl, outfile)
+            download_accelerated(sourceurl, outfile)
         else:
             # download cropped version of file
             file_size = 8 + self.d * self.nb * np.dtype(self.dtype).itemsize

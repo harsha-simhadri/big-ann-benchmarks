@@ -141,22 +141,29 @@ def range_ground_truth(ds, radius, bs):
     print("GT time: %.3f s (%d vectors)" % (time.time() - t0, i0))
     return nres, D, I
 
-def usbin_write(x, fname):
-    assert x.dtype == 'int32'
+def usbin_write(ids, dist, fname):
+    ids = np.ascontiguousarray(ids, dtype="int32")
+    dist = np.ascontiguousarray(dist, dtype="float32")
+    assert ids.shape == dist.shape
     f = open(fname, "wb")
-    n, d = x.shape
+    n, d = dist.shape
     np.array([n, d], dtype='uint32').tofile(f)
-    x.tofile(f)
+    ids.tofile(f)
+    dist.tofile(f)
 
-def range_result_write(nres, I, fname):
+
+def range_result_write(nres, I, D, fname):
     """ write the range search file format:
     int32 n_queries
     int32 total_res
     int32[n_queries] nb_results_per_query
     int32[total_res] database_ids
+    float32[total_res] distances
     """
     nres = np.ascontiguousarray(nres, dtype="int32")
     I = np.ascontiguousarray(I, dtype="int32")
+    D = np.ascontiguousarray(D, dtype="float32")
+    assert I.shape == D.shape
     total_res = nres.sum()
     nq = len(nres)
     assert I.shape == (total_res, )
@@ -164,7 +171,7 @@ def range_result_write(nres, I, fname):
     np.array([nq, total_res], dtype='uint32').tofile(f)
     nres.tofile(f)
     I.tofile(f)
-
+    D.tofile(f)
 
 
 if __name__ == "__main__":
@@ -210,10 +217,10 @@ if __name__ == "__main__":
         D, I = knn_ground_truth(ds, k=args.k, bs=args.bs)
         print(f"writing index matrix of size {I.shape} to {args.o}")
         # write in the usbin format
-        usbin_write(I.astype("int32"), args.o)
+        usbin_write(I, D, args.o)
     elif ds.search_type() == "range":
         nres, D, I = range_ground_truth(ds, radius=args.radius, bs=args.bs)
         print(f"writing results {I.shape} to {args.o}")
-        range_result_write(nres, I, args.o)
+        range_result_write(nres, I, D, args.o)
 
 
