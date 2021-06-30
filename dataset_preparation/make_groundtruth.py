@@ -10,6 +10,7 @@ import faiss
 
 from faiss.contrib.exhaustive_search import range_search_gpu
 
+import benchmark.datasets
 from benchmark.datasets import DATASETS
 
 
@@ -184,6 +185,7 @@ if __name__ == "__main__":
     aa('--dataset', choices=DATASETS.keys(), required=True)
     aa('--prepare', default=False, action="store_true",
         help="call prepare() to download the dataset before computing")
+    aa('--basedir', help="override basedir for dataset")
 
     group = parser.add_argument_group('computation options')
     # determined from ds
@@ -198,13 +200,18 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
+    if args.basedir:
+        print("setting datasets basedir to", args.basedir)
+        benchmark.datasets.BASEDIR
+        benchmark.datasets.BASEDIR = args.basedir
+
     if args.maxRAM > 0:
         print("setting max RSS to", args.maxRAM, "GiB")
         resource.setrlimit(
             resource.RLIMIT_DATA, (args.maxRAM * 1024 ** 3, resource.RLIM_INFINITY)
         )
 
-    ds = DATASETS[args.dataset]
+    ds = DATASETS[args.dataset]()
 
     print(ds)
 

@@ -590,31 +590,31 @@ class RandomDS(Dataset):
         return f"Random({self.nb})"
 
 DATASETS = {
-    'sift-1B': BigANNDataset(1000),
-    'sift-10M': BigANNDataset(10),
+    'sift-1B': lambda : BigANNDataset(1000),
+    'sift-10M': lambda : BigANNDataset(10),
 
-    'bigann-1B': BigANNDataset(1000),
-    'bigann-10M': BigANNDataset(10),
+    'bigann-1B': lambda : BigANNDataset(1000),
+    'bigann-10M': lambda : BigANNDataset(10),
 
-    'deep-1B': Deep1BDataset(),
-    'deep-10M': Deep1BDataset(10),
+    'deep-1B': lambda : Deep1BDataset(),
+    'deep-10M': lambda : Deep1BDataset(10),
 
-    'ssnpp-1B': SSNPPDataset(1000),
-    'ssnpp-10M': SSNPPDataset(10),
-    'ssnpp-1M': SSNPPDataset(1),
+    'ssnpp-1B': lambda : SSNPPDataset(1000),
+    'ssnpp-10M': lambda : SSNPPDataset(10),
+    'ssnpp-1M': lambda : SSNPPDataset(1),
 
-    'text2image-1B': Text2Image1B(),
-    'text2image-1M': Text2Image1B(1),
-    'text2image-10M': Text2Image1B(10),
+    'text2image-1B': lambda : Text2Image1B(),
+    'text2image-1M': lambda : Text2Image1B(1),
+    'text2image-10M': lambda : Text2Image1B(10),
 
-    'msturing-1B': MSTuringANNS(1000),
-    'msturing-1M': MSTuringANNS(1),
-    'msturing-10M': MSTuringANNS(10),
+    'msturing-1B': lambda : MSTuringANNS(1000),
+    'msturing-1M': lambda : MSTuringANNS(1),
+    'msturing-10M': lambda : MSTuringANNS(10),
 
-    'msspacev-1B': MSSPACEV1B(1000),
-    'msspacev-10M': MSSPACEV1B(10),
-    'msspacev-1M': MSSPACEV1B(1),
+    'msspacev-1B': lambda : MSSPACEV1B(1000),
+    'msspacev-10M': lambda : MSSPACEV1B(10),
+    'msspacev-1M': lambda : MSSPACEV1B(1),
 
-    'random-xs': RandomDS(10000, 1000, 20),
-    'random-s': RandomDS(100000, 1000, 50),
+    'random-xs': lambda : RandomDS(10000, 1000, 20),
+    'random-s': lambda : RandomDS(100000, 1000, 50),
 }
