@@ -13,8 +13,53 @@ from faiss.contrib.exhaustive_search import range_search_gpu
 import benchmark.datasets
 from benchmark.datasets import DATASETS
 
+"""
+for dataset in deep-1B bigann-1B ssnpp-1B text2image-1B msturing-1B msspacev-1B ; do
+    sbatch   --gres=gpu:4 --ntasks=1 --time=30:00:00 --cpus-per-task=40        \
+           --partition=learnlab --mem=250g --nodes=1  \
+           -J GT.100M.$dataset.d -o logs/GT.100M.$dataset.d.log \
+           --wrap "PYTHONPATH=. python dataset_preparation/make_groundtruth.py \
+            --dataset $dataset --split 10 0 --prepare \
+            --o /checkpoint/matthijs/billion-scale-ann-benchmarks/GT_100M/${dataset/1B/100M}
+        "
+done
 
-def knn_ground_truth(ds, k, bs):
+"""
+
+
+class ResultHeap:
+    """Accumulate query results from a sliced dataset. The final result will
+    be in self.D, self.I."""
+
+    def __init__(self, nq, k, keep_max=False):
+        " nq: number of query vectors, k: number of results per query "
+        self.I = np.zeros((nq, k), dtype='int64')
+        self.D = np.zeros((nq, k), dtype='float32')
+        self.nq, self.k = nq, k
+        if keep_max:
+            heaps = faiss.float_minheap_array_t()
+        else:
+            heaps = faiss.float_maxheap_array_t()
+        heaps.k = k
+        heaps.nh = nq
+        heaps.val = faiss.swig_ptr(self.D)
+        heaps.ids = faiss.swig_ptr(self.I)
+        heaps.heapify()
+        self.heaps = heaps
+
+    def add_result(self, D, I):
+        """D, I do not need to be in a particular order (heap or sorted)"""
+        assert D.shape == (self.nq, self.k)
+        assert I.shape == (self.nq, self.k)
+        self.heaps.addn_with_ids(
+            self.k, faiss.swig_ptr(D),
+            faiss.swig_ptr(I), self.k)
+
+    def finalize(self):
+        self.heaps.reorder()
+
+
+def knn_ground_truth(ds, k, bs, split):
     """Computes the exact KNN search results for a dataset that possibly
     does not fit in RAM but for which we have an iterator that
     returns it block by block.
@@ -29,13 +74,13 @@ def knn_ground_truth(ds, k, bs):
 
     t0 = time.time()
     nq, d = xq.shape
-    rh = faiss.ResultHeap(nq, k)
 
     metric_type = (
         faiss.METRIC_L2 if ds.distance() == "euclidean" else
         faiss.METRIC_INNER_PRODUCT if ds.distance() in ("ip", "angular") else
         1/0
     )
+    rh = ResultHeap(nq, k, keep_max=metric_type == faiss.METRIC_INNER_PRODUCT)
 
     index = faiss.IndexFlat(d, metric_type)
 
@@ -45,7 +90,7 @@ def knn_ground_truth(ds, k, bs):
 
     # compute ground-truth by blocks, and add to heaps
     i0 = 0
-    for xbi in ds.get_dataset_iterator(bs=bs):
+    for xbi in ds.get_dataset_iterator(bs=bs, split=split):
         ni = xbi.shape[0]
         if ds.distance() == "angular":
             faiss.normalize_L2(xbi)
@@ -65,7 +110,7 @@ def knn_ground_truth(ds, k, bs):
     return rh.D, rh.I
 
 
-def range_ground_truth(ds, radius, bs):
+def range_ground_truth(ds, radius, bs, split):
     """Computes the exact range search results for a dataset that possibly
     does not fit in RAM but for which we have an iterator that
     returns it block by block.
@@ -100,7 +145,7 @@ def range_ground_truth(ds, radius, bs):
     # compute ground-truth by blocks, and add to heaps
     i0 = 0
     tot_res = 0
-    for xbi in ds.get_dataset_iterator(bs=bs):
+    for xbi in ds.get_dataset_iterator(bs=bs, split=split):
         ni = xbi.shape[0]
         if ds.distance() == "angular":
             faiss.normalize_L2(xbi)
@@ -186,6 +231,8 @@ if __name__ == "__main__":
     aa('--prepare', default=False, action="store_true",
         help="call prepare() to download the dataset before computing")
     aa('--basedir', help="override basedir for dataset")
+    aa('--split', type=int, nargs=2, default=[1, 0],
+        help="split that must be handled")
 
     group = parser.add_argument_group('computation options')
     # determined from ds
@@ -199,6 +246,8 @@ if __name__ == "__main__":
     aa('--o', default="", help="output file name")
 
     args = parser.parse_args()
+
+    print("args:", args)
 
     if args.basedir:
         print("setting datasets basedir to", args.basedir)
@@ -220,13 +269,19 @@ if __name__ == "__main__":
         ds.prepare()
         print("dataset ready")
 
+    if False: # args.crop_nb != -1:
+        print("cropping dataset to", args.crop_nb)
+        ds.nb = args.crop_nb
+        print("new ds:", ds)
+
+
     if ds.search_type() == "knn":
-        D, I = knn_ground_truth(ds, k=args.k, bs=args.bs)
+        D, I = knn_ground_truth(ds, k=args.k, bs=args.bs, split=args.split)
         print(f"writing index matrix of size {I.shape} to {args.o}")
         # write in the usbin format
         usbin_write(I, D, args.o)
     elif ds.search_type() == "range":
-        nres, D, I = range_ground_truth(ds, radius=args.radius, bs=args.bs)
+        nres, D, I = range_ground_truth(ds, radius=args.radius, bs=args.bs, split=args.split)
         print(f"writing results {I.shape} to {args.o}")
         range_result_write(nres, I, D, args.o)
 

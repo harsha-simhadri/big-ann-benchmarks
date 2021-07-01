@@ -88,8 +88,17 @@ def range_result_read(fname):
     nres = np.fromfile(f, count=nq, dtype="int32")
     assert nres.sum() == total_res
     I = np.fromfile(f, count=total_res, dtype="int32")
-    return nres, I
+    D = np.fromfile(f, count=total_res, dtype="float32")
+    return nres, I, D
 
+def knn_result_read(fname):
+    n, d = map(int, np.fromfile(fname, dtype="uint32", count=2))
+    assert os.stat(fname).st_size == 8 + n * d * (4 + 4)
+    f = open(fname, "rb")
+    f.seek(4+4)
+    I = np.fromfile(f, dtype="int32", count=n * d).reshape(n, d)
+    D = np.fromfile(f, dtype="float32", count=n * d).reshape(n, d)
+    return I, D
 
 def read_fbin(filename, start_idx=0, chunk_size=None):
     """ Read *.fbin file that contains float32 vectors
@@ -250,7 +259,7 @@ class DatasetCompetitionFormat(Dataset):
         nsplit, rank = split
         i0, i1 = self.nb * rank // nsplit, self.nb * (rank + 1) // nsplit
         filename = self.get_dataset_fn()
-        x = xbin_mmap(filename, dtype=self.dtype)
+        x = xbin_mmap(filename, dtype=self.dtype, maxn=self.nb)
         assert x.shape == (self.nb, self.d)
         for j0 in range(i0, i1, bs):
             j1 = min(j0 + bs, i1)
@@ -260,11 +269,16 @@ class DatasetCompetitionFormat(Dataset):
         return "knn"
 
     def get_groundtruth(self, k=None):
-        gt = read_idata(os.path.join(self.basedir, self.gt_fn), self.nq, self.d)
-        if k is not None:
-            assert k <= 100
-            gt = gt[:, :k]
-        return gt
+        if self.search_type() == "knn":
+            I, D = knn_result_read(os.path.join(self.basedir, self.gt_fn))
+            assert I.shape[0] == self.nq
+            if k is not None:
+                assert k <= 100
+                I = I[:, :k]
+                D = D[:, :k]
+            return I, D
+        else:
+            raise NotImplementedError
 
     def get_dataset(self):
         assert self.nb <= 10**7, "dataset too large, use iterator"
@@ -287,7 +301,7 @@ class SSNPPDataset(DatasetCompetitionFormat):
         self.dtype = "uint8"
         self.ds_fn = "FB_ssnpp_database.u8bin"
         self.qs_fn = "FB_ssnpp_public_queries.u8bin"
-        self.gt_fn = "FB_ssnpp_public_queries_GT.rangeres" if self.nb == 10**9 else None
+        self.gt_fn = "FB_ssnpp_public_queries_1B_GT.rangeres" if self.nb == 10**9 else None
         self.base_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/"
         self.basedir = os.path.join(BASEDIR, "FB_ssnpp")
 
@@ -311,6 +325,7 @@ class BigANNDataset(DatasetCompetitionFormat):
         self.ds_fn = "base.1B.u8bin"
         self.qs_fn = "query.public.10K.u8bin"
         self.gt_fn = "GT.public.1B.ibin" if self.nb == 10**9 else None
+        # self.gt_fn = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/bigann/public_query_gt100.bin" if self.nb == 10**9 else None
         self.base_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/bigann/"
         self.basedir = os.path.join(BASEDIR, "bigann")
 
