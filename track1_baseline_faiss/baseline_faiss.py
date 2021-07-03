@@ -64,9 +64,18 @@ def unwind_index_ivf(index):
     else:
         return None, None
 
+
 def build_index(args, ds):
     nq, d = ds.nq, ds.d
     nb, d = ds.nq, ds.d
+
+    if args.buildthreads == -1:
+        print("Build-time number of threads:", faiss.omp_get_max_threads())
+    else:
+        print("Set build-time number of threads:", args.buildthreads)
+        faiss.omp_set_num_threads(args.buildthreads)
+
+
     metric_type = (
             faiss.METRIC_L2 if ds.distance() == "euclidean" else
             faiss.METRIC_INNER_PRODUCT if ds.distance() in ("ip", "angular") else
@@ -105,9 +114,17 @@ def build_index(args, ds):
                 print(base_index.nprobe)
         elif isinstance(quantizer, faiss.IndexHNSW):
             print("   update quantizer efSearch=", quantizer.hnsw.efSearch, end=" -> ")
-            quantizer.hnsw.efSearch = 40 if index_ivf.nlist < 4e6 else 64
+            if args.quantizer_add_efSearch > 0:
+                quantizer.hnsw.efSearch = args.quantizer_add_efSearch
+            else:
+                quantizer.hnsw.efSearch = 40 if index_ivf.nlist < 4e6 else 64
             print(quantizer.hnsw.efSearch)
-            # TODO check if efConstruction has an effect
+            if args.quantizer_efConstruction != -1:
+                print("  update quantizer efConstruction=", quantizer.hnsw.efConstruction, end=" -> ")
+                quantizer.hnsw.efConstruction = args.quantizer_efConstruction
+                print(quantizer.hnsw.efConstruction)
+
+
 
     index.verbose = True
     if index_ivf:
@@ -129,12 +146,14 @@ def build_index(args, ds):
         print("setting maxtrain to %d" % maxtrain)
 
     # train on dataset
+    print(f"getting first {maxtrain} dataset vectors for training")
 
     xt2 = next(ds.get_dataset_iterator(bs=maxtrain))
 
-
     print("train, size", xt2.shape)
     assert np.all(np.isfinite(xt2))
+
+    t0 = time.time()
 
     if (isinstance(vec_transform, faiss.OPQMatrix) and
         isinstance(index_ivf, faiss.IndexIVFPQFastScan)):
@@ -151,6 +170,11 @@ def build_index(args, ds):
                 args.clustering_niter))
         index_ivf.cp.niter = args.clustering_niter
 
+    if args.train_on_gpu:
+        print("add a training index on GPU")
+        train_index = faiss.index_cpu_to_all_gpus(
+                faiss.IndexFlatL2(index_ivf.d))
+        index_ivf.clustering_index = train_index
 
     if args.two_level_clustering:
         sqrt_nlist = int(np.sqrt(index_ivf.nlist))
@@ -174,9 +198,8 @@ def build_index(args, ds):
         print("  add centroids to quantizer")
         index_ivf.quantizer.add(centroids)
 
-    t0 = time.time()
     index.train(xt2)
-    print("  train in %.3f s" % (time.time() - t0))
+    print("  Total train time %.3f s" % (time.time() - t0))
 
     print("adding")
     t0 = time.time()
@@ -197,12 +220,60 @@ def build_index(args, ds):
         print("storing", args.indexfile)
         faiss.write_index(index, args.indexfile)
 
+    return index
+
+
+def compute_inter(a, b):
+    nq, rank = a.shape
+    ninter = sum(
+        np.intersect1d(a[i, :rank], b[i, :rank]).size
+        for i in range(nq)
+    )
+    return ninter / a.size
+
+
+
+
+def eval_setting(index, xq, gt, k, inter, min_time):
+    nq = xq.shape[0]
+    ivf_stats = faiss.cvar.indexIVF_stats
+    ivf_stats.reset()
+    nrun = 0
+    t0 = time.time()
+    while True:
+        D, I = index.search(xq, k)
+        nrun += 1
+        t1 = time.time()
+        if t1 - t0 > min_time:
+            break
+    ms_per_query = ((t1 - t0) * 1000.0 / nq / nrun)
+    if inter:
+        rank = k
+        inter_measure = compute_inter(gt[:, :rank], I[:, :rank])
+        print("%.4f" % inter_measure, end=' ')
+    else:
+        for rank in 1, 10, 100:
+            n_ok = (I[:, :rank] == gt[:, :1]).sum()
+            print("%.4f" % (n_ok / float(nq)), end=' ')
+    print("   %9.5f  " % ms_per_query, end=' ')
+    print("%12d   " % (ivf_stats.ndis / nrun), end=' ')
+    print(nrun)
+
+
+
 def run_experiments_autotune(ds, index, args):
     k = args.k
 
     xq = ds.get_queries()
-    gt = ds.get_groundtruth(k=k)
+    gt_I, gt_D = ds.get_groundtruth(k=k)
+    gt = gt_I
     nq = len(xq)
+
+    if args.searchthreads == -1:
+        print("Search threads:", faiss.omp_get_max_threads())
+    else:
+        print("Setting nb of threads to", args.searchthreads)
+        faiss.omp_set_num_threads(args.searchthreads)
 
     ps = faiss.ParameterSpace()
     ps.initialize(index)
@@ -230,9 +301,17 @@ def run_experiments_autotune(ds, index, args):
     if args.inter:
         print("Optimize for intersection @ ", args.k)
         crit = faiss.IntersectionCriterion(nq, args.k)
+        header = (
+            '%-40s     inter@%3d time(ms/q)   nb distances #runs' %
+            ("parameters", args.k)
+        )
     else:
         print("Optimize for 1-recall @ 1")
         crit = faiss.OneRecallAtRCriterion(nq, 1)
+        header = (
+            '%-40s     R@1   R@10  R@100  time(ms/q)   nb distances #runs' %
+            "parameters"
+        )
 
     # by default, the criterion will request only 1 NN
     crit.nnn = args.k
@@ -259,9 +338,7 @@ def run_experiments_autotune(ds, index, args):
 
         print(opt.key.ljust(maxw), end=' ')
         sys.stdout.flush()
-
         eval_setting(index, xq, gt, args.k, args.inter, args.min_test_duration)
-
 
 
 def main():
@@ -277,8 +354,7 @@ def main():
 
     group = parser.add_argument_group('dataset options')
     aa('--dataset', choices=DATASETS.keys(), required=True)
-    aa('--1B-to-10M', default=False, action="store_true",
-        help="")
+
     aa('--prepare', default=False, action="store_true",
         help="call prepare() to download the dataset before computing")
     aa('--basedir', help="override basedir for dataset")
@@ -292,7 +368,7 @@ def main():
     aa('--maxtrain', default=0, type=int,
         help='maximum number of training points (0 to set automatically)')
     aa('--indexfile', default='', help='file to read or write index from')
-    aa('--add_bs', default=-1, type=int,
+    aa('--add_bs', default=100000, type=int,
         help='add elements index by batches of this size')
     aa('--no_precomputed_tables', action='store_true', default=False,
         help='disable precomputed tables (uses less memory)')
@@ -300,11 +376,19 @@ def main():
        help='number of clustering iterations (-1 = leave default)')
     aa('--two_level_clustering', action="store_true", default=False,
        help='perform a 2-level tree clustering')
+    aa('--train_on_gpu', default=False, action='store_true',
+        help='do training on GPU')
+    aa('--quantizer_efConstruction', default=-1, type=int,
+        help="override the efClustering of the quantizer")
+    aa('--quantizer_add_efSearch', default=-1, type=int,
+        help="override the efSearch of the quantizer at add time")
+    aa('--buildthreads', default=-1, type=int,
+        help='nb of threads to use at build time')
 
-    group = parser.add_argument_group('searching')
+   group = parser.add_argument_group('searching')
 
-    aa('--k', default=100, type=int, help='nb of nearest neighbors')
-    aa('--inter', default=False, action='store_true',
+    aa('--k', default=10, type=int, help='nb of nearest neighbors')
+    aa('--inter', default=True, action='store_true',
         help='use intersection measure instead of 1-recall as metric')
     aa('--searchthreads', default=-1, type=int,
         help='nb of threads to use at search time')
@@ -352,20 +436,18 @@ def main():
         print("dataset ready")
 
     if args.build:
-
         print("build index, key=", args.indexkey)
         index = build_index(args, ds)
-
-
     else:
         print("reading", args.indexfile)
         index = faiss.read_index(args.indexfile)
 
-        index_ivf, vec_transform = unwind_index_ivf(index)
-        if vec_transform is None:
-            vec_transform = lambda x: x
+    index_ivf, vec_transform = unwind_index_ivf(index)
+    if vec_transform is None:
+        vec_transform = lambda x: x
 
-    index_ivf = unwind_index_ivf(index)
+    if index_ivf is not None:
+        print("imbalance_factor=", index_ivf.invlists.imbalance_factor())
 
     if args.no_precomputed_tables:
         if isinstance(index_ivf, faiss.IndexIVFPQ):
@@ -384,8 +466,10 @@ def main():
 
     print("precomputed tables size:", precomputed_table_size)
 
-    if args.searchparams == ["autotune"]:
-        run_experiments_autotune(ds, index, args)
+    if args.search:
+
+        if args.searchparams == ["autotune"]:
+            run_experiments_autotune(ds, index, args)
 
 
 if __name__ == "__main__":

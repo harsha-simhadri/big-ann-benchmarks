@@ -78,7 +78,8 @@ def xbin_mmap(fname, dtype, maxn=-1):
     """ mmap the competition file format for a given type of items """
     n, d = map(int, np.fromfile(fname, dtype="uint32", count=2))
     assert os.stat(fname).st_size == 8 + n * d * np.dtype(dtype).itemsize
-    n = max(n, maxn)
+    if maxn > 0:
+        n = min(n, maxn)
     return np.memmap(fname, dtype=dtype, mode="r", offset=8, shape=(n, d))
 
 def range_result_read(fname):
@@ -220,8 +221,12 @@ class DatasetCompetitionFormat(Dataset):
         for fn in [self.qs_fn, self.gt_fn]:
             if fn is None:
                 continue
-            sourceurl = os.path.join(self.base_url, fn)
-            outfile = os.path.join(self.basedir, fn)
+            if fn.startswith("https://"):
+                sourceurl = fn
+                outfile = os.path.join(self.basedir, fn.split("/")[-1])
+            else:
+                sourceurl = os.path.join(self.base_url, fn)
+                outfile = os.path.join(self.basedir, fn)
             if os.path.exists(outfile):
                 print("file %s already exists" % outfile)
                 continue
@@ -230,10 +235,10 @@ class DatasetCompetitionFormat(Dataset):
         fn = self.ds_fn
         sourceurl = os.path.join(self.base_url, fn)
         outfile = os.path.join(self.basedir, fn)
+        if os.path.exists(outfile):
+            print("file %s already exists" % outfile)
+            return
         if self.nb == 10**9:
-            if os.path.exists(outfile):
-                print("file %s already exists" % outfile)
-                return
             download_accelerated(sourceurl, outfile)
         else:
             # download cropped version of file
@@ -251,9 +256,13 @@ class DatasetCompetitionFormat(Dataset):
 
     def get_dataset_fn(self):
         fn = os.path.join(self.basedir, self.ds_fn)
+        if os.path.exists(fn):
+            return fn
         if self.nb != 10**9:
             fn += '.crop_nb_%d' % self.nb
-        return fn
+            return fn
+        else:
+            raise RuntimeError("file not found")
 
     def get_dataset_iterator(self, bs=512, split=(1,0)):
         nsplit, rank = split
@@ -269,8 +278,10 @@ class DatasetCompetitionFormat(Dataset):
         return "knn"
 
     def get_groundtruth(self, k=None):
+        assert self.gt_fn is not None
+        fn = self.gt_fn.split("/")[-1]   # in case it's a URL
         if self.search_type() == "knn":
-            I, D = knn_result_read(os.path.join(self.basedir, self.gt_fn))
+            I, D = knn_result_read(os.path.join(self.basedir, fn))
             assert I.shape[0] == self.nq
             if k is not None:
                 assert k <= 100
@@ -278,7 +289,8 @@ class DatasetCompetitionFormat(Dataset):
                 D = D[:, :k]
             return I, D
         else:
-            raise NotImplementedError
+            nres, I, D = knn_result_read(os.path.join(self.basedir, fn))
+            return nres, I, D
 
     def get_dataset(self):
         assert self.nb <= 10**7, "dataset too large, use iterator"
@@ -290,6 +302,7 @@ class DatasetCompetitionFormat(Dataset):
         assert x.shape == (self.nq, self.d)
         return sanitize(x)
 
+subset_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/"
 
 class SSNPPDataset(DatasetCompetitionFormat):
     def __init__(self, nb_M=1000):
@@ -301,7 +314,14 @@ class SSNPPDataset(DatasetCompetitionFormat):
         self.dtype = "uint8"
         self.ds_fn = "FB_ssnpp_database.u8bin"
         self.qs_fn = "FB_ssnpp_public_queries.u8bin"
-        self.gt_fn = "FB_ssnpp_public_queries_1B_GT.rangeres" if self.nb == 10**9 else None
+
+        self.gt_fn = (
+            "FB_ssnpp_public_queries_1B_GT.rangeres" if self.nb_M == 1000 else
+            subset_url + "GT_100M/ssnpp-100M" if self.nb_M == 100 else
+            subset_url + "GT_10M/ssnpp-10M" if self.nb_M == 10 else
+            None
+        )
+
         self.base_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/"
         self.basedir = os.path.join(BASEDIR, "FB_ssnpp")
 
@@ -324,7 +344,12 @@ class BigANNDataset(DatasetCompetitionFormat):
         self.dtype = "uint8"
         self.ds_fn = "base.1B.u8bin"
         self.qs_fn = "query.public.10K.u8bin"
-        self.gt_fn = "GT.public.1B.ibin" if self.nb == 10**9 else None
+        self.gt_fn = (
+            "GT.public.1B.ibin" if self.nb_M == 1000 else
+            subset_url + "GT_100M/bigann-100M" if self.nb_M == 100 else
+            subset_url + "GT_10M/bigann-10M" if self.nb_M == 10 else
+            None
+        )
         # self.gt_fn = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/bigann/public_query_gt100.bin" if self.nb == 10**9 else None
         self.base_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/bigann/"
         self.basedir = os.path.join(BASEDIR, "bigann")
@@ -342,12 +367,19 @@ class Deep1BDataset(DatasetCompetitionFormat):
         self.dtype = "float32"
         self.ds_fn = "base.1B.fbin"
         self.qs_fn = "query.public.10K.fbin"
-        self.gt_fn = "groundtruth.public.10K.ibin" if self.nb == 10**9 else None
+        self.gt_fn = (
+            "https://storage.yandexcloud.net/yandex-research/ann-datasets/deep_new_groundtruth.public.10K.bin" if self.nb_M == 1000 else
+            subset_url + "GT_100M/deep-100M" if self.nb_M == 100 else
+            subset_url + "GT_10M/deep-10M" if self.nb_M == 10 else
+            None
+        )
         self.base_url = "https://storage.yandexcloud.net/yandex-research/ann-datasets/DEEP/"
         self.basedir = os.path.join(BASEDIR, "deep1b")
 
     def distance(self):
         return "euclidean"
+
+
 
 
 class Text2Image1B(DatasetCompetitionFormat):
@@ -359,7 +391,12 @@ class Text2Image1B(DatasetCompetitionFormat):
         self.dtype = "float32"
         self.ds_fn = "base.1B.fbin"
         self.qs_fn = "query.public.100K.fbin"
-        self.gt_fn = "groundtruth.public.100K.ibin" if self.nb == 10**9 else None
+        self.gt_fn = (
+            "https://storage.yandexcloud.net/yandex-research/ann-datasets/t2i_new_groundtruth.public.100K.bin" if self.nb_M == 1000 else
+            subset_url + "GT_100M/text2image-100M" if self.nb_M == 100 else
+            subset_url + "GT_10M/text2image-10M" if self.nb_M == 10 else
+            None
+        )
         self.base_url = "https://storage.yandexcloud.net/yandex-research/ann-datasets/T2I/"
         self.basedir = os.path.join(BASEDIR, "text2image1B")
 
@@ -375,7 +412,12 @@ class MSTuringANNS(DatasetCompetitionFormat):
         self.dtype = "float32"
         self.ds_fn = "base1b.fbin"
         self.qs_fn = "query100K.fbin"
-        self.gt_fn = None
+        self.gt_fn = (
+            "query_gt100.bin" if self.nb_M == 1000 else
+            subset_url + "GT_100M/msturing-100M" if self.nb_M == 100 else
+            subset_url + "GT_10M/msturing-10M" if self.nb_M == 10 else
+            None
+        )
         self.base_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/MSFT-TURING-ANNS/"
         self.basedir = os.path.join(BASEDIR, "MSTuringANNS")
 
@@ -392,7 +434,12 @@ class MSSPACEV1B(DatasetCompetitionFormat):
         self.dtype = "int8"
         self.ds_fn = "spacev1b_base.i8bin"
         self.qs_fn = "query.i8bin"
-        self.gt_fn = "spacev1b_gt.i8bin"
+        self.gt_fn = (
+            "public_query_gt100.bin" if self.nb_M == 1000 else
+            subset_url + "GT_100M/msspacev-100M" if self.nb_M == 100 else
+            subset_url + "GT_10M/msspacev-10M" if self.nb_M == 10 else
+            None
+        )
         self.base_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/spacev1b/"
         self.basedir = os.path.join(BASEDIR, "MSSPACEV1B")
 
@@ -609,25 +656,31 @@ DATASETS = {
     'sift-10M': lambda : BigANNDataset(10),
 
     'bigann-1B': lambda : BigANNDataset(1000),
+    'bigann-100M': lambda : BigANNDataset(100),
     'bigann-10M': lambda : BigANNDataset(10),
 
     'deep-1B': lambda : Deep1BDataset(),
+    'deep-100M': lambda : Deep1BDataset(100),
     'deep-10M': lambda : Deep1BDataset(10),
 
     'ssnpp-1B': lambda : SSNPPDataset(1000),
     'ssnpp-10M': lambda : SSNPPDataset(10),
+    'ssnpp-100M': lambda : SSNPPDataset(100),
     'ssnpp-1M': lambda : SSNPPDataset(1),
 
     'text2image-1B': lambda : Text2Image1B(),
     'text2image-1M': lambda : Text2Image1B(1),
     'text2image-10M': lambda : Text2Image1B(10),
+    'text2image-100M': lambda : Text2Image1B(100),
 
     'msturing-1B': lambda : MSTuringANNS(1000),
     'msturing-1M': lambda : MSTuringANNS(1),
     'msturing-10M': lambda : MSTuringANNS(10),
+    'msturing-100M': lambda : MSTuringANNS(100),
 
     'msspacev-1B': lambda : MSSPACEV1B(1000),
     'msspacev-10M': lambda : MSSPACEV1B(10),
+    'msspacev-100M': lambda : MSSPACEV1B(100),
     'msspacev-1M': lambda : MSSPACEV1B(1),
 
     'random-xs': lambda : RandomDS(10000, 1000, 20),
