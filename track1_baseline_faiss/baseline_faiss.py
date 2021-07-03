@@ -385,7 +385,7 @@ def main():
     aa('--buildthreads', default=-1, type=int,
         help='nb of threads to use at build time')
 
-   group = parser.add_argument_group('searching')
+    group = parser.add_argument_group('searching')
 
     aa('--k', default=10, type=int, help='nb of nearest neighbors')
     aa('--inter', default=True, action='store_true',
