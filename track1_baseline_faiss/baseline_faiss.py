@@ -482,6 +482,9 @@ def main():
         ds.prepare()
         print("dataset ready")
 
+    if not (args.build or args.search):
+        return
+
     if args.build:
         print("build index, key=", args.indexkey)
         index = build_index(args, ds)
