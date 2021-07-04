@@ -64,7 +64,9 @@ nprobe=512,quantizer_efSearch=512
 nprobe=1024,quantizer_efSearch=512
 "
 
-python  track1_baseline_faiss/baseline_faiss.py --dataset deep-1B --indexfile data/deep-1B.IVF1M_2level_PQ64x4fsr.faissindex --search --searchparams $params
+python  track1_baseline_faiss/baseline_faiss.py \
+   --dataset deep-1B --indexfile data/deep-1B.IVF1M_2level_PQ64x4fsr.faissindex \
+   --search --searchparams $params
 
 ```
 
