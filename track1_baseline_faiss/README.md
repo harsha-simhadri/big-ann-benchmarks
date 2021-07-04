@@ -56,17 +56,37 @@ This writes as:
 ```bash
 
 params="
-
+nprobe=1,quantizer_efSearch=4
+nprobe=2,quantizer_efSearch=4
+...
+nprobe=512,quantizer_efSearch=256
+nprobe=512,quantizer_efSearch=512
+nprobe=1024,quantizer_efSearch=512
 "
 
-
-python  track1_baseline_faiss/baseline_faiss.py --dataset deep-1B --indexfile deep-1B.IVF1M_2level_PQ64x4fsr.faissindex --search --searchparams $params
+python  track1_baseline_faiss/baseline_faiss.py --dataset deep-1B --indexfile data/deep-1B.IVF1M_2level_PQ64x4fsr.faissindex --search --searchparams $params
 
 ```
 
+The sets of parameters per dataset are listed in [this GIST](https://gist.github.com/mdouze/bb71032f0b3bf3cc9bdaa6ff1287c144). 
+They are ordered from fastest / least accurate to slowest / most accurate.
 
 ### Results 
 
+The results should look like: 
 
+```
+parameters                               inter@ 10 time(ms/q)   nb distances #runs
+nprobe=1,quantizer_efSearch=4            0.1738      0.00327       12210374    92
+nprobe=2,quantizer_efSearch=4            0.2394      0.00424       24328050    71
+nprobe=2,quantizer_efSearch=8            0.2879      0.00545       24278048    56
+...
+nprobe=512,quantizer_efSearch=256        0.6877      0.75883     5896044691    1
+nprobe=512,quantizer_efSearch=512        0.6886      0.77421     5890639041    1
+nprobe=1024,quantizer_efSearch=512       0.6886      1.46841    11607413418    1
+```
+
+This means that by setting the parameters `nprobe=2,quantizer_efSearch=4`, we obtain 0.2394 recall @ 10 (aka inter @10) for that dataset, the search will take  0.00327 ms per query (305810 QPS). 
+The total number of distances computed for all queries is 24328050 and this measurement was obtained in 71 runs (to reduce jitter in time measurements).
 
 
