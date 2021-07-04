@@ -341,6 +341,53 @@ def run_experiments_autotune(ds, index, args):
         eval_setting(index, xq, gt, args.k, args.inter, args.min_test_duration)
 
 
+def run_experiments_searchparams(ds, index, args):
+    k = args.k
+
+    xq = ds.get_queries()
+    gt_I, gt_D = ds.get_groundtruth(k=k)
+    gt = gt_I
+    nq = len(xq)
+
+    if args.searchthreads == -1:
+        print("Search threads:", faiss.omp_get_max_threads())
+    else:
+        print("Setting nb of threads to", args.searchthreads)
+        faiss.omp_set_num_threads(args.searchthreads)
+
+    ps = faiss.ParameterSpace()
+    ps.initialize(index)
+
+
+    # setup the Criterion object
+    if args.inter:
+        print("Optimize for intersection @ ", args.k)
+        header = (
+            '%-40s     inter@%3d time(ms/q)   nb distances #runs' %
+            ("parameters", args.k)
+        )
+    else:
+        print("Optimize for 1-recall @ 1")
+        header = (
+            '%-40s     R@1   R@10  R@100  time(ms/q)   nb distances #runs' %
+            "parameters"
+        )
+
+    searchparams = args.searchparams
+
+    print(f"Running evaluation on {len(searchparams)} searchparams")
+    print(header)
+    maxw = max(max(len(p) for p in searchparams), 40)
+    for params in searchparams:
+        ps.set_index_parameters(index, params)
+
+        print(params.ljust(maxw), end=' ')
+        sys.stdout.flush()
+        eval_setting(index, xq, gt, args.k, args.inter, args.min_test_duration)
+
+
+
+
 def main():
 
     parser = argparse.ArgumentParser()
@@ -470,7 +517,8 @@ def main():
 
         if args.searchparams == ["autotune"]:
             run_experiments_autotune(ds, index, args)
-
+        else:
+            run_experiments_searchparams(ds, index, args)
 
 if __name__ == "__main__":
     main()

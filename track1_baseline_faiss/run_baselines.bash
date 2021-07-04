@@ -162,21 +162,25 @@ fi
 
 # .a: build
 # .b: eval w 32 threads
+# .c: redo bigann eval
 
 # start with least problematic datasets  (no IP search, no range search)
 # msspace-1B may need to redo experiments because of ties in distance computations
-for dsname in bigann-1B deep-1B msturing-1B msspacev-1B; do
 
+# for dsname in bigann-1B deep-1B msturing-1B msspacev-1B; do
+for dsname in bigann-1B; do
     for nc in 1M 4M; do
 
-        name=$dsname.IVF${nc}_2level_PQ32
 
         case $nc in
         1M) ncn=$((1<<20)) ;;
         4M) ncn=$((1<<22)) ;;
         esac
 
-        run_on_half_machine $name.b \
+
+        name=$dsname.IVF${nc}_2level_PQ32
+
+        run_on_half_machine $name.c \
             python -u track1_baseline_faiss/baseline_faiss.py \
                 --dataset $dsname --indexfile $basedir/$name.faissindex \
                 --indexkey OPQ32_128,IVF${ncn}_HNSW32,PQ32 \
@@ -186,6 +190,24 @@ for dsname in bigann-1B deep-1B msturing-1B msspacev-1B; do
                 --two_level_clustering \
                 --search --searchthreads 32 \
                 --maxRAM 256
+
+
+
+        if false; then
+        name=$dsname.IVF${nc}_2level_PQ64x4fsr
+
+        run_on_half_machine $name.a \
+            python -u track1_baseline_faiss/baseline_faiss.py \
+                --dataset $dsname --indexfile $basedir/$name.faissindex \
+                --indexkey OPQ64_128,IVF${ncn}_HNSW32,PQ64x4fsr \
+                --maxtrain 100000000 \
+                --quantizer_efConstruction 200 \
+                --quantizer_add_efSearch 80 \
+                --two_level_clustering \
+                --build --search --searchthreads 32 \
+                --maxRAM 256
+
+        fi
 
     done
 
