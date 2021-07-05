@@ -64,7 +64,9 @@ nprobe=512,quantizer_efSearch=512
 nprobe=1024,quantizer_efSearch=512
 "
 
-python  track1_baseline_faiss/baseline_faiss.py --dataset deep-1B --indexfile data/deep-1B.IVF1M_2level_PQ64x4fsr.faissindex --search --searchparams $params
+python  track1_baseline_faiss/baseline_faiss.py \
+   --dataset deep-1B --indexfile data/deep-1B.IVF1M_2level_PQ64x4fsr.faissindex \
+   --search --searchparams $params
 
 ```
 
@@ -88,5 +90,16 @@ nprobe=1024,quantizer_efSearch=512       0.6886      1.46841    11607413418    1
 
 This means that by setting the parameters `nprobe=2,quantizer_efSearch=4`, we obtain 0.2394 recall @ 10 (aka inter @10) for that dataset, the search will take  0.00327 ms per query (305810 QPS). 
 The total number of distances computed for all queries is 24328050 and this measurement was obtained in 71 runs (to reduce jitter in time measurements).
+
+The speed-accuracy tradeoff plots are here (with 32 threads on a given 2.2Ghz machine): 
+
+![](plots/bigann-1B.png)
+
+![](plots/deep-1B.png)
+
+![](plots/msturing-1B.png)
+
+![](plots/msspace-1B.png)
+
 
 
