@@ -2,6 +2,7 @@ import os
 import sys
 import time
 import pdb
+import gc
 import numpy as np
 import faiss
 import argparse
@@ -75,7 +76,6 @@ def build_index(args, ds):
         print("Set build-time number of threads:", args.buildthreads)
         faiss.omp_set_num_threads(args.buildthreads)
 
-
     metric_type = (
             faiss.METRIC_L2 if ds.distance() == "euclidean" else
             faiss.METRIC_INNER_PRODUCT if ds.distance() in ("ip", "angular") else
@@ -125,7 +125,6 @@ def build_index(args, ds):
                 print(quantizer.hnsw.efConstruction)
 
 
-
     index.verbose = True
     if index_ivf:
         index_ivf.verbose = True
@@ -170,6 +169,7 @@ def build_index(args, ds):
                 args.clustering_niter))
         index_ivf.cp.niter = args.clustering_niter
 
+    train_index = None
     if args.train_on_gpu:
         print("add a training index on GPU")
         train_index = faiss.index_cpu_to_all_gpus(
@@ -201,7 +201,17 @@ def build_index(args, ds):
     index.train(xt2)
     print("  Total train time %.3f s" % (time.time() - t0))
 
+    if train_index is not None:
+        del train_index
+        index_ivf.clustering_index = None
+        gc.collect()
+
     print("adding")
+
+    rcq = None
+    if args.quantizer_on_gpu_add:
+        rcq = ReplaceCoarseQuantizerGPU(index)
+
     t0 = time.time()
     if args.add_bs == -1:
         index.add(sanitize(ds.get_database()))
@@ -214,6 +224,8 @@ def build_index(args, ds):
                 faiss.get_mem_usage_kb()))
             index.add(xblock)
             i0 = i1
+
+    del rcq
 
     print("  add in %.3f s" % (time.time() - t0))
     if args.indexfile:
@@ -231,6 +243,28 @@ def compute_inter(a, b):
     )
     return ninter / a.size
 
+
+class ReplaceCoarseQuantizerGPU:
+    """ RAII object to replace the coarse quantizer with a GPU version """
+
+    def __init__(self, index):
+        print("swapping in GPU quantizer")
+        index_ivf = faiss.extract_index_ivf(index)
+
+        orig_quantizer = index_ivf.quantizer
+        centroids = orig_quantizer.reconstruct_n(0, index_ivf.nlist)
+        quantizer = faiss.IndexFlat(centroids.shape[1], orig_quantizer.metric_type)
+        quantizer.add(centroids)
+        self.gpu_quantizer = faiss.index_cpu_to_all_gpus(quantizer)
+        self.orig_quantizer = orig_quantizer
+        self.index_ivf = index_ivf
+        index_ivf.quantizer = self.gpu_quantizer
+
+    def __del__(self):
+        print("restore original quantizer")
+        self.index_ivf.quantizer = self.orig_quantizer
+        del self.gpu_quantizer
+        gc.collect()
 
 
 
@@ -256,7 +290,7 @@ def eval_setting(index, xq, gt, k, inter, min_time):
             n_ok = (I[:, :rank] == gt[:, :1]).sum()
             print("%.4f" % (n_ok / float(nq)), end=' ')
     print("   %9.5f  " % ms_per_query, end=' ')
-    print("%12d   " % (ivf_stats.ndis / nrun), end=' ')
+    print("%12d  %5.2f  " % (ivf_stats.ndis / nrun, ivf_stats.quantization_time / ivf_stats.search_time * 100), end=' ')
     print(nrun)
 
 
@@ -268,12 +302,6 @@ def run_experiments_autotune(ds, index, args):
     gt_I, gt_D = ds.get_groundtruth(k=k)
     gt = gt_I
     nq = len(xq)
-
-    if args.searchthreads == -1:
-        print("Search threads:", faiss.omp_get_max_threads())
-    else:
-        print("Setting nb of threads to", args.searchthreads)
-        faiss.omp_set_num_threads(args.searchthreads)
 
     ps = faiss.ParameterSpace()
     ps.initialize(index)
@@ -302,14 +330,14 @@ def run_experiments_autotune(ds, index, args):
         print("Optimize for intersection @ ", args.k)
         crit = faiss.IntersectionCriterion(nq, args.k)
         header = (
-            '%-40s     inter@%3d time(ms/q)   nb distances #runs' %
+            '%-40s     inter@%3d time(ms/q)   nb distances %%quantization #runs' %
             ("parameters", args.k)
         )
     else:
         print("Optimize for 1-recall @ 1")
         crit = faiss.OneRecallAtRCriterion(nq, 1)
         header = (
-            '%-40s     R@1   R@10  R@100  time(ms/q)   nb distances #runs' %
+            '%-40s     R@1   R@10  R@100  time(ms/q)   nb distances %%quantization #runs' %
             "parameters"
         )
 
@@ -349,12 +377,6 @@ def run_experiments_searchparams(ds, index, args):
     gt = gt_I
     nq = len(xq)
 
-    if args.searchthreads == -1:
-        print("Search threads:", faiss.omp_get_max_threads())
-    else:
-        print("Setting nb of threads to", args.searchthreads)
-        faiss.omp_set_num_threads(args.searchthreads)
-
     ps = faiss.ParameterSpace()
     ps.initialize(index)
 
@@ -363,13 +385,13 @@ def run_experiments_searchparams(ds, index, args):
     if args.inter:
         print("Optimize for intersection @ ", args.k)
         header = (
-            '%-40s     inter@%3d time(ms/q)   nb distances #runs' %
+            '%-40s     inter@%3d time(ms/q)   nb distances %%quantization #runs' %
             ("parameters", args.k)
         )
     else:
         print("Optimize for 1-recall @ 1")
         header = (
-            '%-40s     R@1   R@10  R@100  time(ms/q)   nb distances #runs' %
+            '%-40s     R@1   R@10  R@100  time(ms/q)   nb distances %%quantization #runs' %
             "parameters"
         )
 
@@ -431,6 +453,8 @@ def main():
         help="override the efSearch of the quantizer at add time")
     aa('--buildthreads', default=-1, type=int,
         help='nb of threads to use at build time')
+    aa('--quantizer_on_gpu_add', action="store_true", default=False,
+        help="use GPU coarse quantizer at add time")
 
     group = parser.add_argument_group('searching')
 
@@ -449,6 +473,10 @@ def main():
         help='set complete autotune range, format "var:val1,val2,..."')
     aa('--min_test_duration', default=3.0, type=float,
         help='run test at least for so long to avoid jitter')
+    aa('--quantizer_on_gpu_search', action="store_true", default=False,
+        help="use GPU coarse quantizer at search time")
+    aa('--parallel_mode', default=-1, type=int,
+        help="set search-time parallel mode for IVF indexes")
 
     group = parser.add_argument_group('computation options')
     aa("--maxRAM", default=100, type=int, help="set max RSS in GB (avoid OOM crash)")
@@ -518,10 +546,27 @@ def main():
 
     if args.search:
 
+        if args.searchthreads == -1:
+            print("Search threads:", faiss.omp_get_max_threads())
+        else:
+            print("Setting nb of threads to", args.searchthreads)
+            faiss.omp_set_num_threads(args.searchthreads)
+
+        if args.parallel_mode != -1:
+            print("setting IVF parallel mode to", args.parallel_mode)
+            index_ivf.parallel_mode
+            index_ivf.parallel_mode = args.parallel_mode
+
+        rcq = None
+        if args.quantizer_on_gpu_search:
+            rcq = ReplaceCoarseQuantizerGPU(index)
+
         if args.searchparams == ["autotune"]:
             run_experiments_autotune(ds, index, args)
         else:
             run_experiments_searchparams(ds, index, args)
+
+        del rcq
 
 if __name__ == "__main__":
     main()

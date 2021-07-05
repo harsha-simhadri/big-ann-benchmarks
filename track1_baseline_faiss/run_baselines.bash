@@ -29,8 +29,8 @@ function run_on () {
 
 
 function run_on_1gpu () {
-    run_on "--gres=gpu:1 --ntasks=1 --time=30:00:00 --cpus-per-task=10
-           --partition=learnlab --mem=64g --nodes=1 " "$@"
+    run_on "--gres=gpu:1 --ntasks=1 --time=30:00:00 --cpus-per-task=20
+           --partition=devlab --mem=64g --nodes=1 " "$@"
 }
 
 function run_on_half_machine () {
@@ -44,20 +44,19 @@ function run_on_half_machine () {
 # Small scale experiments to evaluate effect of 2-level clustering
 ##############################################################
 
-
-
-
 # compare 2-level 65k clustering index and regular one
 
 basedir=data/track1_baseline_faiss
 
-dsname=bigann-10M
 
 if false; then
 
+dsname=bigann-10M
+
+
 run_on_1gpu $dsname.IVF65k_HNSW.a \
-     python -u track1_baseline_faiss/baseline_faiss.py \
-        --dataset $dsname --indexfile $basedir/$dsname. .faissindex \
+    python -u track1_baseline_faiss/baseline_faiss.py \
+        --dataset $dsname --indexfile $basedir/$dsname.faissindex \
         --indexkey PCAR64,IVF65536_HNSW32,Flat --maxtrain $((65536 * 50)) \
         --search --train_on_gpu
 
@@ -154,7 +153,6 @@ for dsname in bigann-100M deep-100M msturing-100M msspacev-100M; do
 
 done
 
-fi
 
 ##############################################################
 # Experiments on scale 1B
@@ -191,9 +189,6 @@ for dsname in bigann-1B; do
                 --search --searchthreads 32 \
                 --maxRAM 256
 
-
-
-        if false; then
         name=$dsname.IVF${nc}_2level_PQ64x4fsr
 
         run_on_half_machine $name.a \
@@ -207,10 +202,112 @@ for dsname in bigann-1B; do
                 --build --search --searchthreads 32 \
                 --maxRAM 256
 
-        fi
 
     done
 
 done
 
 
+
+##############################################################
+# Experiments with 64 bytes per vector
+##############################################################
+
+for dsname in bigann-1B deep-1B msturing-1B msspacev-1B; do
+    for nc in 1M ; do
+
+
+        case $nc in
+        1M) ncn=$((1<<20)) ;;
+        4M) ncn=$((1<<22)) ;;
+        esac
+
+
+        name=$dsname.IVF${nc}_2level_PQ64
+
+        run_on_half_machine $name.a \
+            python -u track1_baseline_faiss/baseline_faiss.py \
+                --dataset $dsname --indexfile $basedir/$name.faissindex \
+                --indexkey OPQ64_128,IVF${ncn}_HNSW32,PQ64 \
+                --maxtrain 100000000 \
+                --quantizer_efConstruction 200 \
+                --quantizer_add_efSearch 80 \
+                --two_level_clustering \
+                --build --search --searchthreads 32 \
+                --maxRAM 256
+
+        name=$dsname.IVF${nc}_2level_PQ128x4fsr
+
+        run_on_half_machine $name.a \
+            python -u track1_baseline_faiss/baseline_faiss.py \
+                --dataset $dsname --indexfile $basedir/$name.faissindex \
+                --indexkey OPQ128_128,IVF${ncn}_HNSW32,PQ128x4fsr \
+                --maxtrain 100000000 \
+                --quantizer_efConstruction 200 \
+                --quantizer_add_efSearch 80 \
+                --two_level_clustering \
+                --build --search --searchthreads 32 \
+                --maxRAM 256
+
+    done
+
+done
+
+
+
+fi
+
+##############################################################
+# 10M scale exeperiment for max IP search
+##############################################################
+
+dsname=text2image-10M
+
+
+if false; then
+
+run_on_1gpu $dsname.IVF65k_HNSW.b \
+    python -u track1_baseline_faiss/baseline_faiss.py \
+        --dataset $dsname --indexfile $basedir/$dsname.faissindex \
+        --indexkey PCAR64,IVF65536_HNSW32,Flat --maxtrain $((65536 * 50)) \
+        --quantizer_efConstruction 200 \
+        --quantizer_add_efSearch 80 \
+        --build --search --train_on_gpu
+
+
+run_on_1gpu $dsname.IVF65k_2level_HNSW.b \
+     python -u track1_baseline_faiss/baseline_faiss.py \
+        --dataset $dsname --indexfile $basedir/$dsname.IVF65k_2level_HNSW.faissindex \
+        --indexkey PCAR64,IVF65536_HNSW32,Flat --maxtrain $((65536 * 50)) \
+        --quantizer_efConstruction 200 \
+        --quantizer_add_efSearch 80 \
+        --two_level_clustering \
+        --build --search
+
+
+run_on_1gpu $dsname.IVF65k_HNSW_PQ32.b \
+    python -u track1_baseline_faiss/baseline_faiss.py \
+        --dataset $dsname --indexfile $basedir/$dsname.faissindex \
+        --indexkey OPQ128_32,IVF65536_HNSW32,PQ32 --maxtrain $((65536 * 50)) \
+        --quantizer_efConstruction 200 \
+        --quantizer_add_efSearch 80 \
+        --build --search --train_on_gpu
+
+
+run_on_1gpu $dsname.IVF65k_HNSW_PQ32_nores.b \
+    python -u track1_baseline_faiss/baseline_faiss.py \
+        --dataset $dsname --indexfile $basedir/$dsname.faissindex \
+        --indexkey OPQ128_32,IVF65536_HNSW32,PQ32 --maxtrain $((65536 * 50)) \
+        --quantizer_efConstruction 200 \
+        --quantizer_add_efSearch 80 \
+        --build --search --train_on_gpu --by_residual 0
+
+
+fi
+
+
+run_on_1gpu $dsname.IVF16k.a \
+    python -u track1_baseline_faiss/baseline_faiss.py \
+        --dataset $dsname --indexfile $basedir/$dsname.IVF16k.faissindex \
+        --indexkey IVF16384,Flat --maxtrain $((65536 * 50)) \
+        --build --search --train_on_gpu
