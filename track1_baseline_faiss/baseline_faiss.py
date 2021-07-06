@@ -290,7 +290,13 @@ def eval_setting(index, xq, gt, k, inter, min_time):
             n_ok = (I[:, :rank] == gt[:, :1]).sum()
             print("%.4f" % (n_ok / float(nq)), end=' ')
     print("   %9.5f  " % ms_per_query, end=' ')
-    print("%12d  %5.2f  " % (ivf_stats.ndis / nrun, ivf_stats.quantization_time / ivf_stats.search_time * 100), end=' ')
+
+    if ivf_stats.search_time == 0:
+        # happens for IVFPQFastScan where the stats are not logged by default
+        print("%12d  %5.2f  " % (ivf_stats.ndis / nrun, 0.0), end=' ')
+    else:
+        pc_quantizer = ivf_stats.quantization_time / ivf_stats.search_time * 100
+        print("%12d  %5.2f  " % (ivf_stats.ndis / nrun, pc_quantizer), end=' ')
     print(nrun)
 
 
