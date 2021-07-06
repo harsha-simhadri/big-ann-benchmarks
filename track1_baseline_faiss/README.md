@@ -34,7 +34,27 @@ This is useful for small-scale experiments.
 
 ## Building the index 
 
-TODO 
+There are several types of indexes in Faiss. 
+Here we focus on IVF variants with PQ compression as recommended [here](https://github.com/facebookresearch/faiss/wiki/Guidelines-to-choose-an-index#if-100m---1b-ivf1048576_hnsw32) and evaluated [here](https://github.com/facebookresearch/faiss/wiki/Indexing-1G-vectors#1b-datasets). 
+
+The problem is that they require very large codebooks to define the IVF clusters. 
+This is fine (kind of) when a GPU is available to run the clustering, but not on CPU only. 
+Therefore, we perform a two-level clustering with n' = sqrt(ncentroids) first level cluster and n' clusterings of size n' at a refined level. 
+Then all n' * n' sub-clusters are indexed together in an IVF_HNSW.
+
+This writes like: 
+
+```bash
+python -u track1_baseline_faiss/baseline_faiss.py --dataset deep-1B \
+    --indexkey OPQ32_128,IVF1048576_HNSW32,PQ32 \
+    --maxtrain 100000000 \
+    --two_level_clustering \
+    --build \
+    --indexfile data/track1_baseline_faiss/deep-1B.IVF1M_2level_PQ32.faissindex \
+    --quantizer_efConstruction 200 \
+    --quantizer_add_efSearch 80 
+```
+
 
 ## Running the evaluation
 
