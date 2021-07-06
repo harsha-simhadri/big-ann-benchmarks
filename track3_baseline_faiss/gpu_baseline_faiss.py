@@ -7,53 +7,11 @@ import numpy as np
 import faiss
 import argparse
 import resource
+from multiprocessing.pool import ThreadPool
 
 import benchmark.datasets
 from benchmark.datasets import DATASETS
-from benchmark import eval_range_search
 
-def two_level_clustering(xt, nc1, nc2, clustering_niter=25, spherical=False):
-    d = xt.shape[1]
-
-    print(f"2-level clustering of {xt.shape} nb clusters = {nc1}*{nc2} = {nc1*nc2}")
-    print("perform coarse training")
-
-    km = faiss.Kmeans(
-        d, nc1, verbose=True, niter=clustering_niter,
-        max_points_per_centroid=2000,
-        spherical=spherical
-    )
-    km.train(xt)
-
-    print()
-
-    # coarse centroids
-    centroids1 = km.centroids
-
-    print("assigning the training set")
-    t0 = time.time()
-    _, assign1 = km.assign(xt)
-    bc = np.bincount(assign1, minlength=nc1)
-    print(f"done in {time.time() - t0:.2f} s. Sizes of clusters {min(bc)}-{max(bc)}")
-    o = assign1.argsort()
-    del km
-
-    # train sub-clusters
-    i0 = 0
-    c2 = []
-    t0 = time.time()
-    for c1 in range(nc1):
-        print(f"[{time.time() - t0:.2f} s] training sub-cluster {c1}/{nc1}\r", end="", flush=True)
-        i1 = i0 + bc[c1]
-        subset = o[i0:i1]
-        assert np.all(assign1[subset] == c1)
-        km = faiss.Kmeans(d, nc2, spherical=spherical)
-        xtsub = xt[subset]
-        km.train(xtsub)
-        c2.append(km.centroids)
-        i0 = i1
-    print(f"done in {time.time() - t0:.2f} s")
-    return np.vstack(c2)
 
 
 def unwind_index_ivf(index):
@@ -69,6 +27,26 @@ def unwind_index_ivf(index):
         return index, None
     else:
         return None, None
+
+def rate_limited_iter(l):
+    'a thread pre-processes the next element'
+    pool = ThreadPool(1)
+    res = None
+
+    def next_or_None():
+        try:
+            return next(l)
+        except StopIteration:
+            return None
+
+    while True:
+        res_next = pool.apply_async(next_or_None)
+        if res is not None:
+            res = res.get()
+            if res is None:
+                return
+            yield res
+        res = res_next
 
 
 def build_index(args, ds):
@@ -117,18 +95,6 @@ def build_index(args, ds):
                     32 if base_index.nlist < 4e6 else
                     64)
                 print(base_index.nprobe)
-        elif isinstance(quantizer, faiss.IndexHNSW):
-            print("   update quantizer efSearch=", quantizer.hnsw.efSearch, end=" -> ")
-            if args.quantizer_add_efSearch > 0:
-                quantizer.hnsw.efSearch = args.quantizer_add_efSearch
-            else:
-                quantizer.hnsw.efSearch = 40 if index_ivf.nlist < 4e6 else 64
-            print(quantizer.hnsw.efSearch)
-            if args.quantizer_efConstruction != -1:
-                print("  update quantizer efConstruction=", quantizer.hnsw.efConstruction, end=" -> ")
-                quantizer.hnsw.efConstruction = args.quantizer_efConstruction
-                print(quantizer.hnsw.efConstruction)
-
 
     index.verbose = True
     if index_ivf:
@@ -181,29 +147,6 @@ def build_index(args, ds):
                 faiss.IndexFlatL2(index_ivf.d))
         index_ivf.clustering_index = train_index
 
-    if args.two_level_clustering:
-        sqrt_nlist = int(np.sqrt(index_ivf.nlist))
-        assert sqrt_nlist ** 2 == index_ivf.nlist
-
-        centroids_trainset = xt2
-        if isinstance(vec_transform, faiss.VectorTransform):
-            print("  training vector transform")
-            vec_transform.train(xt2)
-            print("  transform trainset")
-            centroids_trainset = vec_transform.apply_py(centroids_trainset)
-
-        centroids = two_level_clustering(
-            centroids_trainset, sqrt_nlist, sqrt_nlist,
-            spherical=(metric_type == faiss.METRIC_INNER_PRODUCT)
-        )
-
-        if not index_ivf.quantizer.is_trained:
-            print("  training quantizer")
-            index_ivf.quantizer.train(centroids)
-
-        print("  add centroids to quantizer")
-        index_ivf.quantizer.add(centroids)
-
     index.train(xt2)
     print("  Total train time %.3f s" % (time.time() - t0))
 
@@ -215,9 +158,8 @@ def build_index(args, ds):
     print("adding")
 
     t0 = time.time()
-    if args.add_bs == -1:
-        index.add(sanitize(ds.get_database()))
-    else:
+
+    if not args.quantizer_on_gpu_add:
         i0 = 0
         for xblock in ds.get_dataset_iterator(bs=args.add_bs):
             i1 = i0 + len(xblock)
@@ -226,6 +168,30 @@ def build_index(args, ds):
                 faiss.get_mem_usage_kb()))
             index.add(xblock)
             i0 = i1
+    else:
+        quantizer_gpu = faiss.index_cpu_to_all_gpus(index_ivf.quantizer)
+
+        def produce_batches():
+            for xblock in ds.get_dataset_iterator(bs=args.add_bs):
+                _, assign = quantizer_gpu.search(xblock, 1)
+                yield xblock, assign.ravel()
+
+        stage2 = rate_limited_iter(produce_batches())
+        i0 = 0
+        for xblock, assign in stage2:
+            i1 = i0 + len(xblock)
+            print("  adding %d:%d / %d [%.3f s, RSS %d kiB] " % (
+                i0, i1, ds.nb, time.time() - t0,
+                faiss.get_mem_usage_kb()))
+            index.add_core(
+                len(xblock),
+                faiss.swig_ptr(xblock),
+                None,
+                faiss.swig_ptr(assign)
+            )
+            i0 = i1
+        del quantizer_gpu
+        gc.collect()
 
     print("  add in %.3f s" % (time.time() - t0))
     if args.indexfile:
@@ -245,41 +211,27 @@ def compute_inter(a, b):
 
 
 
-
-def eval_setting(index, xq, gt, k=0, radius=0, inter=False, min_time=3.0):
+def eval_setting(index, xq, gt, k, inter, min_time):
     nq = xq.shape[0]
-    is_range = len(gt) == 3
-    if not is_range: # knn search
-        gt_I, gt_D = gt
-    else:
-        assert len(gt) == 3
-        radius = k
-
     ivf_stats = faiss.cvar.indexIVF_stats
     ivf_stats.reset()
     nrun = 0
+
     t0 = time.time()
     while True:
-        if is_range:
-            lims, D, I = index.range_search(xq, radius)
-        else:
-            D, I = index.search(xq, k)
+        D, I = index.search(xq, k)
         nrun += 1
         t1 = time.time()
         if t1 - t0 > min_time:
             break
     ms_per_query = ((t1 - t0) * 1000.0 / nq / nrun)
-
-    if is_range:
-        ap = eval_range_search.compute_AP(gt, (lims, I, D))
-        print("%.4f" % ap, end=' ')
-    elif inter:
+    if inter:
         rank = k
-        inter_measure = compute_inter(gt_I[:, :rank], I[:, :rank])
+        inter_measure = compute_inter(gt[:, :rank], I[:, :rank])
         print("%.4f" % inter_measure, end=' ')
     else:
         for rank in 1, 10, 100:
-            n_ok = (I[:, :rank] == gt_I[:, :1]).sum()
+            n_ok = (I[:, :rank] == gt[:, :1]).sum()
             print("%.4f" % (n_ok / float(nq)), end=' ')
     print("   %9.5f  " % ms_per_query, end=' ')
 
@@ -292,108 +244,71 @@ def eval_setting(index, xq, gt, k=0, radius=0, inter=False, min_time=3.0):
     print(nrun)
 
 
+class IndexQuantizerOnGPU:
 
-def run_experiments_autotune(ds, index, args):
+    def __init__(self, index, search_bs):
+        self.search_bs = search_bs
+        index_ivf, vec_transform = unwind_index_ivf(index)
+        self.index_ivf = index_ivf
+        self.vec_transform = vec_transform
+        self.quantizer_gpu = faiss.index_cpu_to_all_gpus(self.index_ivf.quantizer)
+
+    def search(self, x, k):
+        bs = self.search_bs
+        if self.vec_transform:
+            x = self.vec_transform(x)
+        nprobe = self.index_ivf.nprobe
+        n, d = x.shape
+        assert self.index_ivf.d == d
+        D = np.empty((n, k), dtype=np.float32)
+        I = np.empty((n, k), dtype=np.int64)
+        i0 = 0
+        ivf_stats = faiss.cvar.indexIVF_stats
+
+        def produce_batches():
+            for i0 in range(0, n, bs):
+                xblock = x[i0:i0 + bs]
+                t0 = time.time()
+                D, I = self.quantizer_gpu.search(xblock, nprobe)
+                ivf_stats.quantization_time += 1000 * (time.time() - t0)
+                yield i0, xblock, D, I
+
+        sp = faiss.swig_ptr
+        stage2 = rate_limited_iter(produce_batches())
+        t0 = time.time()
+        for i0, xblock, Dc, Ic in stage2:
+            ni = len(xblock)
+            self.index_ivf.search_preassigned(
+                ni, faiss.swig_ptr(xblock),
+                k, sp(Ic), sp(Dc),
+                sp(D[i0:]), sp(I[i0:]),
+                False
+            )
+        ivf_stats.quantization_time += 1000 * (time.time() - t0)
+
+        return D, I
+
+def run_experiments_searchparams(ds, index, args):
     k = args.k
 
     xq = ds.get_queries()
+    gt_I, gt_D = ds.get_groundtruth(k=k)
+    gt = gt_I
     nq = len(xq)
 
     ps = faiss.ParameterSpace()
     ps.initialize(index)
 
-    ps.n_experiments = args.n_autotune
-    ps.min_test_duration = args.min_test_duration
-
-    for kv in args.autotune_max:
-        k, vmax = kv.split(':')
-        vmax = float(vmax)
-        print("limiting %s to %g" % (k, vmax))
-        pr = ps.add_range(k)
-        values = faiss.vector_to_array(pr.values)
-        values = np.array([v for v in values if v < vmax])
-        faiss.copy_array_to_vector(values, pr.values)
-
-    for kv in args.autotune_range:
-        k, vals = kv.split(':')
-        vals = np.fromstring(vals, sep=',')
-        print("setting %s to %s" % (k, vals))
-        pr = ps.add_range(k)
-        faiss.copy_array_to_vector(vals, pr.values)
 
     # setup the Criterion object
-    if ds.search_type() == "range":
-        header = (
-            '%-40s     AP    time(ms/q)   nb distances %%quantization #runs' %
-            "parameters"
-        )
-    elif args.inter:
+    if args.inter:
         print("Optimize for intersection @ ", args.k)
-        crit = faiss.IntersectionCriterion(nq, args.k)
         header = (
             '%-40s     inter@%3d time(ms/q)   nb distances %%quantization #runs' %
             ("parameters", args.k)
         )
     else:
         print("Optimize for 1-recall @ 1")
-        crit = faiss.OneRecallAtRCriterion(nq, 1)
-        header = (
-            '%-40s     R@1   R@10  R@100  time(ms/q)   nb distances %%quantization #runs' %
-            "parameters"
-        )
-
-    # then we let Faiss find the optimal parameters by itself
-    print("exploring operating points, %d threads" % faiss.omp_get_max_threads());
-    ps.display()
-
-    t0 = time.time()
-
-    if ds.search_type() == "knn":
-        # by default, the criterion will request only 1 NN
-        crit.nnn = args.k
-        gt_I, gt_D = ds.get_groundtruth(k=args.k)
-        crit.set_groundtruth(None, gt_I.astype('int64'))
-        op = ps.explore(index, xq, crit)
-    elif ds.search_type == "range":
-        pass
-
-
-    print("Done in %.3f s, available OPs:" % (time.time() - t0))
-
-    op.display()
-
-    print("Re-running evaluation on selected OPs")
-    print(header)
-    opv = op.optimal_pts
-    maxw = max(max(len(opv.at(i).key) for i in range(opv.size())), 40)
-    for i in range(opv.size()):
-        opt = opv.at(i)
-
-        ps.set_index_parameters(index, opt.key)
-
-        print(opt.key.ljust(maxw), end=' ')
-        sys.stdout.flush()
-        eval_setting(
-            index, xq, ds.get_groundtruth(k=args.k),
-            k=args.k, radius=args.radius,
-            inter=args.inter, min_time=args.min_test_duration
-        )
-
-
-def run_experiments_searchparams(ds, index, args):
-    k = args.k
-    xq = ds.get_queries()
-    nq = len(xq)
-
-    ps = faiss.ParameterSpace()
-    ps.initialize(index)
-
-    if args.inter:
-        header = (
-            '%-40s     inter@%3d time(ms/q)   nb distances %%quantization #runs' %
-            ("parameters", args.k)
-        )
-    else:
         header = (
             '%-40s     R@1   R@10  R@100  time(ms/q)   nb distances %%quantization #runs' %
             "parameters"
@@ -404,18 +319,18 @@ def run_experiments_searchparams(ds, index, args):
     print(f"Running evaluation on {len(searchparams)} searchparams")
     print(header)
     maxw = max(max(len(p) for p in searchparams), 40)
+
+    if args.quantizer_on_gpu_search:
+        index_wrap = IndexQuantizerOnGPU(index, args.search_bs)
+    else:
+        index_wrap = index
+
     for params in searchparams:
         ps.set_index_parameters(index, params)
 
         print(params.ljust(maxw), end=' ')
         sys.stdout.flush()
-        eval_setting(
-            index, xq, ds.get_groundtruth(k=args.k),
-            k=args.k, radius=args.radius,
-            inter=args.inter, min_time=args.min_test_duration
-        )
-
-
+        eval_setting(index_wrap, xq, gt, args.k, args.inter, args.min_test_duration)
 
 
 def main():
@@ -433,15 +348,13 @@ def main():
 
     group = parser.add_argument_group('dataset options')
     aa('--dataset', choices=DATASETS.keys(), required=True)
-
     aa('--basedir', help="override basedir for dataset")
 
-    group = parser.add_argument_group('index construction')
+    group = parser.add_argument_group('index consturction')
 
-    aa('--indexkey', default='HNSW32', help='index_factory type')
+    aa('--indexkey', default='IVF1204,Flat', help='index_factory type')
     aa('--by_residual', default=-1, type=int,
         help="set if index should use residuals (default=unchanged)")
-    aa('--M0', default=-1, type=int, help='size of base level')
     aa('--maxtrain', default=0, type=int,
         help='maximum number of training points (0 to set automatically)')
     aa('--indexfile', default='', help='file to read or write index from')
@@ -451,37 +364,30 @@ def main():
         help='disable precomputed tables (uses less memory)')
     aa('--clustering_niter', default=-1, type=int,
        help='number of clustering iterations (-1 = leave default)')
-    aa('--two_level_clustering', action="store_true", default=False,
-       help='perform a 2-level tree clustering')
     aa('--train_on_gpu', default=False, action='store_true',
         help='do training on GPU')
-    aa('--quantizer_efConstruction', default=-1, type=int,
-        help="override the efClustering of the quantizer")
-    aa('--quantizer_add_efSearch', default=-1, type=int,
-        help="override the efSearch of the quantizer at add time")
     aa('--buildthreads', default=-1, type=int,
         help='nb of threads to use at build time')
+    aa('--quantizer_on_gpu_add', action="store_true", default=False,
+        help="use GPU coarse quantizer at add time")
 
     group = parser.add_argument_group('searching')
 
     aa('--k', default=10, type=int, help='nb of nearest neighbors')
-    aa('--radius', default=96237, type=float, help='radius for range search')
     aa('--inter', default=True, action='store_true',
         help='use intersection measure instead of 1-recall as metric')
     aa('--searchthreads', default=-1, type=int,
         help='nb of threads to use at search time')
     aa('--searchparams', nargs='+', default=['autotune'],
         help="search parameters to use (can be autotune or a list of params)")
-    aa('--n_autotune', default=500, type=int,
-        help="max nb of autotune experiments")
-    aa('--autotune_max', default=[], nargs='*',
-        help='set max value for autotune variables format "var:val" (exclusive)')
-    aa('--autotune_range', default=[], nargs='*',
-        help='set complete autotune range, format "var:val1,val2,..."')
     aa('--min_test_duration', default=3.0, type=float,
         help='run test at least for so long to avoid jitter')
+    aa('--quantizer_on_gpu_search', action="store_true", default=False,
+        help="use GPU coarse quantizer at search time")
     aa('--parallel_mode', default=-1, type=int,
         help="set search-time parallel mode for IVF indexes")
+    aa('--search_bs', default=8192, type=int,
+        help='search time batch size (for GPU/CPU tiling)')
 
     group = parser.add_argument_group('computation options')
     aa("--maxRAM", default=100, type=int, help="set max RSS in GB (avoid OOM crash)")
@@ -566,7 +472,6 @@ def main():
             run_experiments_autotune(ds, index, args)
         else:
             run_experiments_searchparams(ds, index, args)
-
 
 if __name__ == "__main__":
     main()

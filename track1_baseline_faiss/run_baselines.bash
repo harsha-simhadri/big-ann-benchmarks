@@ -33,6 +33,10 @@ function run_on_1gpu () {
            --partition=devlab --mem=64g --nodes=1 " "$@"
 }
 
+function run_on_1gpu_learnlab () {
+    run_on "--gres=gpu:1 --ntasks=1 --time=30:00:00 --cpus-per-task=20
+           --partition=learnlab --mem=64g --nodes=1 " "$@"
+}
 function run_on_half_machine () {
     run_on "--gres=gpu:1 --ntasks=1 --time=30:00:00 --cpus-per-task=40
            --partition=learnlab --mem=256g --nodes=1 " "$@"
@@ -207,7 +211,6 @@ for dsname in bigann-1B; do
 
 done
 
-fi
 
 ##############################################################
 # Experiments with 64 bytes per vector
@@ -251,8 +254,7 @@ done
 
 
 
-
-if false; then
+fi
 
 
 ##############################################################
@@ -261,50 +263,132 @@ if false; then
 
 dsname=text2image-10M
 
+if false; then
 
 
-run_on_1gpu $dsname.IVF65k_HNSW.b \
+for nc in 16k 65k; do
+
+    case $nc in
+    16k) ncn=$((1<<14)) ;;
+    65k) ncn=$((1<<16)) ;;
+    esac
+
+    # baseline
+    key=IVF$nc
+    run_on_1gpu $dsname.$key.d \
+        python -u track1_baseline_faiss/baseline_faiss.py \
+            --dataset $dsname --indexfile $basedir/$dsname.$key.faissindex \
+            --indexkey IVF${ncn},Flat --maxtrain $((ncn * 4 * 50)) \
+            --build --search --train_on_gpu
+
+    # loss due to 2-level
+    key=IVF${nc}_2level
+    run_on_1gpu $dsname.$key.d \
+        python -u track1_baseline_faiss/baseline_faiss.py \
+            --dataset $dsname --indexfile $basedir/$dsname.$key.faissindex \
+            --indexkey IVF${ncn},Flat --maxtrain $((ncn * 4 * 50)) \
+            --build --search --two_level_clustering
+
+    # loss due to HNSW
+    key=IVF${nc}_HNSW
+    run_on_1gpu $dsname.$key.d \
+        python -u track1_baseline_faiss/baseline_faiss.py \
+            --dataset $dsname --indexfile $basedir/$dsname.$key.faissindex \
+            --indexkey IVF${ncn}_HNSW32,Flat --maxtrain $((ncn * 4 * 50)) \
+            --quantizer_efConstruction 200 \
+            --quantizer_add_efSearch 80 \
+            --build --search --train_on_gpu
+
+    # loss due to 2-level + HNSW
+    key=IVF${nc}_2level_HNSW
+    run_on_1gpu $dsname.$key.d \
+        python -u track1_baseline_faiss/baseline_faiss.py \
+            --dataset $dsname --indexfile $basedir/$dsname.$key.faissindex \
+            --indexkey IVF${ncn}_HNSW32,Flat --maxtrain $((ncn * 4 * 50)) \
+            --quantizer_efConstruction 200 \
+            --quantizer_add_efSearch 80 \
+            --build --search --two_level_clustering
+
+done
+
+fi
+
+# evaluate various IVF codes
+
+ncn=16384
+
+if false; then
+
+
+key=IVF16k,SQ8
+run_on_1gpu_learnlab $dsname.$key.b \
     python -u track1_baseline_faiss/baseline_faiss.py \
-        --dataset $dsname --indexfile $basedir/$dsname.faissindex \
-        --indexkey PCAR64,IVF65536_HNSW32,Flat --maxtrain $((65536 * 50)) \
-        --quantizer_efConstruction 200 \
-        --quantizer_add_efSearch 80 \
+        --dataset $dsname --indexfile $basedir/$dsname.$key.faissindex \
+        --indexkey RR200,IVF16384,SQ8 --maxtrain $((ncn * 4 * 50)) \
         --build --search --train_on_gpu
 
-
-run_on_1gpu $dsname.IVF65k_2level_HNSW.b \
-     python -u track1_baseline_faiss/baseline_faiss.py \
-        --dataset $dsname --indexfile $basedir/$dsname.IVF65k_2level_HNSW.faissindex \
-        --indexkey PCAR64,IVF65536_HNSW32,Flat --maxtrain $((65536 * 50)) \
-        --quantizer_efConstruction 200 \
-        --quantizer_add_efSearch 80 \
-        --two_level_clustering \
-        --build --search
-
-
-run_on_1gpu $dsname.IVF65k_HNSW_PQ32.b \
+key=IVF16k,SQ8_nores
+run_on_1gpu_learnlab $dsname.$key.b \
     python -u track1_baseline_faiss/baseline_faiss.py \
-        --dataset $dsname --indexfile $basedir/$dsname.faissindex \
-        --indexkey OPQ128_32,IVF65536_HNSW32,PQ32 --maxtrain $((65536 * 50)) \
-        --quantizer_efConstruction 200 \
-        --quantizer_add_efSearch 80 \
+        --dataset $dsname --indexfile $basedir/$dsname.$key.faissindex \
+        --indexkey RR200,IVF16384,SQ8 --maxtrain $((ncn * 4 * 50)) \
+        --build --search --train_on_gpu --by_residual 0
+
+key=IVF16k,SQ6
+run_on_1gpu_learnlab $dsname.$key.b \
+    python -u track1_baseline_faiss/baseline_faiss.py \
+        --dataset $dsname --indexfile $basedir/$dsname.$key.faissindex \
+        --indexkey RR200,IVF16384,SQ6 --maxtrain $((ncn * 4 * 50)) \
         --build --search --train_on_gpu
 
-
-run_on_1gpu $dsname.IVF65k_HNSW_PQ32_nores.b \
+key=IVF16k,SQ6_nores
+run_on_1gpu_learnlab $dsname.$key.b \
     python -u track1_baseline_faiss/baseline_faiss.py \
-        --dataset $dsname --indexfile $basedir/$dsname.faissindex \
-        --indexkey OPQ128_32,IVF65536_HNSW32,PQ32 --maxtrain $((65536 * 50)) \
-        --quantizer_efConstruction 200 \
-        --quantizer_add_efSearch 80 \
+        --dataset $dsname --indexfile $basedir/$dsname.$key.faissindex \
+        --indexkey RR200,IVF16384,SQ6 --maxtrain $((ncn * 4 * 50)) \
         --build --search --train_on_gpu --by_residual 0
 
 
-
-
-run_on_1gpu $dsname.IVF16k.a \
+key=IVF16k,SQ8_PQ32
+run_on_1gpu_learnlab $dsname.$key.a \
     python -u track1_baseline_faiss/baseline_faiss.py \
-        --dataset $dsname --indexfile $basedir/$dsname.IVF16k.faissindex \
-        --indexkey IVF16384,Flat --maxtrain $((65536 * 50)) \
+        --dataset $dsname --indexfile $basedir/$dsname.$key.faissindex \
+        --indexkey OPQ32_128,IVF16384,PQ32 --maxtrain $((ncn * 4 * 50)) \
         --build --search --train_on_gpu
+
+key=IVF16k,SQ8_PQ32_nores
+run_on_1gpu_learnlab $dsname.$key.a \
+    python -u track1_baseline_faiss/baseline_faiss.py \
+        --dataset $dsname --indexfile $basedir/$dsname.$key.faissindex \
+        --indexkey OPQ32_128,IVF16384,PQ32 --maxtrain $((ncn * 4 * 50)) \
+        --build --search --train_on_gpu --by_residual 0
+
 fi
+
+key=IVF16k,SQ4
+run_on_1gpu_learnlab $dsname.$key.b \
+    python -u track1_baseline_faiss/baseline_faiss.py \
+        --dataset $dsname --indexfile $basedir/$dsname.$key.faissindex \
+        --indexkey RR200,IVF16384,SQ4 --maxtrain $((ncn * 4 * 50)) \
+        --build --search --train_on_gpu
+
+key=IVF16k,SQ4_PCAR100
+run_on_1gpu_learnlab $dsname.$key.b \
+    python -u track1_baseline_faiss/baseline_faiss.py \
+        --dataset $dsname --indexfile $basedir/$dsname.$key.faissindex \
+        --indexkey PCAR100,IVF16384,SQ4 --maxtrain $((ncn * 4 * 50)) \
+        --build --search --train_on_gpu
+
+key=IVF16k,RR192_PQ32
+run_on_1gpu_learnlab $dsname.$key.b \
+    python -u track1_baseline_faiss/baseline_faiss.py \
+        --dataset $dsname --indexfile $basedir/$dsname.$key.faissindex \
+        --indexkey RR192,IVF16384,PQ32 --maxtrain $((ncn * 4 * 50)) \
+        --build --search --train_on_gpu
+
+key=IVF16k,RR192_PQ32x12
+run_on_1gpu_learnlab $dsname.$key.b \
+    python -u track1_baseline_faiss/baseline_faiss.py \
+        --dataset $dsname --indexfile $basedir/$dsname.$key.faissindex \
+        --indexkey RR192,IVF16384,PQ32x12 --maxtrain $((ncn * 4 * 50)) \
+        --build --search --train_on_gpu

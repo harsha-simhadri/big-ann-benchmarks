@@ -280,17 +280,15 @@ class DatasetCompetitionFormat(Dataset):
     def get_groundtruth(self, k=None):
         assert self.gt_fn is not None
         fn = self.gt_fn.split("/")[-1]   # in case it's a URL
-        if self.search_type() == "knn":
-            I, D = knn_result_read(os.path.join(self.basedir, fn))
-            assert I.shape[0] == self.nq
-            if k is not None:
-                assert k <= 100
-                I = I[:, :k]
-                D = D[:, :k]
-            return I, D
-        else:
-            nres, I, D = knn_result_read(os.path.join(self.basedir, fn))
-            return nres, I, D
+        assert self.search_type() == "knn"
+
+        I, D = knn_result_read(os.path.join(self.basedir, fn))
+        assert I.shape[0] == self.nq
+        if k is not None:
+            assert k <= 100
+            I = I[:, :k]
+            D = D[:, :k]
+        return I, D
 
     def get_dataset(self):
         assert self.nb <= 10**7, "dataset too large, use iterator"
@@ -331,9 +329,11 @@ class SSNPPDataset(DatasetCompetitionFormat):
     def distance(self):
         return "euclidean"
 
-    def get_groundtruth(self):
+    def get_groundtruth(self, k=None):
         """ override the ground-truth function as this is the only range search dataset """
-        return range_result_read(os.path.join(self.basedir, self.gt_fn))
+        assert self.gt_fn is not None
+        fn = self.gt_fn.split("/")[-1]   # in case it's a URL
+        return range_result_read(os.path.join(self.basedir, fn))
 
 class BigANNDataset(DatasetCompetitionFormat):
     def __init__(self, nb_M=1000):
