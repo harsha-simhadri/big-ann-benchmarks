@@ -37,6 +37,6 @@ python track3_baseline_faiss/gpu_baseline_faiss.py --dataset deep-100M \
          --parallel_mode 3  --quantizer_on_gpu_search
 ```
 
-Example logs [without GPU](https://gist.github.com/mdouze/9e000be47c499f79aaec0166365ef654) and [with GPU](https://gist.github.com/mdouze/cd14c802b924299aa2a92db6e05df857).
+Example logs [without GPU](https://gist.github.com/mdouze/9e000be47c499f79aaec0166365ef654) and [with GPU](https://gist.github.com/mdouze/cd14c802b924299aa2a92db6e05df857) at search time.
 
 
