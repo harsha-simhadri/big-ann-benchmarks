@@ -5,7 +5,7 @@ import subprocess
 from multiprocessing import Pool
 
 
-def build(library, args):
+def build(library, args, dockerfile):
     print('Building %s...' % library)
     if args is not None and len(args) != 0:
         q = " ".join(["--build-arg " + x.replace(" ", "\\ ") for x in args])
@@ -13,9 +13,11 @@ def build(library, args):
         q = ""
 
     try:
-        subprocess.check_call(
-            'docker build %s --rm -t billion-scale-benchmark-%s -f'
-            ' install/Dockerfile.%s .' % (q, library, library), shell=True)
+        command = 'docker build %s --rm -t billion-scale-benchmark-%s -f' \
+                    % (q, library )
+        command += ' install/Dockerfile.%s .' % (library)  \
+                    if not dockerfile else ' %s .' % dockerfile
+        subprocess.check_call(command, shell=True)
         return {library: 'success'}
     except subprocess.CalledProcessError:
         return {library: 'fail'}
@@ -39,6 +41,11 @@ if __name__ == "__main__":
         help='build only the named algorithm image',
         default=None)
     parser.add_argument(
+        '--dockerfile',
+        metavar='PATH',
+        help='build only the image from a Dockerfile path',
+        default=None)
+    parser.add_argument(
         '--build-arg',
         help='pass given args to all docker builds',
         nargs="+")
@@ -49,7 +56,9 @@ if __name__ == "__main__":
         'docker build \
         --rm -t billion-scale-benchmark -f install/Dockerfile .', shell=True)
 
-    if args.algorithm:
+    if args.dockerfile:
+        tags = [os.path.basename(os.path.dirname(args.dockerfile))]
+    elif args.algorithm:
         tags = [args.algorithm]
     elif os.getenv('LIBRARY'):
         tags = [os.getenv('LIBRARY')]
@@ -59,10 +68,10 @@ if __name__ == "__main__":
     print('Building algorithm images... with (%d) processes' % args.proc)
 
     if args.proc == 1:
-        install_status = [build(tag, args.build_arg) for tag in tags]
+        install_status = [build(tag, args.build_arg, args.dockerfile) for tag in tags ]
     else:
         pool = Pool(processes=args.proc)
-        install_status = pool.map(build_multiprocess, [(tag, args.build_arg) for tag in tags])
+        install_status = pool.map(build_multiprocess, [(tag, args.build_arg, args.dockerfile) for tag in tags ])
         pool.close()
         pool.join()
 
