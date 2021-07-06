@@ -1,0 +1,12 @@
+float:
+  any:
+    faiss-ivf-gpu:
+      docker-tag: billion-scale-benchmark-faiss_gpu
+      module: benchmark.algorithms.faiss_gpu
+      constructor: FaissIVFGPU
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: [[1024]]
+          query-args: [[1, 5, 10, 50, 100, 200]]
+

@@ -18,7 +18,7 @@ from benchmark.algorithms.definitions import (get_definitions,
                                                    algorithm_status,
                                                    InstantiationStatus)
 from benchmark.results import get_result_filename
-from benchmark.runner import run, run_docker
+from benchmark.runner import run, run_docker, run_no_docker
 
 from benchmark.sensors.power_capture import power_capture
 
@@ -41,9 +41,15 @@ def run_worker(args, queue):
         #mem_limit = 128e9 # 128gb for competition
         cpu_limit = "0-%d" % (multiprocessing.cpu_count() - 1)
 
-        run_docker(definition, args.dataset, args.count,
+        if args.nodocker:
+            run_no_docker(definition, args.dataset, args.count,
                    args.runs, args.timeout, args.rebuild, cpu_limit, mem_limit,
-                    args.power_capture )
+                    args.t3, args.power_capture)
+
+        else:
+            run_docker(definition, args.dataset, args.count,
+                       args.runs, args.timeout, args.rebuild, cpu_limit, mem_limit,
+                        args.t3, args.power_capture )
 
 
 def main():
@@ -110,8 +116,17 @@ def main():
         help='Power capture parameters for the T3 competition. '
             'Format is "ip:port:capture_time_in seconds" (ie, 127.0.0.1:3000:10).',
         default="")
+    parser.add_argument(
+        '--t3',
+        help='Run as a T3 participant.',
+        action='store_true')
+    parser.add_argument(
+        '--nodocker',
+        help='Override default of invoking algorithm in docker container.',
+        action='store_true')
 
     args = parser.parse_args()
+    print("ARGS", args)
     if args.timeout == -1:
         args.timeout = None
 

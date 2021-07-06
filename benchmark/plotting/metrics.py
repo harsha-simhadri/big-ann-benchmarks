@@ -1,6 +1,7 @@
 from __future__ import absolute_import
 import numpy as np
 
+from benchmark.sensors.power_capture import power_capture
 
 def get_recall_values(true_nn, run_nn, count):
     true_nn = true_nn[:, :count]
@@ -42,18 +43,7 @@ def dist_computations(queries, attrs):
     return attrs.get("dist_comps", 0) / (attrs['run_count'] * len(queries))
 
 def watt_seconds_per_query(queries, attrs):
-
-    # query set was run many times ( queries )
-    tot_queries = len(queries) * attrs["power_run_count"]
-
-    # power consumption during that time ( watt * seconds )
-    tot_power_cons = attrs["power_consumption"]
-
-    # we want (watt*second)/query
-    # ie, energy use per query
-    calc = tot_power_cons/tot_queries
-
-    return calc
+    return power_capture.compute_watt_seconds_per_query(queries, attrs )
 
 all_metrics = {
     "k-nn": {
@@ -89,7 +79,7 @@ all_metrics = {
     },
     "wspq": {
         "description": "Watt seconds per query (watt*s/query)",
-        "function": lambda true_nn, run_nn, metrics, run_attrs: watt_seconds_per_query(true_nn, run_attrs),  # noqa
+        "function": lambda true_nn, run_nn, metrics, run_attrs: watt_seconds_per_query(true_nn, run_attrs),  
         "worst": float("-inf")
     },
 
