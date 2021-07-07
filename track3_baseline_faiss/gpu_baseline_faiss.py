@@ -7,6 +7,7 @@ import numpy as np
 import faiss
 import argparse
 import resource
+import threading
 from multiprocessing.pool import ThreadPool
 
 import benchmark.datasets
@@ -168,30 +169,36 @@ def build_index(args, ds):
                 faiss.get_mem_usage_kb()))
             index.add(xblock)
             i0 = i1
-    else:
+    elif True:
         quantizer_gpu = faiss.index_cpu_to_all_gpus(index_ivf.quantizer)
 
-        def produce_batches():
-            for xblock in ds.get_dataset_iterator(bs=args.add_bs):
+        nsplit = args.add_splits
+
+        def produce_batches(sno):
+            for xblock in ds.get_dataset_iterator(bs=args.add_bs, split=(nsplit, sno)):
                 _, assign = quantizer_gpu.search(xblock, 1)
                 yield xblock, assign.ravel()
 
-        stage2 = rate_limited_iter(produce_batches())
         i0 = 0
-        for xblock, assign in stage2:
-            i1 = i0 + len(xblock)
-            print("  adding %d:%d / %d [%.3f s, RSS %d kiB] " % (
-                i0, i1, ds.nb, time.time() - t0,
-                faiss.get_mem_usage_kb()))
-            index.add_core(
-                len(xblock),
-                faiss.swig_ptr(xblock),
-                None,
-                faiss.swig_ptr(assign)
-            )
-            i0 = i1
+        for sno in range(nsplit):
+            print(f"============== SPLIT {sno}/{nsplit}")
+
+            stage2 = rate_limited_iter(produce_batches(sno))
+            for xblock, assign in stage2:
+                i1 = i0 + len(xblock)
+                print("  adding %d:%d / %d [%.3f s, RSS %d kiB] " % (
+                    i0, i1, ds.nb, time.time() - t0,
+                    faiss.get_mem_usage_kb()))
+                index.add_core(
+                    len(xblock),
+                    faiss.swig_ptr(xblock),
+                    None,
+                    faiss.swig_ptr(assign)
+                )
+                i0 = i1
         del quantizer_gpu
         gc.collect()
+
 
     print("  add in %.3f s" % (time.time() - t0))
     if args.indexfile:
@@ -370,6 +377,8 @@ def main():
         help='nb of threads to use at build time')
     aa('--quantizer_on_gpu_add', action="store_true", default=False,
         help="use GPU coarse quantizer at add time")
+    aa('--add_splits', default=1, type=int,
+        help="Do adds in this many splits (otherwise risk of OOM with GPU based adds)")
 
     group = parser.add_argument_group('searching')
 
@@ -390,7 +399,7 @@ def main():
         help='search time batch size (for GPU/CPU tiling)')
 
     group = parser.add_argument_group('computation options')
-    aa("--maxRAM", default=100, type=int, help="set max RSS in GB (avoid OOM crash)")
+    aa("--maxRAM", default=-1, type=int, help="set max RSS in GB (avoid OOM crash)")
 
 
     args = parser.parse_args()
