@@ -12,6 +12,11 @@ import benchmark.datasets
 from benchmark.datasets import DATASETS
 from benchmark import eval_range_search
 
+####################################################################
+# Index building functions
+####################################################################
+
+
 def two_level_clustering(xt, nc1, nc2, clustering_niter=25, spherical=False):
     d = xt.shape[1]
 
@@ -234,6 +239,10 @@ def build_index(args, ds):
 
     return index
 
+####################################################################
+# Evaluation functions
+####################################################################
+
 
 def compute_inter(a, b):
     nq, rank = a.shape
@@ -244,36 +253,22 @@ def compute_inter(a, b):
     return ninter / a.size
 
 
-
-
-def eval_setting(index, xq, gt, k=0, radius=0, inter=False, min_time=3.0):
+def eval_setting_knn(index, xq, gt, k=0, inter=False, min_time=3.0):
     nq = xq.shape[0]
-    is_range = len(gt) == 3
-    if not is_range: # knn search
-        gt_I, gt_D = gt
-    else:
-        gt_nres, gt_I, gt_D = gt
-        gt_lims = np.zeros(nq + 1, dtype=int)
-        gt_lims[1:] = np.cumsum(gt_nres)
+    gt_I, gt_D = gt
     ivf_stats = faiss.cvar.indexIVF_stats
     ivf_stats.reset()
     nrun = 0
     t0 = time.time()
     while True:
-        if is_range:
-            lims, D, I = index.range_search(xq, radius)
-        else:
-            D, I = index.search(xq, k)
+        D, I = index.search(xq, k)
         nrun += 1
         t1 = time.time()
         if t1 - t0 > min_time:
             break
     ms_per_query = ((t1 - t0) * 1000.0 / nq / nrun)
 
-    if is_range:
-        ap = eval_range_search.compute_AP((gt_lims, gt_I, gt_D), (lims, I, D))
-        print("%.4f" % ap, end=' ')
-    elif inter:
+    if inter:
         rank = k
         inter_measure = compute_inter(gt_I[:, :rank], I[:, :rank])
         print("%.4f" % inter_measure, end=' ')
@@ -283,14 +278,36 @@ def eval_setting(index, xq, gt, k=0, radius=0, inter=False, min_time=3.0):
             print("%.4f" % (n_ok / float(nq)), end=' ')
     print("   %9.5f  " % ms_per_query, end=' ')
 
-    if is_range:
-        print("%12d  %5d  " % (ivf_stats.ndis / nrun, D.size), end=' ')
-    elif ivf_stats.search_time == 0:
+    if ivf_stats.search_time == 0:
         # happens for IVFPQFastScan where the stats are not logged by default
         print("%12d  %5.2f  " % (ivf_stats.ndis / nrun, 0.0), end=' ')
     else:
         pc_quantizer = ivf_stats.quantization_time / ivf_stats.search_time * 100
         print("%12d  %5.2f  " % (ivf_stats.ndis / nrun, pc_quantizer), end=' ')
+    print(nrun)
+
+def eval_setting_range(index, xq, gt, radius=0, inter=False, min_time=3.0):
+    nq = xq.shape[0]
+    gt_nres, gt_I, gt_D = gt
+    gt_lims = np.zeros(nq + 1, dtype=int)
+    gt_lims[1:] = np.cumsum(gt_nres)
+    ivf_stats = faiss.cvar.indexIVF_stats
+    ivf_stats.reset()
+    nrun = 0
+    t0 = time.time()
+    while True:
+        lims, D, I = index.range_search(xq, radius)
+        nrun += 1
+        t1 = time.time()
+        if t1 - t0 > min_time:
+            break
+    ms_per_query = ((t1 - t0) * 1000.0 / nq / nrun)
+
+    ap = eval_range_search.compute_AP((gt_lims, gt_I, gt_D), (lims, I, D))
+    print("%.4f" % ap, end=' ')
+    print("   %9.5f  " % ms_per_query, end=' ')
+
+    print("%12d  %5d  " % (ivf_stats.ndis / nrun, D.size), end=' ')
     print(nrun)
 
 
@@ -319,7 +336,152 @@ def result_header(ds, args):
         )
     return header, crit
 
+def op_compute_bounds(ps, ops, cno):
+    # lower_bound_t = 0.0
+    # upper_bound_perf = 1.0
+    bounds = np.array([0, 1], dtype="float64")
+    sp = faiss.swig_ptr
+    for i in range(ops.all_pts.size()):
+        ps.update_bounds(cno, ops.all_pts.at(i), sp(bounds[1:2]), sp(bounds[0:1]))
+    # lower_bound_t, upper_bound_perf
+    return bounds[0], bounds[1]
+
+
+
+def explore_parameter_space_range(index, xq, gt, ps, radius):
+    """ exploration of the parameter space for range search, using the
+    Average Precision as
+
+    """
+
+    n_experiments = ps.n_experiments
+    n_comb = ps.n_combinations()
+    min_time = ps.min_test_duration
+    verbose = ps.verbose
+
+    gt_nres, gt_I, gt_D = gt
+    gt_lims = np.zeros(len(gt_nres) + 1, dtype=int)
+    gt_lims[1:] = np.cumsum(gt_nres)
+    gt = (gt_lims, gt_I, gt_D)
+
+    ops = faiss.OperatingPoints()
+
+    def run_1_experiment(cno):
+        ps.set_index_parameters(index, cno)
+
+        nrun = 0
+        t0 = time.time()
+        while True:
+            lims, D, I = index.range_search(xq, radius)
+            nrun += 1
+            t1 = time.time()
+            if t1 - t0 > min_time:
+                break
+
+        t_search = (t1 - t0) / nrun
+        perf = eval_range_search.compute_AP(gt, (lims, I, D))
+        keep = ops.add(perf, t_search, ps.combination_name(cno), cno)
+
+        return perf, t_search, nrun, keep
+
+    if n_experiments == 0:
+        # means exhaustive run
+        for cno in range(n_comb):
+            perf, t_search, nrun, keep = run_1_experiment(cno)
+
+            if verbose:
+                print("  %d/%d: %s perf=%.3f t=%.3f s %s" % (
+                       cno, n_comb,
+                       ps.combination_name(cno),
+                       perf, t_search, "*" if keep else ""))
+        return ops
+
+    n_experiments = min(n_experiments, n_comb)
+
+    perm = np.zeros(n_experiments, int)
+    # make sure the slowest and fastest experiment are run
+    perm[0] = 0
+    perm[1] = n_comb - 1
+    rs = np.random.RandomState(1234)
+    perm[2:] = 1 + rs.choice(n_comb - 2, n_experiments - 2, replace=False)
+
+    for xp, cno in enumerate(perm):
+        cno = int(cno)
+        if verbose:
+            print("  %d/%d: cno=%d %s " % (
+                xp, n_experiments, cno, ps.combination_name(cno)),
+                end="", flush=True)
+
+        # check if we can skip this experiment
+        lower_bound_t, upper_bound_perf = op_compute_bounds(ps, ops, cno)
+
+        best_t = ops.t_for_perf(upper_bound_perf)
+
+        if verbose:
+            print("bounds [perf<=%.3f t>=%.3f] " % (
+                upper_bound_perf, lower_bound_t),
+                end="skip\n" if best_t <= lower_bound_t else " "
+            )
+        if best_t <= lower_bound_t:
+            continue
+
+        perf, t_search, nrun, keep = run_1_experiment(cno)
+
+        if verbose:
+            print(" perf %.3f t %.3f (%d %s) %s" % (
+                   perf, t_search, nrun,
+                   "runs" if nrun >= 2 else "run",
+                   "*" if keep else ""))
+
+    return ops
+
+
+####################################################################
+# Driver functions
+####################################################################
+
+
+
+def run_experiments_searchparams(ds, index, args):
+    """
+    Evaluate a predefined set of runtime parameters
+    """
+    k = args.k
+    xq = ds.get_queries()
+    nq = len(xq)
+
+    ps = faiss.ParameterSpace()
+    ps.initialize(index)
+
+    header, _ = result_header(ds, args)
+
+    searchparams = args.searchparams
+
+    print(f"Running evaluation on {len(searchparams)} searchparams")
+    print(header)
+    maxw = max(max(len(p) for p in searchparams), 40)
+    for params in searchparams:
+        ps.set_index_parameters(index, params)
+
+        print(params.ljust(maxw), end=' ')
+        sys.stdout.flush()
+
+        if ds.search_type() == "knn":
+            eval_setting_knn(
+                index, xq, ds.get_groundtruth(k=args.k),
+                k=args.k,
+                inter=args.inter, min_time=args.min_test_duration
+            )
+        else:
+            eval_setting_range(
+                index, xq, ds.get_groundtruth(k=args.k),
+                radius=args.radius,
+                inter=args.inter, min_time=args.min_test_duration
+            )
+
+
 def run_experiments_autotune(ds, index, args):
+    """ Explore the space of parameters and keep Pareto-optimal ones. """
     k = args.k
 
     xq = ds.get_queries()
@@ -347,7 +509,6 @@ def run_experiments_autotune(ds, index, args):
         pr = ps.add_range(k)
         faiss.copy_array_to_vector(vals, pr.values)
 
-
     header, crit = result_header(ds, args)
 
     # then we let Faiss find the optimal parameters by itself
@@ -362,12 +523,14 @@ def run_experiments_autotune(ds, index, args):
         gt_I, gt_D = ds.get_groundtruth(k=args.k)
         crit.set_groundtruth(None, gt_I.astype('int64'))
         op = ps.explore(index, xq, crit)
-    elif ds.search_type == "range":
-        pass
-
+    elif ds.search_type() == "range":
+        op = explore_parameter_space_range(
+            index, xq, ds.get_groundtruth(), ps, args.radius
+        )
+    else:
+        assert False
 
     print("Done in %.3f s, available OPs:" % (time.time() - t0))
-
     op.display()
 
     print("Re-running evaluation on selected OPs")
@@ -381,40 +544,24 @@ def run_experiments_autotune(ds, index, args):
 
         print(opt.key.ljust(maxw), end=' ')
         sys.stdout.flush()
-        eval_setting(
-            index, xq, ds.get_groundtruth(k=args.k),
-            k=args.k, radius=args.radius,
-            inter=args.inter, min_time=args.min_test_duration
-        )
+        if ds.search_type() == "knn":
+            eval_setting_knn(
+                index, xq, ds.get_groundtruth(k=args.k),
+                k=args.k,
+                inter=args.inter, min_time=args.min_test_duration
+            )
+        else:
+            eval_setting_range(
+                index, xq, ds.get_groundtruth(k=args.k),
+                radius=args.radius,
+                inter=args.inter, min_time=args.min_test_duration
+            )
 
 
-def run_experiments_searchparams(ds, index, args):
-    k = args.k
-    xq = ds.get_queries()
-    nq = len(xq)
 
-    ps = faiss.ParameterSpace()
-    ps.initialize(index)
-
-    header, _ = result_header(ds, args)
-
-    searchparams = args.searchparams
-
-    print(f"Running evaluation on {len(searchparams)} searchparams")
-    print(header)
-    maxw = max(max(len(p) for p in searchparams), 40)
-    for params in searchparams:
-        ps.set_index_parameters(index, params)
-
-        print(params.ljust(maxw), end=' ')
-        sys.stdout.flush()
-        eval_setting(
-            index, xq, ds.get_groundtruth(k=args.k),
-            k=args.k, radius=args.radius,
-            inter=args.inter, min_time=args.min_test_duration
-        )
-
-
+####################################################################
+# Main
+####################################################################
 
 
 def main():
@@ -483,7 +630,7 @@ def main():
         help="set search-time parallel mode for IVF indexes")
 
     group = parser.add_argument_group('computation options')
-    aa("--maxRAM", default=100, type=int, help="set max RSS in GB (avoid OOM crash)")
+    aa("--maxRAM", default=-1, type=int, help="set max RSS in GB (avoid OOM crash)")
 
 
     args = parser.parse_args()

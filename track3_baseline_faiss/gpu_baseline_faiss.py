@@ -399,7 +399,7 @@ def main():
         help='search time batch size (for GPU/CPU tiling)')
 
     group = parser.add_argument_group('computation options')
-    aa("--maxRAM", default=100, type=int, help="set max RSS in GB (avoid OOM crash)")
+    aa("--maxRAM", default=-1, type=int, help="set max RSS in GB (avoid OOM crash)")
 
 
     args = parser.parse_args()

@@ -162,6 +162,7 @@ for dsname in bigann-100M deep-100M msturing-100M msspacev-100M; do
 
 done
 
+fi
 
 ##############################################################
 # Experiments on scale 1B
@@ -175,15 +176,14 @@ done
 # msspace-1B may need to redo experiments because of ties in distance computations
 
 # for dsname in bigann-1B deep-1B msturing-1B msspacev-1B; do
-for dsname in bigann-1B; do
+# for dsname in bigann-1B; do
+for dsname in ssnpp-1B; do
     for nc in 1M 4M; do
-
 
         case $nc in
         1M) ncn=$((1<<20)) ;;
         4M) ncn=$((1<<22)) ;;
         esac
-
 
         name=$dsname.IVF${nc}_2level_PQ32
 
@@ -198,6 +198,8 @@ for dsname in bigann-1B; do
                 --search --searchthreads 32 \
                 --maxRAM 256
 
+        if false; then
+
         name=$dsname.IVF${nc}_2level_PQ64x4fsr
 
         run_on_half_machine $name.a \
@@ -211,11 +213,12 @@ for dsname in bigann-1B; do
                 --build --search --searchthreads 32 \
                 --maxRAM 256
 
-
+        fi
     done
 
 done
 
+if false; then
 
 ##############################################################
 # Experiments with 64 bytes per vector
@@ -393,7 +396,6 @@ run_on_1gpu_learnlab $dsname.$key.b \
         --indexkey RR192,IVF16384,PQ32x12 --maxtrain $((ncn * 4 * 50)) \
         --build --search --train_on_gpu
 
-fi
 
 
 ##############################################################
@@ -403,11 +405,13 @@ fi
 basedir=data/track3_baseline_faiss
 dsname=deep-1B
 
-if false; then
+#.a: run with a too tight limit in RAM
+#.b: increased RAM
 
 key=IVF262k,PQ8
-run_on_2gpu_ram256 T3.$dsname.$key.a \
+run_on_2gpu_ram256 T3.$dsname.$key.b \
     python -u track3_baseline_faiss/gpu_baseline_faiss.py \
+        --maxRAM 256 \
         --dataset  $dsname --indexkey IVF$((1<<18)),SQ8 \
         --build \
         --searchparams nprobe={1,4,16,64,256,1024} \
@@ -417,11 +421,11 @@ run_on_2gpu_ram256 T3.$dsname.$key.a \
         --search \
         --parallel_mode 3  --quantizer_on_gpu_search
 
-fi
 
 key=IVF1M,PQ8
-run_on_2gpu_ram256 T3.$dsname.$key.a \
+run_on_2gpu_ram256 T3.$dsname.$key.b \
     python -u track3_baseline_faiss/gpu_baseline_faiss.py \
+        --maxRAM 256 \
         --dataset  $dsname --indexkey IVF$((1<<20)),SQ8 \
         --build \
         --searchparams nprobe={1,4,16,64,256,1024} \
@@ -430,3 +434,6 @@ run_on_2gpu_ram256 T3.$dsname.$key.a \
         --add_splits 30 \
         --search \
         --parallel_mode 3  --quantizer_on_gpu_search
+
+
+fi
