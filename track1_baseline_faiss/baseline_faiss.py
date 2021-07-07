@@ -252,8 +252,9 @@ def eval_setting(index, xq, gt, k=0, radius=0, inter=False, min_time=3.0):
     if not is_range: # knn search
         gt_I, gt_D = gt
     else:
-        assert len(gt) == 3
-
+        gt_nres, gt_I, gt_D = gt
+        gt_lims = np.zeros(nq + 1, dtype=int)
+        gt_lims[1:] = np.cumsum(gt_nres)
     ivf_stats = faiss.cvar.indexIVF_stats
     ivf_stats.reset()
     nrun = 0
@@ -270,7 +271,7 @@ def eval_setting(index, xq, gt, k=0, radius=0, inter=False, min_time=3.0):
     ms_per_query = ((t1 - t0) * 1000.0 / nq / nrun)
 
     if is_range:
-        ap = eval_range_search.compute_AP(gt, (lims, I, D))
+        ap = eval_range_search.compute_AP((gt_lims, gt_I, gt_D), (lims, I, D))
         print("%.4f" % ap, end=' ')
     elif inter:
         rank = k
@@ -282,7 +283,9 @@ def eval_setting(index, xq, gt, k=0, radius=0, inter=False, min_time=3.0):
             print("%.4f" % (n_ok / float(nq)), end=' ')
     print("   %9.5f  " % ms_per_query, end=' ')
 
-    if ivf_stats.search_time == 0:
+    if is_range:
+        print("%12d  %5d  " % (ivf_stats.ndis / nrun, D.size), end=' ')
+    elif ivf_stats.search_time == 0:
         # happens for IVFPQFastScan where the stats are not logged by default
         print("%12d  %5.2f  " % (ivf_stats.ndis / nrun, 0.0), end=' ')
     else:
@@ -291,6 +294,30 @@ def eval_setting(index, xq, gt, k=0, radius=0, inter=False, min_time=3.0):
     print(nrun)
 
 
+def result_header(ds, args):
+
+    # setup the Criterion object
+    if ds.search_type() == "range":
+        header = (
+            '%-40s     AP    time(ms/q)   nb distances nb_res #runs' %
+            "parameters"
+        )
+        crit = None
+    elif args.inter:
+        print("Optimize for intersection @ ", args.k)
+        crit = faiss.IntersectionCriterion(nq, args.k)
+        header = (
+            '%-40s     inter@%3d time(ms/q)   nb distances %%quantization #runs' %
+            ("parameters", args.k)
+        )
+    else:
+        print("Optimize for 1-recall @ 1")
+        crit = faiss.OneRecallAtRCriterion(nq, 1)
+        header = (
+            '%-40s     R@1   R@10  R@100  time(ms/q)   nb distances %%quantization #runs' %
+            "parameters"
+        )
+    return header, crit
 
 def run_experiments_autotune(ds, index, args):
     k = args.k
@@ -320,26 +347,8 @@ def run_experiments_autotune(ds, index, args):
         pr = ps.add_range(k)
         faiss.copy_array_to_vector(vals, pr.values)
 
-    # setup the Criterion object
-    if ds.search_type() == "range":
-        header = (
-            '%-40s     AP    time(ms/q)   nb distances %%quantization #runs' %
-            "parameters"
-        )
-    elif args.inter:
-        print("Optimize for intersection @ ", args.k)
-        crit = faiss.IntersectionCriterion(nq, args.k)
-        header = (
-            '%-40s     inter@%3d time(ms/q)   nb distances %%quantization #runs' %
-            ("parameters", args.k)
-        )
-    else:
-        print("Optimize for 1-recall @ 1")
-        crit = faiss.OneRecallAtRCriterion(nq, 1)
-        header = (
-            '%-40s     R@1   R@10  R@100  time(ms/q)   nb distances %%quantization #runs' %
-            "parameters"
-        )
+
+    header, crit = result_header(ds, args)
 
     # then we let Faiss find the optimal parameters by itself
     print("exploring operating points, %d threads" % faiss.omp_get_max_threads());
@@ -387,16 +396,7 @@ def run_experiments_searchparams(ds, index, args):
     ps = faiss.ParameterSpace()
     ps.initialize(index)
 
-    if args.inter:
-        header = (
-            '%-40s     inter@%3d time(ms/q)   nb distances %%quantization #runs' %
-            ("parameters", args.k)
-        )
-    else:
-        header = (
-            '%-40s     R@1   R@10  R@100  time(ms/q)   nb distances %%quantization #runs' %
-            "parameters"
-        )
+    header, _ = result_header(ds, args)
 
     searchparams = args.searchparams
 

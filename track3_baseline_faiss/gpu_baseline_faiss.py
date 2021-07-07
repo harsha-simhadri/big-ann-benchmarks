@@ -169,36 +169,10 @@ def build_index(args, ds):
                 faiss.get_mem_usage_kb()))
             index.add(xblock)
             i0 = i1
-    elif False:
-        quantizer_gpu = faiss.index_cpu_to_all_gpus(index_ivf.quantizer)
-
-        def produce_batches():
-            for xblock in ds.get_dataset_iterator(bs=args.add_bs):
-                _, assign = quantizer_gpu.search(xblock, 1)
-                print("yield block")
-                yield xblock, assign.ravel()
-
-        stage2 = rate_limited_iter(produce_batches())
-        i0 = 0
-        for xblock, assign in stage2:
-            i1 = i0 + len(xblock)
-            print("  adding %d:%d / %d [%.3f s, RSS %d kiB] " % (
-                i0, i1, ds.nb, time.time() - t0,
-                faiss.get_mem_usage_kb()))
-            index.add_core(
-                len(xblock),
-                faiss.swig_ptr(xblock),
-                None,
-                faiss.swig_ptr(assign)
-            )
-            i0 = i1
-        del quantizer_gpu
-        gc.collect()
-
     elif True:
         quantizer_gpu = faiss.index_cpu_to_all_gpus(index_ivf.quantizer)
 
-        nsplit = 10
+        nsplit = args.add_splits
 
         def produce_batches(sno):
             for xblock in ds.get_dataset_iterator(bs=args.add_bs, split=(nsplit, sno)):
@@ -207,7 +181,7 @@ def build_index(args, ds):
 
         i0 = 0
         for sno in range(nsplit):
-            print("============== SPLIT", sno)
+            print(f"============== SPLIT {sno}/{nsplit}")
 
             stage2 = rate_limited_iter(produce_batches(sno))
             for xblock, assign in stage2:
@@ -222,99 +196,6 @@ def build_index(args, ds):
                     faiss.swig_ptr(assign)
                 )
                 i0 = i1
-        del quantizer_gpu
-        gc.collect()
-
-    elif False:
-        quantizer_gpu = faiss.index_cpu_to_all_gpus(index_ivf.quantizer)
-        pool1 = ThreadPool(1)
-        pdb.set_trace()
-        the_i0 = [0]
-        def add_block_to_index(xblock, assign):
-            i0 = the_i0[0]
-            i1 = i0 + len(xblock)
-            print("  adding %d:%d / %d [%.3f s, RSS %d kiB] " % (
-                i0, i1, ds.nb, time.time() - t0,
-                faiss.get_mem_usage_kb()))
-            index.add_core(
-                len(xblock),
-                faiss.swig_ptr(xblock),
-                None,
-                faiss.swig_ptr(assign)
-            )
-            the_i0[0] = i1
-
-        prev = None
-
-        for xblock in ds.get_dataset_iterator(bs=args.add_bs):
-            if prev is not None:
-                res_next = pool1.apply_async(add_block_to_index, prev)
-            else:
-                res_next = None
-            _, assign = quantizer_gpu.search(xblock, 1)
-
-            if res_next is not None:
-                # wait for add to finish
-                res_next.get()
-            prev = (xblock, assign.ravel())
-
-        add_block_to_index(*prev)
-        del quantizer_gpu
-        gc.collect()
-
-    else:
-        quantizer_gpu = faiss.index_cpu_to_all_gpus(index_ivf.quantizer)
-
-        todo = [None]
-        cv = threading.Condition()
-
-        def add_loop():
-            i0 = 0
-            print("add_loop start")
-            while True:
-                with cv:
-                    while todo[0] is None:
-                        cv.wait()
-                    # print("GET")
-                    the_todo = todo[0]
-                    todo[0] = None
-                    cv.notify()
-
-                if the_todo is "stop":
-                    print("add_loop stop")
-                    return
-                xblock, assign = the_todo
-
-                i1 = i0 + len(xblock)
-                print("  adding %d:%d / %d [%.3f s, RSS %d kiB] " % (
-                    i0, i1, ds.nb, time.time() - t0,
-                    faiss.get_mem_usage_kb()))
-                index.add_core(
-                    len(xblock),
-                    faiss.swig_ptr(xblock),
-                    None,
-                    faiss.swig_ptr(assign)
-                )
-                i0 = i1
-
-        thr = threading.Thread(target=add_loop)
-        thr.start()
-        for xblock in ds.get_dataset_iterator(bs=args.add_bs):
-            _, assign = quantizer_gpu.search(xblock, 1)
-
-            with cv:
-                while todo[0] is not None:
-                    cv.wait()
-                todo[0] = (xblock, assign.ravel())
-                cv.notify()
-
-        with cv:
-            while todo[0] is not None:
-                cv.wait()
-            todo[0] = "stop"
-
-        thr.join()
-
         del quantizer_gpu
         gc.collect()
 
@@ -496,6 +377,8 @@ def main():
         help='nb of threads to use at build time')
     aa('--quantizer_on_gpu_add', action="store_true", default=False,
         help="use GPU coarse quantizer at add time")
+    aa('--add_splits', default=1, type=int,
+        help="Do adds in this many splits (otherwise risk of OOM with GPU based adds)")
 
     group = parser.add_argument_group('searching')
 

@@ -42,6 +42,11 @@ function run_on_half_machine () {
            --partition=learnlab --mem=256g --nodes=1 " "$@"
 }
 
+function run_on_2gpu_ram256 () {
+    run_on "--gres=gpu:2 --ntasks=1 --time=30:00:00 --cpus-per-task=20
+           --partition=learnlab --mem=256g --nodes=1 " "$@"
+}
+
 
 
 ##############################################################
@@ -254,7 +259,6 @@ done
 
 
 
-fi
 
 
 ##############################################################
@@ -263,7 +267,6 @@ fi
 
 dsname=text2image-10M
 
-if false; then
 
 
 for nc in 16k 65k; do
@@ -311,13 +314,11 @@ for nc in 16k 65k; do
 
 done
 
-fi
 
 # evaluate various IVF codes
 
 ncn=16384
 
-if false; then
 
 
 key=IVF16k,SQ8
@@ -363,7 +364,6 @@ run_on_1gpu_learnlab $dsname.$key.a \
         --indexkey OPQ32_128,IVF16384,PQ32 --maxtrain $((ncn * 4 * 50)) \
         --build --search --train_on_gpu --by_residual 0
 
-fi
 
 key=IVF16k,SQ4
 run_on_1gpu_learnlab $dsname.$key.b \
@@ -392,3 +392,41 @@ run_on_1gpu_learnlab $dsname.$key.b \
         --dataset $dsname --indexfile $basedir/$dsname.$key.faissindex \
         --indexkey RR192,IVF16384,PQ32x12 --maxtrain $((ncn * 4 * 50)) \
         --build --search --train_on_gpu
+
+fi
+
+
+##############################################################
+# GPU based search  (T3)
+##############################################################
+
+basedir=data/track3_baseline_faiss
+dsname=deep-1B
+
+if false; then
+
+key=IVF262k,PQ8
+run_on_2gpu_ram256 T3.$dsname.$key.a \
+    python -u track3_baseline_faiss/gpu_baseline_faiss.py \
+        --dataset  $dsname --indexkey IVF$((1<<18)),SQ8 \
+        --build \
+        --searchparams nprobe={1,4,16,64,256,1024} \
+        --train_on_gpu  --quantizer_on_gpu_add  \
+        --indexfile $basedir/$dsname.$key.faissindex \
+        --add_splits 30 \
+        --search \
+        --parallel_mode 3  --quantizer_on_gpu_search
+
+fi
+
+key=IVF1M,PQ8
+run_on_2gpu_ram256 T3.$dsname.$key.a \
+    python -u track3_baseline_faiss/gpu_baseline_faiss.py \
+        --dataset  $dsname --indexkey IVF$((1<<20)),SQ8 \
+        --build \
+        --searchparams nprobe={1,4,16,64,256,1024} \
+        --train_on_gpu  --quantizer_on_gpu_add  \
+        --indexfile $basedir/$dsname.$key.faissindex \
+        --add_splits 30 \
+        --search \
+        --parallel_mode 3  --quantizer_on_gpu_search
