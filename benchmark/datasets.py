@@ -771,6 +771,6 @@ DATASETS = {
 
     'sift-1M-T3': BigANNDatasetT3(1),
     'sift-10M-T3': BigANNDatasetT3(10),
-    'sift-100M-T3': BigANNDatasetT3(100)
+    'sift-100M-T3': BigANNDatasetT3(100),
     'sift-1B-T3': BigANNDatasetT3(1000)
 }
