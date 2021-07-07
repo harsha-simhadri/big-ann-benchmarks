@@ -19,7 +19,7 @@ The GPU can be used in the following phases:
 
 - training: `--train_with_gpu` will move the training of the coarse quantizer to GPU
 
-- vector adding to the index: `--quantizer_on_gpu_add` will do the adding on GPU
+- vector adding to the index: `--quantizer_on_gpu_add --` will do the adding on GPU
 
 - search: `--parallel_mode 3  --quantizer_on_gpu_search` will do coarse quantization on GPU at search time. 
 
@@ -31,7 +31,7 @@ The following command runs the index constuction and evaluates the search perfor
 python track3_baseline_faiss/gpu_baseline_faiss.py --dataset deep-100M \
          --indexkey IVF65536,SQ8 
          --train_on_gpu \
-         --build --quantizer_on_gpu_add \
+         --build --quantizer_on_gpu_add --add_splits 30 \
          --search \
          --searchparams nprobe={1,4,16,64,256}   \
          --parallel_mode 3  --quantizer_on_gpu_search
