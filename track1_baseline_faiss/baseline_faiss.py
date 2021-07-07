@@ -59,7 +59,7 @@ def two_level_clustering(xt, nc1, nc2, clustering_niter=25, spherical=False):
 def unwind_index_ivf(index):
     if isinstance(index, faiss.IndexPreTransform):
         assert index.chain.size() == 1
-        vt = index.chain.at(0)
+        vt = faiss.downcast_VectorTransform(index.chain.at(0))
         index_ivf, vt2 = unwind_index_ivf(faiss.downcast_index(index.index))
         assert vt2 is None
         return index_ivf, vt
@@ -253,7 +253,6 @@ def eval_setting(index, xq, gt, k=0, radius=0, inter=False, min_time=3.0):
         gt_I, gt_D = gt
     else:
         assert len(gt) == 3
-        radius = k
 
     ivf_stats = faiss.cvar.indexIVF_stats
     ivf_stats.reset()
