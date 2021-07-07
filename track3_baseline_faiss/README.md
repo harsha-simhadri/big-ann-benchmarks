@@ -25,6 +25,8 @@ The GPU can be used in the following phases:
 
 ## Building the index and searching 
 
+### 100M-scale 
+
 The following command runs the index constuction and evaluates the search performance: 
 
 ```bash
@@ -39,4 +41,16 @@ python track3_baseline_faiss/gpu_baseline_faiss.py --dataset deep-100M \
 
 Example logs [without GPU](https://gist.github.com/mdouze/9e000be47c499f79aaec0166365ef654) and [with GPU](https://gist.github.com/mdouze/cd14c802b924299aa2a92db6e05df857) at search time.
 
+
+### 1B-scale 
+
+```bash
+python track3_baseline_faiss/gpu_baseline_faiss.py --dataset deep-1B \
+         --indexkey IVF$((1<<18)),SQ8 
+         --train_on_gpu \
+         --build --quantizer_on_gpu_add --add_splits 30 \
+         --search \
+         --searchparams nprobe={1,4,16,64,256}   \
+         --parallel_mode 3  --quantizer_on_gpu_search
+```
 
