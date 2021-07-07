@@ -191,7 +191,7 @@ def main():
         definitions = [
             d for d in definitions if d.docker_tag == args.docker_tag]
 
-    if set(d.docker_tag for d in definitions).difference(docker_tags):
+    if set(d.docker_tag for d in definitions).difference(docker_tags) and not args.nodocker:
         logger.info(f'not all docker images available, only: {set(docker_tags)}')
         logger.info(f'missing docker images: '
                     f'{str(set(d.docker_tag for d in definitions).difference(docker_tags))}')

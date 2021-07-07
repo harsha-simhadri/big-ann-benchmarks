@@ -768,6 +768,8 @@ DATASETS = {
 
     'random-xs': RandomDS(10000, 1000, 20),
     'random-s': RandomDS(100000, 1000, 50),
+    'random-s-256': RandomDS(100000, 1000, 256),
+    'random-m-256': RandomDS(1000000, 10000, 256),
 
     'sift-1M-T3': BigANNDatasetT3(1),
     'sift-10M-T3': BigANNDatasetT3(10),
