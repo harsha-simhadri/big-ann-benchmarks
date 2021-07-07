@@ -8,5 +8,5 @@ if __name__ == "__main__":
         choices=DATASETS.keys(),
         required=True)
     args = parser.parse_args()
-    ds = DATASETS[args.dataset]
+    ds = DATASETS[args.dataset]()
     ds.prepare()
