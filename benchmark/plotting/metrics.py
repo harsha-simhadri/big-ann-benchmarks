@@ -3,6 +3,7 @@ import numpy as np
 
 
 def get_recall_values(true_nn, run_nn, count):
+    true_nn, _ = true_nn
     true_nn = true_nn[:, :count]
     assert true_nn.shape == run_nn.shape
     recalls = np.zeros(len(run_nn))
