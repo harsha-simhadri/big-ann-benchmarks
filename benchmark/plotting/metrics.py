@@ -27,20 +27,20 @@ def knn(true_nn, run_nn, count, metrics):
     return metrics['knn']
 
 
-def queries_per_second(queries, attrs):
-    return len(queries) / attrs["best_search_time"]
+def queries_per_second(nq, attrs):
+    return nq / attrs["best_search_time"]
 
 
-def index_size(queries, attrs):
+def index_size(attrs):
     return attrs.get("index_size", 0)
 
 
-def build_time(queries, attrs):
+def build_time(attrs):
     return attrs.get("build_time", 1e6)
 
 
-def dist_computations(queries, attrs):
-    return attrs.get("dist_comps", 0) / (attrs['run_count'] * len(queries))
+def dist_computations(nq, attrs):
+    return attrs.get("dist_comps", 0) / (attrs['run_count'] * nq)
 
 
 all_metrics = {
@@ -52,27 +52,27 @@ all_metrics = {
     },
     "qps": {
         "description": "Queries per second (1/s)",
-        "function": lambda true_nn, run_nn, metrics, run_attrs: queries_per_second(true_nn, run_attrs),  # noqa
+        "function": lambda true_nn, run_nn, metrics, run_attrs: queries_per_second(len(true_nn[0]), run_attrs),  # noqa
         "worst": float("-inf")
     },
     "distcomps": {
         "description": "Distance computations",
-        "function": lambda true_nn, run_nn,  metrics, run_attrs: dist_computations(true_nn, run_attrs), # noqa
+        "function": lambda true_nn, run_nn,  metrics, run_attrs: dist_computations(len(true_nn[0]), run_attrs), # noqa
         "worst": float("inf")
     },
     "build": {
         "description": "Build time (s)",
-        "function": lambda true_nn, run_nn, metrics, run_attrs: build_time(true_nn, run_attrs), # noqa
+        "function": lambda true_nn, run_nn, metrics, run_attrs: build_time(run_attrs), # noqa
         "worst": float("inf")
     },
     "indexsize": {
         "description": "Index size (kB)",
-        "function": lambda true_nn, run_nn, metrics, run_attrs: index_size(true_nn, run_attrs),  # noqa
+        "function": lambda true_nn, run_nn, metrics, run_attrs: index_size(run_attrs),  # noqa
         "worst": float("inf")
     },
     "queriessize": {
         "description": "Index size (kB)/Queries per second (s)",
-        "function": lambda true_nn, run_nn, metrics, run_attrs: index_size(true_nn, run_attrs) / queries_per_second(true_nn, run_attrs), # noqa
+        "function": lambda true_nn, run_nn, metrics, run_attrs: index_size(run_attrs) / queries_per_second(len(true_nn[0]), run_attrs), # noqa
         "worst": float("inf")
     }
 }
