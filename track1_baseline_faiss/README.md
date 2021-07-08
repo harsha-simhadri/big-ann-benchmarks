@@ -156,5 +156,15 @@ The speed-accuracy tradeoff plots are here (with 32 threads on a given 2.2Ghz ma
 
 ![](plots/msspace-1B.png)
 
+![](plots/ssnpp-1B.png)
 
 
+### Determining the optimal search-time parameters
+
+The Pareto-optimal parameter combinations can be obtained by a random exploration of the parameter space, as described [here](https://github.com/facebookresearch/faiss/wiki/Index-IO,-cloning-and-hyper-parameter-tuning#auto-tuning-the-runtime-parameters). 
+To perform this operation, do:
+```bash
+python  track1_baseline_faiss/baseline_faiss.py \
+   --dataset deep-1B --indexfile data/deep-1B.IVF1M_2level_PQ64x4fsr.faissindex \
+   --search 
+```
