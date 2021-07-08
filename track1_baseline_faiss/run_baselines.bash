@@ -228,7 +228,7 @@ ncn=$((1<<20))
 
 name=$dsname.IVF${nc}_2level_aefS40_PQ32
 
-run_on_half_machine $name.d \
+un_on_half_machine $name.d \
     python -u track1_baseline_faiss/baseline_faiss.py \
         --dataset $dsname --indexfile $basedir/$name.faissindex \
         --indexkey OPQ32_128,IVF${ncn}_HNSW32,PQ32 \

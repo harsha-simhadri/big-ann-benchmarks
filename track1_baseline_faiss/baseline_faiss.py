@@ -354,8 +354,7 @@ def op_compute_bounds(ps, ops, cno):
 
 def explore_parameter_space_range(index, xq, gt, ps, radius):
     """ exploration of the parameter space for range search, using the
-    Average Precision as
-
+    Average Precision as criterion
     """
 
     n_experiments = ps.n_experiments

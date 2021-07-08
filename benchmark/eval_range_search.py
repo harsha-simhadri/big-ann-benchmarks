@@ -1,5 +1,5 @@
 """
-This script is to evaluate the range search results.
+This script contains functions to evaluate the range search results.
 
 Range search results are represented like a sparse CSR matrix with 3 components:
 
@@ -15,6 +15,9 @@ And the corresponding distances are:
 
 Thus, len(lims) = nq + 1, lims[i + 1] >= lims[i] forall i
 and len(D) = len(I) = lims[-1].
+
+The function that computes the Average Precision measure for
+a search result vs. the ground-truth is compute_AP.
 
 Note that the ground truth format in datasets.py is slightly different:
 instead of lims it returns the number of results per query, nres.
@@ -33,8 +36,6 @@ import numpy as np
 from multiprocessing.pool import ThreadPool
 
 ## code copied from Faiss contrib
-
-
 
 def counts_to_PR(ngt, nres, ninter, mode="overall"):
     """ computes a  precision-recall for a ser of queries.
@@ -186,7 +187,10 @@ def range_PR_multiple_thresholds(
 def compute_AP(gt, res):
     """
     compute range search average precision.
-
+    It works by:
+    1. defining a set of thresholds
+    2. compute precision, recall for the thresholds
+    3. compute AUC of rhe precision-recall curve.
     """
     gt_lims, gt_I, gt_D = gt
     res_lims, res_I, res_D = res
