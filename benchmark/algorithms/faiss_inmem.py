@@ -38,7 +38,7 @@ class FaissIVF(Faiss):
         return f"data/ivf_{name}_{self._n_list}_{self._metric}"
 
     def fit(self, dataset):
-        X = DATASETS[dataset].get_dataset() # assumes it fits into memory
+        X = DATASETS[dataset]().get_dataset() # assumes it fits into memory
 
         if self._metric == 'angular':
             X = sklearn.preprocessing.normalize(X, axis=1, norm='l2')

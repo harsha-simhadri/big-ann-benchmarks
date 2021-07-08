@@ -29,7 +29,7 @@ if __name__ == "__main__":
     is_first = True
     for dataset_name in datasets:
         print("Looking at dataset", dataset_name)
-        dataset = DATASETS[dataset_name]
+        dataset = DATASETS[dataset_name]()
         results = load_all_results(dataset_name)
         results = compute_metrics_all_runs(dataset, results, args.recompute)
         dfs.append(pd.DataFrame(results))

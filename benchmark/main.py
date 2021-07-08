@@ -115,7 +115,7 @@ def main():
     logging.config.fileConfig("logging.conf")
     logger = logging.getLogger("annb")
 
-    dataset = DATASETS[args.dataset]
+    dataset = DATASETS[args.dataset]()
     dimension = dataset.d
     point_type = 'float'
     distance = dataset.distance()
