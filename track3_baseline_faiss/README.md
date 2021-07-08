@@ -54,3 +54,8 @@ python track3_baseline_faiss/gpu_baseline_faiss.py --dataset deep-1B \
          --parallel_mode 3  --quantizer_on_gpu_search
 ```
 
+### Results 
+
+Similar to the track 1 results, we can plot the GPU search results in a plot of recall@10 vs. QPS. 
+
+![](plots/T3_deep-1B.png)
