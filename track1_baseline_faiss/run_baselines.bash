@@ -162,7 +162,6 @@ for dsname in bigann-100M deep-100M msturing-100M msspacev-100M; do
 
 done
 
-fi
 
 ##############################################################
 # Experiments on scale 1B
@@ -171,6 +170,7 @@ fi
 # .a: build
 # .b: eval w 32 threads
 # .c: redo bigann eval
+# .d: with ssnpp, forgot to build...
 
 # start with least problematic datasets  (no IP search, no range search)
 # msspace-1B may need to redo experiments because of ties in distance computations
@@ -187,7 +187,7 @@ for dsname in ssnpp-1B; do
 
         name=$dsname.IVF${nc}_2level_PQ32
 
-        run_on_half_machine $name.c \
+        run_on_half_machine $name.d \
             python -u track1_baseline_faiss/baseline_faiss.py \
                 --dataset $dsname --indexfile $basedir/$name.faissindex \
                 --indexkey OPQ32_128,IVF${ncn}_HNSW32,PQ32 \
@@ -195,7 +195,7 @@ for dsname in ssnpp-1B; do
                 --quantizer_efConstruction 200 \
                 --quantizer_add_efSearch 80 \
                 --two_level_clustering \
-                --search --searchthreads 32 \
+                --build --search --searchthreads 32 \
                 --maxRAM 256
 
         if false; then
@@ -217,6 +217,57 @@ for dsname in ssnpp-1B; do
     done
 
 done
+
+
+
+# speed up construction
+
+dsname=ssnpp-1B
+nc=1M
+ncn=$((1<<20))
+
+name=$dsname.IVF${nc}_2level_aefS40_PQ32
+
+run_on_half_machine $name.d \
+    python -u track1_baseline_faiss/baseline_faiss.py \
+        --dataset $dsname --indexfile $basedir/$name.faissindex \
+        --indexkey OPQ32_128,IVF${ncn}_HNSW32,PQ32 \
+        --maxtrain 100000000 \
+        --quantizer_efConstruction 200 \
+        --quantizer_add_efSearch 40 \
+        --add_splits 30 \
+        --two_level_clustering \
+        --build --search --searchthreads 32 \
+        --maxRAM 256
+
+fi
+
+# find a way to not OOM during autotune
+
+function ssnpp_no_OOM () {
+    local key=$1
+    shift
+    dsname=ssnpp-1B
+    nc=1M
+    ncn=$((1<<20))
+
+    name=$dsname.IVF${nc}_2level_PQ32.search.$key
+
+    run_on_half_machine $name.a \
+        python -u track1_baseline_faiss/baseline_faiss.py \
+            --dataset $dsname --indexfile $basedir/$dsname.IVF${nc}_2level_PQ32.faissindex \
+            --search --searchthreads 32 \
+            --maxRAM 256 "$@"
+}
+
+ssnpp_no_OOM radius75000 --radius 75000
+ssnpp_no_OOM radius80000 --radius 80000
+ssnpp_no_OOM radius60000 --radius 60000
+ssnpp_no_OOM maxNP1024  --autotune_max nprobe:1025
+ssnpp_no_OOM maxEFS256  --autotune_max quantizer_efSearch:257
+
+
+
 
 if false; then
 
