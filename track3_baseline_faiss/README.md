@@ -25,6 +25,12 @@ The GPU can be used in the following phases:
 
 ## Building the index and searching 
 
+The hardware environment is: 1 GPU on a machine with 768G RAM (practically unlimited). 
+Therefore, the approach is to do the coarse quantization on GPU and store the IVF index in RAM with mild compression (PQ8). 
+This means that to keep the GPU busy the number of centroids should be as large as possible. 
+We use 1M in the example below.
+The GPU uses brute force computations to find the nearest centroids. 
+
 ### 100M-scale 
 
 The following command runs the index constuction and evaluates the search performance: 
@@ -59,3 +65,5 @@ python track3_baseline_faiss/gpu_baseline_faiss.py --dataset deep-1B \
 Similar to the track 1 results, we can plot the GPU search results in a plot of recall@10 vs. QPS. 
 
 ![](plots/T3_deep-1B.png)
+
+Caveat: here the GPU uses 20 CPU threads vs. 32 for the CPU, and the search is actually performed on 2 GPUs. 
