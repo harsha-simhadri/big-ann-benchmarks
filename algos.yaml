@@ -9,3 +9,22 @@ float:
         base:
           args: [[1024,2048,4096,8192]]
           query-args: [[1, 5, 10, 50, 100, 200]]
+    faiss-t1:
+      docker-tag: billion-scale-benchmark-faiss
+      module: benchmark.algorithms.faiss_t1
+      constructor: Faiss
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"indexkey": "OPQ32_128,IVF1024_HNSW32,PQ32", 
+                "buildthreads": -1,
+                "by_residual": -1,
+                "add_bs": 100000000,
+                "two_level_clustering": true,
+                "quantizer_add_efSearch": 80,
+                "quantizer_efConstruction": 200,
+                "maxtrain": 100000000,
+                "clustering_niter": 25
+                }]
+          query-args: [[1, 2, 4, 8, 16, 32, 64, 128], [4, 8, 32, 128, 512]]

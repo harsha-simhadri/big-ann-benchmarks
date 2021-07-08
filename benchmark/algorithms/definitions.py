@@ -6,6 +6,7 @@ import os
 import sys
 import traceback
 import yaml
+import json
 from enum import Enum
 from itertools import product
 
@@ -53,6 +54,9 @@ def _generate_combinations(args):
             else:
                 flat.append([(k, v)])
         return [dict(x) for x in product(*flat)]
+    elif isinstance(args, str):
+        l = json.loads(args.strip())
+        return l
     else:
         raise TypeError("No args handling exists for %s" % type(args).__name__)
 
