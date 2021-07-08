@@ -89,10 +89,18 @@ wget https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/track1_baseline
 wget https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/track1_baseline_faiss/bigann-1B.IVF1M_2level_PQ64x4fsr.faissindex -P data/
 wget https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/track1_baseline_faiss/msturing-1B.IVF1M_2level_PQ64x4fsr.faissindex -P data/
 wget https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/track1_baseline_faiss/msspacev-1B.IVF1M_2level_PQ64x4fsr.faissindex -P data/
+
+wget https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/track1_baseline_faiss/ssnpp-1B.IVF1M_2level_PQ32.faissindex -P data/
+
+
 ```
+**TODO** text2image-1B
 
 
 ### Running the evaluation
+
+
+
 
 The evaluation proceeds by loading the index and looping over a set of search-time parameters that obtain different speed-accuracy tradeoffs. 
 
@@ -134,6 +142,9 @@ nprobe=1024,quantizer_efSearch=512       0.6886      1.46841    11607413418    1
 
 This means that by setting the parameters `nprobe=2,quantizer_efSearch=4`, we obtain 0.2394 recall @ 10 (aka inter @10) for that dataset, the search will take  0.00327 ms per query (305810 QPS). 
 The total number of distances computed for all queries is 24328050 and this measurement was obtained in 71 runs (to reduce jitter in time measurements).
+
+
+### Plots
 
 The speed-accuracy tradeoff plots are here (with 32 threads on a given 2.2Ghz machine): 
 
