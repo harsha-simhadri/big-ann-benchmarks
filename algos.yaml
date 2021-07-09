@@ -10,7 +10,7 @@ float:
           args: [[1024,2048,4096,8192]]
           query-args: [[1, 5, 10, 50, 100, 200]]
     faiss-t1:
-      docker-tag: billion-scale-benchmark-faiss
+      docker-tag: billion-scale-benchmark-faissconda
       module: benchmark.algorithms.faiss_t1
       constructor: Faiss
       base-args: ["@metric"]

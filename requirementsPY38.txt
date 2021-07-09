@@ -1,0 +1,11 @@
+ansicolors
+docker-py
+h5py
+matplotlib
+numpy
+pyyaml
+psutil
+scipy
+scikit-learn
+jinja2
+pandas
