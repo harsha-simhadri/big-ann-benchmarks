@@ -120,7 +120,7 @@ def main():
     point_type = 'float'
     distance = dataset.distance()
     definitions = get_definitions(
-        args.definitions, dimension, point_type, distance, args.count)
+        args.definitions, dimension, args.dataset, distance, args.count)
 
     # Filter out, from the loaded definitions, all those query argument groups
     # that correspond to experiments that have already been run. (This might

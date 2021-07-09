@@ -100,15 +100,16 @@ def get_unique_algorithms(definition_file):
     return list(sorted(algos))
 
 
-def get_definitions(definition_file, dimension, point_type="float",
-                    distance_metric="euclidean", count=10):
+def get_definitions(definition_file, dimension, dataset,
+        distance_metric="euclidean", count=10):
+
     definitions = _get_definitions(definition_file)
 
     algorithm_definitions = {}
-    if "any" in definitions[point_type]:
-        algorithm_definitions.update(definitions[point_type]["any"])
-    if distance_metric in definitions[point_type]:
-        algorithm_definitions.update(definitions[point_type][distance_metric])
+    if "any" in definitions:
+        algorithm_definitions.update(definitions["any"])
+    if dataset in definitions:
+        algorithm_definitions.update(definitions[dataset])
 
     definitions = []
     for (name, algo) in algorithm_definitions.items():
