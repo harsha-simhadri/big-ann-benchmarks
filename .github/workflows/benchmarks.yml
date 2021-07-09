@@ -9,7 +9,7 @@ jobs:
     strategy:
       matrix:
         include:
-          - library: faiss 
+          - library: faissconda
             dataset: random-xs
       fail-fast: false
 
