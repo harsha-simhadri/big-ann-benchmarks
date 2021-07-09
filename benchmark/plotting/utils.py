@@ -74,16 +74,17 @@ def compute_metrics_all_runs(dataset, res, recompute=False):
         print(f"Groundtruth for {dataset} not found.")
         return
 
+    search_type = dataset.search_type()
     for i, (properties, run) in enumerate(res):
         algo = properties['algo']
         algo_name = properties['name']
         # cache distances to avoid access to hdf5 file
-        if dataset.search_type() == "knn":
+        if search_type == "knn":
             run_nn = numpy.array(run['neighbors'])
-        elif dataset.search_type() == "range":
+        elif search_type == "range":
             run_nn = (numpy.array(run['lims']),
                     numpy.array(run['neighbors']),
-                    nupmy.array(run['distances']))
+                    numpy.array(run['distances']))
         if recompute and 'metrics' in run:
             print('Recomputing metrics, clearing cache')
             del run['metrics']
@@ -104,7 +105,8 @@ def compute_metrics_all_runs(dataset, res, recompute=False):
             'count': properties['count'],
         }
         for name, metric in metrics.items():
-            if "search_type" in metric and metric["search_type"] != dataset.search_type():
+            if search_type == "knn" and name == "ap" or\
+                search_type == "range" and name == "k-nn":
                 continue
             v = metric["function"](true_nn, run_nn, metrics_cache, properties)
             run_result[name] = v
