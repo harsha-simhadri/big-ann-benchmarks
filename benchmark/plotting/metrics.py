@@ -62,7 +62,7 @@ all_metrics = {
         "function": lambda true_nn, run_nn, metrics, run_attrs: ap(true_nn, run_nn),  # noqa
         "worst": float("-inf"),
         "lim": [0.0, 1.03],
-        "searchtype" : "range",
+        "search_type" : "range",
     },
     "qps": {
         "description": "Queries per second (1/s)",

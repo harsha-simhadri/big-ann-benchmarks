@@ -104,6 +104,8 @@ def compute_metrics_all_runs(dataset, res, recompute=False):
             'count': properties['count'],
         }
         for name, metric in metrics.items():
+            if "search_type" in metric and metric["search_type"] != dataset.search_type():
+                continue
             v = metric["function"](true_nn, run_nn, metrics_cache, properties)
             run_result[name] = v
         yield run_result
