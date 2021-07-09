@@ -1,6 +1,4 @@
 from __future__ import absolute_import
-#import sys
-#sys.path.append("install/lib-faiss")  # noqa
 import numpy as np
 import sklearn.preprocessing
 import ctypes
@@ -74,6 +72,7 @@ class Faiss(BaseANN):
         self._metric = metric
 
     def index_name(self, name):
+        #return f"data/{name}.{self._index_params['indexkey']}.faissindex"
         return f"data/{name}.IVF1M_2level_PQ64x4fsr.faissindex"
 
     def fit(self, dataset):
@@ -249,45 +248,46 @@ class Faiss(BaseANN):
 
         index = faiss.read_index(self.index_name(dataset))
 
-        index_ivf, vec_transform = unwind_index_ivf(index)
+        # the following code is present in the t1 baseline, but it crashes on my setup.
 
-        if vec_transform is None:
-            vec_transform = lambda x: x
+#        index_ivf, vec_transform = unwind_index_ivf(index)
+#
+#        if vec_transform is None:
+#            vec_transform = lambda x: x
+#
+#        if index_ivf is not None:
+#            print("imbalance_factor=", index_ivf.invlists.imbalance_factor())
+#
+#        if self._index_params.get("no_precomputed_tables", False):
+#            if isinstance(index_ivf, faiss.IndexIVFPQ):
+#                print("disabling precomputed table")
+#                index_ivf.use_precomputed_table = -1
+#                index_ivf.precomputed_table.clear()
 
-        if index_ivf is not None:
-            print("imbalance_factor=", index_ivf.invlists.imbalance_factor())
-
-        if self._index_params.get("no_precomputed_tables", False):
-            if isinstance(index_ivf, faiss.IndexIVFPQ):
-                print("disabling precomputed table")
-                index_ivf.use_precomputed_table = -1
-                index_ivf.precomputed_table.clear()
-
+        self.index = index
         self.ps = faiss.ParameterSpace()
-        self.ps.initialize(index_ivf)
-        self.index = index_ivf
+        self.ps.initialize(index)
 
         return True
 
     def set_query_arguments(self, nprobe, efSearch):
         faiss.cvar.indexIVF_stats.reset()
         self.ps.set_index_parameters(self.index, f"nprobe={nprobe},quantizer_efSearch={efSearch}")
-        #self.ps.set_index_parameters(self.index, f"nprobe={nprobe}")
         self._nprobe = nprobe
         self._efSearch = efSearch
 
 
+    # shall we return something interesting here?
     def get_additional(self):
-        return {} #{"dist_comps": faiss.cvar.indexIVF_stats.ndis +      # noqa
-                #faiss.cvar.indexIVF_stats.nq * self._n_list}
+        return {"dist_comps": faiss.cvar.indexIVF_stats.ndis}
 
     def __str__(self):
         return 'FaissIVFPQ(nprobe=%d, efSearch=%d)' % (self._nprobe, self._efSearch)
 
     def query(self, X, n):
         if self._metric == 'angular':
-            X /= numpy.linalg.norm(X)
-        self.res = self.index.search(X.astype(numpy.float32), n)
+            X /= np.linalg.norm(X)
+        self.res = self.index.search(X, n)
 
     def get_results(self):
         D, I = self.res
