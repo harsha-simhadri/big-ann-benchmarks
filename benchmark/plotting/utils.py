@@ -44,12 +44,12 @@ def compute_metrics(true_nn, res, metric_1, metric_2,
         algo = properties['algo']
         algo_name = properties['name']
         # cache indices to avoid access to hdf5 file
-        if metric_1 == "knn"  or metric_2 == "knn":
-            run_nn = numpy.array(run['neighbors'])
-        elif metric_1 == "ap"  or metric_2 == "ap":
+        if metric_1 == "ap"  or metric_2 == "ap":
             run_nn = (numpy.array(run['lims']),
                     numpy.array(run['neighbors']),
                     numpy.array(run['distances']))
+        else:
+            run_nn = numpy.array(run['neighbors'])
         if recompute and 'metrics' in run:
             del run['metrics']
         metrics_cache = get_or_create_metrics(run)
