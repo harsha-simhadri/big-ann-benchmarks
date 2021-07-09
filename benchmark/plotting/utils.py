@@ -44,7 +44,12 @@ def compute_metrics(true_nn, res, metric_1, metric_2,
         algo = properties['algo']
         algo_name = properties['name']
         # cache indices to avoid access to hdf5 file
-        run_nn = numpy.array(run['neighbors'])
+        if metric_1 == "knn"  or metric_2 == "knn":
+            run_nn = numpy.array(run['neighbors'])
+        elif metric_1 == "ap"  or metric_2 == "ap":
+            run_nn = (numpy.array(run['lims']),
+                    numpy.array(run['neighbors']),
+                    numpy.array(run['distances']))
         if recompute and 'metrics' in run:
             del run['metrics']
         metrics_cache = get_or_create_metrics(run)
@@ -73,7 +78,12 @@ def compute_metrics_all_runs(dataset, res, recompute=False):
         algo = properties['algo']
         algo_name = properties['name']
         # cache distances to avoid access to hdf5 file
-        run_nn = numpy.array(run['neighbors'])
+        if dataset.search_type() == "knn":
+            run_nn = numpy.array(run['neighbors'])
+        elif dataset.search_type() == "range":
+            run_nn = (numpy.array(run['lims']),
+                    numpy.array(run['neighbors']),
+                    nupmy.array(run['distances']))
         if recompute and 'metrics' in run:
             print('Recomputing metrics, clearing cache')
             del run['metrics']

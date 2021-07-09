@@ -71,3 +71,24 @@ deep-1B:
                 }]
           # Trying all combinations of nprobe x efSearch
           query-args: [[1, 2, 4, 8, 16, 32, 64, 128], [4, 8, 32, 128, 512]]
+ssnpp-10M:
+    faiss-t1:
+      docker-tag: billion-scale-benchmark-faissconda
+      module: benchmark.algorithms.faiss_t1
+      constructor: Faiss
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"indexkey": "OPQ32_128,IVF65536_HNSW32,PQ32",
+                "buildthreads": -1,
+                "by_residual": -1,
+                "add_bs": 100000000,
+                "two_level_clustering": true,
+                "quantizer_add_efSearch": 80,
+                "quantizer_efConstruction": 200,
+                "maxtrain": 100000000,
+                "clustering_niter": 25
+                }]
+          # Trying all combinations of nprobe x efSearch
+          query-args: [[1, 2, 4, 8,], [4, 8, 32]]

@@ -1,5 +1,6 @@
 from __future__ import absolute_import
 import numpy as np
+from benchmark.plotting.eval_range_search import compute_AP
 
 
 def get_recall_values(true_nn, run_nn, count):
@@ -26,6 +27,12 @@ def knn(true_nn, run_nn, count, metrics):
         print("Found cached result")
     return metrics['knn']
 
+def ap(true_nn, run_nn):
+    gt_nres, gt_I, gt_D = true_nn
+    nq = gt_nres.shape[0]
+    gt_lims = np.zeros(nq + 1, dtype=int)
+    gt_lims[1:] = np.cumsum(gt_nres)
+    return compute_AP((gt_lims, gt_I, gt_D), run_nn)
 
 def queries_per_second(nq, attrs):
     return nq / attrs["best_search_time"]
@@ -48,7 +55,14 @@ all_metrics = {
         "description": "Recall",
         "function": lambda true_nn, run_nn, metrics, run_attrs: knn(true_nn, run_nn, run_attrs["count"], metrics).attrs['mean'],  # noqa
         "worst": float("-inf"),
-        "lim": [0.0, 1.03]
+        "lim": [0.0, 1.03],
+    },
+    "ap": {
+        "description": "Average Precision",
+        "function": lambda true_nn, run_nn, metrics, run_attrs: ap(true_nn, run_nn),  # noqa
+        "worst": float("-inf"),
+        "lim": [0.0, 1.03],
+        "searchtype" : "range",
     },
     "qps": {
         "description": "Queries per second (1/s)",

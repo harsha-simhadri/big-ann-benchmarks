@@ -285,10 +285,14 @@ class Faiss(BaseANN):
         return 'FaissIVFPQ(nprobe=%d, efSearch=%d)' % (self._nprobe, self._efSearch)
 
     def query(self, X, n):
-        if self._metric == 'angular':
-            X /= np.linalg.norm(X)
         self.res = self.index.search(X, n)
+
+    def range_query(self, X, radius):
+        self.res = self.index.range_search(X, radius)
 
     def get_results(self):
         D, I = self.res
         return I
+
+    def get_range_results(self):
+        return self.res
