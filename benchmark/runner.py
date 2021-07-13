@@ -25,11 +25,13 @@ def run_individual_query(algo, X, distance, count, run_count, search_type):
         start = time.time()
         if search_type == "knn":
             algo.query(X, count)
+            total = (time.time() - start)
+            results = algo.get_results()
         else:
             algo.range_query(X, count)
-        total = (time.time() - start)
+            total = (time.time() - start)
+            results = algo.get_range_results()
 
-        results = algo.get_results()
 
         search_time = total
         best_search_time = min(best_search_time, search_time)
@@ -97,8 +99,8 @@ function""" % (definition.module, definition.constructor, definition.arguments)
             descriptor["index_size"] = index_size
             descriptor["algo"] = definition.algorithm
             descriptor["dataset"] = dataset
-            store_results(dataset, count, definition,
-                    query_arguments, descriptor, results)
+            store_results(dataset, count, definition, query_arguments,
+                    descriptor, results, search_type)
     finally:
         algo.done()
 

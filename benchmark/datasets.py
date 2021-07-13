@@ -1,3 +1,4 @@
+import math
 import numpy
 import os
 import random
@@ -189,6 +190,9 @@ class Dataset():
         """
         pass
 
+    def default_count(self):
+        return 10
+
 
     def __str__(self):
         return (
@@ -326,6 +330,9 @@ class SSNPPDataset(DatasetCompetitionFormat):
     def search_type(self):
         return "range"
 
+    def default_count(self):
+        return 60000
+
     def distance(self):
         return "euclidean"
 
@@ -446,142 +453,12 @@ class MSSPACEV1B(DatasetCompetitionFormat):
     def distance(self):
         return "euclidean"
 
-
-#############################################################################
-# Datasets in orginal formats
-##############################################################################
-
-class Sift1BOriginalFormat(Dataset):
-    def __init__(self, nb_M=1000):
-        self.nb_M = nb_M
-        self.nb = 10**6 * nb_M
-        self.d = 128
-        self.nq = 10000
-        self.ds_fn = "bigann_base.bvecs"
-        self.qs_fn = "bigann_query.bvecs"
-        self.basedir = os.path.join(BASEDIR, "sift1b")
-        if not os.path.exists(self.basedir):
-            os.makedirs(self.basedir)
-
-    def prepare(self):
-        import gzip, tarfile
-        ds_url = f"ftp://ftp.irisa.fr/local/texmex/corpus/{self.ds_fn}.gz"
-        qs_url = f"ftp://ftp.irisa.fr/local/texmex/corpus/{self.qs_fn}.gz"
-        gt_fn = "bigann_gnd.tar.gz"
-        gt_url = f"ftp://ftp.irisa.fr/local/texmex/corpus/{gt_fn}"
-
-        if not os.path.exists(os.path.join(self.basedir, self.ds_fn)):
-            download(ds_url, os.path.join(self.basedir, f"{self.ds_fn}.gz"))
-            download(qs_url, os.path.join(self.basedir, f"{self.qs_fn}.gz"))
-
-            for fn in [self.ds_fn, self.qs_fn]:
-                with gzip.open(os.path.join(self.basedir, f"{fn}.gz")) as g:
-                    with open(os.path.join(self.basedir,  fn), "wb") as f:
-                        f.write(g.read())
-
-            download(gt_url, os.path.join(self.basedir,gt_fn))
-            with tarfile.open(os.path.join(self.basedir, gt_fn)) as f:
-                f.extractall(self.basedir)
-
-    def get_dataset_fn(self):
-        return os.path.join(self.basedir, self.ds_fn)
-
-    def get_dataset(self):
-        assert self.nb_M < 100, "dataset too large, use iterator"
-        return sanitize(bvecs_mmap(self.get_dataset_fn())[:self.nb])
-
-    def get_dataset_iterator(self, bs=512, split=(1,0)):
-        xb = bvecs_mmap(self.get_dataset_fn())
-        nsplit, rank = split
-        i0, i1 = self.nb * rank // nsplit, self.nb * (rank + 1) // nsplit
-        for j0 in range(i0, i1, bs):
-            yield sanitize(xb[j0: min(j0 + bs, i1)])
-
-    def get_queries(self):
-        return sanitize(bvecs_mmap(os.path.join(self.basedir, self.qs_fn))[:])
-
-    def get_groundtruth(self, k=None):
-        gt = ivecs_read(os.path.join(self.basedir, 'gnd/idx_%dM.ivecs' % self.nb_M))
-        if k is not None:
-            assert k <= 100
-            gt = gt[:, :k]
-        return gt
-
-    def distance(self):
-        return "euclidean"
-
-    def search_type(self):
-        return "knn"
-
-class Deep1BOriginalFormat(Dataset):
-    def __init__(self, nb_M=1000):
-        assert nb_M in (10, 1000)
-        self.nb_M = nb_M
-        self.nb = 10**6 * nb_M
-        self.d = 96
-        self.nq = 10000
-        self.ds_fn = "base.1B.fdata"
-        self.qs_fn = "query.public.10K.fdata"
-        self.gt_fn = "groundtruth.public.10K.idata"
-        self.base_url = "https://storage.yandexcloud.net/yandex-research/ann-datasets/DEEP/"
-        self.basedir = os.path.join(BASEDIR, "deep1b")
-        if not os.path.exists(self.basedir):
-            os.makedirs(self.basedir)
-
-    def prepare(self):
-        if os.path.exists(os.path.join(self.basedir, self.ds_fn)):
-            print(f"{self} exists?")
-            return
-        ds_url = self.base_url + self.ds_fn
-        qs_url = self.base_url + self.qs_fn
-        qt_url = self.base_url + self.gt_fn
-
-        for fn in [self.ds_fn, self.qs_fn, self.gt_fn]:
-            download(os.path.join(self.base_url, fn), os.path.join(self.basedir, fn))
-
-    def get_dataset_fn(self):
-        return os.path.join(self.basedir, self.ds_fn)
-
-    def get_dataset(self):
-        assert self.nb < 10**8, "dataset too large, use iterator"
-        return sanitize(read_fdata(self.get_dataset_fn(), self.nb, self.d))
-
-    def get_dataset_iterator(self, bs=512, split=(1,0)):
-        nsplit, rank = split
-        i0, i1 = self.nb * rank // nsplit, self.nb * (rank + 1) // nsplit
-        d = self.d
-        f = open(self.get_dataset_fn(), "rb")
-        f.seek(i0 * d * 4)
-        for j0 in range(i0, i1, bs):
-            j1 = min(j0 + bs, i1)
-            x = np.fromfile(f, dtype='float32', count=(j1 - j0) * d)
-            yield x.reshape(j1 - j0, d)
-
-    def get_queries(self):
-        return sanitize(read_fdata(os.path.join(self.basedir, self.qs_fn), self.nq, self.d))
-
-    def get_groundtruth(self, k=None):
-        gt = read_idata(os.path.join(self.basedir, self.gt_fn), self.nq, self.d)
-        if k is not None:
-            assert k <= 100
-            gt = gt[:, :k]
-        return gt
-
-    def search_type(self):
-        return "knn"
-
-    def distance(self):
-        return "euclidean"
-
-    def __str__x(self):
-        return f"Deep1B"
-
-
-class RandomDS(Dataset):
+class RandomRangeDS(DatasetCompetitionFormat):
     def __init__(self, nb, nq, d):
         self.nb = nb
         self.nq = nq
         self.d = d
+        self.dtype = 'float32'
         self.ds_fn = f"data_{self.nb}_{self.d}"
         self.qs_fn = f"queries_{self.nq}_{self.d}"
         self.gt_fn = f"gt_{self.nb}_{self.nq}_{self.d}"
@@ -606,41 +483,95 @@ class RandomDS(Dataset):
 
 
         with open(os.path.join(self.basedir, self.ds_fn), "wb") as f:
-            data.tofile(f)
+            np.array([self.nb, self.d], dtype='uint32').tofile(f)
+            data.astype('float32').tofile(f)
         with open(os.path.join(self.basedir, self.qs_fn), "wb") as f:
-            queries.tofile(f)
+            np.array([self.nq, self.d], dtype='uint32').tofile(f)
+            queries.astype('float32').tofile(f)
+
+        print("Computing groundtruth")
+
+        nbrs = NearestNeighbors(n_neighbors=100, metric="euclidean", algorithm='brute').fit(data)
+        D, I = nbrs.kneighbors(queries)
+
+        nres = np.count_nonzero((D < math.sqrt(self.default_count())) == True, axis=1)
+        DD = np.zeros(nres.sum())
+        II = np.zeros(nres.sum(), dtype='int32')
+
+        s = 0
+        for i, l in enumerate(nres):
+            DD[s : s + l] = D[i, 0 : l]
+            II[s : s + l] = I[i, 0 : l]
+            s += l
+
+        with open(os.path.join(self.basedir, self.gt_fn), "wb") as f:
+            np.array([self.nq, nres.sum()], dtype='uint32').tofile(f)
+            nres.astype('int32').tofile(f)
+            II.astype('int32').tofile(f)
+            DD.astype('float32').tofile(f)
+
+    def get_groundtruth(self, k=None):
+        """ override the ground-truth function as this is the only range search dataset """
+        assert self.gt_fn is not None
+        fn = self.gt_fn.split("/")[-1]   # in case it's a URL
+        return range_result_read(os.path.join(self.basedir, fn))
+
+    def search_type(self):
+        return "range"
+
+    def default_count(self):
+        return 49
+
+    def distance(self):
+        return "euclidean"
+
+    def __str__(self):
+        return f"RandomRange({self.nb})"
+
+class RandomDS(DatasetCompetitionFormat):
+    def __init__(self, nb, nq, d):
+        self.nb = nb
+        self.nq = nq
+        self.d = d
+        self.dtype = 'float32'
+        self.ds_fn = f"data_{self.nb}_{self.d}"
+        self.qs_fn = f"queries_{self.nq}_{self.d}"
+        self.gt_fn = f"gt_{self.nb}_{self.nq}_{self.d}"
+        self.basedir = os.path.join(BASEDIR, f"random{self.nb}")
+        if not os.path.exists(self.basedir):
+            os.makedirs(self.basedir)
+
+    def prepare(self):
+        import sklearn.datasets
+        import sklearn.model_selection
+        from sklearn.neighbors import NearestNeighbors
+
+        print(f"Preparing datasets with {self.nb} random points and {self.nq} queries.")
+
+
+        X, _ = sklearn.datasets.make_blobs(
+            n_samples=self.nb + self.nq, n_features=self.d,
+            centers=self.nq, random_state=1)
+
+        data, queries = sklearn.model_selection.train_test_split(
+            X, test_size=self.nq, random_state=1)
+
+
+        with open(os.path.join(self.basedir, self.ds_fn), "wb") as f:
+            np.array([self.nb, self.d], dtype='uint32').tofile(f)
+            data.astype('float32').tofile(f)
+        with open(os.path.join(self.basedir, self.qs_fn), "wb") as f:
+            np.array([self.nq, self.d], dtype='uint32').tofile(f)
+            queries.astype('float32').tofile(f)
 
         print("Computing groundtruth")
 
         nbrs = NearestNeighbors(n_neighbors=100, metric="euclidean", algorithm='brute').fit(data)
         D, I = nbrs.kneighbors(queries)
         with open(os.path.join(self.basedir, self.gt_fn), "wb") as f:
-            I.tofile(f)
-
-    def get_dataset_fn(self):
-        return os.path.join(self.basedir, self.ds_fn)
-
-    def get_dataset(self):
-        assert self.nb < 10**8, "dataset too large, use iterator"
-        with open(self.get_dataset_fn(), "rb") as f:
-            X = sanitize(numpy.fromfile(f).reshape((self.nb, self.d)))
-        return X
-
-    def get_dataset_iterator(self, bs=512, split=(1,0)):
-        raise NotImplementedError()
-
-    def get_queries(self):
-        with open(os.path.join(self.basedir, self.qs_fn), "rb") as f:
-            X = sanitize(numpy.fromfile(f).reshape((self.nq, self.d)))
-        return X
-
-    def get_groundtruth(self, k=None):
-        with open(os.path.join(self.basedir, self.gt_fn), "rb") as f:
-            gt = numpy.fromfile(f, dtype=numpy.int64).reshape((self.nq, 100))
-        if k is not None:
-            assert k <= 100
-            gt = gt[:, :k]
-        return gt
+            np.array([self.nq, 100], dtype='uint32').tofile(f)
+            I.astype('uint32').tofile(f)
+            D.astype('float32').tofile(f)
 
     def search_type(self):
         return "knn"
@@ -685,4 +616,7 @@ DATASETS = {
 
     'random-xs': lambda : RandomDS(10000, 1000, 20),
     'random-s': lambda : RandomDS(100000, 1000, 50),
+
+    'random-range-xs': lambda : RandomRangeDS(10000, 1000, 20),
+    'random-range-s': lambda : RandomRangeDS(100000, 1000, 50),
 }

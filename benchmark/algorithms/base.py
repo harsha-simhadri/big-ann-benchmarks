@@ -26,16 +26,34 @@ class BaseANN(object):
         """Carry out a batch query for k-NN of query set X."""
         pass
 
-    def range_query(self, X, r):
+    def range_query(self, X, radius):
         """
         Carry out a batch query for range search with
-        radius r of query set X.
+        radius.
         """
         pass
 
     def get_results(self):
         """
-        Helper method to convert query results to the expected format.
+        Helper method to convert query results of k-NN search.
+        If there are nq queries, returns a (nq, k) array of integers
+        representing the indices of the k-NN for each query.
+        """
+        return self.res
+
+    def get_range_results(self):
+        """
+        Helper method to convert query results of range search.
+        If there are nq queries, returns a triple lims, I, D.
+        lims is a (nq) array, such that
+
+            I[lims[q]:lims[q + 1]] in int
+
+        are the indiices of the indices of the range results of query q, and
+
+            D[lims[q]:lims[q + 1]] in float
+
+        are the distances.
         """
         return self.res
 
