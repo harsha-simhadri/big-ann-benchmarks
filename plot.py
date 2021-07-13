@@ -144,6 +144,8 @@ if __name__ == "__main__":
     dataset = DATASETS[args.dataset]()
     if args.count == -1:
         args.count = dataset.default_count()
+    if args.x_axis == "k-nn" and dataset.search_type() == "range":
+        args.x_axis = "ap"
     count = int(args.count)
     unique_algorithms = get_unique_algorithms()
     results = load_all_results(args.dataset, count)
