@@ -95,7 +95,8 @@ if __name__ == "__main__":
         default='sift-1M')
     parser.add_argument(
         '--count',
-        default=10)
+        default=-1,
+        type=int)
     parser.add_argument(
         '--definitions',
         metavar='FILE',
@@ -139,7 +140,10 @@ if __name__ == "__main__":
         args.output = 'results/%s.png' % (args.dataset)
         print('writing output to %s' % args.output)
 
+
     dataset = DATASETS[args.dataset]()
+    if args.count == -1:
+        args.count = dataset.default_count()
     count = int(args.count)
     unique_algorithms = get_unique_algorithms()
     results = load_all_results(args.dataset, count)

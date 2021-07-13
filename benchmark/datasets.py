@@ -1,3 +1,4 @@
+import math
 import numpy
 import os
 import random
@@ -189,6 +190,9 @@ class Dataset():
         """
         pass
 
+    def default_count(self):
+        return 10
+
 
     def __str__(self):
         return (
@@ -326,6 +330,9 @@ class SSNPPDataset(DatasetCompetitionFormat):
     def search_type(self):
         return "range"
 
+    def default_count(self):
+        return 60000
+
     def distance(self):
         return "euclidean"
 
@@ -446,6 +453,81 @@ class MSSPACEV1B(DatasetCompetitionFormat):
     def distance(self):
         return "euclidean"
 
+class RandomRangeDS(DatasetCompetitionFormat):
+    def __init__(self, nb, nq, d):
+        self.nb = nb
+        self.nq = nq
+        self.d = d
+        self.dtype = 'float32'
+        self.ds_fn = f"data_{self.nb}_{self.d}"
+        self.qs_fn = f"queries_{self.nq}_{self.d}"
+        self.gt_fn = f"gt_{self.nb}_{self.nq}_{self.d}"
+        self.basedir = os.path.join(BASEDIR, f"random{self.nb}")
+        if not os.path.exists(self.basedir):
+            os.makedirs(self.basedir)
+
+    def prepare(self):
+        import sklearn.datasets
+        import sklearn.model_selection
+        from sklearn.neighbors import NearestNeighbors
+
+        print(f"Preparing datasets with {self.nb} random points and {self.nq} queries.")
+
+
+        X, _ = sklearn.datasets.make_blobs(
+            n_samples=self.nb + self.nq, n_features=self.d,
+            centers=self.nq, random_state=1)
+
+        data, queries = sklearn.model_selection.train_test_split(
+            X, test_size=self.nq, random_state=1)
+
+
+        with open(os.path.join(self.basedir, self.ds_fn), "wb") as f:
+            np.array([self.nb, self.d], dtype='uint32').tofile(f)
+            data.astype('float32').tofile(f)
+        with open(os.path.join(self.basedir, self.qs_fn), "wb") as f:
+            np.array([self.nq, self.d], dtype='uint32').tofile(f)
+            queries.astype('float32').tofile(f)
+
+        print("Computing groundtruth")
+
+        nbrs = NearestNeighbors(n_neighbors=100, metric="euclidean", algorithm='brute').fit(data)
+        D, I = nbrs.kneighbors(queries)
+
+        nres = np.count_nonzero((D < math.sqrt(self.default_count())) == True, axis=1)
+        DD = np.zeros(nres.sum())
+        II = np.zeros(nres.sum(), dtype='int32')
+
+        s = 0
+        for i, l in enumerate(nres):
+            DD[s : s + l] = D[i, 0 : l]
+            II[s : s + l] = I[i, 0 : l]
+            s += l
+
+        with open(os.path.join(self.basedir, self.gt_fn), "wb") as f:
+            np.array([self.nq, nres.sum()], dtype='uint32').tofile(f)
+            nres.astype('int32').tofile(f)
+            II.astype('int32').tofile(f)
+            DD.astype('float32').tofile(f)
+
+    def get_groundtruth(self, k=None):
+        """ override the ground-truth function as this is the only range search dataset """
+        assert self.gt_fn is not None
+        fn = self.gt_fn.split("/")[-1]   # in case it's a URL
+        return range_result_read(os.path.join(self.basedir, fn))
+
+    def search_type(self):
+        return "range"
+
+    def default_count(self):
+        return 49
+
+    def distance(self):
+        return "euclidean"
+
+    def __str__(self):
+        return f"RandomRange({self.nb})"
+
 class RandomDS(DatasetCompetitionFormat):
     def __init__(self, nb, nq, d):
         self.nb = nb
@@ -534,4 +616,7 @@ DATASETS = {
 
     'random-xs': lambda : RandomDS(10000, 1000, 20),
     'random-s': lambda : RandomDS(100000, 1000, 50),
+
+    'random-range-xs': lambda : RandomRangeDS(10000, 1000, 20),
+    'random-range-s': lambda : RandomRangeDS(100000, 1000, 50),
 }

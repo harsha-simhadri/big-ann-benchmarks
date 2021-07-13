@@ -55,8 +55,8 @@ def main():
         choices=DATASETS.keys())
     parser.add_argument(
         "-k", "--count",
-        default=10,
-        type=positive_int,
+        default=-1,
+        type=int,
         help="the number of near neighbours to search for")
     parser.add_argument(
         '--definitions',
@@ -119,6 +119,8 @@ def main():
     dimension = dataset.d
     point_type = 'float'
     distance = dataset.distance()
+    if args.count == -1:
+        args.count = dataset.default_count()
     definitions = get_definitions(
         args.definitions, dimension, args.dataset, distance, args.count)
 
