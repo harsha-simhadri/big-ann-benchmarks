@@ -46,14 +46,35 @@ This writes like:
 
 ```bash
 python -u track1_baseline_faiss/baseline_faiss.py --dataset deep-1B \
-    --indexkey OPQ32_128,IVF1048576_HNSW32,PQ32 \
+    --indexkey OPQ64_128,IVF1048576_HNSW32,PQ64x4fsr \
     --maxtrain 100000000 \
     --two_level_clustering \
     --build \
-    --indexfile data/track1_baseline_faiss/deep-1B.IVF1M_2level_PQ32.faissindex \
+    --add_splits 30 \
+    --indexfile data/track1_baseline_faiss/deep-1B.IVF1M_2level_PQ64x4fsr.faissindex \
     --quantizer_efConstruction 200 \
     --quantizer_add_efSearch 80 
 ```
+
+This works for deep-1B bigann-1B msturing-1B msspacev-1B. 
+
+For ssnpp-1B, the type of index has to be adjusted a bit because the Faiss PQ64x4fsr does not support range search (see [the documentation of Faiss index types](https://github.com/facebookresearch/faiss/wiki/The-index-factory#encodings) for an explanation of the difference). 
+
+Therefore, we use a slightly slower index type: PQ32. This gives: 
+```bash
+python -u track1_baseline_faiss/baseline_faiss.py --dataset ssnpp-1B \
+    --indexkey OPQ64_128,IVF1048576_HNSW32,PQ32 \
+    --maxtrain 100000000 \
+    --two_level_clustering \
+    --build \
+    --add_splits 30 \
+    --indexfile data/track1_baseline_faiss/ssnpp-1B.IVF1M_2level_PQ23.faissindex \
+    --quantizer_efConstruction 200 \
+    --quantizer_add_efSearch 80 
+```
+
+
+**TODO** text2image-1B
 
 
 ## Running the evaluation
@@ -65,10 +86,21 @@ To download them
 
 ```bash
 wget https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/track1_baseline_faiss/deep-1B.IVF1M_2level_PQ64x4fsr.faissindex -P data/
+wget https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/track1_baseline_faiss/bigann-1B.IVF1M_2level_PQ64x4fsr.faissindex -P data/
+wget https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/track1_baseline_faiss/msturing-1B.IVF1M_2level_PQ64x4fsr.faissindex -P data/
+wget https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/track1_baseline_faiss/msspacev-1B.IVF1M_2level_PQ64x4fsr.faissindex -P data/
+
+wget https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/track1_baseline_faiss/ssnpp-1B.IVF1M_2level_PQ32.faissindex -P data/
+
+
 ```
-(replace deep-1B with the relevant dataset name)
+**TODO** text2image-1B
+
 
 ### Running the evaluation
+
+
+
 
 The evaluation proceeds by loading the index and looping over a set of search-time parameters that obtain different speed-accuracy tradeoffs. 
 
@@ -111,6 +143,9 @@ nprobe=1024,quantizer_efSearch=512       0.6886      1.46841    11607413418    1
 This means that by setting the parameters `nprobe=2,quantizer_efSearch=4`, we obtain 0.2394 recall @ 10 (aka inter @10) for that dataset, the search will take  0.00327 ms per query (305810 QPS). 
 The total number of distances computed for all queries is 24328050 and this measurement was obtained in 71 runs (to reduce jitter in time measurements).
 
+
+### Plots
+
 The speed-accuracy tradeoff plots are here (with 32 threads on a given 2.2Ghz machine): 
 
 ![](plots/bigann-1B.png)
@@ -121,5 +156,15 @@ The speed-accuracy tradeoff plots are here (with 32 threads on a given 2.2Ghz ma
 
 ![](plots/msspace-1B.png)
 
+![](plots/ssnpp-1B.png)
 
 
+### Determining the optimal search-time parameters
+
+The Pareto-optimal parameter combinations can be obtained by a random exploration of the parameter space, as described [here](https://github.com/facebookresearch/faiss/wiki/Index-IO,-cloning-and-hyper-parameter-tuning#auto-tuning-the-runtime-parameters). 
+To perform this operation, do:
+```bash
+python  track1_baseline_faiss/baseline_faiss.py \
+   --dataset deep-1B --indexfile data/deep-1B.IVF1M_2level_PQ64x4fsr.faissindex \
+   --search 
+```
