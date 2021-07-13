@@ -9,8 +9,15 @@ jobs:
     strategy:
       matrix:
         include:
-          - library: faissconda
+          - algorithm: faiss-ivf
+            library: faissconda
             dataset: random-xs
+          - algorithm: faiss-t1
+            dataset: random-xs
+            library: faissconda
+          - algorithm: faiss-t1
+            dataset: random-range-xs
+            library: faissconda
       fail-fast: false
 
     steps:
@@ -32,11 +39,11 @@ jobs:
     - name: Run the benchmark
       run: |
         python create_dataset.py --dataset $DATASET
-        python run.py --docker-tag billion-scale-benchmark-${LIBRARY} --max-n-algorithms 2 --dataset $DATASET --timeout 600
+        python run.py --algorithm $ALGORITHM --max-n-algorithms 2 --dataset $DATASET --timeout 600
         sudo chmod -R 777 results/
         python plot.py --dataset $DATASET --output plot.png
         python data_export.py --output test.csv
 
       env:
-        LIBRARY: ${{ matrix.library }}
+        ALGORITHM: ${{ matrix.algorithm}}
         DATASET: ${{ matrix.dataset }} 
