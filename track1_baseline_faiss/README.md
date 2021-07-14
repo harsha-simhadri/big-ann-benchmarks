@@ -73,8 +73,7 @@ python -u track1_baseline_faiss/baseline_faiss.py --dataset ssnpp-1B \
     --quantizer_add_efSearch 80 
 ```
 
-
-**TODO** text2image-1B
+The results on text2image-1B with the same index types are a lot lower. 
 
 
 ## Running the evaluation
@@ -91,10 +90,9 @@ wget https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/track1_baseline
 wget https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/track1_baseline_faiss/msspacev-1B.IVF1M_2level_PQ64x4fsr.faissindex -P data/
 
 wget https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/track1_baseline_faiss/ssnpp-1B.IVF1M_2level_PQ32.faissindex -P data/
-
+wget https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/track1_baseline_faiss/
 
 ```
-**TODO** text2image-1B
 
 
 ### Running the evaluation
@@ -157,6 +155,8 @@ The speed-accuracy tradeoff plots are here (with 32 threads on a given 2.2Ghz ma
 ![](plots/msspace-1B.png)
 
 ![](plots/ssnpp-1B.png)
+
+![](plots/text2image-1B.png)
 
 
 ### Determining the optimal search-time parameters
