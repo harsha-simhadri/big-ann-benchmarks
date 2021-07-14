@@ -73,8 +73,8 @@ python -u track1_baseline_faiss/baseline_faiss.py --dataset ssnpp-1B \
     --quantizer_add_efSearch 80 
 ```
 
-The results on text2image-1B with the same index types are a lot lower. 
-
+The results on text2image-1B with the same index types are a lot worse.
+This is probably due to the very lossy PQ compression. 
 
 ## Running the evaluation
 
@@ -90,7 +90,7 @@ wget https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/track1_baseline
 wget https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/track1_baseline_faiss/msspacev-1B.IVF1M_2level_PQ64x4fsr.faissindex -P data/
 
 wget https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/track1_baseline_faiss/ssnpp-1B.IVF1M_2level_PQ32.faissindex -P data/
-wget https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/track1_baseline_faiss/
+wget https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/track1_baseline_faiss/text2image-1B.IVF1M_2level_PQ32.faissindex -P data/
 
 ```
 
