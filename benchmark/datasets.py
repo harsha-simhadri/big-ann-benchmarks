@@ -583,9 +583,6 @@ class RandomDS(DatasetCompetitionFormat):
         return f"Random({self.nb})"
 
 DATASETS = {
-    'sift-1B': lambda : BigANNDataset(1000),
-    'sift-10M': lambda : BigANNDataset(10),
-
     'bigann-1B': lambda : BigANNDataset(1000),
     'bigann-100M': lambda : BigANNDataset(100),
     'bigann-10M': lambda : BigANNDataset(10),
