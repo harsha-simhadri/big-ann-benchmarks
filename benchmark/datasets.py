@@ -52,13 +52,15 @@ def download(src, dst=None, max_size=None):
     ))
 
 
-def download_accelerated(src, dst):
+def download_accelerated(src, dst, quiet=False):
     """ dowload using an accelerator. Make sure the executable is in the path """
     print('downloading %s -> %s...' % (src, dst))
     if "windows.net" in src:
         cmd = f"azcopy copy {src} {dst}"
     else:
         cmd = f"axel --alternate -n 10 {src} -o {dst}"
+        if quiet:
+            cmd += " -q"
 
     print("running", cmd)
     ret = os.system(cmd)

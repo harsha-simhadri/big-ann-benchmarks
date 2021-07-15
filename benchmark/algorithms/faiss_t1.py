@@ -6,7 +6,7 @@ import faiss
 import os
 import time
 from benchmark.algorithms.base import BaseANN
-from benchmark.datasets import DATASETS
+from benchmark.datasets import DATASETS, download_accelerated
 
 def unwind_index_ivf(index):
     if isinstance(index, faiss.IndexPreTransform):
@@ -73,7 +73,6 @@ class Faiss(BaseANN):
 
     def index_name(self, name):
         return f"data/{name}.{self._index_params['indexkey']}.faissindex"
-        #return f"data/{name}.IVF1M_2level_PQ64x4fsr.faissindex"
 
     def fit(self, dataset):
         index_params = self._index_params
@@ -94,7 +93,6 @@ class Faiss(BaseANN):
                 1/0
         )
         index = faiss.index_factory(d, index_params.get("indexkey", "OPQ32_128,IVF65536_HNSW32,PQ32"), metric_type)
-        #index = faiss.index_factory(d, index_params.get("indexkey", "OPQ32_128,IVF1048576_HNSW32,PQ32"), metric_type)
 
         index_ivf, vec_transform = unwind_index_ivf(index)
         if vec_transform is None:
@@ -242,31 +240,18 @@ class Faiss(BaseANN):
 
     def load_index(self, dataset):
         if not os.path.exists(self.index_name(dataset)):
-            return False
+            if 'url' not in self._index_params:
+                return False
+
+            print('Downloading index in background. This can take a while.')
+            download_accelerated(self._index_params['url'], self.index_name(dataset), quiet=True)
 
         print("Loading index")
 
-        index = faiss.read_index(self.index_name(dataset))
+        self.index = faiss.read_index(self.index_name(dataset))
 
-        # the following code is present in the t1 baseline, but it crashes on my setup.
-
-#        index_ivf, vec_transform = unwind_index_ivf(index)
-#
-#        if vec_transform is None:
-#            vec_transform = lambda x: x
-#
-#        if index_ivf is not None:
-#            print("imbalance_factor=", index_ivf.invlists.imbalance_factor())
-#
-#        if self._index_params.get("no_precomputed_tables", False):
-#            if isinstance(index_ivf, faiss.IndexIVFPQ):
-#                print("disabling precomputed table")
-#                index_ivf.use_precomputed_table = -1
-#                index_ivf.precomputed_table.clear()
-
-        self.index = index
         self.ps = faiss.ParameterSpace()
-        self.ps.initialize(index)
+        self.ps.initialize(self.index)
 
         return True
 

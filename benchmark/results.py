@@ -17,8 +17,11 @@ def get_result_filename(dataset=None, count=None, definition=None,
     if definition:
         d.append(definition.algorithm)
         data = definition.arguments + query_arguments
-        d.append(re.sub(r'\W+', '_', json.dumps(data, sort_keys=True))
-                 .strip('_'))
+        data = re.sub(r'\W+', '_', json.dumps(data, sort_keys=True)).strip('_')
+        if len(data) > 150:
+            data = data[-149:]
+        d.append(data)
+
     return os.path.join(*d)
 
 
