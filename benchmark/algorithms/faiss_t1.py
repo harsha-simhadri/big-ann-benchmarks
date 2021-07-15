@@ -72,7 +72,7 @@ class Faiss(BaseANN):
         self._metric = metric
 
     def index_name(self, name):
-        return f"data/{name}.{self._index_params['indexkey']}.faissindex"
+        return f"data/{name}.IVF1M_2level_PQ64x4fsr.faissindex"
 
     def fit(self, dataset):
         index_params = self._index_params
@@ -239,6 +239,7 @@ class Faiss(BaseANN):
         self.ps.initialize(self.index)
 
     def load_index(self, dataset):
+        print(self.index_name(dataset))
         if not os.path.exists(self.index_name(dataset)):
             if 'url' not in self._index_params:
                 return False

@@ -8,7 +8,8 @@ The only prerequisite is Python (tested with 3.6) and Docker. Works with newer v
 
 1. Clone the repo.
 2. Run `pip install -r requirements.txt` (Use `requirements_py38.txt` if you have Python 3.8.)
-3. Run `python install.py` to build all the libraries inside Docker containers.
+3. Install docker by following instructions [here](https://docs.docker.com/engine/install/ubuntu/).
+4. Run `python install.py` to build all the libraries inside Docker containers.
 
 ## Data sets
 

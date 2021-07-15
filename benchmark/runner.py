@@ -191,7 +191,7 @@ def run_docker(definition, dataset, count, runs, timeout, rebuild,
         volumes={
             os.path.abspath('benchmark'):
                 {'bind': '/home/app/benchmark', 'mode': 'ro'},
-            os.path.abspath('data'):
+            os.path.abspath('/mnt/comp/indices'):
                 {'bind': '/home/app/data', 'mode': 'rw'},
             os.path.abspath('results'):
                 {'bind': '/home/app/results', 'mode': 'rw'},
