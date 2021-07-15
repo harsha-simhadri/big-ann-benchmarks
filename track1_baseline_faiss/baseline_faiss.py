@@ -10,7 +10,7 @@ import resource
 
 import benchmark.datasets
 from benchmark.datasets import DATASETS
-from benchmark import eval_range_search
+from benchmark.plotting import eval_range_search
 
 ####################################################################
 # Index building functions
