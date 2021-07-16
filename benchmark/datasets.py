@@ -219,7 +219,7 @@ class DatasetCompetitionFormat(Dataset):
     two versions of the file.
     """
 
-    def prepare(self):
+    def prepare(self, skip_data=False):
         if not os.path.exists(self.basedir):
             os.makedirs(self.basedir)
 
@@ -237,6 +237,9 @@ class DatasetCompetitionFormat(Dataset):
                 print("file %s already exists" % outfile)
                 continue
             download(sourceurl, outfile)
+
+        if skip_data:
+            return
 
         fn = self.ds_fn
         sourceurl = os.path.join(self.base_url, fn)
