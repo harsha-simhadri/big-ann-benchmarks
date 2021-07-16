@@ -10,6 +10,11 @@ The only prerequisite is Python (tested with 3.6) and Docker. Works with newer v
 2. Run `pip install -r requirements.txt` (Use `requirements_py38.txt` if you have Python 3.8.)
 3. Run `python install.py` to build all the libraries inside Docker containers.
 
+## Storing Data
+
+The framework assumes that all data is stored in `data/`.
+Please use a symlink if your datasets and indices are supposed to be stored somewhere else.
+
 ## Data sets
 
 See <http://big-ann-benchmarks.com/> for details on the different datasets.
@@ -30,7 +35,7 @@ Furthermore, most datasets have 1M, 10M and 100M versions, run `python create_da
 
 ## Running the benchmark
 
-Run `python run.py --dataset $DS --algorithm $ALGO --rebuild`, where `DS` is the dataset you are running on,
+Run `python run.py --dataset $DS --algorithm $ALGO` where `DS` is the dataset you are running on,
 and `ALGO` is the name of the algorithm. (Use `python run.py --list-algorithms`) to get an overview.
 `python run.py -h` provides you with further options.
 
