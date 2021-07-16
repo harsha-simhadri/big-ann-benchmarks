@@ -471,7 +471,7 @@ class RandomRangeDS(DatasetCompetitionFormat):
         if not os.path.exists(self.basedir):
             os.makedirs(self.basedir)
 
-    def prepare(self):
+    def prepare(self, skip_data=False):
         import sklearn.datasets
         import sklearn.model_selection
         from sklearn.neighbors import NearestNeighbors
@@ -546,7 +546,7 @@ class RandomDS(DatasetCompetitionFormat):
         if not os.path.exists(self.basedir):
             os.makedirs(self.basedir)
 
-    def prepare(self):
+    def prepare(self, skip_data=False):
         import sklearn.datasets
         import sklearn.model_selection
         from sklearn.neighbors import NearestNeighbors
