@@ -16,6 +16,7 @@ random-range-xs:
       base-args: ["@metric"]
       run-groups:
         base:
+          # the following args show all build arguments that can be provided to the t1 baseline.
           args: |
               [{"indexkey": "OPQ32_128,IVF1024_HNSW32,PQ32",
                 "buildthreads": -1,
@@ -38,15 +39,7 @@ random-xs:
       run-groups:
         base:
           args: |
-              [{"indexkey": "OPQ32_128,IVF1024_HNSW32,PQ32",
-                "buildthreads": -1,
-                "by_residual": -1,
-                "add_bs": 100000000,
-                "two_level_clustering": true,
-                "quantizer_add_efSearch": 80,
-                "quantizer_efConstruction": 200,
-                "maxtrain": 100000000,
-                "clustering_niter": 25
+              [{"indexkey": "OPQ32_128,IVF1024_HNSW32,PQ32"
                 }]
           # Trying all combinations of nprobe x efSearch
           query-args: [[1, 2, 4, 8, 16, 32, 64, 128], [4, 8, 32, 128, 512]]
@@ -59,15 +52,7 @@ deep-10M:
       run-groups:
         base:
           args: |
-              [{"indexkey": "OPQ32_128,IVF65536_HNSW32,PQ32",
-                "buildthreads": -1,
-                "by_residual": -1,
-                "add_bs": 100000000,
-                "two_level_clustering": true,
-                "quantizer_add_efSearch": 80,
-                "quantizer_efConstruction": 200,
-                "maxtrain": 100000000,
-                "clustering_niter": 25
+              [{"indexkey": "OPQ32_128,IVF65536_HNSW32,PQ32"
                 }]
           # Trying all combinations of nprobe x efSearch
           query-args: [[1, 2, 4, 8, 16, 32, 64, 128], [4, 8, 32, 128, 512]]
@@ -81,18 +66,44 @@ deep-1B:
         base:
           args: |
               [{"indexkey": "OPQ64_128,IVF1048576_HNSW32,PQ64x4fsr",
-                "url": "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/track1_baseline_faiss/deep-1B.IVF1M_2level_PQ64x4fsr.faissindex",
-                "buildthreads": -1,
-                "by_residual": -1,
-                "add_bs": 100000000,
-                "two_level_clustering": true,
-                "quantizer_add_efSearch": 80,
-                "quantizer_efConstruction": 200,
-                "maxtrain": 100000000,
-                "clustering_niter": 25
+                "url": "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/track1_baseline_faiss/deep-1B.IVF1M_2level_PQ64x4fsr.faissindex"
                 }]
-          # Trying all combinations of nprobe x efSearch
-          query-args: [[1, 2, 4, 8, 16, 32, 64, 128], [4, 8, 32, 128, 512]]
+          query-args: |
+              ["nprobe=1,quantizer_efSearch=4",
+              "nprobe=2,quantizer_efSearch=4",
+              "nprobe=2,quantizer_efSearch=8",
+              "nprobe=4,quantizer_efSearch=4",
+              "nprobe=2,quantizer_efSearch=16",
+              "nprobe=4,quantizer_efSearch=8",
+              "nprobe=4,quantizer_efSearch=16",
+              "nprobe=8,quantizer_efSearch=4",
+              "nprobe=8,quantizer_efSearch=8",
+              "nprobe=8,quantizer_efSearch=16",
+              "nprobe=8,quantizer_efSearch=32",
+              "nprobe=8,quantizer_efSearch=64",
+              "nprobe=16,quantizer_efSearch=8",
+              "nprobe=16,quantizer_efSearch=16",
+              "nprobe=16,quantizer_efSearch=32",
+              "nprobe=16,quantizer_efSearch=64",
+              "nprobe=16,quantizer_efSearch=128",
+              "nprobe=32,quantizer_efSearch=16",
+              "nprobe=32,quantizer_efSearch=32",
+              "nprobe=32,quantizer_efSearch=64",
+              "nprobe=32,quantizer_efSearch=128",
+              "nprobe=32,quantizer_efSearch=256",
+              "nprobe=64,quantizer_efSearch=16",
+              "nprobe=64,quantizer_efSearch=32",
+              "nprobe=64,quantizer_efSearch=64",
+              "nprobe=64,quantizer_efSearch=128",
+              "nprobe=64,quantizer_efSearch=256",
+              "nprobe=64,quantizer_efSearch=512",
+              "nprobe=128,quantizer_efSearch=32",
+              "nprobe=128,quantizer_efSearch=64",
+              "nprobe=128,quantizer_efSearch=128",
+              "nprobe=128,quantizer_efSearch=256",
+              "nprobe=128,quantizer_efSearch=512",
+              "nprobe=256,quantizer_efSearch=64",
+              "nprobe=256,quantizer_efSearch=128"]
 msspacev-1B:
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
@@ -103,18 +114,34 @@ msspacev-1B:
         base:
           args: |
               [{"indexkey": "OPQ64_128,IVF1048576_HNSW32,PQ64x4fsr",
-                "url": "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/track1_baseline_faiss/msspacev-1B.IVF1M_2level_PQ64x4fsr.faissindex",
-                "buildthreads": -1,
-                "by_residual": -1,
-                "add_bs": 100000000,
-                "two_level_clustering": true,
-                "quantizer_add_efSearch": 80,
-                "quantizer_efConstruction": 200,
-                "maxtrain": 100000000,
-                "clustering_niter": 25
+                "url": "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/track1_baseline_faiss/msspacev-1B.IVF1M_2level_PQ64x4fsr.faissindex"
                 }]
-          # Trying all combinations of nprobe x efSearch
-          query-args: [[1, 2, 4, 8, 16, 32, 64, 128], [4, 8, 32, 128, 512]]
+          query-args: |
+              ["nprobe=1,quantizer_efSearch=4",
+              "nprobe=1,quantizer_efSearch=8",
+              "nprobe=1,quantizer_efSearch=16",
+              "nprobe=2,quantizer_efSearch=8",
+              "nprobe=2,quantizer_efSearch=16",
+              "nprobe=4,quantizer_efSearch=16",
+              "nprobe=4,quantizer_efSearch=32",
+              "nprobe=4,quantizer_efSearch=64",
+              "nprobe=8,quantizer_efSearch=32",
+              "nprobe=8,quantizer_efSearch=64",
+              "nprobe=16,quantizer_efSearch=32",
+              "nprobe=8,quantizer_efSearch=128",
+              "nprobe=16,quantizer_efSearch=64",
+              "nprobe=16,quantizer_efSearch=128",
+              "nprobe=32,quantizer_efSearch=64",
+              "nprobe=32,quantizer_efSearch=128",
+              "nprobe=32,quantizer_efSearch=256",
+              "nprobe=64,quantizer_efSearch=128",
+              "nprobe=64,quantizer_efSearch=256",
+              "nprobe=64,quantizer_efSearch=512",
+              "nprobe=128,quantizer_efSearch=128",
+              "nprobe=128,quantizer_efSearch=256",
+              "nprobe=128,quantizer_efSearch=512",
+              "nprobe=256,quantizer_efSearch=256",
+              "nprobe=256,quantizer_efSearch=512"]
 msturing-1B:
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
@@ -125,18 +152,32 @@ msturing-1B:
         base:
           args: |
               [{"indexkey": "OPQ64_128,IVF1048576_HNSW32,PQ64x4fsr",
-                "url": "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/track1_baseline_faiss/msturing-1B.IVF1M_2level_PQ64x4fsr.faissindex",
-                "buildthreads": -1,
-                "by_residual": -1,
-                "add_bs": 100000000,
-                "two_level_clustering": true,
-                "quantizer_add_efSearch": 80,
-                "quantizer_efConstruction": 200,
-                "maxtrain": 100000000,
-                "clustering_niter": 25
+                "url": "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/track1_baseline_faiss/msturing-1B.IVF1M_2level_PQ64x4fsr.faissindex"
                 }]
-          # Trying all combinations of nprobe x efSearch
-          query-args: [[1, 2, 4, 8, 16, 32, 64, 128], [4, 8, 32, 128, 512]]
+          query-args: |  
+              ["nprobe=1,quantizer_efSearch=4",
+              "nprobe=2,quantizer_efSearch=4",
+              "nprobe=1,quantizer_efSearch=8",
+              "nprobe=2,quantizer_efSearch=8",
+              "nprobe=1,quantizer_efSearch=16",
+              "nprobe=2,quantizer_efSearch=16",
+              "nprobe=4,quantizer_efSearch=16",
+              "nprobe=2,quantizer_efSearch=32",
+              "nprobe=4,quantizer_efSearch=32",
+              "nprobe=8,quantizer_efSearch=32",
+              "nprobe=8,quantizer_efSearch=64",
+              "nprobe=16,quantizer_efSearch=64",
+              "nprobe=16,quantizer_efSearch=128",
+              "nprobe=32,quantizer_efSearch=128",
+              "nprobe=32,quantizer_efSearch=256",
+              "nprobe=64,quantizer_efSearch=128",
+              "nprobe=64,quantizer_efSearch=256",
+              "nprobe=128,quantizer_efSearch=128",
+              "nprobe=64,quantizer_efSearch=512",
+              "nprobe=128,quantizer_efSearch=256",
+              "nprobe=128,quantizer_efSearch=512",
+              "nprobe=256,quantizer_efSearch=256",
+              "nprobe=256,quantizer_efSearch=512"]
 bigann-1B:
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
@@ -147,18 +188,40 @@ bigann-1B:
         base:
           args: |
               [{"indexkey": "OPQ64_128,IVF1048576_HNSW32,PQ64x4fsr",
-                "url": "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/track1_baseline_faiss/bigann-1B.IVF1M_2level_PQ64x4fsr.faissindex",
-                "buildthreads": -1,
-                "by_residual": -1,
-                "add_bs": 100000000,
-                "two_level_clustering": true,
-                "quantizer_add_efSearch": 80,
-                "quantizer_efConstruction": 200,
-                "maxtrain": 100000000,
-                "clustering_niter": 25
+                "url": "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/track1_baseline_faiss/bigann-1B.IVF1M_2level_PQ64x4fsr.faissindex"
                 }]
-          # Trying all combinations of nprobe x efSearch
-          query-args: [[1, 2, 4, 8, 16, 32, 64, 128], [4, 8, 32, 128, 512]]
+          query-args: |
+               ["nprobe=1,quantizer_efSearch=4",
+                "nprobe=2,quantizer_efSearch=4",
+                "nprobe=4,quantizer_efSearch=4",
+                "nprobe=4,quantizer_efSearch=8",
+                "nprobe=8,quantizer_efSearch=4",
+                "nprobe=8,quantizer_efSearch=8",
+                "nprobe=8,quantizer_efSearch=16",
+                "nprobe=8,quantizer_efSearch=32",
+                "nprobe=16,quantizer_efSearch=16",
+                "nprobe=16,quantizer_efSearch=32",
+                "nprobe=16,quantizer_efSearch=64",
+                "nprobe=32,quantizer_efSearch=8",
+                "nprobe=32,quantizer_efSearch=32",
+                "nprobe=32,quantizer_efSearch=64",
+                "nprobe=32,quantizer_efSearch=128",
+                "nprobe=64,quantizer_efSearch=16",
+                "nprobe=64,quantizer_efSearch=32",
+                "nprobe=64,quantizer_efSearch=64",
+                "nprobe=64,quantizer_efSearch=128",
+                "nprobe=64,quantizer_efSearch=256",
+                "nprobe=128,quantizer_efSearch=32",
+                "nprobe=128,quantizer_efSearch=64",
+                "nprobe=128,quantizer_efSearch=128",
+                "nprobe=128,quantizer_efSearch=256",
+                "nprobe=128,quantizer_efSearch=512",
+                "nprobe=256,quantizer_efSearch=64",
+                "nprobe=256,quantizer_efSearch=128",
+                "nprobe=256,quantizer_efSearch=512",
+                "nprobe=512,quantizer_efSearch=256",
+                "nprobe=512,quantizer_efSearch=512",
+                "nprobe=1024,quantizer_efSearch=256"]
 ssnpp-1B:
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
@@ -169,18 +232,78 @@ ssnpp-1B:
         base:
           args: |
               [{"indexkey": "OPQ32_128,IVF1048576_HNSW32,PQ32",
-                "url": "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/track1_baseline_faiss/bigann-1B.IVF1M_2level_PQ32.faissindex",
-                "buildthreads": -1,
-                "by_residual": -1,
-                "add_bs": 100000000,
-                "two_level_clustering": true,
-                "quantizer_add_efSearch": 80,
-                "quantizer_efConstruction": 200,
-                "maxtrain": 100000000,
-                "clustering_niter": 25
+              "url": "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/track1_baseline_faiss/ssnpp-1B.IVF1M_2level_PQ32.faissindex"
+                }]
+          query-args: |
+              ["nprobe=1,quantizer_efSearch=4,ht=92",
+              "nprobe=1,quantizer_efSearch=4,ht=98",
+              "nprobe=1,quantizer_efSearch=4,ht=104",
+              "nprobe=1,quantizer_efSearch=4,ht=112",
+              "nprobe=1,quantizer_efSearch=8,ht=96",
+              "nprobe=1,quantizer_efSearch=8,ht=108",
+              "nprobe=1,quantizer_efSearch=16,ht=98",
+              "nprobe=1,quantizer_efSearch=16,ht=114",
+              "nprobe=1,quantizer_efSearch=16,ht=116",
+              "nprobe=1,quantizer_efSearch=32,ht=98",
+              "nprobe=1,quantizer_efSearch=32,ht=110",
+              "nprobe=1,quantizer_efSearch=32,ht=112",
+              "nprobe=1,quantizer_efSearch=32,ht=120",
+              "nprobe=4,quantizer_efSearch=16,ht=256",
+              "nprobe=4,quantizer_efSearch=32,ht=104",
+              "nprobe=4,quantizer_efSearch=32,ht=112",
+              "nprobe=4,quantizer_efSearch=32,ht=256",
+              "nprobe=8,quantizer_efSearch=32,ht=112",
+              "nprobe=4,quantizer_efSearch=64,ht=256",
+              "nprobe=8,quantizer_efSearch=64,ht=116",
+              "nprobe=8,quantizer_efSearch=64,ht=128",
+              "nprobe=16,quantizer_efSearch=32,ht=256",
+              "nprobe=16,quantizer_efSearch=64,ht=118",
+              "nprobe=32,quantizer_efSearch=64,ht=256",
+              "nprobe=64,quantizer_efSearch=256,ht=116",
+              "nprobe=32,quantizer_efSearch=512,ht=256",
+              "nprobe=64,quantizer_efSearch=512,ht=126",
+              "nprobe=256,quantizer_efSearch=256,ht=128",
+              "nprobe=512,quantizer_efSearch=256,ht=128",
+              "nprobe=2048,quantizer_efSearch=512,ht=256",
+              "nprobe=4096,quantizer_efSearch=512,ht=256"]
+text2image-1B:
+    faiss-t1:
+      docker-tag: billion-scale-benchmark-faissconda
+      module: benchmark.algorithms.faiss_t1
+      constructor: Faiss
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"indexkey": "OPQ32_128,IVF1048576_HNSW32,PQ32",
+              "url": "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/track1_baseline_faiss/text2image-1B.IVF1M_2level_PQ32.faissindex"
                 }]
           # Trying all combinations of nprobe x efSearch
-          query-args: [[1, 2, 4, 8, 16, 32, 64], [4, 8, 32, 64, 128]]
+          query-args: | 
+              ["nprobe=1,quantizer_efSearch=4,ht=106",
+              "nprobe=1,quantizer_efSearch=16,ht=114",
+              "nprobe=1,quantizer_efSearch=16,ht=116",
+              "nprobe=2,quantizer_efSearch=16,ht=110",
+              "nprobe=4,quantizer_efSearch=8,ht=118",
+              "nprobe=4,quantizer_efSearch=32,ht=256",
+              "nprobe=8,quantizer_efSearch=16,ht=114",
+              "nprobe=4,quantizer_efSearch=64,ht=118",
+              "nprobe=4,quantizer_efSearch=64,ht=122",
+              "nprobe=8,quantizer_efSearch=32,ht=116",
+              "nprobe=8,quantizer_efSearch=64,ht=116",
+              "nprobe=8,quantizer_efSearch=64,ht=126",
+              "nprobe=16,quantizer_efSearch=64,ht=256",
+              "nprobe=16,quantizer_efSearch=256,ht=118",
+              "nprobe=16,quantizer_efSearch=512,ht=256",
+              "nprobe=32,quantizer_efSearch=512,ht=128",
+              "nprobe=64,quantizer_efSearch=128,ht=126",
+              "nprobe=128,quantizer_efSearch=512,ht=256",
+              "nprobe=256,quantizer_efSearch=512,ht=120",
+              "nprobe=256,quantizer_efSearch=512,ht=122",
+              "nprobe=1024,quantizer_efSearch=512,ht=122",
+              "nprobe=1024,quantizer_efSearch=512,ht=128",
+              "nprobe=2048,quantizer_efSearch=512,ht=122",
+              "nprobe=4096,quantizer_efSearch=512,ht=256"]
 ssnpp-10M:
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
@@ -190,15 +313,7 @@ ssnpp-10M:
       run-groups:
         base:
           args: |
-              [{"indexkey": "OPQ32_128,IVF65536_HNSW32,PQ32",
-                "buildthreads": -1,
-                "by_residual": -1,
-                "add_bs": 100000000,
-                "two_level_clustering": true,
-                "quantizer_add_efSearch": 80,
-                "quantizer_efConstruction": 200,
-                "maxtrain": 100000000,
-                "clustering_niter": 25
+              [{"indexkey": "OPQ32_128,IVF65536_HNSW32,PQ32"
                 }]
           # Trying all combinations of nprobe x efSearch
           query-args: [[1, 2, 4, 8,], [4, 8, 32]]
