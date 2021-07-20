@@ -7,8 +7,10 @@
 The only prerequisite is Python (tested with 3.6) and Docker. Works with newer versions of Python as well but probably requires an updated `requirements.txt` on the host. (Suggestion: copy `requirements.txt` to `requirements${PYTHON_VERSION}.txt` and remove all fixed versions. `requirements.txt` has to be kept for the docker containers.)
 
 1. Clone the repo.
-2. Run `pip install -r requirements.txt` (Use `requirements_py38.txt` if you have Python 3.8.)
+2. Run `pip install -r requirements.txt`. Use `requirements_py38.txt` if you have Python 3.8. You might need to 
+install some packages `sudo apt install gcc libfontconfig1-dev'	
 3. Install docker by following instructions [here](https://docs.docker.com/engine/install/ubuntu/).
+You might also want to follow the post-install steps for running docker in non-root user mode.
 4. Run `python install.py` to build all the libraries inside Docker containers.
 
 ## Storing Data

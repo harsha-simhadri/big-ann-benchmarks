@@ -169,7 +169,7 @@ ssnpp-1B:
         base:
           args: |
               [{"indexkey": "OPQ32_128,IVF1048576_HNSW32,PQ32",
-                "url": "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/track1_baseline_faiss/bigann-1B.IVF1M_2level_PQ32.faissindex",
+              "url":  "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/track1_baseline_faiss/ssnpp-1B.IVF1M_2level_PQ32.faissindex",
                 "buildthreads": -1,
                 "by_residual": -1,
                 "add_bs": 100000000,
