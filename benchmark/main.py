@@ -136,6 +136,8 @@ def main():
             query_argument_groups = [[]]
         not_yet_run = []
         for query_arguments in query_argument_groups:
+            if type(query_arguments) != list:
+                query_arguments = [query_arguments]
             fn = get_result_filename(args.dataset,
                                      args.count, definition,
                                      query_arguments)
