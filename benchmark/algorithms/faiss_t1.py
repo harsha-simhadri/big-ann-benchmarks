@@ -256,11 +256,10 @@ class Faiss(BaseANN):
 
         return True
 
-    def set_query_arguments(self, nprobe, efSearch):
+    def set_query_arguments(self, query_args):
         faiss.cvar.indexIVF_stats.reset()
-        self.ps.set_index_parameters(self.index, f"nprobe={nprobe},quantizer_efSearch={efSearch}")
-        self._nprobe = nprobe
-        self._efSearch = efSearch
+        self.ps.set_index_parameters(self.index, query_args)
+        self.qas = query_args
 
 
     # shall we return something interesting here?
@@ -268,7 +267,7 @@ class Faiss(BaseANN):
         return {"dist_comps": faiss.cvar.indexIVF_stats.ndis}
 
     def __str__(self):
-        return 'FaissIVFPQ(nprobe=%d, efSearch=%d)' % (self._nprobe, self._efSearch)
+        return f'FaissIVFPQ({self.qas})'
 
     def query(self, X, n):
         self.res = self.index.search(X, n)

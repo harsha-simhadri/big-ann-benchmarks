@@ -28,8 +28,12 @@ random-range-xs:
                 "maxtrain": 100000000,
                 "clustering_niter": 25
                 }]
-          # Trying all combinations of nprobe x efSearch
-          query-args: [[1, 2, 4, 8, 16, 32, 64, 128], [4, 8, 32, 128, 512]]
+          query-args: |
+              ["nprobe=1,quantizer_efSearch=4",
+              "nprobe=2,quantizer_efSearch=4",
+              "nprobe=2,quantizer_efSearch=8",
+              "nprobe=4,quantizer_efSearch=4",
+              "nprobe=2,quantizer_efSearch=16"]
 random-xs:
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
@@ -41,8 +45,12 @@ random-xs:
           args: |
               [{"indexkey": "OPQ32_128,IVF1024_HNSW32,PQ32"
                 }]
-          # Trying all combinations of nprobe x efSearch
-          query-args: [[1, 2, 4, 8, 16, 32, 64, 128], [4, 8, 32, 128, 512]]
+          query-args: |
+              ["nprobe=1,quantizer_efSearch=4",
+              "nprobe=2,quantizer_efSearch=4",
+              "nprobe=2,quantizer_efSearch=8",
+              "nprobe=4,quantizer_efSearch=4",
+              "nprobe=2,quantizer_efSearch=16"]
 deep-10M:
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
@@ -54,8 +62,12 @@ deep-10M:
           args: |
               [{"indexkey": "OPQ32_128,IVF65536_HNSW32,PQ32"
                 }]
-          # Trying all combinations of nprobe x efSearch
-          query-args: [[1, 2, 4, 8, 16, 32, 64, 128], [4, 8, 32, 128, 512]]
+          query-args: |
+              ["nprobe=1,quantizer_efSearch=4",
+              "nprobe=2,quantizer_efSearch=4",
+              "nprobe=2,quantizer_efSearch=8",
+              "nprobe=4,quantizer_efSearch=4",
+              "nprobe=2,quantizer_efSearch=16"]
 deep-1B:
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
@@ -314,5 +326,8 @@ ssnpp-10M:
           args: |
               [{"indexkey": "OPQ32_128,IVF65536_HNSW32,PQ32"
                 }]
-          # Trying all combinations of nprobe x efSearch
-          query-args: [[1, 2, 4, 8,], [4, 8, 32]]
+          query-args: |
+              ["nprobe=1,quantizer_efSearch=4,ht=92",
+              "nprobe=1,quantizer_efSearch=4,ht=98",
+              "nprobe=1,quantizer_efSearch=4,ht=104",
+              "nprobe=1,quantizer_efSearch=4,ht=112"]
