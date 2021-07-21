@@ -230,10 +230,7 @@ bigann-1B:
                 "nprobe=128,quantizer_efSearch=512",
                 "nprobe=256,quantizer_efSearch=64",
                 "nprobe=256,quantizer_efSearch=128",
-                "nprobe=256,quantizer_efSearch=512",
-                "nprobe=512,quantizer_efSearch=256",
-                "nprobe=512,quantizer_efSearch=512",
-                "nprobe=1024,quantizer_efSearch=256"]
+                "nprobe=256,quantizer_efSearch=512"] 
 ssnpp-1B:
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
@@ -274,10 +271,7 @@ ssnpp-1B:
               "nprobe=64,quantizer_efSearch=256,ht=116",
               "nprobe=32,quantizer_efSearch=512,ht=256",
               "nprobe=64,quantizer_efSearch=512,ht=126",
-              "nprobe=256,quantizer_efSearch=256,ht=128",
-              "nprobe=512,quantizer_efSearch=256,ht=128",
-              "nprobe=2048,quantizer_efSearch=512,ht=256",
-              "nprobe=4096,quantizer_efSearch=512,ht=256"]
+              "nprobe=256,quantizer_efSearch=256,ht=128"]
 text2image-1B:
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
@@ -311,11 +305,7 @@ text2image-1B:
               "nprobe=64,quantizer_efSearch=128,ht=126",
               "nprobe=128,quantizer_efSearch=512,ht=256",
               "nprobe=256,quantizer_efSearch=512,ht=120",
-              "nprobe=256,quantizer_efSearch=512,ht=122",
-              "nprobe=1024,quantizer_efSearch=512,ht=122",
-              "nprobe=1024,quantizer_efSearch=512,ht=128",
-              "nprobe=2048,quantizer_efSearch=512,ht=122",
-              "nprobe=4096,quantizer_efSearch=512,ht=256"]
+              "nprobe=256,quantizer_efSearch=512,ht=122"]
 ssnpp-10M:
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
