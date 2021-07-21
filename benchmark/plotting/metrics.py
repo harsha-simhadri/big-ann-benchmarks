@@ -27,12 +27,19 @@ def knn(true_nn, run_nn, count, metrics):
         print("Found cached result")
     return metrics['knn']
 
-def ap(true_nn, run_nn):
-    gt_nres, gt_I, gt_D = true_nn
-    nq = gt_nres.shape[0]
-    gt_lims = np.zeros(nq + 1, dtype=int)
-    gt_lims[1:] = np.cumsum(gt_nres)
-    return compute_AP((gt_lims, gt_I, gt_D), run_nn)
+def ap(true_nn, run_nn, metrics):
+    if'ap' not in metrics:
+        print('Computing ap metrics')
+        gt_nres, gt_I, gt_D = true_nn
+        nq = gt_nres.shape[0]
+        gt_lims = np.zeros(nq + 1, dtype=int)
+        gt_lims[1:] = np.cumsum(gt_nres)
+        ap = compute_AP((gt_lims, gt_I, gt_D), run_nn)
+        ap_metric = metrics.create_group('ap')
+        ap_metric.attrs['mean'] = ap
+    else:
+        print("Found cached result")
+    return metrics['ap'].attrs['mean']
 
 def queries_per_second(nq, attrs):
     return nq / attrs["best_search_time"]
@@ -59,7 +66,7 @@ all_metrics = {
     },
     "ap": {
         "description": "Average Precision",
-        "function": lambda true_nn, run_nn, metrics, run_attrs: ap(true_nn, run_nn),  # noqa
+        "function": lambda true_nn, run_nn, metrics, run_attrs: ap(true_nn, run_nn, metrics),  # noqa
         "worst": float("-inf"),
         "lim": [0.0, 1.03],
         "search_type" : "range",
