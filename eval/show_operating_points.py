@@ -19,7 +19,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
     df = pd.read_csv(args.csv)
 
-    print(df[(df.qps > args.threshold) & (df.algorithm == args.algorithm)].groupby(['algorithm', 'dataset']).max()[['k-nn', 'ap']])
+    print(df[(df.qps > args.threshold) & (df.algorithm == args.algorithm)].groupby(['algorithm', 'dataset']).max()[['recall/ap']])
 
 
 
