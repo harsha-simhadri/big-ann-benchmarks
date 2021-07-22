@@ -16,7 +16,14 @@ def get_result_filename(dataset=None, count=None, definition=None,
         d.append(str(count))
     if definition:
         d.append(definition.algorithm)
-        data = definition.arguments + query_arguments
+        build_args = definition.arguments
+        try:
+            for args in build_args:
+                if type(args) == dict and 'indexkey' in args:
+                    build_args = [args['indexkey']]
+        except:
+                pass
+        data = build_args + query_arguments
         data = re.sub(r'\W+', '_', json.dumps(data, sort_keys=True)).strip('_')
         if len(data) > 150:
             data = data[-149:]
