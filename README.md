@@ -50,6 +50,18 @@ To avoid sudo, run `sudo chmod -R 777 results/` before invoking these scripts.
 
 To get a table overview over the best recall/ap achieved over a certain threshold, run `python3 eval/show_operating_points.py --algorithm $ALGO --threshold $THRESHOLD res.csv`, where `res.csv` is the file produced by running `data_export.py` above.
 
+For the track1 baseline, the output `python3 eval/show_operating_points.py --algorithm faiss-t1 --threshold 10000 res.csv` led to
+
+```
+                         recall/ap
+algorithm dataset
+faiss-t1  bigann-1B       0.634510
+          deep-1B         0.650280
+          msspacev-1B     0.728861
+          msturing-1B     0.703611
+          ssnpp-1B        0.753780
+          text2image-1B   0.069275
+```
 
 ## Running the track 1 baseline
 After running the installation, we can evaluate the baseline as follows.
