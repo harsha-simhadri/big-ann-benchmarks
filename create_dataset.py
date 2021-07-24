@@ -7,6 +7,10 @@ if __name__ == "__main__":
         '--dataset',
         choices=DATASETS.keys(),
         required=True)
+    parser.add_argument(
+        '--skip-data',
+        action='store_true',
+        help='skip downloading base vectors')
     args = parser.parse_args()
-    ds = DATASETS[args.dataset]
-    ds.prepare()
+    ds = DATASETS[args.dataset]()
+    ds.prepare(True if args.skip_data else False)

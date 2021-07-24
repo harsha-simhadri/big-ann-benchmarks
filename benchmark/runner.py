@@ -27,11 +27,13 @@ def run_individual_query(algo, X, distance, count, run_count, search_type):
         start = time.time()
         if search_type == "knn":
             algo.query(X, count)
+            total = (time.time() - start)
+            results = algo.get_results()
         else:
             algo.range_query(X, count)
-        total = (time.time() - start)
+            total = (time.time() - start)
+            results = algo.get_range_results()
 
-        results = algo.get_results()
 
         search_time = total
         best_search_time = min(best_search_time, search_time)
@@ -57,7 +59,7 @@ error: query argument groups have been specified for %s.%s(%s), but the \
 algorithm instantiated from it does not implement the set_query_arguments \
 function""" % (definition.module, definition.constructor, definition.arguments)
 
-    ds = DATASETS[dataset]
+    ds = DATASETS[dataset]()
     #X_train = numpy.array(D['train'])
     X =  ds.get_queries()
     distance = ds.distance()

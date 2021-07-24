@@ -44,7 +44,12 @@ def compute_metrics(true_nn, res, metric_1, metric_2,
         algo = properties['algo']
         algo_name = properties['name']
         # cache indices to avoid access to hdf5 file
-        run_nn = numpy.array(run['neighbors'])
+        if metric_1 == "ap"  or metric_2 == "ap":
+            run_nn = (numpy.array(run['lims']),
+                    numpy.array(run['neighbors']),
+                    numpy.array(run['distances']))
+        else:
+            run_nn = numpy.array(run['neighbors'])
         if recompute and 'metrics' in run:
             del run['metrics']
         metrics_cache = get_or_create_metrics(run)
@@ -110,11 +115,17 @@ def compute_metrics_all_runs(dataset, res, recompute=False):
     # in the loaded runs
     power_capture.detect_power_benchmarks(metrics, res)
 
+    search_type = dataset.search_type()
     for i, (properties, run) in enumerate(res):
         algo = properties['algo']
         algo_name = properties['name']
         # cache distances to avoid access to hdf5 file
-        run_nn = numpy.array(run['neighbors'])
+        if search_type == "knn":
+            run_nn = numpy.array(run['neighbors'])
+        elif search_type == "range":
+            run_nn = (numpy.array(run['lims']),
+                    numpy.array(run['neighbors']),
+                    numpy.array(run['distances']))
         if recompute and 'metrics' in run:
             print('Recomputing metrics, clearing cache')
             del run['metrics']
@@ -135,6 +146,9 @@ def compute_metrics_all_runs(dataset, res, recompute=False):
             'count': properties['count'],
         }
         for name, metric in metrics.items():
+            if search_type == "knn" and name == "ap" or\
+                search_type == "range" and name == "k-nn":
+                continue
             v = metric["function"](true_nn, run_nn, metrics_cache, properties)
             run_result[name] = v
         yield run_result

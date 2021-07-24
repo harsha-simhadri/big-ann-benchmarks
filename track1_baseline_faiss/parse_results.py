@@ -57,7 +57,8 @@ def parse_result_file(fname):
                     else:
                         rank = int(fi[1][len("inter@"):])
                     stats["ranks"] = [rank]
-
+                elif 'AP' in l:
+                    stats["measure"] = "average_precision"
                 else:
                     assert False
                 st = 1

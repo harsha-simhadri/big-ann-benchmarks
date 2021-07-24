@@ -63,8 +63,8 @@ def main():
         choices=DATASETS.keys())
     parser.add_argument(
         "-k", "--count",
-        default=10,
-        type=positive_int,
+        default=-1,
+        type=int,
         help="the number of near neighbours to search for")
     parser.add_argument(
         '--definitions',
@@ -142,12 +142,15 @@ def main():
     logging.config.fileConfig("logging.conf")
     logger = logging.getLogger("annb")
 
-    dataset = DATASETS[args.dataset]
+    dataset = DATASETS[args.dataset]()
+    dataset.prepare(True) # prepare dataset, but skip potentially huge base vectors
     dimension = dataset.d
     point_type = 'float'
     distance = dataset.distance()
+    if args.count == -1:
+        args.count = dataset.default_count()
     definitions = get_definitions(
-        args.definitions, dimension, point_type, distance, args.count)
+        args.definitions, dimension, args.dataset, distance, args.count)
 
     # Filter out, from the loaded definitions, all those query argument groups
     # that correspond to experiments that have already been run. (This might
@@ -160,6 +163,8 @@ def main():
             query_argument_groups = [[]]
         not_yet_run = []
         for query_arguments in query_argument_groups:
+            if type(query_arguments) != list:
+                query_arguments = [query_arguments]
             fn = get_result_filename(args.dataset,
                                      args.count, definition,
                                      query_arguments)

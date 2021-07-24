@@ -10,7 +10,7 @@ import resource
 
 import benchmark.datasets
 from benchmark.datasets import DATASETS
-from benchmark import eval_range_search
+from benchmark.plotting import eval_range_search
 
 ####################################################################
 # Index building functions
@@ -224,13 +224,17 @@ def build_index(args, ds):
         index.add(sanitize(ds.get_database()))
     else:
         i0 = 0
-        for xblock in ds.get_dataset_iterator(bs=args.add_bs):
-            i1 = i0 + len(xblock)
-            print("  adding %d:%d / %d [%.3f s, RSS %d kiB] " % (
-                i0, i1, ds.nb, time.time() - t0,
-                faiss.get_mem_usage_kb()))
-            index.add(xblock)
-            i0 = i1
+        nsplit = args.add_splits
+        for sno in range(nsplit):
+            print(f"============== SPLIT {sno}/{nsplit}")
+            for xblock in ds.get_dataset_iterator(bs=args.add_bs, split=(nsplit, sno)):
+                i1 = i0 + len(xblock)
+                print("  adding %d:%d / %d [%.3f s, RSS %d kiB] " % (
+                    i0, i1, ds.nb, time.time() - t0,
+                    faiss.get_mem_usage_kb()))
+                index.add(xblock)
+                i0 = i1
+            gc.collect()
 
     print("  add in %.3f s" % (time.time() - t0))
     if args.indexfile:
@@ -350,8 +354,7 @@ def op_compute_bounds(ps, ops, cno):
 
 def explore_parameter_space_range(index, xq, gt, ps, radius):
     """ exploration of the parameter space for range search, using the
-    Average Precision as
-
+    Average Precision as criterion
     """
 
     n_experiments = ps.n_experiments
@@ -382,18 +385,18 @@ def explore_parameter_space_range(index, xq, gt, ps, radius):
         perf = eval_range_search.compute_AP(gt, (lims, I, D))
         keep = ops.add(perf, t_search, ps.combination_name(cno), cno)
 
-        return perf, t_search, nrun, keep
+        return len(D), perf, t_search, nrun, keep
 
     if n_experiments == 0:
         # means exhaustive run
         for cno in range(n_comb):
-            perf, t_search, nrun, keep = run_1_experiment(cno)
+            nres, perf, t_search, nrun, keep = run_1_experiment(cno)
 
             if verbose:
-                print("  %d/%d: %s perf=%.3f t=%.3f s %s" % (
+                print("  %d/%d: %s nres=%d perf=%.3f t=%.3f s %s" % (
                        cno, n_comb,
                        ps.combination_name(cno),
-                       perf, t_search, "*" if keep else ""))
+                       nres, perf, t_search, "*" if keep else ""))
         return ops
 
     n_experiments = min(n_experiments, n_comb)
@@ -425,11 +428,11 @@ def explore_parameter_space_range(index, xq, gt, ps, radius):
         if best_t <= lower_bound_t:
             continue
 
-        perf, t_search, nrun, keep = run_1_experiment(cno)
+        nres, perf, t_search, nrun, keep = run_1_experiment(cno)
 
         if verbose:
-            print(" perf %.3f t %.3f (%d %s) %s" % (
-                   perf, t_search, nrun,
+            print(" nres %d perf %.3f t %.3f (%d %s) %s" % (
+                   nres, perf, t_search, nrun,
                    "runs" if nrun >= 2 else "run",
                    "*" if keep else ""))
 
@@ -593,6 +596,9 @@ def main():
     aa('--indexfile', default='', help='file to read or write index from')
     aa('--add_bs', default=100000, type=int,
         help='add elements index by batches of this size')
+    aa('--add_splits', default=1, type=int,
+        help="Do adds in this many splits (otherwise risk of OOM for large datasets)")
+
     aa('--no_precomputed_tables', action='store_true', default=False,
         help='disable precomputed tables (uses less memory)')
     aa('--clustering_niter', default=-1, type=int,

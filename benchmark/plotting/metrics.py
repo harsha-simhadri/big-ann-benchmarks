@@ -1,9 +1,11 @@
 from __future__ import absolute_import
 import numpy as np
+from benchmark.plotting.eval_range_search import compute_AP
 
 from benchmark.sensors.power_capture import power_capture
 
 def get_recall_values(true_nn, run_nn, count):
+    true_nn, _ = true_nn
     true_nn = true_nn[:, :count]
     assert true_nn.shape == run_nn.shape
     recalls = np.zeros(len(run_nn))
@@ -26,21 +28,34 @@ def knn(true_nn, run_nn, count, metrics):
         print("Found cached result")
     return metrics['knn']
 
+def ap(true_nn, run_nn, metrics):
+    if'ap' not in metrics:
+        print('Computing ap metrics')
+        gt_nres, gt_I, gt_D = true_nn
+        nq = gt_nres.shape[0]
+        gt_lims = np.zeros(nq + 1, dtype=int)
+        gt_lims[1:] = np.cumsum(gt_nres)
+        ap = compute_AP((gt_lims, gt_I, gt_D), run_nn)
+        ap_metric = metrics.create_group('ap')
+        ap_metric.attrs['mean'] = ap
+    else:
+        print("Found cached result")
+    return metrics['ap'].attrs['mean']
 
-def queries_per_second(queries, attrs):
-    return len(queries) / attrs["best_search_time"]
+def queries_per_second(nq, attrs):
+    return nq / attrs["best_search_time"]
 
 
-def index_size(queries, attrs):
+def index_size(attrs):
     return attrs.get("index_size", 0)
 
 
-def build_time(queries, attrs):
+def build_time(attrs):
     return attrs.get("build_time", 1e6)
 
 
-def dist_computations(queries, attrs):
-    return attrs.get("dist_comps", 0) / (attrs['run_count'] * len(queries))
+def dist_computations(nq, attrs):
+    return attrs.get("dist_comps", 0) / (attrs['run_count'] * nq)
 
 def watt_seconds_per_query(queries, attrs):
     return power_capture.compute_watt_seconds_per_query(queries, attrs )
@@ -50,31 +65,38 @@ all_metrics = {
         "description": "Recall",
         "function": lambda true_nn, run_nn, metrics, run_attrs: knn(true_nn, run_nn, run_attrs["count"], metrics).attrs['mean'],  # noqa
         "worst": float("-inf"),
-        "lim": [0.0, 1.03]
+        "lim": [0.0, 1.03],
+    },
+    "ap": {
+        "description": "Average Precision",
+        "function": lambda true_nn, run_nn, metrics, run_attrs: ap(true_nn, run_nn, metrics),  # noqa
+        "worst": float("-inf"),
+        "lim": [0.0, 1.03],
+        "search_type" : "range",
     },
     "qps": {
         "description": "Queries per second (1/s)",
-        "function": lambda true_nn, run_nn, metrics, run_attrs: queries_per_second(true_nn, run_attrs),  # noqa
+        "function": lambda true_nn, run_nn, metrics, run_attrs: queries_per_second(len(true_nn[0]), run_attrs),  # noqa
         "worst": float("-inf")
     },
     "distcomps": {
         "description": "Distance computations",
-        "function": lambda true_nn, run_nn,  metrics, run_attrs: dist_computations(true_nn, run_attrs), # noqa
+        "function": lambda true_nn, run_nn,  metrics, run_attrs: dist_computations(len(true_nn[0]), run_attrs), # noqa
         "worst": float("inf")
     },
     "build": {
         "description": "Build time (s)",
-        "function": lambda true_nn, run_nn, metrics, run_attrs: build_time(true_nn, run_attrs), # noqa
+        "function": lambda true_nn, run_nn, metrics, run_attrs: build_time(run_attrs), # noqa
         "worst": float("inf")
     },
     "indexsize": {
         "description": "Index size (kB)",
-        "function": lambda true_nn, run_nn, metrics, run_attrs: index_size(true_nn, run_attrs),  # noqa
+        "function": lambda true_nn, run_nn, metrics, run_attrs: index_size(run_attrs),  # noqa
         "worst": float("inf")
     },
     "queriessize": {
         "description": "Index size (kB)/Queries per second (s)",
-        "function": lambda true_nn, run_nn, metrics, run_attrs: index_size(true_nn, run_attrs) / queries_per_second(true_nn, run_attrs), # noqa
+        "function": lambda true_nn, run_nn, metrics, run_attrs: index_size(run_attrs) / queries_per_second(len(true_nn[0]), run_attrs), # noqa
         "worst": float("inf")
     },
     "wspq": {

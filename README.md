@@ -7,90 +7,86 @@
 The only prerequisite is Python (tested with 3.6) and Docker. Works with newer versions of Python as well but probably requires an updated `requirements.txt` on the host. (Suggestion: copy `requirements.txt` to `requirements${PYTHON_VERSION}.txt` and remove all fixed versions. `requirements.txt` has to be kept for the docker containers.)
 
 1. Clone the repo.
-2. Run `pip install -r requirements.txt`.
+2. Run `pip install -r requirements.txt` (Use `requirements_py38.txt` if you have Python 3.8.)
+3. Install docker by following instructions [here](https://docs.docker.com/engine/install/ubuntu/).
+You might also want to follow the post-install steps for running docker in non-root user mode.
 3. Run `python install.py` to build all the libraries inside Docker containers.
+
+## Storing Data
+
+The framework assumes that all data is stored in `data/`.
+Please use a symlink if your datasets and indices are supposed to be stored somewhere else.
 
 ## Data sets
 
-
-| Dataset                                                           | Dimensions | Train size | Test size | Neighbors | Distance
-| ----------------------------------------------------------------- | ---------: | ---------: | --------: | --------: | --------- |
-| [DEEP1B](https://research.yandex.com/datasets/biganns)              |         96 |  1,000,000,000 |    10,000 |       100 | Euclidean 
-| [SIFT1B](http://corpus-texmex.irisa.fr/)              |         128 |  1,000,000,000 | 10,000 |       100 | Euclidean
-| [Text-to-Image-1B](https://research.yandex.com/datasets/biganns)              |         200 |  1,000,000,000 |    10,000 |       100 | Inner Product
+See <http://big-ann-benchmarks.com/> for details on the different datasets.
 
 ### Dataset Preparation
 
 Before running experiments, datasets have to be downloaded. All preparation can be carried out by calling
 
 ```python
-python create_dataset.py --dataset [sift-1M | sift-1B | deep-1B | text2image-1B | random-xs | random-s]
+python create_dataset.py --dataset [bigann-1B | deep-1B | text2image-1B | ssnpp-1B | msturing-1B | msspacev-1B]
 ```
 
 Note that downloading the datasets can potentially take many hours.
 
+For local testing, there exist smaller random datasets `random-xs` and `random-range-xs`. 
+Furthermore, most datasets have 1M, 10M and 100M versions, run `python create_dataset -h` to get an overview.
+
+
 ## Running the benchmark
 
-Run `python run.py` (this can take an extremely long time, potentially days)
+Run `python run.py --dataset $DS --algorithm $ALGO` where `DS` is the dataset you are running on,
+and `ALGO` is the name of the algorithm. (Use `python run.py --list-algorithms`) to get an overview.
+`python run.py -h` provides you with further options.
 
-You can customize the algorithms and datasets if you want to:
+The parameters used by the implementation to build and query the index can be found in `algos.yaml`.
 
-* Check that `algos.yaml` contains the parameter settings that you want to test
-* To run experiments on SIFT-1M, invoke `python run.py --dataset sift-1M`. See `python run.py --help` for more information on possible settings. Note that index building can take many days. 
 
 ## Evaluating the Results
-Run `python plot.py --dataset ...` or `python data_export.py --output res.csv` to plot results or dump all of them to csv for further post-processing.
+Run `sudo python plot.py --dataset ...` or `sudo python data_export.py --output res.csv` to plot results or dump all of them to csv for further post-processing.
+To avoid sudo, run `sudo chmod -R 777 results/` before invoking these scripts.
 
-In general, consult the `--help` options of the scripts for more arguments.
+To get a table overview over the best recall/ap achieved over a certain threshold, run `python3 eval/show_operating_points.py --algorithm $ALGO --threshold $THRESHOLD res.csv`, where `res.csv` is the file produced by running `data_export.py` above.
 
-## Example run
-After running the installation, we can run a quick test using in-memory FAISS on a small sample of SIFT-1B as follows:
+For the track1 baseline, the output `python3 eval/show_operating_points.py --algorithm faiss-t1 --threshold 10000 res.csv` led to
 
-1. First, download and setup `SIFT1B` using `python create_dataset.py --dataset sift-1B`. 
-2. Next, run `python run.py --dataset sift-1M  --algorithm faiss-ivf`
-3. Plot the results using `sudo python plot.py --dataset sift-1M -Y` for a qps/recall plot with y axis in log scale.
+```
+                         recall/ap
+algorithm dataset
+faiss-t1  bigann-1B       0.634510
+          deep-1B         0.650280
+          msspacev-1B     0.728861
+          msturing-1B     0.703611
+          ssnpp-1B        0.753780
+          text2image-1B   0.069275
+```
+
+## Running the track 1 baseline
+After running the installation, we can evaluate the baseline as follows.
+
+```bash
+
+for DS in bigann-1B  deep-1B  text2image-1B  ssnpp-1B  msturing-1B  msspacev-1B;
+do
+    python run.py --dataset $DS --algorithm faiss-t1;
+done
+```
+
+On a 28-core Xeon E5-2690 v4 that provided 100MB/s downloads, carrying out the baseline experiments took roughly 7 days.
+
+To evaluate the results, run
+```bash
+sudo chmod -R 777 results/
+python data_export.py --output res.csv
+python3.8 eval/show_operating_points.py --algorithm faiss-t1 --threshold 10000
+```
 
 ## Including your algorithm
 
-1. Add your algorithm into `benchmark/algorithms` by providing a small Python wrapper inheriting from `BaseANN`  defined in `benchmark/algorithms/base.py`.
+1. Add your algorithm into `benchmark/algorithms` by providing a small Python wrapper inheriting from `BaseANN`  defined in `benchmark/algorithms/base.py`. See `benchmark/algorithm/faiss_t1.py` for an example.
 2. Add a Dockerfile in `install/` 
-3. Add it to `algos.yaml with the parameter choices you would like to run.
+3. Edit `algos.yaml with the parameter choices you would like to test.
+4. (Add an option to download pre-built indexes as seen in `faiss_t1.py`.)
 
-
-# Some notes
-
-## Dataset creation
-
-- How do we create query workloads for the actual competition? (Or: Should they be the same?)
-
-## Algorithms
-
-- API proposal in <benchmark/algorithms/base.py>
-- Idea: algorithms fit dataset (given path to base vectors and dataset name?) -> write index to disk (separate process, but we should be able to re-run it).
-   - Requirement: has to fit in 128GB RAM, so index has to be built out-of-memory as well
-- Running experiment: Load index (implementation checks if index is available) -> run queries -> write down metadata (query time etc.) and true answers (what does the algorithm think are the nearest neighbors/the points in the range) as hdf5
-- Evaluating: Check hdf5 results against groundtruth data (`plot.py` and `data_export.py` can be used for export)
-
-## TODO
-
-- Include datasets
-  - SIFT-1B
-  - Deep-1B
-  - Text2Image
-  - FB dataset?
-  - 2 MSR datasets?
-- Implement framework
-  - a few small todos left
-- Implement baselines
-   - FAISS: inmem version from ann-benchmarks adapted to the new api.
-   - FAISS: Martin can do it based on the FAISS 1B wiki code, only T1? -> Dmitry is going to help.
-   - DiskANN: Harsha writes Python wrapper for DiskANN with SSD
-- Implement evaluation
-  - Martin: What do we need? I can create the plots/website, what about the competition table?
-  - for now: ann-benchmarks style png plots, and `data_export.py` to dump everything to csv.
-- Test framework
-- automatic deployment in the cloud?
-- docker vs. singularity:
-  - benchmark disk i/o
-  - https://www.diva-portal.org/smash/get/diva2:1277794/FULLTEXT01.pdf sees singularity as clear winner for i/o
-- will container setup work for t3?
