@@ -1,6 +1,8 @@
 import requests
 import uuid
 import json
+import time
+import statistics
 
 class power_capture:
 
@@ -16,8 +18,6 @@ class power_capture:
     ipmicap_port        = None
     min_capture_time    = None
     raise_exc_on_fail   = None
-    started             = False
-    current_id          = None
 
     @classmethod
     def __init__(cls, packed_parm, raise_exc_on_fail=True):
@@ -68,46 +68,145 @@ class power_capture:
         """
         Start power capture at the IPMI server.
         """
-        cls.current_id = str(uuid.uuid4())
+        session_id = str(uuid.uuid4())
         status = cls._send_msg_to_ipmicap_server("session",
-            {"start":1,"id":cls.current_id})
+            {"start":1,"id":session_id})
         if status:
-            cls.started = True
-            return cls.current_id
+            return session_id
         else:
             return False
 
     @classmethod
-    def stop(cls):
+    def stop(cls, session_id, all_stats=False):
         """
-        End power capture at the IPMI server.
+        End power capture at the IPMI server for the session
+        and returm the computed power consumption.
         """
-        if not cls.started:
-            print("Power: Capture recording not started.")  
-            return False
-        status =  cls._send_msg_to_ipmicap_server("session",
-            {"stop":0, "id":cls.current_id})
-        if status:
-            cls.started = False 
-            return status
+        stop_parm = "all_stats" if all_stats else 1
+        power_stats =  cls._send_msg_to_ipmicap_server("session",
+            {"stop":stop_parm, "id": session_id})
+        if power_stats:
+            return power_stats
         else:
             return False
 
     @classmethod
-    def get_stats(cls, capture_ids):
+    def get_stats(cls, session_ids):
         """
         Retrieve power capture statistics for capture ids supplied.
         """
-        stats = {}
-        for cid in capture_ids:
-            stats[cid]=0
-        return stats
-        
+        raise Exception("Not implemented.") 
 
     @classmethod
     def run_has_power_stats(cls, properties):
+        """
+        Determines if the benchmark run has power related metrics.
+        """
         if "power_consumption" in properties: return True
         else: return False
+
+    @classmethod
+    def detect_power_benchmarks(cls, metrics, res):
+        """
+        Adjust the global metrics based on the availability of
+        power related benchmarks in the loaded results.  
+        """
+        has_power_benchmarks = False
+        for i, (properties, run) in enumerate(res):
+            if cls.run_has_power_stats(properties):
+                has_power_benchmarks = True
+                break
+        if has_power_benchmarks: 
+            return True
+        else: # no power benchmarks and not required, just remove from global benchmarks
+            #print("Ignoring the global 'wspq' metric because no power benchmarks are present.")
+            metrics.pop("wspq", None)
+            return True
+
+    @classmethod
+    def detect_power_benchmarks_for_plot(cls, args, res ):
+        """
+        If power benchmarks are requested for plot but now power benchmarks are
+        not present then return False.
+        """
+        required = args.x_axis=='wspq'  or args.y_axis=='wspq'
+        if not required:
+            return True
+
+        has_power_benchmarks = False
+        for i, (properties, run) in enumerate(res):
+            if cls.run_has_power_stats(properties):
+                has_power_benchmarks = True
+                break
+        if has_power_benchmarks and required: return True
+        else: 
+            print("No power benchmarks found in loaded results.") 
+            return False
+
+
+    @classmethod
+    def compute_watt_seconds_per_query(cls, queries, attrs ):
+        """
+        Retreive the benchmark metric wspq.
+        """
+        return attrs["best_wspq"]
+
+    @classmethod
+    def run(cls, algo, X, distance, count, run_count, search_type, descriptor ):
+        """The runner for power consumption is slightly different than the default runner."""
+
+        capture_time = power_capture.min_capture_time
+        best_search_time = descriptor["best_search_time"]
+
+        inner_run_count = int(capture_time/best_search_time) if capture_time > best_search_time else 1
+
+        print('Run for power capture with %d iterations (via %d/%f) for %d iterations'
+            % (inner_run_count, capture_time, best_search_time, run_count ) )
+
+        cap_ids = []
+        power_run_counts = []
+        power_run_times = []
+        power_consumptions = []
+
+        best_power_cons = float('inf')
+        for i in range(run_count):
+            cap_id = cls.start()
+            start = time.time()
+            for i in range(inner_run_count):
+                if search_type == "knn":
+                    algo.query(X, count)
+                else:
+                    algo.range_query(X, count)
+            total = (time.time() - start)
+            power_cons = cls.stop(cap_id)
+        
+            best_power_cons = min(best_power_cons, power_cons)
+
+            cap_ids.append(cap_id)
+            power_run_counts.append( inner_run_count )
+            power_run_times.append( total )
+            power_consumptions.append( power_cons )
+
+        power_cons_mean  = statistics.mean( power_consumptions )
+        power_cons_stdev = statistics.stdev( power_consumptions )
+        best_wspq = best_power_cons/inner_run_count
+        mean_wspq = power_cons_mean/inner_run_count
+
+        power_stats = {"power_cap_id": cap_ids,
+                 "power_run_count": power_run_counts,
+                 "power_run_time":  power_run_times,
+                 "power_consumption":power_consumptions,
+                 "best_power_consumption": best_power_cons,
+                 "inner_run_count": inner_run_count, 
+                 "power_consumption_mean": power_cons_mean,
+                 "power_consumption_stdev": power_cons_stdev,
+                 "best_wspq": best_wspq,
+                 "mean_wspq": mean_wspq }
+        #print("power_stats", power_stats)
+
+        for k in power_stats.keys():
+            descriptor[k] = power_stats[k]
+
 
 #
 # To run these unit tests for the power_capture class, type 'python power_capture.py'
