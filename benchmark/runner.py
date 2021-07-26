@@ -59,7 +59,7 @@ error: query argument groups have been specified for %s.%s(%s), but the \
 algorithm instantiated from it does not implement the set_query_arguments \
 function""" % (definition.module, definition.constructor, definition.arguments)
 
-    ds = DATASETS[dataset]()
+    ds = DATASETS[dataset] #GW()
     #X_train = numpy.array(D['train'])
     X =  ds.get_queries()
     distance = ds.distance()
@@ -106,7 +106,7 @@ function""" % (definition.module, definition.constructor, definition.arguments)
                                 run_count, search_type, descriptor)
 
             store_results(dataset, count, definition,
-                    query_arguments, descriptor, results)
+                    query_arguments, descriptor, results, search_type) 
     finally:
         algo.done()
 
@@ -164,7 +164,6 @@ def run_from_cmdline(args=None):
         default="")
     args = parser.parse_args(args)
     algo_args = json.loads(args.build)
-    print(algo_args)
     query_args = [json.loads(q) for q in args.queries]
 
     if args.power_capture:
@@ -202,13 +201,16 @@ def run_docker(definition, dataset, count, runs, timeout, rebuild,
     if mem_limit is None:
         mem_limit = psutil.virtual_memory().available
 
+    
     container = None
     if t3:
+        print("t3 container")
         container = t3_create_container(definition, cmd, cpu_limit, mem_limit )
         timeout = 3600*24*3 # 3 days
         print("Setting container wait timeout to 3 days")
 
     else:
+        print("reg container")
         container = client.containers.run(
             definition.docker_tag,
             cmd,
@@ -265,7 +267,6 @@ def run_no_docker(definition, dataset, count, runs, timeout, rebuild,
         cmd.append("--rebuild")
     cmd.append(json.dumps(definition.arguments))
     cmd += [json.dumps(qag) for qag in definition.query_argument_groups]
-    print("CMD", cmd)
     run_from_cmdline(cmd)
 
 

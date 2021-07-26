@@ -13,7 +13,11 @@ def print_cuda_versions():
 
 
 def t3_create_container( definition, cmd, cpu_limit, mem_limit):
-    if definition.algorithm in [ 'faiss-ivf-gpu' ]:
+
+    print("defalg", definition.algorithm)
+    if definition.algorithm in [ 'faiss-t3' ]:
+
+        print("GPU container")
         container = create_container_with_gpu_support(
             docker.from_env(),
             definition.docker_tag,
@@ -57,6 +61,8 @@ def t3_create_container( definition, cmd, cpu_limit, mem_limit):
         return container
 
     else:
+        print("NORMAL CONTAINER")
+
         client = docker.from_env()
         container = client.containers.run(
             definition.docker_tag,

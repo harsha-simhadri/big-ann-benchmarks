@@ -3,6 +3,7 @@ import uuid
 import json
 import time
 import statistics
+import math
 
 class power_capture:
 
@@ -158,7 +159,7 @@ class power_capture:
         capture_time = power_capture.min_capture_time
         best_search_time = descriptor["best_search_time"]
 
-        inner_run_count = int(capture_time/best_search_time) if capture_time > best_search_time else 1
+        inner_run_count = math.ceil(capture_time/best_search_time) if capture_time > best_search_time else 1
 
         print('Run for power capture with %d iterations (via %d/%f) for %d iterations'
             % (inner_run_count, capture_time, best_search_time, run_count ) )
@@ -178,8 +179,9 @@ class power_capture:
                 else:
                     algo.range_query(X, count)
             total = (time.time() - start)
-            power_cons = cls.stop(cap_id)
-        
+            power_stats = cls.stop(cap_id, all_stats=True)
+            power_cons = power_stats['tot_power']
+ 
             best_power_cons = min(best_power_cons, power_cons)
 
             cap_ids.append(cap_id)
@@ -189,8 +191,8 @@ class power_capture:
 
         power_cons_mean  = statistics.mean( power_consumptions )
         power_cons_stdev = statistics.stdev( power_consumptions )
-        best_wspq = best_power_cons/inner_run_count
-        mean_wspq = power_cons_mean/inner_run_count
+        best_wspq = best_power_cons/X.shape[0]
+        mean_wspq = power_cons_mean/X.shape[0]
 
         power_stats = {"power_cap_id": cap_ids,
                  "power_run_count": power_run_counts,
@@ -202,7 +204,6 @@ class power_capture:
                  "power_consumption_stdev": power_cons_stdev,
                  "best_wspq": best_wspq,
                  "mean_wspq": mean_wspq }
-        #print("power_stats", power_stats)
 
         for k in power_stats.keys():
             descriptor[k] = power_stats[k]

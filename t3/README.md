@@ -54,9 +54,9 @@ python create_dataset.py --dataset random-xs
 ```
 Run a benchmark evaluation using the algorithm's definition file:
 ```
-python run.py --t3 --nodocker --definitions t3/faiss_gpu/algos.yaml
+python run.py --t3 --definitions t3/faiss_t3/algos.yaml
 ```
-Please note that the *t3* and *nodocker* flag are important.  
+Please note that the *t3* flag is important.  
 
 Now analyze the results:
 ```
@@ -64,7 +64,7 @@ python plot.py --dataset random-xs
 ```
 This will place a plot of the algorithms performance, recall-vs-throughput, into the *results/* directory.
 
-### Developing_Your_Algorithm
+### Developing_Your_Dockerfile
 
 First, please create a short name for your team without spaces or special characters.  Henceforth in these instructions, this will be referenced as [your_team_name].
 
@@ -76,14 +76,25 @@ In the *t3/* directory, create a sub-directory using that name.
 ```
 mkdir t3/[your_team_name]
 ```
+This framework evaluates algorithms in Docker containers.  Your algorithm's Dockerfile should live in your team's subdirectory at t3/[your_team_name].  Ideally, your Docker file should contain everything needed to install and run your algorithm on an system with the same hardware.  Given the nature of T3, this will not likely be possible since custom hardware host drivers and certain low level host libraries require an installation step outside of Docker.  Please make your best effort to include as much as possible within your Docker container as we want to promote as much transparency as possible among participants.
+
+Please consult the Dockerfile in *t3/faiss_t3/algos.yaml* as an example.
+
+To build your Docker container, run:
+```
+python install.py --dockerfile t3/[your_team_name]/Dockerfile
+```
+
+### Developing_Your_Algorithm
+
 Develop and add your algorithm to the *benchmarks/algorithms* directory.
 * You will need to subclass from the BaseANN class in benchmarks/algorithms/base.py and implement the functions of that parent class.
-* See the follow example.
-
+* You should consult the examples already in the directory.
+T
 As you develop and test your algorithm, you will likley need to test on smaller datasets.  This framework provides a way to create datasets of various sizes.  For example, to create a dataset with 10000 20-dimensional random floating point vectors, run:
 ```
 python create_dataset.py --dataset random-xs
-```
+`h``
 To see a complete list of datasets, run the following:
 ```
 python create_dataset.py --help
@@ -92,11 +103,11 @@ When you are ready to test on the competition datasets, use the create_dataset.p
 ```
 python create_dataset.py --dataset [sift-1B|bigann-1B|text2image-1B|msturing-1B|msspacev-1B|ssnpp-1B]
 ```
-To benchmark your algorithm, first create an algorithm configuration yaml in your teams directory called *algos.yaml.*  This file contains the index build parameters and query parameters that will get passed to your algorithm at run-time.  Please look at this example *t3/faiss_gpu/algos.yaml.*
+To benchmark your algorithm, first create an algorithm configuration yaml in your teams directory called *algos.yaml.*  This file contains the index build parameters and query parameters that will get passed to your algorithm at run-time.  Please look at this example *t3/faiss_t3/algos.yaml.*
 
 Now you can benchmark your algorithm using the run.py script:
 ```
-python run.py --t3 --nodocker --definitions t3/[your_team_name]/algos.yaml
+python run.py --t3  --definitions t3/[your_team_name]/algos.yaml
 ```
 This will write the results into various files in the *results/* directory.
 
@@ -115,7 +126,7 @@ python plot.py --help
 
 A submission is composed of the following:
 * 1 index binary file (  choose your best index )
-* 1 *algos.yaml* with the lone set of build parameters and at most 10 sets of query parameters ( put it into the *t3/[your_team_name]/* directory. )
+* 1 *algos.yaml* with only one set of build parameters and at most 10 sets of query parameters ( put it into the *t3/[your_team_name]/* directory. )
 * Your algorithm's python class ( put it into the *benchmark/algorithms/* directory. )
 
 All but the binary index file can be submitted with a pull request of your custom branch.
@@ -123,23 +134,24 @@ All but the binary index file can be submitted with a pull request of your custo
 We will provide you with an upload area for your binary index file during the competition.
 
 Additional information may be required to qualify for all the leaderboards:
-* To qualify for the cost leaderboard, please include evidence of the MSRP of your entire system.  Put this evidence into the *t3/[your_team_name]/* directory.
-* If all of the source code cannot be included in your pull request, please provide an explanation of what the non-open-source part of the software does (host drivers, firmware, etc.) Put this explanation into the t3/[your_team_name]/ directory.
+* To qualify for the cost leaderboard, please include evidence of the MSRP of all the components of your entire system.  Put this evidence into the *t3/[your_team_name]/* directory.
+* If all of the source code cannot be included in your pull request, please provide an explanation of what the non-open-source part of the software does (host drivers, firmware, etc.) Put this explanation as a text file into the t3/[your_team_name]/ directory.
 
 ### How_To_Get_Help
 
 There are several ways to get help as you develop your algorithm:
 * You can submit an issue at this github repositry.
-* Send an email to the competition google-group.
+* Send an email to the competition's T3 organizer, gwilliams@gsitechnology.com
+* Send en email to the competition's google-group.
 
 ## For_Evaluators
 
 ### Evaluating_Participant_Algorithms
 
 How a participant' algorithm is benchmarked will depend on how they registered for the T3 competition, one of these options:
-* Participant sent hardware to Evaluator at partcipant's expense.
-* Participant is giving Evaluator remote SSH access to their machine.
-* Participant will run the evaluation framework on their own and send the benchmark results to the Evaluator.
+* Participant sent hardware to competition evaluator at participant's expense.
+* Participant is giving the competition valuator remote SSH access to their machine.
+* Participant will run the evaluation framework on their own and send the benchmark results to the competition evaluator.
 
 Evaluation steps for each mode are detailed in the next sections.
 
@@ -149,7 +161,7 @@ Evaluators will work with participant's that send hardware during on-boarding. H
 
 Evaluators and participants will work closely to make sure the hardware is properly installed and configured.
 
-Evaluators may give particpants remote access to machines in order to complete the setup, as needed.
+Evaluators may allow remote access to the machines in order to complete the setup, as needed.
 
 ### Participant_Gives_Remote_Access_To_Evaluators
 
@@ -157,7 +169,7 @@ Participants give Evaluators access to remote machines via SSH.
 
 ### Participant_Runs_And_Submits_Benchmarks
 
-This is a very special case, and not all participant's will have this option.  In this case, the participant will run the evaluation on their own.  They will export the data to a CSV via the export.py script and send it to the Evaluators.  Participants are still required to submit a pull request and upload their best index.
+This is a very special case, and not all participant's will have this option.  In this case, the participant will run the evaluation on their own.  They will export the data to a CSV via the export.py script and send it to the the competition evaluators.  Participants are still required to submit a pull request and upload their best index.
 
 ## Evaluating_Power_Consumption
 

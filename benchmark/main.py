@@ -126,7 +126,6 @@ def main():
         action='store_true')
 
     args = parser.parse_args()
-    print("ARGS", args)
     if args.timeout == -1:
         args.timeout = None
 
@@ -142,7 +141,7 @@ def main():
     logging.config.fileConfig("logging.conf")
     logger = logging.getLogger("annb")
 
-    dataset = DATASETS[args.dataset]()
+    dataset = DATASETS[args.dataset] #GW ()
     dataset.prepare(True) # prepare dataset, but skip potentially huge base vectors
     dimension = dataset.d
     point_type = 'float'

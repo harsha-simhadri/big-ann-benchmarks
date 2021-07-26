@@ -141,7 +141,7 @@ if __name__ == "__main__":
         print('writing output to %s' % args.output)
 
 
-    dataset = DATASETS[args.dataset]()
+    dataset = DATASETS[args.dataset] #GW()
     if args.count == -1:
         args.count = dataset.default_count()
     if args.x_axis == "k-nn" and dataset.search_type() == "range":
