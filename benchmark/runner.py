@@ -204,13 +204,11 @@ def run_docker(definition, dataset, count, runs, timeout, rebuild,
     
     container = None
     if t3:
-        print("t3 container")
         container = t3_create_container(definition, cmd, cpu_limit, mem_limit )
         timeout = 3600*24*3 # 3 days
         print("Setting container wait timeout to 3 days")
 
     else:
-        print("reg container")
         container = client.containers.run(
             definition.docker_tag,
             cmd,

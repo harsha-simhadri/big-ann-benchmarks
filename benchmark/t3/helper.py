@@ -14,10 +14,9 @@ def print_cuda_versions():
 
 def t3_create_container( definition, cmd, cpu_limit, mem_limit):
 
-    print("defalg", definition.algorithm)
     if definition.algorithm in [ 'faiss-t3' ]:
 
-        print("GPU container")
+        print("Launching GPU container")
         container = create_container_with_gpu_support(
             docker.from_env(),
             definition.docker_tag,
@@ -29,30 +28,6 @@ def t3_create_container( definition, cmd, cpu_limit, mem_limit):
                     {'bind': '/home/app/data', 'mode': 'rw'},
                 os.path.abspath('results'):
                     {'bind': '/home/app/results', 'mode': 'rw'},
-            },
-            cpuset_cpus=cpu_limit,
-            mem_limit=mem_limit,
-            detach=True)
-        container.start()
-        return container
-
-    elif definition.algorithm in [ 'gemini-apu' ]:
-        current_dir = os.getcwd()
-        container = create_container_with_network_host_support(
-            docker.from_env(),
-            definition.docker_tag,
-            cmd,
-            volumes={
-                os.path.abspath('benchmark'):
-                    {'bind': '/home/app/benchmark', 'mode': 'ro'},
-                os.path.abspath('data'):
-                    {'bind': '/home/app/data', 'mode': 'rw'},
-                os.path.abspath('results'):
-                    {'bind': '/home/app/results', 'mode': 'rw'},
-                "/home/public/data":
-                    {'bind': '/home/public/data', 'mode': 'rw'},
-                current_dir:
-                    {'bind': current_dir, 'mode': 'rw' }
             },
             cpuset_cpus=cpu_limit,
             mem_limit=mem_limit,
