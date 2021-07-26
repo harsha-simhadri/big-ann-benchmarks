@@ -22,7 +22,7 @@ The T1 and T2 tracks of the competition restrict the evaluation of algorithms to
 
 Participants must submit their algorithm via a pull request and an index file upload.  Participants are not required to submit proprietary source code such as software drivers or firmware.
 
-Competition Evaluators will evaluate the participant's algorithm and hardware via one of these options:
+Competition evaluators will evaluate the participant's algorithm and hardware via one of these options:
 * Participants send their hardware to the organizers at the participant's expense.
 * Participants give organizers remote access to the hardware.
 * Participants run the evaluation benchmarks on their own, and send the results to the organizers.
@@ -76,7 +76,7 @@ In the *t3/* directory, create a sub-directory using that name.
 ```
 mkdir t3/[your_team_name]
 ```
-This framework evaluates algorithms in Docker containers.  Your algorithm's Dockerfile should live in your team's subdirectory at t3/[your_team_name].  Ideally, your Docker file should contain everything needed to install and run your algorithm on an system with the same hardware.  Given the nature of T3, this will not likely be possible since custom hardware host drivers and certain low level host libraries require an installation step outside of Docker.  Please make your best effort to include as much as possible within your Docker container as we want to promote as much transparency as possible among participants.
+This framework evaluates algorithms in Docker containers.  Your algorithm's Dockerfile should live in your team's subdirectory at *t3/[your_team_name]*.  Ideally, your Docker file should contain everything needed to install and run your algorithm on an system with the same hardware.  Given the nature of T3, this will not likely be possible since custom hardware host drivers and certain low level host libraries require an installation step outside of Docker.  Please make your best effort to include as much as possible within your Docker container as we want to promote as much transparency as possible among participants.
 
 Please consult the Dockerfile in *t3/faiss_t3/algos.yaml* as an example.
 
@@ -88,13 +88,13 @@ python install.py --dockerfile t3/[your_team_name]/Dockerfile
 ### Developing_Your_Algorithm
 
 Develop and add your algorithm to the *benchmarks/algorithms* directory.
-* You will need to subclass from the BaseANN class in benchmarks/algorithms/base.py and implement the functions of that parent class.
+* You will need to subclass from the BaseANN class in *benchmarks/algorithms/base.py* and implement the functions of that parent class.
 * You should consult the examples already in the directory.
 T
 As you develop and test your algorithm, you will likley need to test on smaller datasets.  This framework provides a way to create datasets of various sizes.  For example, to create a dataset with 10000 20-dimensional random floating point vectors, run:
 ```
 python create_dataset.py --dataset random-xs
-`h``
+```
 To see a complete list of datasets, run the following:
 ```
 python create_dataset.py --help
@@ -165,7 +165,7 @@ Evaluators may allow remote access to the machines in order to complete the setu
 
 ### Participant_Gives_Remote_Access_To_Evaluators
 
-Participants give Evaluators access to remote machines via SSH.
+Participants give competition evaluators access to remote machines via SSH.
 
 ### Participant_Runs_And_Submits_Benchmarks
 
