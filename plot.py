@@ -140,9 +140,10 @@ if __name__ == "__main__":
         args.output = 'results/%s.png' % (args.dataset)
         print('writing output to %s' % args.output)
 
-
+    print("args", args.dataset)
     dataset = DATASETS[args.dataset]()
     print("dataset", type(dataset))
+    print(dir(dataset))
     if args.count == -1:
         args.count = dataset.default_count()
     if args.x_axis == "k-nn" and dataset.search_type() == "range":
