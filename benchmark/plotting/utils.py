@@ -73,43 +73,6 @@ def compute_metrics_all_runs(dataset, res, recompute=False):
     except:
         print(f"Groundtruth for {dataset} not found.")
         return
-            
-    for i, (properties, run) in enumerate(res):
-        algo = properties['algo']
-        algo_name = properties['name']
-        # cache distances to avoid access to hdf5 file
-        run_nn = numpy.array(run['neighbors'])
-        if recompute and 'metrics' in run:
-            print('Recomputing metrics, clearing cache')
-            del run['metrics']
-        metrics_cache = get_or_create_metrics(run)
-
-        dataset = properties['dataset']
-        try:
-            dataset = dataset.decode()
-            algo = algo.decode()
-            algo_name = algo_name.decode()
-        except:
-            pass
-
-        run_result = {
-            'algorithm': algo,
-            'parameters': algo_name,
-            'dataset': dataset,
-            'count': properties['count'],
-        }
-        for name, metric in metrics.items():
-            if not power_capture.run_has_power_stats(properties): continue
-            v = metric["function"](true_nn, run_nn, metrics_cache, properties)
-            run_result[name] = v
-        yield run_result
-
-def compute_metrics_all_runs(dataset, res, recompute=False):
-    try:
-        true_nn = dataset.get_groundtruth()
-    except:
-        print(f"Groundtruth for {dataset} not found.")
-        return
 
     # removes 'wspq' metric if no power benchmarks found 
     # in the loaded runs

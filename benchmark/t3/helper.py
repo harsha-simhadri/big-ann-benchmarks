@@ -108,15 +108,4 @@ class BigANNDatasetAngular(BigANNDataset):
     def distance(self):
         return "angular"
 
-def t3_augment_datasets():
-    DATASETS.update(
-    {
-        #'sift-1M-angular': BigANNDatasetAngular(1),
-        'random-s-256d':  RandomDS(100000, 1000, 256),
-        'random-m-256d':  RandomDS(1000000, 1000, 256),
-        'random-l-256d':  RandomDS(10000000, 1000, 256),
-        'random-ml-128d': RandomDS(50000000, 1000, 128),
-        'random-xl-64d': RandomDS(100000000, 1000, 64)
-    })
-
 
