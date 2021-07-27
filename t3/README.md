@@ -34,7 +34,7 @@ Competition evaluators will evaluate the participant's algorithm and hardware vi
 You will need the following installed on your machine:
 * Python ( we tested with Anaconda using an environment created for Python version 3.8.5 )
 * Note that we tested everything on Ubuntu Linux 18.04 but other environments should be possible.
-* It's assumed that all the software drivers and services need to support your hardware are installed.  For example, the run the T3 baseline, your system must have a Cuda 11 compatibile GPU, Cuda 11.0, and the cuda 11.0 docker run time installed.
+* It's assumed that all the software drivers and services need to support your hardware are installed.  For example, to run the T3 baseline, your system must have a Cuda 11 compatibile GPU, Cuda 11.0, and the cuda 11.0 docker run time installed.
 
 ### Getting_Started
 
