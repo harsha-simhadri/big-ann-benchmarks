@@ -7,7 +7,7 @@ random-xs:
       run-groups:
         base:
           args: |
-              [{"indexkey": "IVF100,SQ8",
+              [{"indexkey": "IVF5,SQ8",
                 "buildthreads": -1,
                 "by_residual": -1,
                 "add_bs": 100000,
@@ -107,6 +107,60 @@ msspacev-1B:
                "nprobe=128",
                "nprobe=256"]
 text2image-1B:
+    faiss-t3: 
+      docker-tag: billion-scale-benchmark-faisst3
+      module: benchmark.algorithms.faiss_t3
+      constructor: FaissT3
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"indexkey": "IVF1048576,SQ8",
+                "buildthreads": -1,
+                "by_residual": -1,
+                "add_bs": 100000,
+                "maxtrain": 0,
+                "clustering_niter": -1,
+                "add_splits": 1
+                }]
+          query-args: |
+              ["nprobe=1",
+               "nprobe=2",
+               "nprobe=4",
+               "nprobe=8",
+               "nprobe=16",
+               "nprobe=32",
+               "nprobe=64",
+               "nprobe=128",
+               "nprobe=256"]
+msturing-10M:
+    faiss-t3: 
+      docker-tag: billion-scale-benchmark-faisst3
+      module: benchmark.algorithms.faiss_t3
+      constructor: FaissT3
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"indexkey": "IVF1048576,SQ8",
+                "buildthreads": -1,
+                "by_residual": -1,
+                "add_bs": 100000,
+                "maxtrain": 0,
+                "clustering_niter": -1,
+                "add_splits": 1
+                }]
+          query-args: |
+              ["nprobe=1",
+               "nprobe=2",
+               "nprobe=4",
+               "nprobe=8",
+               "nprobe=16",
+               "nprobe=32",
+               "nprobe=64",
+               "nprobe=128",
+               "nprobe=256"]
+msturing-1B:
     faiss-t3: 
       docker-tag: billion-scale-benchmark-faisst3
       module: benchmark.algorithms.faiss_t3
