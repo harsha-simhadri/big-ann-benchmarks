@@ -85,21 +85,6 @@ def xbin_mmap(fname, dtype, maxn=-1):
         n = min(n, maxn)
     return np.memmap(fname, dtype=dtype, mode="r", offset=8, shape=(n, d))
 
-#GW - I may eventually remove these
-def xbin_mmap_floatarray(fname, shape):
-    x = np.memmap(fname, dtype=numpy.float32, mode="r", offset=0, shape=shape)
-    return x
-
-def xbin_mmap_with_cast(fname, r_dtype, w_dtype, maxn=-1):
-    """ mmap the competition file format for a given type of items """
-    n, d = map(int, np.fromfile(fname, dtype="uint32", count=2))
-    assert os.stat(fname).st_size == 8 + n * d * np.dtype(r_dtype).itemsize
-    n = max(n, maxn)
-    x = np.memmap(fname, dtype=r_dtype, mode="r", offset=8, shape=(n, d))
-    x = x.astype( w_dtype )
-    return x
-#GW
-
 def range_result_read(fname):
     """ read the range search result file format """
     f = open(fname, "rb")
@@ -380,76 +365,6 @@ class BigANNDataset(DatasetCompetitionFormat):
         # self.gt_fn = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/bigann/public_query_gt100.bin" if self.nb == 10**9 else None
         self.base_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/bigann/"
         self.basedir = os.path.join(BASEDIR, "bigann")
-
-    def distance(self):
-        return "euclidean"
-
-class BigANNDatasetT3(DatasetCompetitionFormat):
-    def __init__(self, nb_M=1000):
-        self.nb_M = nb_M
-        self.nb = 10**6 * nb_M
-        self.d = 128
-        self.nq = 10000
-        self.dtype = "uint8"
-        self.ds_fn = "base.1B.u8bin"
-        self.qs_fn = "query.public.10K.u8bin"
-        self.gt_fn = "GT.public.1B.ibin" if self.nb == 10**9 else None
-        self.base_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/bigann/"
-        self.basedir = os.path.join(BASEDIR, "bigann")
-
-    def get_dataset_fn(self):
-        ds_fn = super().get_dataset_fn()
-        ds_fn_fp = ds_fn + ".float32"
-        if os.path.exists( ds_fn_fp ):
-            return ds_fn_fp
-        else:
-            return ds_fn
-
-    def get_dataset(self):
-        ds_fn = super().get_dataset_fn()
-        ds_fn_fp = ds_fn + ".float32"
-        if os.path.exists( ds_fn_fp ):
-            return xbin_mmap_floatarray( ds_fn_fp, ( self.nb, self.d ) )
-        else:
-            return super().get_dataset()
-
-    def get_groundtruth(self,k=None):
-        if self.gt_fn:
-            return super().get_groundtruth(k)
-        else: # assume its a crop
-            gt_crop = os.path.join( self.basedir, "gt.ibin.crop_nb_%d" % self.nb )
-            if os.path.exists(gt_crop):
-                gt = xbin_mmap(os.path.join( gt_crop), dtype=np.int32)
-                if k is not None:
-                    assert k <= 100
-                    gt = gt[:, :k]
-                return gt
-            else:
-                raise Exception("No ground truth file.")
-
-    def get_queries(self):
-        ds_fn = super().get_dataset_fn()
-        ds_fn_fp = ds_fn + ".float32"
-        if os.path.exists( ds_fn_fp ):
-            filename = os.path.join(self.basedir, self.qs_fn)
-            return xbin_mmap_with_cast( filename, np.uint8, np.float32 )
-        else:
-            return super().get_queries()
-
-    def get_dataset_iterator(self, bs=512, split=(1,0)):
-        ds_fn = super().get_dataset_fn()
-        ds_fn_fp = ds_fn + ".float32"
-        if os.path.exists( ds_fn_fp ):
-            nsplit, rank = split
-            i0, i1 = self.nb * rank // nsplit, self.nb * (rank + 1) // nsplit
-            filename = self.get_dataset_fn()
-            x = xbin_mmap_floatarray(filename, (self.nb, 128))
-            assert x.shape == (self.nb, self.d)
-            for j0 in range(i0, i1, bs):
-                j1 = min(j0 + bs, i1)
-                yield sanitize(x[j0:j1])
-        else:
-            return super().get_dataset_iterator(bs, split)
 
     def distance(self):
         return "euclidean"
