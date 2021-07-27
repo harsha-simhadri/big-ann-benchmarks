@@ -671,6 +671,10 @@ class RandomDS(DatasetCompetitionFormat):
     def __str__(self):
         return f"Random({self.nb})"
 
+    def default_count(self):
+        return 10
+
+
 DATASETS = {
     'bigann-1B': lambda : BigANNDataset(1000),
     'bigann-100M': lambda : BigANNDataset(100),
@@ -700,7 +704,7 @@ DATASETS = {
     'msspacev-100M': lambda : MSSPACEV1B(100),
     'msspacev-1M': MSSPACEV1B(1),
 
-    'random-xs': RandomDS(10000, 1000, 20),
+    'random-xs': lambda: RandomDS(10000, 1000, 20),
     'random-s': RandomDS(100000, 1000, 50),
     'random-s-256': RandomDS(100000, 1000, 256),
     'random-m-256': RandomDS(1000000, 10000, 256),
