@@ -58,13 +58,13 @@ python install.py --dockerfile t3/faiss_t3/Dockerfile
 ```
 Run a benchmark evaluation using the algorithm's definition file:
 ```
-python run.py --t3 --definitions t3/faiss_t3/algos.yaml
+python run.py --t3 --definitions t3/faiss_t3/algos.yaml --dataset random-xs
 ```
 Please note that the *t3* flag is important.  
 
 Now analyze the results:
 ```
-python plot.py --dataset random-xs
+python plot.py --definitions t3/faiss_t3/algos.yaml --dataset random-xs
 ```
 This will place a plot of the algorithms performance, recall-vs-throughput, into the *results/* directory.
 
