@@ -144,6 +144,7 @@ if __name__ == "__main__":
     dataset = DATASETS[args.dataset]()
     print("dataset", type(dataset))
     print(dir(dataset))
+
     if args.count == -1:
         args.count = dataset.default_count()
     if args.x_axis == "k-nn" and dataset.search_type() == "range":
