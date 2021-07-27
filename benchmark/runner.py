@@ -59,7 +59,7 @@ error: query argument groups have been specified for %s.%s(%s), but the \
 algorithm instantiated from it does not implement the set_query_arguments \
 function""" % (definition.module, definition.constructor, definition.arguments)
 
-    ds = DATASETS[dataset] #GW()
+    ds = DATASETS[dataset]()
     #X_train = numpy.array(D['train'])
     X =  ds.get_queries()
     distance = ds.distance()
