@@ -1,7 +1,5 @@
 import os
 import docker
-from docker.models.images import Image
-from docker.models.containers import _create_container_args
 
 from benchmark.datasets import DATASETS, BigANNDataset
 
@@ -36,27 +34,14 @@ def t3_create_container( definition, cmd, cpu_limit, mem_limit):
         return container
 
     else:
-        print("NORMAL CONTAINER")
-
-        client = docker.from_env()
-        container = client.containers.run(
-            definition.docker_tag,
-            cmd,
-            volumes={
-                os.path.abspath('benchmark'):
-                    {'bind': '/home/app/benchmark', 'mode': 'ro'},
-                os.path.abspath('data'):
-                    {'bind': '/home/app/data', 'mode': 'rw'},
-                os.path.abspath('results'):
-                    {'bind': '/home/app/results', 'mode': 'rw'},
-            },
-            cpuset_cpus=cpu_limit,
-            mem_limit=mem_limit,
-            detach=True)
-        return container
-
+        raise Exception("Docker invoke not supported for this algorithm.")
 
 def create_container_with_gpu_support(client, image, command, volumes, **kwargs):
+
+
+    from docker.models.images import Image
+    from docker.models.containers import _create_container_args
+
     if isinstance(image, Image):
         image = image.id
 
