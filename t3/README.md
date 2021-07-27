@@ -111,13 +111,13 @@ To benchmark your algorithm, first create an algorithm configuration yaml in you
 
 Now you can benchmark your algorithm using the run.py script:
 ```
-python run.py --t3  --definitions t3/[your_team_name]/algos.yaml
+python run.py --t3  --definitions t3/[your_team_name]/algos.yaml --dataset random-xs
 ```
 This will write the results into various files in the *results/* directory.
 
 Now you can analyze the results by running:
 ```
-python plot.py --definitions t3/[your_team_name]/algos.yaml
+python plot.py --definitions t3/[your_team_name]/algos.yaml --dataset random-xs
 ```
 This will place a plot of the algorithms performance, recall-vs-throughput, into the *results/* directory.
 
