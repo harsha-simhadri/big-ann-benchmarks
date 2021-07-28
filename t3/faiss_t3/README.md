@@ -9,7 +9,7 @@ These are instructions for setting up the FAISS T3 baseline on a new machine.
 * The NVidia docker container runtime ( https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html )
 * This cloned project repository.
 
-## Testing On A SSmall Index
+## Test On A Small Dataset
 
 Note that all the subsequent commands must be run in the top-level directory of this repo on your machine.
 
