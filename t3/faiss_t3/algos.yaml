@@ -15,7 +15,7 @@ random-xs:
                 "maxtrain": 0,
                 "clustering_niter": -1,
                 "add_splits": 1,
-                "no_precomputed_tables": True,
+                "no_precomputed_tables": true,
                 "searchthreads": -1,
                 "parallel_mode": 3,
                 "search_bs": 8192
@@ -179,7 +179,7 @@ ssnpp-1B:
       run-groups:
         base:
           args: |
-              [{"indexkey": "IVF1048576,SQ8",
+              [{"indexkey": "OPQ32_128,IVF1048576_HNSW32,PQ32",
                 "parallel_mode": -1}]
           query-args: |
               ["nprobe=1",
