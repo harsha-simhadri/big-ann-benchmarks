@@ -16,8 +16,9 @@
   - [Evaluating Power Consumption](#evaluating_power_consumption)   
 ## Introduction
 
-The T1 and T2 tracks of the competition restrict the evaluation of algorithms to standard Azure CPU servers with 64GB of RAM and 2TB of SSD.  The only restriction in the T3 track is that the evaluation machine can be any hardware that is commercially available ( including any commercially available add-on PCIe boards ).  T3 will maintain three leaderboards:
-* One based on the typical ANN performances metrics recall-vs-throughput
+The T1 and T2 tracks of the competition restrict the evaluation of algorithms to standard Azure CPU servers with 64GB of RAM and 2TB of SSD.  The only restriction in the T3 track is that the evaluation machine can be any hardware that is commercially available ( including any commercially available add-on PCIe boards ).  T3 will maintain four leaderboards:
+* One based on recall
+* One based on throughput
 * One based on power consumption
 * One based on hardware cost
 
@@ -83,7 +84,7 @@ mkdir t3/[your_team_name]
 ```
 This framework evaluates algorithms in Docker containers.  Your algorithm's Dockerfile should live in your team's subdirectory at *t3/[your_team_name]*.  Ideally, your Docker file should contain everything needed to install and run your algorithm on a system with the same hardware.  Given the nature of T3, this will not likely be entirely possible since custom hardware host drivers and certain low level host libraries require an installation step outside of what can be accomplished with Docker alone.  Please make your best effort to include as much as possible within your Docker container as we want to promote as much transparency as possible among all participants.
 
-Please consult the Dockerfile in *t3/faiss_t3/algos.yaml* as an example.
+Please consult the Dockerfile in *t3/faiss_t3/* for an example.
 
 To build your Docker container, run:
 ```
@@ -96,7 +97,7 @@ Develop and add your algorithm to the *benchmarks/algorithms* directory.
 * You will need to subclass from the BaseANN class in *benchmarks/algorithms/base.py* and implement the functions of that parent class.
 * You should consult the examples already in the directory.
 
-As you develop and test your algorithm, you will likley need to test on smaller datasets.  This framework provides a way to create datasets of various sizes.  For example, to create a dataset with 10000 20-dimensional random floating point vectors, run:
+As you develop and test your algorithm, you will likely need to test on smaller datasets.  This framework provides a way to create datasets of various sizes.  For example, to create a dataset with 10000 20-dimensional random floating point vectors, run:
 ```
 python create_dataset.py --dataset random-xs
 ```
@@ -151,11 +152,11 @@ There are several ways to get help as you develop your algorithm:
 
 ### Leaderboard_Ranking
 
-T3 will maintain three different leaderboards 1) one based on recall 2) one based on power consumption and 3) one based on cost.  The details of the ranking metrics are described here.
+T3 will maintain four different leaderboards 1) one based on recall 2) one based on throughput 3) one based on power consumption and 4) one based on cost.  The details of the ranking metrics are described here.
 
 #### Baseline Thresholds
 
-Thresholds of performance have been put in place for this competition, based on both queries per second (QPS) and recall measured as recall@10.  For T3, the thresholds for each dataset are as follows:
+Thresholds of performance have been put in place for this competition, based on both queries per second (qps) and recall measured as recall@10.  For the recall leaderboard, we will rank participants by recall@10 at 2K qps.  The table below shows the baseline recall@10 for the datasets near 2K queries/second.
 
 |   dataset    |    qps   | recall@10 |
 | ------------ | -------- | --------- |
@@ -165,15 +166,33 @@ Thresholds of performance have been put in place for this competition, based on 
 | deep-1B      | 2002.490 |   0.942   |
 | msspacev-1B  | 2190.829 |   0.850   |
 
-These thresholds were measured on an 56 core Intel Xeon system with 700GB RAM and a V100 Nvidia GPU using the FAISS library using the index strategy called IVF1048576,SQ8.
+For the throughput leaderboard, we will rank participants by qps at 90% recall@10. The table below shows the baseline throughput for the datasets near 90% recall@10.
+
+|   dataset    |    qps   | recall@10 |
+| ------------ | -------- | --------- |
+| msturing-1B  |          |           |
+| bigann-1B    |          |           |
+| text2image-1B|          |           |
+| deep-1B      |          |           |
+| msspacev-1B  |          |           |
+
+Baseline thresholds were measured on an 56 core Intel Xeon system with 700GB RAM and a V100 Nvidia GPU using the FAISS library using the index strategy called IVF1048576,SQ8.
 
 #### Recall Leaderboard
 
-This leaderboard leverages the standard recall@10 vs throughput benchmark that has become a standard benchmark when evaluating and comparing approximate nearest neighbor algorithms.  We will rank participants based on recall@10 at the baseline QPS threshold for each dataset.  The evaluation framework allows for 10 different search parameter sets and we will use the best value of recall@10 from the set.
+This leaderboard leverages the standard recall@10 vs throughput benchmark that has become a standard benchmark when evaluating and comparing approximate nearest neighbor algorithms.  We will rank participants based on recall@10 at the baseline qps threshold for each dataset.  The evaluation framework allows for 10 different search parameter sets and we will use the best value of recall@10 from the set.
 
 The final ranking will be based on an aggregation over the individual dataset rankings.  The aggregation formula is as follows: [TBD]
 
-Participants that cannot meet or exceed the baseline QPS threshold for a dataset will be dropped from ranking consideration for that dataset.
+Participants that cannot meet or exceed the baseline qps threshold for a dataset will be dropped from ranking consideration for that dataset.
+
+#### Througput Leaderboard
+
+This leaderboard also leverages the standard recall@10 vs throughput benchmark.  We will rank participants based on throughput (qps) at the recall@10 threshold of 90%.  The evaluation framework allows for 10 different search parameter sets and we will use the best value of throughput from the set.
+
+The final ranking will be based on an aggregation over the individual dataset rankings.  The aggregation formula is as follows: [TBD]
+
+Participants that cannot meet or exceed the baseline recall@10 threshold for a dataset will be dropped from ranking consideration for that dataset.
 
 #### Power Leaderboard
 
@@ -189,18 +208,18 @@ Participants that cannot meet or exceed the recall@10 baseline threshold for a d
 
 #### Cost Leaderboard
 
-This leaderboard is related to cost, which is an important consideration when scaling applications and servers in a datacenter.  The primary ranking metric will be an estimate of capital expense (capex) + operational expense (opex) that is required to scale the participant’s system to 100,000 QPS that meets or exceeds the baseline recall@10.
+This leaderboard is related to cost, which is an important consideration when scaling applications and servers in a datacenter.  The primary ranking metric will be an estimate of capital expense (capex) + operational expense (opex) that is required to scale the participant’s system to 100,000 qps that meets or exceeds the baseline recall@10.
 
 The formula for capex is as follows:
 
-capex = (MSRP of all the hardware components of the system ) X ( minimum number of systems needed to scale to 100,000 QPS )
+capex = (MSRP of all the hardware components of the system ) X ( minimum number of systems needed to scale to 100,000 qps )
 
 The hardware components include the chassis and all of the electronics within the chassis including the power supplies, motherboard, HDD/SSD, and all extension boards.  Participants must provide evidence of MSRP of components ( either published on a web-site or a copy of a invoice/receipt with customer identifiable information removed. )  Volume based pricing is not considered.
 
-opex = ( Max QPS at or greater than the baseline recall @10 threshold ) * ( Kilo-Watt-Hour / Query ) * ( Seconds / Hour ) * ( Hours / Year) * ( 5 Years ) * ( Dollars / Kilo-Watt-Hour ) X ( minimum number of systems needed to scale to 100,000 QPS )
+opex = ( Max qps at or greater than the baseline recall @10 threshold ) * ( Kilo-Watt-Hour / Query ) * ( Seconds / Hour ) * ( Hours / Year) * ( 5 Years ) * ( Dollars / Kilo-Watt-Hour ) X ( minimum number of systems needed to scale to 100,000 qps )
 
 Notes on this formula:
-* We will use the maximum QPS actually measured that meets or exceeds the baseline recall@10 threshold, across all query set parameters.
+* We will use the maximum qps actually measured that meets or exceeds the baseline recall@10 threshold, across all query set parameters.
 * We do not account for the cost related to the physical footprint of the system(s) such as the cost of the space occupied by the system(s) in the datacenter.
 * We will use $0.10 / Kilo-Watt-Hour for the power consumption cost.
 * 5 years is the standard hardware depreciation schedule used for tax purposes with the Internal Revenue Service
