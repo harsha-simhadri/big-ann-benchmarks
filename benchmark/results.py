@@ -16,13 +16,24 @@ def get_result_filename(dataset=None, count=None, definition=None,
         d.append(str(count))
     if definition:
         d.append(definition.algorithm)
-        data = definition.arguments + query_arguments
-        d.append(re.sub(r'\W+', '_', json.dumps(data, sort_keys=True))
-                 .strip('_'))
+        build_args = definition.arguments
+        try:
+            for args in build_args:
+                if type(args) == dict and 'indexkey' in args:
+                    build_args = [args['indexkey']]
+        except:
+                pass
+        data = build_args + query_arguments
+        data = re.sub(r'\W+', '_', json.dumps(data, sort_keys=True)).strip('_')
+        if len(data) > 150:
+            data = data[-149:]
+        d.append(data)
+
     return os.path.join(*d)
 
 
-def store_results(dataset, count, definition, query_arguments, attrs, results):
+def store_results(dataset, count, definition, query_arguments,
+        attrs, results, search_type):
     fn = get_result_filename(
         dataset, count, definition, query_arguments) + '.hdf5'
     head, tail = os.path.split(fn)
@@ -31,9 +42,17 @@ def store_results(dataset, count, definition, query_arguments, attrs, results):
     f = h5py.File(fn, 'w')
     for k, v in attrs.items():
         f.attrs[k] = v
-    neighbors = f.create_dataset('neighbors', (len(results), count), 'i')
-    for i, idxs in enumerate(results):
-        neighbors[i] = idxs
+    if search_type == "knn":
+        neighbors = f.create_dataset('neighbors', (len(results), count), 'i')
+        for i, idxs in enumerate(results):
+            neighbors[i] = idxs
+    elif search_type == "range":
+        lims, D, I= results
+        f.create_dataset('neighbors', data=I)
+        f.create_dataset('lims', data=lims)
+        f.create_dataset('distances', data=D)
+    else:
+        raise NotImplementedError()
     f.close()
 
 

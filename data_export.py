@@ -32,7 +32,16 @@ if __name__ == "__main__":
         dataset = DATASETS[dataset_name]()
         results = load_all_results(dataset_name)
         results = compute_metrics_all_runs(dataset, results, args.recompute)
-        dfs.append(pd.DataFrame(results))
+        cleaned = []
+        for result in results:
+            if 'k-nn' in result:
+                result['recall/ap'] = result['k-nn']
+                del result['k-nn']
+            if 'ap' in result:
+                result['recall/ap'] = result['ap']
+                del result['ap']
+            cleaned.append(result)
+        dfs.append(pd.DataFrame(cleaned))
     if len(dfs) > 0:
         data = pd.concat(dfs)
         data.to_csv(args.output, index=False)
