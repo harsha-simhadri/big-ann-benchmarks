@@ -70,7 +70,7 @@ python plot.py --definitions t3/faiss_t3/algos.yaml --dataset random-xs
 ```
 This will place a plot of the algorithms performance, recall-vs-throughput, into the *results/* directory.
 
-### Developing_Your_Dockerfile
+### Starting Your Development
 
 First, please create a short name for your team without spaces or special characters.  Henceforth in these instructions, this will be referenced as [your_team_name].
 
@@ -82,9 +82,12 @@ In the *t3/* directory, create a sub-directory using that name.
 ```
 mkdir t3/[your_team_name]
 ```
+
+### Developing_Your_Dockerfile
+
 This framework evaluates algorithms in Docker containers by default.  Your algorithm's Dockerfile should live in your team's subdirectory at *t3/[your_team_name]*.  Ideally, your Docker file should contain everything needed to install and run your algorithm on a system with the same hardware.  Given the nature of T3, this will not likely be entirely possible since custom hardware host drivers and certain low level host libraries require an installation step outside of what can be accomplished with Docker alone.  Please make your best effort to include as much installation and setup within your Docker container, as we want to promote as much transparency as possible among all participants.
 
-Please consult the Dockerfile in *t3/faiss_t3/* for an example.
+Please consult the Dockerfile [here](faiss_t3/Dockerfile) for an example.
 
 To build your Docker container, run:
 ```
@@ -94,7 +97,7 @@ python install.py --dockerfile t3/[your_team_name]/Dockerfile
 ### Developing_Your_Algorithm
 
 Develop and add your algorithm to the *benchmarks/algorithms* directory.
-* You will need to subclass from the BaseANN class in *benchmarks/algorithms/base.py* and implement the functions of that parent class.
+* You will need to subclass from the [BaseANN class](../benchmark/algorithms/base.py) and implement the functions of that parent class.
 * You should consult the examples already in the directory.
 
 As you develop and test your algorithm, you will likely need to test on smaller datasets.  This framework provides a way to create datasets of various sizes.  For example, to create a dataset with 10000 20-dimensional random floating point vectors, run:
@@ -133,7 +136,7 @@ python plot.py --help
 A submission is composed of the following:
 * 1 index binary file for each dataset in which you are participating ( choose your best index )
 * 1 *algos.yaml* with only one set of build parameters and at most 10 sets of query parameters for each dataset in which you are participating. Please put that file into the *t3/[your_team_name]/* directory.
-* Your algorithm's python class ( put it into the *benchmark/algorithms/* directory. )
+* Your algorithm's python class ( placed in the [benchmark/algorithms/](../benchmark/algorithms) directory. 
 
 All but the binary index files can be submitted with a pull request of your custom branch.
 
@@ -237,6 +240,7 @@ opex = ( max qps at or greater than the baseline recall @10 threshold ) * ( kilo
 Notes on this formula:
 * We will use the maximum qps actually measured that meets or exceeds the baseline recall@10 threshold across all query set parameters.
 * We do not account for the cost related to the physical footprint of the system(s) such as the cost of the space occupied by the system(s) in the datacenter.
+* We do not account for the costs associated with system clustering needed to obtain 100,000 qps ( networking equipment, routing traffic, merging results, etc. )
 * We will use $0.10 / kilowatt-hour for the power consumption cost.
 * 5 years is the standard hardware depreciation schedule used for tax purposes with the Internal Revenue Service
 * We’d like to thank David Resin, former director at Google Cloud, now SVP at Pendo.io for his valuable contribution and consultation with respect to the capex and opex formulas.
@@ -258,7 +262,7 @@ Evaluation steps for each option is detailed in the next sections.
 
 ### Participant_Sends_Hardware_To_Evaluators
 
-Evaluators will work with participant's that send hardware during competition on-boarding. Hardware will be sent at the participant's expense.
+Evaluators will work with participant's that send hardware during competition on-boarding. Hardware will be sent and returned at the participant's expense.
 
 Evaluators and participants will work closely to make sure the hardware is properly installed and configured.
 
@@ -288,7 +292,7 @@ python run.py --dataset [DATASET] --t3 --definitions [DEFINITION FILE] --powerca
 ```
 This will monitor power consumption over that period of time ( 10 seconds is a good number ).
 
-You can retrieve a plot of the power consumptions ( measures as watt-seconds/query ) using the plot.py script.
+You can retrieve a plot of the power consumptions ( measured as watt-seconds/query ) using the plot.py script.
 
 
 
