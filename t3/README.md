@@ -179,11 +179,11 @@ For the throughput leaderboard, we will rank participants by qps at 90% recall@1
 Baseline thresholds were measured on an 56 core Intel Xeon system with 700GB RAM and a V100 Nvidia GPU using the FAISS library using the index strategy called IVF1048576,SQ8.
 
 Here are all the baseline recall@10 vs throughput plots for the (knn search type) datasets:
-* [msturing-1B](t3/faiss_t3/baseline_plots/msturing-1B-r-vs-t.png)
-* [bigann-1B](t3/faiss_t3/baseline_plots/bigann-1B-r-vs-t.png)
-* [text2image-1B](t3/faiss_t3/baseline_plots/text2image-1B-r-vs-t.png)
-* [deep-1B](t3/faiss_t3/baseline_plots/deep-1B-r-vs-t.png)
-* [msspacev-1B](t3/faiss_t3/baseline_plots/msspacev-1B-r-vs-t.png)
+* [msturing-1B](baseline_plots/msturing-1B-r-vs-t.png)
+* [bigann-1B](baseline_plots/bigann-1B-r-vs-t.png)
+* [text2image-1B](baseline_plots/text2image-1B-r-vs-t.png)
+* [deep-1B](baseline_plots/deep-1B-r-vs-t.png)
+* [msspacev-1B](baseline_plots/msspacev-1B-r-vs-t.png)
 
 #### Recall Leaderboard
 
@@ -214,11 +214,11 @@ The final ranking will be based on an aggregation over the individual dataset ra
 Participants that cannot meet or exceed the recall@10 baseline threshold for a dataset will be dropped from ranking consideration for that dataset.
 
 Here are all the baseline recall@10 vs (watt$\times$seconds)/query plots for the (knn search type) datasets:
-* [msturing-1B](t3/faiss_t3/baseline_plots/msturing-1B-r-vs-p.png)
-* [bigann-1B](t3/faiss_t3/baseline_plots/bigann-1B-r-vs-p.png)
-* [text2image-1B](t3/faiss_t3/baseline_plots/text2image-1B-r-vs-p.png)
-* [deep-1B](t3/faiss_t3/baseline_plots/deep-1B-r-vs-p.png)
-* [msspacev-1B](t3/faiss_t3/baseline_plots/msspacev-1B-r-vs-p.png)
+* [msturing-1B](baseline_plots/msturing-1B-r-vs-p.png)
+* [bigann-1B](baseline_plots/bigann-1B-r-vs-p.png)
+* [text2image-1B](baseline_plots/text2image-1B-r-vs-p.png)
+* [deep-1B](baseline_plots/deep-1B-r-vs-p.png)
+* [msspacev-1B](baseline_plots/msspacev-1B-r-vs-p.png)
 
 #### Cost Leaderboard
 
