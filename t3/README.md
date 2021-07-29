@@ -96,7 +96,7 @@ python install.py --dockerfile t3/[your_team_name]/Dockerfile
 
 ### Developing_Your_Algorithm
 
-Develop and add your algorithm to the *benchmarks/algorithms* directory.
+Develop and add your algorithm's python class to the [benchmark/algorithms](../benchmark/algorithms) directory.
 * You will need to subclass from the [BaseANN class](../benchmark/algorithms/base.py) and implement the functions of that parent class.
 * You should consult the examples already in the directory.
 
@@ -112,19 +112,19 @@ When you are ready to test on the competition datasets, use the create_dataset.p
 ```
 python create_dataset.py --dataset [sift-1B|bigann-1B|text2image-1B|msturing-1B|msspacev-1B|ssnpp-1B]
 ```
-To benchmark your algorithm, first create an algorithm configuration yaml in your teams directory called *algos.yaml.*  This file contains the index build parameters and query parameters that will get passed to your algorithm at run-time.  Please look at this example *t3/faiss_t3/algos.yaml.*
+To benchmark your algorithm, first create an algorithm configuration yaml in your teams directory called *algos.yaml.*  This file contains the index build parameters and query parameters that will get passed to your algorithm at run-time.  Please look at [this example](faiss_t3/algos.yaml.)
 
 Now you can benchmark your algorithm using the run.py script:
 ```
 python run.py --t3  --definitions t3/[your_team_name]/algos.yaml --dataset random-xs
 ```
-This will write the results into various files in the *results/* directory.
+This will write the results into various files in the [results](../results) directory.
 
 Now you can analyze the results by running:
 ```
 python plot.py --definitions t3/[your_team_name]/algos.yaml --dataset random-xs
 ```
-This will place a plot of the algorithms performance, recall-vs-throughput, into the *results/* directory.
+This will place a plot of the algorithms performance, recall-vs-throughput, into the toplevel [results](../results) directory.
 
 The plot.py script supports other benchmarks.  To see a complete list, run:
 ```
@@ -243,7 +243,7 @@ Notes on this formula:
 * We do not account for the costs associated with system clustering needed to obtain 100,000 qps ( networking equipment, routing traffic, merging results, etc. )
 * We will use $0.10 / kilowatt-hour for the power consumption cost.
 * 5 years is the standard hardware depreciation schedule used for tax purposes with the Internal Revenue Service
-* We’d like to thank David Resin, former director at Google Cloud, now SVP at Pendo.io for his valuable contribution and consultation with respect to the capex and opex formulas.
+* We’d like to thank David Rensin, former senior director at Google Cloud, now SVP at Pendo.io for his valuable contribution and consultation with respect to the capex and opex formulas.
 
 The final ranking will be based on an aggregation over the individual dataset rankings.  The aggregation formula is as follows:[TBD]
 
