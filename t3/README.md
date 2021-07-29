@@ -161,7 +161,7 @@ T3 will maintain four different leaderboards 1) one based on recall 2) one based
 
 #### Baseline Thresholds
 
-Thresholds of performance have been put in place for this competition, based on both queries per second (qps) and recall measured as recall@10.  For the recall leaderboard, we will rank participants by recall@10 at 2K qps.  The table below shows the baseline recall@10 for all the (knn search type) datasets near 2K queries/second.
+Thresholds of performance have been put in place for this competition, based on both queries per second (qps) and recall measured as recall@10.  For the recall leaderboard, we will rank participants by recall@10 at 2K qps.  The table below shows the baseline recall@10 for all the (knn search type) datasets near 2K qps.
 
 |   dataset    |    qps   | recall@10 |
 | ------------ | -------- | --------- |
@@ -198,7 +198,7 @@ The final ranking will be based on an aggregation over the individual dataset ra
 
 Participants that cannot meet or exceed the baseline qps threshold for a dataset will be dropped from ranking consideration for that dataset.
 
-#### Througput Leaderboard
+#### Throughput Leaderboard
 
 This leaderboard also leverages the standard recall@10 vs throughput benchmark.  We will rank participants based on throughput (qps) at the recall@10 threshold of 90%.  The evaluation framework allows for 10 different search parameter sets and we will use the best value of throughput from the set.
 
@@ -208,11 +208,11 @@ Participants that cannot meet or exceed the baseline recall@10 threshold for a d
 
 #### Power Leaderboard
 
-This leaderboard is related to power consumption, which is an important consideration when scaling applications and servers in a datacenter.  The primary ranking metric is ( Kilo-Watt-Hour / Query.)  Participants must meet or exceed the recall@10 of the baseline threshold. The reason for those minimum thresholds is to discourage algorithm’s designers from purposefully sacrificing too much performance in order to lower the power consumption.
+This leaderboard is related to power consumption, which is an important consideration when scaling applications and servers in a datacenter.  The primary ranking metric is ( kilowatt-hour / query.)  Participants must meet or exceed the recall@10 of the baseline threshold. The reason for those minimum thresholds is to discourage algorithm’s designers from purposefully sacrificing too much performance in order to lower the power consumption.
 
 The evaluation framework leverages the power sensors available in the standard IPMI power management interface of most commercial server chassis’.  We also leverage the open source project ipmicap ( https://github.com/fractalsproject/ipmicap ) to capture the power sensors and calculate the power consumption.
 
-During evaluation, for each search parameter set, power consumption is acquired over at least 10 seconds running search on the entire query set.  During that 10 seconds, multiple consecutive runs on the query set may occur in order to maintain a minimum duration of 10 seconds.  Also, the duration may be greater than 10 seconds if a run of 1 query set takes longer than 10 seconds.  So a run could be composed of 1 batch query or several and the duration will be at least 10 seconds  The power consumption acquired for the run is divided by the total number of queries performed during the run, resulting in ( Kilo-Watt-Hour / Query ).  Up to 10 search parameter sets are allowed, and we use the minimum value for ranking participants, for each dataset.
+During evaluation, for each search parameter set, power consumption is acquired over at least 10 seconds running search on the entire query set.  During that 10 seconds, multiple consecutive runs on the query set may occur in order to maintain a minimum duration of 10 seconds.  Also, the duration may be greater than 10 seconds if a run of 1 query set takes longer than 10 seconds.  So a run could be composed of 1 batch query or several and the duration will be at least 10 seconds  The power consumption acquired for the run is divided by the total number of queries performed during the run, resulting in ( kilowatt-hour / query ).  Up to 10 search parameter sets are allowed, and we use the minimum value for ranking participants, for each dataset.
 
 The final ranking will be based on an aggregation over the individual dataset rankings.  The aggregation formula is as follows:[TBD]
 
@@ -245,7 +245,7 @@ Notes on this formula:
 * We do not account for the costs associated with system clustering needed to obtain 100,000 qps ( networking equipment, routing traffic, merging results, etc. )
 * We will use $0.10 / kilowatt-hour for the power consumption cost.
 * 5 years is the standard hardware depreciation schedule used for tax purposes with the Internal Revenue Service
-* We’d like to thank David Rensin, former senior director at Google Cloud, now SVP at Pendo.io for his valuable contribution and consultation with respect to the capex and opex formulas.
+* We’d like to thank David Rensin, former Senior Director at Google Cloud, now SVP at Pendo.io for his valuable contribution and consultation with respect to the capex and opex formulas.
 
 The final ranking will be based on an aggregation over the individual dataset rankings.  The aggregation formula is as follows:[TBD]
 
