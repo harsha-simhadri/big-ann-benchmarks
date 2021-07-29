@@ -62,7 +62,7 @@ Run a benchmark evaluation using the algorithm's definition file:
 ```
 python run.py --t3 --definitions t3/faiss_t3/algos.yaml --dataset random-xs
 ```
-Please note that the *t3* flag is important.  
+Please note that the *--t3* flag is important.  
 
 Now analyze the results:
 ```
@@ -82,7 +82,7 @@ In the *t3/* directory, create a sub-directory using that name.
 ```
 mkdir t3/[your_team_name]
 ```
-This framework evaluates algorithms in Docker containers.  Your algorithm's Dockerfile should live in your team's subdirectory at *t3/[your_team_name]*.  Ideally, your Docker file should contain everything needed to install and run your algorithm on a system with the same hardware.  Given the nature of T3, this will not likely be entirely possible since custom hardware host drivers and certain low level host libraries require an installation step outside of what can be accomplished with Docker alone.  Please make your best effort to include as much as possible within your Docker container as we want to promote as much transparency as possible among all participants.
+This framework evaluates algorithms in Docker containers by default.  Your algorithm's Dockerfile should live in your team's subdirectory at *t3/[your_team_name]*.  Ideally, your Docker file should contain everything needed to install and run your algorithm on a system with the same hardware.  Given the nature of T3, this will not likely be entirely possible since custom hardware host drivers and certain low level host libraries require an installation step outside of what can be accomplished with Docker alone.  Please make your best effort to include as much installation and setup within your Docker container, as we want to promote as much transparency as possible among all participants.
 
 Please consult the Dockerfile in *t3/faiss_t3/* for an example.
 
@@ -131,24 +131,24 @@ python plot.py --help
 ### Submitting_Your_Algorithm
 
 A submission is composed of the following:
-* 1 index binary file (  choose your best index )
-* 1 *algos.yaml* with only one set of build parameters and at most 10 sets of query parameters ( put it into the *t3/[your_team_name]/* directory. )
+* 1 index binary file for each dataset in which you are participating ( choose your best index )
+* 1 *algos.yaml* with only one set of build parameters and at most 10 sets of query parameters for each dataset in which you are participating. Please put that file into the *t3/[your_team_name]/* directory.
 * Your algorithm's python class ( put it into the *benchmark/algorithms/* directory. )
 
-All but the binary index file can be submitted with a pull request of your custom branch.
+All but the binary index files can be submitted with a pull request of your custom branch.
 
-We will provide you with an upload area for your binary index file during the competition.
+We will provide you with an upload area for your binary index files during the competition.
 
 Additional information may be required to qualify for all the leaderboards:
 * To qualify for the cost leaderboard, please include evidence of the MSRP of all the components of your entire system.  Put this evidence into the *t3/[your_team_name]/* directory.
-* If all of the source code cannot be included in your pull request, please provide an explanation of what the non-open-source part of the software does (host drivers, firmware, etc.) Put this explanation as a text file into the t3/[your_team_name]/ directory.
+* If all of the installation, setup, and source code cannot be included in your pull request, please provide an explanation of what the non-open source part of the software does (host drivers, firmware, etc.) Put this explanation into a text file and place into the t3/[your_team_name]/ directory.
 
 ### How_To_Get_Help
 
 There are several ways to get help as you develop your algorithm:
-* You can submit an issue at this github repositry.
+* You can submit an issue at this github repository.
 * Send an email to the competition's T3 organizer, gwilliams@gsitechnology.com
-* Send en email to the competition's google-group.
+* Send en email to the competition's googlegroup, big-ann-organizers@googlegroups.com
 
 ### Leaderboard_Ranking
 
@@ -156,7 +156,7 @@ T3 will maintain four different leaderboards 1) one based on recall 2) one based
 
 #### Baseline Thresholds
 
-Thresholds of performance have been put in place for this competition, based on both queries per second (qps) and recall measured as recall@10.  For the recall leaderboard, we will rank participants by recall@10 at 2K qps.  The table below shows the baseline recall@10 for the datasets near 2K queries/second.
+Thresholds of performance have been put in place for this competition, based on both queries per second (qps) and recall measured as recall@10.  For the recall leaderboard, we will rank participants by recall@10 at 2K qps.  The table below shows the baseline recall@10 for all the (knn search type) datasets near 2K queries/second.
 
 |   dataset    |    qps   | recall@10 |
 | ------------ | -------- | --------- |
@@ -166,7 +166,7 @@ Thresholds of performance have been put in place for this competition, based on 
 | deep-1B      | 2002.490 |   0.942   |
 | msspacev-1B  | 2190.829 |   0.850   |
 
-For the throughput leaderboard, we will rank participants by qps at 90% recall@10. The table below shows the baseline throughput for the datasets near 90% recall@10.
+For the throughput leaderboard, we will rank participants by qps at 90% recall@10. The table below shows the baseline throughput for all the (knn search type) datasets near 90% recall@10.
 
 |   dataset    |    qps   | recall@10 |
 | ------------ | -------- | --------- |
@@ -177,6 +177,13 @@ For the throughput leaderboard, we will rank participants by qps at 90% recall@1
 | msspacev-1B  |          |           |
 
 Baseline thresholds were measured on an 56 core Intel Xeon system with 700GB RAM and a V100 Nvidia GPU using the FAISS library using the index strategy called IVF1048576,SQ8.
+
+Here are all the baseline recall@10 vs throughput plots for the (knn search type) datasets:
+* [msturing-1B](t3/faiss_t3/baseline_plots/msturing-1B-r-vs-t.png)
+* [bigann-1B](t3/faiss_t3/baseline_plots/bigann-1B-r-vs-t.png)
+* [text2image-1B](t3/faiss_t3/baseline_plots/text2image-1B-r-vs-t.png)
+* [deep-1B](t3/faiss_t3/baseline_plots/deep-1B-r-vs-t.png)
+* [msspacev-1B](t3/faiss_t3/baseline_plots/msspacev-1B-r-vs-t.png)
 
 #### Recall Leaderboard
 
@@ -205,6 +212,13 @@ During evaluation, for each search parameter set, power consumption is acquired 
 The final ranking will be based on an aggregation over the individual dataset rankings.  The aggregation formula is as follows:[TBD]
 
 Participants that cannot meet or exceed the recall@10 baseline threshold for a dataset will be dropped from ranking consideration for that dataset.
+
+Here are all the baseline recall@10 vs (watt$\times$seconds)/query plots for the (knn search type) datasets:
+* [msturing-1B](t3/faiss_t3/baseline_plots/msturing-1B-r-vs-p.png)
+* [bigann-1B](t3/faiss_t3/baseline_plots/bigann-1B-r-vs-p.png)
+* [text2image-1B](t3/faiss_t3/baseline_plots/text2image-1B-r-vs-p.png)
+* [deep-1B](t3/faiss_t3/baseline_plots/deep-1B-r-vs-p.png)
+* [msspacev-1B](t3/faiss_t3/baseline_plots/msspacev-1B-r-vs-p.png)
 
 #### Cost Leaderboard
 
