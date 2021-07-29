@@ -200,10 +200,11 @@ The hardware components include the chassis and all of the electronics within th
 opex = ( Max QPS at or greater than the baseline recall @10 threshold ) * ( Kilo-Watt-Hour / Query ) * ( Seconds / Hour ) * ( Hours / Year) * ( 5 Years ) * ( Dollars / Kilo-Watt-Hour ) X ( minimum number of systems needed to scale to 100,000 QPS )
 
 Notes on this formula:
-We will use the maximum QPS actually measured that meets or exceeds the baseline recall@10 threshold, across all query set parameters.
-We do not account for the cost related to the physical footprint of the system(s) such as the cost of the space occupied by the system(s) in the datacenter.
-We will use $0.10 / Kilo-Watt-Hour for the power consumption cost.
-5 years is the standard hardware depreciation schedule used for tax purposes with the Internal Revenue Service
+* We will use the maximum QPS actually measured that meets or exceeds the baseline recall@10 threshold, across all query set parameters.
+* We do not account for the cost related to the physical footprint of the system(s) such as the cost of the space occupied by the system(s) in the datacenter.
+* We will use $0.10 / Kilo-Watt-Hour for the power consumption cost.
+* 5 years is the standard hardware depreciation schedule used for tax purposes with the Internal Revenue Service
+
 We’d like to thank David Resin, former director at Google Cloud, now SVP at Pendo.io for his valuable contribution and consultation with respect to the capex and opex formulas.
 
 The final ranking will be based on an aggregation over the individual dataset rankings.  The aggregation formula is as follows:[TBD]
