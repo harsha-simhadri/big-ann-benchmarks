@@ -7,6 +7,7 @@
   - [Getting Started](#getting_started) 
   - [Developing Your Algorithm](#developing_your_algorithm) 
   - [How To Get Help](#how_to_get_help)
+  - [Leaderboard Ranking](#leaderboard_ranking)
 - [For Evaluators](#for_organizers)  
   - [Evaluating Participant Algorithms](#evaluating_participant_algorithms)
     - [Participant_Sends_Hardware_To_Evaluators](#participant_sends_hardware_to_organizers)
@@ -80,7 +81,7 @@ In the *t3/* directory, create a sub-directory using that name.
 ```
 mkdir t3/[your_team_name]
 ```
-This framework evaluates algorithms in Docker containers.  Your algorithm's Dockerfile should live in your team's subdirectory at *t3/[your_team_name]*.  Ideally, your Docker file should contain everything needed to install and run your algorithm on an system with the same hardware.  Given the nature of T3, this will not likely be possible since custom hardware host drivers and certain low level host libraries require an installation step outside of Docker.  Please make your best effort to include as much as possible within your Docker container as we want to promote as much transparency as possible among participants.
+This framework evaluates algorithms in Docker containers.  Your algorithm's Dockerfile should live in your team's subdirectory at *t3/[your_team_name]*.  Ideally, your Docker file should contain everything needed to install and run your algorithm on a system with the same hardware.  Given the nature of T3, this will not likely be entirely possible since custom hardware host drivers and certain low level host libraries require an installation step outside of what can be accomplished with Docker alone.  Please make your best effort to include as much as possible within your Docker container as we want to promote as much transparency as possible among all participants.
 
 Please consult the Dockerfile in *t3/faiss_t3/algos.yaml* as an example.
 
@@ -94,7 +95,7 @@ python install.py --dockerfile t3/[your_team_name]/Dockerfile
 Develop and add your algorithm to the *benchmarks/algorithms* directory.
 * You will need to subclass from the BaseANN class in *benchmarks/algorithms/base.py* and implement the functions of that parent class.
 * You should consult the examples already in the directory.
-T
+
 As you develop and test your algorithm, you will likley need to test on smaller datasets.  This framework provides a way to create datasets of various sizes.  For example, to create a dataset with 10000 20-dimensional random floating point vectors, run:
 ```
 python create_dataset.py --dataset random-xs
@@ -148,20 +149,81 @@ There are several ways to get help as you develop your algorithm:
 * Send an email to the competition's T3 organizer, gwilliams@gsitechnology.com
 * Send en email to the competition's google-group.
 
+### Leaderboard_Ranking
+
+T3 will maintain three different leaderboards 1) one based on recall 2) one based on power consumption and 3) one based on cost.  The details of the ranking metrics are described here.
+
+#### Baseline Thresholds
+
+Thresholds of performance have been put in place for this competition, based on both queries per second (QPS) and recall measured as recall@10.  For T3, the thresholds for each dataset are as follows:
+
+|   dataset    |    qps   | recall@10 |
+| ------------ | -------- | --------- |
+| msturing-1B  | 2011.542 |   0.910   |
+| bigann-1B    | 2058.950 |   0.927   |
+| text2image-1B| 2120.635 |   0.860   |
+| deep-1B      | 2002.490 |   0.942   |
+| msspacev-1B  | 2190.829 |   0.850   |
+
+These thresholds were measured on an 56 core Intel Xeon system with 700GB RAM and a V100 Nvidia GPU using the FAISS library using the index strategy called IVF1048576,SQ8.
+
+#### Recall Leaderboard
+
+This leaderboard leverages the standard recall@10 vs throughput benchmark that has become a standard benchmark when evaluating and comparing approximate nearest neighbor algorithms.  We will rank participants based on recall@10 at the baseline QPS threshold for each dataset.  The evaluation framework allows for 10 different search parameter sets and we will use the best value of recall@10 from the set.
+
+The final ranking will be based on an aggregation over the individual dataset rankings.  The aggregation formula is as follows: [TBD]
+
+Participants that cannot meet or exceed the baseline QPS threshold for a dataset will be dropped from ranking consideration for that dataset.
+
+#### Power Leaderboard
+
+This leaderboard is related to power consumption, which is an important consideration when scaling applications and servers in a datacenter.  The primary ranking metric is ( Kilo-Watt-Hour / Query.)  Participants must meet or exceed the recall@10 of the baseline threshold. The reason for those minimum thresholds is to discourage algorithm’s designers from purposefully sacrificing too much performance in order to lower the power consumption.
+
+The evaluation framework leverages the power sensors available in the standard IPMI power management interface of most commercial server chassis’.  We also leverage the open source project ipmicap ( https://github.com/fractalsproject/ipmicap ) to capture the power sensors and calculate the power consumption.
+
+During evaluation, for each search parameter set, power consumption is acquired over at least 10 seconds running search on the entire query set.  During that 10 seconds, multiple consecutive runs on the query set may occur in order to maintain a minimum duration of 10 seconds.  Also, the duration may be greater than 10 seconds if a run of 1 query set takes longer than 10 seconds.  So a run could be composed of 1 batch query or several and the duration will be at least 10 seconds  The power consumption acquired for the run is divided by the total number of queries performed during the run, resulting in ( Kilo-Watt-Hour / Query ).  Up to 10 search parameter sets are allowed, and we use the minimum value for ranking participants, for each dataset.
+
+The final ranking will be based on an aggregation over the individual dataset rankings.  The aggregation formula is as follows:[TBD]
+
+Participants that cannot meet or exceed the recall@10 baseline threshold for a dataset will be dropped from ranking consideration for that dataset.
+
+#### Cost Leaderboard
+
+This leaderboard is related to cost, which is an important consideration when scaling applications and servers in a datacenter.  The primary ranking metric will be an estimate of capital expense (capex) + operational expense (opex) that is required to scale the participant’s system to 100,000 QPS that meets or exceeds the baseline recall@10.
+
+The formula for capex is as follows:
+
+capex = (MSRP of all the hardware components of the system ) X ( minimum number of systems needed to scale to 100,000 QPS )
+
+The hardware components include the chassis and all of the electronics within the chassis including the power supplies, motherboard, HDD/SSD, and all extension boards.  Participants must provide evidence of MSRP of components ( either published on a web-site or a copy of a invoice/receipt with customer identifiable information removed. )  Volume based pricing is not considered.
+
+opex = ( Max QPS at or greater than the baseline recall @10 threshold ) * ( Kilo-Watt-Hour / Query ) * ( Seconds / Hour ) * ( Hours / Year) * ( 5 Years ) * ( Dollars / Kilo-Watt-Hour ) X ( minimum number of systems needed to scale to 100,000 QPS )
+
+Notes on this formula:
+We will use the maximum QPS actually measured that meets or exceeds the baseline recall@10 threshold, across all query set parameters.
+We do not account for the cost related to the physical footprint of the system(s) such as the cost of the space occupied by the system(s) in the datacenter.
+We will use $0.10 / Kilo-Watt-Hour for the power consumption cost.
+5 years is the standard hardware depreciation schedule used for tax purposes with the Internal Revenue Service
+We’d like to thank David Resin, former director at Google Cloud, now SVP at Pendo.io for his valuable contribution and consultation with respect to the capex and opex formulas.
+
+The final ranking will be based on an aggregation over the individual dataset rankings.  The aggregation formula is as follows:[TBD]
+
+Participants that cannot meet or exceed the baseline thresholds for a dataset will be dropped from ranking consideration for that dataset.
+
 ## For_Evaluators
 
 ### Evaluating_Participant_Algorithms
 
-How a participant' algorithm is benchmarked will depend on how they registered for the T3 competition, one of these options:
+How a participant's algorithm is benchmarked will depend on how they registered for the T3 competition, one of these options:
 * Participant sent hardware to competition evaluator at participant's expense.
 * Participant is giving the competition valuator remote SSH access to their machine.
 * Participant will run the evaluation framework on their own and send the benchmark results to the competition evaluator.
 
-Evaluation steps for each mode are detailed in the next sections.
+Evaluation steps for each option is detailed in the next sections.
 
 ### Participant_Sends_Hardware_To_Evaluators
 
-Evaluators will work with participant's that send hardware during on-boarding. Hardware will be sent at the participant's expense.
+Evaluators will work with participant's that send hardware during competition on-boarding. Hardware will be sent at the participant's expense.
 
 Evaluators and participants will work closely to make sure the hardware is properly installed and configured.
 
