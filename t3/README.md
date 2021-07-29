@@ -179,11 +179,11 @@ For the throughput leaderboard, we will rank participants by qps at 90% recall@1
 Baseline thresholds were measured on an 56 core Intel Xeon system with 700GB RAM and a V100 Nvidia GPU using the FAISS library using the index strategy called IVF1048576,SQ8.
 
 Here are all the baseline recall@10 vs throughput plots for the (knn search type) datasets:
-* [msturing-1B](baseline_plots/msturing-1B-r-vs-t.png)
-* [bigann-1B](baseline_plots/bigann-1B-r-vs-t.png)
-* [text2image-1B](baseline_plots/text2image-1B-r-vs-t.png)
-* [deep-1B](baseline_plots/deep-1B-r-vs-t.png)
-* [msspacev-1B](baseline_plots/msspacev-1B-r-vs-t.png)
+* [msturing-1B](faiss_t3/baseline_plots/msturing-1B-r-vs-t.png)
+* [bigann-1B](faiss_t3/baseline_plots/bigann-1B-r-vs-t.png)
+* [text2image-1B](faiss_t3/baseline_plots/text2image-1B-r-vs-t.png)
+* [deep-1B](faiss_t3/baseline_plots/deep-1B-r-vs-t.png)
+* [msspacev-1B](faiss_t3/baseline_plots/msspacev-1B-r-vs-t.png)
 
 #### Recall Leaderboard
 
@@ -213,29 +213,31 @@ The final ranking will be based on an aggregation over the individual dataset ra
 
 Participants that cannot meet or exceed the recall@10 baseline threshold for a dataset will be dropped from ranking consideration for that dataset.
 
-Here are all the baseline recall@10 vs (watt$\times$seconds)/query plots for the (knn search type) datasets:
-* [msturing-1B](baseline_plots/msturing-1B-r-vs-p.png)
-* [bigann-1B](baseline_plots/bigann-1B-r-vs-p.png)
-* [text2image-1B](baseline_plots/text2image-1B-r-vs-p.png)
-* [deep-1B](baseline_plots/deep-1B-r-vs-p.png)
-* [msspacev-1B](baseline_plots/msspacev-1B-r-vs-p.png)
+Here are all the baseline recall@10 vs (watt-seconds)/query plots for the (knn search type) datasets:
+* [msturing-1B](faiss_t3/baseline_plots/msturing-1B-r-vs-p.png)
+* [bigann-1B](faiss_t3/baseline_plots/bigann-1B-r-vs-p.png)
+* [text2image-1B](faiss_t3/baseline_plots/text2image-1B-r-vs-p.png)
+* [deep-1B](faiss_t3/baseline_plots/deep-1B-r-vs-p.png)
+* [msspacev-1B](faiss_t3/baseline_plots/msspacev-1B-r-vs-p.png)
 
 #### Cost Leaderboard
 
 This leaderboard is related to cost, which is an important consideration when scaling applications and servers in a datacenter.  The primary ranking metric will be an estimate of capital expense (capex) + operational expense (opex) that is required to scale the participant’s system to 100,000 qps that meets or exceeds the baseline recall@10.
 
-The formula for capex is as follows:
+The formula for the capex estimate is as follows:
 
 capex = (MSRP of all the hardware components of the system ) X ( minimum number of systems needed to scale to 100,000 qps )
 
 The hardware components include the chassis and all of the electronics within the chassis including the power supplies, motherboard, HDD/SSD, and all extension boards.  Participants must provide evidence of MSRP of components ( either published on a web-site or a copy of a invoice/receipt with customer identifiable information removed. )  Volume based pricing is not considered.
 
-opex = ( Max qps at or greater than the baseline recall @10 threshold ) * ( Kilo-Watt-Hour / Query ) * ( Seconds / Hour ) * ( Hours / Year) * ( 5 Years ) * ( Dollars / Kilo-Watt-Hour ) X ( minimum number of systems needed to scale to 100,000 qps )
+The formula for the opex estimate is as follows:
+
+opex = ( max qps at or greater than the baseline recall @10 threshold ) * ( kilowatt-hour / query ) * ( seconds / hour ) * ( hours / year) * ( 5 years ) * ( dollars / kilowatt-hour ) X ( minimum number of systems needed to scale to 100,000 qps )
 
 Notes on this formula:
-* We will use the maximum qps actually measured that meets or exceeds the baseline recall@10 threshold, across all query set parameters.
+* We will use the maximum qps actually measured that meets or exceeds the baseline recall@10 threshold across all query set parameters.
 * We do not account for the cost related to the physical footprint of the system(s) such as the cost of the space occupied by the system(s) in the datacenter.
-* We will use $0.10 / Kilo-Watt-Hour for the power consumption cost.
+* We will use $0.10 / kilowatt-hour for the power consumption cost.
 * 5 years is the standard hardware depreciation schedule used for tax purposes with the Internal Revenue Service
 * We’d like to thank David Resin, former director at Google Cloud, now SVP at Pendo.io for his valuable contribution and consultation with respect to the capex and opex formulas.
 
@@ -286,7 +288,7 @@ python run.py --dataset [DATASET] --t3 --definitions [DEFINITION FILE] --powerca
 ```
 This will monitor power consumption over that period of time ( 10 seconds is a good number ).
 
-You can retrieve a plot of the power consumptions ( measures as watt*seconds/query ) using the plot.py script.
+You can retrieve a plot of the power consumptions ( measures as watt-seconds/query ) using the plot.py script.
 
 
 
