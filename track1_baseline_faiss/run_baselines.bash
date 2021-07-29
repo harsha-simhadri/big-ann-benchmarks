@@ -171,23 +171,32 @@ done
 # .b: eval w 32 threads
 # .c: redo bigann eval
 # .d: with ssnpp, forgot to build...
+# .f: redo t2i 64x4 (eval only)
 
 # start with least problematic datasets  (no IP search, no range search)
 # msspace-1B may need to redo experiments because of ties in distance computations
 
 # for dsname in bigann-1B deep-1B msturing-1B msspacev-1B; do
 # for dsname in bigann-1B; do
-for dsname in ssnpp-1B; do
-    for nc in 1M 4M; do
+# for dsname in ssnpp-1B; do
+#     for nc in 1M 4M; do
+
+fi
+
+for dsname in text2image-1B; do
+
+    for nc in 1M; do
 
         case $nc in
         1M) ncn=$((1<<20)) ;;
         4M) ncn=$((1<<22)) ;;
         esac
 
+        if false ;then
+
         name=$dsname.IVF${nc}_2level_PQ32
 
-        run_on_half_machine $name.d \
+        run_on_half_machine $name.e \
             python -u track1_baseline_faiss/baseline_faiss.py \
                 --dataset $dsname --indexfile $basedir/$name.faissindex \
                 --indexkey OPQ32_128,IVF${ncn}_HNSW32,PQ32 \
@@ -198,11 +207,10 @@ for dsname in ssnpp-1B; do
                 --build --search --searchthreads 32 \
                 --maxRAM 256
 
-        if false; then
-
+        fi
         name=$dsname.IVF${nc}_2level_PQ64x4fsr
 
-        run_on_half_machine $name.a \
+        run_on_half_machine $name.g \
             python -u track1_baseline_faiss/baseline_faiss.py \
                 --dataset $dsname --indexfile $basedir/$name.faissindex \
                 --indexkey OPQ64_128,IVF${ncn}_HNSW32,PQ64x4fsr \
@@ -210,15 +218,15 @@ for dsname in ssnpp-1B; do
                 --quantizer_efConstruction 200 \
                 --quantizer_add_efSearch 80 \
                 --two_level_clustering \
-                --build --search --searchthreads 32 \
-                --maxRAM 256
+                --search --searchthreads 32 \
+                --maxRAM 256 --autotune_max nprobe:513
 
-        fi
+
     done
 
 done
 
-
+if false; then
 
 # speed up construction
 
@@ -240,7 +248,6 @@ un_on_half_machine $name.d \
         --build --search --searchthreads 32 \
         --maxRAM 256
 
-fi
 
 # find a way to not OOM during autotune
 
@@ -267,9 +274,6 @@ ssnpp_no_OOM maxNP1024  --autotune_max nprobe:1025
 ssnpp_no_OOM maxEFS256  --autotune_max quantizer_efSearch:257
 
 
-
-
-if false; then
 
 ##############################################################
 # Experiments with 64 bytes per vector
@@ -313,14 +317,11 @@ done
 
 
 
-
-
 ##############################################################
-# 10M scale exeperiment for max IP search
+# 10M scale exeperiment for text2image
 ##############################################################
 
 dsname=text2image-10M
-
 
 
 for nc in 16k 65k; do
@@ -368,11 +369,9 @@ for nc in 16k 65k; do
 
 done
 
-
 # evaluate various IVF codes
 
 ncn=16384
-
 
 
 key=IVF16k,SQ8
@@ -447,6 +446,47 @@ run_on_1gpu_learnlab $dsname.$key.b \
         --indexkey RR192,IVF16384,PQ32x12 --maxtrain $((ncn * 4 * 50)) \
         --build --search --train_on_gpu
 
+
+dsname=text2image-10M
+
+key=IVF16k,PQ48
+run_on_1gpu $dsname.$key.c \
+    python -u track1_baseline_faiss/baseline_faiss.py \
+        --dataset $dsname --indexfile $basedir/$dsname.$key.faissindex \
+        --indexkey OPQ48_192,IVF16384,PQ48 --maxtrain $((65536 * 50)) \
+        --search --train_on_gpu
+
+key=IVF16k,PQ64
+run_on_1gpu $dsname.$key.c \
+    python -u track1_baseline_faiss/baseline_faiss.py \
+        --dataset $dsname --indexfile $basedir/$dsname.$key.faissindex \
+        --indexkey OPQ64_192,IVF16384,PQ64 --maxtrain $((65536 * 50)) \
+        --search --train_on_gpu
+
+
+dsname=text2image-10M
+key=IVF16k,PQ48
+run_on_1gpu $dsname.$key.c \
+    python -u track1_baseline_faiss/baseline_faiss.py \
+        --dataset $dsname --indexfile $basedir/$dsname.$key.faissindex \
+        --indexkey OPQ48_192,IVF16384,PQ48 --maxtrain $((65536 * 50)) \
+        --search --train_on_gpu
+
+
+
+## try out additive quants
+
+
+export PYTHONPATH=/private/home/matthijs/faiss_versions/faiss_add_quant_search/build/faiss/python/build/lib:.
+dsname=text2image-10M
+for key in IVF16384,RQ32x8_Nfloat  IVF16384,RQ31x8_Nqint8 IVF16384,LSQ32x8_Nfloat IVF16384,LSQ31x8_Nqint8 ; do
+run_on_1gpu $dsname.$key.g \
+    python -u track1_baseline_faiss/baseline_faiss.py \
+        --dataset $dsname --indexfile $basedir/$dsname.$key.faissindex \
+        --indexkey $key --maxtrain $((65536 * 50))  \
+        --search --build # --train_on_gpu
+
+done
 
 
 ##############################################################

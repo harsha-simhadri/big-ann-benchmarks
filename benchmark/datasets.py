@@ -403,6 +403,12 @@ class Text2Image1B(DatasetCompetitionFormat):
     def distance(self):
         return "ip"
 
+    def get_query_train(self, maxn=10**6):
+        xq_train = np.memmap(
+            BASEDIR + "/text2image1B/query.learn.50M.fbin", offset=8,
+            dtype='float32', shape=(maxn, 200), mode='r')
+        return np.array(xq_train)
+
 class MSTuringANNS(DatasetCompetitionFormat):
     def __init__(self, nb_M=1000):
         self.nb_M = nb_M

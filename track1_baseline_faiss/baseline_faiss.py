@@ -91,6 +91,7 @@ def build_index(args, ds):
             faiss.METRIC_INNER_PRODUCT if ds.distance() in ("ip", "angular") else
             1/0
     )
+    print("metric type", metric_type)
     index = faiss.index_factory(d, args.indexkey, metric_type)
 
     index_ivf, vec_transform = unwind_index_ivf(index)
@@ -235,6 +236,9 @@ def build_index(args, ds):
                 index.add(xblock)
                 i0 = i1
             gc.collect()
+            if sno == args.stop_at_split:
+                print("stopping at split", sno)
+                break
 
     print("  add in %.3f s" % (time.time() - t0))
     if args.indexfile:
@@ -326,14 +330,14 @@ def result_header(ds, args):
         crit = None
     elif args.inter:
         print("Optimize for intersection @ ", args.k)
-        crit = faiss.IntersectionCriterion(nq, args.k)
+        crit = faiss.IntersectionCriterion(ds.nq, args.k)
         header = (
             '%-40s     inter@%3d time(ms/q)   nb distances %%quantization #runs' %
             ("parameters", args.k)
         )
     else:
         print("Optimize for 1-recall @ 1")
-        crit = faiss.OneRecallAtRCriterion(nq, 1)
+        crit = faiss.OneRecallAtRCriterion(ds.nq, 1)
         header = (
             '%-40s     R@1   R@10  R@100  time(ms/q)   nb distances %%quantization #runs' %
             "parameters"
@@ -561,6 +565,29 @@ def run_experiments_autotune(ds, index, args):
             )
 
 
+class DatasetWrapInPairwiseQuantization:
+
+    def __init__(self, ds, C):
+        self.ds = ds
+        self.C = C
+        self.Cq = np.linalg.inv(C.T)
+        # xb_pw = np.ascontiguousarray((C @ xb.T).T)
+        # xq_pw = np.ascontiguousarray((Cq @ xq.T).T)
+        # copy fields
+
+        for name in "nb d nq dtype distance search_type get_groundtruth".split():
+            setattr(self, name, getattr(ds, name))
+
+    def get_dataset(self):
+        return self.ds.get_dataset() @ self.C.T
+
+    def get_queries(self):
+        return self.ds.get_queries() @ self.Cq.T
+
+    def get_dataset_iterator(self, bs=512, split=(1,0)):
+        for xb in self.ds.get_dataset_iterator(bs=bs, split=split):
+            yield xb @ self.C.T
+
 
 ####################################################################
 # Main
@@ -582,8 +609,9 @@ def main():
 
     group = parser.add_argument_group('dataset options')
     aa('--dataset', choices=DATASETS.keys(), required=True)
-
     aa('--basedir', help="override basedir for dataset")
+    aa('--pairwise_quantization', default="",
+        help="load/store pairwise quantization matrix")
 
     group = parser.add_argument_group('index construction')
 
@@ -598,6 +626,8 @@ def main():
         help='add elements index by batches of this size')
     aa('--add_splits', default=1, type=int,
         help="Do adds in this many splits (otherwise risk of OOM for large datasets)")
+    aa('--stop_at_split', default=-1, type=int,
+        help="stop at this split (for debugging)")
 
     aa('--no_precomputed_tables', action='store_true', default=False,
         help='disable precomputed tables (uses less memory)')
@@ -641,6 +671,8 @@ def main():
 
     args = parser.parse_args()
 
+    print("args=", args)
+
     if args.basedir:
         print("setting datasets basedir to", args.basedir)
         benchmark.datasets.BASEDIR
@@ -669,6 +701,22 @@ def main():
 
     if not (args.build or args.search):
         return
+
+    if args.pairwise_quantization:
+        if os.path.exists(args.pairwise_quantization):
+            print("loading pairwise quantization matrix", args.pairwise_quantization)
+            C = np.load(args.pairwise_quantization)
+        else:
+            print("training pairwise quantization")
+            xq_train = ds.get_query_train()
+            G = xq_train.T @ xq_train
+            C = np.linalg.cholesky(G).T
+            print("store matrix in", args.pairwise_quantization)
+            np.save(args.pairwise_quantization, C)
+        # Cq = np.linalg.inv(C.T)
+        # xb_pw = np.ascontiguousarray((C @ xb.T).T)
+        # xq_pw = np.ascontiguousarray((Cq @ xq.T).T)
+        ds = DatasetWrapInPairwiseQuantization(ds, C)
 
     if args.build:
         print("build index, key=", args.indexkey)
