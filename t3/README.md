@@ -5,6 +5,8 @@
 - [Introduction](#introduction)  
 - [For Participants](#for_participants) 
   - [Getting Started](#getting_started) 
+  - [Starting Your Development)(#starting_your_development)
+  - [Developing Your Dockerfile](#developing_your_dockerfile)
   - [Developing Your Algorithm](#developing_your_algorithm) 
   - [How To Get Help](#how_to_get_help)
   - [Leaderboard Ranking](#leaderboard_ranking)
@@ -70,7 +72,7 @@ python plot.py --definitions t3/faiss_t3/algos.yaml --dataset random-xs
 ```
 This will place a plot of the algorithms performance, recall-vs-throughput, into the *results/* directory.
 
-### Starting Your Development
+### Starting_Your_Development
 
 First, please create a short name for your team without spaces or special characters.  Henceforth in these instructions, this will be referenced as [your_team_name].
 
