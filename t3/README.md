@@ -204,8 +204,7 @@ Notes on this formula:
 * We do not account for the cost related to the physical footprint of the system(s) such as the cost of the space occupied by the system(s) in the datacenter.
 * We will use $0.10 / Kilo-Watt-Hour for the power consumption cost.
 * 5 years is the standard hardware depreciation schedule used for tax purposes with the Internal Revenue Service
-
-We’d like to thank David Resin, former director at Google Cloud, now SVP at Pendo.io for his valuable contribution and consultation with respect to the capex and opex formulas.
+* We’d like to thank David Resin, former director at Google Cloud, now SVP at Pendo.io for his valuable contribution and consultation with respect to the capex and opex formulas.
 
 The final ranking will be based on an aggregation over the individual dataset rankings.  The aggregation formula is as follows:[TBD]
 
