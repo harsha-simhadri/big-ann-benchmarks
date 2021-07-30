@@ -126,7 +126,7 @@ Now you can benchmark your algorithm using the run.py script:
 ```
 python run.py --t3  --definitions t3/[your_team_name]/algos.yaml --dataset random-xs
 ```
-This will write the results into various files in the [results](../results) directory.
+This will write the results to the toplevel [results](../results) directory.
 
 Now you can analyze the results by running:
 ```
@@ -142,7 +142,7 @@ python plot.py --help
 ### Submitting_Your_Algorithm
 
 A submission is composed of the following:
-* 1 index binary file for each dataset in which you are participating ( choose your best index )
+* 1 index binary file for each dataset for which you are participating ( choose your best index )
 * 1 *algos.yaml* with only one set of build parameters and at most 10 sets of query parameters for each dataset in which you are participating. Please put that file into the *t3/[your_team_name]/* directory.
 * Your algorithm's python class ( placed in the [benchmark/algorithms/](../benchmark/algorithms) directory. 
 
@@ -156,7 +156,7 @@ Additional information may be required to qualify for all the leaderboards:
 
 ### How_To_Get_Help
 
-There are several ways to get help as you develop your algorithm:
+There are several ways to get help as you develop your algorithm using this framework:
 * You can submit an issue at this github repository.
 * Send an email to the competition's T3 organizer, gwilliams@gsitechnology.com
 * Send en email to the competition's googlegroup, big-ann-organizers@googlegroups.com
@@ -248,7 +248,7 @@ opex = ( max qps at or greater than the baseline recall @10 threshold ) * ( kilo
 Notes on this formula:
 * We will use the maximum qps actually measured that meets or exceeds the baseline recall@10 threshold across all query set parameters.
 * We do not account for the cost related to the physical footprint of the system(s) such as the cost of the space occupied by the system(s) in the datacenter.
-* We do not account for the costs associated with system clustering needed to obtain 100,000 qps ( networking equipment, routing traffic, merging results, etc. )
+* We assume linear horizontal scalability of systems with zero cost.  In other words, we do not account for the costs associated when actually clustering multiple systems needed to obtain 100,000 qps ( networking equipment, costs due to routing traffic among systems, costs due to merging results, etc. ) 
 * We will use $0.10 / kilowatt-hour for the power consumption cost.
 * 5 years is the standard hardware depreciation schedule used for tax purposes with the Internal Revenue Service
 * We’d like to thank David Rensin, former Senior Director at Google Cloud, now SVP at Pendo.io for his valuable contribution and consultation with respect to the capex and opex formulas.
