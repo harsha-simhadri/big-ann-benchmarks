@@ -155,6 +155,8 @@ def build_index(buildthreads, by_residual, maxtrain, clustering_niter,
         index_ivf.clustering_index = None
         gc.collect()
 
+    print("adding")
+
     t0 = time.time()
 
     if not quantizer_on_gpu_add:
@@ -196,7 +198,6 @@ def build_index(buildthreads, by_residual, maxtrain, clustering_niter,
         del quantizer_gpu
         gc.collect()
 
-
     print("  add in %.3f s" % (time.time() - t0))
     if indexfile:
         print("storing", indexfile)
@@ -205,6 +206,7 @@ def build_index(buildthreads, by_residual, maxtrain, clustering_niter,
     return index
 
 class IndexQuantizerOnGPU:
+    """ run query quantization on GPU """
 
     def __init__(self, index, search_bs):
         self.search_bs = search_bs
@@ -212,6 +214,19 @@ class IndexQuantizerOnGPU:
         self.index_ivf = index_ivf
         self.vec_transform = vec_transform
         self.quantizer_gpu = faiss.index_cpu_to_all_gpus(self.index_ivf.quantizer)
+
+
+    def produce_batches(self, x, bs):
+        n = len(x)
+        nprobe = self.index_ivf.nprobe
+        ivf_stats = faiss.cvar.indexIVF_stats
+        for i0 in range(0, n, bs):
+            xblock = x[i0:i0 + bs]
+            t0 = time.time()
+            D, I = self.quantizer_gpu.search(xblock, nprobe)
+            ivf_stats.quantization_time += 1000 * (time.time() - t0)
+            yield i0, xblock, D, I
+
 
     def search(self, x, k):
         bs = self.search_bs
@@ -222,19 +237,9 @@ class IndexQuantizerOnGPU:
         assert self.index_ivf.d == d
         D = np.empty((n, k), dtype=np.float32)
         I = np.empty((n, k), dtype=np.int64)
-        i0 = 0
-        ivf_stats = faiss.cvar.indexIVF_stats
-
-        def produce_batches():
-            for i0 in range(0, n, bs):
-                xblock = x[i0:i0 + bs]
-                t0 = time.time()
-                D, I = self.quantizer_gpu.search(xblock, nprobe)
-                ivf_stats.quantization_time += 1000 * (time.time() - t0)
-                yield i0, xblock, D, I
 
         sp = faiss.swig_ptr
-        stage2 = rate_limited_iter(produce_batches())
+        stage2 = rate_limited_iter(self.produce_batches(x, bs))
         t0 = time.time()
         for i0, xblock, Dc, Ic in stage2:
             ni = len(xblock)
@@ -244,9 +249,54 @@ class IndexQuantizerOnGPU:
                 sp(D[i0:]), sp(I[i0:]),
                 False
             )
-        ivf_stats.quantization_time += 1000 * (time.time() - t0)
 
         return D, I
+
+    def range_search(self, x, radius):
+        bs = self.search_bs
+        if self.vec_transform:
+            x = self.vec_transform(x)
+        nprobe = self.index_ivf.nprobe
+        n, d = x.shape
+        assert self.index_ivf.d == d
+
+        sp = faiss.swig_ptr
+        rsp = faiss.rev_swig_ptr
+        stage2 = rate_limited_iter(self.produce_batches(x, bs))
+        t0 = time.time()
+        all_res = []
+        nres = 0
+        for i0, xblock, Dc, Ic in stage2:
+            ni = len(xblock)
+            res = faiss.RangeSearchResult(ni)
+
+            self.index_ivf.range_search_preassigned(
+                ni, faiss.swig_ptr(xblock),
+                radius, sp(Ic), sp(Dc),
+                res
+            )
+            all_res.append((ni, res))
+            lims = rsp(res.lims, ni + 1)
+            nres += lims[-1]
+        nres = int(nres)
+        lims = np.zeros(n + 1, int)
+        I = np.empty(nres, int)
+        D = np.empty(nres, 'float32')
+
+        n0 = 0
+        for ni, res in all_res:
+            lims_i = rsp(res.lims, ni + 1)
+            nd = int(lims_i[-1])
+            Di = rsp(res.distances, nd)
+            Ii = rsp(res.labels, nd)
+            i0 = int(lims[n0])
+            lims[n0: n0 + ni + 1] = lims_i + i0
+            I[i0:i0 + nd] = Ii
+            D[i0:i0 + nd] = Di
+            n0 += ni
+
+        return lims, D, I
+
 
 class FaissT3(BaseANN):
     def __init__(self, metric, index_params):
@@ -271,7 +321,7 @@ class FaissT3(BaseANN):
         add_bs = index_params.get("add_bs", 100000)
         add_splits = index_params.get("add_splits", 1)
         indexfile = self.index_name(dataset)
-      
+              
         # determine how we use the GPU
         #search_type = ds.search_type()
         #if search_type == "knn":
@@ -282,7 +332,7 @@ class FaissT3(BaseANN):
         #    quantizer_on_gpu_add = False
 
         index = build_index(buildthreads, by_residual, maxtrain, clustering_niter, indexkey, 
-                        indexfile, add_bs, add_splits, ds, train_on_gpu, quantizer_on_gpu_add)
+                        indexfile, add_bs, add_splits, ds)
 
         index_ivf, vec_transform = unwind_index_ivf(index)
         if vec_transform is None:
@@ -307,7 +357,7 @@ class FaissT3(BaseANN):
             print("Search threads:", faiss.omp_get_max_threads())
         else:
             print("Setting nb of threads to", searchthreads)
-            faiss.omp_set_num_threads(args.searchthreads)
+            faiss.omp_set_num_threads(searchthreads)
 
         parallel_mode  = index_params.get("parallel_mode", 3)
         if parallel_mode != -1:
@@ -366,7 +416,7 @@ class FaissT3(BaseANN):
             print("Search threads:", faiss.omp_get_max_threads())
         else:
             print("Setting nb of threads to", searchthreads)
-            faiss.omp_set_num_threads(args.searchthreads)
+            faiss.omp_set_num_threads(searchthreads)
 
         parallel_mode  = index_params.get("parallel_mode", 3)
         if parallel_mode != -1:
@@ -402,8 +452,7 @@ class FaissT3(BaseANN):
         self.res = self.index.search(X, n)
 
     def range_query(self, X, radius):
-        # use CPU for range_query for now
-        self.res = self.cpuindex.range_search(X, radius)
+        self.res = self.index.range_search(X, radius)
 
     def get_results(self):
         D, I = self.res
