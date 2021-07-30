@@ -10,12 +10,18 @@
   - [Developing Your Algorithm](#developing_your_algorithm) 
   - [How To Get Help](#how_to_get_help)
   - [Leaderboard Ranking](#leaderboard_ranking)
+    - [Baseline Thresholds](#baseline_thresholds)
+    - [Recall Leaderboard](#recall_leaderboard)
+    - [Throughput Leaderboard](#throughput_leaderboard)
+    - [Power Leaderboard](#power_leaderboard)
+    - [Cost Leaderboard](#cost_leaderboard)
 - [For Evaluators](#for_organizers)  
   - [Evaluating Participant Algorithms](#evaluating_participant_algorithms)
     - [Participant Sends Hardware To Evaluators](#participant_sends_hardware_to_organizers)
     - [Participant Gives Remote Access To Evaluators](#participant_gives_remote_access_to_organizer)
     - [Participant Runs And Submits Benchmarks](#participant_runs_and_submits_benchmark)
   - [Evaluating Power Consumption](#evaluating_power_consumption)   
+
 ## Introduction
 
 The T1 and T2 tracks of the competition restrict the evaluation of algorithms to standard Azure CPU servers with 64GB of RAM and 2TB of SSD.  The only restriction in the T3 track is that the evaluation machine can be any hardware that is commercially available ( including any commercially available add-on PCIe boards ).  T3 will maintain four leaderboards:
@@ -159,7 +165,7 @@ There are several ways to get help as you develop your algorithm:
 
 T3 will maintain four different leaderboards 1) one based on recall 2) one based on throughput 3) one based on power consumption and 4) one based on cost.  The details of the ranking metrics are described here.
 
-#### Baseline Thresholds
+#### Baseline_Thresholds
 
 Thresholds of performance have been put in place for this competition, based on both queries per second (qps) and recall measured as recall@10.  For the recall leaderboard, we will rank participants by recall@10 at 2K qps.  The table below shows the baseline recall@10 for all the (knn search type) datasets near 2K qps.
 
@@ -190,7 +196,7 @@ Here are all the baseline recall@10 vs throughput plots for the (knn search type
 * [deep-1B](faiss_t3/baseline_plots/deep-1B-r-vs-t.png)
 * [msspacev-1B](faiss_t3/baseline_plots/msspacev-1B-r-vs-t.png)
 
-#### Recall Leaderboard
+#### Recall_Leaderboard
 
 This leaderboard leverages the standard recall@10 vs throughput benchmark that has become a standard benchmark when evaluating and comparing approximate nearest neighbor algorithms.  We will rank participants based on recall@10 at the baseline qps threshold for each dataset.  The evaluation framework allows for 10 different search parameter sets and we will use the best value of recall@10 from the set.
 
@@ -198,7 +204,7 @@ The final ranking will be based on an aggregation over the individual dataset ra
 
 Participants that cannot meet or exceed the baseline qps threshold for a dataset will be dropped from ranking consideration for that dataset.
 
-#### Throughput Leaderboard
+#### Throughput_Leaderboard
 
 This leaderboard also leverages the standard recall@10 vs throughput benchmark.  We will rank participants based on throughput (qps) at the recall@10 threshold of 90%.  The evaluation framework allows for 10 different search parameter sets and we will use the best value of throughput from the set.
 
@@ -206,7 +212,7 @@ The final ranking will be based on an aggregation over the individual dataset ra
 
 Participants that cannot meet or exceed the baseline recall@10 threshold for a dataset will be dropped from ranking consideration for that dataset.
 
-#### Power Leaderboard
+#### Power_Leaderboard
 
 This leaderboard is related to power consumption, which is an important consideration when scaling applications and servers in a datacenter.  The primary ranking metric is ( kilowatt-hour / query.)  Participants must meet or exceed the recall@10 of the baseline threshold. The reason for those minimum thresholds is to discourage algorithm’s designers from purposefully sacrificing too much performance in order to lower the power consumption.
 
@@ -225,7 +231,7 @@ Here are all the baseline recall@10 vs (watt-seconds)/query plots for the (knn s
 * [deep-1B](faiss_t3/baseline_plots/deep-1B-r-vs-p.png)
 * [msspacev-1B](faiss_t3/baseline_plots/msspacev-1B-r-vs-p.png)
 
-#### Cost Leaderboard
+#### Cost_Leaderboard
 
 This leaderboard is related to cost, which is an important consideration when scaling applications and servers in a datacenter.  The primary ranking metric will be an estimate of capital expense (capex) + operational expense (opex) that is required to scale the participant’s system to 100,000 qps that meets or exceeds the baseline recall@10.
 
