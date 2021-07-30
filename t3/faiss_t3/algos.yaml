@@ -170,6 +170,27 @@ msturing-1B:
                "nprobe=64",
                "nprobe=128",
                "nprobe=256"]
+ssnpp-10M:
+    faiss-t3:
+      docker-tag: billion-scale-benchmark-faisst3
+      module: benchmark.algorithms.faiss_t3
+      constructor: FaissT3
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"indexkey": "IVF10485,SQ8",
+                "parallel_mode": 2}]
+          query-args: |
+              ["nprobe=1",
+               "nprobe=2",
+               "nprobe=4",
+               "nprobe=8",
+               "nprobe=16",
+               "nprobe=32",
+               "nprobe=64",
+               "nprobe=128",
+               "nprobe=256"]
 ssnpp-1B:
     faiss-t3:
       docker-tag: billion-scale-benchmark-faisst3
