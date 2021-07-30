@@ -1,6 +1,6 @@
 random-xs:
     faiss-t3:
-      docker-tag: billion-scale-benchmark-faisst3
+      docker-tag: billion-scale-benchmark-faiss_t3
       module: benchmark.algorithms.faiss_t3
       constructor: FaissT3
       base-args: ["@metric"]
@@ -32,7 +32,7 @@ random-xs:
                "nprobe=256"]
 deep-1B:
     faiss-t3: 
-      docker-tag: billion-scale-benchmark-faisst3
+      docker-tag: billion-scale-benchmark-faiss_t3
       module: benchmark.algorithms.faiss_t3
       constructor: FaissT3
       base-args: ["@metric"]
@@ -52,7 +52,7 @@ deep-1B:
                "nprobe=256"]
 bigann-1B:
     faiss-t3: 
-      docker-tag: billion-scale-benchmark-faisst3
+      docker-tag: billion-scale-benchmark-faiss_t3
       module: benchmark.algorithms.faiss_t3
       constructor: FaissT3
       base-args: ["@metric"]
@@ -72,7 +72,7 @@ bigann-1B:
                "nprobe=256"]
 msspacev-1B:
     faiss-t3: 
-      docker-tag: billion-scale-benchmark-faisst3
+      docker-tag: billion-scale-benchmark-faiss_t3
       module: benchmark.algorithms.faiss_t3
       constructor: FaissT3
       base-args: ["@metric"]
@@ -92,7 +92,7 @@ msspacev-1B:
                "nprobe=256"]
 text2image-1B:
     faiss-t3: 
-      docker-tag: billion-scale-benchmark-faisst3
+      docker-tag: billion-scale-benchmark-faiss_t3
       module: benchmark.algorithms.faiss_t3
       constructor: FaissT3
       base-args: ["@metric"]
@@ -112,7 +112,7 @@ text2image-1B:
                "nprobe=256"]
 msturing-10M:
     faiss-t3: 
-      docker-tag: billion-scale-benchmark-faisst3
+      docker-tag: billion-scale-benchmark-faiss_t3
       module: benchmark.algorithms.faiss_t3
       constructor: FaissT3
       base-args: ["@metric"]
@@ -132,7 +132,7 @@ msturing-10M:
                "nprobe=256"]
 msturing-1B:
     faiss-t3: 
-      docker-tag: billion-scale-benchmark-faisst3
+      docker-tag: billion-scale-benchmark-faiss_t3
       module: benchmark.algorithms.faiss_t3
       constructor: FaissT3
       base-args: ["@metric"]
@@ -152,7 +152,7 @@ msturing-1B:
                "nprobe=256"]
 msturing-1B:
     faiss-t3: 
-      docker-tag: billion-scale-benchmark-faisst3
+      docker-tag: billion-scale-benchmark-faiss_t3
       module: benchmark.algorithms.faiss_t3
       constructor: FaissT3
       base-args: ["@metric"]
@@ -172,7 +172,7 @@ msturing-1B:
                "nprobe=256"]
 ssnpp-10M:
     faiss-t3:
-      docker-tag: billion-scale-benchmark-faisst3
+      docker-tag: billion-scale-benchmark-faiss_t3
       module: benchmark.algorithms.faiss_t3
       constructor: FaissT3
       base-args: ["@metric"]
@@ -193,7 +193,7 @@ ssnpp-10M:
                "nprobe=256"]
 ssnpp-1B:
     faiss-t3:
-      docker-tag: billion-scale-benchmark-faisst3
+      docker-tag: billion-scale-benchmark-faiss_t3
       module: benchmark.algorithms.faiss_t3
       constructor: FaissT3
       base-args: ["@metric"]
