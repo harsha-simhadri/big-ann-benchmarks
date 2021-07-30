@@ -30,7 +30,7 @@ The T1 and T2 tracks of the competition restrict the evaluation of algorithms to
 * One based on power consumption
 * One based on hardware cost
 
-Participants must submit their algorithm via a pull request and an index file upload.  Participants are not required to submit proprietary source code such as software drivers or firmware.
+Participants must submit their algorithm via a pull request and index file(s) upload (one per participating dataset).  Participants are not required to submit proprietary source code such as software drivers or firmware.
 
 Competition evaluators will evaluate the participant's algorithm and hardware via one of these options:
 * Participants send their hardware to the organizers at the participant's expense.
@@ -44,7 +44,7 @@ Competition evaluators will evaluate the participant's algorithm and hardware vi
 You will need the following installed on your machine:
 * Python ( we tested with Anaconda using an environment created for Python version 3.8.5 )
 * Note that we tested everything on Ubuntu Linux 18.04 but other environments should be possible.
-* It's assumed that all the software drivers and services need to support your hardware are installed.  For example, to run the T3 baseline, your system must have a Cuda 11 compatibile GPU, Cuda 11.0, and the cuda 11.0 docker run time installed.
+* It's assumed that all the software drivers and services need to support your hardware are installed on development machines.  For example, to run the T3 baseline, your system must have a Cuda 11 compatibile GPU, Cuda 11.0, and the cuda 11.0 docker run time installed.  Cuda versions greater than 11.0 should be possible, but weren't tested.
 
 ### Getting_Started
 
@@ -198,7 +198,7 @@ Here are all the baseline recall@10 vs throughput plots for the (knn search type
 
 #### Recall_Leaderboard
 
-This leaderboard leverages the standard recall@10 vs throughput benchmark that has become a standard benchmark when evaluating and comparing approximate nearest neighbor algorithms.  We will rank participants based on recall@10 at the baseline qps threshold for each dataset.  The evaluation framework allows for 10 different search parameter sets and we will use the best value of recall@10 from the set.
+This leaderboard leverages the standard recall@10 vs throughput benchmark that has become a standard benchmark when evaluating and comparing approximate nearest neighbor algorithms.  We will rank participants based on recall@10 at 2K qps por each dataset.  The evaluation framework allows for 10 different search parameter sets and we will use the best value of recall@10 from the set.
 
 The final ranking will be based on an aggregation over the individual dataset rankings.  The aggregation formula is as follows: [TBD]
 
@@ -224,7 +224,7 @@ The final ranking will be based on an aggregation over the individual dataset ra
 
 Participants that cannot meet or exceed the recall@10 baseline threshold for a dataset will be dropped from ranking consideration for that dataset.
 
-Here are all the baseline recall@10 vs (watt-seconds)/query plots for the (knn search type) datasets:
+Here are all the baseline recall@10 vs watt-seconds/query plots for the (knn search type) datasets:
 * [msturing-1B](faiss_t3/baseline_plots/msturing-1B-r-vs-p.png)
 * [bigann-1B](faiss_t3/baseline_plots/bigann-1B-r-vs-p.png)
 * [text2image-1B](faiss_t3/baseline_plots/text2image-1B-r-vs-p.png)
