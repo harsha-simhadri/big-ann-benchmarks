@@ -41,6 +41,8 @@ def parse_result_file(fname):
             if l.startswith('args:'):
                 args = eval(l[l.find(' '):])
                 indexkey = args.indexkey
+            if l.startswith('build index, key='):
+                indexkey = l.split()[-1]
             elif "time(ms/q)" in l:
                 # result header
                 if 'R@1   R@10  R@100' in l:
