@@ -37,7 +37,7 @@ The following command runs the index constuction and evaluates the search perfor
 
 ```bash
 python track3_baseline_faiss/gpu_baseline_faiss.py --dataset deep-100M \
-         --indexkey IVF65536,SQ8 
+         --indexkey IVF65536,SQ8 \
          --train_on_gpu \
          --build --quantizer_on_gpu_add --add_splits 30 \
          --search \
@@ -52,7 +52,7 @@ Example logs [without GPU](https://gist.github.com/mdouze/9e000be47c499f79aaec01
 
 ```bash
 python track3_baseline_faiss/gpu_baseline_faiss.py --dataset deep-1B \
-         --indexkey IVF$((1<<18)),SQ8 
+         --indexkey IVF$((1<<18)),SQ8 \
          --train_on_gpu \
          --build --quantizer_on_gpu_add --add_splits 30 \
          --search \
