@@ -144,7 +144,7 @@ python plot.py --help
 A submission is composed of the following:
 * 1 index binary file for each dataset for which you are participating ( choose your best index )
 * 1 *algos.yaml* with only one set of build parameters and at most 10 sets of query parameters for each dataset in which you are participating. Please put that file into the *t3/[your_team_name]/* directory.
-* Your algorithm's python class ( placed in the [benchmark/algorithms/](../benchmark/algorithms) directory. 
+* Your algorithm's python class ( placed in the [benchmark/algorithms/](../benchmark/algorithms) directory.)
 
 All but the binary index files can be submitted with a pull request of your custom branch.
 
