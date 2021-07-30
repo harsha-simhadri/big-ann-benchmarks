@@ -260,16 +260,27 @@ def compute_inter(a, b):
     )
     return ninter / a.size
 
+def knn_search_batched(index, xq, k, bs):
+    D, I = [], []
+    for i0 in range(0, len(xq), bs):
+        Di, Ii = index.search(xq[i0:i0 + bs], k)
+        D.append(Di)
+        I.append(Ii)
+    return np.vstack(D), np.vstack(I)
 
-def eval_setting_knn(index, xq, gt, k=0, inter=False, min_time=3.0):
+def eval_setting_knn(index, xq, gt, k=0, inter=False, min_time=3.0, query_bs=-1):
     nq = xq.shape[0]
     gt_I, gt_D = gt
+
     ivf_stats = faiss.cvar.indexIVF_stats
     ivf_stats.reset()
     nrun = 0
     t0 = time.time()
     while True:
-        D, I = index.search(xq, k)
+        if query_bs == -1:
+            D, I = index.search(xq, k)
+        else:
+            D, I = knn_search_batched(index, xq, k, query_bs)
         nrun += 1
         t1 = time.time()
         if t1 - t0 > min_time:
@@ -294,7 +305,7 @@ def eval_setting_knn(index, xq, gt, k=0, inter=False, min_time=3.0):
         print("%12d  %5.2f  " % (ivf_stats.ndis / nrun, pc_quantizer), end=' ')
     print(nrun)
 
-def eval_setting_range(index, xq, gt, radius=0, inter=False, min_time=3.0):
+def eval_setting_range(index, xq, gt, radius=0, inter=False, min_time=3.0, query_bs=-1):
     nq = xq.shape[0]
     gt_nres, gt_I, gt_D = gt
     gt_lims = np.zeros(nq + 1, dtype=int)
@@ -304,7 +315,10 @@ def eval_setting_range(index, xq, gt, radius=0, inter=False, min_time=3.0):
     nrun = 0
     t0 = time.time()
     while True:
-        lims, D, I = index.range_search(xq, radius)
+        if query_bs == -1:
+            lims, D, I = index.range_search(xq, radius)
+        else:
+            raise NotImplemented
         nrun += 1
         t1 = time.time()
         if t1 - t0 > min_time:
@@ -455,6 +469,7 @@ def run_experiments_searchparams(ds, index, args):
     """
     k = args.k
     xq = ds.get_queries()
+
     nq = len(xq)
 
     ps = faiss.ParameterSpace()
@@ -477,13 +492,15 @@ def run_experiments_searchparams(ds, index, args):
             eval_setting_knn(
                 index, xq, ds.get_groundtruth(k=args.k),
                 k=args.k,
-                inter=args.inter, min_time=args.min_test_duration
+                inter=args.inter, min_time=args.min_test_duration,
+                query_bs=args.query_bs
             )
         else:
             eval_setting_range(
                 index, xq, ds.get_groundtruth(k=args.k),
                 radius=args.radius,
-                inter=args.inter, min_time=args.min_test_duration
+                inter=args.inter, min_time=args.min_test_duration,
+                query_bs=args.query_bs
             )
 
 
@@ -612,6 +629,8 @@ def main():
     aa('--basedir', help="override basedir for dataset")
     aa('--pairwise_quantization', default="",
         help="load/store pairwise quantization matrix")
+    aa('--query_bs', default=-1, type=int,
+        help='perform queries in batches of this size')
 
     group = parser.add_argument_group('index construction')
 
