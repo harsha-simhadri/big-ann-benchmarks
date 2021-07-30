@@ -12,6 +12,7 @@ from multiprocessing.pool import ThreadPool
 
 import benchmark.datasets
 from benchmark.datasets import DATASETS
+from benchmark.plotting import eval_range_search
 
 
 
@@ -218,8 +219,9 @@ def compute_inter(a, b):
 
 
 
-def eval_setting(index, xq, gt, k, inter, min_time):
+def eval_setting_knn(index, xq, gt, k, inter, min_time):
     nq = xq.shape[0]
+    gt_I, gt_D = gt
     ivf_stats = faiss.cvar.indexIVF_stats
     ivf_stats.reset()
     nrun = 0
@@ -251,7 +253,33 @@ def eval_setting(index, xq, gt, k, inter, min_time):
     print(nrun)
 
 
+def eval_setting_range(index, xq, gt, radius=0, inter=False, min_time=3.0, query_bs=-1):
+    nq = xq.shape[0]
+    gt_nres, gt_I, gt_D = gt
+    gt_lims = np.zeros(nq + 1, dtype=int)
+    gt_lims[1:] = np.cumsum(gt_nres)
+    ivf_stats = faiss.cvar.indexIVF_stats
+    ivf_stats.reset()
+    nrun = 0
+    t0 = time.time()
+    while True:
+        lims, D, I = index.range_search(xq, radius)
+        nrun += 1
+        t1 = time.time()
+        if t1 - t0 > min_time:
+            break
+    ms_per_query = ((t1 - t0) * 1000.0 / nq / nrun)
+
+    ap = eval_range_search.compute_AP((gt_lims, gt_I, gt_D), (lims, I, D))
+    print("%.4f" % ap, end=' ')
+    print("   %9.5f  " % ms_per_query, end=' ')
+
+    print("%12d  %5d  " % (ivf_stats.ndis / nrun, D.size), end=' ')
+    print(nrun)
+
+
 class IndexQuantizerOnGPU:
+    """ run query quantization on GPU """
 
     def __init__(self, index, search_bs):
         self.search_bs = search_bs
@@ -259,6 +287,19 @@ class IndexQuantizerOnGPU:
         self.index_ivf = index_ivf
         self.vec_transform = vec_transform
         self.quantizer_gpu = faiss.index_cpu_to_all_gpus(self.index_ivf.quantizer)
+
+
+    def produce_batches(self, x, bs):
+        n = len(x)
+        nprobe = self.index_ivf.nprobe
+        ivf_stats = faiss.cvar.indexIVF_stats
+        for i0 in range(0, n, bs):
+            xblock = x[i0:i0 + bs]
+            t0 = time.time()
+            D, I = self.quantizer_gpu.search(xblock, nprobe)
+            ivf_stats.quantization_time += 1000 * (time.time() - t0)
+            yield i0, xblock, D, I
+
 
     def search(self, x, k):
         bs = self.search_bs
@@ -269,19 +310,9 @@ class IndexQuantizerOnGPU:
         assert self.index_ivf.d == d
         D = np.empty((n, k), dtype=np.float32)
         I = np.empty((n, k), dtype=np.int64)
-        i0 = 0
-        ivf_stats = faiss.cvar.indexIVF_stats
-
-        def produce_batches():
-            for i0 in range(0, n, bs):
-                xblock = x[i0:i0 + bs]
-                t0 = time.time()
-                D, I = self.quantizer_gpu.search(xblock, nprobe)
-                ivf_stats.quantization_time += 1000 * (time.time() - t0)
-                yield i0, xblock, D, I
 
         sp = faiss.swig_ptr
-        stage2 = rate_limited_iter(produce_batches())
+        stage2 = rate_limited_iter(self.produce_batches(x, bs))
         t0 = time.time()
         for i0, xblock, Dc, Ic in stage2:
             ni = len(xblock)
@@ -291,16 +322,60 @@ class IndexQuantizerOnGPU:
                 sp(D[i0:]), sp(I[i0:]),
                 False
             )
-        ivf_stats.quantization_time += 1000 * (time.time() - t0)
 
         return D, I
+
+    def range_search(self, x, radius):
+        bs = self.search_bs
+        if self.vec_transform:
+            x = self.vec_transform(x)
+        nprobe = self.index_ivf.nprobe
+        n, d = x.shape
+        assert self.index_ivf.d == d
+
+        sp = faiss.swig_ptr
+        rsp = faiss.rev_swig_ptr
+        stage2 = rate_limited_iter(self.produce_batches(x, bs))
+        t0 = time.time()
+        all_res = []
+        nres = 0
+        for i0, xblock, Dc, Ic in stage2:
+            ni = len(xblock)
+            res = faiss.RangeSearchResult(ni)
+
+            self.index_ivf.range_search_preassigned(
+                ni, faiss.swig_ptr(xblock),
+                radius, sp(Ic), sp(Dc),
+                res
+            )
+            all_res.append((ni, res))
+            lims = rsp(res.lims, ni + 1)
+            nres += lims[-1]
+        nres = int(nres)
+        lims = np.zeros(n + 1, int)
+        I = np.empty(nres, int)
+        D = np.empty(nres, 'float32')
+
+        n0 = 0
+        for ni, res in all_res:
+            lims_i = rsp(res.lims, ni + 1)
+            nd = int(lims_i[-1])
+            Di = rsp(res.distances, nd)
+            Ii = rsp(res.labels, nd)
+            i0 = int(lims[n0])
+            lims[n0: n0 + ni + 1] = lims_i + i0
+            I[i0:i0 + nd] = Ii
+            D[i0:i0 + nd] = Di
+            n0 += ni
+
+        return lims, D, I
+
 
 def run_experiments_searchparams(ds, index, args):
     k = args.k
 
     xq = ds.get_queries()
-    gt_I, gt_D = ds.get_groundtruth(k=k)
-    gt = gt_I
+
     nq = len(xq)
 
     ps = faiss.ParameterSpace()
@@ -337,7 +412,19 @@ def run_experiments_searchparams(ds, index, args):
 
         print(params.ljust(maxw), end=' ')
         sys.stdout.flush()
-        eval_setting(index_wrap, xq, gt, args.k, args.inter, args.min_test_duration)
+
+        if ds.search_type() == "knn":
+            eval_setting_knn(
+                index_wrap, xq, ds.get_groundtruth(k=args.k),
+                k=args.k, inter=args.inter, min_time=args.min_test_duration
+            )
+        else:
+            eval_setting_range(
+                index_wrap, xq, ds.get_groundtruth(),
+                radius=args.radius, inter=args.inter,
+                min_time=args.min_test_duration
+            )
+
 
 
 def main():
@@ -383,6 +470,7 @@ def main():
     group = parser.add_argument_group('searching')
 
     aa('--k', default=10, type=int, help='nb of nearest neighbors')
+    aa('--radius', default=96237, type=float, help='radius for range search')
     aa('--inter', default=True, action='store_true',
         help='use intersection measure instead of 1-recall as metric')
     aa('--searchthreads', default=-1, type=int,
