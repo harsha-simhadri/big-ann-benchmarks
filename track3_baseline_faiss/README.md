@@ -60,6 +60,10 @@ python track3_baseline_faiss/gpu_baseline_faiss.py --dataset deep-1B \
          --parallel_mode 3  --quantizer_on_gpu_search
 ```
 
+
+For the SSNPP dataset, please use `--parallel_mode 2` instead. 
+
+
 ### Results 
 
 Similar to the track 1 results, we can plot the GPU search results in a plot of recall@10 vs. QPS. 
