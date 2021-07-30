@@ -262,6 +262,7 @@ class FaissT3(BaseANN):
         ds = DATASETS[dataset]()
         d = ds.d
 
+        # get build parameters
         buildthreads = index_params.get("buildthreads", -1)
         by_residual = index_params.get("by_residual", -1) 
         maxtrain = index_params.get("maxtrain", 0)
@@ -270,10 +271,18 @@ class FaissT3(BaseANN):
         add_bs = index_params.get("add_bs", 100000)
         add_splits = index_params.get("add_splits", 1)
         indexfile = self.index_name(dataset)
-        
-        index = build_index(buildthreads, by_residual, maxtrain, 
-                                 clustering_niter, indexkey, indexfile,
-                                 add_bs, add_splits, ds)
+      
+        # determine how we use the GPU
+        #search_type = ds.search_type()
+        #if search_type == "knn":
+        #    train_on_gpu = True
+        #    quantizer_on_gpu_add = True 
+        #else: #range
+        #    train_on_gpu = False
+        #    quantizer_on_gpu_add = False
+
+        index = build_index(buildthreads, by_residual, maxtrain, clustering_niter, indexkey, 
+                        indexfile, add_bs, add_splits, ds, train_on_gpu, quantizer_on_gpu_add)
 
         index_ivf, vec_transform = unwind_index_ivf(index)
         if vec_transform is None:
