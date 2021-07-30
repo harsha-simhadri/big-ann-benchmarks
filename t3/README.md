@@ -237,13 +237,13 @@ This leaderboard is related to cost, which is an important consideration when sc
 
 The formula for the capex estimate is as follows:
 
-capex = (MSRP of all the hardware components of the system ) X ( minimum number of systems needed to scale to 100,000 qps )
+capex = (MSRP of all the hardware components of the system ) X ( minimum number of systems needed to scale to support 100,000 qps )
 
 The hardware components include the chassis and all of the electronics within the chassis including the power supplies, motherboard, HDD/SSD, and all extension boards.  Participants must provide evidence of MSRP of components ( either published on a web-site or a copy of a invoice/receipt with customer identifiable information removed. )  Volume based pricing is not considered.
 
 The formula for the opex estimate is as follows:
 
-opex = ( max qps at or greater than the baseline recall @10 threshold ) X ( kilowatt-hour / query ) X ( seconds / hour ) X ( hours / year) X ( 5 years ) X ( dollars / kilowatt-hour ) X ( minimum number of systems needed to scale to 100,000 qps )
+opex = ( max qps at or greater than the baseline recall @10 threshold ) X ( kilowatt-hour / query ) X ( seconds / hour ) X ( hours / year) X ( 5 years ) X ( dollars / kilowatt-hour ) X ( minimum number of systems needed to scale to support 100,000 qps )
 
 Notes on this formula:
 * We will use the maximum qps actually measured that meets or exceeds the baseline recall@10 threshold across all query set parameters.
