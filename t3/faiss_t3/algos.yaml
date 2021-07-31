@@ -191,7 +191,6 @@ ssnpp-10M:
                "nprobe=64",
                "nprobe=128",
                "nprobe=256"]
-#"IVF10485,SQ8",
 ssnpp-1B:
     faiss-t3:
       docker-tag: billion-scale-benchmark-faiss_t3
