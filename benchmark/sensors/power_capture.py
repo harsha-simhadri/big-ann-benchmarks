@@ -198,7 +198,7 @@ class power_capture:
         power_cons_stdev = statistics.stdev( power_consumptions )
         best_wspq = best_power_cons/best_tot_queries
         mean_wspq = power_cons_mean/best_tot_queries
-
+        print("wspq: best=%f mean=%f best_tot_queries=%d" % (best_wspq, mean_wspq, best_tot_queries))
         power_stats = {"power_cap_id": cap_ids,
                  "power_run_count": power_run_counts,
                  "power_run_time":  power_run_times,
