@@ -168,6 +168,7 @@ class power_capture:
         power_run_counts = []
         power_run_times = []
         power_consumptions = []
+        power_tot_queries = []
 
         best_power_cons = float('inf')
         for i in range(run_count):
@@ -181,18 +182,22 @@ class power_capture:
             total = (time.time() - start)
             power_stats = cls.stop(cap_id, all_stats=True)
             power_cons = power_stats['tot_power']
- 
+            tot_queries = inner_run_count * X.shape[0]
+
+            # Track the best one thus far 
             best_power_cons = min(best_power_cons, power_cons)
+            best_tot_queries = tot_queries # Although its always the same now, we may change that
 
             cap_ids.append(cap_id)
             power_run_counts.append( inner_run_count )
             power_run_times.append( total )
             power_consumptions.append( power_cons )
+            power_tot_queries.append( tot_queries )
 
         power_cons_mean  = statistics.mean( power_consumptions )
         power_cons_stdev = statistics.stdev( power_consumptions )
-        best_wspq = best_power_cons/X.shape[0]
-        mean_wspq = power_cons_mean/X.shape[0]
+        best_wspq = best_power_cons/best_tot_queries
+        mean_wspq = power_cons_mean/best_tot_queries
 
         power_stats = {"power_cap_id": cap_ids,
                  "power_run_count": power_run_counts,
