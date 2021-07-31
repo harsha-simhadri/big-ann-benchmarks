@@ -121,7 +121,7 @@ msturing-10M:
           args: |
               [{"indexkey": "IVF1048576,SQ8"}]
           query-args: |
-              ["nprobe=1"]
+              ["nprobe=1",
                "nprobe=2",
                "nprobe=4",
                "nprobe=8",
@@ -160,6 +160,28 @@ msturing-1B:
         base:
           args: |
               [{"indexkey": "IVF1048576,SQ8"}]
+          query-args: |
+              ["nprobe=1",
+               "nprobe=2",
+               "nprobe=4",
+               "nprobe=8",
+               "nprobe=16",
+               "nprobe=32",
+               "nprobe=64",
+               "nprobe=128",
+               "nprobe=256"]
+ssnpp-1M:
+    faiss-t3:
+      docker-tag: billion-scale-benchmark-faiss_t3
+      module: benchmark.algorithms.faiss_t3
+      constructor: FaissT3
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"indexkey": "OPQ32_128,IVF100_HNSW32,PQ32", 
+                "parallel_mode": 2,
+                "add_splits": 0}]
           query-args: |
               ["nprobe=1",
                "nprobe=2",
@@ -180,7 +202,8 @@ ssnpp-10M:
         base:
           args: |
               [{"indexkey": "OPQ32_128,IVF1048576_HNSW32,PQ32", 
-                "parallel_mode": 2}]
+                "parallel_mode": 2,
+                "add_splits": 0}]
           query-args: |
               ["nprobe=1",
                "nprobe=2",
