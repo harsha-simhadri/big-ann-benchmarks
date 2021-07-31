@@ -164,6 +164,7 @@ def run_from_cmdline(args=None):
         default="")
     args = parser.parse_args(args)
     algo_args = json.loads(args.build)
+    print(algo_args)
     query_args = [json.loads(q) for q in args.queries]
 
     if args.power_capture:
