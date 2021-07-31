@@ -200,7 +200,7 @@ ssnpp-1B:
       run-groups:
         base:
           args: |
-              [{"indexkey": "IVF1048576,SQ8",
+              [{"indexkey": "OPQ32_128,IVF1048576_HNSW32,PQ32",
                 "parallel_mode": 2}]
           query-args: |
               ["nprobe=1",
