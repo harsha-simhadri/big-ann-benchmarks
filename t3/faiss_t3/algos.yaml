@@ -179,7 +179,7 @@ ssnpp-10M:
       run-groups:
         base:
           args: |
-              [{"indexkey": "IVF10485,SQ8",
+              [{"indexkey": "OPQ32_128,IVF1048576_HNSW32,PQ32", 
                 "parallel_mode": 2}]
           query-args: |
               ["nprobe=1",
@@ -191,6 +191,7 @@ ssnpp-10M:
                "nprobe=64",
                "nprobe=128",
                "nprobe=256"]
+#"IVF10485,SQ8",
 ssnpp-1B:
     faiss-t3:
       docker-tag: billion-scale-benchmark-faiss_t3
