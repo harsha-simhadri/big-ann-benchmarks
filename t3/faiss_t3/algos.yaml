@@ -224,7 +224,7 @@ ssnpp-1B:
         base:
           args: |
               [{"indexkey": "OPQ32_128,IVF1048576_HNSW32,PQ32",
-                "parallel_mode": 2},
+                "parallel_mode": 2,
                 "add_splits": 0}]
           query-args: |
               ["nprobe=1",
