@@ -86,7 +86,13 @@ class Diskann(BaseANN):
         Checking the index usually involves the dataset name
         and the index build paramters passed during construction.
         """
-        pass
+        index_dir = self.create_index_dir(dataset)
+        index_path = os.path.join(index_dir, self.index_name())
+        
+        if (self.load_index(index_path, diskannpy.omp_get_max_threads()) == 0):
+            return True
+        else:
+            return False
 
     def query(self, X, k):
         """Carry out a batch query for k-NN of query set X."""
