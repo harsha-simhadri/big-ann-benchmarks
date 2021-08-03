@@ -1,5 +1,6 @@
 from __future__ import absolute_import
 import psutil
+import os
 import time
 import diskannpy
 
@@ -30,7 +31,20 @@ class Diskann(BaseANN):
         self.M = index_params.get("M")
 
     def index_name(self):
-        return f"L{self.L}_R{self.R}_B{self.B}_M{self.M}"
+        return f"R{self.R}_L{self.L}_B{self.B}_M{self.M}"
+
+    def create_index_dir(self, dataset):
+        index_dir = os.path.join(os.getcwd(), "data", "indices")
+        os.makedirs(index_dir, mode=0o777, exist_ok=True)
+        index_dir = os.path.join(index_dir, "T2")
+        os.makedirs(index_dir, mode=0o777, exist_ok=True)
+        index_dir = os.path.join(index_dir, self.__str__())
+        os.makedirs(index_dir, mode=0o777, exist_ok=True)
+        index_dir = os.path.join(index_dir, dataset.short_name())
+        os.makedirs(index_dir, mode=0o777, exist_ok=True)
+        index_dir = os.path.join(index_dir, self.index_name())
+        os.makedirs(index_dir, mode=0o777, exist_ok=True)
+        return index_dir
 
     def fit(self, dataset):
         """
@@ -52,9 +66,12 @@ class Diskann(BaseANN):
                 1/0
         )
 
+        index_dir = self.create_index_dir(ds)
+        self.index_path = index_dir + self.index_name()
+        
         start = time.time()
         index = diskannpy.DiskANNFloatIndex()
-        index.build(ds.get_dataset_fn(), self.index_name(), self.R, self.L, self.B, self.M, buildthreads)
+        index.build(ds.get_dataset_fn(), self.index_path, self.R, self.L, self.B, self.M, buildthreads)
         end = time.time()
         print("DiskANN index built in %.3f s" % (end - start))
 
@@ -114,6 +131,6 @@ class Diskann(BaseANN):
 
     def set_query_arguments(self, query_args):
         self._query_args = query_args
-   
+
     def __str__(self):
-        return self.name
+        return "DiskANN"
