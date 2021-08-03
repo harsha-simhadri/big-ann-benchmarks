@@ -67,7 +67,7 @@ class Diskann(BaseANN):
         )
 
         index_dir = self.create_index_dir(ds)
-        self.index_path = os.pathjoin(index_dir, self.index_name())
+        self.index_path = os.path.join(index_dir, self.index_name())
         
         start = time.time()
         index = diskannpy.DiskANNFloatIndex()
