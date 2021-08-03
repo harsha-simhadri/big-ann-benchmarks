@@ -42,10 +42,10 @@ class Diskann(BaseANN):
 
         buildthreads = self._index_params.get("buildthreads", -1)
         if buildthreads == -1:
-            print("Build-time number of threads:", diskannpy.omp_get_max_threads())
-        else:
-            print("Set build-time number of threads:", buildthreads)
-            diskannpy.omp_set_num_threads(buildthreads)
+            buildthreads = diskannpy.omp_get_max_threads()
+
+        print("Set build-time number of threads:", buildthreads)
+        diskannpy.omp_set_num_threads(buildthreads)
 
         metric_type = (
                 diskannpy.L2 if ds.distance() == "euclidean" else
