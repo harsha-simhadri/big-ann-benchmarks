@@ -76,7 +76,6 @@ def build_index(buildthreads, by_residual, maxtrain, clustering_niter,
 
     if by_residual != -1:
         by_residual = by_residual == 1
-        print("setting by_residual = ", by_residual)
         index_ivf.by_residual   # check if field exists
         index_ivf.by_residual = by_residual
 
@@ -212,7 +211,7 @@ class IndexQuantizerOnGPU:
         self.search_bs = search_bs
         index_ivf, vec_transform = unwind_index_ivf(index)
         self.index_ivf = index_ivf
-        self.vec_transform = vec_transform
+        self.vec_transform = vec_transform.apply  
         self.quantizer_gpu = faiss.index_cpu_to_all_gpus(self.index_ivf.quantizer)
 
 
