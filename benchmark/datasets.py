@@ -602,8 +602,8 @@ DATASETS = {
     'bigann-10M': lambda : BigANNDataset(10),
 
     'deep-1B': lambda : Deep1BDataset(),
-    'deep-10M': lambda : Deep1BDataset(10),
     'deep-100M': lambda : Deep1BDataset(100),
+    'deep-10M': lambda : Deep1BDataset(10),
 
     'ssnpp-1B': lambda : SSNPPDataset(1000),
     'ssnpp-10M': lambda : SSNPPDataset(10),
@@ -617,7 +617,7 @@ DATASETS = {
 
     'msturing-1B': lambda : MSTuringANNS(1000),
     'msturing-1M': lambda : MSTuringANNS(1),
-    'msturing-10M': lambda: MSTuringANNS(10),
+    'msturing-10M': lambda : MSTuringANNS(10),
     'msturing-100M': lambda : MSTuringANNS(100),
 
     'msspacev-1B': lambda : MSSPACEV1B(1000),
@@ -625,7 +625,7 @@ DATASETS = {
     'msspacev-100M': lambda : MSSPACEV1B(100),
     'msspacev-1M': lambda : MSSPACEV1B(1),
 
-    'random-xs': lambda: RandomDS(10000, 1000, 20),
+    'random-xs': lambda : RandomDS(10000, 1000, 20),
     'random-s': lambda : RandomDS(100000, 1000, 50),
 
     'random-range-xs': lambda : RandomRangeDS(10000, 1000, 20),
