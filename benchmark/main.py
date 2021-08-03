@@ -18,8 +18,9 @@ from benchmark.algorithms.definitions import (get_definitions,
                                                    algorithm_status,
                                                    InstantiationStatus)
 from benchmark.results import get_result_filename
-from benchmark.runner import run, run_docker
+from benchmark.runner import run, run_docker, run_no_docker
 
+from benchmark.sensors.power_capture import power_capture
 
 def positive_int(s):
     i = None
@@ -40,8 +41,15 @@ def run_worker(args, queue):
         #mem_limit = 128e9 # 128gb for competition
         cpu_limit = "0-%d" % (multiprocessing.cpu_count() - 1)
 
-        run_docker(definition, args.dataset, args.count,
-                   args.runs, args.timeout, args.rebuild, cpu_limit, mem_limit)
+        if args.nodocker:
+            run_no_docker(definition, args.dataset, args.count,
+                   args.runs, args.timeout, args.rebuild, cpu_limit, mem_limit,
+                    args.t3, args.power_capture)
+
+        else:
+            run_docker(definition, args.dataset, args.count,
+                       args.runs, args.timeout, args.rebuild, cpu_limit, mem_limit,
+                        args.t3, args.power_capture )
 
 
 def main():
@@ -103,6 +111,19 @@ def main():
         type=int,
         help='Max number of algorithms to run (just used for testing)',
         default=-1)
+    parser.add_argument(
+        '--power-capture',
+        help='Power capture parameters for the T3 competition. '
+            'Format is "ip:port:capture_time_in seconds" (ie, 127.0.0.1:3000:10).',
+        default="")
+    parser.add_argument(
+        '--t3',
+        help='Run as a T3 participant.',
+        action='store_true')
+    parser.add_argument(
+        '--nodocker',
+        help='Override default of invoking algorithm in docker container.',
+        action='store_true')
 
     args = parser.parse_args()
     if args.timeout == -1:
@@ -111,6 +132,11 @@ def main():
     if args.list_algorithms:
         list_algorithms(args.definitions)
         sys.exit(0)
+
+    if args.power_capture:
+        # validate power capture environment
+        power_capture( args.power_capture )
+        power_capture.ping()
 
     logging.config.fileConfig("logging.conf")
     logger = logging.getLogger("annb")
@@ -169,7 +195,7 @@ def main():
         definitions = [
             d for d in definitions if d.docker_tag == args.docker_tag]
 
-    if set(d.docker_tag for d in definitions).difference(docker_tags):
+    if set(d.docker_tag for d in definitions).difference(docker_tags) and not args.nodocker:
         logger.info(f'not all docker images available, only: {set(docker_tags)}')
         logger.info(f'missing docker images: '
                     f'{str(set(d.docker_tag for d in definitions).difference(docker_tags))}')

@@ -369,7 +369,6 @@ class BigANNDataset(DatasetCompetitionFormat):
     def distance(self):
         return "euclidean"
 
-
 class Deep1BDataset(DatasetCompetitionFormat):
     def __init__(self, nb_M=1000):
         self.nb_M = nb_M
@@ -592,6 +591,10 @@ class RandomDS(DatasetCompetitionFormat):
 
     def __str__(self):
         return f"Random({self.nb})"
+
+    def default_count(self):
+        return 10
+
 
 DATASETS = {
     'bigann-1B': lambda : BigANNDataset(1000),

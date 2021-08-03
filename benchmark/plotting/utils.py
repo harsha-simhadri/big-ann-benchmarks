@@ -3,7 +3,7 @@ from __future__ import absolute_import
 import itertools
 import numpy
 from benchmark.plotting.metrics import all_metrics as metrics
-
+from benchmark.sensors.power_capture import power_capture
 
 def get_or_create_metrics(run):
     if 'metrics' not in run:
@@ -73,6 +73,10 @@ def compute_metrics_all_runs(dataset, res, recompute=False):
     except:
         print(f"Groundtruth for {dataset} not found.")
         return
+
+    # removes 'wspq' metric if no power benchmarks found 
+    # in the loaded runs
+    power_capture.detect_power_benchmarks(metrics, res)
 
     search_type = dataset.search_type()
     for i, (properties, run) in enumerate(res):

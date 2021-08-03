@@ -2,6 +2,7 @@ from __future__ import absolute_import
 import numpy as np
 from benchmark.plotting.eval_range_search import compute_AP
 
+from benchmark.sensors.power_capture import power_capture
 
 def get_recall_values(true_nn, run_nn, count):
     true_nn, _ = true_nn
@@ -56,6 +57,8 @@ def build_time(attrs):
 def dist_computations(nq, attrs):
     return attrs.get("dist_comps", 0) / (attrs['run_count'] * nq)
 
+def watt_seconds_per_query(queries, attrs):
+    return power_capture.compute_watt_seconds_per_query(queries, attrs )
 
 all_metrics = {
     "k-nn": {
@@ -95,5 +98,11 @@ all_metrics = {
         "description": "Index size (kB)/Queries per second (s)",
         "function": lambda true_nn, run_nn, metrics, run_attrs: index_size(run_attrs) / queries_per_second(len(true_nn[0]), run_attrs), # noqa
         "worst": float("inf")
-    }
+    },
+    "wspq": {
+        "description": "Watt seconds per query (watt*s/query)",
+        "function": lambda true_nn, run_nn, metrics, run_attrs: watt_seconds_per_query(true_nn, run_attrs),  
+        "worst": float("-inf")
+    },
+
 }
