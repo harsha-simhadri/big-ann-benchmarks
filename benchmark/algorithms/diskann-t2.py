@@ -79,7 +79,6 @@ class Diskann(BaseANN):
         print("DiskANN index built in %.3f s" % (end - start))
 
 
-
     def load_index(self, dataset):
         """
         Load the index for dataset. Returns False if index
