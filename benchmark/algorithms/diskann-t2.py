@@ -1,8 +1,12 @@
 from __future__ import absolute_import
 import psutil
+<<<<<<< HEAD
 import os
 import time
 import numpy as np
+=======
+import time
+>>>>>>> diskann-t2 code
 import diskannpy
 
 from benchmark.algorithms.base import BaseANN
@@ -32,6 +36,7 @@ class Diskann(BaseANN):
         self.M = index_params.get("M")
 
     def index_name(self):
+<<<<<<< HEAD
         return f"R{self.R}_L{self.L}_B{self.B}_M{self.M}"
 
     def create_index_dir(self, dataset):
@@ -46,6 +51,9 @@ class Diskann(BaseANN):
         index_dir = os.path.join(index_dir, self.index_name())
         os.makedirs(index_dir, mode=0o777, exist_ok=True)
         return index_dir
+=======
+        return f"L{self.L}_R{self.R}_B{self.B}_M{self.M}"
+>>>>>>> diskann-t2 code
 
     def fit(self, dataset):
         """
@@ -57,16 +65,24 @@ class Diskann(BaseANN):
 
         buildthreads = self._index_params.get("buildthreads", -1)
         if buildthreads == -1:
+<<<<<<< HEAD
             buildthreads = diskannpy.omp_get_max_threads()
 
         print("Set build-time number of threads:", buildthreads)
         diskannpy.omp_set_num_threads(buildthreads)
+=======
+            print("Build-time number of threads:", diskannpy.omp_get_max_threads())
+        else:
+            print("Set build-time number of threads:", buildthreads)
+            diskannpy.omp_set_num_threads(buildthreads)
+>>>>>>> diskann-t2 code
 
         metric_type = (
                 diskannpy.L2 if ds.distance() == "euclidean" else
                 1/0
         )
 
+<<<<<<< HEAD
         index_dir = self.create_index_dir(ds)
         self.index_path = os.path.join(index_dir, self.index_name())
         
@@ -78,6 +94,16 @@ class Diskann(BaseANN):
         end = time.time()
         print("DiskANN index built in %.3f s" % (end - start))
 
+=======
+        start = time.time()
+        index = diskannpy.DiskANNFloatIndex()
+        index.build(ds.get_dataset_fn(), self.index_name(), self.R, self.L, self.B, self.M, buildthreads)
+        end = time.time()
+        print("DiskANN index built in %.3f s" % (end - start))
+
+        self.index = index
+
+>>>>>>> diskann-t2 code
 
     def load_index(self, dataset):
         """
@@ -87,6 +113,7 @@ class Diskann(BaseANN):
         Checking the index usually involves the dataset name
         and the index build paramters passed during construction.
         """
+<<<<<<< HEAD
         ds = DATASETS[dataset]()
         index_dir = self.create_index_dir(ds)
         index_path = os.path.join(index_dir, self.index_name())
@@ -106,6 +133,13 @@ class Diskann(BaseANN):
         threads = self._query_args.get("T")
         
         self.res, self.query_dists = self.index.batch_search_numpy_input(X, dim, nq, k, Ls, BW, threads)
+=======
+        pass
+
+    def query(self, X, k):
+        """Carry out a batch query for k-NN of query set X."""
+        pass
+>>>>>>> diskann-t2 code
 
     def range_query(self, X, radius):
         """
@@ -146,6 +180,12 @@ class Diskann(BaseANN):
 
     def set_query_arguments(self, query_args):
         self._query_args = query_args
+<<<<<<< HEAD
 
     def __str__(self):
         return "DiskANN"
+=======
+   
+    def __str__(self):
+        return self.name
+>>>>>>> diskann-t2 code
