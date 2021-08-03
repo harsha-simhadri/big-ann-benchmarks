@@ -1,20 +1,65 @@
 from __future__ import absolute_import
 import psutil
+import time
 import diskannpy
 
 from benchmark.algorithms.base import BaseANN
 from benchmark.datasets import DATASETS, download_accelerated
 
-class DiskANN(BaseANN):
-    def done(self):
-        pass
+class Diskann(BaseANN):
+    def __init__(self, metric, index_params):
+        if (index_params.get("R")==None):
+            print("Error: missing parameter R")
+            return            
+        if (index_params.get("L")==None): 
+            print("Error: missing parameter L")
+            return
+        if (index_params.get("B")==None):
+            print("Error: missing parameter B")
+            return
+        if(index_params.get("M")==None):
+            print("Error: missing parameter M")
+            return
+
+        self._index_params = index_params
+        self._metric = metric
+
+        self.R = index_params.get("R")
+        self.L = index_params.get("L")
+        self.B = index_params.get("B")
+        self.M = index_params.get("M")
+
+    def index_name(self):
+        return f"L{self.L}_R{self.R}_B{self.B}_M{self.M}"
 
     def fit(self, dataset):
         """
         Build the index for the data points given in dataset name.
-        Assumes that after fitting index is loaded in memory.
         """
-        pass
+
+        ds = DATASETS[dataset]()
+        d = ds.d
+
+        buildthreads = self._index_params.get("buildthreads", -1)
+        if buildthreads == -1:
+            print("Build-time number of threads:", diskannpy.omp_get_max_threads())
+        else:
+            print("Set build-time number of threads:", buildthreads)
+            diskannpy.omp_set_num_threads(buildthreads)
+
+        metric_type = (
+                diskannpy.L2 if ds.distance() == "euclidean" else
+                1/0
+        )
+
+        start = time.time()
+        index = diskannpy.DiskANNFloatIndex()
+        index.build(ds.get_dataset_fn(), self.index_name(), self.R, self.L, self.B, self.M, buildthreads)
+        end = time.time()
+        print("DiskANN index built in %.3f s" % (end - start))
+
+        self.index = index
+
 
     def load_index(self, dataset):
         """
@@ -67,5 +112,8 @@ class DiskANN(BaseANN):
         """
         return {}
 
+    def set_query_arguments(self, query_args):
+        self._query_args = query_args
+   
     def __str__(self):
         return self.name
