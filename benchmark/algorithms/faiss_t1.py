@@ -79,12 +79,13 @@ class Faiss(BaseANN):
         self._index_params = index_params
         self._metric = metric
         self._query_bs = -1
+        self.indexkey = index_params.get("indexkey", "OPQ32_128,IVF65536_HNSW32,PQ32")
 
         if 'query_bs' in index_params:
             self._query_bs = index_params['query_bs']
 
     def index_name(self, name):
-        return f"data/{name}.{self._index_params['indexkey']}.faissindex"
+        return f"data/{name}.{self.indexkey}.faissindex"
 
     def fit(self, dataset):
         index_params = self._index_params
@@ -92,7 +93,18 @@ class Faiss(BaseANN):
         ds = DATASETS[dataset]()
         d = ds.d
 
+        # get build parameters
         buildthreads = index_params.get("buildthreads", -1)
+        by_residual = index_params.get("by_residual", -1)
+        maxtrain = index_params.get("maxtrain", 0)
+        clustering_niter = index_params.get("clustering_niter", -1)
+        add_bs = index_params.get("add_bs", 100000)
+        add_splits = index_params.get("add_splits", 1)
+        efSearch = index_params.get("quantizer_add_efSearch", 80)
+        efConstruction = index_params.get("quantizer_efConstruction", 200)
+        use_two_level_clustering = index_params.get("two_level_clustering", True)
+        indexfile = self.index_name(dataset)
+
         if buildthreads == -1:
             print("Build-time number of threads:", faiss.omp_get_max_threads())
         else:
@@ -104,7 +116,7 @@ class Faiss(BaseANN):
                 faiss.METRIC_INNER_PRODUCT if ds.distance() in ("ip", "angular") else
                 1/0
         )
-        index = faiss.index_factory(d, index_params.get("indexkey", "OPQ32_128,IVF65536_HNSW32,PQ32"), metric_type)
+        index = faiss.index_factory(d, self.indexkey, metric_type)
 
         index_ivf, vec_transform = unwind_index_ivf(index)
         if vec_transform is None:
@@ -112,8 +124,8 @@ class Faiss(BaseANN):
         else:
             vec_transform = faiss.downcast_VectorTransform(vec_transform)
 
-        if index_params.get("by_residual", -1) != -1:
-            by_residual = index_params["by_residual"] == 1
+        if by_residual != -1:
+            by_residual = by_residual == 1
             print("setting by_residual = ", by_residual)
             index_ivf.by_residual   # check if field exists
             index_ivf.by_residual = by_residual
@@ -138,13 +150,13 @@ class Faiss(BaseANN):
             elif isinstance(quantizer, faiss.IndexHNSW):
                 print("   update quantizer efSearch=", quantizer.hnsw.efSearch, end=" -> ")
                 if index_params.get("quantizer_add_efSearch", 80) > 0:
-                    quantizer.hnsw.efSearch = index_params.get("quantizer_add_efSearch", 80)
+                    quantizer.hnsw.efSearch = efSearch
                 else:
                     quantizer.hnsw.efSearch = 40 if index_ivf.nlist < 4e6 else 64
                 print(quantizer.hnsw.efSearch)
-                if index_params.get("quantizer_efConstruction", 200) != -1:
+                if efConstruction != -1:
                     print("  update quantizer efConstruction=", quantizer.hnsw.efConstruction, end=" -> ")
-                    quantizer.hnsw.efConstruction = index_params.get("quantizer_efConstruction", 200)
+                    quantizer.hnsw.efConstruction = efConstruction
                     print(quantizer.hnsw.efConstruction)
 
 
@@ -155,9 +167,8 @@ class Faiss(BaseANN):
             index_ivf.cp.verbose = True
 
 
-        maxtrain = index_params.get("maxtrain", 100000000)
         if maxtrain == 0:
-            if 'IMI' in index_params.get(indexkey, ""):
+            if 'IMI' in self.indexkey:
                 maxtrain = int(256 * 2 ** (np.log2(index_ivf.nlist) / 2))
             elif index_ivf:
                 maxtrain = 50 * index_ivf.nlist
@@ -187,7 +198,6 @@ class Faiss(BaseANN):
             vec_transform.pq
             vec_transform.pq = training_pq
 
-        clustering_niter = index_params.get("clustering_niter", -1)
         if clustering_niter >= 0:
             print(("setting nb of clustering iterations to %d" %
                     clustering_niter))
@@ -195,7 +205,7 @@ class Faiss(BaseANN):
 
         train_index = None
 
-        if index_params.get("two_level_clustering", True):
+        if use_two_level_clustering:
             sqrt_nlist = int(np.sqrt(index_ivf.nlist))
             assert sqrt_nlist ** 2 == index_ivf.nlist
 
