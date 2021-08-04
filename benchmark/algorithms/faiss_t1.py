@@ -8,6 +8,14 @@ import time
 from benchmark.algorithms.base import BaseANN
 from benchmark.datasets import DATASETS, download_accelerated
 
+def knn_search_batched(index, xq, k, bs):
+    D, I = [], []
+    for i0 in range(0, len(xq), bs):
+        Di, Ii = index.search(xq[i0:i0 + bs], k)
+        D.append(Di)
+        I.append(Ii)
+    return np.vstack(D), np.vstack(I)
+
 def unwind_index_ivf(index):
     if isinstance(index, faiss.IndexPreTransform):
         assert index.chain.size() == 1
@@ -70,6 +78,10 @@ class Faiss(BaseANN):
     def __init__(self, metric, index_params):
         self._index_params = index_params
         self._metric = metric
+        self._query_bs = -1
+
+        if 'query_bs' in index_params:
+            self._query_bs = index_params['query_bs']
 
     def index_name(self, name):
         return f"data/{name}.{self._index_params['indexkey']}.faissindex"
@@ -268,10 +280,17 @@ class Faiss(BaseANN):
     def __str__(self):
         return f'FaissIVFPQ({self.qas})'
 
+
+
     def query(self, X, n):
-        self.res = self.index.search(X, n)
+        if self._query_bs == -1:
+            self.res = self.index.search(X, n)
+        else:
+            self.res = knn_search_batched(self.index, X, n, self._query_bs)
 
     def range_query(self, X, radius):
+        if self._query_bs != -1:
+            raise NotImplemented
         self.res = self.index.range_search(X, radius)
 
     def get_results(self):
