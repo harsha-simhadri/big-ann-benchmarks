@@ -211,7 +211,11 @@ class IndexQuantizerOnGPU:
         self.search_bs = search_bs
         index_ivf, vec_transform = unwind_index_ivf(index)
         self.index_ivf = index_ivf
-        self.vec_transform = vec_transform.apply  
+        if vec_transform:
+#            print(type(vec_transform),dir(vec_transform))
+            self.vec_transform = vec_transform.apply  
+        else:
+            self.vec_transform = None
         self.quantizer_gpu = faiss.index_cpu_to_all_gpus(self.index_ivf.quantizer)
 
 
