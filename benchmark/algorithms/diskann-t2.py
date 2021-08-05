@@ -2,6 +2,7 @@ from __future__ import absolute_import
 import psutil
 import os
 import time
+import numpy as np
 import diskannpy
 
 from benchmark.algorithms.base import BaseANN
@@ -69,13 +70,14 @@ class Diskann(BaseANN):
         index_dir = self.create_index_dir(ds)
         self.index_path = os.path.join(index_dir, self.index_name())
         
+        if not hasattr(self, 'index'):
+            self.index = diskannpy.DiskANNFloatIndex()
+
         start = time.time()
-        index = diskannpy.DiskANNFloatIndex()
-        index.build(ds.get_dataset_fn(), self.index_path, self.R, self.L, self.B, self.M, buildthreads)
+        self.index.build(ds.get_dataset_fn(), self.index_path, self.R, self.L, self.B, self.M, buildthreads)
         end = time.time()
         print("DiskANN index built in %.3f s" % (end - start))
 
-        self.index = index
 
 
     def load_index(self, dataset):
@@ -86,17 +88,27 @@ class Diskann(BaseANN):
         Checking the index usually involves the dataset name
         and the index build paramters passed during construction.
         """
-        index_dir = self.create_index_dir(dataset)
+        ds = DATASETS[dataset]()
+        index_dir = self.create_index_dir(ds)
         index_path = os.path.join(index_dir, self.index_name())
-        
-        if (self.load_index(index_path, diskannpy.omp_get_max_threads()) == 0):
+
+        self.index = diskannpy.DiskANNFloatIndex()
+        if (self.index.load_index(index_path, diskannpy.omp_get_max_threads()) == 0):
             return True
         else:
             return False
 
     def query(self, X, k):
         """Carry out a batch query for k-NN of query set X."""
-        pass
+        nq, dim = (np.shape(X))
+
+        self.ids = diskannpy.VectorUnsigned()
+        self.dists = diskannpy.VectorFloat()
+
+        Ls = self._query_args.get("Ls")
+        BW = self._query_args.get("BW")
+        threads = self._query_args.get("T")
+        self.res = self.index.batch_search_numpy_input(X, dim, nq, k, Ls, BW, threads)
 
     def range_query(self, X, radius):
         """
