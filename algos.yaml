@@ -346,7 +346,7 @@ deep-10M:
           args: |
               [{"R":100, "L":100, "B":50, "M":110}]
           query-args: |
-             ["Ls=50,BW=4,T=16"]
+             [{"Ls":50, "BW":4, "T":16}]
 msturing-1M:
    diskann-t2:
       docker-tag: billion-scale-benchmark-diskann
@@ -356,7 +356,7 @@ msturing-1M:
       run-groups:
         base:
           args: |
-              [{"R":100, "L":100, "B":50, "M":110}]
+              [{"R":100, "L":100, "B":0.003, "M":1}]
           query-args: |
              [{"Ls":50, "BW":4, "T":16}]
 msturing-1M:
