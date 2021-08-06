@@ -344,7 +344,7 @@ deep-10M:
       run-groups:
         base:
           args: |
-              [{"R":100, "L":100, "B":50, "M":110}]
+              [{"R":100, "L":100, "B":0.3, "M":15}]
           query-args: |
              [{"Ls":50, "BW":4, "T":16}]
 msturing-1M:
@@ -356,6 +356,6 @@ msturing-1M:
       run-groups:
         base:
           args: |
-              [{"R":100, "L":100, "B":0.003, "M":1}]
+              [{"R":50, "L":50, "B":0.03, "M":1}]
           query-args: |
              [{"Ls":50, "BW":4, "T":16}]

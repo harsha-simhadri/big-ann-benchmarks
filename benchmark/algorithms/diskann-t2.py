@@ -61,7 +61,7 @@ class Diskann(BaseANN):
 
         print("Set build-time number of threads:", buildthreads)
         diskannpy.omp_set_num_threads(buildthreads)
-
+ 
         metric_type = (
                 diskannpy.L2 if ds.distance() == "euclidean" else
                 1/0
@@ -102,11 +102,8 @@ class Diskann(BaseANN):
     def query(self, X, k):
         """Carry out a batch query for k-NN of query set X."""
         nq, dim = (np.shape(X))
-        Ls = self._query_args.get("Ls")
-        BW = self._query_args.get("BW")
-        threads = self._query_args.get("T")
         
-        self.res, self.query_dists = self.index.batch_search_numpy_input(X, dim, nq, k, Ls, BW, threads)
+        self.res, self.query_dists = self.index.batch_search_numpy_input(X, dim, nq, k, self.Ls, self.BW, self.threads)
 
     def range_query(self, X, radius):
         """
@@ -114,30 +111,6 @@ class Diskann(BaseANN):
         radius.
         """
         pass
-
-    def get_results(self):
-        """
-        Helper method to convert query results of k-NN search.
-        If there are nq queries, returns a (nq, k) array of integers
-        representing the indices of the k-NN for each query.
-        """
-        return self.res
-
-    def get_range_results(self):
-        """
-        Helper method to convert query results of range search.
-        If there are nq queries, returns a triple lims, I, D.
-        lims is a (nq) array, such that
-
-            I[lims[q]:lims[q + 1]] in int
-
-        are the indiices of the indices of the range results of query q, and
-
-            D[lims[q]:lims[q + 1]] in float
-
-        are the distances.
-        """
-        return self.res
 
     def get_additional(self):
         """
@@ -147,6 +120,10 @@ class Diskann(BaseANN):
 
     def set_query_arguments(self, query_args):
         self._query_args = query_args
+        self.Ls = self._query_args.get("Ls")
+        self.BW = self._query_args.get("BW")
+        self.threads = self._query_args.get("T")
+
 
     def __str__(self):
         return "DiskANN"
