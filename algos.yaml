@@ -51,11 +51,7 @@ random-xs:
               "nprobe=2,quantizer_efSearch=8",
               "nprobe=4,quantizer_efSearch=4",
               "nprobe=2,quantizer_efSearch=16"]
-<<<<<<< HEAD
     diskann-t2:
-=======
-   diskann-t2:
->>>>>>> add t2 to ci
       docker-tag: billion-scale-benchmark-diskann
       module: benchmark.algorithms.diskann-t2
       constructor: Diskann
@@ -65,11 +61,7 @@ random-xs:
           args: |
               [{"R":100, "L":100, "B":50, "M":110}]
           query-args: |
-<<<<<<< HEAD
              [{"Ls":10, "BW":2, "T":16}]
-=======
-             [{"Ls":50, "BW":4, "T":16}]
->>>>>>> add t2 to ci
 deep-10M:
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
