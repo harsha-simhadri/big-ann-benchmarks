@@ -94,6 +94,7 @@ class Diskann(BaseANN):
 
         self.index = diskannpy.DiskANNFloatIndex()
         if (self.index.load_index(index_path, diskannpy.omp_get_max_threads()) == 0):
+            print ("Load index success.")
             return True
         else:
             return False
@@ -101,14 +102,11 @@ class Diskann(BaseANN):
     def query(self, X, k):
         """Carry out a batch query for k-NN of query set X."""
         nq, dim = (np.shape(X))
-
-        self.ids = diskannpy.VectorUnsigned()
-        self.dists = diskannpy.VectorFloat()
-
         Ls = self._query_args.get("Ls")
         BW = self._query_args.get("BW")
         threads = self._query_args.get("T")
-        self.res = self.index.batch_search_numpy_input(X, dim, nq, k, Ls, BW, threads)
+        
+        self.res, self.query_dists = self.index.batch_search_numpy_input(X, dim, nq, k, Ls, BW, threads)
 
     def range_query(self, X, radius):
         """
