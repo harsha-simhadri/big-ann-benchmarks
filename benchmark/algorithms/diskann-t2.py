@@ -12,8 +12,8 @@ class Diskann(BaseANN):
     def __init__(self, metric, index_params):
         if (index_params.get("R")==None):
             print("Error: missing parameter R")
-            return            
-        if (index_params.get("L")==None): 
+            return
+        if (index_params.get("L")==None):
             print("Error: missing parameter L")
             return
         if (index_params.get("B")==None):
@@ -61,7 +61,7 @@ class Diskann(BaseANN):
 
         print("Set build-time number of threads:", buildthreads)
         diskannpy.omp_set_num_threads(buildthreads)
- 
+
         metric_type = (
                 diskannpy.L2 if ds.distance() == "euclidean" else
                 1/0
@@ -69,7 +69,7 @@ class Diskann(BaseANN):
 
         index_dir = self.create_index_dir(ds)
         self.index_path = os.path.join(index_dir, self.index_name())
-        
+
         if not hasattr(self, 'index'):
             self.index = diskannpy.DiskANNFloatIndex()
 
@@ -87,10 +87,38 @@ class Diskann(BaseANN):
         and the index build paramters passed during construction.
         """
         ds = DATASETS[dataset]()
-        index_dir = self.create_index_dir(ds)
-        index_path = os.path.join(index_dir, self.index_name())
+        if ds.dtype == "float32":
+            self.index = diskannpy.DiskANNFloatIndex()
+        elif ds.dtype == "int8":
+            self.index = diskannpy.DiskANNInt8Index()
+        elif ds.dtype == "uint8":
+            self.index = diskannpy.DiskANNUInt8Index()
+        else:
+            print ("Unsupported data type.")
+            return False
 
-        self.index = diskannpy.DiskANNFloatIndex()
+        index_dir = self.create_index_dir(ds)        
+        if not (os.path.exists(index_dir)) and 'url' not in self._index_params:
+            return False
+
+        index_path = os.path.join(index_dir, self.index_name())
+        index_components = [
+            'pq_pivots.bin', 'pq_pivots.bin_centroid.bin', 'pq_pivots.bin_chunk_offsets.bin',
+            'pq_pivots.bin_rearrangement_perm.bin',  'sample_data.bin', 'sample_ids.bin',
+            'disk.index_centroids.bin', 'pq_compressed.bin', 'disk.index'
+            ]
+        for component in index_components:
+            index_file = index_path + '_' + component
+            if not (os.path.exists(index_file)):
+                if 'url' in self._index_params:
+                    index_file_source = self._index_params['url'] + '/' + self.index_name() + '_' + component
+                    print(f"Downloading index in background. This can take a while.")
+                    download_accelerated(index_file_source, index_file, quiet=True)
+                else:
+                    return False
+
+        print("Loading index")
+
         if (self.index.load_index(index_path, diskannpy.omp_get_max_threads()) == 0):
             print ("Load index success.")
             return True
@@ -100,7 +128,6 @@ class Diskann(BaseANN):
     def query(self, X, k):
         """Carry out a batch query for k-NN of query set X."""
         nq, dim = (np.shape(X))
-        
         self.res, self.query_dists = self.index.batch_search_numpy_input(X, dim, nq, k, self.Ls, self.BW, self.threads)
 
     def range_query(self, X, radius):
