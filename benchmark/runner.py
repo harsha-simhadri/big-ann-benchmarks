@@ -29,6 +29,7 @@ def run_individual_query(algo, X, distance, count, run_count, search_type):
             algo.query(X, count)
             total = (time.time() - start)
             results = algo.get_results()
+            assert len(results) == len(X)
         else:
             algo.range_query(X, count)
             total = (time.time() - start)
@@ -106,7 +107,7 @@ function""" % (definition.module, definition.constructor, definition.arguments)
                                 run_count, search_type, descriptor)
 
             store_results(dataset, count, definition,
-                    query_arguments, descriptor, results, search_type) 
+                    query_arguments, descriptor, results, search_type)
     finally:
         algo.done()
 
@@ -202,7 +203,7 @@ def run_docker(definition, dataset, count, runs, timeout, rebuild,
     if mem_limit is None:
         mem_limit = psutil.virtual_memory().available
 
-    
+
     container = None
     if t3:
         container = t3_create_container(definition, cmd, cpu_limit, mem_limit )

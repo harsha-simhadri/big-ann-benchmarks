@@ -28,7 +28,6 @@ def get_result_filename(dataset=None, count=None, definition=None,
         if len(data) > 150:
             data = data[-149:]
         d.append(data)
-
     return os.path.join(*d)
 
 
@@ -57,6 +56,9 @@ def store_results(dataset, count, definition, query_arguments,
 
 
 def load_all_results(dataset=None, count=None):
+    """
+    A generator for all result files.
+    """
     for root, _, files in os.walk(get_result_filename(dataset, count)):
         for fn in files:
             if os.path.splitext(fn)[-1] != '.hdf5':
