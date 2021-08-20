@@ -39,7 +39,8 @@ deep-1B:
       run-groups:
         base:
           args: |
-              [{"indexkey": "IVF1048576,SQ8"}]
+              [{"indexkey": "IVF1048576,SQ8",
+                "url":"https://storage.googleapis.com/bigann/indexes/faiss/1.7.1/deep-1B.IVF1048576%2CSQ8.faissindex"}]
           query-args: |
               ["nprobe=1",
                "nprobe=2",
@@ -47,8 +48,15 @@ deep-1B:
                "nprobe=8",
                "nprobe=16",
                "nprobe=32",
+               "nprobe=40",
+               "nprobe=50",
                "nprobe=64",
                "nprobe=128",
+               "nprobe=140",
+               "nprobe=160",
+               "nprobe=180",
+               "nprobe=190",
+               "nprobe=200",
                "nprobe=256"]
 bigann-1B:
     faiss-t3: 
@@ -59,7 +67,8 @@ bigann-1B:
       run-groups:
         base:
           args: |
-              [{"indexkey": "IVF1048576,SQ8"}]
+              [{"indexkey": "IVF1048576,SQ8",
+                "url":"https://storage.googleapis.com/bigann/indexes/faiss/1.7.1/bigann-1B.IVF1048576%2CSQ8.faissindex"}]
           query-args: |
               ["nprobe=1",
                "nprobe=2",
@@ -79,7 +88,8 @@ msspacev-1B:
       run-groups:
         base:
           args: |
-              [{"indexkey": "IVF1048576,SQ8"}]
+              [{"indexkey": "IVF1048576,SQ8",
+                "url":"https://storage.googleapis.com/bigann/indexes/faiss/1.7.1/msspacev-1B.IVF1048576%2CSQ8.faissindex"}}]
           query-args: |
               ["nprobe=1",
                "nprobe=2",
@@ -99,7 +109,8 @@ text2image-1B:
       run-groups:
         base:
           args: |
-              [{"indexkey": "IVF1048576,SQ8"}]
+              [{"indexkey": "IVF1048576,SQ8",
+                "url":"https://storage.googleapis.com/bigann/indexes/faiss/1.7.1/text2image-1B.IVF1048576%2CSQ8.faissindex"}}]
           query-args: |
               ["nprobe=1",
                "nprobe=2",
@@ -119,7 +130,8 @@ msturing-10M:
       run-groups:
         base:
           args: |
-              [{"indexkey": "IVF1048576,SQ8"}]
+              [{"indexkey": "IVF1048576,SQ8",
+                "url":"https://storage.googleapis.com/bigann/indexes/faiss/1.7.1/msturing-10M.IVF1048576%2CSQ8.faissindex"}]
           query-args: |
               ["nprobe=1",
                "nprobe=2",
@@ -139,27 +151,8 @@ msturing-1B:
       run-groups:
         base:
           args: |
-              [{"indexkey": "IVF1048576,SQ8"}]
-          query-args: |
-              ["nprobe=1",
-               "nprobe=2",
-               "nprobe=4",
-               "nprobe=8",
-               "nprobe=16",
-               "nprobe=32",
-               "nprobe=64",
-               "nprobe=128",
-               "nprobe=256"]
-msturing-1B:
-    faiss-t3: 
-      docker-tag: billion-scale-benchmark-faiss_t3
-      module: benchmark.algorithms.faiss_t3
-      constructor: FaissT3
-      base-args: ["@metric"]
-      run-groups:
-        base:
-          args: |
-              [{"indexkey": "IVF1048576,SQ8"}]
+              [{"indexkey": "IVF1048576,SQ8",
+                "url":"https://storage.googleapis.com/bigann/indexes/faiss/1.7.1/msturing-1B.IVF1048576%2CSQ8.faissindex"}]
           query-args: |
               ["nprobe=1",
                "nprobe=2",
@@ -180,6 +173,7 @@ ssnpp-1M:
         base:
           args: |
               [{"indexkey": "OPQ32_128,IVF100_HNSW32,PQ32", 
+                "url":"https://storage.googleapis.com/bigann/indexes/faiss/1.7.1/ssnpp-1M.IVF1048576%2CSQ8.faissindex",
                 "parallel_mode": 2,
                 "add_splits": 0}]
           query-args: |
@@ -202,6 +196,7 @@ ssnpp-10M:
         base:
           args: |
               [{"indexkey": "OPQ32_128,IVF1048576_HNSW32,PQ32", 
+                "url":"https://storage.googleapis.com/bigann/indexes/faiss/1.7.1/ssnpp-10M.OPQ32_128%2CIVF1048576_HNSW32%2CPQ32.faissindex",
                 "parallel_mode": 2,
                 "add_splits": 0}]
           query-args: |
@@ -223,7 +218,8 @@ ssnpp-1B:
       run-groups:
         base:
           args: |
-              [{"indexkey": "OPQ32_128,IVF1048576_HNSW32,PQ32",
+              [{"indexkey": "IVF1048576,SQ8",
+                "url":"https://storage.googleapis.com/bigann/indexes/faiss/1.7.1/ssnpp-1B.IVF1048576%2CSQ8.faissindex",
                 "parallel_mode": 2,
                 "add_splits": 0}]
           query-args: |
