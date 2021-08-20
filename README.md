@@ -8,6 +8,7 @@ we propose a new network structure called Learnable Compression Network with Tra
 ## Dependences
 
 Faiss
+
 Pytorch > 1.2
 
 ## Data sets
