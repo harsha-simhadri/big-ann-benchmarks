@@ -71,12 +71,26 @@ class Diskann(BaseANN):
         self.index_path = os.path.join(index_dir, self.index_name())
 
         if not hasattr(self, 'index'):
-            self.index = diskannpy.DiskANNFloatIndex()
+            if ds.dtype == "float32":
+                self.index = diskannpy.DiskANNFloatIndex()
+            elif ds.dtype == "int8":
+                self.index = diskannpy.DiskANNInt8Index()
+            elif ds.dtype == "uint8":
+                self.index = diskannpy.DiskANNUInt8Index()
+            else:
+                print ("Unsupported data type.")
+                return False
 
         start = time.time()
         self.index.build(ds.get_dataset_fn(), self.index_path, self.R, self.L, self.B, self.M, buildthreads)
         end = time.time()
         print("DiskANN index built in %.3f s" % (end - start))
+
+        
+        num_nodes_to_cache = int(ds.nb/100)
+        print(f"Loading index and caching {num_nodes_to_cache} nodes..")
+        self.index.load_index(self.index_path, diskannpy.omp_get_max_threads(), num_nodes_to_cache)
+
 
     def load_index(self, dataset):
         """
@@ -105,7 +119,7 @@ class Diskann(BaseANN):
         index_components = [
             'pq_pivots.bin', 'pq_pivots.bin_centroid.bin', 'pq_pivots.bin_chunk_offsets.bin',
             'pq_pivots.bin_rearrangement_perm.bin',  'sample_data.bin', 'sample_ids.bin',
-            'disk.index_centroids.bin', 'pq_compressed.bin', 'disk.index'
+            'pq_compressed.bin', 'disk.index'
             ]
         for component in index_components:
             index_file = index_path + '_' + component
@@ -119,7 +133,8 @@ class Diskann(BaseANN):
 
         print("Loading index")
 
-        if (self.index.load_index(index_path, diskannpy.omp_get_max_threads()) == 0):
+        num_nodes_to_cache = int(ds.nb/100)
+        if (self.index.load_index(index_path, diskannpy.omp_get_max_threads(), num_nodes_to_cache) == 0):
             print ("Load index success.")
             return True
         else:
