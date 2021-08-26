@@ -319,7 +319,7 @@ bigann-1B:
         base:
           args: |
               [{"R":100, "L":100, "B":50, "M":80,
-                "url": "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/diskann-T2-baseline-indices/deep-1B/R100_L100_B50_M80"
+                "url": "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/diskann-T2-baseline-indices/bigann-1B/R100_L100_B50_M80"
                 }]
           query-args: |
               [{"Ls":30, "BW":4, "T":16},
