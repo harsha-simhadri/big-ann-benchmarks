@@ -87,7 +87,7 @@ class Diskann(BaseANN):
         print("DiskANN index built in %.3f s" % (end - start))
 
         
-        num_nodes_to_cache = int(ds.nb/100)
+        num_nodes_to_cache = int(ds.nb/1000) if ds.nb > 1000000 else int(ds.nb/100) 
         print(f"Loading index and caching {num_nodes_to_cache} nodes..")
         self.index.load_index(self.index_path, diskannpy.omp_get_max_threads(), num_nodes_to_cache)
 
@@ -133,7 +133,7 @@ class Diskann(BaseANN):
 
         print("Loading index")
 
-        num_nodes_to_cache = int(ds.nb/100)
+        num_nodes_to_cache = int(ds.nb/1000) if ds.nb > 1000000 else int(ds.nb/100) 
         if (self.index.load_index(index_path, diskannpy.omp_get_max_threads(), num_nodes_to_cache) == 0):
             print ("Load index success.")
             return True
