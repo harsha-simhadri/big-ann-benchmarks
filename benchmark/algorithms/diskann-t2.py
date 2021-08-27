@@ -62,21 +62,25 @@ class Diskann(BaseANN):
         print("Set build-time number of threads:", buildthreads)
         diskannpy.omp_set_num_threads(buildthreads)
 
-        metric_type = (
-                diskannpy.L2 if ds.distance() == "euclidean" else
-                1/0
-        )
-
         index_dir = self.create_index_dir(ds)
         self.index_path = os.path.join(index_dir, self.index_name())
 
+        if ds.distance() == "euclidean":
+            metric = diskannpy.L2
+        elif ds.distance() == "ip":
+            metric = diskannpy.INNER_PRODUCT
+        else:
+            print("Unsuported distance function.")
+            return False
+        
+        
         if not hasattr(self, 'index'):
             if ds.dtype == "float32":
-                self.index = diskannpy.DiskANNFloatIndex()
+                self.index = diskannpy.DiskANNFloatIndex(metric)
             elif ds.dtype == "int8":
-                self.index = diskannpy.DiskANNInt8Index()
+                self.index = diskannpy.DiskANNInt8Index(metric)
             elif ds.dtype == "uint8":
-                self.index = diskannpy.DiskANNUInt8Index()
+                self.index = diskannpy.DiskANNUInt8Index(metric)
             else:
                 print ("Unsupported data type.")
                 return False
@@ -101,12 +105,20 @@ class Diskann(BaseANN):
         and the index build paramters passed during construction.
         """
         ds = DATASETS[dataset]()
+        if ds.distance() == "euclidean":
+            metric = diskannpy.L2
+        elif ds.distance() == "ip":
+            metric = diskannpy.INNER_PRODUCT
+        else:
+            print("Unsuported distance function.")
+            return False
+        
         if ds.dtype == "float32":
-            self.index = diskannpy.DiskANNFloatIndex()
+            self.index = diskannpy.DiskANNFloatIndex(metric)
         elif ds.dtype == "int8":
-            self.index = diskannpy.DiskANNInt8Index()
+            self.index = diskannpy.DiskANNInt8Index(metric)
         elif ds.dtype == "uint8":
-            self.index = diskannpy.DiskANNUInt8Index()
+            self.index = diskannpy.DiskANNUInt8Index(metric)
         else:
             print ("Unsupported data type.")
             return False

@@ -471,3 +471,15 @@ msspacev-1M:
               [{"R":50, "L":50, "B":0.03, "M":1}]
           query-args: |
               [{"Ls":50, "BW":4, "T":16}]
+text2image-10M:
+   diskann-t2: 
+      docker-tag: billion-scale-benchmark-diskann
+      module: benchmark.algorithms.diskann-t2
+      constructor: Diskann
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"R":50, "L":50, "B":0.03, "M":1}]
+          query-args: |
+              [{"Ls":50, "BW":4, "T":16}]
