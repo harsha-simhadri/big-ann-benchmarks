@@ -30,9 +30,14 @@ class Diskann(BaseANN):
         self.L = index_params.get("L")
         self.B = index_params.get("B")
         self.M = index_params.get("M")
+        self.PQ = 0 if index_params.get("PQ") == None else index_params.get("PQ")
+        print(self.PQ)
 
     def index_name(self):
-        return f"R{self.R}_L{self.L}_B{self.B}_M{self.M}"
+        if self.PQ == 0:
+            return f"R{self.R}_L{self.L}_B{self.B}_M{self.M}"
+        else:
+            return f"R{self.R}_L{self.L}_B{self.B}_M{self.M}_PQ{self.PQ}"
 
     def create_index_dir(self, dataset):
         index_dir = os.path.join(os.getcwd(), "data", "indices")
@@ -86,7 +91,10 @@ class Diskann(BaseANN):
                 return False
 
         start = time.time()
-        self.index.build(ds.get_dataset_fn(), self.index_path, self.R, self.L, self.B, self.M, buildthreads)
+        if self.PQ > 0:
+            self.index.build(ds.get_dataset_fn(), self.index_path, self.R, self.L, self.B, self.M, buildthreads, self.PQ)
+        else:
+            self.index.build(ds.get_dataset_fn(), self.index_path, self.R, self.L, self.B, self.M, buildthreads)
         end = time.time()
         print("DiskANN index built in %.3f s" % (end - start))
 
@@ -129,10 +137,21 @@ class Diskann(BaseANN):
 
         index_path = os.path.join(index_dir, self.index_name())
         index_components = [
-            'pq_pivots.bin', 'pq_pivots.bin_centroid.bin', 'pq_pivots.bin_chunk_offsets.bin',
-            'pq_pivots.bin_rearrangement_perm.bin',  'sample_data.bin', 'sample_ids.bin',
-            'pq_compressed.bin', 'disk.index'
-            ]
+                'pq_pivots.bin', 'pq_pivots.bin_centroid.bin', 'pq_pivots.bin_chunk_offsets.bin',
+                'pq_pivots.bin_rearrangement_perm.bin',  'sample_data.bin', 'sample_ids.bin',
+                'pq_compressed.bin', 'disk.index'
+                ]
+        if ds.distance() == "ip":
+            index_components = index_components + [
+                    'disk.index_centroids.bin', 'disk.index_max_base_norm.bin', 'disk.index_medoids.bin'
+                    ]
+        if self.PQ > 0:
+            index_components = index_components + [
+                    'disk.index_pq_pivots.bin', 'disk.index_pq_pivots.bin_centroid.bin',
+                    'disk.index_pq_pivots.bin_chunk_offsets.bin', 'disk.index_pq_pivots.bin_rearrangement_perm.bin'
+                    ]
+
+
         for component in index_components:
             index_file = index_path + '_' + component
             if not (os.path.exists(index_file)):

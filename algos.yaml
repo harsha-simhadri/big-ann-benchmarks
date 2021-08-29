@@ -407,6 +407,28 @@ text2image-1B:
               "nprobe=128,quantizer_efSearch=512,ht=256",
               "nprobe=256,quantizer_efSearch=512,ht=120",
               "nprobe=256,quantizer_efSearch=512,ht=122"]
+    diskann-t2:
+      docker-tag: billion-scale-benchmark-diskann
+      module: benchmark.algorithms.diskann-t2
+      constructor: Diskann
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+               [{"R":100, "L":100, "B":60, "M":115, "PQ":200,
+                "url": "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/diskann-T2-baseline-indices/text2image-1B/R100_L100_B60_M115_PQ200"
+                }]
+          query-args: |
+              [{"Ls":10, "BW":10, "T":16},
+              {"Ls":20, "BW":10, "T":16},
+              {"Ls":30, "BW":10, "T":16},
+              {"Ls":40, "BW":10, "T":16},
+              {"Ls":50, "BW":10, "T":16},
+              {"Ls":60, "BW":10, "T":16},
+              {"Ls":70, "BW":10, "T":16},
+              {"Ls":80, "BW":10, "T":16},
+              {"Ls":90, "BW":10, "T":16},
+              {"Ls":100, "BW":10, "T":16}]
 ssnpp-10M:
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
@@ -471,6 +493,18 @@ msspacev-1M:
               [{"R":50, "L":50, "B":0.03, "M":1}]
           query-args: |
               [{"Ls":50, "BW":4, "T":16}]
+text2image-1M:
+   diskann-t2: 
+      docker-tag: billion-scale-benchmark-diskann
+      module: benchmark.algorithms.diskann-t2
+      constructor: Diskann
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"R":50, "L":50, "B":0.03, "M":1, "PQ":200}]
+          query-args: |
+              [{"Ls":50, "BW":4, "T":16}]
 text2image-10M:
    diskann-t2: 
       docker-tag: billion-scale-benchmark-diskann
@@ -480,6 +514,6 @@ text2image-10M:
       run-groups:
         base:
           args: |
-              [{"R":50, "L":50, "B":0.03, "M":1}]
+              [{"R":50, "L":50, "B":0.3, "M":10, "PQ":200}]
           query-args: |
               [{"Ls":50, "BW":4, "T":16}]
