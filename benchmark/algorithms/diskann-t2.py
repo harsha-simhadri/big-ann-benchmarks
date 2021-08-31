@@ -181,7 +181,12 @@ class Diskann(BaseANN):
         Carry out a batch query for range search with
         radius.
         """
-        pass
+        nq, dim = np.shape(X)
+        self.rangeres_lim, (self.rangeres_ids, self.rangeres_dists) = self.index.batch_range_search_numpy_input(
+                X, dim, nq, radius, self.Ls, self.BW, self.threads)
+
+    def get_range_results(self):
+        return (self.rangeres_lim, self.rangeres_ids, self.rangeres_dists)
 
     def get_additional(self):
         """
