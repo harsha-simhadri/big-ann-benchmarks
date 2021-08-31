@@ -34,6 +34,17 @@ random-range-xs:
               "nprobe=2,quantizer_efSearch=8",
               "nprobe=4,quantizer_efSearch=4",
               "nprobe=2,quantizer_efSearch=16"]
+    diskann-t2:
+      docker-tag: billion-scale-benchmark-diskann
+      module: benchmark.algorithms.diskann-t2
+      constructor: Diskann
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"R":32, "L":32, "B":0.0001, "M":1}]
+          query-args: |
+              [{"Ls":10, "BW":4, "T":16}]
 random-xs:
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
