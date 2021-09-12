@@ -128,6 +128,7 @@ records_encoding_np = np.load(records_encoding_file_name)
 #
 def add_ndarray_with_type_object( h5f, name, arr ):
     print("arrs", arr[0].shape, arr[0].dtype, arr[1].shape, arr[0].dtype)
+    dt = h5py.vlen_dtype(arr[0].dtype)
     dt = arr[0].dtype
     print("add", dt, arr.shape)
     v = h5py.vlen_dtype(dt)
