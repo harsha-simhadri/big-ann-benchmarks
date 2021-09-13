@@ -18,11 +18,11 @@ from tmp_api import *
 import gsl_utils
 import gsld_bindings_rerank as gsld_rerank
 
-resources_path = 't3/gsi/'
-case_dir = '1b/'
-resources_path_case = f'{resources_path}{case_dir}'
-max_num_queries = 10000
-num_records = 1000000000
+#resources_path = 't3/gsi/'
+#case_dir = '1b/'
+#resources_path_case = f'{resources_path}{case_dir}'
+#max_num_queries = 10000
+#num_records = 1000000000
 
 def convert_index_to_cluster_and_ids_lists(index, nbits):
     cluster_list = np.empty(index.invlists.nlist, dtype=object)
@@ -90,10 +90,19 @@ class GeminiT3(BaseANN):
         self.gsl_ctx = Context(gdl_ctx_ids[:num_apuc], max_num_threads=56)
         # GSL init end
 
-        print(f'GSI Faiss(BaseANN){self.index_params}')
+        self.max_num_queries = 10000
+        self.num_records = 1000000000
+
+        print(f'GSI GeminiT3(BaseANN){self.index_params}')
 
     def index_name(self, name):
-        assert 0
+        nlist = self.index_params['nlist']
+        qbits = self.index_params['qbits']
+        nbits = self.index_params['nbits']
+        nt = self.index_params['nt']
+        is_f16 = self.index_params['f16']
+        key = "nbits=%d,qbits=%d,nlist=%d,nt=%d,f16=%s" % (nbits, qbits, nlist, nt, str(is_f16))
+        return f"data/{name}.{key}.geminiindex" 
 
     def fit(self, dataset):
         assert 0
@@ -106,15 +115,24 @@ class GeminiT3(BaseANN):
         nt = self.index_params['nt']
         is_f16 = self.index_params['f16']
 
+        # number of centroids maps to an index subdir
         centroids_dirs = { 524288: 'centroids_512k/', 2097152: 'centroids_2m/', 4194304: 'centroids_4m/'}
-
         num_centroids_dir = centroids_dirs[nlist]
 
-        fp_quantizer_file_name = f'{resources_path }{num_centroids_dir}Deep1B.nt{nt}.nlist{nlist}.quantizer'
-        records_encoding_file_name = f'{resources_path}records_weights/records_weights.bits{nbits}.npy'
-        centroids_encoding_file_name = f'{resources_path}{num_centroids_dir}centroids_weights.nt{nt}.nlist{nlist}.nbits{nbits}.npy'
-        index_file_name = f'{resources_path_case}Deep1B.ivfbinnh.nt{nt}.nlist{nlist}.nb{num_records}.bits{qbits}.index'
-        db_path = f'{resources_path_case}fdb.npy'
+        # the index name is the parent folder of the index component files
+        prefix = self.index_name( dataset )
+
+        resources_path = ''
+        case_dir = '1b/'
+        resources_path_case = f'{resources_path}{case_dir}'
+        #max_num_queries = 10000
+        #num_records = 1000000000
+
+        fp_quantizer_file_name = f'{prefix}/{resources_path}{num_centroids_dir}Deep1B.nt{nt}.nlist{nlist}.quantizer'
+        records_encoding_file_name = f'{prefix}/{resources_path}records_weights/records_weights.bits{nbits}.npy'
+        centroids_encoding_file_name = f'{prefix}/{resources_path}{num_centroids_dir}centroids_weights.nt{nt}.nlist{nlist}.nbits{nbits}.npy'
+        index_file_name = f'{prefix}/{resources_path_case}Deep1B.ivfbinnh.nt{nt}.nlist{nlist}.nb{self.num_records}.bits{qbits}.index'
+        db_path = f'{prefix}/{resources_path_case}fdb.npy'
 
         print('********************** Paths ***************************')
         print('fp_quantizer_file_name =', fp_quantizer_file_name)
@@ -139,7 +157,7 @@ class GeminiT3(BaseANN):
         dtype = gsld_rerank.GSLD_RERANK_DATA_TYPE_FLOAT
 
         print('init rerank...')
-        self.rerank = gsld_rerank.init(num_records, num_features, num_features * 4, dtype, gsld_rerank.GSLD_RERANK_ALGO_L2, is_f16, db_path)        
+        self.rerank = gsld_rerank.init(self.num_records, num_features, num_features * 4, dtype, gsld_rerank.GSLD_RERANK_ALGO_L2, is_f16, db_path)        
         print('finished init rerank')
         
         # dataset_names = {'deep-1B':'Deep1B', 'bigann-1B':'BigAnn'}
@@ -193,7 +211,7 @@ class GeminiT3(BaseANN):
         except AttributeError:
             print('no session to destroy')
 
-        typical_num_queries = max_num_queries
+        typical_num_queries = self.max_num_queries
 
         self.search_params = ast.literal_eval(query_args)
         nprobe = self.search_params['nprobe']
@@ -204,7 +222,7 @@ class GeminiT3(BaseANN):
 
         rerank_desc = RerankDesc(self.centroids_fdb, nprobe_refine, gsl.GSL_ALG_KNN_L2_FDB)
 
-        desc = ClusterHammingDesc(max_num_queries,
+        desc = ClusterHammingDesc(self.max_num_queries,
                                   typical_num_queries,
                                   self.centroids_bdb,
                                   nprobe,

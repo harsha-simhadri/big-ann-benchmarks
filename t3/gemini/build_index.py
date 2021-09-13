@@ -103,7 +103,6 @@ print("Extracting binary cluster list and ids")
 # cluster_list, ids_list = get_cluster_and_ids_lists(self.index, nbits)
 cluster_list, ids_list = get_cluster_and_ids_lists(index, qbits)
 print(type(cluster_list), type(ids_list), cluster_list[0].shape, cluster_list[0].dtype, cluster_list[1].shape, ids_list[0].shape, ids_list[0].dtype)
-sys.exit(1)
 
 print("Extracting binary quantizer and centroids")
 quantizer = faiss.downcast_IndexBinary(index.quantizer)
@@ -129,12 +128,13 @@ records_encoding_np = np.load(records_encoding_file_name)
 def add_ndarray_with_type_object( h5f, name, arr ):
     print("arrs", arr[0].shape, arr[0].dtype, arr[1].shape, arr[0].dtype)
     dt = h5py.vlen_dtype(arr[0].dtype)
-    dt = arr[0].dtype
-    print("add", dt, arr.shape)
-    v = h5py.vlen_dtype(dt)
-    dset = f.create_dataset(name, arr.shape, dtype=dt)
+    dset = h5f.create_dataset(name, arr.shape, dtype=dt)
+    print("dt", dt, dset)
     for i in range( arr.shape[0] ):
-        dset[i] = arr[i]
+        item = arr[i]
+        #print("item",i, type(item)),
+        if item!=None: dset[i] = item.reshape(-1) 
+        else: dset[i] = item
 
 print("Creating (h5py) index file at %s" % full_path)
 h5f = h5py.File(full_path, 'w')
@@ -142,7 +142,6 @@ h5f = h5py.File(full_path, 'w')
 print("Adding cluster_list")
 #h5f.create_dataset('cluster_list', data=cluster_list)
 add_ndarray_with_type_object( h5f, "cluster_list", cluster_list )
-sys.exit(0)
 
 print("Adding ids_list")
 #h5f.create_dataset('ids_list', data=ids_list)
@@ -160,6 +159,8 @@ h5f.create_dataset('centroids_encoding_np', data=centroids_encoding_np)
 print("Adding records_encoding")
 h5f.create_dataset('records_encoding_np', data=records_encoding_np)
 
+print("Adding dataset")
+h5f.create_dataset('
 print("Finalizing and closing index.")
 h5f.close()
 
