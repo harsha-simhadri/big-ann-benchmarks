@@ -28,6 +28,7 @@ def get_result_filename(dataset=None, count=None, definition=None,
         if len(data) > 150:
             data = data[-149:]
         d.append(data)
+
     return os.path.join(*d)
 
 

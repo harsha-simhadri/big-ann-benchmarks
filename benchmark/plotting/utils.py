@@ -74,6 +74,10 @@ def compute_metrics_all_runs(dataset, res, recompute=False):
         print(f"Groundtruth for {dataset} not found.")
         return
 
+    # removes 'wspq' metric if no power benchmarks found
+    # in the loaded runs
+    power_capture.detect_power_benchmarks(metrics, res)
+
     search_type = dataset.search_type()
     for i, (properties, run) in enumerate(res):
         algo = properties['algo']

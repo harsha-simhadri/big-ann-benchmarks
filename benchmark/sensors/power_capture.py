@@ -150,7 +150,7 @@ class power_capture:
         """
         Retreive the benchmark metric wspq.
         """
-        return attrs.get("best_wspq", float('inf'))
+        return attrs["best_wspq"]
 
     @classmethod
     def run(cls, algo, X, distance, count, run_count, search_type, descriptor ):
