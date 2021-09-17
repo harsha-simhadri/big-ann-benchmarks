@@ -63,6 +63,7 @@ def create_encoding(encoding_file_name, normalize=False):
     layers = [NHEncoding.NHLayer(single_np_array[0], single_np_array[1].reshape(1, len(single_np_array[1]))),
               NHEncoding.NHLayer(single_np_array[2], single_np_array[3].reshape(1, len(single_np_array[3]))),
               NHEncoding.NHLayer(single_np_array[4], single_np_array[5].reshape(1, len(single_np_array[5])))]
+    [ print(l.shape) for l in single_np_array ]
     return NHEncoding(layers, normalize)
 
 class GeminiT3(BaseANN):
@@ -152,6 +153,11 @@ class GeminiT3(BaseANN):
             raise FileNotFoundError(db_path)            
         print('********************************************************')
 
+        self.centroids_encoding = create_encoding(centroids_encoding_file_name, False)
+        print("centroids", centroids_encoding_file_name, self.centroids_encoding)
+        self.records_encoding = create_encoding(records_encoding_file_name, False)
+        print("records", records_encoding_file_name, self.records_encoding)
+
         print('load XF deep-1B')
         num_features = 96
         dtype = gsld_rerank.GSLD_RERANK_DATA_TYPE_FLOAT
@@ -198,7 +204,9 @@ class GeminiT3(BaseANN):
         self.centroids_fdb = self.gsl_ctx.create_fdb(l2_centroids, False)
 
         self.centroids_encoding = create_encoding(centroids_encoding_file_name, False)
+        print("centroids", centroids_encoding_file_name, self.centroids_encoding)
         self.records_encoding = create_encoding(records_encoding_file_name, False)
+        print("records", records_encoding_file_name, self.records_encoding)
 
         return True
 
