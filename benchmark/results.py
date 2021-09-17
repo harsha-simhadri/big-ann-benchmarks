@@ -57,6 +57,9 @@ def store_results(dataset, count, definition, query_arguments,
 
 
 def load_all_results(dataset=None, count=None):
+    """
+    A generator for all result files.
+    """
     for root, _, files in os.walk(get_result_filename(dataset, count)):
         for fn in files:
             if os.path.splitext(fn)[-1] != '.hdf5':
