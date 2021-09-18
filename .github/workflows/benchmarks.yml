@@ -18,6 +18,12 @@ jobs:
           - algorithm: faiss-t1
             dataset: random-range-xs
             library: faissconda
+          - algorithm: diskann-t2
+            dataset: random-xs
+            library: diskann
+          - algorithm: diskann-t2
+            dataset: random-range-xs
+            library: diskann
       fail-fast: false
 
     steps:
