@@ -2,6 +2,10 @@
 
 <http://big-ann-benchmarks.com/>
 
+## Our idea
+1. We found that the cache structure before searching through external memory is very important, and an effective cache structure can effectively reduce the number of searches before a strongly connected component range. 
+2. The determination of cache points is very important, and by caching the correct points can effectively reduce the number of IO reads.
+
 ## Install
 
 The only prerequisite is Python (tested with 3.6) and Docker. Works with newer versions of Python as well but probably requires an updated `requirements.txt` on the host. (Suggestion: copy `requirements.txt` to `requirements${PYTHON_VERSION}.txt` and remove all fixed versions. `requirements.txt` has to be kept for the docker containers.)
