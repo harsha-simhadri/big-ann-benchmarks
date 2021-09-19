@@ -2,7 +2,7 @@
 
 <http://big-ann-benchmarks.com/>
 
-## Our idea
+## Our idea -- Hierarchical DiskANN
 1. We found that the cache structure before searching through external memory is very important, and an effective cache structure can effectively reduce the number of searches before a strongly connected component range. 
 2. The determination of cache points is very important, and by caching the correct points can effectively reduce the number of IO reads.
 
