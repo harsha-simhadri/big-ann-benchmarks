@@ -502,6 +502,18 @@ bigann-10M:
               [{"R":100, "L":100, "B":0.3, "M":15}]
           query-args: |
               [{"Ls":50, "BW":4, "T":16}]
+   language-agnostic:
+     docker-tag: billion-scale-benchmark-language-agnostic
+     module: benchmark.algorithms.language_agnostic
+     constructor: SklearnRunner
+     base-args: [ "@metric", "@dimension" ]
+     run-groups:
+       base:
+         args:
+           - [0.2]
+         query-args: |
+           [{"Ls":50, "BW":4, "T":16}]
+
 msturing-1M:
    diskann-t2:
       docker-tag: billion-scale-benchmark-diskann

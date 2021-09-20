@@ -87,6 +87,5 @@ python3.8 eval/show_operating_points.py --algorithm faiss-t1 --threshold 10000
 
 1. Add your algorithm into `benchmark/algorithms` by providing a small Python wrapper inheriting from `BaseANN`  defined in `benchmark/algorithms/base.py`. See `benchmark/algorithm/faiss_t1.py` for an example.
 2. Add a Dockerfile in `install/` 
-3. Edit `algos.yaml with the parameter choices you would like to test.
+3. Edit `algos.yaml` with the parameter choices you would like to test.
 4. (Add an option to download pre-built indexes as seen in `faiss_t1.py`.)
-
