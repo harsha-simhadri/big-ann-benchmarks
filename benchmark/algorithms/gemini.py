@@ -181,6 +181,11 @@ class GeminiT3(BaseANN):
         # cluster_list, ids_list = get_cluster_and_ids_lists(self.index, nbits)
         cluster_list, ids_list = get_cluster_and_ids_lists(self.index, qbits)
 
+        #GW
+        print("cluster_list", type(cluster_list), cluster_list.shape, type(cluster_list[0]), cluster_list[0].shape, cluster_list[0].dtype)
+        print("ids_list", type(ids_list), ids_list.shape, type(ids_list[0]), ids_list[0].shape, ids_list[0].dtype)
+        #GW
+
         # print('cluster_list =\n', cluster_list)
         # print('ids_list =\n', ids_list)
         print('creating GSL cluster binary DB...')
@@ -190,6 +195,7 @@ class GeminiT3(BaseANN):
 
         quantizer = faiss.downcast_IndexBinary(self.index.quantizer)
         centroids = faiss.vector_to_array(quantizer.xb)
+        print("precent", centroids.shape, centroids.dtype)
         centroids = np.reshape(centroids, (quantizer.ntotal, quantizer.d//8))
         print('centroids (binary):', centroids.shape, centroids.dtype)
         print('creating GSL centroids binary DB...')
