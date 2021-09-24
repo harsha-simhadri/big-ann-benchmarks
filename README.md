@@ -63,6 +63,20 @@ faiss-t1  bigann-1B       0.634510
           text2image-1B   0.069275
 ```
 
+For the track2 baseline, the output `python3 eval/show_operating_points.py --algorithm diskann-t2 --threshold 1500 res.csv` led to
+
+```
+                          recall/ap
+algorithm  dataset
+diskann-t2 bigann-1B       0.949130
+           deep-1B         0.937060
+           msspacev-1B     0.900955
+           msturing-1B     0.935642
+           ssnpp-1B             NaN
+           text2image-1B   0.488544
+```
+
+
 ## Running the track 1 baseline
 After running the installation, we can evaluate the baseline as follows.
 
