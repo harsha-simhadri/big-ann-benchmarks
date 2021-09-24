@@ -84,6 +84,9 @@ class Faiss(BaseANN):
         if 'query_bs' in index_params:
             self._query_bs = index_params['query_bs']
 
+    def track(self):
+        return "T1"
+
     def index_name(self, name):
         return f"data/{name}.{self.indexkey}.faissindex"
 

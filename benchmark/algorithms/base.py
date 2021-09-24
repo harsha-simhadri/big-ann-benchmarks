@@ -5,6 +5,13 @@ class BaseANN(object):
     def done(self):
         pass
 
+    def track(self):
+        """
+        return "T1" if submitting an entry for track 1
+        return "T2" if submitting an entry for track 2
+        return "T3" if submitting an entry for track 3
+        """
+
     def fit(self, dataset):
         """
         Build the index for the data points given in dataset name.
@@ -21,6 +28,18 @@ class BaseANN(object):
         and the index build paramters passed during construction.
         """
         pass
+
+    def index_files_to_store(self, dataset):
+        """
+        Specify a triplet with the local directory path of index files,
+        the common prefix name of index component(s) and a list of
+        index components that need to be uploaded to (after build)
+        or downloaded from (for search) cloud storage.
+
+        For local directory path under docker environment, please use
+        a directory under
+        data/indices/track(T1 or T2)/algo.__str__()/DATASETS[dataset]().short_name() 
+        """
 
     def query(self, X, k):
         """Carry out a batch query for k-NN of query set X."""
