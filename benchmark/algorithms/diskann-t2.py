@@ -10,6 +10,7 @@ from benchmark.datasets import DATASETS, download_accelerated
 
 class Diskann(BaseANN):
     def __init__(self, metric, index_params):
+        self.name = "DiskANN"
         if (index_params.get("R")==None):
             print("Error: missing parameter R")
             return
@@ -36,6 +37,9 @@ class Diskann(BaseANN):
         if self.C == 0:
             self.cache_mechanism = 0
         print(self.PQ)
+
+    def track(self):
+        return "T2"
 
     def index_name(self):
         if self.PQ == 0:
@@ -110,6 +114,27 @@ class Diskann(BaseANN):
         print(f"Loading index and caching {num_nodes_to_cache} nodes..")
         self.index.load_index(self.index_path, diskannpy.omp_get_max_threads(), num_nodes_to_cache, self.cache_mechanism)
 
+    def get_index_components(self, dataset):
+        index_components = [
+                '_pq_pivots.bin', '_pq_pivots.bin_centroid.bin', '_pq_pivots.bin_chunk_offsets.bin',
+                '_pq_pivots.bin_rearrangement_perm.bin',  '_sample_data.bin', '_sample_ids.bin',
+                '_pq_compressed.bin', '_disk.index'
+                ]
+        ds = DATASETS[dataset]()
+        if ds.distance() == "ip":
+            index_components = index_components + [
+                    '_disk.index_centroids.bin', '_disk.index_max_base_norm.bin', '_disk.index_medoids.bin'
+                    ]
+        if self.PQ > 0:
+            index_components = index_components + [
+                    '_disk.index_pq_pivots.bin', '_disk.index_pq_pivots.bin_centroid.bin',
+                    '_disk.index_pq_pivots.bin_chunk_offsets.bin', '_disk.index_pq_pivots.bin_rearrangement_perm.bin'
+                    ]
+        return index_components
+
+    def index_files_to_store(self, dataset):
+        return [self.create_index_dir(DATASETS[dataset]()), self.index_name(), self.get_index_components(dataset)]
+
     def load_index(self, dataset):
         """
         Load the index for dataset. Returns False if index
@@ -142,27 +167,13 @@ class Diskann(BaseANN):
             return False
 
         index_path = os.path.join(index_dir, self.index_name())
-        index_components = [
-                'pq_pivots.bin', 'pq_pivots.bin_centroid.bin', 'pq_pivots.bin_chunk_offsets.bin',
-                'pq_pivots.bin_rearrangement_perm.bin',  'sample_data.bin', 'sample_ids.bin',
-                'pq_compressed.bin', 'disk.index'
-                ]
-        if ds.distance() == "ip":
-            index_components = index_components + [
-                    'disk.index_centroids.bin', 'disk.index_max_base_norm.bin', 'disk.index_medoids.bin'
-                    ]
-        if self.PQ > 0:
-            index_components = index_components + [
-                    'disk.index_pq_pivots.bin', 'disk.index_pq_pivots.bin_centroid.bin',
-                    'disk.index_pq_pivots.bin_chunk_offsets.bin', 'disk.index_pq_pivots.bin_rearrangement_perm.bin'
-                    ]
-
+        index_components = self.get_index_components(dataset)
 
         for component in index_components:
-            index_file = index_path + '_' + component
+            index_file = index_path + component
             if not (os.path.exists(index_file)):
                 if 'url' in self._index_params:
-                    index_file_source = self._index_params['url'] + '/' + self.index_name() + '_' + component
+                    index_file_source = self._index_params['url'] + '/' + self.index_name() + component
                     print(f"Downloading index in background. This can take a while.")
                     download_accelerated(index_file_source, index_file, quiet=True)
                 else:
@@ -208,7 +219,3 @@ class Diskann(BaseANN):
         self.Ls = self._query_args.get("Ls")
         self.BW = self._query_args.get("BW")
         self.threads = self._query_args.get("T")
-
-
-    def __str__(self):
-        return "DiskANN"

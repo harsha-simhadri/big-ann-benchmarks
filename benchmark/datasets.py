@@ -52,16 +52,30 @@ def download(src, dst=None, max_size=None):
     ))
 
 
-def download_accelerated(src, dst, quiet=False):
+def download_accelerated(src, dst, quiet=False, sas_string=""):
     """ dowload using an accelerator. Make sure the executable is in the path """
     print('downloading %s -> %s...' % (src, dst))
     if "windows.net" in src:
-        cmd = f"azcopy copy {src} {dst}"
+        if sas_string == "":
+            cmd = f"azcopy copy {src} {dst}"
+        else:
+            cmd = f"azcopy copy '{src}?{sas_string}' '{dst}'"
     else:
         cmd = f"axel --alternate -n 10 {src} -o {dst}"
         if quiet:
             cmd += " -q"
 
+    print("running", cmd)
+    ret = os.system(cmd)
+    assert ret == 0
+
+def upload_accelerated(local_dir, blob_prefix, component, sas_string, quiet=False):
+    """ Upload index component to Azure blob using SAS string"""
+    src = os.path.join(local_dir, component)
+    dst = blob_prefix + '/' + component + '?' + sas_string
+    print('Uploading %s -> %s...' % (src, dst))
+    
+    cmd = f"azcopy copy '{src}' '{dst}'"
     print("running", cmd)
     ret = os.system(cmd)
     assert ret == 0
