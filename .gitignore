@@ -1,0 +1,15 @@
+.DS_Store
+*.pyc
+*.o
+
+data/*
+*.class
+
+*.log
+
+results/*
+!results/*.png
+
+venv
+
+.idea
