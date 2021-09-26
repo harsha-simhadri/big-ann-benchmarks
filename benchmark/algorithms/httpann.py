@@ -76,9 +76,6 @@ class HttpANN(BaseANN):
     def get_range_results(self):
         json = self.post("get_range_results", dict(), 200)
         [lims, I, D] = json["get_range_results"]
-        print(lims[:10], lims[-10:])
-        print(I[:10], I[-10:])
-        print(D[:10], D[-10:])
         return np.array(lims, 'int32'), np.array(I, 'int32'), np.array(D, 'float32')
 
     def get_additional(self):
@@ -170,8 +167,7 @@ if __name__ == "__main__" and sys.argv[-1] == "example":
             self.knn.fit(arr[:, self.high_variance_dims])
 
         def load_index(self, dataset):
-            ds = DATASETS[dataset]()
-            return ds.nb_M <= 10
+            return dataset in DATASETS
 
         def query(self, X, k):
             self.res = self.knn.kneighbors(X[:, self.high_variance_dims], n_neighbors=k, return_distance=False)
