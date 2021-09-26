@@ -84,6 +84,25 @@ class BaseANN(object):
 
     def get_additional(self):
         """
+        Retrieve  additional results. 
+        Return a dictionary with a subset of the following keys
+        and corresponding measured values.
+
+        `mean_latency` in microseconds, if this applies to your algorithm.
+        Skip if your algorithm batches query processing.
+
+        `latency_999` is the 99.9pc latency in microseconds, if this applies
+        to your algorithm. Skip if your algorithm batches query processing.
+
+        `dist_comps` is the average number of points in the base set
+        to which a query was compared.
+
+        `ssd_ios` is the average number of SSD I/Os per query for T2 algorithms.
+        """
+        return {}
+
+    def get_additional(self):
+        """
         Allows to retrieve additional results.
         """
         return {}
