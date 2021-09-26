@@ -49,7 +49,7 @@ class BaseANN(object):
 
             I[lims[q]:lims[q + 1]] in int
 
-        are the indiices of the indices of the range results of query q, and
+        are the indices of the indices of the range results of query q, and
 
             D[lims[q]:lims[q + 1]] in float
 
@@ -71,4 +71,3 @@ class BaseANN(object):
         (in kilobytes), or None if this information is not available."""
         # return in kB for backwards compatibility
         return psutil.Process().memory_info().rss / 1024
-

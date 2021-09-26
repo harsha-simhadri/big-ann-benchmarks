@@ -19,16 +19,17 @@ class HttpANN(BaseANN):
     Designed to enable language-agnostic ANN by delegating indexing and querying to a separate HTTP server.
 
     The HTTP server must satisfy the following API.
-    Note that this is basically a 1:1 copy of the BaseANN Python Class API implemented as remote procedure calls.
 
     | Method | Route                | Request Body                                                                                               | Expected Status | Response Body                                                              |
     | ------ | -------------------- | ---------------------------------------------------------------------------------------------------------- | --------------- | -------------------------------------------------------------------------- |
-    | POST   | /init                | dictionary of constructor arguments, e.g., {“metric”: “euclidean”, “dimension”: 99 }                       | 201             | { }                                                                        |
+    | POST   | /init                | dictionary of constructor arguments, e.g., {"metric": "euclidean", "dimension": 99 }                       | 201             | { }                                                                        |
     | POST   | /load_index          | { "dataset": <dataset name, e.g. "bigann-10m"> }                                                           | 201             | { "load_index": <Boolean indicating whether the index can be loaded> }     |
     | POST   | /set_query_arguments | dictionary of query arguments                                                                              | 201             | { }                                                                        |
-    | POST   | /query               | { “X”: <query vectors as list of lists of floats>, “k”: <number of neighbors to find and keep in memory> } | 201             | { }                                                                        |
+    | POST   | /query               | { "X": <query vectors as list of lists of floats>, "k": <number of neighbors to find and keep in memory> } | 201             | { }                                                                        |
     | POST   | /get_results         | { }                                                                                                        | 200             | { “get_results”: <neighbors as list of lists of ints> }                    |
     | POST   | /get_additional      | { }                                                                                                        | 200             | { “get_additional”: <dictionary of arbitrary additional result metadata> } |
+
+    Note that this is a 1:1 copy of the BaseANN Python Class API implemented as remote procedure calls.
     """
 
     def __init__(self, server_url: str, start_seconds: int, name: str, **kwargs):
@@ -98,29 +99,31 @@ class HttpANNSubprocess(object):
     Starts a background thread to monitor the subprocess by checking for an exit code once per second.
     If the background thread finds an exit code, it will raise an HttpANNError.
     """
-    def __init__(self, cmd: str):
-        proc = Popen(shlex.split(cmd), stdout=sys.stdout, stderr=sys.stderr)
-
-        def check():
-            poll = proc.poll()
-            if poll is not None:
-                raise HttpANNError(f"HTTP server subprocess prematurely returned status code {poll}.")
+    def __init__(self, server_subprocess_command: str):
+        proc = Popen(shlex.split(server_subprocess_command), stdout=sys.stdout, stderr=sys.stderr)
 
         def monitor():
             while True:
                 time.sleep(1)
-                check()
+                poll = proc.poll()
+                if poll is not None:
+                    raise HttpANNError(f"HTTP server subprocess prematurely returned status code {poll}.")
 
         t = Thread(target=monitor, args=(), daemon=True)
         t.start()
 
 
-class HttpANNExampleModel(HttpANN, HttpANNSubprocess):
+class HttpANNExampleAlgorithm(HttpANN, HttpANNSubprocess):
     """
-    ANN model that implements HttpANN and HttpANNSubprocess.
-    By implementing HttpANNSubprocess, it starts a local server, which is defined further below in the same file.
+    ANN model that serves as a standard "algorithm" (callable from runner.py) and manages an HTTP server that
+    implements the actual indexing and query processing algorithms.
+
+    By implementing HttpANNSubprocess, it starts a local server (which is implemented further below in the same file).
     By implementing HttpANN, it can be used by runner.py to make ANN requests from Python to the local server.
-    The model that it uses is extremely slow, so this is only intended for example purposes.
+
+    Obviously this is a contrived setup, as the actual algorithm is also implemented in Python.
+    It's purely as an example of how one might run an algorithm from another language by using an HTTP server to
+    implement the server API expected by HttpANN.
     """
     def __init__(self, metric: str, dimension: int, use_dims: float):
         HttpANNSubprocess.__init__(self, "python3 -m benchmark.algorithms.httpann example")
@@ -135,7 +138,10 @@ if __name__ == "__main__" and sys.argv[-1] == "example":
     class SimpleANNModel(object):
         """
         Very simple ANN model intended only to demonstrate the HttpANN functionality.
-        This model is instantiated and called from the example server.
+        This model is instantiated and called from the example server below.
+        The model is approximate in the sense that it uses exact KNN constrained to a configurable subset of the
+        highest variance dimensions. For example, if dimensions=100 and use_dims=0.22, the model picks the 22
+        dimensions with the highest variance and use them for exact KNN.
         """
 
         def __init__(self, metric: str, dimension: int, use_dims: float = 0.1):
@@ -160,14 +166,10 @@ if __name__ == "__main__" and sys.argv[-1] == "example":
             return ds.nb_M <= 10
 
         def query(self, X, k):
-            batch = 100
-            self.res = np.zeros((len(X), k))
-            for i in range(0, len(X), batch):
-                subset = X[i:i + batch, self.high_variance_dims]
-                self.res[i:i + batch] = self.knn.kneighbors(subset, n_neighbors=k, return_distance=False)
+            self.res = self.knn.kneighbors(X[:, self.high_variance_dims], n_neighbors=k, return_distance=False)
 
         def range_query(self, X, radius):
-            pass
+            self.res = self.knn.radius_neighbors(X[:, self.high_variance_dims], radius=radius, return_distance=False)
 
         def get_results(self):
             return self.res
@@ -180,7 +182,6 @@ if __name__ == "__main__" and sys.argv[-1] == "example":
 
 
     from flask import Flask, request
-    from gevent.pywsgi import WSGIServer
 
     app = Flask(__name__)
 
@@ -234,9 +235,11 @@ if __name__ == "__main__" and sys.argv[-1] == "example":
 
     @app.route("/get_additional", methods=['POST'])
     def get_additional():
-        return jsonify(app.model.get_additional()), 200
+        return jsonify(dict(get_additional=app.model.get_additional())), 200
 
+    app.run('0.0.0.0', 8080, debug=False)
+    # We could also use gevent/wsgi for a more professional setup.
     # https://flask.palletsprojects.com/en/2.0.x/deploying/wsgi-standalone/#gevent
-    # app.run('0.0.0.0', 8080, debug=True)
-    http_server = WSGIServer(('0.0.0.0', 8080), app)
-    http_server.serve_forever()
+    # from gevent.pywsgi import WSGIServer
+    # http_server = WSGIServer(('0.0.0.0', 8080), app)
+    # http_server.serve_forever()

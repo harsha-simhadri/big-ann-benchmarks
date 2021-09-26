@@ -45,6 +45,16 @@ random-range-xs:
               [{"R":32, "L":32, "B":0.0001, "M":1}]
           query-args: |
               [{"Ls":10, "BW":4, "T":16}]
+    http-ann-example:
+      docker-tag: billion-scale-benchmark-http-ann-example
+      module: benchmark.algorithms.httpann
+      constructor: HttpANNExampleAlgorithm
+      base-args: [ "@metric", "@dimension" ]
+      run-groups:
+        base:
+          args:
+            - [ 0.2, 0.8, 1.0 ]
+          query-args: [ ]
 random-xs:
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
@@ -73,6 +83,16 @@ random-xs:
               [{"R":32, "L":32, "B":0.0001, "M":1}]
           query-args: |
               [{"Ls":10, "BW":4, "T":16}]
+    http-ann-example:
+      docker-tag: billion-scale-benchmark-http-ann-example
+      module: benchmark.algorithms.httpann
+      constructor: HttpANNExampleAlgorithm
+      base-args: [ "@metric", "@dimension" ]
+      run-groups:
+        base:
+          args:
+            - [ 0.2, 0.8, 1.0 ]
+          query-args: [ ]
 deep-10M:
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
@@ -501,16 +521,6 @@ bigann-10M:
               [{"R":100, "L":100, "B":0.3, "M":15}]
           query-args: |
               [{"Ls":50, "BW":4, "T":16}]
-   http-ann-example:
-     docker-tag: billion-scale-benchmark-http-ann-example
-     module: benchmark.algorithms.httpann
-     constructor: HttpANNExampleModel
-     base-args: [ "@metric", "@dimension" ]
-     run-groups:
-       base:
-         args:
-           - [0.2]
-         query-args: []
 
 msturing-1M:
    diskann-t2:
