@@ -15,7 +15,7 @@ from benchmark.datasets import DATASETS
 
 class HttpANN(BaseANN):
     """
-    HTTP-based ANN model.
+    HTTP-based ANN algorithm.
     Designed to enable language-agnostic ANN by delegating indexing and querying to a separate HTTP server.
 
     The HTTP server must satisfy the following API.
@@ -115,7 +115,7 @@ class HttpANNSubprocess(object):
 
 class HttpANNExampleAlgorithm(HttpANN, HttpANNSubprocess):
     """
-    ANN model that serves as a standard "algorithm" (callable from runner.py) and manages an HTTP server that
+    ANN algorithm that serves as a standard "algorithm" (callable from runner.py) and manages an HTTP server that
     implements the actual indexing and query processing algorithms.
 
     By implementing HttpANNSubprocess, it starts a local server (which is implemented further below in the same file).
@@ -132,15 +132,15 @@ class HttpANNExampleAlgorithm(HttpANN, HttpANNSubprocess):
                          use_dims=use_dims)
 
 
-# Starts a local flask server that adheres to the HttpANN API and delegates the work to a local ANN model.
+# Starts a local flask server that adheres to the HttpANN API and delegates the work to a local ANN algorithm.
 if __name__ == "__main__" and sys.argv[-1] == "example":
 
-    class SimpleANNModel(object):
+    class SimpleANNAlgo(object):
         """
-        Very simple ANN model intended only to demonstrate the HttpANN functionality.
-        This model is instantiated and called from the example server below.
-        The model is approximate in the sense that it uses exact KNN constrained to a configurable subset of the
-        highest variance dimensions. For example, if dimensions=100 and use_dims=0.22, the model picks the 22
+        Very simple ANN algorithm intended only to demonstrate the HttpANN functionality.
+        This algorithm is instantiated and called from the example server below.
+        The algorithm is approximate in the sense that it uses exact KNN constrained to a configurable subset of the
+        highest variance dimensions. For example, if dimensions=100 and use_dims=0.22, the algorithm picks the 22
         dimensions with the highest variance and use them for exact KNN.
         """
 
@@ -185,8 +185,8 @@ if __name__ == "__main__" and sys.argv[-1] == "example":
 
     app = Flask(__name__)
 
-    # Model is instantiated later but needs to be attached to an object.
-    app.model = None
+    # Algorithm is instantiated later but needs to be attached to an object.
+    app.algo = None
 
     @app.route("/status", methods=['GET'])
     def status():
@@ -194,39 +194,39 @@ if __name__ == "__main__" and sys.argv[-1] == "example":
 
     @app.route("/init", methods=['POST'])
     def init():
-        app.model = SimpleANNModel(**request.json)
+        app.algo = SimpleANNAlgo(**request.json)
         return jsonify(dict()), 201
 
     @app.route("/load_index", methods=['POST'])
     def load_index():
-        b = app.model.load_index(**request.json)
+        b = app.algo.load_index(**request.json)
         return jsonify(dict(load_index=b)), 201
 
     @app.route("/fit", methods=['POST'])
     def fit():
-        app.model.fit(**request.json)
+        app.algo.fit(**request.json)
         return jsonify(dict()), 201
 
     @app.route("/set_query_arguments", methods=['POST'])
     def set_query_arguments():
-        app.model.set_query_arguments(**request.json)
+        app.algo.set_query_arguments(**request.json)
         return jsonify(dict()), 201
 
     @app.route("/query", methods=['POST'])
     def query():
         j = request.json
-        app.model.query(np.array(j['X']), j['k'])
+        app.algo.query(np.array(j['X']), j['k'])
         return jsonify(dict()), 201
 
     @app.route("/range_query", methods=['POST'])
     def range_query():
         j = request.json
-        app.model.query(np.array(j['X']), j['radius'])
+        app.algo.query(np.array(j['X']), j['radius'])
         return jsonify(dict()), 201
 
     @app.route("/get_results", methods=['POST'])
     def get_results():
-        neighbors = [arr.tolist() for arr in app.model.res]
+        neighbors = [arr.tolist() for arr in app.algo.res]
         return jsonify(dict(get_results=neighbors)), 200
 
     @app.route("/get_range_results", methods=['POST'])
@@ -235,7 +235,7 @@ if __name__ == "__main__" and sys.argv[-1] == "example":
 
     @app.route("/get_additional", methods=['POST'])
     def get_additional():
-        return jsonify(dict(get_additional=app.model.get_additional())), 200
+        return jsonify(dict(get_additional=app.algo.get_additional())), 200
 
     app.run('0.0.0.0', 8080, debug=False)
     # We could also use gevent/wsgi for a more professional setup.
