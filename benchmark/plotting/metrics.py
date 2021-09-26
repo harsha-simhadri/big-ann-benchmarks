@@ -60,6 +60,12 @@ def dist_computations(nq, attrs):
 def watt_seconds_per_query(queries, attrs):
     return power_capture.compute_watt_seconds_per_query(queries, attrs )
 
+def ssd_ios(attrs):
+    return attrs.get("ssd_ios", 0)
+
+def mean_latency(attrs):
+    return attrs.get("mean_latency", 0)
+
 all_metrics = {
     "k-nn": {
         "description": "Recall",
@@ -104,5 +110,15 @@ all_metrics = {
         "function": lambda true_nn, run_nn, metrics, run_attrs: watt_seconds_per_query(true_nn, run_attrs),  
         "worst": float("-inf")
     },
+    "ssd_ios": {
+        "description": "Average SSD I/Os per query",
+        "function": lambda true_nn, run_nn, metrics, run_attrs: ssd_ios(run_attrs),  
+        "worst": float("inf")
+    },
+    "mean_latency": {
+        "description": "Mean latency across queries",
+        "function": lambda true_nn, run_nn, metrics, run_attrs: mean_latency(run_attrs),  
+        "worst": float("inf")
+    }
 
 }
