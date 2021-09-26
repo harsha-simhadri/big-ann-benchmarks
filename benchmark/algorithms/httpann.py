@@ -22,12 +22,14 @@ class HttpANN(BaseANN):
 
     | Method | Route                | Request Body                                                                                               | Expected Status | Response Body                                                              |
     | ------ | -------------------- | ---------------------------------------------------------------------------------------------------------- | --------------- | -------------------------------------------------------------------------- |
-    | POST   | /init                | dictionary of constructor arguments, e.g., {"metric": "euclidean", "dimension": 99 }                       | 201             | { }                                                                        |
-    | POST   | /load_index          | { "dataset": <dataset name, e.g. "bigann-10m"> }                                                           | 201             | { "load_index": <Boolean indicating whether the index can be loaded> }     |
-    | POST   | /set_query_arguments | dictionary of query arguments                                                                              | 201             | { }                                                                        |
-    | POST   | /query               | { "X": <query vectors as list of lists of floats>, "k": <number of neighbors to find and keep in memory> } | 201             | { }                                                                        |
-    | POST   | /get_results         | { }                                                                                                        | 200             | { “get_results”: <neighbors as list of lists of ints> }                    |
-    | POST   | /get_additional      | { }                                                                                                        | 200             | { “get_additional”: <dictionary of arbitrary additional result metadata> } |
+    | POST   | /init                | dictionary of constructor arguments, e.g., {"metric": "euclidean", "dimension": 99 }                       | 200             | { }                                                                        |
+    | POST   | /load_index          | { "dataset": <dataset name, e.g. "bigann-10m"> }                                                           | 200             | { "load_index": <Boolean indicating whether the index can be loaded> }     |
+    | POST   | /set_query_arguments | dictionary of query arguments                                                                              | 200             | { }                                                                        |
+    | POST   | /query               | { "X": <query vectors as list of lists of floats>, "k": <number of neighbors to find and keep in memory> } | 200             | { }                                                                        |
+    | POST   | /range_query         | { "X": <query vectors as list of lists of floats>, “radius”: <distance to neighbors> }                     | 200             | { }                                                                        |
+    | POST   | /get_results         | { }                                                                                                        | 200             | { "get_results": <neighbors as list of lists of ints> }                    |
+    | POST   | /get_additional      | { }                                                                                                        | 200             | { "get_additional": <dictionary of arbitrary additional result metadata> } |
+    | POST   | /get_range_results   | { }                                                                                                        | 200             | { "get_range_results": <list of three 1-dimensional lists (lims, I, D)> }  |
 
     Note that this is a 1:1 copy of the BaseANN Python Class API implemented as remote procedure calls.
     """
@@ -41,7 +43,7 @@ class HttpANN(BaseANN):
 
         # Let the server start and post to init.
         time.sleep(start_seconds)
-        self.post("init", kwargs, 201)
+        self.post("init", kwargs, 200)
 
     def post(self, path: str, body: dict, expected_status: int) -> dict:
         url = f"{self.server_url}/{path}"
@@ -52,26 +54,32 @@ class HttpANN(BaseANN):
 
     def fit(self, dataset):
         body = dict(dataset=dataset)
-        self.post("fit", body, 201)
+        self.post("fit", body, 200)
 
     def load_index(self, dataset):
         body = dict(dataset=dataset)
-        json = self.post("load_index", body, 201)
+        json = self.post("load_index", body, 200)
         return json["load_index"]
 
     def query(self, X, k):
         body = dict(X=[arr.tolist() for arr in X], k=k)
-        self.post("query", body, 201)
+        self.post("query", body, 200)
 
     def range_query(self, X, radius):
-        pass
+        body = dict(X=[arr.tolist() for arr in X], radius=radius)
+        self.post("range_query", body, 200)
 
     def get_results(self):
         json = self.post("get_results", dict(), 200)
         return np.array(json["get_results"])
 
     def get_range_results(self):
-        pass
+        json = self.post("get_range_results", dict(), 200)
+        [lims, I, D] = json["get_range_results"]
+        print(lims[:10], lims[-10:])
+        print(I[:10], I[-10:])
+        print(D[:10], D[-10:])
+        return np.array(lims, 'int32'), np.array(I, 'int32'), np.array(D, 'float32')
 
     def get_additional(self):
         json = self.post("get_additional", dict(), 200)
@@ -79,7 +87,7 @@ class HttpANN(BaseANN):
 
     def set_query_arguments(self, query_args):
         body = dict(query_args=query_args)
-        self.post("set_query_arguments", body, 201)
+        self.post("set_query_arguments", body, 200)
 
 
 class HttpANNError(RuntimeError):
@@ -169,7 +177,16 @@ if __name__ == "__main__" and sys.argv[-1] == "example":
             self.res = self.knn.kneighbors(X[:, self.high_variance_dims], n_neighbors=k, return_distance=False)
 
         def range_query(self, X, radius):
-            self.res = self.knn.radius_neighbors(X[:, self.high_variance_dims], radius=radius, return_distance=False)
+            nbrs, dsts = self.knn.radius_neighbors(X[:, self.high_variance_dims], radius=radius, return_distance=True)
+            total = sum(map(len, nbrs))
+            lims = np.zeros(len(X) + 1, 'int32')
+            I = np.zeros(total, 'int32')
+            D = np.zeros(total, 'float32')
+            for i in range(len(X)):
+                lims[i + 1] = lims[i] + len(nbrs[i])
+                I[lims[i]:lims[i + 1]] = nbrs[i]
+                D[lims[i]:lims[i + 1]] = dsts[i]
+            self.res = (lims, I, D)
 
         def get_results(self):
             return self.res
@@ -195,34 +212,34 @@ if __name__ == "__main__" and sys.argv[-1] == "example":
     @app.route("/init", methods=['POST'])
     def init():
         app.algo = SimpleANNAlgo(**request.json)
-        return jsonify(dict()), 201
+        return jsonify(dict()), 200
 
     @app.route("/load_index", methods=['POST'])
     def load_index():
         b = app.algo.load_index(**request.json)
-        return jsonify(dict(load_index=b)), 201
+        return jsonify(dict(load_index=b)), 200
 
     @app.route("/fit", methods=['POST'])
     def fit():
         app.algo.fit(**request.json)
-        return jsonify(dict()), 201
+        return jsonify(dict()), 200
 
     @app.route("/set_query_arguments", methods=['POST'])
     def set_query_arguments():
         app.algo.set_query_arguments(**request.json)
-        return jsonify(dict()), 201
+        return jsonify(dict()), 200
 
     @app.route("/query", methods=['POST'])
     def query():
         j = request.json
         app.algo.query(np.array(j['X']), j['k'])
-        return jsonify(dict()), 201
+        return jsonify(dict()), 200
 
     @app.route("/range_query", methods=['POST'])
     def range_query():
         j = request.json
-        app.algo.query(np.array(j['X']), j['radius'])
-        return jsonify(dict()), 201
+        app.algo.range_query(np.array(j['X']), j['radius'])
+        return jsonify(dict()), 200
 
     @app.route("/get_results", methods=['POST'])
     def get_results():
@@ -231,7 +248,13 @@ if __name__ == "__main__" and sys.argv[-1] == "example":
 
     @app.route("/get_range_results", methods=['POST'])
     def get_range_results():
-        return jsonify(dict(error="Not implemented")), 501
+        lims, I, D = app.algo.get_range_results()
+        res = [
+            lims.tolist(),
+            [arr.tolist() for arr in I],
+            [arr.tolist() for arr in D]
+        ]
+        return jsonify(dict(get_range_results=res)), 200
 
     @app.route("/get_additional", methods=['POST'])
     def get_additional():
