@@ -167,7 +167,8 @@ if __name__ == "__main__" and sys.argv[-1] == "example":
             self.knn.fit(arr[:, self.high_variance_dims])
 
         def load_index(self, dataset):
-            return dataset in DATASETS
+            # Always returns false because the index is not stored.
+            return False
 
         def query(self, X, k):
             self.res = self.knn.kneighbors(X[:, self.high_variance_dims], n_neighbors=k, return_distance=False)
