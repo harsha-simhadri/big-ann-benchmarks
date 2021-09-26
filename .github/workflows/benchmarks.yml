@@ -26,10 +26,10 @@ jobs:
             library: diskann
           - algorithm: http-ann-example
             dataset: random-xs
-            library: http-ann
+            library: httpannexample
           - algorithm: http-ann-example
             dataset: random-range-xs
-            library: http-ann
+            library: httpannexample
       fail-fast: false
 
     steps:
