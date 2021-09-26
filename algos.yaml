@@ -509,9 +509,8 @@ bigann-10M:
      run-groups:
        base:
          args:
-           - [0.08]
-         query-args:
-           - []
+           - [0.2]
+         query-args: []
 
 msturing-1M:
    diskann-t2:
