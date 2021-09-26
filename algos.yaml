@@ -90,6 +90,17 @@ deep-10M:
               "nprobe=2,quantizer_efSearch=8",
               "nprobe=4,quantizer_efSearch=4",
               "nprobe=2,quantizer_efSearch=16"]
+    diskann-t2:
+      docker-tag: billion-scale-benchmark-diskann
+      module: benchmark.algorithms.diskann-t2
+      constructor: Diskann
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"R":100, "L":100, "B":0.3, "M":15}]
+          query-args: |
+              [{"Ls":50, "BW":4, "T":16}]
 deep-1B:
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
@@ -478,18 +489,6 @@ ssnpp-10M:
               "nprobe=1,quantizer_efSearch=4,ht=98",
               "nprobe=1,quantizer_efSearch=4,ht=104",
               "nprobe=1,quantizer_efSearch=4,ht=112"]
-deep-10M:
-   diskann-t2:
-      docker-tag: billion-scale-benchmark-diskann
-      module: benchmark.algorithms.diskann-t2
-      constructor: Diskann
-      base-args: ["@metric"]
-      run-groups:
-        base:
-          args: |
-              [{"R":100, "L":100, "B":0.3, "M":15}]
-          query-args: |
-              [{"Ls":50, "BW":4, "T":16}]
 bigann-10M:
    diskann-t2:
       docker-tag: billion-scale-benchmark-diskann
@@ -502,17 +501,17 @@ bigann-10M:
               [{"R":100, "L":100, "B":0.3, "M":15}]
           query-args: |
               [{"Ls":50, "BW":4, "T":16}]
-   language-agnostic:
-     docker-tag: billion-scale-benchmark-language-agnostic
-     module: benchmark.algorithms.language_agnostic
-     constructor: SklearnRunner
+   http-ann-example:
+     docker-tag: billion-scale-benchmark-http-ann-example
+     module: benchmark.algorithms.httpann
+     constructor: HttpANNExampleModel
      base-args: [ "@metric", "@dimension" ]
      run-groups:
        base:
          args:
-           - [0.2]
-         query-args: |
-           [{"Ls":50, "BW":4, "T":16}]
+           - [0.08]
+         query-args:
+           - []
 
 msturing-1M:
    diskann-t2:
