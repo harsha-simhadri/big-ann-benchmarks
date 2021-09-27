@@ -3,6 +3,10 @@ import psutil
 
 class BaseANN(object):
     def done(self):
+        """
+        This is called after results have been processed.
+        Use it for cleaning up if necessary.
+        """
         pass
 
     def track(self):
@@ -11,13 +15,14 @@ class BaseANN(object):
         return "T2" if submitting an entry for track 2
         return "T3" if submitting an entry for track 3
         """
+        raise NotImplementedError()
 
     def fit(self, dataset):
         """
         Build the index for the data points given in dataset name.
         Assumes that after fitting index is loaded in memory.
         """
-        pass
+        raise NotImplementedError()
 
     def load_index(self, dataset):
         """
@@ -27,7 +32,7 @@ class BaseANN(object):
         Checking the index usually involves the dataset name
         and the index build paramters passed during construction.
         """
-        pass
+        raise NotImplementedError()
 
     def index_files_to_store(self, dataset):
         """
@@ -38,19 +43,20 @@ class BaseANN(object):
 
         For local directory path under docker environment, please use
         a directory under
-        data/indices/track(T1 or T2)/algo.__str__()/DATASETS[dataset]().short_name() 
+        data/indices/track(T1 or T2)/algo.__str__()/DATASETS[dataset]().short_name()
         """
+        raise NotImplementedError()
 
     def query(self, X, k):
         """Carry out a batch query for k-NN of query set X."""
-        pass
+        raise NotImplementedError()
 
     def range_query(self, X, radius):
         """
         Carry out a batch query for range search with
         radius.
         """
-        pass
+        raise NotImplementedError()
 
     def get_results(self):
         """
