@@ -157,12 +157,21 @@ The plot.py script supports other benchmarks.  To see a complete list, run:
 python plot.py --help
 ```
 
-Here are all the baseline recall@10 vs throughput plots for the (knn search type) datasets:
-* [msturing-1B]()
-* [bigann-1B]()
-* [text2image-1B]()
-* [deep-1B]()
-* [msspacev-1B]()
+Here are all the FAISS baseline recall@10 (AP for SSNPP) vs throughput plots for T1:
+* [msturing-1B](results/T1/msturing-1B.png)
+* [bigann-1B](results/T1/bigann-1B.png)
+* [text2image-1B](results/T1/text2image-1B.png)
+* [deep-1B](results/T1/deep-1B.png)
+* [msspacev-1B](results/T1/msspacev-1B.png)
+* [ssnpp-1B](results/T1/ssnpp-1B.png)
+
+Here are all the DiskANN baseline recall@10 (AP for SSNPP) vs throughput plots for T2:
+* [msturing-1B](results/T2/msturing-1B.png)
+* [bigann-1B](results/T2/bigann-1B.png)
+* [text2image-1B](results/T2/text2image-1B.png)
+* [deep-1B](results/T2/deep-1B.png)
+* [msspacev-1B](results/T2/msspacev-1B.png)
+* [ssnpp-1B](results/T2/ssnpp-1B.png)
 
 To get a table overview over the best recall/ap achieved over a certain QPS threshold, run `python3 eval/show_operating_points.py --algorithm $ALGO --threshold $THRESHOLD res.csv`, where `res.csv` is the file produced by running `data_export.py` above.
 
