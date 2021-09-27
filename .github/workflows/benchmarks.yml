@@ -24,12 +24,12 @@ jobs:
           - algorithm: diskann-t2
             dataset: random-range-xs
             library: diskann
-          - algorithm: http-ann-example
+          - algorithm: httpann_example
             dataset: random-xs
-            library: httpannexample
-          - algorithm: http-ann-example
+            library: httpann_example
+          - algorithm: httpann_example
             dataset: random-range-xs
-            library: httpannexample
+            library: httpann_example
       fail-fast: false
 
     steps:
