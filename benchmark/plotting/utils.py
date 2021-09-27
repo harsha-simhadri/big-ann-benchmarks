@@ -67,16 +67,12 @@ def compute_metrics(true_nn, res, metric_1, metric_2,
 
     return all_results
 
-def compute_metrics_all_runs(dataset, res, recompute=False):
+def compute_metrics_all_runs(dataset, res, recompute=False, sensor_metrics=False):
     try:
         true_nn = dataset.get_groundtruth()
     except:
         print(f"Groundtruth for {dataset} not found.")
         return
-
-    # removes 'wspq' metric if no power benchmarks found 
-    # in the loaded runs
-    power_capture.detect_power_benchmarks(metrics, res)
 
     search_type = dataset.search_type()
     for i, (properties, run) in enumerate(res):
@@ -112,6 +108,8 @@ def compute_metrics_all_runs(dataset, res, recompute=False):
             if search_type == "knn" and name == "ap" or\
                 search_type == "range" and name == "k-nn":
                 continue
+            if not sensor_metrics and name=="wspq": #don't process sensor_metrics by default
+                break
             v = metric["function"](true_nn, run_nn, metrics_cache, properties)
             run_result[name] = v
         yield run_result

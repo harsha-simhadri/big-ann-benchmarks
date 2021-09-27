@@ -182,25 +182,26 @@ def main():
         logger.info(f'running only {args.algorithm}')
         definitions = [d for d in definitions if d.algorithm == args.algorithm]
 
-    # See which Docker images we have available
-    docker_client = docker.from_env()
-    docker_tags = set()
-    for image in docker_client.images.list():
-        for tag in image.tags:
-            tag = tag.split(':')[0]
-            docker_tags.add(tag)
+    if not args.nodocker:
+        # See which Docker images we have available
+        docker_client = docker.from_env()
+        docker_tags = set()
+        for image in docker_client.images.list():
+            for tag in image.tags:
+                tag = tag.split(':')[0]
+                docker_tags.add(tag)
 
-    if args.docker_tag:
-        logger.info(f'running only {args.docker_tag}')
-        definitions = [
-            d for d in definitions if d.docker_tag == args.docker_tag]
+        if args.docker_tag:
+            logger.info(f'running only {args.docker_tag}')
+            definitions = [
+                d for d in definitions if d.docker_tag == args.docker_tag]
 
-    if set(d.docker_tag for d in definitions).difference(docker_tags) and not args.nodocker:
-        logger.info(f'not all docker images available, only: {set(docker_tags)}')
-        logger.info(f'missing docker images: '
-                    f'{str(set(d.docker_tag for d in definitions).difference(docker_tags))}')
-        definitions = [
-            d for d in definitions if d.docker_tag in docker_tags]
+        if set(d.docker_tag for d in definitions).difference(docker_tags):
+            logger.info(f'not all docker images available, only: {set(docker_tags)}')
+            logger.info(f'missing docker images: '
+                        f'{str(set(d.docker_tag for d in definitions).difference(docker_tags))}')
+            definitions = [
+                d for d in definitions if d.docker_tag in docker_tags]
 
     if args.max_n_algorithms >= 0:
         definitions = definitions[:args.max_n_algorithms]

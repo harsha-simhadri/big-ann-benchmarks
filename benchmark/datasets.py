@@ -204,7 +204,9 @@ class Dataset():
     def default_count(self):
         return 10
 
-
+    def short_name(self):
+        return f"{self.__class__.__name__}-{self.nb}"
+    
     def __str__(self):
         return (
             f"Dataset {self.__class__.__name__} in dimension {self.d}, with distance {self.distance()}, "
