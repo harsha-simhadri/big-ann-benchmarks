@@ -84,9 +84,11 @@ class BaseANN(object):
 
     def get_additional(self):
         """
-        Retrieve  additional results. 
-        Return a dictionary with a subset of the following keys
+        Retrieve additional results.
+        Return a dictionary with metrics
         and corresponding measured values.
+
+        The following additional metrics are supported:
 
         `mean_latency` in microseconds, if this applies to your algorithm.
         Skip if your algorithm batches query processing.
@@ -98,12 +100,6 @@ class BaseANN(object):
         to which a query was compared.
 
         `ssd_ios` is the average number of SSD I/Os per query for T2 algorithms.
-        """
-        return {}
-
-    def get_additional(self):
-        """
-        Allows to retrieve additional results.
         """
         return {}
 
