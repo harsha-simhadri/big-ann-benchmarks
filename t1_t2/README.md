@@ -128,7 +128,7 @@ python create_dataset.py --dataset [sift-1B|bigann-1B|text2image-1B|msturing-1B|
 ```
 To benchmark your algorithm, first create an algorithm configuration yaml in your teams directory called *algos.yaml.*  This file contains the index build parameters and query parameters that will get passed to your algorithm at run-time.  Please look at [algos.yaml](../algos.yaml).
 
-If your machine is capable of both building and searching an index, you can benchmark your algorithm using the run.py script:
+If your machine is capable of both building and searching an index, you can benchmark your algorithm using the run.py script. 
 ```
 python run.py --algorithm diskann-t2 --dataset deep-1B
 ```
@@ -146,7 +146,7 @@ python run.py --algorithm diskann-t2 --dataset deep-1B --download-index --blob-p
 ### Measuring_Your_Algorithm
 
 
-Now you can analyze the results by running (sudo might be required):
+Now you can analyze the results using plot.py. Sudo might be required here. To avoid sudo, run `sudo chmod -R 777 results/` before invoking these scripts.
 ```
 python plot.py --algorithm [your_team_name] --dataset deep-1B
 ```
@@ -173,9 +173,13 @@ Here are all the DiskANN baseline recall@10 (AP for SSNPP) vs throughput plots f
 * [msspacev-1B](results/T2/msspacev-1B.png)
 * [ssnpp-1B](results/T2/ssnpp-1B.png)
 
-To get a table overview over the best recall/ap achieved over a certain QPS threshold, run `python3 eval/show_operating_points.py --algorithm $ALGO --threshold $THRESHOLD res.csv`, where `res.csv` is the file produced by running `data_export.py` above.
+To get a table overview over the best recall/ap achieved over a certain QPS threshold, run 
+```
+python3 data_export.py --output res.csv
+python3 eval/show_operating_points.py --algorithm $ALGO --threshold $THRESHOLD res.csv
+```
 
-For the track1 baseline, the output `python3 eval/show_operating_points.py --algorithm faiss-t1 --threshold 10000 res.csv` led to
+For the track1 baseline, the output, this led to
 
 ```
                          recall/ap
@@ -188,7 +192,7 @@ faiss-t1  bigann-1B       0.634510
           text2image-1B   0.069275
 ```
 
-For the track2 baseline, the output `python3 eval/show_operating_points.py --algorithm diskann-t1 --threshold 10000 res.csv` led to
+For the track2 baseline, this led to
 
 ```
                          recall/ap
@@ -203,14 +207,13 @@ diskann-t2  bigann-1B       0.94913
 
 ### Submitting_Your_Algorithm
 
-A submission is composed of the following. 
+A submission is composed of a pull request to this repo with the following. 
+* Your algorithm's python class, inheriting from `BaseANN`, placed in the [benchmark/algorithms/](../benchmark/algorithms) directory.
+* A Dockerfile in `install/` describing how to retrieve, compile and set up requirements for your algorithm.
 * For each dataset you are participating in, add to [algos.yaml](../algos.yaml)
   * 1 index build configuration 
   * 10 search configuration
-  * Optionally an URL to download any prebuilt indices. This would help us evaluate faster, although we would build your index to verify the time limit.
-* Your algorithm's python class ( placed in the [benchmark/algorithms/](../benchmark/algorithms) directory.)
-
-If you are unable to host the index on your own Azure blob storage, please let us know and we can arrange to have it copied to organizer's account.
+* An URL to download any prebuilt indices placed in `algos.yaml`. **This is optional, but strongly encourages.** This would help us evaluate faster, although we would build your index to verify the time limit. Please see `faiss_t1.py` and `diskann-t2.py` for examples. If you are unable to host the index on your own Azure blob storage, please let us know and we can arrange to have it copied to organizer's account.
 
 We will run early PRs on organizer's machines to the extent possible and provide any feedback necessary.
 
