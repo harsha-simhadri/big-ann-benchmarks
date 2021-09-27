@@ -79,8 +79,17 @@ def ivecs_read(fname):
 
 def xbin_mmap(fname, dtype, maxn=-1):
     """ mmap the competition file format for a given type of items """
-    n, d = map(int, np.fromfile(fname, dtype="uint32", count=2))
-    assert os.stat(fname).st_size == 8 + n * d * np.dtype(dtype).itemsize
+    # for search
+    # n, d = map(int, np.fromfile(fname, dtype="uint32", count=2))
+    # for dim reduced file of dtype float32
+    n, d = map(int, np.fromfile(fname, dtype="float32", count=2))
+    n = 100000000
+    d = 32
+    dtype = "float32"
+    print(f"fname={fname} n={n} d={d} dtype={dtype} os.stat(fname).st_size={os.stat(fname).st_size} np.dtype(dtype).itemsize={np.dtype(dtype).itemsize}")
+    # offset = 8
+    offset = 0
+    assert os.stat(fname).st_size == offset + n * d * np.dtype(dtype).itemsize
     if maxn > 0:
         n = min(n, maxn)
     return np.memmap(fname, dtype=dtype, mode="r", offset=8, shape=(n, d))
@@ -278,6 +287,7 @@ class DatasetCompetitionFormat(Dataset):
         i0, i1 = self.nb * rank // nsplit, self.nb * (rank + 1) // nsplit
         filename = self.get_dataset_fn()
         x = xbin_mmap(filename, dtype=self.dtype, maxn=self.nb)
+        print(f"x.shape={x.shape} self.nb={self.nb} self.d={self.d}")
         assert x.shape == (self.nb, self.d)
         for j0 in range(i0, i1, bs):
             j1 = min(j0 + bs, i1)
@@ -368,6 +378,33 @@ class BigANNDataset(DatasetCompetitionFormat):
 
     def distance(self):
         return "euclidean"
+
+
+class BigANNDimReducedDataset(DatasetCompetitionFormat):
+    def __init__(self, nb_M=1000):
+        self.nb_M = nb_M
+        self.nb = 10**6 * nb_M
+        self.d = 32
+        self.nq = 10000
+        # use for indexing of the dimensionality reduced dataset
+        self.dtype = "float32"
+        # use for search over the index built from the dimensionality reduced dataset
+        # self.dtype = "uint8"
+        self.ds_fn = "base.1B.u8bin"
+        self.qs_fn = "query.public.10K.u8bin"
+        self.gt_fn = (
+            "GT.public.1B.ibin" if self.nb_M == 1000 else
+            subset_url + "GT_100M/bigann-100M" if self.nb_M == 100 else
+            subset_url + "GT_10M/bigann-10M" if self.nb_M == 10 else
+            None
+        )
+        # self.gt_fn = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/bigann/public_query_gt100.bin" if self.nb == 10**9 else None
+        self.base_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/bigann/"
+        self.basedir = os.path.join(BASEDIR, "bigann")
+
+    def distance(self):
+        return "euclidean"
+
 
 class Deep1BDataset(DatasetCompetitionFormat):
     def __init__(self, nb_M=1000):
@@ -600,6 +637,7 @@ DATASETS = {
     'bigann-1B': lambda : BigANNDataset(1000),
     'bigann-100M': lambda : BigANNDataset(100),
     'bigann-10M': lambda : BigANNDataset(10),
+    'bigann-dim-reduced-100M': lambda: BigANNDimReducedDataset(100),
 
     'deep-1B': lambda : Deep1BDataset(),
     'deep-100M': lambda : Deep1BDataset(100),
