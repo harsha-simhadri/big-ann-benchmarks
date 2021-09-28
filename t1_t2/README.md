@@ -68,7 +68,7 @@ python create_dataset.py --help
 Build the docker container for the T1 or T2 baselines:
 ```
 #for T1
-python install.py --algorithm faiss  
+python install.py --algorithm faissconda  
 #for T2
 python install.py --algorithm diskann
 ```
@@ -78,7 +78,7 @@ python run.py --algorithm faiss_t1 --dataset random-xs
 python run.py --algorithm diskann-t2 --dataset random-xs
 ```
 
-For the competition dataset (e.g. deep-1B), running the following command downloads a prebuilt index and runs te queries locally.
+For the competition dataset (e.g. deep-1B), running the following command downloads a prebuilt index and runs the queries locally.
 ```
 python run.py --algorithm faiss_t1 --dataset deep-1B
 python run.py --algorithm diskann-t2 --dataset deep-1B
@@ -108,7 +108,7 @@ git checkout -b t2/[your_team_name]
 
 This framework evaluates algorithms in Docker containers by default.  Your algorithm's Dockerfile should live in *install/Docker.[your_team_name]*.  Your Docker file should contain everything needed to install and run your algorithm on a system with the same hardware. 
 
-Please consult the Dockerfiles [here](../install/Dockerfile.faiss) and [here](../install/Dockerfile.diskann) for examples.
+Please consult the Dockerfiles [here](../install/Dockerfile.faissconda) and [here](../install/Dockerfile.diskann) for examples.
 
 To build your Docker container, run:
 ```
