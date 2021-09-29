@@ -47,7 +47,7 @@ def store_results(dataset, count, definition, query_arguments,
         for i, idxs in enumerate(results):
             neighbors[i] = idxs
     elif search_type == "range":
-        lims, D, I= results
+        lims, I, D= results
         f.create_dataset('neighbors', data=I)
         f.create_dataset('lims', data=lims)
         f.create_dataset('distances', data=D)
