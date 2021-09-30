@@ -203,7 +203,7 @@ class Diskann(BaseANN):
         """
         nq, dim = np.shape(X)
         self.rangeres_lim, (self.rangeres_ids, self.rangeres_dists) = self.index.batch_range_search_numpy_input(
-                X, dim, nq, radius, self.Ls, self.BW, self.threads)
+                X, dim, nq, radius, self.Lmin, self.Lmax, self.BW, self.threads)
 
     def get_range_results(self):
         return (self.rangeres_lim, self.rangeres_ids, self.rangeres_dists)
@@ -216,6 +216,8 @@ class Diskann(BaseANN):
 
     def set_query_arguments(self, query_args):
         self._query_args = query_args
-        self.Ls = self._query_args.get("Ls")
+        self.Ls = 0 if query_args.get("Ls") == None else query_args.get("Ls")        
+        self.Lmin = 0 if query_args.get("Lmin") == None else query_args.get("Lmin")        
+        self.Lmax = 0 if query_args.get("Lmax") == None else query_args.get("Lmax")                        
         self.BW = self._query_args.get("BW")
         self.threads = self._query_args.get("T")

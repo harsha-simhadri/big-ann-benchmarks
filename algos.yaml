@@ -44,7 +44,7 @@ random-range-xs:
           args: |
               [{"R":32, "L":32, "B":0.0001, "M":1}]
           query-args: |
-              [{"Ls":10, "BW":4, "T":16}]
+              [{"Lmin":3, "Lmax":100, "BW":4, "T":16}]
 random-xs:
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
@@ -396,16 +396,8 @@ ssnpp-1B:
                 "url": "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/diskann-T2-baseline-indices/fbssnpp-1B/R100_L100_B60_M100"
                 }]
           query-args: |
-              [{"Ls":30, "BW":4, "T":16},
-              {"Ls":40, "BW":4, "T":16},
-              {"Ls":50, "BW":4, "T":16},
-              {"Ls":55, "BW":4, "T":16},
-              {"Ls":60, "BW":4, "T":16},
-              {"Ls":62, "BW":4, "T":16},
-              {"Ls":65, "BW":4, "T":16},
-              {"Ls":70, "BW":4, "T":16},
-              {"Ls":80, "BW":4, "T":16},
-              {"Ls":100, "BW":4, "T":16}]
+              [{"Lmin":4, "Lmax":16000, "BW":4, "T":16},
+              {"Lmin":6, "Lmax":20000, "BW":4, "T":16}]
 text2image-1B:
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
