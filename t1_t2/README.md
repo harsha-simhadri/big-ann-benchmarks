@@ -201,7 +201,7 @@ diskann-t2  bigann-1B       0.94913
             deep-1B         0.93706
             msspacev-1B     0.90095
             msturing-1B     0.93564
-            ssnpp-1B        NaN
+            ssnpp-1B        0.16274
             text2image-1B   0.48854
 ```
 

@@ -206,7 +206,7 @@ class Diskann(BaseANN):
                 X, dim, nq, radius, self.Lmin, self.Lmax, self.BW, self.threads)
 
     def get_range_results(self):
-        return (self.rangeres_lim, self.rangeres_ids, self.rangeres_dists)
+        return (self.rangeres_lim, self.rangeres_dists, self.rangeres_ids)
 
     def get_additional(self):
         """

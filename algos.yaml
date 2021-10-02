@@ -396,8 +396,16 @@ ssnpp-1B:
                 "url": "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/diskann-T2-baseline-indices/fbssnpp-1B/R100_L100_B60_M100"
                 }]
           query-args: |
-              [{"Lmin":4, "Lmax":16000, "BW":4, "T":16},
-              {"Lmin":6, "Lmax":20000, "BW":4, "T":16}]
+              [{"Lmin":8, "Lmax":10000, "BW":4, "T":16},
+               {"Lmin":12, "Lmax":10000, "BW":4, "T":16},
+               {"Lmin":8, "Lmax":20000, "BW":4, "T":16},
+               {"Lmin":12, "Lmax":20000, "BW":4, "T":16},
+               {"Lmin":8, "Lmax":30000, "BW":4, "T":16},
+               {"Lmin":12, "Lmax":30000, "BW":4, "T":16},
+               {"Lmin":16, "Lmax":30000, "BW":4, "T":16},
+               {"Lmin":8, "Lmax":45000, "BW":4, "T":16},
+               {"Lmin":12, "Lmax":45000, "BW":4, "T":16},
+               {"Lmin":16, "Lmax":45000, "BW":4, "T":16}]
 text2image-1B:
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
