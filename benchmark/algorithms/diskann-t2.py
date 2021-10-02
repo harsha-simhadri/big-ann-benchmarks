@@ -195,6 +195,7 @@ class Diskann(BaseANN):
         """Carry out a batch query for k-NN of query set X."""
         nq, dim = (np.shape(X))
         [self.res, self.query_dists], self.stats = self.index.batch_search_numpy_input(X, dim, nq, k, self.Ls, self.BW, self.threads)
+        self.stats["dist_comps"] = self.stats["mean_dist_comps"] * nq
 
     def range_query(self, X, radius):
         """
@@ -204,7 +205,8 @@ class Diskann(BaseANN):
         nq, dim = np.shape(X)
         [self.rangeres_lim, [self.rangeres_ids, self.rangeres_dists]], self.stats = self.index.batch_range_search_numpy_input(
                 X, dim, nq, radius, self.Lmin, self.Lmax, self.BW, self.threads)
-
+        self.stats["dist_comps"] = self.stats["mean_dist_comps"] * nq
+        
     def get_range_results(self):
         return (self.rangeres_lim, self.rangeres_dists, self.rangeres_ids)
 

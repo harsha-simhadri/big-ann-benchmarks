@@ -96,10 +96,10 @@ class BaseANN(object):
         `latency_999` is the 99.9pc latency in microseconds, if this applies
         to your algorithm. Skip if your algorithm batches query processing.
 
-        `dist_comps` is the average number of points in the base set
+        `dist_comps` is the total number of points in the base set
         to which a query was compared.
 
-        `ssd_ios` is the average number of SSD I/Os per query for T2 algorithms.
+        `mean_ssd_ios` is the average number of SSD I/Os per query for T2 algorithms.
         """
         return {}
 
