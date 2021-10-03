@@ -87,7 +87,7 @@ class HttpANN(BaseANN):
         json = self.post("get_additional", dict(), 200)
         return json["get_additional"]
 
-    def set_query_arguments(self, query_args):
+    def set_query_arguments(self, *query_args):
         body = dict(query_args=query_args)
         self.post("set_query_arguments", body, 200)
 
