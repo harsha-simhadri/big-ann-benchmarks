@@ -69,7 +69,7 @@ class BaseANN(object):
     def get_range_results(self):
         """
         Helper method to convert query results of range search.
-        If there are nq queries, returns a triple lims, I, D.
+        If there are nq queries, returns a triple lims, D, I.
         lims is a (nq) array, such that
 
             I[lims[q]:lims[q + 1]] in int
