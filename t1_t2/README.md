@@ -21,7 +21,7 @@ The T1 and T2 tracks evaluate algorithms on standardized Azure CPU servers.
 
 **Track 2:** Out-of-core indices with [DiskANN](https://github.com/Microsoft/diskann) as the baseline. In addition to the limited DRAM in T1, index can use an SSD for search. Search would use Azure [Standard_L8s_v2 VMs](https://docs.microsoft.com/en-us/azure/virtual-machines/lsv2-series) with 8 vCPUS, 64GB RAM and a local SSD Index constrained to 1TB.
 
-Index construction for both tracks would use Azure [Standard_F64s_v2 VM](https://docs.microsoft.com/en-us/azure/virtual-machines/fsv2-series) with 64vCPUs, 128GB RAM and an additional 4TB of SSD to be used for storing the data, index and other intermediate data. There is a **time limit for 4 days per dataset** for index build. 
+Index construction for both tracks would use Azure [Standard_F64s_v2 VM](https://docs.microsoft.com/en-us/azure/virtual-machines/fsv2-series) with 64vCPUs, 128GB RAM and an additional [4TB of Premium SSD](https://docs.microsoft.com/en-us/azure/virtual-machines/disks-types) to be used for storing the data, index and other intermediate data. There is a **time limit for 4 days per dataset** for index build. 
 
 Queries will be supplied in one shot and the algorithm can execute the queries in any order. 
 
