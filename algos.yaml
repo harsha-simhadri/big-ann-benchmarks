@@ -44,7 +44,17 @@ random-range-xs:
           args: |
               [{"R":32, "L":32, "B":0.0001, "M":1}]
           query-args: |
-              [{"Lmin":3, "Lmax":100, "BW":4, "T":16}]
+            [{"Lmin":3, "Lmax":100, "BW":4, "T":16}]
+    httpann_example:
+      docker-tag: billion-scale-benchmark-httpann_example
+      module: benchmark.algorithms.httpann_example
+      constructor: HttpANNExampleAlgorithm
+      base-args: [ "@metric", "@dimension" ]
+      run-groups:
+        base:
+          args:
+            - [ 0.2, 0.4, 1.0 ]
+          query-args: []
 random-xs:
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
@@ -73,6 +83,16 @@ random-xs:
               [{"R":32, "L":32, "B":0.0001, "M":1}]
           query-args: |
               [{"Ls":10, "BW":4, "T":16}]
+    httpann_example:
+      docker-tag: billion-scale-benchmark-httpann_example
+      module: benchmark.algorithms.httpann_example
+      constructor: HttpANNExampleAlgorithm
+      base-args: [ "@metric", "@dimension" ]
+      run-groups:
+        base:
+          args:
+            - [ 0.2, 0.8, 1.0 ]
+          query-args: [ ]
 deep-10M:
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
@@ -90,6 +110,17 @@ deep-10M:
               "nprobe=2,quantizer_efSearch=8",
               "nprobe=4,quantizer_efSearch=4",
               "nprobe=2,quantizer_efSearch=16"]
+    diskann-t2:
+      docker-tag: billion-scale-benchmark-diskann
+      module: benchmark.algorithms.diskann-t2
+      constructor: Diskann
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"R":100, "L":100, "B":0.3, "M":15}]
+          query-args: |
+              [{"Ls":50, "BW":4, "T":16}]
 deep-1B:
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
@@ -478,18 +509,6 @@ ssnpp-10M:
               "nprobe=1,quantizer_efSearch=4,ht=98",
               "nprobe=1,quantizer_efSearch=4,ht=104",
               "nprobe=1,quantizer_efSearch=4,ht=112"]
-deep-10M:
-   diskann-t2:
-      docker-tag: billion-scale-benchmark-diskann
-      module: benchmark.algorithms.diskann-t2
-      constructor: Diskann
-      base-args: ["@metric"]
-      run-groups:
-        base:
-          args: |
-              [{"R":100, "L":100, "B":0.3, "M":15}]
-          query-args: |
-              [{"Ls":50, "BW":4, "T":16}]
 bigann-10M:
    diskann-t2:
       docker-tag: billion-scale-benchmark-diskann
@@ -502,6 +521,7 @@ bigann-10M:
               [{"R":100, "L":100, "B":0.3, "M":15}]
           query-args: |
               [{"Ls":50, "BW":4, "T":16}]
+
 msturing-1M:
    diskann-t2:
       docker-tag: billion-scale-benchmark-diskann

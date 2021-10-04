@@ -63,8 +63,8 @@ python data_export.py --output res.csv
 python3.8 eval/show_operating_points.py --algorithm faiss-t1 --threshold 10000
 ```
 
-
 ## Including your algorithm and Evaluating the Results
+
 See [Track T1/T2](t1_t2/README.md) for more details on evaluation for Tracks T1 and T2.
 
 See [Track T3](t3/README.md) for more details on evaluation for Track T3.
