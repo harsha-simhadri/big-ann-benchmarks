@@ -120,6 +120,7 @@ python install.py --install [your_team_name]
 Develop and add your algorithm's python class to the [benchmark/algorithms](../benchmark/algorithms) directory.
 * You will need to subclass from the [BaseANN class](../benchmark/algorithms/base.py) and implement the functions of that parent class.
 * You should consult the examples already in the directory.
+* If it is difficult to write a Python wrapper, please consult [HttpANN](../benchmark/algorithms/httpann_example.py) for a RESTful API.
 
 
 When you are ready to test on the competition datasets, use the create_dataset.py script as follows:
