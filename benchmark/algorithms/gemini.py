@@ -18,12 +18,6 @@ from tmp_api import *
 import gsl_utils
 import gsld_bindings_rerank as gsld_rerank
 
-#resources_path = 't3/gsi/'
-#case_dir = '1b/'
-#resources_path_case = f'{resources_path}{case_dir}'
-#max_num_queries = 10000
-#num_records = 1000000000
-
 def convert_index_to_cluster_and_ids_lists(index, nbits):
     cluster_list = np.empty(index.invlists.nlist, dtype=object)
     ids_list = np.empty(index.invlists.nlist, dtype=object)
@@ -126,8 +120,6 @@ class GeminiT3(BaseANN):
         resources_path = ''
         case_dir = '1b/'
         resources_path_case = f'{resources_path}{case_dir}'
-        #max_num_queries = 10000
-        #num_records = 1000000000
 
         fp_quantizer_file_name = f'{prefix}/{resources_path}{num_centroids_dir}Deep1B.nt{nt}.nlist{nlist}.quantizer'
         records_encoding_file_name = f'{prefix}/{resources_path}records_weights/records_weights.bits{nbits}.npy'
@@ -166,28 +158,12 @@ class GeminiT3(BaseANN):
         self.rerank = gsld_rerank.init(self.num_records, num_features, num_features * 4, dtype, gsld_rerank.GSLD_RERANK_ALGO_L2, is_f16, db_path)        
         print('finished init rerank')
         
-        # dataset_names = {'deep-1B':'Deep1B', 'bigann-1B':'BigAnn'}
-        # dataset = dataset_names[dataset]
-        # xq_cent_path = 't3/gsi/Deep1B_centroids-xq_nbits-768_nlist-524288.npy'
-        # self.xq_cent = np.load(xq_cent_path)
-        # xq_rec_path = 't3/gsi/Deep1B-xq_nbits-768.npy'
-        # self.xq_rec = np.load(xq_rec_path)
-        # print('xq_cent:', xq_cent_path, self.xq_cent.shape, self.xq_cent.dtype)
-        # print('xq_rec:', xq_rec_path, self.xq_rec.shape, self.xq_rec.dtype)
-        
         print(f'GSI loading index:{index_file_name}')
         self.index = faiss.read_index_binary(index_file_name)
 
         # cluster_list, ids_list = get_cluster_and_ids_lists(self.index, nbits)
         cluster_list, ids_list = get_cluster_and_ids_lists(self.index, qbits)
 
-        #GW
-        print("cluster_list", type(cluster_list), cluster_list.shape, type(cluster_list[0]), cluster_list[0].shape, cluster_list[0].dtype)
-        print("ids_list", type(ids_list), ids_list.shape, type(ids_list[0]), ids_list[0].shape, ids_list[0].dtype)
-        #GW
-
-        # print('cluster_list =\n', cluster_list)
-        # print('ids_list =\n', ids_list)
         print('creating GSL cluster binary DB...')
         self.clstr_bdb = self.gsl_ctx.create_cluster_bdb(cluster_list, ids_list)
         del cluster_list
@@ -195,10 +171,7 @@ class GeminiT3(BaseANN):
 
         quantizer = faiss.downcast_IndexBinary(self.index.quantizer)
         centroids = faiss.vector_to_array(quantizer.xb)
-        print("precent", centroids.shape, centroids.dtype)
         centroids = np.reshape(centroids, (quantizer.ntotal, quantizer.d//8))
-        print('centroids (binary):', centroids.shape, centroids.dtype)
-        print('creating GSL centroids binary DB...')
         self.centroids_bdb = self.gsl_ctx.create_bdb(centroids)
         del centroids
 
@@ -232,7 +205,9 @@ class GeminiT3(BaseANN):
         nprobe_refine = self.search_params['nprobe_refine']
         hamming_k = self.search_params['hamming_k']
         average_clstr_size_factor = self.search_params['average_clstr_size_factor']
-        print('--->', 'nprobe =', nprobe, 'nprobe_refine =', nprobe_refine, 'hamming_k =', hamming_k, 'average_clstr_size_factor =', average_clstr_size_factor)
+
+        print('--->', 'nprobe =', nprobe, 'nprobe_refine =', nprobe_refine, 'hamming_k =', hamming_k, 
+            'average_clstr_size_factor =', average_clstr_size_factor)
 
         rerank_desc = RerankDesc(self.centroids_fdb, nprobe_refine, gsl.GSL_ALG_KNN_L2_FDB)
 
@@ -252,7 +227,6 @@ class GeminiT3(BaseANN):
         self.gsl_ctx.search_in_focus(self.session_hdl)
         print('Set GSL session in focus')
 
-    # shall we return something interesting here?
     def get_additional(self):
         return {"dist_comps": faiss.cvar.indexIVF_stats.ndis}
 
@@ -260,38 +234,6 @@ class GeminiT3(BaseANN):
         return f'GSI:{self.index_params} {self.search_params}'
 
     def query(self, X, n):
-
-        # X = X[0:1, :]
-
-        # print(f'GSI query X:{X.shape} n:{n} index_params:{self.index_params} search_params:{self.search_params}')
-        # self.index.nprobe = self.search_params['nprobe']
-        # coarse_dist, coarse_idx = self.index.quantizer.search(self.xq_cent, self.search_params['nprobe'])
-
-        # print('xq_cent =\n', self.xq_cent[0])
-        # print('coarse_idx =\n', coarse_idx[0, :8])
-        # print('coarse_dist =\n', coarse_dist[0])
-        
-        # dist = np.empty((X.shape[0], n), dtype='int32')
-        # idx  = np.empty((X.shape[0], n), dtype='int64')
-
-        # self.index.search_preassigned(
-        #     X.shape[0], faiss.swig_ptr(self.xq_rec), n,
-        #     faiss.swig_ptr(coarse_idx), faiss.swig_ptr(coarse_dist),
-        #     faiss.swig_ptr(dist), faiss.swig_ptr(idx), False)
-        
-#         print(f'rerank', flush=True)
-#         ip = np.empty((1,idx.shape[1]), np.float32)
-#         faiss.fvec_inner_products_by_idx(
-#                 faiss.swig_ptr(ip),
-#                 faiss.swig_ptr(X),
-#                 faiss.swig_ptr(self.xb),
-#                 faiss.swig_ptr(idx),
-#                 xb.shape[1],
-#                 ip.shape[0],
-#                 ip.shape[1]
-#         );
-
-        # self.res = dist, idx
 
         print('Performing search on GSL')
         out_shape = (X.shape[0], self.search_params['hamming_k'])
@@ -304,11 +246,10 @@ class GeminiT3(BaseANN):
         res_idx, res_val = gsld_rerank.rerank(self.rerank, X, out_indices, n, 56)
         end = time.time()
         print('rerank time(milisec): ', (end - start) * 1000)
-        self.res = out_distances.astype(np.int32), res_idx.astype(np.int64) #TODO: ask Josh about data-type of distances
+        self.res = out_distances.astype(np.int32), res_idx.astype(np.int64) 
 
     def range_query(self, X, radius):
         print('in range query <-----')
-        # self.res = self.index.range_search(X, radius)
 
     def get_results(self):
         print('in get_results <-----')
