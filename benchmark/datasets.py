@@ -93,17 +93,8 @@ def ivecs_read(fname):
 
 def xbin_mmap(fname, dtype, maxn=-1):
     """ mmap the competition file format for a given type of items """
-    # for search
-    # n, d = map(int, np.fromfile(fname, dtype="uint32", count=2))
-    # for dim reduced file of dtype float32
-    n, d = map(int, np.fromfile(fname, dtype="float32", count=2))
-    n = 100000000
-    d = 32
-    dtype = "float32"
-    print(f"fname={fname} n={n} d={d} dtype={dtype} os.stat(fname).st_size={os.stat(fname).st_size} np.dtype(dtype).itemsize={np.dtype(dtype).itemsize}")
-    # offset = 8
-    offset = 0
-    assert os.stat(fname).st_size == offset + n * d * np.dtype(dtype).itemsize
+    n, d = map(int, np.fromfile(fname, dtype="uint32", count=2))
+    assert os.stat(fname).st_size == 8 + n * d * np.dtype(dtype).itemsize
     if maxn > 0:
         n = min(n, maxn)
     return np.memmap(fname, dtype=dtype, mode="r", offset=8, shape=(n, d))
