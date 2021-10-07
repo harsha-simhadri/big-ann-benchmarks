@@ -157,6 +157,12 @@ The plot.py script supports other benchmarks.  To see a complete list, run:
 python plot.py --help
 ```
 
+You can plot additional metrics, e.g. mean SSD IOs vs recall/AP for T2, using:
+```
+python plot.py --dataset deep-1B -x k-nn -y mean_ssd_ios 
+```
+
+
 Here are all the FAISS baseline recall@10 (AP for SSNPP) vs throughput plots for T1:
 * [msturing-1B](results/T1/msturing-1B.png)
 * [bigann-1B](results/T1/bigann-1B.png)
@@ -172,6 +178,15 @@ Here are all the DiskANN baseline recall@10 (AP for SSNPP) vs throughput plots f
 * [deep-1B](results/T2/deep-1B.png)
 * [msspacev-1B](results/T2/msspacev-1B.png)
 * [ssnpp-1B](results/T2/ssnpp-1B.png)
+
+
+Here are all the DiskANN baseline recall@10 (AP for SSNPP) vs mean SSD IOs plots for T2:
+* [msturing-1B](results/T2/msturing-1B-IO.png)
+* [bigann-1B](results/T2/bigann-1B-IO.png)
+* [text2image-1B](results/T2/text2image-1B-IO.png)
+* [deep-1B](results/T2/deep-1B-IO.png)
+* [msspacev-1B](results/T2/msspacev-1B-IO.png)
+* [ssnpp-1B](results/T2/ssnpp-1B-IO.png)
 
 To get a table overview over the best recall/ap achieved over a certain QPS threshold, run 
 ```
