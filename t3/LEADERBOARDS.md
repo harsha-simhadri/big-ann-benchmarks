@@ -8,18 +8,18 @@
 
 ### Rankings By Submission (alphabetical)
 
-|Submission                                                                       |Team                   |Hardware    |Status|R@10 Rank|Q/Sec Rank|KWh/Q Rank|$$ Rank| 
-|---------------------------------------------------------------------------------|-----------------------|------------|------|---------|----------|----------|-------|
-|DeepGram                                                                         |DeepGram               |NVidia GPU  |     -|        -|         -|         -|      -|
-|DiskANN                                                                          |Microsoft (org)        |Intel Optane|     -|        -|         -|         -|      -|
-|[FAISS Baseline](/harsha-simhadri/big-ann-benchmarks/blob/gw/t3_gemini/README.md)|Facebook Research (org)|NVidia GPU  | final|        1|         1|         1|      1|
-|[Gemini](/harsha-simhadri/big-ann-benchmarks/blob/gw/t3_gemini/README.md)        |GSI Technology (org)   |Leda-E APU  |inprog|        -|         -|         -|      -|
-|KANNDI                                                                           |Silo.ai                |Leda-E APU  |     -|        -|         -|         -|      -|
-|NVidia 1                                                                         |NVidia                 |NVidia GPU  |     -|        -|         -|         -|      -|
-|NVidia 2                                                                         |NVidia                 |NVidia GPU  |     -|        -|         -|         -|      -|
-|Optane 1                                                                         |Intel                  |Intel Optane|     -|        -|         -|         -|      -|
-|Optane 2                                                                         |Intel                  |Intel Optane|     -|        -|         -|         -|      -|
-|Vector T3                                                                        |Vector Institute       |NVidia GPU  |     _|        -|         -|         -|      -|
+|Submission                                            |Team                   |Hardware    |Status|R@10 Rank|Q/Sec Rank|KWh/Q Rank|$$ Rank| 
+|------------------------------------------------------|-----------------------|------------|------|---------|----------|----------|-------|
+|DeepGram                                              |DeepGram               |NVidia GPU  |     -|        -|         -|         -|      -|
+|DiskANN                                               |Microsoft (org)        |Intel Optane|     -|        -|         -|         -|      -|
+|[FAISS Baseline](/../../../main/t3/faiss_t3/README.md)|Facebook Research (org)|NVidia GPU  | final|        1|         1|         1|      1|
+|[Gemini](/../../../gw/t3_gemini/t3/gemini/README.md)  |GSI Technology (org)   |Leda-E APU  |inprog|        -|         -|         -|      -|
+|KANNDI                                                |Silo.ai                |Leda-E APU  |     -|        -|         -|         -|      -|
+|NVidia 1                                              |NVidia                 |NVidia GPU  |     -|        -|         -|         -|      -|
+|NVidia 2                                              |NVidia                 |NVidia GPU  |     -|        -|         -|         -|      -|
+|Optane 1                                              |Intel                  |Intel Optane|     -|        -|         -|         -|      -|
+|Optane 2                                              |Intel                  |Intel Optane|     -|        -|         -|         -|      -|
+|Vector T3                                             |Vector Institute       |NVidia GPU  |     _|        -|         -|         -|      -|
 
 *org*= submission by challenge organizer<br>
 *final*=final submission<br>
