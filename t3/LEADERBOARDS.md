@@ -8,7 +8,7 @@
 
 ### Rankings By Submission (alphabetical)
 
-|Submission                                           |Team                   |Hardware    |Status|R@10 Rank|Q/Sec Rank|KWh/Q Rank|$$ Rank| 
+|Submission                                           |Team                   |Hardware    |Status|[R@10 Rank](#recall-rankings)|[Q/Sec Rank](#throughput-rankings)|[KWh/Q Rank](#power-rankings)|[$$ Rank](#cost-rankings)| 
 |-----------------------------------------------------|-----------------------|------------|------|---------|----------|----------|-------|
 |DeepGram                                             |DeepGram               |NVidia GPU  |     -|        -|         -|         -|      -|
 |DiskANN                                              |Microsoft (org)        |Intel Optane|     -|        -|         -|         -|      -|
@@ -21,31 +21,33 @@
 |Optane 2                                             |Intel                  |Intel Optane|     -|        -|         -|         -|      -|
 |Vector T3                                            |Vector Institute       |NVidia GPU  |     _|        -|         -|         -|      -|
 
-*org*= submission by challenge organizer<br>
-*final*=final submission<br>
-*inprog*=algorithm development still in progress<br>
+* Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
+* Abbreviations used in chart:
+  * *org* = submitted by challenge organizer and subject to restrictions
+  * *final* = final submissiom
+  * *inprog* = algorithm development still in progress
 
 ### Rankings Per Metric
 
-#### Recall Rankings ( Recall@10 ) 
+#### Recall Rankings 
 
 | Rank | Submission | Team              | Hardware        | Score |
 |------|------------|-------------------|-----------------|-------|
 |    1 | FAISS T3   | Facebook Research | NVidia GPU      |     0 |
 
-#### Throughput Rankings ( Queries/Second )
+#### Throughput Rankings
 
 | Rank | Submission | Team              | Hardware        | Score |
 |------|------------|-------------------|-----------------|-------|
 |    1 | FAISS T3   | Facebook Research | NVidia GPU      |     0 |
 
-#### Power Rankings  ( KWh/Query )
+#### Power Rankings 
 
 | Rank | Submission | Team              | Hardware        | Score |
 |------|------------|-------------------|-----------------|-------|
 |    1 | FAISS T3   | Facebook Research | NVidia GPU      |     0 |
 
-#### Cost Rankings ( $$ )
+#### Cost Rankings 
 
 | Rank | Submission | Team              | Hardware        | Score |
 |------|------------|-------------------|-----------------|-------|
