@@ -8,18 +8,18 @@
 
 ### Rankings By Submission Name (alphabetical)
 
-|Submission                                           |Team                   |Hardware    |Status|[Recall Rank](#recall-rankings)|[Throughput Rank](#throughput-rankings)|[Power Rank](#power-rankings)|[Cost Rank](#cost-rankings)| 
-|-----------------------------------------------------|-----------------------|------------|------|-------------------------------|---------------------------------------|-----------------------------|---------------------------|
-|DeepGram                                             |DeepGram               |NVidia GPU  |     -|                              -|                                      -|                            -|                          -|
-|DiskANN                                              |Microsoft (org)        |Intel Optane|     -|                              -|                                      -|                            -|                          -|
-|[FAISS Baseline](t3/faiss_t3/README.md)              |Facebook Research (org)|NVidia GPU  | final|                              1|                                      1|                            1|                          1|
-|[Gemini](t3/gemini/README.md)                        |GSI Technology (org)   |Leda-E APU  |     -|                              -|                                      -|                            -|                          -|
-|KANNDI                                               |Silo.ai                |Leda-E APU  |     -|                              -|                                      -|                            -|                          -|
-|NVidia Single                                        |NVidia                 |NVidia GPU  |     -|                              -|                                      -|                            -|                          -|
-|NVidia Multi                                         |NVidia                 |NVidia GPU  |     -|                              -|                                      -|                            -|                          -|
-|OptANNe 1                                            |Intel                  |Intel Optane|     -|                              -|                                      -|                            -|                          -|
-|OptANNE 2                                            |Intel                  |Intel Optane|     -|                              -|                                      -|                            -|                          -|
-|Vector T3                                            |Vector Institute       |NVidia GPU  |     _|                              -|                                      -|                            -|                          -|
+|Submission                                          |Team                             |Hardware                 |Status|[Recall Rank](#recall-rankings)|[Throughput Rank](#throughput-rankings)|[Power Rank](#power-rankings)|[Cost Rank](#cost-rankings)| 
+|----------------------------------------------------|---------------------------------|-------------------------|------|-------------------------------|---------------------------------------|-----------------------------|---------------------------|
+|DeepGram                                            |DeepGram                         |<nobr>NVidia GPU</nobr>  |     -|                              -|                                      -|                            -|                          -|
+|DiskANN                                             |<nobr>Microsoft (org)</nobr>     |<nobr>Intel Optane</nobr>|     -|                              -|                                      -|                            -|                          -|
+|<nobr>[FAISS Baseline](t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>   |<nobr>NVidia GPU</nobr>  | final|                              1|                                      1|                            1|                          1|
+|[Gemini](t3/gemini/README.md)                       |<nobr>GSI Technology (org)</nobr>|<nobr>LedaE APU</nobr>   |     -|                              -|                                      -|                            -|                          -|
+|KANNDI                                              |Silo.ai                          |<nobr>LedaE APU</nobr>   |     -|                              -|                                      -|                            -|                          -|
+|<nobr>NVidia Single GPU</nobr>                      |NVidia                           |<nobr>NVidia GPU</nobr>  |     -|                              -|                                      -|                            -|                          -|
+|<nobr>NVidia Multi GPU</nobr>                       |NVidia                           |<nobr>NVidia GPU</nobr>  |     -|                              -|                                      -|                            -|                          -|
+|OptANNe-1                                           |Intel                            |<nobr>Intel Optane</nobr>|     -|                              -|                                      -|                            -|                          -|
+|OptANNE-2                                           |Intel                            |<nobr>Intel Optane</nobr>|     -|                              -|                                      -|                            -|                          -|
+|Vector-T3                                           |<nobr>Vector Institute</nobr>    |<nobr>NVidia GPU</nobr>  |     _|                              -|                                      -|                            -|                          -|
 
 * Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
 * Abbreviations used in chart:
@@ -31,18 +31,18 @@
 
 #### Recall Rankings 
 
-|Rank|Submission                                           |Team                   |Hardware  |Status|Score|Deep1B|BigANN|MSTuring|MSSpace|Text2Image|FBSimSearchNet|
-|----|-----------------------------------------------------|-----------------------|----------|------|-----|------|------|--------|-------|----------|--------------|
-|   1|[FAISS Baseline](../../../main/t3/faiss_t3/README.md)|Facebook Research (org)|NVidia GPU| final|    0|     0|     0|       0|      0|         0|             0|
-|   2|                                                    -|                      -|         -|     -|    -|     -|     -|       -|      -|         -|             -| 
-|   3|                                                    -|                      -|         -|     -|    -|     -|     -|       -|      -|         -|             -|     
-|   4|                                                    -|                      -|         -|     -|    -|     -|     -|       -|      -|         -|             -|    
-|   5|                                                    -|                      -|         -|     -|    -|     -|     -|       -|      -|         -|             -|   
-|   6|                                                    -|                      -|         -|     -|    -|     -|     -|       -|      -|         -|             -|
-|   7|                                                    -|                      -|         -|     -|    -|     -|     -|       -|      -|         -|             -|
-|   8|                                                    -|                      -|         -|     -|    -|     -|     -|       -|      -|         -|             -|
-|   9|                                                    -|                      -|         -|     -|    -|     -|     -|       -|      -|         -|             -|
-|  10|                                                    -|                      -|         -|     -|    -|     -|     -|       -|      -|         -|             -|
+|Rank|Submission                                          |Team                          |Hardware               |Status|Score|Deep1B|BigANN|MSTuring|MSSpace|Text2Image|FBSimSearchNet|
+|----|----------------------------------------------------|------------------------------|-----------------------|------|-----|------|------|--------|-------|----------|--------------|
+|   1|<nobr>[FAISS Baseline](t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|    0|     0|     0|       0|      0|         0|             0|
+|   2|                                                   -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -| 
+|   3|                                                   -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|     
+|   4|                                                   -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|    
+|   5|                                                   -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|   
+|   6|                                                   -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
+|   7|                                                   -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
+|   8|                                                   -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
+|   9|                                                   -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
+|  10|                                                   -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
 
 * A submission must support at least 3 databases to qualify for this ranking.
 * The ranking is based on the score, which is the sum of benchmark improvements of qualifying databases (shown in specific database columns after the score column.)
@@ -54,18 +54,18 @@
 
 #### Throughput Rankings
 
-|Rank|Submission                                           |Team                   |Hardware  |Status|Score|Deep1B|BigANN|MSTuring|MSSpace|Text2Image|FBSimSearchNet|
-|----|-----------------------------------------------------|-----------------------|----------|------|-----|------|------|--------|-------|----------|--------------|  
-|   1|[FAISS Baseline](../../../main/t3/faiss_t3/README.md)|Facebook Research (org)|NVidia GPU| final|    0|     0|     0|       0|      0|         0|             0|     
-|   2|                                                    -|                      -|         -|     -|    -|     -|     -|       -|      -|         -|             -|
-|   3|                                                    -|                      -|         -|     -|    -|     -|     -|       -|      -|         -|             -|
-|   4|                                                    -|                      -|         -|     -|    -|     -|     -|       -|      -|         -|             -|
-|   5|                                                    -|                      -|         -|     -|    -|     -|     -|       -|      -|         -|             -|
-|   6|                                                    -|                      -|         -|     -|    -|     -|     -|       -|      -|         -|             -|
-|   7|                                                    -|                      -|         -|     -|    -|     -|     -|       -|      -|         -|             -|
-|   8|                                                    -|                      -|         -|     -|    -|     -|     -|       -|      -|         -|             -|
-|   9|                                                    -|                      -|         -|     -|    -|     -|     -|       -|      -|         -|             -|
-|  10|                                                    -|                      -|         -|     -|    -|     -|     -|       -|      -|         -|             -|
+|Rank|Submission                                          |Team                          |Hardware               |Status|Score|Deep1B|BigANN|MSTuring|MSSpace|Text2Image|FBSimSearchNet|
+|----|----------------------------------------------------|------------------------------|-----------------------|------|-----|------|------|--------|-------|----------|--------------|
+|   1|<nobr>[FAISS Baseline](t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|    0|     0|     0|       0|      0|         0|             0|
+|   2|                                                   -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
+|   3|                                                   -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
+|   4|                                                   -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
+|   5|                                                   -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
+|   6|                                                   -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
+|   7|                                                   -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
+|   8|                                                   -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
+|   9|                                                   -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
+|  10|                                                   -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
 
 * A submission must support at least 3 databases to qualify for this ranking.
 * The ranking is based on the score, which is the sum of benchmark improvements of qualifying databases (shown in specific database columns after the score column.)
@@ -77,18 +77,18 @@
 
 #### Power Rankings 
 
-|Rank|Submission                                           |Team                   |Hardware  |Status|Score|Deep1B|BigANN|MSTuring|MSSpace|Text2Image|FBSimSearchNet|
-|----|-----------------------------------------------------|-----------------------|----------|------|-----|------|------|--------|-------|----------|--------------|    
-|   1|[FAISS Baseline](../../../main/t3/faiss_t3/README.md)|Facebook Research (org)|NVidia GPU| final|    0|     0|     0|       0|      0|         0|             0|
-|   2|                                                    -|                      -|         -|     -|    -|     -|     -|       -|      -|         -|             -|
-|   3|                                                    -|                      -|         -|     -|    -|     -|     -|       -|      -|         -|             -|
-|   4|                                                    -|                      -|         -|     -|    -|     -|     -|       -|      -|         -|             -|
-|   5|                                                    -|                      -|         -|     -|    -|     -|     -|       -|      -|         -|             -|
-|   6|                                                    -|                      -|         -|     -|    -|     -|     -|       -|      -|         -|             -|
-|   7|                                                    -|                      -|         -|     -|    -|     -|     -|       -|      -|         -|             -|
-|   8|                                                    -|                      -|         -|     -|    -|     -|     -|       -|      -|         -|             -|
-|   9|                                                    -|                      -|         -|     -|    -|     -|     -|       -|      -|         -|             -|
-|  10|                                                    -|                      -|         -|     -|    -|     -|     -|       -|      -|         -|             -|
+|Rank|Submission                                          |Team                          |Hardware               |Status|Score|Deep1B|BigANN|MSTuring|MSSpace|Text2Image|FBSimSearchNet|
+|----|----------------------------------------------------|------------------------------|-----------------------|------|-----|------|------|--------|-------|----------|--------------|
+|   1|<nobr>[FAISS Baseline](t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|    0|     0|     0|       0|      0|         0|             0|
+|   2|                                                   -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
+|   3|                                                   -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
+|   4|                                                   -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
+|   5|                                                   -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
+|   6|                                                   -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
+|   7|                                                   -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
+|   8|                                                   -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
+|   9|                                                   -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
+|  10|                                                   -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
 
 * A submission must support at least 3 databases to qualify for this ranking.
 * The ranking is based on the score, which is the sum of benchmark improvements of qualifying databases (shown in specific database columns after the score column.)
@@ -100,18 +100,18 @@
 
 #### Cost Rankings 
 
-|Rank|Submission                                           |Team             |Hardware  |Status|Score|Deep1B|BigANN|MSTuring|MSSpace|Text2Image|FBSimSearchNet|
-|----|-----------------------------------------------------|-----------------|----------|------|-----|------|------|--------|-------|----------|--------------|
-|   1|[FAISS Baseline](../../../main/t3/faiss_t3/README.md)|Facebook Research|NVidia GPU| final|    0|     0|     0|       0|      0|         0|             0|
-|   2|                                                    -|                -|         -|     -|    -|     -|     -|       -|      -|         -|             -|
-|   3|                                                    -|                -|         -|     -|    -|     -|     -|       -|      -|         -|             -|
-|   4|                                                    -|                -|         -|     -|    -|     -|     -|       -|      -|         -|             -|
-|   5|                                                    -|                -|         -|     -|    -|     -|     -|       -|      -|         -|             -|
-|   6|                                                    -|                -|         -|     -|    -|     -|     -|       -|      -|         -|             -|
-|   7|                                                    -|                -|         -|     -|    -|     -|     -|       -|      -|         -|             -|
-|   8|                                                    -|                -|         -|     -|    -|     -|     -|       -|      -|         -|             -|
-|   9|                                                    -|                -|         -|     -|    -|     -|     -|       -|      -|         -|             -|
-|  10|                                                    -|                -|         -|     -|    -|     -|     -|       -|      -|         -|             -|
+|Rank|Submission                                          |Team                          |Hardware               |Status|Score|Deep1B|BigANN|MSTuring|MSSpace|Text2Image|FBSimSearchNet|
+|----|----------------------------------------------------|------------------------------|-----------------------|------|-----|------|------|--------|-------|----------|--------------|
+|   1|<nobr>[FAISS Baseline](t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|    0|     0|     0|       0|      0|         0|             0|
+|   2|                                                   -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
+|   3|                                                   -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
+|   4|                                                   -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
+|   5|                                                   -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
+|   6|                                                   -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
+|   7|                                                   -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
+|   8|                                                   -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
+|   9|                                                   -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
+|  10|                                                   -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
 
 * A submission must support at least 3 databases to qualify for this ranking.
 * The ranking is based on the score, which is the sum of benchmark improvements of qualifying databases (shown in specific database columns after the score column.)
@@ -127,18 +127,18 @@
 
 ##### Deep1B Recall Rankings 
 
-|Rank|Submission                                           |Team                   |Hardware  |Status|R@10|
-|----|-----------------------------------------------------|-----------------------|----------|------|----|
-|   1|[FAISS Baseline](../../../main/t3/faiss_t3/README.md)|Facebook Research (org)|NVidia GPU| final|   0|
-|   2|                                                    -|                      -|         -|     -|   -|
-|   3|                                                    -|                      -|         -|     -|   -|
-|   4|                                                    -|                      -|         -|     -|   -|
-|   5|                                                    -|                      -|         -|     -|   -|
-|   6|                                                    -|                      -|         -|     -|   -|
-|   7|                                                    -|                      -|         -|     -|   -|
-|   8|                                                    -|                      -|         -|     -|   -|
-|   9|                                                    -|                      -|         -|     -|   -|
-|  10|                                                    -|                      -|         -|     -|   -|
+|Rank|Submission                                                        |Team                          |Hardware               |Status|R@10|
+|----|------------------------------------------------------------------|------------------------------|-----------------------|------|----|
+|   1|<nobr>[FAISS Baseline](../../../main/t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|   0|
+|   2|                                                                 -|                             -|                      -|     -|   -|
+|   3|                                                                 -|                             -|                      -|     -|   -|
+|   4|                                                                 -|                             -|                      -|     -|   -|
+|   5|                                                                 -|                             -|                      -|     -|   -|
+|   6|                                                                 -|                             -|                      -|     -|   -|
+|   7|                                                                 -|                             -|                      -|     -|   -|
+|   8|                                                                 -|                             -|                      -|     -|   -|
+|   9|                                                                 -|                             -|                      -|     -|   -|
+|  10|                                                                 -|                             -|                      -|     -|   -|
 
 * Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
 * Abbreviations used in chart:
