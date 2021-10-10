@@ -4,13 +4,13 @@ This README contains information required for T3 Track submissions.
 
 ## Hardware Configuration And Cost
 
-|Part                         |Model                                                       |No. |Unit Price                                        |Total Price|
-|-----------------------------|------------------------------------------------------------|----|--------------------------------------------------|-----------|
-|Chassis and Motherboard      |[Advantech Sky-8201 2U](t3/gemini/cost/AdvantechSky8201.pdf)|   1|[5572.42](t3/gemini/hardware/AdvantechSky8201.pdf)|    5572.42|
-|RAM                          |[Advantech 32GB Memory](t3/gemini/cost/RAM.pdf              |  24|              [259.00](t3/gemini/hardware/RAM.pdf)|    6216.00|
-|SSD                          |[2TB SeaGate](t3/gemini/SSD.pdf)                            |   1|              [334.48](t3/gemini/hardware/SSD.pdf)|     334.48|
-|GPU                          |NVidia V100                                                 |   1|             [9899.00](t3/gemini/hardware/GPU.pdf)|    9899.00|
-|Total                        |                                                            |   1|                                                  |   22021.90|
+|Part                         |Model                                             |No. |Unit Price                          |Total Price|
+|-----------------------------|--------------------------------------------------|----|------------------------------------|-----------|
+|Chassis and Motherboard      |[Advantech Sky-8201 2U](cost/AdvantechSky8201.pdf)|   1|[5572.42](cost/AdvantechSky8201.pdf)|    5572.42|
+|RAM                          |[Advantech 32GB Memory](cost/RAM.pdf)             |  24|              [259.00](cost/RAM.pdf)|    6216.00|
+|SSD                          |[2TB SeaGate](cost/SSD.pdf)                       |   1|              [334.48](cost/SSD.pdf)|     334.48|
+|GPU                          |[NVidia V100](cost/GPU.pdf)                       |   1|             [9899.00](cost/GPU.pdf)|    9899.00|
+|Total                        |                                                  |   1|                                    |   22021.90|
 
 ## Hardware Access
 
@@ -23,7 +23,7 @@ This submission requires the following software components where source-code is 
 * CUDA 11 libraries and host drivers
 * NVidia V100 firmware 
 
-## Setup And Installation Instructions
+## Hardware Setup And Software Installation
 
 ## Prerequisites
 
