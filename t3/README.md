@@ -158,6 +158,7 @@ The binary index file(s) must be http or azcopy accessible and is referenced wit
 
 Your submission's top-level directory should contain a README.md with the following sections:
 * **Hardware Configuration And Cost**  This section must contain a table that breaks down the hardware components of your system and the cost.  Each entry should link to evidence of the component cost.  
+* **Hardware Access** This section describes how evaluators acquire access to the hardware (specific instructions or contact information.)
 * **No Source Declarations**  This section must contain a list of software components that were not provided with the submission.
 * **Hardware Setup And Software Installation**  This section should contain any hardware and software installation instructions.
 
