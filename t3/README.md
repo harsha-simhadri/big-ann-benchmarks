@@ -162,6 +162,10 @@ Your submission's top-level directory should contain a README.md with the follow
 
 Please consult the *t3/faiss_t3/README.md* example.
 
+### Optional Information
+
+Please feel free to append sections to the base README requirements.  For example, you can include other benchmarks of interest.
+
 ### How_To_Get_Help
 
 There are several ways to get help as you develop your algorithm using this framework:
