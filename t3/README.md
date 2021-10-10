@@ -8,6 +8,7 @@
   - [Starting Your Development](#starting_your_development)
   - [Developing Your Dockerfile](#developing_your_dockerfile)
   - [Developing Your Algorithm](#developing_your_algorithm) 
+  - [Submitting Your Algorithm](#submitting_your_algorithm) 
   - [How To Get Help](#how_to_get_help)
   - [Leaderboard Ranking](#leaderboard_ranking)
     - [Baseline Thresholds](#baseline_thresholds)
