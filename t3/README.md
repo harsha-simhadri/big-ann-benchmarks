@@ -142,17 +142,25 @@ python plot.py --help
 ### Submitting_Your_Algorithm
 
 A submission is composed of the following:
-* 1 index binary file for each dataset for which you are participating ( choose your best index )
+* 1 index binary file(s) for each dataset for which you are participating (see *Index File* section below.)
 * 1 *algos.yaml* with only one set of build parameters and at most 10 sets of query parameters for each dataset in which you are participating. Please put that file into the *t3/[your_team_name]/* directory.
 * Your algorithm's python class ( placed in the [benchmark/algorithms/](../benchmark/algorithms) directory.)
+* 1 README file with specific information about your hardware and software (see *README File* section below.)
+* Evidence of the cost of your hardware components (see *README File* section below.)
+* Optional information (see *Optional Information* section below.)
 
-All but the binary index files can be submitted with a pull request of your custom branch.
+### Index File
 
-We will provide you with an upload area for your binary index files during the competition.
+The binary index file(s) must be http or azcopy accessible and is referenced within your *t3/[your_team_name]/algos.yaml* config file.  Please see the *t3/faiss_t3/algos.yaml* example.
 
-Additional information may be required to qualify for all the leaderboards:
-* To qualify for the cost leaderboard, please include evidence of the MSRP of all the components of your entire system.  Put this evidence into the *t3/[your_team_name]/* directory.
-* If all of the installation, setup, and source code cannot be included in your pull request, please provide an explanation of what the non-open source part of the software does (host drivers, firmware, etc.) Put this explanation into a text file and place into the t3/[your_team_name]/ directory.
+### The README File
+
+Your submission's top-level directory should contain a README.md with the following sections:
+* **Hardware Configuration And Cost**  This section must contain a table that breaks down the hardware components of your system and the cost.  Each entry should link to evidence of the component cost.  
+* **No Source Declarations**  This section must contain a list of software components that were not provided with the submission.
+* **Hardware Setup And Software Installation**  This section should contain any hardware and software installation instructions.
+
+Please consult the *t3/faiss_t3/README.md* example.
 
 ### How_To_Get_Help
 
