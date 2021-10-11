@@ -28,29 +28,6 @@ def create_plot(all_data, raw, x_scale, y_scale, xn, yn, fn_out, linestyles):
     # Find range for logit x-scale
     min_x, max_x = 1, 0
     for algo in sorted(all_data.keys(), key=mean_y):
-
-        #GW
-        print("ALGO", algo)
-        if algo=="gsi-t3": continue
-
-        if 1:
-            xs, ys, ls, axs, ays, als = create_pointset(all_data[algo], xn, yn)
-            color, faded, linestyle, marker = linestyles[algo]
-            handle, = plt.plot(xs, ys, 'o', label=algo, color=color)
-
-            _ax = plt.gca()
-            style = dict(size=10, color='gray')
-            for idx in range(len(xs)):
-                print(algo, xs[idx], ys[idx])
-                _ax.text( xs[idx]+0.002, ys[idx], "%1.3f" % xs[idx], **style)
-                #_ax.annotate('local maximum', xy=(xs[idx],ys[idx]), 
-                #    xytext=(xs[idx], ys[idx]), arrowprops=dict(facecolor='black', shrink=0.05))
-            #plt.scatter(xs,ys,color=color)
-            handles.append(handle)
-            labels.append(algo)
-            continue 
-        #GW
- 
         xs, ys, ls, axs, ays, als = create_pointset(all_data[algo], xn, yn)
         min_x = min([min_x]+[x for x in xs if x > 0])
         max_x = max([max_x]+[x for x in xs if x < 1])
@@ -102,13 +79,6 @@ def create_plot(all_data, raw, x_scale, y_scale, xn, yn, fn_out, linestyles):
         plt.xlim(min_x, max_x)
     if 'lim' in ym:
         plt.ylim(ym['lim'])
-
-    #GW
-    if 1:
-        plt.ylim(1000,3000)
-        plt.xlim(0.8,1.0)
-    plt.axhline(y=2000, color='g') #, linestyle='-')
-    #GW
 
     # Workaround for bug https://github.com/matplotlib/matplotlib/issues/6789
     ax.spines['bottom']._adjust_location()
