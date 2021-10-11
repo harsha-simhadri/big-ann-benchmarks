@@ -217,7 +217,7 @@ Note these plots were acquired using this repo's eval framework.  The baseline t
 
 This leaderboard leverages the standard recall@10 vs throughput benchmark that has become a standard benchmark when evaluating and comparing approximate nearest neighbor algorithms.  We will rank participants based on recall@10 at 2K qps por each dataset.  The evaluation framework allows for 10 different search parameter sets and we will use the best value of recall@10 from the set.
 
-The final ranking will be based on an aggregation over the individual dataset rankings.  The aggregation formula is as follows: [TBD]
+The final ranking will be based on a computed score, which is the sum of the improvements in recall over the baseline for the participating databases.  A submission must participate in at least 3 databases.
 
 Participants that cannot meet or exceed the baseline qps threshold for a dataset will be dropped from ranking consideration for that dataset.
 
@@ -225,7 +225,7 @@ Participants that cannot meet or exceed the baseline qps threshold for a dataset
 
 This leaderboard also leverages the standard recall@10 vs throughput benchmark.  We will rank participants based on throughput (qps) at the recall@10 threshold of 90%.  The evaluation framework allows for 10 different search parameter sets and we will use the best value of throughput from the set.
 
-The final ranking will be based on an aggregation over the individual dataset rankings.  The aggregation formula is as follows: [TBD]
+The final ranking will be based on a computed score, which is the sum of the improvements in throughput over the baseline for the participating databases.  A submission must participate in at least 3 databases.
 
 Participants that cannot meet or exceed the baseline recall@10 threshold for a dataset will be dropped from ranking consideration for that dataset.
 
@@ -237,7 +237,7 @@ The evaluation framework leverages the power sensors available in the standard I
 
 During evaluation, for each search parameter set, power consumption is acquired over at least 10 seconds running search on the entire query set.  During that 10 seconds, multiple consecutive runs on the query set may occur in order to maintain a minimum duration of 10 seconds.  Also, the duration may be greater than 10 seconds if a run of 1 query set takes longer than 10 seconds.  So a run could be composed of 1 batch query or several and the duration will be at least 10 seconds  The power consumption acquired for the run is divided by the total number of queries performed during the run, resulting in ( kilowatt-hour / query ).  Up to 10 search parameter sets are allowed, and we use the minimum value for ranking participants, for each dataset.
 
-The final ranking will be based on an aggregation over the individual dataset rankings.  The aggregation formula is as follows:[TBD]
+The final ranking will be based on a computed score, which is the sum of the improvements in power consumption over the baseline for the participating databases.  A submission must participate in at least 3 databases.
 
 Participants that cannot meet or exceed the recall@10 baseline threshold for a dataset will be dropped from ranking consideration for that dataset.
 
@@ -270,7 +270,7 @@ Notes on this formula:
 * 5 years is the standard hardware depreciation schedule used for tax purposes with the Internal Revenue Service
 * We’d like to thank David Rensin, former Senior Director at Google Cloud, now SVP at Pendo.io for his valuable contribution and consultation with respect to the capex and opex formulas.
 
-The final ranking will be based on an aggregation over the individual dataset rankings.  The aggregation formula is as follows:[TBD]
+The final ranking will be based on a computed score, which is the sum of the improvements in cost over the baseline for the participating databases.  A submission must participate in at least 3 databases.
 
 Participants that cannot meet or exceed the baseline thresholds for a dataset will be dropped from ranking consideration for that dataset.
 
