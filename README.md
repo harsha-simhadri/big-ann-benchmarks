@@ -43,26 +43,6 @@ and `ALGO` is the name of the algorithm. (Use `python run.py --list-algorithms`)
 
 The parameters used by the implementation to build and query the index can be found in `algos.yaml`.
 
-
-## Evaluating the Results
-Run `sudo python plot.py --dataset ...` or `sudo python data_export.py --output res.csv` to plot results or dump all of them to csv for further post-processing.
-To avoid sudo, run `sudo chmod -R 777 results/` before invoking these scripts.
-
-To get a table overview over the best recall/ap achieved over a certain threshold, run `python3 eval/show_operating_points.py --algorithm $ALGO --threshold $THRESHOLD res.csv`, where `res.csv` is the file produced by running `data_export.py` above.
-
-For the track1 baseline, the output `python3 eval/show_operating_points.py --algorithm faiss-t1 --threshold 10000 res.csv` led to
-
-```
-                         recall/ap
-algorithm dataset
-faiss-t1  bigann-1B       0.634510
-          deep-1B         0.650280
-          msspacev-1B     0.728861
-          msturing-1B     0.703611
-          ssnpp-1B        0.753780
-          text2image-1B   0.069275
-```
-
 ## Running the track 1 baseline
 After running the installation, we can evaluate the baseline as follows.
 
@@ -83,10 +63,8 @@ python data_export.py --output res.csv
 python3.8 eval/show_operating_points.py --algorithm faiss-t1 --threshold 10000
 ```
 
-## Including your algorithm
+## Including your algorithm and Evaluating the Results
 
-1. Add your algorithm into `benchmark/algorithms` by providing a small Python wrapper inheriting from `BaseANN`  defined in `benchmark/algorithms/base.py`. See `benchmark/algorithm/faiss_t1.py` for an example.
-2. Add a Dockerfile in `install/` 
-3. Edit `algos.yaml with the parameter choices you would like to test.
-4. (Add an option to download pre-built indexes as seen in `faiss_t1.py`.)
+See [Track T1/T2](t1_t2/README.md) for more details on evaluation for Tracks T1 and T2.
 
+See [Track T3](t3/README.md) for more details on evaluation for Track T3.

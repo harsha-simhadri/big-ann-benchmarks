@@ -305,6 +305,9 @@ class FaissT3(BaseANN):
     def __init__(self, metric, index_params):
         self._index_params = index_params
         self._metric = metric
+
+    def track(self):
+        return "T3"
         
     def index_name(self, name):
         return f"data/{name}.{self._index_params['indexkey']}.faissindex"
