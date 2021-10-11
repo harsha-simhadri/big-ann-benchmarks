@@ -127,19 +127,20 @@
 
 ##### Deep1B Recall Rankings 
 
-|Rank|Submission                                             |Team                          |Hardware               |Status|R@10|
-|----|-------------------------------------------------------|------------------------------|-----------------------|------|----|
-|   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|   0|
-|   2|                                                      -|                             -|                      -|     -|   -|
-|   3|                                                      -|                             -|                      -|     -|   -|
-|   4|                                                      -|                             -|                      -|     -|   -|
-|   5|                                                      -|                             -|                      -|     -|   -|
-|   6|                                                      -|                             -|                      -|     -|   -|
-|   7|                                                      -|                             -|                      -|     -|   -|
-|   8|                                                      -|                             -|                      -|     -|   -|
-|   9|                                                      -|                             -|                      -|     -|   -|
-|  10|                                                      -|                             -|                      -|     -|   -|
+|Rank|Submission                                             |Team                          |Hardware               |Status|R@10     |Q/S     |
+|----|-------------------------------------------------------|------------------------------|-----------------------|------|---------|--------|
+|   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|**0.942**|2002.490|
+|   2|                                                      -|                             -|                      -|     -|        -|        |
+|   3|                                                      -|                             -|                      -|     -|        -|        |
+|   4|                                                      -|                             -|                      -|     -|        -|        |
+|   5|                                                      -|                             -|                      -|     -|        -|        |
+|   6|                                                      -|                             -|                      -|     -|        -|        |
+|   7|                                                      -|                             -|                      -|     -|        -|        |
+|   8|                                                      -|                             -|                      -|     -|        -|        |
+|   9|                                                      -|                             -|                      -|     -|        -|        |
+|  10|                                                      -|                             -|                      -|     -|        -|        |
 
+* The operational point for ranking is 2000 QPS. We will use the highest recall for the search parameters that meet or exceed 2000 QPS.
 * Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
@@ -147,6 +148,26 @@
   * *inprog* = algorithm development still in progress
 
 ##### Deep1B Throughput Rankings 
+
+|Rank|Submission                                             |Team                          |Hardware               |Status|Q/S     |R@10 |
+|----|-------------------------------------------------------|------------------------------|-----------------------|------|--------|-----|
+|   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|3422.473|0.916|
+|   2|                                                      -|                             -|                      -|     -|       -|     |
+|   3|                                                      -|                             -|                      -|     -|       -|     |
+|   4|                                                      -|                             -|                      -|     -|       -|     |
+|   5|                                                      -|                             -|                      -|     -|       -|     |
+|   6|                                                      -|                             -|                      -|     -|       -|     |
+|   7|                                                      -|                             -|                      -|     -|       -|     |
+|   8|                                                      -|                             -|                      -|     -|       -|     |
+|   9|                                                      -|                             -|                      -|     -|       -|     |
+|  10|                                                      -|                             -|                      -|     -|       -|     |
+
+* The operational point for ranking is 0.90 recall@10. We will use the highest throughput for the search parameters that meet or exceed 0.90 recall@10.
+* Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
+* Abbreviations used in chart:
+  * *org* = submitted by challenge organizer, so subject to competition restrictions
+  * *final* = final submission
+  * *inprog* = algorithm development still in progress
 
 ##### Deep1B Power Rankings 
 
@@ -156,7 +177,47 @@
 
 ##### BigANN Recall Rankings
 
+|Rank|Submission                                             |Team                          |Hardware               |Status|R@10     |Q/S     |
+|----|-------------------------------------------------------|------------------------------|-----------------------|------|---------|--------|
+|   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|**0.927**|2058.950|
+|   2|                                                      -|                             -|                      -|     -|        -|        |
+|   3|                                                      -|                             -|                      -|     -|        -|        |
+|   4|                                                      -|                             -|                      -|     -|        -|        |
+|   5|                                                      -|                             -|                      -|     -|        -|        |
+|   6|                                                      -|                             -|                      -|     -|        -|        |
+|   7|                                                      -|                             -|                      -|     -|        -|        |
+|   8|                                                      -|                             -|                      -|     -|        -|        |
+|   9|                                                      -|                             -|                      -|     -|        -|        |
+|  10|                                                      -|                             -|                      -|     -|        -|        |
+
+* The operational point for ranking is 2000 QPS. We will use the highest recall for the search parameters that meet or exceed 2000 QPS.
+* Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
+* Abbreviations used in chart:
+  * *org* = submitted by challenge organizer, so subject to competition restrictions
+  * *final* = final submission
+  * *inprog* = algorithm development still in progress
+
 ##### BigANN Throughput Rankings
+
+|Rank|Submission                                             |Team                          |Hardware               |Status|Q/S         |R@10 |
+|----|-------------------------------------------------------|------------------------------|-----------------------|------|------------|-----|
+|   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|**2186.755**|0.905|
+|   2|                                                      -|                             -|                      -|     -|           -|     |
+|   3|                                                      -|                             -|                      -|     -|           -|     |
+|   4|                                                      -|                             -|                      -|     -|           -|     |
+|   5|                                                      -|                             -|                      -|     -|           -|     |
+|   6|                                                      -|                             -|                      -|     -|           -|     |
+|   7|                                                      -|                             -|                      -|     -|           -|     |
+|   8|                                                      -|                             -|                      -|     -|           -|     |
+|   9|                                                      -|                             -|                      -|     -|           -|     |
+|  10|                                                      -|                             -|                      -|     -|           -|     |
+
+* The operational point for ranking is 0.90 recall@10. We will use the highest throughput for the search parameters that meet or exceed 0.90 recall@10.
+* Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
+* Abbreviations used in chart:
+  * *org* = submitted by challenge organizer, so subject to competition restrictions
+  * *final* = final submission
+  * *inprog* = algorithm development still in progress
 
 ##### BigANN Power Rankings
 
@@ -166,7 +227,47 @@
 
 ##### MSTuring Recall Rankings
 
+|Rank|Submission                                             |Team                          |Hardware               |Status|R@10     |Q/S     |
+|----|-------------------------------------------------------|------------------------------|-----------------------|------|---------|--------|
+|   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|**0.910**|2011.542|
+|   2|                                                      -|                             -|                      -|     -|        -|        |
+|   3|                                                      -|                             -|                      -|     -|        -|        |
+|   4|                                                      -|                             -|                      -|     -|        -|        |
+|   5|                                                      -|                             -|                      -|     -|        -|        |
+|   6|                                                      -|                             -|                      -|     -|        -|        |
+|   7|                                                      -|                             -|                      -|     -|        -|        |
+|   8|                                                      -|                             -|                      -|     -|        -|        |
+|   9|                                                      -|                             -|                      -|     -|        -|        |
+|  10|                                                      -|                             -|                      -|     -|        -|        |
+
+* The operational point for ranking is 2000 QPS. We will use the highest recall for the search parameters that meet or exceed 2000 QPS.
+* Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
+* Abbreviations used in chart:
+  * *org* = submitted by challenge organizer, so subject to competition restrictions
+  * *final* = final submission
+  * *inprog* = algorithm development still in progress
+
 ##### MSTuring Throughput Rankings
+
+|Rank|Submission                                             |Team                          |Hardware               |Status|Q/S         |R@10 |
+|----|-------------------------------------------------------|------------------------------|-----------------------|------|------------|-----|
+|   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|**2421.856**|0.902|
+|   2|                                                      -|                             -|                      -|     -|           -|     |
+|   3|                                                      -|                             -|                      -|     -|           -|     |
+|   4|                                                      -|                             -|                      -|     -|           -|     |
+|   5|                                                      -|                             -|                      -|     -|           -|     |
+|   6|                                                      -|                             -|                      -|     -|           -|     |
+|   7|                                                      -|                             -|                      -|     -|           -|     |
+|   8|                                                      -|                             -|                      -|     -|           -|     |
+|   9|                                                      -|                             -|                      -|     -|           -|     |
+|  10|                                                      -|                             -|                      -|     -|           -|     |
+
+* The operational point for ranking is 0.90 recall@10. We will use the highest throughput for the search parameters that meet or exceed 0.90 recall@10.
+* Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
+* Abbreviations used in chart:
+  * *org* = submitted by challenge organizer, so subject to competition restrictions
+  * *final* = final submission
+  * *inprog* = algorithm development still in progress
 
 ##### MSTuring Power Rankings
 
@@ -176,7 +277,47 @@
 
 ##### MSSpace Recall Rankings
 
+|Rank|Submission                                             |Team                          |Hardware               |Status|R@10     |Q/S     |
+|----|-------------------------------------------------------|------------------------------|-----------------------|------|---------|--------|
+|   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|**0.850**|2190.829|
+|   2|                                                      -|                             -|                      -|     -|        -|        |
+|   3|                                                      -|                             -|                      -|     -|        -|        |
+|   4|                                                      -|                             -|                      -|     -|        -|        |
+|   5|                                                      -|                             -|                      -|     -|        -|        |
+|   6|                                                      -|                             -|                      -|     -|        -|        |
+|   7|                                                      -|                             -|                      -|     -|        -|        |
+|   8|                                                      -|                             -|                      -|     -|        -|        |
+|   9|                                                      -|                             -|                      -|     -|        -|        |
+|  10|                                                      -|                             -|                      -|     -|        -|        |
+
+* The operational point for ranking is 2000 QPS. We will use the highest recall for the search parameters that meet or exceed 2000 QPS.
+* Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
+* Abbreviations used in chart:
+  * *org* = submitted by challenge organizer, so subject to competition restrictions
+  * *final* = final submission
+  * *inprog* = algorithm development still in progress
+
 ##### MSSpace Throughput Rankings
+
+|Rank|Submission                                             |Team                          |Hardware               |Status|Q/S         |R@10 |
+|----|-------------------------------------------------------|------------------------------|-----------------------|------|------------|-----|
+|   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|**1484.217**|0.869|
+|   2|                                                      -|                             -|                      -|     -|           -|     |
+|   3|                                                      -|                             -|                      -|     -|           -|     |
+|   4|                                                      -|                             -|                      -|     -|           -|     |
+|   5|                                                      -|                             -|                      -|     -|           -|     |
+|   6|                                                      -|                             -|                      -|     -|           -|     |
+|   7|                                                      -|                             -|                      -|     -|           -|     |
+|   8|                                                      -|                             -|                      -|     -|           -|     |
+|   9|                                                      -|                             -|                      -|     -|           -|     |
+|  10|                                                      -|                             -|                      -|     -|           -|     |
+
+* The operational point for ranking is 0.86 recall@10. We will use the highest throughput for the search parameters that meet or exceed 0.86 recall@10.
+* Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
+* Abbreviations used in chart:
+  * *org* = submitted by challenge organizer, so subject to competition restrictions
+  * *final* = final submission
+  * *inprog* = algorithm development still in progress
 
 ##### MSSpace Power Rankings
 
@@ -186,7 +327,47 @@
 
 ##### Text2Image Recall Rankings
 
+|Rank|Submission                                             |Team                          |Hardware               |Status|R@10     |Q/S     |
+|----|-------------------------------------------------------|------------------------------|-----------------------|------|---------|--------|
+|   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|**0.860**|2120.635|
+|   2|                                                      -|                             -|                      -|     -|        -|        |
+|   3|                                                      -|                             -|                      -|     -|        -|        |
+|   4|                                                      -|                             -|                      -|     -|        -|        |
+|   5|                                                      -|                             -|                      -|     -|        -|        |
+|   6|                                                      -|                             -|                      -|     -|        -|        |
+|   7|                                                      -|                             -|                      -|     -|        -|        |
+|   8|                                                      -|                             -|                      -|     -|        -|        |
+|   9|                                                      -|                             -|                      -|     -|        -|        |
+|  10|                                                      -|                             -|                      -|     -|        -|        |
+
+* The operational point for ranking is 2000 QPS. We will use the highest recall for the search parameters that meet or exceed 2000 QPS.
+* Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
+* Abbreviations used in chart:
+  * *org* = submitted by challenge organizer, so subject to competition restrictions
+  * *final* = final submission
+  * *inprog* = algorithm development still in progress
+
 ##### Text2Image Throughput Rankings
+
+|Rank|Submission                                             |Team                          |Hardware               |Status|Q/S         |R@10 |
+|----|-------------------------------------------------------|------------------------------|-----------------------|------|------------|-----|
+|   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|**1510.624**|0.882|
+|   2|                                                      -|                             -|                      -|     -|           -|     |
+|   3|                                                      -|                             -|                      -|     -|           -|     |
+|   4|                                                      -|                             -|                      -|     -|           -|     |
+|   5|                                                      -|                             -|                      -|     -|           -|     |
+|   6|                                                      -|                             -|                      -|     -|           -|     |
+|   7|                                                      -|                             -|                      -|     -|           -|     |
+|   8|                                                      -|                             -|                      -|     -|           -|     |
+|   9|                                                      -|                             -|                      -|     -|           -|     |
+|  10|                                                      -|                             -|                      -|     -|           -|     |
+
+* The operational point for ranking is 0.875 recall@10. We will use the highest throughput for the search parameters that meet or exceed 0.875 recall@10.
+* Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
+* Abbreviations used in chart:
+  * *org* = submitted by challenge organizer, so subject to competition restrictions
+  * *final* = final submission
+  * *inprog* = algorithm development still in progress
 
 ##### Text2Image Power Rankings
 
@@ -196,9 +377,16 @@
 
 ##### FBSimSearchNet Recall Rankings
 
+[TBD]
+
 ##### FBSimSearchNet Throughput Rankings
+
+[TBD]
 
 ##### FBSimSearchNet Power Rankings
 
+[TBD]
+
 ##### FBSimSearchNet Cost Rankings
 
+[TBD]

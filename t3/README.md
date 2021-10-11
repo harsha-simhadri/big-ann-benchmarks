@@ -22,6 +22,7 @@
     - [Participant Gives Remote Access To Evaluators](#participant_gives_remote_access_to_organizer)
     - [Participant Runs And Submits Benchmarks](#participant_runs_and_submits_benchmark)
   - [Evaluating Power Consumption](#evaluating_power_consumption)   
+- [Appendix](#appendix)
 
 ## Introduction
 
@@ -195,13 +196,13 @@ For the throughput leaderboard, we will rank participants by qps at 90% recall@1
 
 |   dataset    |    qps   | recall@10 |
 | ------------ | -------- | --------- |
-| msturing-1B  |          |           |
-| bigann-1B    |          |           |
-| text2image-1B|          |           |
-| deep-1B      |          |           |
-| msspacev-1B  |          |           |
+| msturing-1B  | 2421.856 |   0.902   |
+| bigann-1B    | 2186.755 |   0.905   |
+| text2image-1B| 1510.624 |   0.882   |
+| deep-1B      | 3422.473 |   0.916   |
+| msspacev-1B  | 1484.217 |   0.869   |
 
-Baseline thresholds were measured on an 56 core Intel Xeon system with 700GB RAM and a V100 Nvidia GPU using the FAISS library using the index strategy called IVF1048576,SQ8.
+Baseline thresholds were measured on an 56 core Intel Xeon system with 700GB RAM and a V100 Nvidia GPU using the FAISS library using the index strategy called IVF1048576,SQ8.  More information can be found in the Appendix at the end of this README.
 
 Here are all the baseline recall@10 vs throughput plots for the (knn search type) datasets:
 * [msturing-1B](faiss_t3/baseline_plots/msturing-1B-r-vs-t.png)
@@ -316,5 +317,55 @@ This will monitor power consumption over that period of time ( 10 seconds is a g
 
 You can retrieve a plot of the power consumptions ( measured as watt-seconds/query ) using the plot.py script.
 
+## Appendix
 
+### Baseline Threshold Experiments
 
+The following table lists the full results used to obtain baseline thresholds:
+
+|              dbase|                 QPS|            recall@10|
+|-------------------|--------------------|---------------------|
+|          bigann-1B|         2186.754570|             0.904860|
+|          bigann-1B|         1926.901416|             0.911140|
+|          bigann-1B|         1657.226695|             0.919860|
+|          bigann-1B|         2058.950046|             0.926560|
+|          bigann-1B|         1931.042641|             0.932450|
+|          bigann-1B|         1770.748406|             0.937190|
+|          bigann-1B|         1609.052224|             0.941330|
+|          bigann-1B|         1504.748288|             0.943890|
+|      text2image-1B|         2607.779941|             0.834820|
+|      text2image-1B|         2456.621393|             0.841845|
+|      text2image-1B|         2285.966847|             0.851920|
+|      text2image-1B|         2120.635218|             0.860156|
+|      text2image-1B|         1917.445903|             0.867244|
+|      text2image-1B|         1748.662912|             0.873469|
+|      text2image-1B|         1612.313130|             0.878757|
+|      text2image-1B|         1510.624227|             0.882487|
+|        msspacev-1B|         2465.473370|             0.844805|
+|        msspacev-1B|         2190.828587|             0.850205|
+|        msspacev-1B|         1935.385102|             0.854864|
+|        msspacev-1B|         1931.506970|             0.858998|
+|        msspacev-1B|         1748.525911|             0.862437|
+|        msspacev-1B|         1585.766679|             0.865152|
+|        msspacev-1B|         1477.389358|             0.867912|
+|        msspacev-1B|         1484.216732|             0.868812|
+|        msturing-1B|         3625.040250|             0.881202|
+|        msturing-1B|         3197.403722|             0.888140|
+|        msturing-1B|         2907.993722|             0.893669|
+|        msturing-1B|         2655.951474|             0.898400|
+|        msturing-1B|         2421.855941|             0.902413|
+|        msturing-1B|         2233.241641|             0.905846|
+|        msturing-1B|         2070.942269|             0.908949|
+|        msturing-1B|         2011.542149|             0.910115|
+|            deep-1B|         3422.472565|             0.915540|
+|            deep-1B|         2732.133452|             0.920430|
+|            deep-1B|         2507.486404|             0.927790|
+|            deep-1B|         1992.323615|             0.932950|
+|            deep-1B|         2037.783443|             0.937940|
+|            deep-1B|         2002.489712|             0.941740|
+|            deep-1B|         1967.826369|             0.945130|
+|            deep-1B|         1874.898854|             0.947430|
+
+These baseline numbers were performed on the machine configuration used for the T3 faiss baseline(see).
+
+An older (now obsolete) code framework was used to determine these thresholds, not the existing evaluation framework so there is no algos.yaml configuration file.
