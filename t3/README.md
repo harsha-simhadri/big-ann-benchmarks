@@ -204,12 +204,14 @@ For the throughput leaderboard, we will rank participants by qps at 90% recall@1
 
 Baseline thresholds were measured on an 56 core Intel Xeon system with 700GB RAM and a V100 Nvidia GPU using the FAISS library using the index strategy called IVF1048576,SQ8.  More information can be found in the Appendix at the end of this README.
 
-Here are all the baseline recall@10 vs throughput plots for the (knn search type) datasets:
+Here are FAISS baseline recall@10 vs throughput plots for the (knn search type) datasets:
 * [msturing-1B](faiss_t3/baseline_plots/msturing-1B-r-vs-t.png)
 * [bigann-1B](faiss_t3/baseline_plots/bigann-1B-r-vs-t.png)
 * [text2image-1B](faiss_t3/baseline_plots/text2image-1B-r-vs-t.png)
 * [deep-1B](faiss_t3/baseline_plots/deep-1B-r-vs-t.png)
 * [msspacev-1B](faiss_t3/baseline_plots/msspacev-1B-r-vs-t.png)
+
+Note these plots were acquired using this repo's eval framework.  The baseline thresholds we performed using an old (not obsolete) software framework (see Appendix for more information.)
 
 #### Recall_Leaderboard
 
