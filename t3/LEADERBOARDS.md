@@ -130,15 +130,15 @@
 |Rank|Submission                                             |Team                          |Hardware               |Status|R@10     |Q/S     |
 |----|-------------------------------------------------------|------------------------------|-----------------------|------|---------|--------|
 |   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|**0.942**|2002.490|
-|   2|                                                      -|                             -|                      -|     -|        -|        |
-|   3|                                                      -|                             -|                      -|     -|        -|        |
-|   4|                                                      -|                             -|                      -|     -|        -|        |
-|   5|                                                      -|                             -|                      -|     -|        -|        |
-|   6|                                                      -|                             -|                      -|     -|        -|        |
-|   7|                                                      -|                             -|                      -|     -|        -|        |
-|   8|                                                      -|                             -|                      -|     -|        -|        |
-|   9|                                                      -|                             -|                      -|     -|        -|        |
-|  10|                                                      -|                             -|                      -|     -|        -|        |
+|   2|                                                      -|                             -|                      -|     -|        -|       -|
+|   3|                                                      -|                             -|                      -|     -|        -|       -|
+|   4|                                                      -|                             -|                      -|     -|        -|       -|
+|   5|                                                      -|                             -|                      -|     -|        -|       -|
+|   6|                                                      -|                             -|                      -|     -|        -|       -|
+|   7|                                                      -|                             -|                      -|     -|        -|       -|
+|   8|                                                      -|                             -|                      -|     -|        -|       -|
+|   9|                                                      -|                             -|                      -|     -|        -|       -|
+|  10|                                                      -|                             -|                      -|     -|        -|       -|
 
 * The operational point for ranking is 2000 QPS. We will use the highest recall for the search parameters that meet or exceed 2000 QPS.
 * Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
@@ -149,18 +149,18 @@
 
 ##### Deep1B Throughput Rankings 
 
-|Rank|Submission                                             |Team                          |Hardware               |Status|Q/S     |R@10 |
-|----|-------------------------------------------------------|------------------------------|-----------------------|------|--------|-----|
-|   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|3422.473|0.916|
-|   2|                                                      -|                             -|                      -|     -|       -|     |
-|   3|                                                      -|                             -|                      -|     -|       -|     |
-|   4|                                                      -|                             -|                      -|     -|       -|     |
-|   5|                                                      -|                             -|                      -|     -|       -|     |
-|   6|                                                      -|                             -|                      -|     -|       -|     |
-|   7|                                                      -|                             -|                      -|     -|       -|     |
-|   8|                                                      -|                             -|                      -|     -|       -|     |
-|   9|                                                      -|                             -|                      -|     -|       -|     |
-|  10|                                                      -|                             -|                      -|     -|       -|     |
+|Rank|Submission                                             |Team                          |Hardware               |Status|Q/S         |R@10 |
+|----|-------------------------------------------------------|------------------------------|-----------------------|------|------------|-----|
+|   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|**3422.473**|0.916|
+|   2|                                                      -|                             -|                      -|     -|           -|    -|
+|   3|                                                      -|                             -|                      -|     -|           -|    -|
+|   4|                                                      -|                             -|                      -|     -|           -|    -|
+|   5|                                                      -|                             -|                      -|     -|           -|    -|
+|   6|                                                      -|                             -|                      -|     -|           -|    -|
+|   7|                                                      -|                             -|                      -|     -|           -|    -|
+|   8|                                                      -|                             -|                      -|     -|           -|    -|
+|   9|                                                      -|                             -|                      -|     -|           -|    -|
+|  10|                                                      -|                             -|                      -|     -|           -|    -|
 
 * The operational point for ranking is 0.90 recall@10. We will use the highest throughput for the search parameters that meet or exceed 0.90 recall@10.
 * Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
@@ -171,18 +171,18 @@
 
 ##### Deep1B Power Rankings 
 
-|Rank|Submission                                             |Team                          |Hardware               |Status|W*S/Q   |
-|----|-------------------------------------------------------|------------------------------|-----------------------|------|--------|
-|   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|   0.158|
-|   2|                                                      -|                             -|                      -|     -|       -|
-|   3|                                                      -|                             -|                      -|     -|       -|
-|   4|                                                      -|                             -|                      -|     -|       -|
-|   5|                                                      -|                             -|                      -|     -|       -|
-|   6|                                                      -|                             -|                      -|     -|       -|
-|   7|                                                      -|                             -|                      -|     -|       -|
-|   8|                                                      -|                             -|                      -|     -|       -|
-|   9|                                                      -|                             -|                      -|     -|       -|
-|  10|                                                      -|                             -|                      -|     -|       -|
+|Rank|Submission                                             |Team                          |Hardware               |Status|W*S/Q    |
+|----|-------------------------------------------------------|------------------------------|-----------------------|------|---------|
+|   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|**0.158**|
+|   2|                                                      -|                             -|                      -|     -|        -|
+|   3|                                                      -|                             -|                      -|     -|        -|
+|   4|                                                      -|                             -|                      -|     -|        -|
+|   5|                                                      -|                             -|                      -|     -|        -|
+|   6|                                                      -|                             -|                      -|     -|        -|
+|   7|                                                      -|                             -|                      -|     -|        -|
+|   8|                                                      -|                             -|                      -|     -|        -|
+|   9|                                                      -|                             -|                      -|     -|        -|
+|  10|                                                      -|                             -|                      -|     -|        -|
 
 * The operational point for ranking is 0.90 recall@10. We will use the lowest power consumption for the search parameters that meet or exceed 0.90 recall@10.
 * Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
@@ -194,7 +194,7 @@
 ##### Deep1B Cost Rankings 
 
 |Rank|Submission                                             |Team                          |Hardware               |Status|$$          |capex   |opex   |unit cost|units@100K qps|KwH*4yrs|KwH cost|
-|----|-------------------------------------------------------|------------------------------|-----------------------|------|------------|--------|-----------------|--------------|--------|--------|
+|----|-------------------------------------------------------|------------------------------|-----------------------|------|------------|--------|-------|---------|--------------|--------|--------|
 |   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|**716010.0**|660657.0|  55353| 22021.90|            30|553632.0| 55353.0|
 |   2|                                                      -|                             -|                      -|     -|           -|       -|      -|        -|             -|       -|       -|
 |   3|                                                      -|                             -|                      -|     -|           -|       -|      -|        -|             -|       -|       -|
@@ -226,15 +226,15 @@
 |Rank|Submission                                             |Team                          |Hardware               |Status|R@10     |Q/S     |
 |----|-------------------------------------------------------|------------------------------|-----------------------|------|---------|--------|
 |   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|**0.927**|2058.950|
-|   2|                                                      -|                             -|                      -|     -|        -|        |
-|   3|                                                      -|                             -|                      -|     -|        -|        |
-|   4|                                                      -|                             -|                      -|     -|        -|        |
-|   5|                                                      -|                             -|                      -|     -|        -|        |
-|   6|                                                      -|                             -|                      -|     -|        -|        |
-|   7|                                                      -|                             -|                      -|     -|        -|        |
-|   8|                                                      -|                             -|                      -|     -|        -|        |
-|   9|                                                      -|                             -|                      -|     -|        -|        |
-|  10|                                                      -|                             -|                      -|     -|        -|        |
+|   2|                                                      -|                             -|                      -|     -|        -|       -|
+|   3|                                                      -|                             -|                      -|     -|        -|       -|
+|   4|                                                      -|                             -|                      -|     -|        -|       -|
+|   5|                                                      -|                             -|                      -|     -|        -|       -|
+|   6|                                                      -|                             -|                      -|     -|        -|       -|
+|   7|                                                      -|                             -|                      -|     -|        -|       -|
+|   8|                                                      -|                             -|                      -|     -|        -|       -|
+|   9|                                                      -|                             -|                      -|     -|        -|       -|
+|  10|                                                      -|                             -|                      -|     -|        -|       -|
 
 * The operational point for ranking is 2000 QPS. We will use the highest recall for the search parameters that meet or exceed 2000 QPS.
 * Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
@@ -248,15 +248,15 @@
 |Rank|Submission                                             |Team                          |Hardware               |Status|Q/S         |R@10 |
 |----|-------------------------------------------------------|------------------------------|-----------------------|------|------------|-----|
 |   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|**2186.755**|0.905|
-|   2|                                                      -|                             -|                      -|     -|           -|     |
-|   3|                                                      -|                             -|                      -|     -|           -|     |
-|   4|                                                      -|                             -|                      -|     -|           -|     |
-|   5|                                                      -|                             -|                      -|     -|           -|     |
-|   6|                                                      -|                             -|                      -|     -|           -|     |
-|   7|                                                      -|                             -|                      -|     -|           -|     |
-|   8|                                                      -|                             -|                      -|     -|           -|     |
-|   9|                                                      -|                             -|                      -|     -|           -|     |
-|  10|                                                      -|                             -|                      -|     -|           -|     |
+|   2|                                                      -|                             -|                      -|     -|           -|    -|
+|   3|                                                      -|                             -|                      -|     -|           -|    -|
+|   4|                                                      -|                             -|                      -|     -|           -|    -|
+|   5|                                                      -|                             -|                      -|     -|           -|    -|
+|   6|                                                      -|                             -|                      -|     -|           -|    -|
+|   7|                                                      -|                             -|                      -|     -|           -|    -|
+|   8|                                                      -|                             -|                      -|     -|           -|    -|
+|   9|                                                      -|                             -|                      -|     -|           -|    -|
+|  10|                                                      -|                             -|                      -|     -|           -|    -|
 
 * The operational point for ranking is 0.90 recall@10. We will use the highest throughput for the search parameters that meet or exceed 0.90 recall@10.
 * Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
@@ -269,7 +269,7 @@
 
 |Rank|Submission                                             |Team                          |Hardware               |Status|W*S/Q   |
 |----|-------------------------------------------------------|------------------------------|-----------------------|------|--------|
-|   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|    0.19|
+|   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|**0.19**|
 |   2|                                                      -|                             -|                      -|     -|       -|
 |   3|                                                      -|                             -|                      -|     -|       -|
 |   4|                                                      -|                             -|                      -|     -|       -|
@@ -290,7 +290,7 @@
 ##### BigANN Cost Rankings
 
 |Rank|Submission                                             |Team                          |Hardware               |Status|$$           |capex    |opex   |unit cost|units@100K qps|KwH*4yrs|KwH cost|
-|----|-------------------------------------------------------|------------------------------|-----------------------|------|-------------|---------|-----------------|--------------|--------|--------|
+|----|-------------------------------------------------------|------------------------------|-----------------------|------|-------------|---------|-------|---------|--------------|--------|--------|
 |   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|**1079583.4**|1013007.4|66576.0| 22021.90|            46|665760.0| 66576.0|
 |   2|                                                      -|                             -|                      -|     -|            -|        -|      -|        -|             -|        |       -|
 |   3|                                                      -|                             -|                      -|     -|            -|        -|      -|        -|             -|       -|       -|
@@ -322,15 +322,15 @@
 |Rank|Submission                                             |Team                          |Hardware               |Status|R@10     |Q/S     |
 |----|-------------------------------------------------------|------------------------------|-----------------------|------|---------|--------|
 |   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|**0.910**|2011.542|
-|   2|                                                      -|                             -|                      -|     -|        -|        |
-|   3|                                                      -|                             -|                      -|     -|        -|        |
-|   4|                                                      -|                             -|                      -|     -|        -|        |
-|   5|                                                      -|                             -|                      -|     -|        -|        |
-|   6|                                                      -|                             -|                      -|     -|        -|        |
-|   7|                                                      -|                             -|                      -|     -|        -|        |
-|   8|                                                      -|                             -|                      -|     -|        -|        |
-|   9|                                                      -|                             -|                      -|     -|        -|        |
-|  10|                                                      -|                             -|                      -|     -|        -|        |
+|   2|                                                      -|                             -|                      -|     -|        -|       -|
+|   3|                                                      -|                             -|                      -|     -|        -|       -|
+|   4|                                                      -|                             -|                      -|     -|        -|       -|
+|   5|                                                      -|                             -|                      -|     -|        -|       -|
+|   6|                                                      -|                             -|                      -|     -|        -|       -|
+|   7|                                                      -|                             -|                      -|     -|        -|       -|
+|   8|                                                      -|                             -|                      -|     -|        -|       -|
+|   9|                                                      -|                             -|                      -|     -|        -|       -|
+|  10|                                                      -|                             -|                      -|     -|        -|       -|
 
 * The operational point for ranking is 2000 QPS. We will use the highest recall for the search parameters that meet or exceed 2000 QPS.
 * Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
@@ -344,15 +344,15 @@
 |Rank|Submission                                             |Team                          |Hardware               |Status|Q/S         |R@10 |
 |----|-------------------------------------------------------|------------------------------|-----------------------|------|------------|-----|
 |   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|**2421.856**|0.902|
-|   2|                                                      -|                             -|                      -|     -|           -|     |
-|   3|                                                      -|                             -|                      -|     -|           -|     |
-|   4|                                                      -|                             -|                      -|     -|           -|     |
-|   5|                                                      -|                             -|                      -|     -|           -|     |
-|   6|                                                      -|                             -|                      -|     -|           -|     |
-|   7|                                                      -|                             -|                      -|     -|           -|     |
-|   8|                                                      -|                             -|                      -|     -|           -|     |
-|   9|                                                      -|                             -|                      -|     -|           -|     |
-|  10|                                                      -|                             -|                      -|     -|           -|     |
+|   2|                                                      -|                             -|                      -|     -|           -|    -|
+|   3|                                                      -|                             -|                      -|     -|           -|    -|
+|   4|                                                      -|                             -|                      -|     -|           -|    -|
+|   5|                                                      -|                             -|                      -|     -|           -|    -|
+|   6|                                                      -|                             -|                      -|     -|           -|    -|
+|   7|                                                      -|                             -|                      -|     -|           -|    -|
+|   8|                                                      -|                             -|                      -|     -|           -|    -|
+|   9|                                                      -|                             -|                      -|     -|           -|    -|
+|  10|                                                      -|                             -|                      -|     -|           -|    -|
 
 * The operational point for ranking is 0.90 recall@10. We will use the highest throughput for the search parameters that meet or exceed 0.90 recall@10.
 * Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
@@ -365,7 +365,7 @@
 
 |Rank|Submission                                             |Team                          |Hardware               |Status|W*S/Q   |
 |----|-------------------------------------------------------|------------------------------|-----------------------|------|--------|
-|   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|    0.51|
+|   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|**0.51**|
 |   2|                                                      -|                             -|                      -|     -|       -|
 |   3|                                                      -|                             -|                      -|     -|       -|
 |   4|                                                      -|                             -|                      -|     -|       -|
@@ -393,10 +393,10 @@
 |   4|                                                      -|                             -|                      -|     -|            -|        -|       -|        -|             -|        -|       -|
 |   5|                                                      -|                             -|                      -|     -|            -|        -|       -|        -|             -|        -|       -|
 |   6|                                                      -|                             -|                      -|     -|            -|        -|       -|        -|             -|        -|       -|
-|   7|                                                      -|                             -|                      -|     -|            -|        -|      -|        -|             -|        -|       -|
-|   8|                                                      -|                             -|                      -|     -|            -|        -|      -|        -|             -|        -|       -|
-|   9|                                                      -|                             -|                      -|     -|            -|        -|      -|        -|             -|        -|       -|
-|  10|                                                      -|                             -|                      -|     -|            -|        -|      -|        -|             -|        -|       -|
+|   7|                                                      -|                             -|                      -|     -|            -|        -|       -|        -|             -|        -|       -|
+|   8|                                                      -|                             -|                      -|     -|            -|        -|       -|        -|             -|        -|       -|
+|   9|                                                      -|                             -|                      -|     -|            -|        -|       -|        -|             -|        -|       -|
+|  10|                                                      -|                             -|                      -|     -|            -|        -|       -|        -|             -|        -|       -|
 
 * The operational point for ranking is 0.90 recall@10. We will use the lowest power consumption/query for the search parameters that meet or exceed 0.90 recall@10.
 * The formula is based on:
@@ -418,15 +418,15 @@
 |Rank|Submission                                             |Team                          |Hardware               |Status|R@10     |Q/S     |
 |----|-------------------------------------------------------|------------------------------|-----------------------|------|---------|--------|
 |   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|**0.850**|2190.829|
-|   2|                                                      -|                             -|                      -|     -|        -|        |
-|   3|                                                      -|                             -|                      -|     -|        -|        |
-|   4|                                                      -|                             -|                      -|     -|        -|        |
-|   5|                                                      -|                             -|                      -|     -|        -|        |
-|   6|                                                      -|                             -|                      -|     -|        -|        |
-|   7|                                                      -|                             -|                      -|     -|        -|        |
-|   8|                                                      -|                             -|                      -|     -|        -|        |
-|   9|                                                      -|                             -|                      -|     -|        -|        |
-|  10|                                                      -|                             -|                      -|     -|        -|        |
+|   2|                                                      -|                             -|                      -|     -|        -|       -|
+|   3|                                                      -|                             -|                      -|     -|        -|       -|
+|   4|                                                      -|                             -|                      -|     -|        -|       -|
+|   5|                                                      -|                             -|                      -|     -|        -|       -|
+|   6|                                                      -|                             -|                      -|     -|        -|       -|
+|   7|                                                      -|                             -|                      -|     -|        -|       -|
+|   8|                                                      -|                             -|                      -|     -|        -|       -|
+|   9|                                                      -|                             -|                      -|     -|        -|       -|
+|  10|                                                      -|                             -|                      -|     -|        -|       -|
 
 * The operational point for ranking is 2000 QPS. We will use the highest recall for the search parameters that meet or exceed 2000 QPS.
 * Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
@@ -440,15 +440,15 @@
 |Rank|Submission                                             |Team                          |Hardware               |Status|Q/S         |R@10 |
 |----|-------------------------------------------------------|------------------------------|-----------------------|------|------------|-----|
 |   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|**1484.217**|0.869|
-|   2|                                                      -|                             -|                      -|     -|           -|     |
-|   3|                                                      -|                             -|                      -|     -|           -|     |
-|   4|                                                      -|                             -|                      -|     -|           -|     |
-|   5|                                                      -|                             -|                      -|     -|           -|     |
-|   6|                                                      -|                             -|                      -|     -|           -|     |
-|   7|                                                      -|                             -|                      -|     -|           -|     |
-|   8|                                                      -|                             -|                      -|     -|           -|     |
-|   9|                                                      -|                             -|                      -|     -|           -|     |
-|  10|                                                      -|                             -|                      -|     -|           -|     |
+|   2|                                                      -|                             -|                      -|     -|           -|    -|
+|   3|                                                      -|                             -|                      -|     -|           -|    -|
+|   4|                                                      -|                             -|                      -|     -|           -|    -|
+|   5|                                                      -|                             -|                      -|     -|           -|    -|
+|   6|                                                      -|                             -|                      -|     -|           -|    -|
+|   7|                                                      -|                             -|                      -|     -|           -|    -|
+|   8|                                                      -|                             -|                      -|     -|           -|    -|
+|   9|                                                      -|                             -|                      -|     -|           -|    -|
+|  10|                                                      -|                             -|                      -|     -|           -|    -|
 
 * The operational point for ranking is 0.86 recall@10. We will use the highest throughput for the search parameters that meet or exceed 0.86 recall@10.
 * Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
@@ -461,7 +461,7 @@
 
 |Rank|Submission                                             |Team                          |Hardware               |Status|W*S/Q   |
 |----|-------------------------------------------------------|------------------------------|-----------------------|------|--------|
-|   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|    0.65|
+|   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|**0.65**|
 |   2|                                                      -|                             -|                      -|     -|       -|
 |   3|                                                      -|                             -|                      -|     -|       -|
 |   4|                                                      -|                             -|                      -|     -|       -|
@@ -514,15 +514,15 @@
 |Rank|Submission                                             |Team                          |Hardware               |Status|R@10     |Q/S     |
 |----|-------------------------------------------------------|------------------------------|-----------------------|------|---------|--------|
 |   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|**0.860**|2120.635|
-|   2|                                                      -|                             -|                      -|     -|        -|        |
-|   3|                                                      -|                             -|                      -|     -|        -|        |
-|   4|                                                      -|                             -|                      -|     -|        -|        |
-|   5|                                                      -|                             -|                      -|     -|        -|        |
-|   6|                                                      -|                             -|                      -|     -|        -|        |
-|   7|                                                      -|                             -|                      -|     -|        -|        |
-|   8|                                                      -|                             -|                      -|     -|        -|        |
-|   9|                                                      -|                             -|                      -|     -|        -|        |
-|  10|                                                      -|                             -|                      -|     -|        -|        |
+|   2|                                                      -|                             -|                      -|     -|        -|       -|
+|   3|                                                      -|                             -|                      -|     -|        -|       -|
+|   4|                                                      -|                             -|                      -|     -|        -|       -|
+|   5|                                                      -|                             -|                      -|     -|        -|       -|
+|   6|                                                      -|                             -|                      -|     -|        -|       -|
+|   7|                                                      -|                             -|                      -|     -|        -|       -|
+|   8|                                                      -|                             -|                      -|     -|        -|       -|
+|   9|                                                      -|                             -|                      -|     -|        -|       -|
+|  10|                                                      -|                             -|                      -|     -|        -|       -|
 
 * The operational point for ranking is 2000 QPS. We will use the highest recall for the search parameters that meet or exceed 2000 QPS.
 * Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
@@ -536,15 +536,15 @@
 |Rank|Submission                                             |Team                          |Hardware               |Status|Q/S         |R@10 |
 |----|-------------------------------------------------------|------------------------------|-----------------------|------|------------|-----|
 |   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|**1510.624**|0.882|
-|   2|                                                      -|                             -|                      -|     -|           -|     |
-|   3|                                                      -|                             -|                      -|     -|           -|     |
-|   4|                                                      -|                             -|                      -|     -|           -|     |
-|   5|                                                      -|                             -|                      -|     -|           -|     |
-|   6|                                                      -|                             -|                      -|     -|           -|     |
-|   7|                                                      -|                             -|                      -|     -|           -|     |
-|   8|                                                      -|                             -|                      -|     -|           -|     |
-|   9|                                                      -|                             -|                      -|     -|           -|     |
-|  10|                                                      -|                             -|                      -|     -|           -|     |
+|   2|                                                      -|                             -|                      -|     -|           -|    -|
+|   3|                                                      -|                             -|                      -|     -|           -|    -|
+|   4|                                                      -|                             -|                      -|     -|           -|    -|
+|   5|                                                      -|                             -|                      -|     -|           -|    -|
+|   6|                                                      -|                             -|                      -|     -|           -|    -|
+|   7|                                                      -|                             -|                      -|     -|           -|    -|
+|   8|                                                      -|                             -|                      -|     -|           -|    -|
+|   9|                                                      -|                             -|                      -|     -|           -|    -|
+|  10|                                                      -|                             -|                      -|     -|           -|    -|
 
 * The operational point for ranking is 0.875 recall@10. We will use the highest throughput for the search parameters that meet or exceed 0.875 recall@10.
 * Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
@@ -555,18 +555,18 @@
 
 ##### Text2Image Power Rankings
 
-|Rank|Submission                                             |Team                          |Hardware               |Status|W*S/Q   |
-|----|-------------------------------------------------------|------------------------------|-----------------------|------|--------|
-|   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|   0.195|
-|   2|                                                      -|                             -|                      -|     -|       -|
-|   3|                                                      -|                             -|                      -|     -|       -|
-|   4|                                                      -|                             -|                      -|     -|       -|
-|   5|                                                      -|                             -|                      -|     -|       -|
-|   6|                                                      -|                             -|                      -|     -|       -|
-|   7|                                                      -|                             -|                      -|     -|       -|
-|   8|                                                      -|                             -|                      -|     -|       -|
-|   9|                                                      -|                             -|                      -|     -|       -|
-|  10|                                                      -|                             -|                      -|     -|       -|
+|Rank|Submission                                             |Team                          |Hardware               |Status|W*S/Q    |
+|----|-------------------------------------------------------|------------------------------|-----------------------|------|---------|
+|   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|**0.195**|
+|   2|                                                      -|                             -|                      -|     -|        -|
+|   3|                                                      -|                             -|                      -|     -|        -|
+|   4|                                                      -|                             -|                      -|     -|        -|
+|   5|                                                      -|                             -|                      -|     -|        -|
+|   6|                                                      -|                             -|                      -|     -|        -|
+|   7|                                                      -|                             -|                      -|     -|        -|
+|   8|                                                      -|                             -|                      -|     -|        -|
+|   9|                                                      -|                             -|                      -|     -|        -|
+|  10|                                                      -|                             -|                      -|     -|        -|
 
 * The operational point for ranking is 0.86 recall@10. We will use the lowest power consumption for the search parameters that meet or exceed 0.86 recall@10.
 * Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
