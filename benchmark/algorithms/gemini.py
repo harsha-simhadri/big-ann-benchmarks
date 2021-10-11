@@ -52,6 +52,7 @@ def get_cluster_and_ids_lists(index, nbits):
     return ret
 
 def create_encoding(encoding_file_name, normalize=False):
+    print("FILE LOAD PATH", encoding_file_name)
     single_np_array = np.load(encoding_file_name)
     # contains 6 arrays in a particular order
     layers = [NHEncoding.NHLayer(single_np_array[0], single_np_array[1].reshape(1, len(single_np_array[1]))),
@@ -82,6 +83,7 @@ class GeminiT3(BaseANN):
         self._metric = metric
         self.index_params = ast.literal_eval(index_params)
         num_apuc = self.index_params['num_apuc']
+        print("NUM_APUC", num_apuc)
         self.gsl_ctx = Context(gdl_ctx_ids[:num_apuc], max_num_threads=56)
         # GSL init end
 

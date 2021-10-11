@@ -8,7 +8,7 @@ deep-1B:
             base:
               args: |
                   [
-                          "{'nbits': 512, 'qbits':768, 'nlist':2097152, 'nt':83886080, 'num_apuc':4, 'f16':True }"
+                          "{'nbits': 512, 'qbits':768, 'nlist':2097152, 'nt':83886080, 'num_apuc':3, 'f16':True }"
                   ]
               query-args: |
                   [
