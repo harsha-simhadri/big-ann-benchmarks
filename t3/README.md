@@ -32,6 +32,8 @@ The T1 and T2 tracks of the competition restrict the evaluation of algorithms to
 * One based on power consumption
 * One based on hardware cost
 
+You can see the latest leaderboards' status [here](LEADERBOARDS.md).
+
 Participants must submit their algorithm via a pull request and index file(s) upload (one per participating dataset).  Participants are not required to submit proprietary source code such as software drivers or firmware.
 
 Competition evaluators will evaluate the participant's algorithm and hardware via one of these options:
