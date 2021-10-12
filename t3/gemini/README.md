@@ -9,9 +9,9 @@ This README contains information required for T3 Track submissions.
 |Chassis and Motherboard      |[Advantech Sky-6200 2U](cost/AdvantechSky6200.pdf)|   1|[5572.42](cost/AdvantechSky6200.pdf)|    5572.42|
 |RAM                          |[Advantech 62GB Memory](cost/RAM.pdf)             |  24|              [409.99](cost/RAM.pdf)|    9839.76|
 |SSD                          |[2TB SeaGate](cost/SSD.pdf)                       |   1|              [334.48](cost/SSD.pdf)|     334.48|
-|APU                          |[LedaE APU](cost/APU.pdf)                         |   4|            [xxxxx.xx](cost/APU.pdf)|   xxxxx.xx|
+|APU                          |[LedaE APU](cost/APU.pdf)                         |   4|            [35000.00](cost/APU.pdf)|  140000.00|
 |GPU                          |[NVidia V100](cost/GPU.pdf)                       |   1|             [9899.00](cost/GPU.pdf)|    9899.00|
-|Total                        |                                                  |   1|                                    |   xxxxx.xx|
+|Total                        |                                                  |   1|                                    |  165645.66|
 
 ## Hardware Access
 
@@ -22,10 +22,10 @@ This hardware is maintained by the GSI Technology, one of the competition organi
 This submission requires the following software components where source-code is not available and/or not part of the source-code for this submission:
 * NVidia docker container runtime ( https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html )
 * CUDA 11 libraries and host drivers
-* NVidia V100 firmware
-* Gemini Software system software and host drivers
-* Gemini pyGSL vector search library
-* LedaE PCIe board firmware
+* NVidia V100 firmware compatible with CUDA 11
+* Gemini Software system software and host drivers (version TBD)
+* Gemini pyGSL vector search library (version TBD)
+* LedaE PCIe board firmware (version TBD)
 
 ## Hardware Setup And Software Installation
 
@@ -36,8 +36,7 @@ This submission requires the following software components where source-code is 
 * Python package requirements in [requirements.txt](requirements.txt)
 * CUDA 11.0
 * The NVidia docker container runtime ( https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html )
-* Gemini system software and host drivers ( please contact gwilliams@gsitechnology.com for more information. )
-* Gemini pyGSL vector search library ( please contact gwilliams@gsitechnology.com for more information. )
+* Gemini system software and host drivers ( please follow the instructions that came with your Leda hardware.)
 * This cloned project repository
 
 ### Test Your Leda Hardware
@@ -48,11 +47,19 @@ At the command line run the following diagnostic program to make sure your board
 
 ### pyGSL Libraries
 
-Download the pyGSL libraries from here (TBD) and unpack into the toplevel directory of the cloned repository.
+Download the pyGSL libraries from [here](https://storage.googleapis.com/bigann/gemini/gsl_resources.tar.gz.1) and unpack into the toplevel directory of the cloned repository.
 
 ### Competition Index Files
 
 Currently the competition index files must be downloaded and installed manually.
 
-Download the index files from here (TBD) and unpack into the cloned repo's data directory.
+Download all the index files from [here](tbd) and unpack into the cloned repo's data directory.
+
+## Run The Competition Algorithm
+
+In the top-level directory of the cloned repository, run the following command:
+
+```t3/gemini/run_bin_python.sh```
+
+Note that it will take a few minutes for all the index files to load, so be patient.
 
