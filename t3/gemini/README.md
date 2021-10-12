@@ -53,7 +53,7 @@ Download the pyGSL libraries from [here](https://storage.googleapis.com/bigann/g
 
 Currently the competition index files must be downloaded and installed manually.
 
-Download all the index files from [here](tbd) and unpack into the cloned repo's data directory.
+Download all the index files from [here](tbd) (TBD) and unpack into the cloned repo's data directory.
 
 ## Run The Competition Algorithm
 
