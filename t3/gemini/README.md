@@ -7,7 +7,7 @@ This README contains information required for T3 Track submissions.
 |Part                         |Model                                             |No. |Unit Price                          |Total Price|
 |-----------------------------|--------------------------------------------------|----|------------------------------------|-----------|
 |Chassis and Motherboard      |[Advantech Sky-6200 2U](cost/AdvantechSky6200.pdf)|   1|[5572.42](cost/AdvantechSky6200.pdf)|    5572.42|
-|RAM                          |[Advantech 62GB Memory](cost/RAM.pdf)             |  24|              [409.99](cost/RAM.pdf)|    9839.76|
+|RAM                          |[Advantech 64GB Memory](cost/RAM.pdf)             |  24|              [409.99](cost/RAM.pdf)|    9839.76|
 |SSD                          |[2TB SeaGate](cost/SSD.pdf)                       |   1|              [334.48](cost/SSD.pdf)|     334.48|
 |APU                          |[LedaE APU](cost/APU.pdf)                         |   4|            [35000.00](cost/APU.pdf)|  140000.00|
 |GPU                          |[NVidia V100](cost/GPU.pdf)                       |   1|             [9899.00](cost/GPU.pdf)|    9899.00|
