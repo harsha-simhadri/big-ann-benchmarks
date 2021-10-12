@@ -153,7 +153,7 @@ A submission is composed of the following:
 
 ### Index File
 
-The binary index file(s) must be http or azcopy accessible and is referenced within your *t3/[your_team_name]/algos.yaml* config file.  Please see the *t3/faiss_t3/algos.yaml* example.
+The binary index file(s) must be http or azcopy accessible and is referenced within your *t3/[your_team_name]/algos.yaml* config file.  Please see the baseline [algos.yaml](faiss_t3/algos.yaml) example.
 
 ### The README File
 
@@ -162,8 +162,9 @@ Your submission's top-level directory should contain a README.md with the follow
 * **Hardware Access** This section describes how evaluators acquire access to the hardware (specific instructions or contact information.)
 * **No Source Declarations**  This section must contain a list of software components that were not provided with the submission.
 * **Hardware Setup And Software Installation**  This section should contain any hardware and software installation instructions.
+* **Run Competition Algorithm**  This section should contain instructions to run the competition algorithm, for example, run scripts.
 
-Please consult the *t3/faiss_t3/README.md* example.
+Please consult the baseline [README.md](faiss_t3/README.md) example.
 
 ### Optional Information
 
