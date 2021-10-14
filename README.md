@@ -16,6 +16,9 @@ You might also want to follow the post-install steps for running docker in non-r
 
 The framework assumes that all data is stored in `data/`.
 Please use a symlink if your datasets and indices are supposed to be stored somewhere else.
+The location of the linked folder matters a great deal for SSD-based search performance in T2. 
+A local SSD such as the one found on Azure Ls-series VMs is better than remote disks, even premium ones.
+See [T1/T2](t1_t2/README.md) for more details.
 
 ## Data sets
 
