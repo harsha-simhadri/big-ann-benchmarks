@@ -28,7 +28,6 @@ RUN git clone --depth=1 https://github.com/pyenv/pyenv.git .pyenv
 ENV PYENV_ROOT="${HOME}/.pyenv"
 ENV PATH="${PYENV_ROOT}/shims:${PYENV_ROOT}/bin:${PATH}"
 
-#ENV PYTHON_VERSION=3.9.5
 ENV PYTHON_VERSION=3.6.15
 ENV PYTHON_CONFIGURE_OPTS="--enable-shared"
 RUN pyenv install ${PYTHON_VERSION}
@@ -50,7 +49,10 @@ RUN python3 -m pip install julia
 RUN python3 -c "import julia; julia.install()"
 
 # Install GraphANN
-COPY GraphANN-temp .
+# Either copy it from a local directory or clone it from github
+# COPY GraphANN .
+RUN git clone https://github.com/hildebrandmw/GraphANN.jl GraphANN
+
 ENV GRAPHANN_ROOT="${HOME}/GraphANN"
 ENV PYANN_ROOT="${GRAPHANN_ROOT}/contrib/PyANN"
 RUN julia --project=${PYANN_ROOT} -e "using Pkg; Pkg.instantiate()"
