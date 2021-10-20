@@ -8,6 +8,7 @@ from benchmark.datasets import DATASETS, download_accelerated
 import julia
 from julia import Pkg
 Pkg.activate(os.getenv("PYANN_ROOT"))
+Pkg.instantiate()
 from julia import PyANN
 
 class GraphANN(BaseANN):
