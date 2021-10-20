@@ -135,7 +135,7 @@ def main():
     parser.add_argument(
         '--download-index',
         help='Download index uploaded to Azure blob storage and run local queries.',
-        action='store_true')        
+        action='store_true')
     parser.add_argument(
         '--blob-prefix',
         help='Azure blob prefix to upload indices to and download indices from.'
@@ -145,7 +145,7 @@ def main():
         help='SAS string to authenticate to Azure blob storage.'
     )
 
-    
+
     args = parser.parse_args()
     if args.timeout == -1:
         args.timeout = None

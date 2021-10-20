@@ -121,6 +121,15 @@ deep-10M:
               [{"R":100, "L":100, "B":0.3, "M":15}]
           query-args: |
               [{"Ls":50, "BW":4, "T":16}]
+    graphann:
+      docker-tag: billion-scale-benchmark-graphann
+      module: benchmark.algorithms.graphann
+      constructor: GraphANN
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"search_window_size": 30}]
 deep-1B:
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
@@ -265,7 +274,7 @@ msturing-1B:
                 "url": "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/track1_baseline_faiss/msturing-1B.IVF1M_2level_PQ64x4fsr.faissindex",
                 "query_bs": 4096
                 }]
-          query-args: |  
+          query-args: |
               ["nprobe=1,quantizer_efSearch=4",
               "nprobe=2,quantizer_efSearch=4",
               "nprobe=1,quantizer_efSearch=8",
@@ -351,7 +360,7 @@ bigann-1B:
                 "nprobe=128,quantizer_efSearch=512",
                 "nprobe=256,quantizer_efSearch=64",
                 "nprobe=256,quantizer_efSearch=128",
-                "nprobe=256,quantizer_efSearch=512"] 
+                "nprobe=256,quantizer_efSearch=512"]
     diskann-t2:
       docker-tag: billion-scale-benchmark-diskann
       module: benchmark.algorithms.diskann-t2
@@ -450,7 +459,7 @@ text2image-1B:
               "url": "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/track1_baseline_faiss/text2image-1B.IVF1M_2level_PQ32.faissindex"
                 }]
           # Trying all combinations of nprobe x efSearch
-          query-args: | 
+          query-args: |
               ["nprobe=1,quantizer_efSearch=4,ht=106",
               "nprobe=1,quantizer_efSearch=16,ht=114",
               "nprobe=1,quantizer_efSearch=16,ht=116",
@@ -547,7 +556,7 @@ msspacev-1M:
           query-args: |
               [{"Ls":50, "BW":4, "T":16}]
 text2image-1M:
-   diskann-t2: 
+   diskann-t2:
       docker-tag: billion-scale-benchmark-diskann
       module: benchmark.algorithms.diskann-t2
       constructor: Diskann
@@ -559,7 +568,7 @@ text2image-1M:
           query-args: |
               [{"Ls":50, "BW":4, "T":16}]
 text2image-10M:
-   diskann-t2: 
+   diskann-t2:
       docker-tag: billion-scale-benchmark-diskann
       module: benchmark.algorithms.diskann-t2
       constructor: Diskann
