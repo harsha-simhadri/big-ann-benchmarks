@@ -1,0 +1,6 @@
+FROM billion-scale-benchmark
+
+RUN wget https://gips-test-bucket-0-gz.gz.bcebos.com/similar/puck_to_python.tar.gz
+RUN tar zxvf puck_to_python.tar.gz
+RUN mv lib puck
+RUN python3 -c 'from puck import py_puck_api'
