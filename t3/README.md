@@ -32,6 +32,8 @@ The T1 and T2 tracks of the competition restrict the evaluation of algorithms to
 * One based on power consumption
 * One based on hardware cost
 
+You can see the latest leaderboards' status [here](LEADERBOARDS.md).
+
 Participants must submit their algorithm via a pull request and index file(s) upload (one per participating dataset).  Participants are not required to submit proprietary source code such as software drivers or firmware.
 
 Competition evaluators will evaluate the participant's algorithm and hardware via one of these options:
@@ -153,7 +155,7 @@ A submission is composed of the following:
 
 ### Index File
 
-The binary index file(s) must be http or azcopy accessible and is referenced within your *t3/[your_team_name]/algos.yaml* config file.  Please see the *t3/faiss_t3/algos.yaml* example.
+The binary index file(s) must be http or azcopy accessible and is referenced within your *t3/[your_team_name]/algos.yaml* config file.  Please see the baseline [algos.yaml](faiss_t3/algos.yaml) example.
 
 ### The README File
 
@@ -162,8 +164,9 @@ Your submission's top-level directory should contain a README.md with the follow
 * **Hardware Access** This section describes how evaluators acquire access to the hardware (specific instructions or contact information.)
 * **No Source Declarations**  This section must contain a list of software components that were not provided with the submission.
 * **Hardware Setup And Software Installation**  This section should contain any hardware and software installation instructions.
+* **Run Competition Algorithm**  This section should contain instructions to run the competition algorithm, for example, run scripts.
 
-Please consult the *t3/faiss_t3/README.md* example.
+Please consult the baseline [README.md](faiss_t3/README.md) example.
 
 ### Optional Information
 
