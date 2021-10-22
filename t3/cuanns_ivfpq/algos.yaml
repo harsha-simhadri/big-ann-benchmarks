@@ -1,8 +1,8 @@
 bigann-1B:
-    cuann_ivfpq:
-      docker-tag: billion-scale-benchmark-cuann_ivfpq
+    cuanns_ivfpq:
+      docker-tag: billion-scale-benchmark-cuanns_ivfpq
       docker-volumes: ['/raid']
-      module: benchmark.algorithms.cuann_ivfpq
+      module: benchmark.algorithms.cuanns_ivfpq
       constructor: CuannsIvfpq
       base-args: ["@metric"]
       run-groups:
@@ -23,10 +23,10 @@ bigann-1B:
                {"max_batch_size": 10000, "topk": 10, "refine_rate": 8, "num_probes": 2048},
                {"max_batch_size": 10000, "topk": 10, "refine_rate": 8, "num_probes": 3072}]
 deep-1B:
-    cuann_ivfpq:
-      docker-tag: billion-scale-benchmark-cuann_ivfpq
+    cuanns_ivfpq:
+      docker-tag: billion-scale-benchmark-cuanns_ivfpq
       docker-volumes: ['/raid']
-      module: benchmark.algorithms.cuann_ivfpq
+      module: benchmark.algorithms.cuanns_ivfpq
       constructor: CuannsIvfpq
       base-args: ["@metric"]
       run-groups:
@@ -47,10 +47,10 @@ deep-1B:
                {"max_batch_size": 10000, "topk": 10, "refine_rate": 8, "num_probes": 2048},
                {"max_batch_size": 10000, "topk": 10, "refine_rate": 8, "num_probes": 3072}]
 msspacev-1B:
-    cuann_ivfpq:
-      docker-tag: billion-scale-benchmark-cuann_ivfpq
+    cuanns_ivfpq:
+      docker-tag: billion-scale-benchmark-cuanns_ivfpq
       docker-volumes: ['/raid']
-      module: benchmark.algorithms.cuann_ivfpq
+      module: benchmark.algorithms.cuanns_ivfpq
       constructor: CuannsIvfpq
       base-args: ["@metric"]
       run-groups:
@@ -71,10 +71,10 @@ msspacev-1B:
                {"max_batch_size": 10000, "topk": 10, "refine_rate": 8, "num_probes": 3072},
                {"max_batch_size": 10000, "topk": 10, "refine_rate": 8, "num_probes": 4096}]
 msturing-1B:
-    cuann_ivfpq:
-      docker-tag: billion-scale-benchmark-cuann_ivfpq
+    cuanns_ivfpq:
+      docker-tag: billion-scale-benchmark-cuanns_ivfpq
       docker-volumes: ['/raid']
-      module: benchmark.algorithms.cuann_ivfpq
+      module: benchmark.algorithms.cuanns_ivfpq
       constructor: CuannsIvfpq
       base-args: ["@metric"]
       run-groups:
@@ -95,10 +95,10 @@ msturing-1B:
                {"max_batch_size": 10000, "topk": 10, "refine_rate": 8, "num_probes": 2048},
                {"max_batch_size": 10000, "topk": 10, "refine_rate": 8, "num_probes": 3072}]
 bigann-100M:
-    cuann_ivfpq:
-      docker-tag: billion-scale-benchmark-cuann_ivfpq
+    cuanns_ivfpq:
+      docker-tag: billion-scale-benchmark-cuanns_ivfpq
       docker-volumes: ['/raid']
-      module: benchmark.algorithms.cuann_ivfpq
+      module: benchmark.algorithms.cuanns_ivfpq
       constructor: CuannsIvfpq
       base-args: ["@metric"]
       run-groups:

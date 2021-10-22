@@ -33,7 +33,7 @@ def t3_create_container( definition, cmd, cpu_limit, mem_limit):
         container.start()
         return container
 
-    elif definition.algorithm in [ 'cuann_ivfpq' ]:
+    elif definition.algorithm in [ 'cuanns_ivfpq' ]:
 
         print("Launching GPU container")
         volumes = {
