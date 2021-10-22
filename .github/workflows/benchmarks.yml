@@ -10,7 +10,13 @@ jobs:
       matrix:
         include:
           - algorithm: kota-t2
-            dataset: random-xs
+            dataset: msspacev-1B
+            library: kota
+          - algorithm: kota-t2
+            dataset: msspacev-1B
+            library: kota
+          - algorithm: kota-t2
+            dataset: bigann-1B
             library: kota
       fail-fast: false
 
