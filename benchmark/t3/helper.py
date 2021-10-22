@@ -33,6 +33,29 @@ def t3_create_container( definition, cmd, cpu_limit, mem_limit):
         container.start()
         return container
 
+    elif definition.algorithm in [ 'cuann_ivfpq' ]:
+
+        print("Launching GPU container")
+        volumes = {
+            os.path.abspath('benchmark'): {'bind': '/home/app/benchmark', 'mode': 'ro'},
+            os.path.abspath('data'): {'bind': '/home/app/data', 'mode': 'rw'},
+            os.path.abspath('results'): {'bind': '/home/app/results', 'mode': 'rw'},
+        }
+        for path in definition.docker_volumes:
+            if os.path.exists(path):
+                volumes[path] = {'bind': path, 'mode': 'rw'}
+        # print('# volumes: {}'.format(volumes))
+        container = create_container_with_gpu_support(
+            docker.from_env(),
+            definition.docker_tag,
+            cmd,
+            volumes=volumes,
+            cpuset_cpus=cpu_limit,
+            mem_limit=mem_limit,
+            detach=True)
+        container.start()
+        return container
+
     else:
         raise Exception("Docker invoke not supported for this algorithm.")
 

@@ -218,6 +218,7 @@ def run_from_cmdline(args=None):
     definition = Definition(
         algorithm=args.algorithm,
         docker_tag=None,  # not needed
+        docker_volumes=[],
         module=args.module,
         constructor=args.constructor,
         arguments=algo_args,
