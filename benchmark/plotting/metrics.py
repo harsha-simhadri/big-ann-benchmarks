@@ -9,9 +9,9 @@ def compute_recall_without_distance_ties(true_ids, run_ids, count):
 
 def compute_recall_with_distance_ties(true_ids, true_dists, run_ids, count):
     assert np.all(true_dists[:-1] <= true_dists[1:])
-    i = count
+    i = count - 1
     gt_size = np.shape(true_dists)[0]
-    while true_dists[i] == true_dists[count-1]:
+    while true_dists[i] <= true_dists[count-1] + 1e-6:
         if i < gt_size - 1:
             i = i + 1
         else:
