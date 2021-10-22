@@ -1,0 +1,20 @@
+bigann-100M:
+    cuann_ivfpq:
+      docker-tag: billion-scale-benchmark-cuann_ivfpq
+      module: benchmark.algorithms.cuann_ivfpq
+      constructor: CuannsIvfpq
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"num_clusters": 100000,
+                "dim_pq": 64,
+                "bit_pq": 8}]
+          query-args: |
+              [{"batch_size": 10000, "topk": 10, "refine_rate": 2, "num_probes": 16},
+               {"batch_size": 10000, "topk": 10, "refine_rate": 2, "num_probes": 32},
+               {"batch_size": 10000, "topk": 10, "refine_rate": 2, "num_probes": 64},
+               {"batch_size": 10000, "topk": 10, "refine_rate": 2, "num_probes": 128},
+               {"batch_size": 10000, "topk": 10, "refine_rate": 2, "num_probes": 256},
+               {"batch_size": 10000, "topk": 10, "refine_rate": 2, "num_probes": 512},
+               {"batch_size": 10000, "topk": 10, "refine_rate": 2, "num_probes": 1024}]
