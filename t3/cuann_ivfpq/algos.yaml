@@ -83,7 +83,7 @@ msturing-1B:
               [{"num_clusters": 250000,
                 "dim_pq": 64,
                 "bit_pq": 5}]
-         query-args: |
+          query-args: |
               [{"max_batch_size": 10000, "topk": 10, "refine_rate": 2, "num_probes": 48},
                {"max_batch_size": 10000, "topk": 10, "refine_rate": 2, "num_probes": 56},
                {"max_batch_size": 10000, "topk": 10, "refine_rate": 2, "num_probes": 64},
