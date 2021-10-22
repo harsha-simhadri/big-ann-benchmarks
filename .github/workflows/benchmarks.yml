@@ -32,7 +32,6 @@ jobs:
 
     - name: Run the benchmark
       run: |
-        python create_dataset.py --dataset $DATASET
         python run.py --algorithm $ALGORITHM --max-n-algorithms 2 --dataset $DATASET --timeout 600
         sudo chmod -R 777 results/
         python plot.py --dataset $DATASET --output plot.png
