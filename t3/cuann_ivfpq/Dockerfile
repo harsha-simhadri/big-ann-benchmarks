@@ -16,5 +16,7 @@ RUN pip3 install -r requirements_py38.txt
 RUN pip3 install 'Cython>=0.29.*' 'numpy>=1.19.*' cupy-cuda114
 
 ENV LD_LIBRARY_PATH="/home/soft/libcuann/lib:${LD_LIBRARY_PATH}"
+ENV NVIDIA_TF32_OVERRIDE=1
+# ENV OMP_NUM_THREADS=32
 
 ENTRYPOINT ["python3", "run_algorithm.py"]
