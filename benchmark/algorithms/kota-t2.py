@@ -86,7 +86,6 @@ class KoTa(BaseANN):
             print("Unsuported distance function.")
             return False
         
-        
         if not hasattr(self, 'index'):
             if ds.dtype == "float32":
                 self.index = diskannpy.DiskANNFloatIndex(metric)
