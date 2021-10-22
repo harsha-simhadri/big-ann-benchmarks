@@ -33,7 +33,6 @@ jobs:
           - algorithm: kota-t2
             dataset: random-xs
             library: kota
-
       fail-fast: false
 
     steps:
