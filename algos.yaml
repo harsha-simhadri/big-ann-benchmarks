@@ -89,7 +89,7 @@ msturing-1B:
               {"Ls":80, "BW":4, "T":16},
               {"Ls":100, "BW":4, "T":16}]
 bigann-1B:
-    diskann-t2:
+    kota-t2:
       docker-tag: billion-scale-benchmark-kota
       module: benchmark.algorithms.kota-t2
       constructor: KoTa
