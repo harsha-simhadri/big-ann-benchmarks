@@ -9,27 +9,12 @@ jobs:
     strategy:
       matrix:
         include:
-          - algorithm: faiss-ivf
-            library: faissconda
-            dataset: random-xs
-          - algorithm: faiss-t1
-            dataset: random-xs
-            library: faissconda
-          - algorithm: faiss-t1
+          - algorithm: kota-t2
             dataset: random-range-xs
-            library: faissconda
-          - algorithm: diskann-t2
+            library: kota
+          - algorithm: kota-t2
             dataset: random-xs
-            library: diskann
-          - algorithm: diskann-t2
-            dataset: random-range-xs
-            library: diskann
-          - algorithm: httpann_example
-            dataset: random-xs
-            library: httpann_example
-          - algorithm: httpann_example
-            dataset: random-range-xs
-            library: httpann_example
+            library: kota
       fail-fast: false
 
     steps:
