@@ -219,7 +219,7 @@ class KoTa(BaseANN):
             num_nodes_to_cache = self.C
         else:
             num_nodes_to_cache = int(ds.nb/1000) if ds.nb > 1000000 else int(ds.nb/100)
-        if (self.index.load_index(index_path, diskannpy.omp_get_max_threads(), num_nodes_to_cache, self.cache_mechanism, True, True, 4, "int") == 0):
+        if (self.index.load_index(index_path, diskannpy.omp_get_max_threads(), num_nodes_to_cache, self.cache_mechanism, False, True, 4, "int") == 0):
             print ("Load index success.")
             return True
         else:
@@ -228,7 +228,7 @@ class KoTa(BaseANN):
     def query(self, X, k):
         """Carry out a batch query for k-NN of query set X."""
         nq, dim = (np.shape(X))
-        [self.res, self.query_dists], self.stats = self.index.batch_search_numpy_input(X, dim, nq, k, self.Ls, self.BW, self.threads, True, 0.0, 4, True, self.HE)
+        [self.res, self.query_dists], self.stats = self.index.batch_search_numpy_input(X, dim, nq, k, self.Ls, self.BW, self.threads, False, 0.0, 4, True, self.HE)
         self.stats["dist_comps"] = self.stats["mean_dist_comps"] * nq
 
     def range_query(self, X, radius):

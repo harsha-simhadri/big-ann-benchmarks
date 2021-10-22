@@ -69,7 +69,7 @@ msturing-1B:
     kota-t2:
       docker-tag: billion-scale-benchmark-kota
       module: benchmark.algorithms.kota-t2
-      constructor: Kota
+      constructor: KoTa
       base-args: ["@metric"]
       run-groups:
         base:
@@ -92,7 +92,7 @@ bigann-1B:
     diskann-t2:
       docker-tag: billion-scale-benchmark-kota
       module: benchmark.algorithms.kota-t2
-      constructor: Kota
+      constructor: KoTa
       base-args: ["@metric"]
       run-groups:
         base:
