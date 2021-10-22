@@ -38,18 +38,18 @@ class CuannsIvfpq(BaseANN):
         return 'T3'
 
     def _index_file_name(self, dataset):
-        return 'data/models/{}.cluster_{}.pq_{}.{}_bit'.format(
+        return 'data/indices/t3/CuannsIvfpq/{}.cluster_{}.pq_{}.{}_bit'.format(
             dataset,
             self._index_params['num_clusters'],
             self._index_params['dim_pq'],
             self._index_params['bit_pq'])
 
     def load_index(self, dataset):
+        self._dataset = dataset
         self._dsi = DATASETS[dataset]()
 
-        self._ds = utils.memmap_bin_file(
-            self._dsi.get_dataset_fn(),
-            self._dsi.dtype)
+        # Original dataset is needed for refinement
+        self._ds = utils.memmap_bin_file(self._dsi.get_dataset_fn(), self._dsi.dtype)
 
         index_fn = self._index_file_name(dataset)
         if self._algo.load_index(index_fn) is False:
