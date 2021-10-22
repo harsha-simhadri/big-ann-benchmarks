@@ -101,7 +101,7 @@ class KoTa(BaseANN):
         if self.PQ > 0:
             self.index.build(ds.get_dataset_fn(), self.index_path, self.R, self.L, self.B, self.M, buildthreads, self.PQ)
         else:
-            self.index.build(ds.get_dataset_fn(), self.index_path, self.R, self.L, self.B, self.M, buildthreads)
+            self.index.build(ds.get_dataset_fn(), self.index_path, self.R, self.L, self.B, self.M, 1)
         end = time.time()
         print("DiskANN index built in %.3f s" % (end - start))
         
