@@ -10,9 +10,6 @@ jobs:
       matrix:
         include:
           - algorithm: kota-t2
-            dataset: random-range-xs
-            library: kota
-          - algorithm: kota-t2
             dataset: random-xs
             library: kota
       fail-fast: false
