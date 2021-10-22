@@ -30,9 +30,6 @@ jobs:
           - algorithm: httpann_example
             dataset: random-range-xs
             library: httpann_example
-          - algorithm: kota-t2
-            dataset: random-xs
-            library: kota
       fail-fast: false
 
     steps:
