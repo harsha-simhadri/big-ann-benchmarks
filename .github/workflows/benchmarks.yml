@@ -32,10 +32,10 @@ jobs:
 
     - name: Run the benchmark
       run: |
-        sudo python run.py --algorithm $ALGORITHM --max-n-algorithms 2 --dataset $DATASET --timeout 600
+        python run.py --algorithm $ALGORITHM --max-n-algorithms 2 --dataset $DATASET --timeout 600
         sudo chmod -R 777 results/
-        sudo python plot.py --dataset $DATASET --output plot.png
-        sudo python data_export.py --output test.csv
+        python plot.py --dataset $DATASET --output plot.png
+        python data_export.py --output test.csv
 
       env:
         ALGORITHM: ${{ matrix.algorithm}}
