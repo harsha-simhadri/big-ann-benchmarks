@@ -1,5 +1,6 @@
 import os
 import psutil
+import shutil
 
 from benchmark.algorithms.base import BaseANN
 from benchmark.datasets import DATASETS, download_accelerated
@@ -16,8 +17,20 @@ class GraphANN(BaseANN):
         self.name = "GraphANN"
         self._index_params = index_params
 
+        self._vectors_file = index_params.get('vectors_file')
+        self._index_file = index_params.get('index_file')
+        
+        if index_params.get('vectors_location')=='DRAM':
+            self._allocator = PyANN.stdallocator
+        elif index_params.get('vectors_location')=='HUGE':
+            self._allocator = PyANN.hugepage_1gib_allocator
+        elif index_params.get('vectors_location')=='PMEM':
+            self._allocator = PyANN.direct_mmap
+        else:
+            self._allocator = PyANN.stdallocator
+            
         # unpack params
-        self._search_window_size = index_params.get("search_window_size")
+        #self._search_window_size = index_params.get("search_window_size")
 
         # Manually instantiate the metric
         if metric == "euclidean":
@@ -71,10 +84,12 @@ class GraphANN(BaseANN):
             self._dtype,
             self._dims,
             self._metric,
+            allocator = self._allocator,
+            diskann_format = True
         )
         self._runner = PyANN.make_runner(
             self._index,
-            self._search_window_size,
+            16
         )
         # TODO: warm up compilation and runner
 
@@ -122,17 +137,20 @@ class GraphANN(BaseANN):
 
     def create_index_dir(self, dataset):
         # index_dir = "/mnt/pm0/public"
-        index_dir = os.path.join(os.getcwd(), "indices")
+        index_dir = self._index_params.get('pm_dir')
         os.makedirs(index_dir, mode=0o777, exist_ok=True)
-        # index_dir = os.path.join(index_dir, self.track())
-        # os.makedirs(index_dir, mode=0o777, exist_ok=True)
-        # index_dir = os.path.join(index_dir, self.__str__())
-        # os.makedirs(index_dir, mode=0o777, exist_ok=True)
-        # index_dir = os.path.join(index_dir, dataset.short_name())
-        # os.makedirs(index_dir, mode=0o777, exist_ok=True)
-        # index_dir = os.path.join(index_dir, "public")
-        # os.makedirs(index_dir, mode=0o777, exist_ok=True)
+        graph_file = os.path.join(index_dir,'graph.bin')
+        if not os.path.isfile(graph_file):
+            shutil.copy(self._index_file, graph_file)
+        vector_file = os.path.join(index_dir,'data.bin')
+        if not os.path.isfile(vector_file):
+            shutil.copy(self._vectors_file, vector_file)
         print("Index Path: ", index_dir)
         return index_dir
 
+
+    def set_query_arguments(self, query_args):
+        self._query_args = query_args
+        self._search_window_size = query_args.get("search_window_size")
+        PyANN.resize(self._runner,self._search_window_size)
 

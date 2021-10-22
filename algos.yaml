@@ -129,7 +129,13 @@ deep-10M:
       run-groups:
         base:
           args: |
-              [{"search_window_size": 30}]
+              [{'index_dir':'/mnt/data/msspacev-1B',
+               'pm_dir':'/mnt/pm0/public/'}
+              ]
+          query-args: |
+              [{"search_window_size": 12},
+               {"search_window_size": 16},
+              ]
 deep-1B:
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
@@ -200,6 +206,28 @@ deep-1B:
               {"Ls":70, "BW":4, "T":16},
               {"Ls":80, "BW":4, "T":16},
               {"Ls":100, "BW":4, "T":16}]
+    graphann:
+      docker-tag: billion-scale-benchmark-graphann
+      module: benchmark.algorithms.graphann
+      constructor: GraphANN
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"index_file":"/mnt/data/competition_indexes/deep-1B/deep1b_index127-superflat.index",
+                "vectors_file":"/mnt/data/competition_indexes/deep-1B/base.1B.fbin",
+                "vectors_location":"PMEM",
+                "pm_dir":"/mnt/pm0/public/deep-1B/"
+               }]
+          query-args: |
+              [{"search_window_size": 80}, 
+                {"search_window_size": 96},
+                {"search_window_size": 112},
+                {"search_window_size": 128},
+                {"search_window_size": 144},
+                {"search_window_size": 160}
+              ]
+
 msspacev-1B:
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
@@ -261,6 +289,33 @@ msspacev-1B:
               {"Ls":110, "BW":4, "T":16},
               {"Ls":120, "BW":4, "T":16},
               {"Ls":130, "BW":4, "T":16}]
+    graphann:
+      docker-tag: billion-scale-benchmark-graphann
+      module: benchmark.algorithms.graphann
+      constructor: GraphANN
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"index_file":"/mnt/data/competition_indexes/msspacev-1B/spacev1b_index127-superflat.index",
+                "vectors_file":"/mnt/data/competition_indexes/msspacev-1B/spacev1b_base.i8bin",
+                "vectors_location":"PMEM",
+                "pm_dir":"/mnt/pm0/public/msspacev-1B/"
+               }]
+          query-args: |
+              [{"search_window_size": 128}, 
+                {"search_window_size": 160},
+                {"search_window_size": 192},
+                {"search_window_size": 224},
+                {"search_window_size": 256},
+                {"search_window_size": 288},
+                {"search_window_size": 320},
+                {"search_window_size": 352},
+                {"search_window_size": 384},
+                {"search_window_size": 416},
+                {"search_window_size": 448}
+              ]
+
 msturing-1B:
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
