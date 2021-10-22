@@ -337,7 +337,6 @@ class SSNPPDataset(DatasetCompetitionFormat):
         self.dtype = "uint8"
         self.ds_fn = "FB_ssnpp_database.u8bin"
         self.qs_fn = "FB_ssnpp_public_queries.u8bin"
-
         self.gt_fn = (
             "FB_ssnpp_public_queries_1B_GT.rangeres" if self.nb_M == 1000 else
             subset_url + "GT_100M/ssnpp-100M" if self.nb_M == 100 else
@@ -347,6 +346,9 @@ class SSNPPDataset(DatasetCompetitionFormat):
 
         self.base_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/"
         self.basedir = os.path.join(BASEDIR, "FB_ssnpp")
+
+        self.private_qs_fn = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/FB_ssnpp_heldout_queries_3307fba121460a56.u8bin"
+
 
     def search_type(self):
         return "range"
@@ -381,6 +383,10 @@ class BigANNDataset(DatasetCompetitionFormat):
         # self.gt_fn = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/bigann/public_query_gt100.bin" if self.nb == 10**9 else None
         self.base_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/bigann/"
         self.basedir = os.path.join(BASEDIR, "bigann")
+        
+        self.private_nq = 10000   
+        self.private_qs_fn = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/bigann/query.private.799253207.10K.u8bin"
+
 
     def distance(self):
         return "euclidean"
@@ -403,9 +409,12 @@ class Deep1BDataset(DatasetCompetitionFormat):
         self.base_url = "https://storage.yandexcloud.net/yandex-research/ann-datasets/DEEP/"
         self.basedir = os.path.join(BASEDIR, "deep1b")
 
+        self.private_nq = 1000000
+        self.private_qs_fn = "https://storage.yandexcloud.net/yr-secret-share/ann-datasets-5ac0659e27/DEEP/query.private.1M.fbin"
+        self.private_gt_fn = "https://storage.yandexcloud.net/yr-secret-share/ann-datasets-5ac0659e27/DEEP/groundtruth.private.1M.ibin"
+
     def distance(self):
         return "euclidean"
-
 
 
 
@@ -426,6 +435,10 @@ class Text2Image1B(DatasetCompetitionFormat):
         )
         self.base_url = "https://storage.yandexcloud.net/yandex-research/ann-datasets/T2I/"
         self.basedir = os.path.join(BASEDIR, "text2image1B")
+
+        self.private_nq = 1000000
+        self.private_qs_fn = "https://storage.yandexcloud.net/yr-secret-share/ann-datasets-5ac0659e27/T2I/query.private.1M.fbin"
+        self.private_gt_fn = "https://storage.yandexcloud.net/yr-secret-share/ann-datasets-5ac0659e27/T2I/groundtruth.private.1M.ibin"
 
     def distance(self):
         return "ip"
@@ -453,6 +466,10 @@ class MSTuringANNS(DatasetCompetitionFormat):
         )
         self.base_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/MSFT-TURING-ANNS/"
         self.basedir = os.path.join(BASEDIR, "MSTuringANNS")
+
+        self.private_nq = 10000
+        self.private_qs_fn = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/MSFT-TURING-ANNS/testQuery10K.fbin"
+        self.private_gt_fn = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/MSFT-TURING-ANNS/gt100-private10K-queries.bin"
 
     def distance(self):
         return "euclidean"
