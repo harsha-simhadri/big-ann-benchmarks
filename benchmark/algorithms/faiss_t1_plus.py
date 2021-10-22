@@ -264,25 +264,23 @@ class Faiss(BaseANN):
         print("storing", )
         faiss.write_index(index, self.refine_index_name(dataset))
 
-        self.index = index
-        self.ps = faiss.ParameterSpace()
-        self.ps.initialize(self.index)
+        self.index2 = index
+        self.load_index(dataset)
 
     def load_index(self, dataset):
-        if not os.path.exists(self.index_name(dataset)):
-            if 'url' not in self._index_params:
-                return False
-
-            print('Downloading index in background. This can take a while.')
-            download_accelerated(self._index_params['url'], self.index_name(dataset), quiet=True)
-
-        print("Loading index")
-
-        self.index = faiss.read_index(self.index_name(dataset))
         if not os.path.exists(self.refine_index_name(dataset)):
             return False
-        
         self.index2 = faiss.read_index(self.refine_index_name(dataset))
+
+        if not os.path.exists(self.index_name(dataset)):
+            if 'url' not in self._index_params:
+                self.index = self.index2
+            else:
+                print('Downloading index in background. This can take a while.')
+                download_accelerated(self._index_params['url'], self.index_name(dataset), quiet=True)
+                print("Loading index")
+                self.index = faiss.read_index(self.index_name(dataset))
+                    
         self.ps = faiss.ParameterSpace()
         self.ps.initialize(self.index)
         self.ps.initialize(self.index2)
@@ -301,8 +299,6 @@ class Faiss(BaseANN):
     def __str__(self):
         return f'FaissIVFPQ({self.qas})'
 
-
-
     def query(self, X, n):
         if self._query_bs == -1:
             self.res = self.index.search(X, n)
@@ -316,9 +312,7 @@ class Faiss(BaseANN):
             self.res2 = knn_search_batched(self.index2, X, n, self._query_bs)
 
     def range_query(self, X, radius):
-        if self._query_bs != -1:
-            raise NotImplemented
-        self.res = self.index.range_search(X, radius)
+        raise NotImplemented
 
     def get_results(self):
         D, I = self.res

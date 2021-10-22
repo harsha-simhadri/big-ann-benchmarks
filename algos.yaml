@@ -56,6 +56,42 @@ random-range-xs:
             - [ 0.2, 0.4, 1.0 ]
           query-args: []
 random-xs:
+    team11:
+      docker-tag: billion-scale-benchmark-faissconda
+      module: benchmark.algorithms.faiss_t1_plus
+      constructor: Faiss
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{
+                "indexkey": "OPQ64_128,IVF256_HNSW32,PQ64x4fsr"
+                }]
+          query-args: |
+              [
+              "nprobe=16,quantizer_efSearch=8",
+              "nprobe=16,quantizer_efSearch=16",
+              "nprobe=16,quantizer_efSearch=32",
+              "nprobe=16,quantizer_efSearch=64",
+              "nprobe=16,quantizer_efSearch=128",
+              "nprobe=32,quantizer_efSearch=16",
+              "nprobe=32,quantizer_efSearch=32",
+              "nprobe=32,quantizer_efSearch=64",
+              "nprobe=32,quantizer_efSearch=128",
+              "nprobe=32,quantizer_efSearch=256",
+              "nprobe=64,quantizer_efSearch=16",
+              "nprobe=64,quantizer_efSearch=32",
+              "nprobe=64,quantizer_efSearch=64",
+              "nprobe=64,quantizer_efSearch=128",
+              "nprobe=64,quantizer_efSearch=256",
+              "nprobe=64,quantizer_efSearch=512",
+              "nprobe=128,quantizer_efSearch=32",
+              "nprobe=128,quantizer_efSearch=64",
+              "nprobe=128,quantizer_efSearch=128",
+              "nprobe=128,quantizer_efSearch=256",
+              "nprobe=128,quantizer_efSearch=512"
+              ]
+
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
       module: benchmark.algorithms.faiss_t1
@@ -131,6 +167,53 @@ deep-1B:
         base:
           args: |
               [{"indexkey": "OPQ64_128,IVF1048576_HNSW32,PQ64x4fsr",
+                "url": "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/track1_baseline_faiss/deep-1B.IVF1M_2level_PQ64x4fsr.faissindex"
+                }]
+          query-args: |
+              ["nprobe=1,quantizer_efSearch=4",
+              "nprobe=2,quantizer_efSearch=4",
+              "nprobe=2,quantizer_efSearch=8",
+              "nprobe=4,quantizer_efSearch=4",
+              "nprobe=2,quantizer_efSearch=16",
+              "nprobe=4,quantizer_efSearch=8",
+              "nprobe=4,quantizer_efSearch=16",
+              "nprobe=8,quantizer_efSearch=4",
+              "nprobe=8,quantizer_efSearch=8",
+              "nprobe=8,quantizer_efSearch=16",
+              "nprobe=8,quantizer_efSearch=32",
+              "nprobe=8,quantizer_efSearch=64",
+              "nprobe=16,quantizer_efSearch=8",
+              "nprobe=16,quantizer_efSearch=16",
+              "nprobe=16,quantizer_efSearch=32",
+              "nprobe=16,quantizer_efSearch=64",
+              "nprobe=16,quantizer_efSearch=128",
+              "nprobe=32,quantizer_efSearch=16",
+              "nprobe=32,quantizer_efSearch=32",
+              "nprobe=32,quantizer_efSearch=64",
+              "nprobe=32,quantizer_efSearch=128",
+              "nprobe=32,quantizer_efSearch=256",
+              "nprobe=64,quantizer_efSearch=16",
+              "nprobe=64,quantizer_efSearch=32",
+              "nprobe=64,quantizer_efSearch=64",
+              "nprobe=64,quantizer_efSearch=128",
+              "nprobe=64,quantizer_efSearch=256",
+              "nprobe=64,quantizer_efSearch=512",
+              "nprobe=128,quantizer_efSearch=32",
+              "nprobe=128,quantizer_efSearch=64",
+              "nprobe=128,quantizer_efSearch=128",
+              "nprobe=128,quantizer_efSearch=256",
+              "nprobe=128,quantizer_efSearch=512",
+              "nprobe=256,quantizer_efSearch=64",
+              "nprobe=256,quantizer_efSearch=128"]
+    team11:
+      docker-tag: billion-scale-benchmark-faissconda
+      module: benchmark.algorithms.faiss_t1
+      constructor: Faiss
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"indexkey": "OPQ128_256,IVF65536_HNSW32,PQ128x4fsr",
                 "url": "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/track1_baseline_faiss/deep-1B.IVF1M_2level_PQ64x4fsr.faissindex"
                 }]
           query-args: |
@@ -262,6 +345,42 @@ msturing-1B:
         base:
           args: |
               [{"indexkey": "OPQ64_128,IVF1048576_HNSW32,PQ64x4fsr",
+                "url": "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/track1_baseline_faiss/msturing-1B.IVF1M_2level_PQ64x4fsr.faissindex",
+                "query_bs": 4096
+                }]
+          query-args: |  
+              ["nprobe=1,quantizer_efSearch=4",
+              "nprobe=2,quantizer_efSearch=4",
+              "nprobe=1,quantizer_efSearch=8",
+              "nprobe=2,quantizer_efSearch=8",
+              "nprobe=1,quantizer_efSearch=16",
+              "nprobe=2,quantizer_efSearch=16",
+              "nprobe=4,quantizer_efSearch=16",
+              "nprobe=2,quantizer_efSearch=32",
+              "nprobe=4,quantizer_efSearch=32",
+              "nprobe=8,quantizer_efSearch=32",
+              "nprobe=8,quantizer_efSearch=64",
+              "nprobe=16,quantizer_efSearch=64",
+              "nprobe=16,quantizer_efSearch=128",
+              "nprobe=32,quantizer_efSearch=128",
+              "nprobe=32,quantizer_efSearch=256",
+              "nprobe=64,quantizer_efSearch=128",
+              "nprobe=64,quantizer_efSearch=256",
+              "nprobe=128,quantizer_efSearch=128",
+              "nprobe=64,quantizer_efSearch=512",
+              "nprobe=128,quantizer_efSearch=256",
+              "nprobe=128,quantizer_efSearch=512",
+              "nprobe=256,quantizer_efSearch=256",
+              "nprobe=256,quantizer_efSearch=512"]
+    team11:
+      docker-tag: billion-scale-benchmark-faissconda
+      module: benchmark.algorithms.faiss_t1
+      constructor: Faiss
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"indexkey": "OPQ128_256,IVF65536_HNSW32,PQ128x4fsr",
                 "url": "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/track1_baseline_faiss/msturing-1B.IVF1M_2level_PQ64x4fsr.faissindex",
                 "query_bs": 4096
                 }]
