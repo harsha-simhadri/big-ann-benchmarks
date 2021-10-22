@@ -66,9 +66,10 @@ class CuannsIvfpq(BaseANN):
         print('# query_args: {}'.format(query_args))
         self._query_args = query_args
         num_probes = self._query_args['num_probes']
-        gpu_topk = self._query_args['topk'] * self._query_args['refine_rate']
-        batch_size = self._query_args['batch_size']
-        self._algo.set_search_params(num_probes, gpu_topk, batch_size)
+        gpu_topk = int(self._query_args['topk'] * self._query_args['refine_rate'])
+        gpu_topk = max(gpu_topk, self._query_args['topk'])
+        max_batch_size = self._query_args['max_batch_size']
+        self._algo.set_search_params(num_probes, gpu_topk, max_batch_size)
         mempool.free_all_blocks()
 
     def query(self, X, k):
