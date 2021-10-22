@@ -109,7 +109,7 @@ def compute_metrics_all_runs(dataset, res, recompute=False, sensor_metrics=False
                 search_type == "range" and name == "k-nn":
                 continue
             if not sensor_metrics and name=="wspq": #don't process sensor_metrics by default
-                break
+                continue
             v = metric["function"](true_nn, run_nn, metrics_cache, properties)
             run_result[name] = v
         yield run_result

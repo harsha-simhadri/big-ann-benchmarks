@@ -36,7 +36,6 @@ def run_individual_query(algo, X, distance, count, run_count, search_type):
             total = (time.time() - start)
             results = algo.get_range_results()
 
-
         search_time = total
         best_search_time = min(best_search_time, search_time)
 

@@ -8,6 +8,7 @@
   - [Starting Your Development](#starting_your_development)
   - [Developing Your Dockerfile](#developing_your_dockerfile)
   - [Developing Your Algorithm](#developing_your_algorithm) 
+  - [Submitting Your Algorithm](#submitting_your_algorithm) 
   - [How To Get Help](#how_to_get_help)
   - [Leaderboard Ranking](#leaderboard_ranking)
     - [Baseline Thresholds](#baseline_thresholds)
@@ -21,6 +22,7 @@
     - [Participant Gives Remote Access To Evaluators](#participant_gives_remote_access_to_organizer)
     - [Participant Runs And Submits Benchmarks](#participant_runs_and_submits_benchmark)
   - [Evaluating Power Consumption](#evaluating_power_consumption)   
+- [Appendix](#appendix)
 
 ## Introduction
 
@@ -29,6 +31,8 @@ The T1 and T2 tracks of the competition restrict the evaluation of algorithms to
 * One based on throughput
 * One based on power consumption
 * One based on hardware cost
+
+You can see the latest leaderboards' status [here](LEADERBOARDS.md).
 
 Participants must submit their algorithm via a pull request and index file(s) upload (one per participating dataset).  Participants are not required to submit proprietary source code such as software drivers or firmware.
 
@@ -44,7 +48,7 @@ Competition evaluators will evaluate the participant's algorithm and hardware vi
 You will need the following installed on your machine:
 * Python ( we tested with Anaconda using an environment created for Python version 3.8.5 )
 * Note that we tested everything on Ubuntu Linux 18.04 but other environments should be possible.
-* It's assumed that all the software drivers and services need to support your hardware are installed on development machines.  For example, to run the T3 baseline, your system must have a Cuda 11 compatibile GPU, Cuda 11.0, and the cuda 11.0 docker run-time installed.  See the T3 baseline [installation instructions](faiss_t3/README.md)  Cuda versions greater than 11.0 should be possible, but weren't tested.
+* It's assumed that all the software drivers and services need to support your hardware are installed on development machines.  For example, to run the T3 baseline, your system must have a Cuda 11 compatibile GPU, Cuda 11.0, and the cuda 11.0 docker run-time installed.  See the T3 baseline [installation instructions](faiss_t3/README.md). Cuda versions greater than 11.0 should be possible, but weren't tested.
 
 ### Getting_Started
 
@@ -142,17 +146,31 @@ python plot.py --help
 ### Submitting_Your_Algorithm
 
 A submission is composed of the following:
-* 1 index binary file for each dataset for which you are participating ( choose your best index )
+* 1 index binary file(s) for each dataset for which you are participating (see *Index File* section below.)
 * 1 *algos.yaml* with only one set of build parameters and at most 10 sets of query parameters for each dataset in which you are participating. Please put that file into the *t3/[your_team_name]/* directory.
 * Your algorithm's python class ( placed in the [benchmark/algorithms/](../benchmark/algorithms) directory.)
+* 1 README file with specific information about your hardware and software (see *README File* section below.)
+* Evidence of the cost of your hardware components (see *README File* section below.)
+* Optional information (see *Optional Information* section below.)
 
-All but the binary index files can be submitted with a pull request of your custom branch.
+### Index File
 
-We will provide you with an upload area for your binary index files during the competition.
+The binary index file(s) must be http or azcopy accessible and is referenced within your *t3/[your_team_name]/algos.yaml* config file.  Please see the baseline [algos.yaml](faiss_t3/algos.yaml) example.
 
-Additional information may be required to qualify for all the leaderboards:
-* To qualify for the cost leaderboard, please include evidence of the MSRP of all the components of your entire system.  Put this evidence into the *t3/[your_team_name]/* directory.
-* If all of the installation, setup, and source code cannot be included in your pull request, please provide an explanation of what the non-open source part of the software does (host drivers, firmware, etc.) Put this explanation into a text file and place into the t3/[your_team_name]/ directory.
+### The README File
+
+Your submission's top-level directory should contain a README.md with the following sections:
+* **Hardware Configuration And Cost**  This section must contain a table that breaks down the hardware components of your system and the cost.  Each entry should link to evidence of the component cost.  
+* **Hardware Access** This section describes how evaluators acquire access to the hardware (specific instructions or contact information.)
+* **No Source Declarations**  This section must contain a list of software components that were not provided with the submission.
+* **Hardware Setup And Software Installation**  This section should contain any hardware and software installation instructions.
+* **Run Competition Algorithm**  This section should contain instructions to run the competition algorithm, for example, run scripts.
+
+Please consult the baseline [README.md](faiss_t3/README.md) example.
+
+### Optional Information
+
+Please feel free to append sections to the base README requirements.  For example, you can include other benchmarks of interest.
 
 ### How_To_Get_Help
 
@@ -181,26 +199,28 @@ For the throughput leaderboard, we will rank participants by qps at 90% recall@1
 
 |   dataset    |    qps   | recall@10 |
 | ------------ | -------- | --------- |
-| msturing-1B  |          |           |
-| bigann-1B    |          |           |
-| text2image-1B|          |           |
-| deep-1B      |          |           |
-| msspacev-1B  |          |           |
+| msturing-1B  | 2421.856 |   0.902   |
+| bigann-1B    | 2186.755 |   0.905   |
+| text2image-1B| 1510.624 |   0.882   |
+| deep-1B      | 3422.473 |   0.916   |
+| msspacev-1B  | 1484.217 |   0.869   |
 
-Baseline thresholds were measured on an 56 core Intel Xeon system with 700GB RAM and a V100 Nvidia GPU using the FAISS library using the index strategy called IVF1048576,SQ8.
+Baseline thresholds were measured on an 56 core Intel Xeon system with 700GB RAM and a V100 Nvidia GPU using the FAISS library using the index strategy called IVF1048576,SQ8.  More information can be found in the Appendix at the end of this README.
 
-Here are all the baseline recall@10 vs throughput plots for the (knn search type) datasets:
+Here are FAISS baseline recall@10 vs throughput plots for the (knn search type) datasets:
 * [msturing-1B](faiss_t3/baseline_plots/msturing-1B-r-vs-t.png)
 * [bigann-1B](faiss_t3/baseline_plots/bigann-1B-r-vs-t.png)
 * [text2image-1B](faiss_t3/baseline_plots/text2image-1B-r-vs-t.png)
 * [deep-1B](faiss_t3/baseline_plots/deep-1B-r-vs-t.png)
 * [msspacev-1B](faiss_t3/baseline_plots/msspacev-1B-r-vs-t.png)
 
+Note these plots were acquired using this repo's eval framework.  The baseline thresholds we performed using an old (not obsolete) software framework (see Appendix for more information.)
+
 #### Recall_Leaderboard
 
 This leaderboard leverages the standard recall@10 vs throughput benchmark that has become a standard benchmark when evaluating and comparing approximate nearest neighbor algorithms.  We will rank participants based on recall@10 at 2K qps por each dataset.  The evaluation framework allows for 10 different search parameter sets and we will use the best value of recall@10 from the set.
 
-The final ranking will be based on an aggregation over the individual dataset rankings.  The aggregation formula is as follows: [TBD]
+The final ranking will be based on a computed score, which is the sum of the improvements in recall over the baseline for the participating databases.  A submission must participate in at least 3 databases.
 
 Participants that cannot meet or exceed the baseline qps threshold for a dataset will be dropped from ranking consideration for that dataset.
 
@@ -208,7 +228,7 @@ Participants that cannot meet or exceed the baseline qps threshold for a dataset
 
 This leaderboard also leverages the standard recall@10 vs throughput benchmark.  We will rank participants based on throughput (qps) at the recall@10 threshold of 90%.  The evaluation framework allows for 10 different search parameter sets and we will use the best value of throughput from the set.
 
-The final ranking will be based on an aggregation over the individual dataset rankings.  The aggregation formula is as follows: [TBD]
+The final ranking will be based on a computed score, which is the sum of the improvements in throughput over the baseline for the participating databases.  A submission must participate in at least 3 databases.
 
 Participants that cannot meet or exceed the baseline recall@10 threshold for a dataset will be dropped from ranking consideration for that dataset.
 
@@ -220,7 +240,7 @@ The evaluation framework leverages the power sensors available in the standard I
 
 During evaluation, for each search parameter set, power consumption is acquired over at least 10 seconds running search on the entire query set.  During that 10 seconds, multiple consecutive runs on the query set may occur in order to maintain a minimum duration of 10 seconds.  Also, the duration may be greater than 10 seconds if a run of 1 query set takes longer than 10 seconds.  So a run could be composed of 1 batch query or several and the duration will be at least 10 seconds  The power consumption acquired for the run is divided by the total number of queries performed during the run, resulting in ( kilowatt-hour / query ).  Up to 10 search parameter sets are allowed, and we use the minimum value for ranking participants, for each dataset.
 
-The final ranking will be based on an aggregation over the individual dataset rankings.  The aggregation formula is as follows:[TBD]
+The final ranking will be based on a computed score, which is the sum of the improvements in power consumption over the baseline for the participating databases.  A submission must participate in at least 3 databases.
 
 Participants that cannot meet or exceed the recall@10 baseline threshold for a dataset will be dropped from ranking consideration for that dataset.
 
@@ -253,7 +273,7 @@ Notes on this formula:
 * 5 years is the standard hardware depreciation schedule used for tax purposes with the Internal Revenue Service
 * We’d like to thank David Rensin, former Senior Director at Google Cloud, now SVP at Pendo.io for his valuable contribution and consultation with respect to the capex and opex formulas.
 
-The final ranking will be based on an aggregation over the individual dataset rankings.  The aggregation formula is as follows:[TBD]
+The final ranking will be based on a computed score, which is the sum of the improvements in cost over the baseline for the participating databases.  A submission must participate in at least 3 databases.
 
 Participants that cannot meet or exceed the baseline thresholds for a dataset will be dropped from ranking consideration for that dataset.
 
@@ -302,5 +322,55 @@ This will monitor power consumption over that period of time ( 10 seconds is a g
 
 You can retrieve a plot of the power consumptions ( measured as watt-seconds/query ) using the plot.py script.
 
+## Appendix
 
+### Baseline Threshold Experiments
 
+The following table lists the full results used to obtain baseline thresholds:
+
+|              dbase|                 QPS|            recall@10|
+|-------------------|--------------------|---------------------|
+|          bigann-1B|         2186.754570|             0.904860|
+|          bigann-1B|         1926.901416|             0.911140|
+|          bigann-1B|         1657.226695|             0.919860|
+|          bigann-1B|         2058.950046|             0.926560|
+|          bigann-1B|         1931.042641|             0.932450|
+|          bigann-1B|         1770.748406|             0.937190|
+|          bigann-1B|         1609.052224|             0.941330|
+|          bigann-1B|         1504.748288|             0.943890|
+|      text2image-1B|         2607.779941|             0.834820|
+|      text2image-1B|         2456.621393|             0.841845|
+|      text2image-1B|         2285.966847|             0.851920|
+|      text2image-1B|         2120.635218|             0.860156|
+|      text2image-1B|         1917.445903|             0.867244|
+|      text2image-1B|         1748.662912|             0.873469|
+|      text2image-1B|         1612.313130|             0.878757|
+|      text2image-1B|         1510.624227|             0.882487|
+|        msspacev-1B|         2465.473370|             0.844805|
+|        msspacev-1B|         2190.828587|             0.850205|
+|        msspacev-1B|         1935.385102|             0.854864|
+|        msspacev-1B|         1931.506970|             0.858998|
+|        msspacev-1B|         1748.525911|             0.862437|
+|        msspacev-1B|         1585.766679|             0.865152|
+|        msspacev-1B|         1477.389358|             0.867912|
+|        msspacev-1B|         1484.216732|             0.868812|
+|        msturing-1B|         3625.040250|             0.881202|
+|        msturing-1B|         3197.403722|             0.888140|
+|        msturing-1B|         2907.993722|             0.893669|
+|        msturing-1B|         2655.951474|             0.898400|
+|        msturing-1B|         2421.855941|             0.902413|
+|        msturing-1B|         2233.241641|             0.905846|
+|        msturing-1B|         2070.942269|             0.908949|
+|        msturing-1B|         2011.542149|             0.910115|
+|            deep-1B|         3422.472565|             0.915540|
+|            deep-1B|         2732.133452|             0.920430|
+|            deep-1B|         2507.486404|             0.927790|
+|            deep-1B|         1992.323615|             0.932950|
+|            deep-1B|         2037.783443|             0.937940|
+|            deep-1B|         2002.489712|             0.941740|
+|            deep-1B|         1967.826369|             0.945130|
+|            deep-1B|         1874.898854|             0.947430|
+
+These baseline numbers were performed on the machine configuration used for the T3 faiss baseline(see).
+
+An older (now obsolete) code framework was used to determine these thresholds, not the existing evaluation framework so there is no algos.yaml configuration file.

@@ -69,12 +69,12 @@ class BaseANN(object):
     def get_range_results(self):
         """
         Helper method to convert query results of range search.
-        If there are nq queries, returns a triple lims, I, D.
+        If there are nq queries, returns a triple lims, D, I.
         lims is a (nq) array, such that
 
             I[lims[q]:lims[q + 1]] in int
 
-        are the indiices of the indices of the range results of query q, and
+        are the indices of the indices of the range results of query q, and
 
             D[lims[q]:lims[q + 1]] in float
 
@@ -84,7 +84,22 @@ class BaseANN(object):
 
     def get_additional(self):
         """
-        Allows to retrieve additional results.
+        Retrieve additional results.
+        Return a dictionary with metrics
+        and corresponding measured values.
+
+        The following additional metrics are supported:
+
+        `mean_latency` in microseconds, if this applies to your algorithm.
+        Skip if your algorithm batches query processing.
+
+        `latency_999` is the 99.9pc latency in microseconds, if this applies
+        to your algorithm. Skip if your algorithm batches query processing.
+
+        `dist_comps` is the total number of points in the base set
+        to which a query was compared.
+
+        `mean_ssd_ios` is the average number of SSD I/Os per query for T2 algorithms.
         """
         return {}
 
@@ -96,4 +111,3 @@ class BaseANN(object):
         (in kilobytes), or None if this information is not available."""
         # return in kB for backwards compatibility
         return psutil.Process().memory_info().rss / 1024
-

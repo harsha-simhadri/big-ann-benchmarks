@@ -16,6 +16,9 @@ You might also want to follow the post-install steps for running docker in non-r
 
 The framework assumes that all data is stored in `data/`.
 Please use a symlink if your datasets and indices are supposed to be stored somewhere else.
+The location of the linked folder matters a great deal for SSD-based search performance in T2. 
+A local SSD such as the one found on Azure Ls-series VMs is better than remote disks, even premium ones.
+See [T1/T2](t1_t2/README.md) for more details.
 
 ## Data sets
 
@@ -63,8 +66,8 @@ python data_export.py --output res.csv
 python3.8 eval/show_operating_points.py --algorithm faiss-t1 --threshold 10000
 ```
 
-
 ## Including your algorithm and Evaluating the Results
+
 See [Track T1/T2](t1_t2/README.md) for more details on evaluation for Tracks T1 and T2.
 
 See [Track T3](t3/README.md) for more details on evaluation for Track T3.

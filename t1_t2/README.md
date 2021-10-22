@@ -21,7 +21,7 @@ The T1 and T2 tracks evaluate algorithms on standardized Azure CPU servers.
 
 **Track 2:** Out-of-core indices with [DiskANN](https://github.com/Microsoft/diskann) as the baseline. In addition to the limited DRAM in T1, index can use an SSD for search. Search would use Azure [Standard_L8s_v2 VMs](https://docs.microsoft.com/en-us/azure/virtual-machines/lsv2-series) with 8 vCPUS, 64GB RAM and a local SSD Index constrained to 1TB.
 
-Index construction for both tracks would use Azure [Standard_F64s_v2 VM](https://docs.microsoft.com/en-us/azure/virtual-machines/fsv2-series) with 64vCPUs, 128GB RAM and an additional 4TB of SSD to be used for storing the data, index and other intermediate data. There is a **time limit for 4 days per dataset** for index build. 
+Index construction for both tracks would use Azure [Standard_F64s_v2 VM](https://docs.microsoft.com/en-us/azure/virtual-machines/fsv2-series) with 64vCPUs, 128GB RAM and an additional [4TB of Premium SSD](https://docs.microsoft.com/en-us/azure/virtual-machines/disks-types) to be used for storing the data, index and other intermediate data. There is a **time limit for 4 days per dataset** for index build. 
 
 Queries will be supplied in one shot and the algorithm can execute the queries in any order. 
 
@@ -47,6 +47,7 @@ This section will present a small tutorial about how to use this framework and s
 First, clone this repository and cd into the project directory:
 ```
 git clone <REPO_URL>
+cd <REPO_URL>
 ```
 Install the python package requirements:
 ```
@@ -63,6 +64,21 @@ python create_dataset.py --dataset deep-10M
 To see a complete list of datasets, run the following:
 ```
 python create_dataset.py --help
+```
+
+For T2, set up the local SSD on Azure Ls8v2 machine by running the following under sudo.
+```
+parted /dev/nvme0n1 mklabel gpt mkpart primary 0% 100%;
+mkfs -t ext4 /dev/nvme0n1;
+mkdir /nvme;
+mount /dev/nvme0n1 /nvme/;
+echo "/dev/nvme0n1 /nvme  ext4   defaults    0   0" >> /etc/fstab;
+```
+You might also want to create a symbolic link to a folder under `/nvme`
+```
+sudo mkdir /nvme/data
+sudo chmod 777 /nvme/data
+ln -s /nvme/data data
 ```
 
 Build the docker container for the T1 or T2 baselines:
@@ -120,6 +136,7 @@ python install.py --install [your_team_name]
 Develop and add your algorithm's python class to the [benchmark/algorithms](../benchmark/algorithms) directory.
 * You will need to subclass from the [BaseANN class](../benchmark/algorithms/base.py) and implement the functions of that parent class.
 * You should consult the examples already in the directory.
+* If it is difficult to write a Python wrapper, please consult [HttpANN](../benchmark/algorithms/httpann_example.py) for a RESTful API.
 
 
 When you are ready to test on the competition datasets, use the create_dataset.py script as follows:
@@ -157,6 +174,12 @@ The plot.py script supports other benchmarks.  To see a complete list, run:
 python plot.py --help
 ```
 
+You can plot additional metrics, e.g. mean SSD IOs vs recall/AP for T2, using:
+```
+python plot.py --dataset deep-1B -x k-nn -y mean_ssd_ios 
+```
+
+
 Here are all the FAISS baseline recall@10 (AP for SSNPP) vs throughput plots for T1:
 * [msturing-1B](results/T1/msturing-1B.png)
 * [bigann-1B](results/T1/bigann-1B.png)
@@ -172,6 +195,15 @@ Here are all the DiskANN baseline recall@10 (AP for SSNPP) vs throughput plots f
 * [deep-1B](results/T2/deep-1B.png)
 * [msspacev-1B](results/T2/msspacev-1B.png)
 * [ssnpp-1B](results/T2/ssnpp-1B.png)
+
+
+Here are all the DiskANN baseline recall@10 (AP for SSNPP) vs mean SSD IOs plots for T2:
+* [msturing-1B](results/T2/msturing-1B-IO.png)
+* [bigann-1B](results/T2/bigann-1B-IO.png)
+* [text2image-1B](results/T2/text2image-1B-IO.png)
+* [deep-1B](results/T2/deep-1B-IO.png)
+* [msspacev-1B](results/T2/msspacev-1B-IO.png)
+* [ssnpp-1B](results/T2/ssnpp-1B-IO.png)
 
 To get a table overview over the best recall/ap achieved over a certain QPS threshold, run 
 ```
@@ -201,7 +233,7 @@ diskann-t2  bigann-1B       0.94913
             deep-1B         0.93706
             msspacev-1B     0.90095
             msturing-1B     0.93564
-            ssnpp-1B        NaN
+            ssnpp-1B        0.16274
             text2image-1B   0.48854
 ```
 
@@ -213,6 +245,7 @@ A submission is composed of a pull request to this repo with the following.
 * For each dataset you are participating in, add to [algos.yaml](../algos.yaml)
   * 1 index build configuration 
   * 10 search configuration
+* Add an entry to [CI test list](../.github/workflows/benchmarks.yml) for the random-xs dataset, and for the random-range-xs dataset if your algorithm supports range search. We can start working with larger datasets once these tests pass. 
 * An URL to download any prebuilt indices placed in `algos.yaml`. **This is optional, but strongly encourages.** This would help us evaluate faster, although we would build your index to verify the time limit. Please see `faiss_t1.py` and `diskann-t2.py` for examples. If you are unable to host the index on your own Azure blob storage, please let us know and we can arrange to have it copied to organizer's account.
 
 We will run early PRs on organizer's machines to the extent possible and provide any feedback necessary.
