@@ -224,6 +224,16 @@ class opt_faiss(BaseANN):
                 spherical=(metric_type == faiss.METRIC_INNER_PRODUCT)
             )
 
+            qscale = 1/ (centroids.max() - centroids.min())
+            qscale *= 255
+            qbias = -centroids.min()/(centroids.max()-centroids.min())
+            qbias  = qbias * 255 - 128
+            try:
+                param = "quantizer_scale=%f, quantizer_bias=%f"%(qscale,qbias)
+                ps.set_index_parameters(index, param)
+            except:
+                pass
+
             if not index_ivf.quantizer.is_trained:
                 print("  training quantizer")
                 index_ivf.quantizer.train(centroids)

@@ -56,6 +56,21 @@ random-range-xs:
             - [ 0.2, 0.4, 1.0 ]
           query-args: []
 random-xs:
+    kst_ann_t1:
+      docker-tag: billion-scale-benchmark-kst_ann_t1
+      module: benchmark.algorithms.opt_faiss
+      constructor: opt_faiss
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"indexkey": "OPQ32_64,IVF1024_HNSWlibFp32_32,PQ64x4fsr",
+                "scale": 1,
+                "bias": 0 
+                }]
+          query-args: |
+              ["nprobe=8,quantizer_efSearch=32",
+              "nprobe=16,quantizer_efSearch=64"]
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
       module: benchmark.algorithms.faiss_t1
