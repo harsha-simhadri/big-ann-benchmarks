@@ -1,4 +1,4 @@
-# Cuanns IVFPQ
+# T3: Cuanns IVFPQ
 
 ## Hardware Configuration And Cost
 
