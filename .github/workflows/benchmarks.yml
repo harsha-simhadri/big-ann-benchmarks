@@ -27,6 +27,9 @@ jobs:
           - algorithm: httpann_example
             dataset: random-xs
             library: httpann_example
+          - algorithm: httpann_example
+            dataset: random-range-xs
+            library: httpann_example
           - algorithm : kst_ann_t1
             dataset: random-xs
             library: kst_ann_t1
