@@ -115,7 +115,7 @@ function""" % (definition.module, definition.constructor, definition.arguments)
             # once by providing them with a single, empty, harmless group
             if not query_argument_groups:
                 query_argument_groups = [[]]
-
+            
             for pos, query_arguments in enumerate(query_argument_groups, 1):
                 print("Running query argument group %d of %d..." %
                       (pos, len(query_argument_groups)))

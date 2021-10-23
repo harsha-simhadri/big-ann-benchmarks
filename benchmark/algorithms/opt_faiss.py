@@ -74,7 +74,7 @@ def two_level_clustering(xt, nc1, nc2, clustering_niter=25, spherical=False):
     return np.vstack(c2)
 
 
-class Faiss(BaseANN):
+class opt_faiss(BaseANN):
     def __init__(self, metric, index_params):
         self._index_params = index_params
         self._metric = metric
@@ -269,7 +269,7 @@ class Faiss(BaseANN):
                 return False
 
             print('Downloading index in background. This can take a while.')
-            download_accelerated(self._index_params['url'], self.index_name(dataset), quiet=True)
+            download_accelerated(self._index_params['url'], self.index_name(dataset), quiet=True,sas_string=self._index_params['sas'])
 
         print("Loading index")
 
@@ -281,6 +281,7 @@ class Faiss(BaseANN):
         bias = self._index_params['bias']
         param='quantizer_scale=%f,quantizer_bias=%f'%(scale,bias)
         self.ps.set_index_parameters(self.index, param)
+
 
         return True
 

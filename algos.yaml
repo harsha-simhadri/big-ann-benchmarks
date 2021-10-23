@@ -122,6 +122,41 @@ deep-10M:
           query-args: |
               [{"Ls":50, "BW":4, "T":16}]
 deep-1B:
+    kst_ann_t1:
+      docker-tag: billion-scale-benchmark-kst_ann_t1
+      module: benchmark.algorithms.opt_faiss
+      constructor: opt_faiss
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"indexkey": "OPQ96_192,IVF1048576_HNSWlibInt8_32,PQ96x4fsr",
+                "url": "https://faissindex.blob.core.windows.net/faiss/final_index/final_index/deep-1B.IVF1M_PQ96.faissindex",
+                "sas": "sv=2020-08-04&st=2021-10-23T05%3A00%3A26Z&se=2021-11-24T05%3A00%3A00Z&sr=b&sp=r&sig=XnQRguytbSu4DiFKn2nrp86NOfWq3uyOYNu3Cm20ScY%3D",
+                "query_bs": 8192,
+                "scale": 1134.489,
+                "bias": -4.0839
+                }]
+          query-args: |
+              ["nprobe=1,quantizer_efSearch=4",
+                "nprobe=2,quantizer_efSearch=4",
+                "nprobe=4,quantizer_efSearch=4",
+                "nprobe=4,quantizer_efSearch=8",
+                "nprobe=8,quantizer_efSearch=8",
+                "nprobe=8,quantizer_efSearch=16",
+                "nprobe=8,quantizer_efSearch=32",
+                "nprobe=16,quantizer_efSearch=16",
+                "nprobe=16,quantizer_efSearch=32",
+                "nprobe=16,quantizer_efSearch=64",
+                "nprobe=32,quantizer_efSearch=32",
+                "nprobe=32,quantizer_efSearch=64",
+                "nprobe=32,quantizer_efSearch=128",
+                "nprobe=48,quantizer_efSearch=64",
+                "nprobe=48,quantizer_efSearch=80",
+                "nprobe=48,quantizer_efSearch=96",
+                "nprobe=48,quantizer_efSearch=128",
+                "nprobe=48,quantizer_efSearch=256",
+                "nprobe=52,quantizer_efSearch=96"]
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
       module: benchmark.algorithms.faiss_t1
@@ -192,6 +227,42 @@ deep-1B:
               {"Ls":80, "BW":4, "T":16},
               {"Ls":100, "BW":4, "T":16}]
 msspacev-1B:
+    kst_ann_t1:
+      docker-tag: billion-scale-benchmark-kst_ann_t1
+      module: benchmark.algorithms.opt_faiss
+      constructor: opt_faiss
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"indexkey": "OPQ96_192,IVF1048576_HNSWlibInt8_32,PQ96x4fsr",
+                "url": "https://faissindex.blob.core.windows.net/faiss/final_index/final_index/msspacev-1B.IVF1M_PQ96.faissindex",
+                "sas": "sv=2020-08-04&st=2021-10-22T18%3A15%3A30Z&se=2021-11-14T18%3A15%3A00Z&sr=b&sp=r&sig=z%2FxPyW2qhjhPZ0BPRV5%2FC5eytkRNaDVO%2F7cn0x2Ipe0%3D",
+                "query_bs": 8192,
+                "scale": 2.44,
+                "bias": 0
+                }]
+          query-args: |
+              ["nprobe=1,quantizer_efSearch=4",
+                "nprobe=2,quantizer_efSearch=4",
+                "nprobe=4,quantizer_efSearch=4",
+                "nprobe=4,quantizer_efSearch=8",
+                "nprobe=8,quantizer_efSearch=8",
+                "nprobe=8,quantizer_efSearch=16",
+                "nprobe=8,quantizer_efSearch=32",
+                "nprobe=16,quantizer_efSearch=16",
+                "nprobe=16,quantizer_efSearch=32",
+                "nprobe=16,quantizer_efSearch=64",
+                "nprobe=32,quantizer_efSearch=32",
+                "nprobe=32,quantizer_efSearch=64",
+                "nprobe=32,quantizer_efSearch=128",
+                "nprobe=48,quantizer_efSearch=64",
+                "nprobe=48,quantizer_efSearch=80",
+                "nprobe=48,quantizer_efSearch=96",
+                "nprobe=48,quantizer_efSearch=128",
+                "nprobe=48,quantizer_efSearch=256",
+                "nprobe=52,quantizer_efSearch=96"]
+
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
       module: benchmark.algorithms.faiss_t1
@@ -253,6 +324,42 @@ msspacev-1B:
               {"Ls":120, "BW":4, "T":16},
               {"Ls":130, "BW":4, "T":16}]
 msturing-1B:
+    kst_ann_t1:
+      docker-tag: billion-scale-benchmark-kst_ann_t1
+      module: benchmark.algorithms.opt_faiss
+      constructor: opt_faiss
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"indexkey": "OPQ96_192,IVF1048576_HNSWlibInt8_32,PQ96x4fsr",
+                 "url": "https://faissindex.blob.core.windows.net/faiss/final_index/final_index/msturing-1B.IVF1M_PQ96.faissindex",
+                 "sas": "sv=2020-08-04&st=2021-10-22T20%3A47%3A43Z&se=2021-11-23T20%3A47%3A00Z&sr=b&sp=r&sig=u3Vr8i29JUad8oPPc%2BOYW7Gc2k%2BpL9D5szbp%2BzLqFis%3D",               
+                 "query_bs":8192,
+                 "scale": 281.5,
+                 "bias": 16.6
+                 }]
+          query-args: |
+             ["nprobe=1,quantizer_efSearch=4",
+                "nprobe=2,quantizer_efSearch=4",
+                "nprobe=4,quantizer_efSearch=4",
+                "nprobe=4,quantizer_efSearch=8",
+                "nprobe=8,quantizer_efSearch=8",
+                "nprobe=8,quantizer_efSearch=16",
+                "nprobe=8,quantizer_efSearch=32",
+                "nprobe=16,quantizer_efSearch=16",
+                "nprobe=16,quantizer_efSearch=32",
+                "nprobe=16,quantizer_efSearch=64",
+                "nprobe=32,quantizer_efSearch=32",
+                "nprobe=32,quantizer_efSearch=64",
+                "nprobe=32,quantizer_efSearch=128",
+                "nprobe=48,quantizer_efSearch=64",
+                "nprobe=48,quantizer_efSearch=80",
+                "nprobe=48,quantizer_efSearch=96",
+                "nprobe=48,quantizer_efSearch=128",
+                "nprobe=48,quantizer_efSearch=256",
+                "nprobe=52,quantizer_efSearch=96"]
+
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
       module: benchmark.algorithms.faiss_t1
@@ -312,6 +419,41 @@ msturing-1B:
               {"Ls":80, "BW":4, "T":16},
               {"Ls":100, "BW":4, "T":16}]
 bigann-1B:
+    kst_ann_t1:
+      docker-tag: billion-scale-benchmark-kst_ann_t1
+      module: benchmark.algorithms.opt_faiss
+      constructor: opt_faiss
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"indexkey": "OPQ96_192,IVF1048576_HNSWlibInt8_32,PQ96x4fsr",
+                 "url": "https://faissindex.blob.core.windows.net/faiss/final_index/final_index/bigann-1B.IVF1M_PQ96.faissindex",
+                 "sas": "sv=2020-08-04&st=2021-10-23T01%3A45%3A40Z&se=2021-11-24T01%3A45%3A00Z&sr=b&sp=r&sig=dd4yUfEGGZKSle%2F1U0c5LxV8WgSGf64Rlu%2BNBaZAgf8%3D",
+                 "query_bs":8192,
+                 "scale": 2.23,
+                 "bias": -10.794
+                 }]
+          query-args: |
+             ["nprobe=1,quantizer_efSearch=4",
+                "nprobe=2,quantizer_efSearch=4",
+                "nprobe=4,quantizer_efSearch=4",
+                "nprobe=4,quantizer_efSearch=8",
+                "nprobe=8,quantizer_efSearch=8",
+                "nprobe=8,quantizer_efSearch=16",
+                "nprobe=8,quantizer_efSearch=32",
+                "nprobe=16,quantizer_efSearch=16",
+                "nprobe=16,quantizer_efSearch=32",
+                "nprobe=16,quantizer_efSearch=64",
+                "nprobe=32,quantizer_efSearch=32",
+                "nprobe=32,quantizer_efSearch=64",
+                "nprobe=32,quantizer_efSearch=128",
+                "nprobe=48,quantizer_efSearch=64",
+                "nprobe=48,quantizer_efSearch=80",
+                "nprobe=48,quantizer_efSearch=96",
+                "nprobe=48,quantizer_efSearch=128",
+                "nprobe=48,quantizer_efSearch=256",
+                "nprobe=52,quantizer_efSearch=128"]
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
       module: benchmark.algorithms.faiss_t1
@@ -521,7 +663,6 @@ bigann-10M:
               [{"R":100, "L":100, "B":0.3, "M":15}]
           query-args: |
               [{"Ls":50, "BW":4, "T":16}]
-
 msturing-1M:
    diskann-t2:
       docker-tag: billion-scale-benchmark-diskann
@@ -570,3 +711,6 @@ text2image-10M:
               [{"R":50, "L":50, "B":0.3, "M":10, "PQ":200}]
           query-args: |
               [{"Ls":50, "BW":4, "T":16}]
+
+
+
