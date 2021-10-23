@@ -35,19 +35,7 @@ jobs:
             library: kota
           - algorithm: kota-t2
             dataset: random-range-xs
-            library: kota
-          - algorithm: kota-t2
-            dataset: msspacev-1B
             library: kota 
-          - algorithm: kota-t2
-            dataset: msturing-1B
-            library: kota
-          - algorithm: kota-t2
-            dataset: bigann-1B
-            library: kota
-          - algorithm: kota-t2
-            dataset: ssnpp-1B
-            library: kota  
       fail-fast: false
 
     steps:
