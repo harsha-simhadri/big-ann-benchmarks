@@ -231,7 +231,7 @@ msspacev-1B:
                 "sas": "sv=2020-08-04&st=2021-10-22T18%3A15%3A30Z&se=2021-11-14T18%3A15%3A00Z&sr=b&sp=r&sig=z%2FxPyW2qhjhPZ0BPRV5%2FC5eytkRNaDVO%2F7cn0x2Ipe0%3D",
                 "query_bs": 4096,
                 "scale": 2.44,
-                "bias": 0
+                "bias": 0 
                 }]
           query-args: |
               ["nprobe=8,quantizer_efSearch=32",
