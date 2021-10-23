@@ -517,7 +517,7 @@ ssnpp-10M:
       run-groups:
         base:
           args: |
-              [{"indexkey": "BUDDY,OPQ32_128,IVF65536_HNSW32,PQ32"
+              [{"indexkey": "OPQ32_128,IVF65536_HNSW32,PQ32"
                 }]
           query-args: |
               ["nprobe=1,quantizer_efSearch=4,ht=92",

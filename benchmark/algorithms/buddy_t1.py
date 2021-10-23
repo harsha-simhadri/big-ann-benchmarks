@@ -99,7 +99,7 @@ class Buddy(BaseANN):
         self._index_params = index_params
         self._metric = metric
         self._query_bs = -1
-        self.indexkey = index_params.get("indexkey", "BUDDY,OPQ32_128,IVF65536_HNSW32,PQ32")
+        self.indexkey = index_params.get("indexkey", "OPQ32_128,IVF65536_HNSW32,PQ32")
 
         if 'query_bs' in index_params:
             self._query_bs = index_params['query_bs']
@@ -108,7 +108,7 @@ class Buddy(BaseANN):
         return "T1"
 
     def index_name(self, name):
-        return f"data/{name}.{self.indexkey}.faissindex"
+        return f"data/{name}.buddy.{self.indexkey}.faissindex"
 
     def fit(self, dataset):
         index_params = self._index_params
