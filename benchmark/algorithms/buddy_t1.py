@@ -23,9 +23,9 @@ def buddy_up(points,friends):
     #[...,12,17,18,50,52,96,101,113,...] in the friends param.
     return points[:,friends]
 
-def buddy_random(points):
+def buddy_random(points,d):
     #use a random shuffle for the dataset shape
-    return points[:,randos[points.shape[1]]]
+    return points[:,randos[d]]
 
 def knn_search_batched(index, xq, k, bs):
     D, I = [], []
@@ -50,7 +50,6 @@ def unwind_index_ivf(index):
         return None, None
 
 def two_level_clustering(xt, nc1, nc2, clustering_niter=25, spherical=False):
-    xt = buddy_random(xt)
     d = xt.shape[1]
 
     print(f"2-level clustering of {xt.shape} nb clusters = {nc1}*{nc2} = {nc1*nc2}")
@@ -115,6 +114,8 @@ class Buddy(BaseANN):
 
         ds = DATASETS[dataset]()
         d = ds.d
+
+        self.d = d
 
         # get build parameters
         buildthreads = index_params.get("buildthreads", -1)
@@ -205,7 +206,7 @@ class Buddy(BaseANN):
         print(f"getting first {maxtrain} dataset vectors for training")
 
         xt2 = next(ds.get_dataset_iterator(bs=maxtrain))
-        xt2 = buddy_random(xt2)
+        xt2 = buddy_random(xt2,d)
 
         print("train, size", xt2.shape)
         assert np.all(np.isfinite(xt2))
@@ -269,7 +270,7 @@ class Buddy(BaseANN):
         else:
             i0 = 0
             for xblock in ds.get_dataset_iterator(bs=add_bs):
-                xblock = buddy_random(xblock)
+                xblock = buddy_random(xblock,d)
                 i1 = i0 + len(xblock)
                 print("  adding %d:%d / %d [%.3f s, RSS %d kiB] " % (
                     i0, i1, ds.nb, time.time() - t0,
@@ -318,7 +319,7 @@ class Buddy(BaseANN):
 
 
     def query(self, X, n):
-        X = buddy_random(X)
+        X = buddy_random(X,self.d)
         if self._query_bs == -1:
             self.res = self.index.search(X, n)
         else:
