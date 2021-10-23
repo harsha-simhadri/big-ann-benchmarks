@@ -1,0 +1,110 @@
+deep-1B:
+    cuanns_multigpu:
+      docker-tag: billion-scale-benchmark-cuanns_multigpu
+      module: benchmark.algorithms.cuanns_multigpu
+      constructor: CuannsMultiGPU
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"dim": 96,
+                "dtype": "float",
+                "dev_list": [0,1,2,3,4,5,6,7],
+                "max_batch_size": 10000
+                }]
+          query-args: |
+              [{ "iteration_num": 512, "searcher_k": 512, "max_batch_buffer_size": 10000 },
+               { "iteration_num":  90, "searcher_k":  96, "max_batch_buffer_size": 10000 },
+               { "iteration_num":  96, "searcher_k":  96, "max_batch_buffer_size": 10000 },
+               { "iteration_num": 100, "searcher_k": 128, "max_batch_buffer_size": 10000 },
+               { "iteration_num": 128, "searcher_k": 128, "max_batch_buffer_size": 10000 },
+               { "iteration_num": 256, "searcher_k": 256, "max_batch_buffer_size": 10000 },
+               { "iteration_num":  40, "searcher_k":  64, "max_batch_buffer_size": 10000 },
+               { "iteration_num":  50, "searcher_k":  64, "max_batch_buffer_size": 10000 },
+               { "iteration_num":  60, "searcher_k":  64, "max_batch_buffer_size": 10000 },
+               { "iteration_num":  64, "searcher_k":  64, "max_batch_buffer_size": 10000 }]
+
+
+
+bigann-1B:
+    cuanns_multigpu:
+      docker-tag: billion-scale-benchmark-cuanns_multigpu
+      module: benchmark.algorithms.cuanns_multigpu
+      constructor: CuannsMultiGPU
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"dim": 128,
+                "dtype": "half",
+                "dev_list": [0,1,2,3,4,5,6,7],
+                "max_batch_size": 10000
+                }]
+          query-args: |
+              [{ "iteration_num": 512, "searcher_k": 512, "max_batch_buffer_size": 10000 },
+               { "iteration_num":  90, "searcher_k":  96, "max_batch_buffer_size": 10000 },
+               { "iteration_num":  96, "searcher_k":  96, "max_batch_buffer_size": 10000 },
+               { "iteration_num": 100, "searcher_k": 128, "max_batch_buffer_size": 10000 },
+               { "iteration_num": 128, "searcher_k": 128, "max_batch_buffer_size": 10000 },
+               { "iteration_num": 256, "searcher_k": 256, "max_batch_buffer_size": 10000 },
+               { "iteration_num":  40, "searcher_k":  64, "max_batch_buffer_size": 10000 },
+               { "iteration_num":  50, "searcher_k":  64, "max_batch_buffer_size": 10000 },
+               { "iteration_num":  60, "searcher_k":  64, "max_batch_buffer_size": 10000 },
+               { "iteration_num":  64, "searcher_k":  64, "max_batch_buffer_size": 10000 }]
+
+
+
+msspacev-1B:
+    cuanns_multigpu:
+      docker-tag: billion-scale-benchmark-cuanns_multigpu
+      module: benchmark.algorithms.cuanns_multigpu
+      constructor: CuannsMultiGPU
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"dim": 100,
+                "dtype": "float",
+                "dev_list": [0,1,2,3,4,5,6,7],
+                "max_batch_size": 29316
+                }]
+          query-args: |
+              [{ "iteration_num": 128, "searcher_k": 128, "max_batch_buffer_size": 29316 },
+               { "iteration_num": 200, "searcher_k": 256, "max_batch_buffer_size": 29316 },
+               { "iteration_num": 220, "searcher_k": 256, "max_batch_buffer_size": 29316 },
+               { "iteration_num": 240, "searcher_k": 256, "max_batch_buffer_size": 29316 },
+               { "iteration_num": 256, "searcher_k": 256, "max_batch_buffer_size": 29316 },
+               { "iteration_num": 280, "searcher_k": 512, "max_batch_buffer_size": 29316 },
+               { "iteration_num": 300, "searcher_k": 512, "max_batch_buffer_size": 29316 },
+               { "iteration_num": 320, "searcher_k": 512, "max_batch_buffer_size": 29316 },
+               { "iteration_num": 340, "searcher_k": 512, "max_batch_buffer_size": 29316 },
+               { "iteration_num": 512, "searcher_k": 512, "max_batch_buffer_size": 29316 }]
+
+
+msturing-1B:
+    cuanns_multigpu:
+      docker-tag: billion-scale-benchmark-cuanns_multigpu
+      module: benchmark.algorithms.cuanns_multigpu
+      constructor: CuannsMultiGPU
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"dim": 100,
+                "dtype": "float",
+                "dev_list": [0,1,2,3,4,5,6,7],
+                "max_batch_size": 100000
+                }]
+          query-args: |
+              [{ "iteration_num": 512, "searcher_k": 512, "max_batch_buffer_size": 100000 },
+               { "iteration_num":  90, "searcher_k":  96, "max_batch_buffer_size": 100000 },
+               { "iteration_num":  96, "searcher_k":  96, "max_batch_buffer_size": 100000 },
+               { "iteration_num": 100, "searcher_k": 128, "max_batch_buffer_size": 100000 },
+               { "iteration_num": 110, "searcher_k": 128, "max_batch_buffer_size": 100000 },
+               { "iteration_num": 120, "searcher_k": 128, "max_batch_buffer_size": 100000 },
+               { "iteration_num": 128, "searcher_k": 128, "max_batch_buffer_size": 100000 },
+               { "iteration_num": 140, "searcher_k": 256, "max_batch_buffer_size": 100000 },
+               { "iteration_num": 256, "searcher_k": 256, "max_batch_buffer_size": 100000 },
+               { "iteration_num":  64, "searcher_k":  64, "max_batch_buffer_size": 100000 }]
+
+

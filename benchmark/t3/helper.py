@@ -12,7 +12,7 @@ def print_cuda_versions():
 
 def t3_create_container( definition, cmd, cpu_limit, mem_limit):
 
-    if definition.algorithm in [ 'faiss-t3' ]:
+    if definition.algorithm in [ 'faiss-t3', 'cuanns_multigpu' ]:
 
         print("Launching GPU container")
         container = create_container_with_gpu_support(
