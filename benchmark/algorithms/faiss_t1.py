@@ -277,10 +277,6 @@ class Faiss(BaseANN):
 
         self.ps = faiss.ParameterSpace()
         self.ps.initialize(self.index)
-        scale = self._index_params['scale']
-        bias = self._index_params['bias']
-        param='quantizer_scale=%f,quantizer_bias=%f'%(scale,bias)
-        self.ps.set_index_parameters(self.index, param)
 
         return True
 
