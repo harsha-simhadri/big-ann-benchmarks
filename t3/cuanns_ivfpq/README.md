@@ -7,11 +7,11 @@
 |System         |[NVIDIA DGX A100 640GB]                    |   1|                                    |           |
 |Total          |                                           |   1|                                    |           |
 
-Note that we don't know the list price of NVIDIA DGX A100 640GB, so we can't list it. Therefore, we will not participate in the leaderboards based on hardware cost.
+Details of the system can be found at https://www.nvidia.com/en-us/data-center/dgx-a100/. However, no price information is provided. Therefore, we will not participate in the leaderboards based on hardware cost.
 
 ## Hardware Access
 
-This hardware is maintained by NVIDIA employees, including member of the Cuanns team. Please send an email to anaruse@nvidia.com and/or yongw@nvidia.com to get access to a system.
+SSH access to the system will be provided to competition organizers.
 
 ## No Source Code Declarations
 
