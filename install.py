@@ -13,7 +13,7 @@ def build(library, args, dockerfile):
         q = ""
 
     try:
-        command = 'sudo docker build %s --rm -t billion-scale-benchmark-%s -f' \
+        command = 'docker build %s --rm -t billion-scale-benchmark-%s -f' \
                     % (q, library )
         command += ' install/Dockerfile.%s .' % (library)  \
                     if not dockerfile else ' %s .' % dockerfile
@@ -53,7 +53,7 @@ if __name__ == "__main__":
 
     print('Building base image...')
     subprocess.check_call(
-        'sudo docker build \
+        'docker build \
         --rm -t billion-scale-benchmark -f install/Dockerfile .', shell=True)
 
     if args.dockerfile:

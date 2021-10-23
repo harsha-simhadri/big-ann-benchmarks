@@ -133,7 +133,7 @@ deep-1B:
               [{"indexkey": "OPQ96_192,IVF1048576_HNSWlibInt8_32,PQ96x4fsr",
                 "url": "https://faissindex.blob.core.windows.net/faiss/final_index/final_index/deep-1B.IVF1M_PQ96.faissindex",
                 "sas": "sv=2020-08-04&st=2021-10-23T05%3A00%3A26Z&se=2021-11-24T05%3A00%3A00Z&sr=b&sp=r&sig=XnQRguytbSu4DiFKn2nrp86NOfWq3uyOYNu3Cm20ScY%3D",
-                "query_bs": 8192,
+                "query_bs": 4096,
                 "scale": 1134.489,
                 "bias": -4.0839
                 }]
@@ -156,7 +156,7 @@ deep-1B:
                 "nprobe=48,quantizer_efSearch=96",
                 "nprobe=48,quantizer_efSearch=128",
                 "nprobe=48,quantizer_efSearch=256",
-                "nprobe=52,quantizer_efSearch=96"]
+                "nprobe=64,quantizer_efSearch=64"]
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
       module: benchmark.algorithms.faiss_t1
@@ -238,7 +238,7 @@ msspacev-1B:
               [{"indexkey": "OPQ96_192,IVF1048576_HNSWlibInt8_32,PQ96x4fsr",
                 "url": "https://faissindex.blob.core.windows.net/faiss/final_index/final_index/msspacev-1B.IVF1M_PQ96.faissindex",
                 "sas": "sv=2020-08-04&st=2021-10-22T18%3A15%3A30Z&se=2021-11-14T18%3A15%3A00Z&sr=b&sp=r&sig=z%2FxPyW2qhjhPZ0BPRV5%2FC5eytkRNaDVO%2F7cn0x2Ipe0%3D",
-                "query_bs": 8192,
+                "query_bs": 4096,
                 "scale": 2.44,
                 "bias": 0
                 }]
@@ -261,7 +261,7 @@ msspacev-1B:
                 "nprobe=48,quantizer_efSearch=96",
                 "nprobe=48,quantizer_efSearch=128",
                 "nprobe=48,quantizer_efSearch=256",
-                "nprobe=52,quantizer_efSearch=96"]
+                "nprobe=64,quantizer_efSearch=64"]
 
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
@@ -335,7 +335,7 @@ msturing-1B:
               [{"indexkey": "OPQ96_192,IVF1048576_HNSWlibInt8_32,PQ96x4fsr",
                  "url": "https://faissindex.blob.core.windows.net/faiss/final_index/final_index/msturing-1B.IVF1M_PQ96.faissindex",
                  "sas": "sv=2020-08-04&st=2021-10-22T20%3A47%3A43Z&se=2021-11-23T20%3A47%3A00Z&sr=b&sp=r&sig=u3Vr8i29JUad8oPPc%2BOYW7Gc2k%2BpL9D5szbp%2BzLqFis%3D",               
-                 "query_bs":8192,
+                 "query_bs":4096,
                  "scale": 281.5,
                  "bias": 16.6
                  }]
@@ -358,7 +358,7 @@ msturing-1B:
                 "nprobe=48,quantizer_efSearch=96",
                 "nprobe=48,quantizer_efSearch=128",
                 "nprobe=48,quantizer_efSearch=256",
-                "nprobe=52,quantizer_efSearch=96"]
+                "nprobe=64,quantizer_efSearch=64"]
 
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
@@ -430,7 +430,7 @@ bigann-1B:
               [{"indexkey": "OPQ96_192,IVF1048576_HNSWlibInt8_32,PQ96x4fsr",
                  "url": "https://faissindex.blob.core.windows.net/faiss/final_index/final_index/bigann-1B.IVF1M_PQ96.faissindex",
                  "sas": "sv=2020-08-04&st=2021-10-23T01%3A45%3A40Z&se=2021-11-24T01%3A45%3A00Z&sr=b&sp=r&sig=dd4yUfEGGZKSle%2F1U0c5LxV8WgSGf64Rlu%2BNBaZAgf8%3D",
-                 "query_bs":8192,
+                 "query_bs":4096,
                  "scale": 2.23,
                  "bias": -10.794
                  }]
@@ -453,7 +453,7 @@ bigann-1B:
                 "nprobe=48,quantizer_efSearch=96",
                 "nprobe=48,quantizer_efSearch=128",
                 "nprobe=48,quantizer_efSearch=256",
-                "nprobe=52,quantizer_efSearch=128"]
+                "nprobe=64,quantizer_efSearch=64"]
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
       module: benchmark.algorithms.faiss_t1
