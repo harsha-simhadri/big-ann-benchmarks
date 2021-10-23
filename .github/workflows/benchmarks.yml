@@ -34,6 +34,9 @@ jobs:
             dataset: random-xs
             library: kota
           - algorithm: kota-t2
+            dataset: random-range-xs
+            library: kota
+          - algorithm: kota-t2
             dataset: msspacev-1B
             library: kota 
           - algorithm: kota-t2
