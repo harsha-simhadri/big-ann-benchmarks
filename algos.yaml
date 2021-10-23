@@ -191,6 +191,48 @@ deep-1B:
               {"Ls":70, "BW":4, "T":16},
               {"Ls":80, "BW":4, "T":16},
               {"Ls":100, "BW":4, "T":16}]
+    ngt-t1:
+      # ngt-t1: deep-1B
+      docker-tag: billion-scale-benchmark-ngt
+      module: benchmark.algorithms.ngt_t1
+      constructor: NGT
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"q": 400000, "s": 500, "b": 1000000, "rs": 1000000, "ri": 600, "rx": 10}]
+          query-args: |
+              [{"epsilon":0.10, "edge":0, "blob":500},
+               {"epsilon":0.16, "edge":0, "blob":500},
+               {"epsilon":0.18, "edge":0, "blob":500},
+               {"epsilon":0.20, "edge":0, "blob":500},
+               {"epsilon":0.22, "edge":0, "blob":500},
+               {"epsilon":0.24, "edge":0, "blob":500},
+               {"epsilon":0.26, "edge":0, "blob":500},
+               {"epsilon":0.30, "edge":0, "blob":500},
+               {"epsilon":0.35, "edge":0, "blob":500},
+               {"epsilon":0.40, "edge":0, "blob":500}]
+    ngt-t2:
+      # ngt-t2: deep-1B
+      docker-tag: billion-scale-benchmark-ngt
+      module: benchmark.algorithms.ngt_t2
+      constructor: NGT
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"q": 400000, "s": 500, "b": 1000000, "rs": 1000000, "ri": 600, "rx": 10}]
+          query-args: |
+              [{"epsilon":0.20, "edge":0, "blob":500, "expansion":0.5},
+               {"epsilon":0.20, "edge":0, "blob":500, "expansion":1.0},
+               {"epsilon":0.20, "edge":0, "blob":500, "expansion":2.0},
+               {"epsilon":0.20, "edge":0, "blob":500, "expansion":3.0},
+               {"epsilon":0.20, "edge":0, "blob":500, "expansion":4.0},
+               {"epsilon":0.20, "edge":0, "blob":500, "expansion":5.0},
+               {"epsilon":0.20, "edge":0, "blob":500, "expansion":6.0},
+               {"epsilon":0.20, "edge":0, "blob":500, "expansion":7.0},
+               {"epsilon":0.20, "edge":0, "blob":500, "expansion":8.0},
+               {"epsilon":0.20, "edge":0, "blob":500, "expansion":10.0}]
 msspacev-1B:
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
@@ -252,6 +294,47 @@ msspacev-1B:
               {"Ls":110, "BW":4, "T":16},
               {"Ls":120, "BW":4, "T":16},
               {"Ls":130, "BW":4, "T":16}]
+    ngt-t1:
+      # ngt-t1: msspacev-1B
+      docker-tag: billion-scale-benchmark-ngt
+      module: benchmark.algorithms.ngt_t1
+      constructor: NGT
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"q": 400000, "s": 500, "b": 1000000, "rs": 1000000, "ri": 600, "rx": 10}]
+          query-args: |
+              [{"epsilon":0.10, "edge":0, "blob":500},
+               {"epsilon":0.15, "edge":0, "blob":500},
+               {"epsilon":0.18, "edge":0, "blob":500},
+               {"epsilon":0.19, "edge":0, "blob":500},
+               {"epsilon":0.20, "edge":0, "blob":500},
+               {"epsilon":0.21, "edge":0, "blob":500},
+               {"epsilon":0.22, "edge":0, "blob":500},
+               {"epsilon":0.25, "edge":0, "blob":500},
+               {"epsilon":0.30, "edge":0, "blob":500},
+               {"epsilon":0.35, "edge":0, "blob":500}]
+    ngt-t2:
+      # ngt-t2: msspacev-1B
+      docker-tag: billion-scale-benchmark-ngt
+      module: benchmark.algorithms.ngt_t2
+      constructor: NGT
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"q": 400000, "s": 500, "b": 1000000, "rs": 1000000, "ri": 600, "rx": 10}]
+          query-args: |
+              [{"epsilon":0.18, "edge":0, "blob":500, "expansion":2},
+               {"epsilon":0.18, "edge":0, "blob":500, "expansion":3},
+               {"epsilon":0.18, "edge":0, "blob":500, "expansion":4},
+               {"epsilon":0.18, "edge":0, "blob":500, "expansion":5},
+               {"epsilon":0.18, "edge":0, "blob":500, "expansion":6},
+               {"epsilon":0.18, "edge":0, "blob":500, "expansion":7},
+               {"epsilon":0.18, "edge":0, "blob":500, "expansion":8},
+               {"epsilon":0.18, "edge":0, "blob":500, "expansion":9},
+               {"epsilon":0.18, "edge":0, "blob":500, "expansion":10}]
 msturing-1B:
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
@@ -311,6 +394,46 @@ msturing-1B:
               {"Ls":70, "BW":4, "T":16},
               {"Ls":80, "BW":4, "T":16},
               {"Ls":100, "BW":4, "T":16}]
+    ngt-t1:
+      # ngt-t1: msturing-1B:
+      docker-tag: billion-scale-benchmark-ngt
+      module: benchmark.algorithms.ngt_t1
+      constructor: NGT
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"q": 400000, "s": 200, "b": 1000000, "rs": 1000000, "ri": 600, "rx": 10}]
+          query-args: |
+              [{"epsilon":0.10, "edge":0, "blob":500},
+               {"epsilon":0.11, "edge":0, "blob":500},
+               {"epsilon":0.12, "edge":0, "blob":500},
+               {"epsilon":0.13, "edge":0, "blob":500},
+               {"epsilon":0.14, "edge":0, "blob":500},
+               {"epsilon":0.15, "edge":0, "blob":500},
+               {"epsilon":0.20, "edge":0, "blob":500},
+               {"epsilon":0.25, "edge":0, "blob":500},
+               {"epsilon":0.30, "edge":0, "blob":500}]
+    ngt-t2:
+      # ngt-t2: msturing-1B:
+      docker-tag: billion-scale-benchmark-ngt
+      module: benchmark.algorithms.ngt_t2
+      constructor: NGT
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"q": 400000, "s": 200, "b": 1000000, "rs": 1000000, "ri": 600, "rx": 10}]
+          query-args: |
+              [{"epsilon":0.14, "edge":0, "blob":500, "expansion":1.0},
+               {"epsilon":0.14, "edge":0, "blob":500, "expansion":1.2},
+               {"epsilon":0.14, "edge":0, "blob":500, "expansion":1.4},
+               {"epsilon":0.14, "edge":0, "blob":500, "expansion":1.6},
+               {"epsilon":0.14, "edge":0, "blob":500, "expansion":1.8},
+               {"epsilon":0.14, "edge":0, "blob":500, "expansion":2.0},
+               {"epsilon":0.14, "edge":0, "blob":500, "expansion":2.2},
+               {"epsilon":0.14, "edge":0, "blob":500, "expansion":2.4},
+               {"epsilon":0.14, "edge":0, "blob":500, "expansion":2.6}]
 bigann-1B:
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
@@ -374,6 +497,49 @@ bigann-1B:
               {"Ls":70, "BW":4, "T":16},
               {"Ls":80, "BW":4, "T":16},
               {"Ls":100, "BW":4, "T":16}]
+    ngt-t1:
+      # ngt-t1: bigann-1B
+      docker-tag: billion-scale-benchmark-ngt
+      module: benchmark.algorithms.ngt_t1
+      constructor: NGT
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"q": 400000, "s": 500, "b": 1000000, "rs": 1000000, "ri": 600, "rx": 10}]
+          query-args: |
+              [{"epsilon":0.10, "edge":0, "blob":500},
+               {"epsilon":0.15, "edge":0, "blob":500},
+               {"epsilon":0.20, "edge":0, "blob":500},
+               {"epsilon":0.21, "edge":0, "blob":500},
+               {"epsilon":0.22, "edge":0, "blob":500},
+               {"epsilon":0.23, "edge":0, "blob":500},
+               {"epsilon":0.24, "edge":0, "blob":500},
+               {"epsilon":0.25, "edge":0, "blob":500},
+               {"epsilon":0.30, "edge":0, "blob":500},
+               {"epsilon":0.35, "edge":0, "blob":500},
+               {"epsilon":0.40, "edge":0, "blob":500}]
+    ngt-t2:
+      # ngt-t2: bigann-1B
+      docker-tag: billion-scale-benchmark-ngt
+      module: benchmark.algorithms.ngt_t2
+      constructor: NGT
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"q": 400000, "s": 500, "b": 1000000, "rs": 1000000, "ri": 600, "rx": 10}]
+          query-args: |
+              [{"epsilon":0.22, "edge":0, "blob":500, "expansion":2},
+               {"epsilon":0.22, "edge":0, "blob":500, "expansion":4},
+               {"epsilon":0.22, "edge":0, "blob":500, "expansion":6},
+               {"epsilon":0.22, "edge":0, "blob":500, "expansion":10},
+               {"epsilon":0.22, "edge":0, "blob":500, "expansion":15},
+               {"epsilon":0.22, "edge":0, "blob":500, "expansion":20},
+               {"epsilon":0.22, "edge":0, "blob":500, "expansion":22},
+               {"epsilon":0.22, "edge":0, "blob":500, "expansion":24},
+               {"epsilon":0.22, "edge":0, "blob":500, "expansion":26},
+               {"epsilon":0.22, "edge":0, "blob":500, "expansion":30}]
 ssnpp-1B:
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
