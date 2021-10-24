@@ -34,10 +34,7 @@ def buddy_up(points,dataset_prefix,copy=True):
     friends = multicollinearity_buddies[dataset_prefix]
     if len(friends):
         print(f'Dataset {dataset_prefix} broadcasting to {friends}')
-        if copy:
-            buddies = points[:,friends].copy(order='C')
-        else:
-            buddies = points[:,friends]
+        buddies = points[:,friends].copy(order='C')
     else:
         print(f'Dataset {dataset_prefix} has no buddy list')
         buddies = points
