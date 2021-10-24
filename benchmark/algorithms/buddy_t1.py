@@ -26,7 +26,9 @@ def buddy_up(points,friends):
 def buddy_random(points,d):
     #use a random shuffle for the dataset shape
     print(f'Shape {d} of {points.shape} has random broadcast {randos[d]}')
-    return points[:,randos[d]]
+    buddies = points[:,randos[d]]
+    print(buddies.flags)
+    return buddies.copy(order='C')
 
 def knn_search_batched(index, xq, k, bs):
     D, I = [], []
