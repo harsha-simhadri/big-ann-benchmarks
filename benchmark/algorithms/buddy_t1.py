@@ -65,8 +65,6 @@ def two_level_clustering(xt, nc1, nc2, clustering_niter=25, spherical=False):
     )
     km.train(xt)
 
-    print()
-
     # coarse centroids
     centroids1 = km.centroids
 
@@ -322,16 +320,19 @@ class Buddy(BaseANN):
 
 
     def query(self, X, n):
-        X = buddy_random(X,self.d)
+        print(f'Querying {X.shape} with dimension {self.d}')
+        B = buddy_random(X,self.d)
         if self._query_bs == -1:
-            self.res = self.index.search(X, n)
+            self.res = self.index.search(B, n)
         else:
-            self.res = knn_search_batched(self.index, X, n, self._query_bs)
+            self.res = knn_search_batched(self.index, B, n, self._query_bs)
 
     def range_query(self, X, radius):
+        print(f'Range querying {X.shape} with dimension {self.d} and radius {radius}')
+        B = buddy_random(X,self.d)
         if self._query_bs != -1:
             raise NotImplemented
-        self.res = self.index.range_search(X, radius)
+        self.res = self.index.range_search(B, radius)
 
     def get_results(self):
         D, I = self.res
