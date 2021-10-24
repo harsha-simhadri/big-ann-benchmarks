@@ -556,7 +556,7 @@ bigann-10M:
               "nprobe=1,quantizer_efSearch=4,ht=98",
               "nprobe=1,quantizer_efSearch=4,ht=104",
               "nprobe=1,quantizer_efSearch=4,ht=112"]
-   diskann-t2:
+    diskann-t2:
       docker-tag: billion-scale-benchmark-diskann
       module: benchmark.algorithms.diskann-t2
       constructor: Diskann
@@ -569,7 +569,7 @@ bigann-10M:
               [{"Ls":50, "BW":4, "T":16}]
 
 msturing-1M:
-   diskann-t2:
+    diskann-t2:
       docker-tag: billion-scale-benchmark-diskann
       module: benchmark.algorithms.diskann-t2
       constructor: Diskann
