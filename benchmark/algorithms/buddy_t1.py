@@ -15,20 +15,36 @@ for i in [128,256,100,96,200]:
     randos[i] = list(range(i))
     random.shuffle(randos[i])
 
-def buddy_up(points,friends):
+multicollinearity_buddies = {
+    'bigann': [54, 52, 48, 23, 78, 82, 84, 80, 113, 42, 83, 85, 81, 43, 51, 53, 49, 77, 75, 79, 40, 41, 47, 73, 112, 114, 111, 118, 87, 72, 16, 22, 9, 18, 122, 120, 91, 24, 30, 17, 62, 60, 56, 31, 34, 36, 32, 67, 1, 90, 92, 88, 121, 15, 0, 13, 70, 68, 64, 103, 37, 102, 96, 69, 8, 10, 14, 104, 110, 106, 44, 46, 55, 74, 76, 61, 59, 63, 35, 33, 2, 66, 38, 89, 95, 65, 71, 58, 94, 4, 6, 98, 100, 26, 28, 11, 107, 109, 124, 126, 19, 21, 115, 117, 119, 57, 39, 3, 5, 7, 12, 20, 25, 27, 29, 45, 50, 86, 93, 97, 99, 101, 105, 108, 116, 123, 125, 127],
+    'deep': [],
+    'ssnpp': [210, 2, 110, 161, 230, 180, 26, 80, 114, 119, 142, 144, 192, 212, 17, 12, 15, 18, 167, 207, 224, 234, 97, 32, 54, 232, 10, 34, 98, 164, 233, 56, 72, 75, 100, 245, 1, 57, 92, 115, 122, 160, 217, 183, 11, 69, 86, 117, 208, 255, 155, 43, 74, 137, 37, 214, 247, 30, 62, 213, 77, 21, 44, 52, 84, 145, 189, 5, 13, 96, 112, 127, 251, 82, 23, 113, 166, 174, 3, 85, 125, 220, 254, 48, 105, 150, 191, 202, 140, 7, 53, 60, 99, 132, 177, 250, 146, 6, 28, 65, 120, 236, 182, 253, 168, 58, 79, 87, 88, 170, 185, 228, 111, 24, 35, 243, 78, 8, 41, 81, 89, 159, 169, 201, 237, 135, 40, 152, 190, 226, 136, 9, 90, 139, 0, 46, 133, 179, 204, 235, 73, 198, 209, 239, 134, 103, 131, 27, 45, 71, 130, 157, 165, 14, 31, 240, 101, 249, 39, 106, 246, 178, 50, 126, 218, 200, 199, 216, 147, 193, 194, 61, 102, 229, 66, 76, 47, 248, 4, 19, 196, 94, 162, 242, 25, 129, 59, 153, 36, 64, 163, 95, 206, 221, 215, 116, 203, 93, 118, 128, 211, 175, 197, 107, 67, 104, 143, 38, 109, 238, 33, 176, 231, 83, 148, 171, 205, 16, 244, 29, 20, 141, 222, 172, 49, 156, 187, 241, 186, 22, 42, 51, 195, 188, 219, 63, 158, 154, 225, 55, 68, 70, 91, 108, 121, 123, 124, 138, 149, 151, 173, 181, 184, 223, 227, 252],
+    'text2image': [],
+    'msturing': [],
+    'msspacev': [],
+    'random': []
+}
+
+def buddy_up(points,dataset_prefix):
     #rearranges the points to put buddy dimensions next to each other.
     #this will be used during PQ to get ideal subvectors without needing to modify Faiss
     #friends is a 1D array of dimension indexes in order of their buddiness.
     #for example if dims 12,17,18,50,52,96,101,113 are buddies, then they would appear as:
     #[...,12,17,18,50,52,96,101,113,...] in the friends param.
-    return points[:,friends]
+    friends = multicollinearity_buddies[dataset_prefix]
+    if len(friends):
+        print(f'Dataset {dataset_prefix} broadcasting to {friends}')
+        buddies = points[:,friends].copy(order='C')
+    else:
+        print(f'Dataset {dataset_prefix} has no buddy list')
+        buddies = points
+    return buddies
 
 def buddy_random(points,d):
     #use a random shuffle for the dataset shape
     print(f'Shape {d} of {points.shape} has random broadcast {randos[d]}')
-    buddies = points[:,randos[d]]
-    print(buddies.flags)
-    return buddies.copy(order='C')
+    buddies = points[:,randos[d]].copy(order='C')
+    return buddies
 
 def knn_search_batched(index, xq, k, bs):
     D, I = [], []
@@ -116,7 +132,9 @@ class Buddy(BaseANN):
         ds = DATASETS[dataset]()
         d = ds.d
 
-        self.d = d
+        self.dataset_prefix = dataset[:dataset.rfind('-')]
+        self.dimensions = d
+        print(self.dataset_prefix,self.dimensions)
 
         # get build parameters
         buildthreads = index_params.get("buildthreads", -1)
@@ -207,7 +225,8 @@ class Buddy(BaseANN):
         print(f"getting first {maxtrain} dataset vectors for training")
 
         xt2 = next(ds.get_dataset_iterator(bs=maxtrain))
-        xt2 = buddy_random(xt2,d)
+        #xt2 = buddy_random(xt2,d)
+        xt2 = buddy_up(xt2,self.dataset_prefix)
 
         print("train, size", xt2.shape)
         assert np.all(np.isfinite(xt2))
@@ -271,7 +290,8 @@ class Buddy(BaseANN):
         else:
             i0 = 0
             for xblock in ds.get_dataset_iterator(bs=add_bs):
-                xblock = buddy_random(xblock,d)
+                #xblock = buddy_random(xblock,d)
+                xblock = buddy_up(xblock,self.dataset_prefix)
                 i1 = i0 + len(xblock)
                 print("  adding %d:%d / %d [%.3f s, RSS %d kiB] " % (
                     i0, i1, ds.nb, time.time() - t0,
@@ -321,7 +341,9 @@ class Buddy(BaseANN):
 
     def query(self, X, n):
         print(f'Querying {X.shape}')
-        B = buddy_random(X,X.shape[1])
+        print(self.dataset_prefix,self.dimensions)
+        #B = buddy_random(X,X.shape[1])
+        B = buddy_up(X,self.dataset_prefix)
         if self._query_bs == -1:
             self.res = self.index.search(B, n)
         else:
@@ -329,7 +351,9 @@ class Buddy(BaseANN):
 
     def range_query(self, X, radius):
         print(f'Range querying {X.shape} and radius {radius}')
-        B = buddy_random(X,X.shape[1])
+        print(self.dataset_prefix,self.dimensions)
+        #B = buddy_random(X,X.shape[1])
+        B = buddy_up(X,self.dataset_prefix)
         if self._query_bs != -1:
             raise NotImplemented
         self.res = self.index.range_search(B, radius)

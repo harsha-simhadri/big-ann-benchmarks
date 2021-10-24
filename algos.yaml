@@ -526,6 +526,36 @@ ssnpp-10M:
               "nprobe=1,quantizer_efSearch=4,ht=112"]
 
 bigann-10M:
+    faiss-t1:
+      docker-tag: billion-scale-benchmark-faissconda
+      module: benchmark.algorithms.faiss_t1
+      constructor: Faiss
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"indexkey": "OPQ32_128,IVF1048576_HNSW32,PQ32"              
+                }]
+          query-args: |
+              ["nprobe=1,quantizer_efSearch=4,ht=92",
+              "nprobe=1,quantizer_efSearch=4,ht=98",
+              "nprobe=1,quantizer_efSearch=4,ht=104",
+              "nprobe=1,quantizer_efSearch=4,ht=112"]
+    buddy-t1:
+      docker-tag: billion-scale-benchmark-pqbuddy
+      module: benchmark.algorithms.buddy_t1
+      constructor: Buddy
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"indexkey": "OPQ32_128,IVF65536_HNSW32,PQ32"
+                }]
+          query-args: |
+              ["nprobe=1,quantizer_efSearch=4,ht=92",
+              "nprobe=1,quantizer_efSearch=4,ht=98",
+              "nprobe=1,quantizer_efSearch=4,ht=104",
+              "nprobe=1,quantizer_efSearch=4,ht=112"]
    diskann-t2:
       docker-tag: billion-scale-benchmark-diskann
       module: benchmark.algorithms.diskann-t2
