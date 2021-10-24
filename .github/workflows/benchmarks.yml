@@ -24,6 +24,12 @@ jobs:
           - algorithm: diskann-t2
             dataset: random-range-xs
             library: diskann
+          - algorithm: bbann
+            dataset: random-xs
+            library: bbann
+          - algorithm: bbann
+            dataset: random-range-xs
+            library: bbann
           - algorithm: httpann_example
             dataset: random-xs
             library: httpann_example
