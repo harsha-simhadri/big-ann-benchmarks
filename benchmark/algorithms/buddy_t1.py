@@ -320,16 +320,16 @@ class Buddy(BaseANN):
 
 
     def query(self, X, n):
-        print(f'Querying {X.shape} with dimension {self.d}')
-        B = buddy_random(X,self.d)
+        print(f'Querying {X.shape}')
+        B = buddy_random(X,X.shape[1])
         if self._query_bs == -1:
             self.res = self.index.search(B, n)
         else:
             self.res = knn_search_batched(self.index, B, n, self._query_bs)
 
     def range_query(self, X, radius):
-        print(f'Range querying {X.shape} with dimension {self.d} and radius {radius}')
-        B = buddy_random(X,self.d)
+        print(f'Range querying {X.shape} and radius {radius}')
+        B = buddy_random(X,X.shape[1])
         if self._query_bs != -1:
             raise NotImplemented
         self.res = self.index.range_search(B, radius)
