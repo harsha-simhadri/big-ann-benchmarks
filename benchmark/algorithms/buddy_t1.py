@@ -25,7 +25,7 @@ multicollinearity_buddies = {
     'random': []
 }
 
-def buddy_up(points,dataset_prefix):
+def buddy_up(points,dataset_prefix,copy=True):
     #rearranges the points to put buddy dimensions next to each other.
     #this will be used during PQ to get ideal subvectors without needing to modify Faiss
     #friends is a 1D array of dimension indexes in order of their buddiness.
@@ -34,13 +34,16 @@ def buddy_up(points,dataset_prefix):
     friends = multicollinearity_buddies[dataset_prefix]
     if len(friends):
         print(f'Dataset {dataset_prefix} broadcasting to {friends}')
-        buddies = points[:,friends].copy(order='C')
+        if copy:
+            buddies = points[:,friends].copy(order='C')
+        else:
+            buddies = points[:,friends]
     else:
         print(f'Dataset {dataset_prefix} has no buddy list')
         buddies = points
     return buddies
 
-def buddy_random(points,d):
+def buddy_random(points,d,copy=True):
     #use a random shuffle for the dataset shape
     print(f'Shape {d} of {points.shape} has random broadcast {randos[d]}')
     buddies = points[:,randos[d]].copy(order='C')
@@ -346,7 +349,7 @@ class Buddy(BaseANN):
     def query(self, X, n):
         print(f'Querying {X.shape} for dataset {self.dataset_prefix}')
         #B = buddy_random(X,X.shape[1])
-        B = buddy_up(X,self.dataset_prefix)
+        B = buddy_up(X,self.dataset_prefix,copy=False)
         if self._query_bs == -1:
             self.res = self.index.search(B, n)
         else:
@@ -355,7 +358,7 @@ class Buddy(BaseANN):
     def range_query(self, X, radius):
         print(f'Range querying {X.shape} and radius {radius} for dataset {self.dataset_prefix}')
         #B = buddy_random(X,X.shape[1])
-        B = buddy_up(X,self.dataset_prefix)
+        B = buddy_up(X,self.dataset_prefix,copy=False)
         if self._query_bs != -1:
             raise NotImplemented
         self.res = self.index.range_search(B, radius)
