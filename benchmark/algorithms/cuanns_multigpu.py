@@ -47,6 +47,7 @@ class CuannsMultiGPU(BaseANN):
         self._algo = pycuann.PyCUANN(
             metric, dim, dtype, dev_list, graph_k, nlist, nprobe, max_k, max_batch_size
         )
+        self._max_batch_size = max_batch_size
 
     def __str__(self):
         return self.__class__.__name__
@@ -63,9 +64,14 @@ class CuannsMultiGPU(BaseANN):
 
     def load_index(self, dataset):
         try:
-            self._algo.load(self._index_file_name(dataset))
+            print("loading dataset", flush=True)
             ds = self._get_dataset(dataset)
+            print("setting search dataset", flush=True)
             self._algo.set_search_dataset(ds)
+
+            print("loading index", flush=True)
+            self._algo.load(self._index_file_name(dataset))
+            print("all loading finished", flush=True)
             return True
         except Exception as e:
             print(e)
@@ -87,13 +93,8 @@ class CuannsMultiGPU(BaseANN):
         else:
             searcher_k = 32
 
-        if "max_batch_buffer_size" in query_args:
-            max_batch_buffer_size = query_args["max_batch_buffer_size"]
-        else:
-            max_batch_buffer_size = 10000
-
         self._algo.set_search_param(
-            iteration_num, searcher_num, searcher_k, max_batch_buffer_size
+            iteration_num, searcher_num, searcher_k, self._max_batch_size
         )
 
     def query(self, X, k):

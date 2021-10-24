@@ -13,16 +13,16 @@ deep-1B:
                 "max_batch_size": 10000
                 }]
           query-args: |
-              [{ "iteration_num": 512, "searcher_k": 512, "max_batch_buffer_size": 10000 },
-               { "iteration_num":  90, "searcher_k":  96, "max_batch_buffer_size": 10000 },
-               { "iteration_num":  96, "searcher_k":  96, "max_batch_buffer_size": 10000 },
-               { "iteration_num": 100, "searcher_k": 128, "max_batch_buffer_size": 10000 },
-               { "iteration_num": 128, "searcher_k": 128, "max_batch_buffer_size": 10000 },
-               { "iteration_num": 256, "searcher_k": 256, "max_batch_buffer_size": 10000 },
-               { "iteration_num":  40, "searcher_k":  64, "max_batch_buffer_size": 10000 },
-               { "iteration_num":  50, "searcher_k":  64, "max_batch_buffer_size": 10000 },
-               { "iteration_num":  60, "searcher_k":  64, "max_batch_buffer_size": 10000 },
-               { "iteration_num":  64, "searcher_k":  64, "max_batch_buffer_size": 10000 }]
+              [{ "iteration_num": 512, "searcher_k": 512 },
+               { "iteration_num":  48, "searcher_k":  64 },
+               { "iteration_num":  50, "searcher_k":  64 },
+               { "iteration_num":  52, "searcher_k":  64 },
+               { "iteration_num":  54, "searcher_k":  64 },
+               { "iteration_num":  56, "searcher_k":  64 },
+               { "iteration_num":  58, "searcher_k":  64 },
+               { "iteration_num":  60, "searcher_k":  64 },
+               { "iteration_num":  64, "searcher_k":  64 },
+               { "iteration_num":  96, "searcher_k":  96 }]
 
 
 
@@ -41,16 +41,16 @@ bigann-1B:
                 "max_batch_size": 10000
                 }]
           query-args: |
-              [{ "iteration_num": 512, "searcher_k": 512, "max_batch_buffer_size": 10000 },
-               { "iteration_num":  90, "searcher_k":  96, "max_batch_buffer_size": 10000 },
-               { "iteration_num":  96, "searcher_k":  96, "max_batch_buffer_size": 10000 },
-               { "iteration_num": 100, "searcher_k": 128, "max_batch_buffer_size": 10000 },
-               { "iteration_num": 128, "searcher_k": 128, "max_batch_buffer_size": 10000 },
-               { "iteration_num": 256, "searcher_k": 256, "max_batch_buffer_size": 10000 },
-               { "iteration_num":  40, "searcher_k":  64, "max_batch_buffer_size": 10000 },
-               { "iteration_num":  50, "searcher_k":  64, "max_batch_buffer_size": 10000 },
-               { "iteration_num":  60, "searcher_k":  64, "max_batch_buffer_size": 10000 },
-               { "iteration_num":  64, "searcher_k":  64, "max_batch_buffer_size": 10000 }]
+              [{ "iteration_num": 256, "searcher_k": 256 },
+               { "iteration_num":  34, "searcher_k":  64 },
+               { "iteration_num":  36, "searcher_k":  64 },
+               { "iteration_num":  37, "searcher_k":  64 },
+               { "iteration_num":  38, "searcher_k":  64 },
+               { "iteration_num":  39, "searcher_k":  64 },
+               { "iteration_num":  40, "searcher_k":  64 },
+               { "iteration_num":  42, "searcher_k":  64 },
+               { "iteration_num":  44, "searcher_k":  64 },
+               { "iteration_num":  64, "searcher_k":  64 }]
 
 
 
@@ -69,16 +69,16 @@ msspacev-1B:
                 "max_batch_size": 29316
                 }]
           query-args: |
-              [{ "iteration_num": 128, "searcher_k": 128, "max_batch_buffer_size": 29316 },
-               { "iteration_num": 200, "searcher_k": 256, "max_batch_buffer_size": 29316 },
-               { "iteration_num": 220, "searcher_k": 256, "max_batch_buffer_size": 29316 },
-               { "iteration_num": 240, "searcher_k": 256, "max_batch_buffer_size": 29316 },
-               { "iteration_num": 256, "searcher_k": 256, "max_batch_buffer_size": 29316 },
-               { "iteration_num": 280, "searcher_k": 512, "max_batch_buffer_size": 29316 },
-               { "iteration_num": 300, "searcher_k": 512, "max_batch_buffer_size": 29316 },
-               { "iteration_num": 320, "searcher_k": 512, "max_batch_buffer_size": 29316 },
-               { "iteration_num": 340, "searcher_k": 512, "max_batch_buffer_size": 29316 },
-               { "iteration_num": 512, "searcher_k": 512, "max_batch_buffer_size": 29316 }]
+              [{ "iteration_num": 512, "searcher_k": 512 },
+               { "iteration_num": 128, "searcher_k": 128 },
+               { "iteration_num": 160, "searcher_k": 256 },
+               { "iteration_num": 180, "searcher_k": 256 },
+               { "iteration_num": 200, "searcher_k": 256 },
+               { "iteration_num": 220, "searcher_k": 256 },
+               { "iteration_num": 240, "searcher_k": 256 },
+               { "iteration_num": 256, "searcher_k": 256 },
+               { "iteration_num": 280, "searcher_k": 512 },
+               { "iteration_num": 320, "searcher_k": 512 }]
 
 
 msturing-1B:
@@ -96,15 +96,14 @@ msturing-1B:
                 "max_batch_size": 100000
                 }]
           query-args: |
-              [{ "iteration_num": 512, "searcher_k": 512, "max_batch_buffer_size": 100000 },
-               { "iteration_num":  90, "searcher_k":  96, "max_batch_buffer_size": 100000 },
-               { "iteration_num":  96, "searcher_k":  96, "max_batch_buffer_size": 100000 },
-               { "iteration_num": 100, "searcher_k": 128, "max_batch_buffer_size": 100000 },
-               { "iteration_num": 110, "searcher_k": 128, "max_batch_buffer_size": 100000 },
-               { "iteration_num": 120, "searcher_k": 128, "max_batch_buffer_size": 100000 },
-               { "iteration_num": 128, "searcher_k": 128, "max_batch_buffer_size": 100000 },
-               { "iteration_num": 140, "searcher_k": 256, "max_batch_buffer_size": 100000 },
-               { "iteration_num": 256, "searcher_k": 256, "max_batch_buffer_size": 100000 },
-               { "iteration_num":  64, "searcher_k":  64, "max_batch_buffer_size": 100000 }]
-
+              [{ "iteration_num": 512, "searcher_k": 512 },
+               { "iteration_num": 100, "searcher_k": 128 },
+               { "iteration_num": 105, "searcher_k": 128 },
+               { "iteration_num": 110, "searcher_k": 128 },
+               { "iteration_num": 115, "searcher_k": 128 },
+               { "iteration_num": 120, "searcher_k": 128 },
+               { "iteration_num": 125, "searcher_k": 128 },
+               { "iteration_num": 128, "searcher_k": 128 },
+               { "iteration_num": 135, "searcher_k": 256 },
+               { "iteration_num": 256, "searcher_k": 256 }]
 
