@@ -97,6 +97,8 @@ function""" % (definition.module, definition.constructor, definition.arguments)
         else:
             print("Loaded existing index")
 
+        if hasattr(algo, 'set_dataset') and callable(algo.set_dataset):
+            algo.set_dataset(dataset)
             
         index_size = algo.get_memory_usage() - memory_usage_before
         print('Index memory footprint: ', index_size)

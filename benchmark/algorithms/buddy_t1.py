@@ -124,7 +124,11 @@ class Buddy(BaseANN):
         return "T1"
 
     def index_name(self, name):
-        return f"data/{name}.buddy.{self.indexkey}.faissindex"
+        return f"data/{name}.buddy.multicollinearity.{self.indexkey}.faissindex"
+
+    def set_dataset(self, datataset):
+        self.dataset = dataset
+        self.dataset_prefix = dataset[:dataset.rfind('-')]
 
     def fit(self, dataset):
         index_params = self._index_params
