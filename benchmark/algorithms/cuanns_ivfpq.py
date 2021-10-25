@@ -8,10 +8,21 @@ from benchmark.datasets import DATASETS
 import cuann
 from cuann import libcuann
 from cuann import ivfpq
-from cuann import utils
 
 mempool = cupy.cuda.MemoryPool(cupy.cuda.malloc_managed)
 cupy.cuda.set_allocator(mempool.malloc)
+
+
+def memmap_bin_file(bin_file, dtype, shape=None):
+    if bin_file is None:
+        return None
+    a = numpy.memmap(bin_file, dtype='uint32', shape=(2,))
+    if shape is None:
+        shape = (a[0], a[1])
+    elif len(shape) != 2 or shape[0] > a[0] or shape[1] != a[1]:
+        raise RuntimeError('The specified shape is invalid (shape: {})'.format(shape))
+    # print('# {}: shape: {}, dtype: {}'.format(bin_file, shape, dtype))
+    return numpy.memmap(bin_file, dtype=dtype, offset=8, shape=shape)
 
 
 class CuannsIvfpq(BaseANN):
@@ -21,7 +32,7 @@ class CuannsIvfpq(BaseANN):
         self._algo = ivfpq.CuannIvfPq()
 
         self._query_args = None
-        self._dsi = None
+        self._dataset = None
 
     def __str__(self):
         if self._query_args is not None:
@@ -34,9 +45,6 @@ class CuannsIvfpq(BaseANN):
             name = self.__class__.__name__
         return name
 
-    def track(self):
-        return 'T3'
-
     def _index_file_name(self, dataset):
         return 'data/indices/t3/CuannsIvfpq/{}.cluster_{}.pq_{}.{}_bit'.format(
             dataset,
@@ -44,16 +52,33 @@ class CuannsIvfpq(BaseANN):
             self._index_params['dim_pq'],
             self._index_params['bit_pq'])
 
-    def load_index(self, dataset):
-        self._dataset = dataset
-        self._dsi = DATASETS[dataset]()
+    def _setup_dataset(self, dataset):
+        if self._dataset is None:
+            self._dataset = dataset
+            self._dsi = DATASETS[dataset]()
+            self._ds = memmap_bin_file(
+                self._dsi.get_dataset_fn(), self._dsi.dtype,
+                (self._dsi.nb, self._dsi.d))
+            print('# self._ds.shape: {}'.format(self._ds.shape))
 
-        # Original dataset is needed for refinement
-        self._ds = utils.memmap_bin_file(self._dsi.get_dataset_fn(), self._dsi.dtype)
+    def _setup_trainset(self, rate=10):
+        # Create trainset by picking-up vectors randomly from dataset
+        num_ts = self._ds.shape[0] // rate
+        indexes = numpy.arange(self._ds.shape[0])
+        numpy.random.shuffle(indexes)
+        self._ts = self._ds[numpy.sort(indexes[:num_ts])]
+        print('# self._ts.shape: {}'.format(self._ts.shape))
+
+    def track(self):
+        return 'T3'
+
+    def load_index(self, dataset):
+        self._setup_dataset(dataset)
 
         index_fn = self._index_file_name(dataset)
         if self._algo.load_index(index_fn) is False:
-            raise RuntimeError('Failed to load index ({})'.format(index_fn))
+            print('# Failed to load index ({})'.format(index_fn))
+            return False
 
         assert(self._algo._index_params['numDataset'] <= self._dsi.nb)
         assert(self._algo._index_params['dimDataset'] == self._dsi.d)
@@ -61,6 +86,27 @@ class CuannsIvfpq(BaseANN):
         assert(self._algo._index_params['dimPq'] == self._index_params['dim_pq'])
         assert(self._algo._index_params['bitPq'] == self._index_params['bit_pq'])
         return True
+
+    def fit(self, dataset):
+        self._setup_dataset(dataset)
+        self._setup_trainset()
+
+        _distance = self._dsi.distance()
+        if _distance is "euclidean":
+            similarity=libcuann.CUANN_SIMILARITY_L2
+        elif _distance is "ip":
+            similarity=libcuann.CUANN_SIMILARITY_INNER
+        else:
+            raise RuntimeError('Unsupported distance ({})'.format(_distance))
+
+        index_fn = self._index_file_name(dataset)
+        # print('# index_fn: {}'.format(index_fn))
+        self._algo.build_index(index_fn, self._ds, self._ts,
+                               self._index_params['num_clusters'],
+                               self._index_params['dim_pq'],
+                               self._index_params['bit_pq'],
+                               similarity=similarity,
+                               randomRotation=1)
 
     def set_query_arguments(self, query_args):
         print('# query_args: {}'.format(query_args))
