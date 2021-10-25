@@ -4,14 +4,33 @@ from benchmark.plotting.eval_range_search import compute_AP
 
 from benchmark.sensors.power_capture import power_capture
 
-def get_recall_values(true_nn, run_nn, count):
-    true_nn, _ = true_nn
-    true_nn = true_nn[:, :count]
-    assert true_nn.shape == run_nn.shape
+def compute_recall_without_distance_ties(true_ids, run_ids, count):
+    return len(set(true_ids) & set(run_ids))
+
+def compute_recall_with_distance_ties(true_ids, true_dists, run_ids, count):
+    assert np.all(true_dists[:-1] <= true_dists[1:])
+    i = count - 1
+    gt_size = np.shape(true_dists)[0]
+    while true_dists[i] <= true_dists[count-1] + 1e-6:
+        if i < gt_size - 1:
+            i = i + 1
+        else:
+            break
+    recall =  len(set(true_ids[:i]) & set(run_ids))
+    return recall
+
+def get_recall_values(true_nn, run_nn, count, count_ties=True):
+    true_ids, true_dists = true_nn
+    if not count_ties:
+        true_ids = true_ids[:, :count]
+        assert true_ids.shape == run_nn.shape
     recalls = np.zeros(len(run_nn))
     # TODO probably not very efficient
     for i in range(len(run_nn)):
-        recalls[i] = len(set(true_nn[i]) & set(run_nn[i]))
+        if count_ties:
+            recalls[i] = compute_recall_with_distance_ties(true_ids[i], true_dists[i], run_nn[i], count)
+        else:
+            recalls[i] = compute_recall_without_distance_ties(true_ids[i], run_nn[i], count)
     return (np.mean(recalls) / float(count),
             np.std(recalls) / float(count),
             recalls)
