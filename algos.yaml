@@ -9,6 +9,17 @@ any:
           args: [[1024,2048,4096,8192]]
           query-args: [[1, 5, 10, 50, 100, 200]]
 random-range-xs:
+    kota-t2:
+      docker-tag: billion-scale-benchmark-kota
+      module: benchmark.algorithms.kota-t2
+      constructor: KoTa
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"R":32, "L":32, "B":0.0001, "M":1}]
+          query-args: |
+            [{"Lmin":3, "Lmax":100, "BW":4, "T":16}]
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
       module: benchmark.algorithms.faiss_t1
@@ -56,6 +67,17 @@ random-range-xs:
             - [ 0.2, 0.4, 1.0 ]
           query-args: []
 random-xs:
+    kota-t2:
+      docker-tag: billion-scale-benchmark-kota
+      module: benchmark.algorithms.kota-t2
+      constructor: KoTa
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"R":32, "L":32, "B":0.0001, "M":1}]
+          query-args: |
+              [{"Ls":10, "BW":4, "T":16}]
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
       module: benchmark.algorithms.faiss_t1
@@ -192,6 +214,28 @@ deep-1B:
               {"Ls":80, "BW":4, "T":16},
               {"Ls":100, "BW":4, "T":16}]
 msspacev-1B:
+    kota-t2:
+      docker-tag: billion-scale-benchmark-kota
+      module: benchmark.algorithms.kota-t2
+      constructor: KoTa
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"R":100, "L":100, "B":47, "M":100,
+                "url": "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/diskann-T2-baseline-indices/msspacev-1B/R100_L100_B47_M100"
+                }]
+          query-args: |
+              [{"Ls":60, "BW":4, "T":16, "HE":3},
+              {"Ls":70, "BW":4, "T":16, "HE":3},
+              {"Ls":80, "BW":4, "T":16, "HE":3},
+              {"Ls":90, "BW":4, "T":16, "HE":3},
+              {"Ls":95, "BW":4, "T":16, "HE":3},
+              {"Ls":100, "BW":4, "T":16, "HE":3},
+              {"Ls":105, "BW":4, "T":16, "HE":3},
+              {"Ls":110, "BW":4, "T":16, "HE":3},
+              {"Ls":120, "BW":4, "T":16, "HE":3},
+              {"Ls":130, "BW":4, "T":16, "HE":3}]
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
       module: benchmark.algorithms.faiss_t1
@@ -253,6 +297,28 @@ msspacev-1B:
               {"Ls":120, "BW":4, "T":16},
               {"Ls":130, "BW":4, "T":16}]
 msturing-1B:
+    kota-t2:
+      docker-tag: billion-scale-benchmark-kota
+      module: benchmark.algorithms.kota-t2
+      constructor: KoTa
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"R":100, "L":100, "B":50, "M":80,
+                "url": "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/diskann-T2-baseline-indices/msturing-1B/R100_L100_B50_M80"
+                }]
+          query-args: |
+              [{"Ls":30, "BW":4, "T":16},
+              {"Ls":40, "BW":4, "T":16},
+              {"Ls":50, "BW":4, "T":16},
+              {"Ls":55, "BW":4, "T":16},
+              {"Ls":57, "BW":4, "T":16},
+              {"Ls":59, "BW":4, "T":16},
+              {"Ls":60, "BW":4, "T":16},
+              {"Ls":70, "BW":4, "T":16},
+              {"Ls":80, "BW":4, "T":16},
+              {"Ls":100, "BW":4, "T":16}]
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
       module: benchmark.algorithms.faiss_t1
@@ -312,6 +378,28 @@ msturing-1B:
               {"Ls":80, "BW":4, "T":16},
               {"Ls":100, "BW":4, "T":16}]
 bigann-1B:
+    skota-t2:
+      docker-tag: billion-scale-benchmark-kota
+      module: benchmark.algorithms.kota-t2
+      constructor: KoTa
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"R":100, "L":100, "B":50, "M":80,
+                "url": "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/diskann-T2-baseline-indices/bigann-1B/R100_L100_B50_M80"
+                }]
+          query-args: |
+              [{"Ls":30, "BW":4, "T":16},
+              {"Ls":40, "BW":4, "T":16},
+              {"Ls":50, "BW":4, "T":16},
+              {"Ls":55, "BW":4, "T":16},
+              {"Ls":60, "BW":4, "T":16},
+              {"Ls":62, "BW":4, "T":16},
+              {"Ls":65, "BW":4, "T":16},
+              {"Ls":70, "BW":4, "T":16},
+              {"Ls":80, "BW":4, "T":16},
+              {"Ls":100, "BW":4, "T":16}]   
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
       module: benchmark.algorithms.faiss_t1
@@ -375,6 +463,28 @@ bigann-1B:
               {"Ls":80, "BW":4, "T":16},
               {"Ls":100, "BW":4, "T":16}]
 ssnpp-1B:
+    kota-t2:
+      docker-tag: billion-scale-benchmark-kota
+      module: benchmark.algorithms.kota-t2
+      constructor: KoTa
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"R":100, "L":100, "B":60, "M":100, "C":500000, "CM":2,
+                "url": "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/diskann-T2-baseline-indices/fbssnpp-1B/R100_L100_B60_M100"
+                }]
+          query-args: |
+              [{"Lmin":9, "Lmax":10000, "BW":4, "T":16},
+               {"Lmin":14, "Lmax":10000, "BW":4, "T":16},
+               {"Lmin":9, "Lmax":20000, "BW":4, "T":16},
+               {"Lmin":14, "Lmax":20000, "BW":4, "T":16}，
+               {"Lmin":19, "Lmax":20000, "BW":4, "T":16},
+               {"Lmin":39, "Lmax":20000, "BW":4, "T":16},
+               {"Lmin":7, "Lmax":30000, "BW":4, "T":16},
+               {"Lmin":14, "Lmax":30000, "BW":4, "T":16}，
+               {"Lmin":29, "Lmax":30000, "BW":4, "T":16},
+               {"Lmin":58, "Lmax":30000, "BW":4, "T":16}]
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
       module: benchmark.algorithms.faiss_t1
@@ -570,119 +680,4 @@ text2image-10M:
               [{"R":50, "L":50, "B":0.3, "M":10, "PQ":200}]
           query-args: |
               [{"Ls":50, "BW":4, "T":16}]
-random-xs:
-    kota-t2:
-      docker-tag: billion-scale-benchmark-kota
-      module: benchmark.algorithms.kota-t2
-      constructor: KoTa
-      base-args: ["@metric"]
-      run-groups:
-        base:
-          args: |
-              [{"R":32, "L":32, "B":0.0001, "M":1}]
-          query-args: |
-              [{"Ls":10, "BW":4, "T":16}]
-random-range-xs:
-  kota-t2:
-      docker-tag: billion-scale-benchmark-kota
-      module: benchmark.algorithms.kota-t2
-      constructor: KoTa
-      base-args: ["@metric"]
-      run-groups:
-        base:
-          args: |
-              [{"R":32, "L":32, "B":0.0001, "M":1}]
-          query-args: |
-            [{"Lmin":3, "Lmax":100, "BW":4, "T":16}]
-msspacev-1B:
-    kota-t2:
-      docker-tag: billion-scale-benchmark-kota
-      module: benchmark.algorithms.kota-t2
-      constructor: KoTa
-      base-args: ["@metric"]
-      run-groups:
-        base:
-          args: |
-              [{"R":100, "L":100, "B":47, "M":100,
-                "url": "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/diskann-T2-baseline-indices/msspacev-1B/R100_L100_B47_M100"
-                }]
-          query-args: |
-              [{"Ls":60, "BW":4, "T":16, "HE":3},
-              {"Ls":70, "BW":4, "T":16, "HE":3},
-              {"Ls":80, "BW":4, "T":16, "HE":3},
-              {"Ls":90, "BW":4, "T":16, "HE":3},
-              {"Ls":95, "BW":4, "T":16, "HE":3},
-              {"Ls":100, "BW":4, "T":16, "HE":3},
-              {"Ls":105, "BW":4, "T":16, "HE":3},
-              {"Ls":110, "BW":4, "T":16, "HE":3},
-              {"Ls":120, "BW":4, "T":16, "HE":3},
-              {"Ls":130, "BW":4, "T":16, "HE":3}]
-msturing-1B:
-    kota-t2:
-      docker-tag: billion-scale-benchmark-kota
-      module: benchmark.algorithms.kota-t2
-      constructor: KoTa
-      base-args: ["@metric"]
-      run-groups:
-        base:
-          args: |
-              [{"R":100, "L":100, "B":50, "M":80,
-                "url": "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/diskann-T2-baseline-indices/msturing-1B/R100_L100_B50_M80"
-                }]
-          query-args: |
-              [{"Ls":30, "BW":4, "T":16},
-              {"Ls":40, "BW":4, "T":16},
-              {"Ls":50, "BW":4, "T":16},
-              {"Ls":55, "BW":4, "T":16},
-              {"Ls":57, "BW":4, "T":16},
-              {"Ls":59, "BW":4, "T":16},
-              {"Ls":60, "BW":4, "T":16},
-              {"Ls":70, "BW":4, "T":16},
-              {"Ls":80, "BW":4, "T":16},
-              {"Ls":100, "BW":4, "T":16}]
-bigann-1B:
-    kota-t2:
-      docker-tag: billion-scale-benchmark-kota
-      module: benchmark.algorithms.kota-t2
-      constructor: KoTa
-      base-args: ["@metric"]
-      run-groups:
-        base:
-          args: |
-              [{"R":100, "L":100, "B":50, "M":80,
-                "url": "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/diskann-T2-baseline-indices/bigann-1B/R100_L100_B50_M80"
-                }]
-          query-args: |
-              [{"Ls":30, "BW":4, "T":16},
-              {"Ls":40, "BW":4, "T":16},
-              {"Ls":50, "BW":4, "T":16},
-              {"Ls":55, "BW":4, "T":16},
-              {"Ls":60, "BW":4, "T":16},
-              {"Ls":62, "BW":4, "T":16},
-              {"Ls":65, "BW":4, "T":16},
-              {"Ls":70, "BW":4, "T":16},
-              {"Ls":80, "BW":4, "T":16},
-              {"Ls":100, "BW":4, "T":16}]   
-ssnpp-1B:
-  kota-t2:
-      docker-tag: billion-scale-benchmark-kota
-      module: benchmark.algorithms.kota-t2
-      constructor: KoTa
-      base-args: ["@metric"]
-      run-groups:
-        base:
-          args: |
-              [{"R":100, "L":100, "B":60, "M":100, "C":500000, "CM":2,
-                "url": "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/diskann-T2-baseline-indices/fbssnpp-1B/R100_L100_B60_M100"
-                }]
-          query-args: |
-              [{"Lmin":9, "Lmax":10000, "BW":4, "T":16},
-               {"Lmin":14, "Lmax":10000, "BW":4, "T":16},
-               {"Lmin":9, "Lmax":20000, "BW":4, "T":16},
-               {"Lmin":14, "Lmax":20000, "BW":4, "T":16}，
-               {"Lmin":19, "Lmax":20000, "BW":4, "T":16},
-               {"Lmin":39, "Lmax":20000, "BW":4, "T":16},
-               {"Lmin":7, "Lmax":30000, "BW":4, "T":16},
-               {"Lmin":14, "Lmax":30000, "BW":4, "T":16}，
-               {"Lmin":29, "Lmax":30000, "BW":4, "T":16},
-               {"Lmin":58, "Lmax":30000, "BW":4, "T":16}]
+              
