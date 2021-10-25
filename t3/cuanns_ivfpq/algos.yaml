@@ -84,16 +84,40 @@ msturing-1B:
                 "dim_pq": 64,
                 "bit_pq": 5}]
           query-args: |
-              [{"max_batch_size": 10000, "topk": 10, "refine_rate": 2, "num_probes": 48},
-               {"max_batch_size": 10000, "topk": 10, "refine_rate": 2, "num_probes": 56},
-               {"max_batch_size": 10000, "topk": 10, "refine_rate": 2, "num_probes": 64},
+              [{"max_batch_size": 10000, "topk": 10, "refine_rate": 3, "num_probes": 40},
+               {"max_batch_size": 10000, "topk": 10, "refine_rate": 3, "num_probes": 48},
+               {"max_batch_size": 10000, "topk": 10, "refine_rate": 3, "num_probes": 56},
                {"max_batch_size": 10000, "topk": 10, "refine_rate": 3, "num_probes": 64},
                {"max_batch_size": 10000, "topk": 10, "refine_rate": 3, "num_probes": 72},
-               {"max_batch_size": 10000, "topk": 10, "refine_rate": 3, "num_probes": 80},
+               {"max_batch_size": 10000, "topk": 10, "refine_rate": 4, "num_probes": 80},
                {"max_batch_size": 10000, "topk": 10, "refine_rate": 4, "num_probes": 88},
                {"max_batch_size": 10000, "topk": 10, "refine_rate": 4, "num_probes": 96},
                {"max_batch_size": 10000, "topk": 10, "refine_rate": 8, "num_probes": 2048},
                {"max_batch_size": 10000, "topk": 10, "refine_rate": 8, "num_probes": 3072}]
+text2image-1B:
+    cuanns_ivfpq:
+      docker-tag: billion-scale-benchmark-cuanns_ivfpq
+      docker-volumes: ['/raid']
+      module: benchmark.algorithms.cuanns_ivfpq
+      constructor: CuannsIvfpq
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"num_clusters": 500000,
+                "dim_pq": 72,
+                "bit_pq": 8}]
+          query-args: |
+              [{"max_batch_size": 10000, "topk": 10, "refine_rate": 64, "num_probes": 384},
+               {"max_batch_size": 10000, "topk": 10, "refine_rate": 64, "num_probes": 448},
+               {"max_batch_size": 10000, "topk": 10, "refine_rate": 64, "num_probes": 512},
+               {"max_batch_size": 10000, "topk": 10, "refine_rate": 128, "num_probes": 256},
+               {"max_batch_size": 10000, "topk": 10, "refine_rate": 128, "num_probes": 288},
+               {"max_batch_size": 10000, "topk": 10, "refine_rate": 128, "num_probes": 320},
+               {"max_batch_size": 10000, "topk": 10, "refine_rate": 128, "num_probes": 352},
+               {"max_batch_size": 10000, "topk": 10, "refine_rate": 128, "num_probes": 384},
+               {"max_batch_size": 10000, "topk": 10, "refine_rate": 256, "num_probes": 896},
+               {"max_batch_size": 10000, "topk": 10, "refine_rate": 256, "num_probes": 1024}]
 bigann-100M:
     cuanns_ivfpq:
       docker-tag: billion-scale-benchmark-cuanns_ivfpq
