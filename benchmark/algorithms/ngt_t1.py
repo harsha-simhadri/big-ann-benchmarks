@@ -44,7 +44,6 @@ class NGT(BaseANN):
         print("NGT dimension:", ds.d)
         print("NGT type:", ds.dtype)
         print("NGT nb:", ds.nb)
-        print("NGT nb_M:", ds.nb_M)
         print("NGT dataset file name:", ds.get_dataset_fn())
         print("NGT quantization (q):", self._quantization)
         print("NGT quantization sample (s):", self._quantization_sample)
