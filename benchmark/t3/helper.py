@@ -33,6 +33,27 @@ def t3_create_container( definition, cmd, cpu_limit, mem_limit):
         container.start()
         return container
 
+    elif definition.algorithm in [ 'diskann-vm-l8sv2', 'diskann-bare-metal' ]:
+        print("Launching Container")
+        client = docker.from_env()
+        container = client.containers.run(
+            definition.docker_tag,
+            cmd,
+            volumes={
+                os.path.abspath('benchmark'):
+                {'bind': '/home/app/benchmark', 'mode': 'ro'},
+                os.path.abspath('data'):
+                {'bind': '/home/app/data', 'mode': 'rw'},
+                os.path.abspath('results'):
+                {'bind': '/home/app/results', 'mode': 'rw'},
+            },
+            cpuset_cpus=cpu_limit,
+            mem_limit=mem_limit,
+            detach=True)
+        
+        container.start()
+        return container
+    
     else:
         raise Exception("Docker invoke not supported for this algorithm.")
 

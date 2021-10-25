@@ -1,0 +1,162 @@
+random-range-xs:
+    diskann-vm-l8sv2:
+      docker-tag: billion-scale-benchmark-diskann
+      module: benchmark.algorithms.diskann-v0_3
+      constructor: Diskann
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"R":32, "L":32, "B":0.0001, "M":1}]
+          query-args: |
+            [{"Lmin":3, "Lmax":100, "BW":4, "T":16}]
+random-xs:
+    diskann-vm-l8sv2:
+      docker-tag: billion-scale-benchmark-diskann
+      module: benchmark.algorithms.diskann-v0_3
+      constructor: Diskann
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"R":32, "L":32, "B":0.0001, "M":1}]
+          query-args: |
+              [{"Ls":10, "BW":4, "T":16}]
+deep-1B:
+    diskann-vm-l8sv2:
+      docker-tag: billion-scale-benchmark-diskann
+      module: benchmark.algorithms.diskann-v0_3
+      constructor: Diskann
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"R":100, "L":100, "B":50, "M":110,
+                "url": "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/diskann-T2-baseline-indices/deep-1B/R100_L100_B50_M110"
+                }]
+          query-args: |
+              [{"Ls":30, "BW":4, "T":16},
+              {"Ls":40, "BW":4, "T":16},
+              {"Ls":50, "BW":4, "T":16},
+              {"Ls":53, "BW":4, "T":16},
+              {"Ls":56, "BW":4, "T":16},
+              {"Ls":58, "BW":4, "T":16},
+              {"Ls":60, "BW":4, "T":16},
+              {"Ls":70, "BW":4, "T":16},
+              {"Ls":80, "BW":4, "T":16},
+              {"Ls":100, "BW":4, "T":16}]
+msspacev-1B:
+    diskann-vm-l8sv2:
+      docker-tag: billion-scale-benchmark-diskann
+      module: benchmark.algorithms.diskann-v0_3
+      constructor: Diskann
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"R":100, "L":100, "B":47, "M":100,
+                "url": "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/diskann-T2-baseline-indices/msspacev-1B/R100_L100_B47_M100"
+                }]
+          query-args: |
+              [{"Ls":40, "BW":4, "T":16},
+              {"Ls":50, "BW":4, "T":16},
+              {"Ls":60, "BW":4, "T":16},
+              {"Ls":70, "BW":4, "T":16},
+              {"Ls":80, "BW":4, "T":16},
+              {"Ls":90, "BW":4, "T":16},
+              {"Ls":100, "BW":4, "T":16},
+              {"Ls":110, "BW":4, "T":16},
+              {"Ls":120, "BW":4, "T":16},
+              {"Ls":130, "BW":4, "T":16}]
+msturing-1B:
+    diskann-vm-l8sv2:
+      docker-tag: billion-scale-benchmark-diskann
+      module: benchmark.algorithms.diskann-v0_3
+      constructor: Diskann
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"R":100, "L":100, "B":50, "M":80,
+                "url": "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/diskann-T2-baseline-indices/msturing-1B/R100_L100_B50_M80"
+                }]
+          query-args: |
+              [{"Ls":30, "BW":4, "T":16},
+              {"Ls":40, "BW":4, "T":16},
+              {"Ls":50, "BW":4, "T":16},
+              {"Ls":55, "BW":4, "T":16},
+              {"Ls":57, "BW":4, "T":16},
+              {"Ls":59, "BW":4, "T":16},
+              {"Ls":60, "BW":4, "T":16},
+              {"Ls":70, "BW":4, "T":16},
+              {"Ls":80, "BW":4, "T":16},
+              {"Ls":100, "BW":4, "T":16}]
+bigann-1B:
+    diskann-vm-l8sv2:
+      docker-tag: billion-scale-benchmark-diskann
+      module: benchmark.algorithms.diskann-v0_3
+      constructor: Diskann
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"R":100, "L":100, "B":50, "M":80,
+                "url": "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/diskann-T2-baseline-indices/bigann-1B/R100_L100_B50_M80"
+                }]
+          query-args: |
+              [{"Ls":30, "BW":4, "T":16},
+              {"Ls":40, "BW":4, "T":16},
+              {"Ls":50, "BW":4, "T":16},
+              {"Ls":55, "BW":4, "T":16},
+              {"Ls":60, "BW":4, "T":16},
+              {"Ls":62, "BW":4, "T":16},
+              {"Ls":65, "BW":4, "T":16},
+              {"Ls":70, "BW":4, "T":16},
+              {"Ls":80, "BW":4, "T":16},
+              {"Ls":100, "BW":4, "T":16}]
+ssnpp-1B:
+    diskann-vm-l8sv2:
+      docker-tag: billion-scale-benchmark-diskann
+      module: benchmark.algorithms.diskann-v0_3
+      constructor: Diskann
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"R":100, "L":100, "B":60, "M":100, "C":500000, "CM":2,
+                "url": "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/diskann-T2-baseline-indices/fbssnpp-1B/R100_L100_B60_M100"
+                }]
+          query-args: |
+              [{"Lmin":8, "Lmax":10000, "BW":4, "T":16},
+               {"Lmin":12, "Lmax":10000, "BW":4, "T":16},
+               {"Lmin":8, "Lmax":20000, "BW":4, "T":16},
+               {"Lmin":12, "Lmax":20000, "BW":4, "T":16},
+               {"Lmin":8, "Lmax":30000, "BW":4, "T":16},
+               {"Lmin":12, "Lmax":30000, "BW":4, "T":16},
+               {"Lmin":16, "Lmax":30000, "BW":4, "T":16},
+               {"Lmin":8, "Lmax":45000, "BW":4, "T":16},
+               {"Lmin":12, "Lmax":45000, "BW":4, "T":16},
+               {"Lmin":16, "Lmax":45000, "BW":4, "T":16}]
+text2image-1B:
+    diskann-vm-l8sv2:
+      docker-tag: billion-scale-benchmark-diskann
+      module: benchmark.algorithms.diskann-v0_3
+      constructor: Diskann
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"R":100, "L":100, "B":60, "M":115, "PQ":200, "C":500000, "CM":2,
+                "url": "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/diskann-T2-baseline-indices/text2image-1B/R100_L100_B60_M115_PQ200"
+                }]
+          query-args: |
+              [{"Ls":10, "BW":10, "T":16},
+              {"Ls":20, "BW":10, "T":16},
+              {"Ls":30, "BW":10, "T":16},
+              {"Ls":40, "BW":10, "T":16},
+              {"Ls":50, "BW":10, "T":16},
+              {"Ls":60, "BW":10, "T":16},
+              {"Ls":70, "BW":10, "T":16},
+              {"Ls":80, "BW":10, "T":16},
+              {"Ls":90, "BW":10, "T":16},
+              {"Ls":100, "BW":10, "T":16}]
