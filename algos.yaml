@@ -112,7 +112,7 @@ deep-10M:
               "nprobe=2,quantizer_efSearch=16"]
     buddy-t1:
       docker-tag: billion-scale-benchmark-faissconda
-      module: benchmark.algorithms.faiss_t1
+      module: benchmark.algorithms.buddy_t1
       constructor: Faiss
       base-args: ["@metric"]
       run-groups:
