@@ -33,7 +33,7 @@ def buddy_up(points,dataset_prefix,copy=True):
     #[...,12,17,18,50,52,96,101,113,...] in the friends param.
     friends = multicollinearity_buddies[dataset_prefix]
     if len(friends):
-        print(f'Dataset {dataset_prefix} broadcasting to {friends}')
+        #print(f'Dataset {dataset_prefix} broadcasting to {friends}')
         buddies = points[:,friends].copy(order='C')
     else:
         print(f'Dataset {dataset_prefix} has no buddy list')
