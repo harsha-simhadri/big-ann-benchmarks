@@ -60,14 +60,14 @@ msspacev-1B:
                 "dim_pq": 64,
                 "bit_pq": 5}]
           query-args: |
-              [{"max_batch_size": 10000, "topk": 10, "refine_rate": 4, "num_probes": 198},
-               {"max_batch_size": 10000, "topk": 10, "refine_rate": 4, "num_probes": 224},
+              [{"max_batch_size": 10000, "topk": 10, "refine_rate": 4, "num_probes": 48},
+               {"max_batch_size": 10000, "topk": 10, "refine_rate": 4, "num_probes": 56},
+               {"max_batch_size": 10000, "topk": 10, "refine_rate": 4, "num_probes": 64},
+               {"max_batch_size": 10000, "topk": 10, "refine_rate": 4, "num_probes": 80},
+               {"max_batch_size": 10000, "topk": 10, "refine_rate": 4, "num_probes": 96},
+               {"max_batch_size": 10000, "topk": 10, "refine_rate": 4, "num_probes": 128},
+               {"max_batch_size": 10000, "topk": 10, "refine_rate": 4, "num_probes": 192},
                {"max_batch_size": 10000, "topk": 10, "refine_rate": 4, "num_probes": 256},
-               {"max_batch_size": 10000, "topk": 10, "refine_rate": 8, "num_probes": 256},
-               {"max_batch_size": 10000, "topk": 10, "refine_rate": 8, "num_probes": 320},
-               {"max_batch_size": 10000, "topk": 10, "refine_rate": 8, "num_probes": 384},
-               {"max_batch_size": 10000, "topk": 10, "refine_rate": 8, "num_probes": 512},
-               {"max_batch_size": 10000, "topk": 10, "refine_rate": 8, "num_probes": 640},
                {"max_batch_size": 10000, "topk": 10, "refine_rate": 8, "num_probes": 3072},
                {"max_batch_size": 10000, "topk": 10, "refine_rate": 8, "num_probes": 4096}]
 msturing-1B:
@@ -108,14 +108,14 @@ text2image-1B:
                 "dim_pq": 72,
                 "bit_pq": 8}]
           query-args: |
-              [{"max_batch_size": 10000, "topk": 10, "refine_rate": 64, "num_probes": 384},
-               {"max_batch_size": 10000, "topk": 10, "refine_rate": 64, "num_probes": 448},
-               {"max_batch_size": 10000, "topk": 10, "refine_rate": 64, "num_probes": 512},
+              [{"max_batch_size": 10000, "topk": 10, "refine_rate": 64, "num_probes": 128},
+               {"max_batch_size": 10000, "topk": 10, "refine_rate": 64, "num_probes": 160},
+               {"max_batch_size": 10000, "topk": 10, "refine_rate": 64, "num_probes": 192},
+               {"max_batch_size": 10000, "topk": 10, "refine_rate": 64, "num_probes": 224},
+               {"max_batch_size": 10000, "topk": 10, "refine_rate": 64, "num_probes": 256},
                {"max_batch_size": 10000, "topk": 10, "refine_rate": 128, "num_probes": 256},
                {"max_batch_size": 10000, "topk": 10, "refine_rate": 128, "num_probes": 288},
                {"max_batch_size": 10000, "topk": 10, "refine_rate": 128, "num_probes": 320},
-               {"max_batch_size": 10000, "topk": 10, "refine_rate": 128, "num_probes": 352},
-               {"max_batch_size": 10000, "topk": 10, "refine_rate": 128, "num_probes": 384},
                {"max_batch_size": 10000, "topk": 10, "refine_rate": 256, "num_probes": 896},
                {"max_batch_size": 10000, "topk": 10, "refine_rate": 256, "num_probes": 1024}]
 bigann-100M:
