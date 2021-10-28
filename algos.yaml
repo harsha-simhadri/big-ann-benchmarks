@@ -468,7 +468,8 @@ bigann-1B:
       run-groups:
         base:
           args: |
-              [{"indexkey": "OPQ64_128,IVF1048576_HNSW32,PQ64x4fsr"
+              [{"indexkey": "OPQ64_128,IVF1048576_HNSW32,PQ64x4fsr",
+                "url": "https://bigannstorage.blob.core.windows.net/buddy-blob/bigann-1B.buddy.multicollinearity.OPQ64_128,IVF1048576_HNSW32,PQ64x4fsr.faissindex"
                 }]
           query-args: |
                ["nprobe=1,quantizer_efSearch=4",
