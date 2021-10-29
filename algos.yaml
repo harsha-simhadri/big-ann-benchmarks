@@ -34,6 +34,31 @@ random-range-xs:
               "nprobe=2,quantizer_efSearch=8",
               "nprobe=4,quantizer_efSearch=4",
               "nprobe=2,quantizer_efSearch=16"]
+    buddy-t1:
+      docker-tag: billion-scale-benchmark-faissconda
+      module: benchmark.algorithms.buddy_t1
+      constructor: Buddy
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          # the following args show all build arguments that can be provided to the t1 baseline.
+          args: |
+              [{"indexkey": "OPQ32_128,IVF1024_HNSW32,PQ32",
+                "buildthreads": -1,
+                "by_residual": -1,
+                "add_bs": 100000000,
+                "two_level_clustering": true,
+                "quantizer_add_efSearch": 80,
+                "quantizer_efConstruction": 200,
+                "maxtrain": 100000000,
+                "clustering_niter": 25
+                }]
+          query-args: |
+              ["nprobe=1,quantizer_efSearch=4",
+              "nprobe=2,quantizer_efSearch=4",
+              "nprobe=2,quantizer_efSearch=8",
+              "nprobe=4,quantizer_efSearch=4",
+              "nprobe=2,quantizer_efSearch=16"]              
     diskann-t2:
       docker-tag: billion-scale-benchmark-diskann
       module: benchmark.algorithms.diskann-t2
@@ -72,6 +97,22 @@ random-xs:
               "nprobe=2,quantizer_efSearch=8",
               "nprobe=4,quantizer_efSearch=4",
               "nprobe=2,quantizer_efSearch=16"]
+    buddy-t1:
+      docker-tag: billion-scale-benchmark-faissconda
+      module: benchmark.algorithms.buddy_t1
+      constructor: Buddy
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"indexkey": "OPQ32_128,IVF1024_HNSW32,PQ32"
+                }]
+          query-args: |
+              ["nprobe=1,quantizer_efSearch=4",
+              "nprobe=2,quantizer_efSearch=4",
+              "nprobe=2,quantizer_efSearch=8",
+              "nprobe=4,quantizer_efSearch=4",
+              "nprobe=2,quantizer_efSearch=16"]              
     diskann-t2:
       docker-tag: billion-scale-benchmark-diskann
       module: benchmark.algorithms.diskann-t2
@@ -141,37 +182,20 @@ deep-10M:
       run-groups:
         base:
           args: |
-              [{"indexkey": "OPQ32_128,IVF65536_HNSW32,PQ32"
+              [{"indexkey": "OPQ32_128,IVF65536_HNSW32,PQ32",
+                "url": "https://bigannstorage.blob.core.windows.net/buddy-blob/deep-10M.buddy.multicollinearity.OPQ32_128,IVF65536_HNSW32,PQ32.faissindex"
                 }]
           query-args: |
-              ["nprobe=1,quantizer_efSearch=4",
-                "nprobe=2,quantizer_efSearch=4",
-                "nprobe=4,quantizer_efSearch=4",
-                "nprobe=4,quantizer_efSearch=8",
-                "nprobe=8,quantizer_efSearch=4",
-                "nprobe=8,quantizer_efSearch=8",
-                "nprobe=8,quantizer_efSearch=16",
-                "nprobe=8,quantizer_efSearch=32",
-                "nprobe=16,quantizer_efSearch=16",
-                "nprobe=16,quantizer_efSearch=32",
-                "nprobe=16,quantizer_efSearch=64",
-                "nprobe=32,quantizer_efSearch=8",
-                "nprobe=32,quantizer_efSearch=32",
-                "nprobe=32,quantizer_efSearch=64",
-                "nprobe=32,quantizer_efSearch=128",
-                "nprobe=64,quantizer_efSearch=16",
-                "nprobe=64,quantizer_efSearch=32",
-                "nprobe=64,quantizer_efSearch=64",
-                "nprobe=64,quantizer_efSearch=128",
-                "nprobe=64,quantizer_efSearch=256",
-                "nprobe=128,quantizer_efSearch=32",
-                "nprobe=128,quantizer_efSearch=64",
-                "nprobe=128,quantizer_efSearch=128",
-                "nprobe=128,quantizer_efSearch=256",
+              ["nprobe=256,quantizer_efSearch=64",
                 "nprobe=128,quantizer_efSearch=512",
-                "nprobe=256,quantizer_efSearch=64",
-                "nprobe=256,quantizer_efSearch=128",
-                "nprobe=256,quantizer_efSearch=512"]
+                "nprobe=128,quantizer_efSearch=256",
+                "nprobe=128,quantizer_efSearch=128",
+                "nprobe=128,quantizer_efSearch=64",
+                "nprobe=8,quantizer_efSearch=8",
+                "nprobe=8,quantizer_efSearch=4",
+                "nprobe=4,quantizer_efSearch=8",
+                "nprobe=8,quantizer_efSearch=16",
+                "nprobe=8,quantizer_efSearch=32"]
     diskann-t2:
       docker-tag: billion-scale-benchmark-diskann
       module: benchmark.algorithms.diskann-t2
@@ -230,53 +254,7 @@ deep-1B:
               "nprobe=128,quantizer_efSearch=256",
               "nprobe=128,quantizer_efSearch=512",
               "nprobe=256,quantizer_efSearch=64",
-              "nprobe=256,quantizer_efSearch=128"]
-    buddy-t1:
-      docker-tag: billion-scale-benchmark-faissconda
-      module: benchmark.algorithms.buddy_t1
-      constructor: Buddy
-      base-args: ["@metric"]
-      run-groups:
-        base:
-          args: |
-              [{"indexkey": "OPQ64_128,IVF1048576_HNSW32,PQ64x4fsr"
-                }]
-          query-args: |
-              ["nprobe=1,quantizer_efSearch=4",
-              "nprobe=2,quantizer_efSearch=4",
-              "nprobe=2,quantizer_efSearch=8",
-              "nprobe=4,quantizer_efSearch=4",
-              "nprobe=2,quantizer_efSearch=16",
-              "nprobe=4,quantizer_efSearch=8",
-              "nprobe=4,quantizer_efSearch=16",
-              "nprobe=8,quantizer_efSearch=4",
-              "nprobe=8,quantizer_efSearch=8",
-              "nprobe=8,quantizer_efSearch=16",
-              "nprobe=8,quantizer_efSearch=32",
-              "nprobe=8,quantizer_efSearch=64",
-              "nprobe=16,quantizer_efSearch=8",
-              "nprobe=16,quantizer_efSearch=16",
-              "nprobe=16,quantizer_efSearch=32",
-              "nprobe=16,quantizer_efSearch=64",
-              "nprobe=16,quantizer_efSearch=128",
-              "nprobe=32,quantizer_efSearch=16",
-              "nprobe=32,quantizer_efSearch=32",
-              "nprobe=32,quantizer_efSearch=64",
-              "nprobe=32,quantizer_efSearch=128",
-              "nprobe=32,quantizer_efSearch=256",
-              "nprobe=64,quantizer_efSearch=16",
-              "nprobe=64,quantizer_efSearch=32",
-              "nprobe=64,quantizer_efSearch=64",
-              "nprobe=64,quantizer_efSearch=128",
-              "nprobe=64,quantizer_efSearch=256",
-              "nprobe=64,quantizer_efSearch=512",
-              "nprobe=128,quantizer_efSearch=32",
-              "nprobe=128,quantizer_efSearch=64",
-              "nprobe=128,quantizer_efSearch=128",
-              "nprobe=128,quantizer_efSearch=256",
-              "nprobe=128,quantizer_efSearch=512",
-              "nprobe=256,quantizer_efSearch=64",
-              "nprobe=256,quantizer_efSearch=128"]              
+              "nprobe=256,quantizer_efSearch=128"]             
     diskann-t2:
       docker-tag: billion-scale-benchmark-diskann
       module: benchmark.algorithms.diskann-t2
@@ -472,34 +450,16 @@ bigann-1B:
                 "url": "https://bigannstorage.blob.core.windows.net/buddy-blob/bigann-1B.buddy.multicollinearity.OPQ64_128,IVF1048576_HNSW32,PQ64x4fsr.faissindex"
                 }]
           query-args: |
-               ["nprobe=1,quantizer_efSearch=4",
-                "nprobe=2,quantizer_efSearch=4",
-                "nprobe=4,quantizer_efSearch=4",
+               ["nprobe=8,quantizer_efSearch=16",
                 "nprobe=4,quantizer_efSearch=8",
-                "nprobe=8,quantizer_efSearch=4",
-                "nprobe=8,quantizer_efSearch=8",
-                "nprobe=8,quantizer_efSearch=16",
-                "nprobe=8,quantizer_efSearch=32",
-                "nprobe=16,quantizer_efSearch=16",
                 "nprobe=16,quantizer_efSearch=32",
-                "nprobe=16,quantizer_efSearch=64",
-                "nprobe=32,quantizer_efSearch=8",
-                "nprobe=32,quantizer_efSearch=32",
-                "nprobe=32,quantizer_efSearch=64",
-                "nprobe=32,quantizer_efSearch=128",
-                "nprobe=64,quantizer_efSearch=16",
+                "nprobe=16,quantizer_efSearch=16",
                 "nprobe=64,quantizer_efSearch=32",
                 "nprobe=64,quantizer_efSearch=64",
+                "nprobe=8,quantizer_efSearch=8",
                 "nprobe=64,quantizer_efSearch=128",
-                "nprobe=64,quantizer_efSearch=256",
                 "nprobe=128,quantizer_efSearch=32",
-                "nprobe=128,quantizer_efSearch=64",
-                "nprobe=128,quantizer_efSearch=128",
-                "nprobe=128,quantizer_efSearch=256",
-                "nprobe=128,quantizer_efSearch=512",
-                "nprobe=256,quantizer_efSearch=64",
-                "nprobe=256,quantizer_efSearch=128",
-                "nprobe=256,quantizer_efSearch=512"] 
+                "nprobe=128,quantizer_efSearch=64"]
     diskann-t2:
       docker-tag: billion-scale-benchmark-diskann
       module: benchmark.algorithms.diskann-t2
@@ -657,22 +617,6 @@ ssnpp-10M:
               "nprobe=1,quantizer_efSearch=4,ht=98",
               "nprobe=1,quantizer_efSearch=4,ht=104",
               "nprobe=1,quantizer_efSearch=4,ht=112"]
-    buddy-t1:
-      docker-tag: billion-scale-benchmark-pqbuddy
-      module: benchmark.algorithms.buddy_t1
-      constructor: Buddy
-      base-args: ["@metric"]
-      run-groups:
-        base:
-          args: |
-              [{"indexkey": "OPQ32_128,IVF65536_HNSW32,PQ32"
-                }]
-          query-args: |
-              ["nprobe=1,quantizer_efSearch=4,ht=92",
-              "nprobe=1,quantizer_efSearch=4,ht=98",
-              "nprobe=1,quantizer_efSearch=4,ht=104",
-              "nprobe=1,quantizer_efSearch=4,ht=112"]
-
 bigann-10M:
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
@@ -721,37 +665,20 @@ bigann-10M:
       run-groups:
         base:
           args: |
-              [{"indexkey": "OPQ32_128,IVF65536_HNSW32,PQ32"
+              [{"indexkey": "OPQ32_128,IVF65536_HNSW32,PQ32",
+                "url": "https://bigannstorage.blob.core.windows.net/buddy-blob/bigann-10M.buddy.multicollinearity.OPQ32_128,IVF65536_HNSW32,PQ32.faissindex"
                 }]
           query-args: |
-              ["nprobe=1,quantizer_efSearch=4",
-                "nprobe=2,quantizer_efSearch=4",
-                "nprobe=4,quantizer_efSearch=4",
-                "nprobe=4,quantizer_efSearch=8",
-                "nprobe=8,quantizer_efSearch=4",
-                "nprobe=8,quantizer_efSearch=8",
-                "nprobe=8,quantizer_efSearch=16",
-                "nprobe=8,quantizer_efSearch=32",
-                "nprobe=16,quantizer_efSearch=16",
-                "nprobe=16,quantizer_efSearch=32",
-                "nprobe=16,quantizer_efSearch=64",
-                "nprobe=32,quantizer_efSearch=8",
-                "nprobe=32,quantizer_efSearch=32",
-                "nprobe=32,quantizer_efSearch=64",
-                "nprobe=32,quantizer_efSearch=128",
-                "nprobe=64,quantizer_efSearch=16",
-                "nprobe=64,quantizer_efSearch=32",
-                "nprobe=64,quantizer_efSearch=64",
-                "nprobe=64,quantizer_efSearch=128",
-                "nprobe=64,quantizer_efSearch=256",
-                "nprobe=128,quantizer_efSearch=32",
-                "nprobe=128,quantizer_efSearch=64",
-                "nprobe=128,quantizer_efSearch=128",
+              ["nprobe=256,quantizer_efSearch=64",
                 "nprobe=128,quantizer_efSearch=256",
                 "nprobe=128,quantizer_efSearch=512",
-                "nprobe=256,quantizer_efSearch=64",
-                "nprobe=256,quantizer_efSearch=128",
-                "nprobe=256,quantizer_efSearch=512"]
+                "nprobe=128,quantizer_efSearch=128",
+                "nprobe=128,quantizer_efSearch=64",
+                "nprobe=8,quantizer_efSearch=8",
+                "nprobe=8,quantizer_efSearch=4",
+                "nprobe=4,quantizer_efSearch=8",
+                "nprobe=8,quantizer_efSearch=16",
+                "nprobe=8,quantizer_efSearch=32"]
     diskann-t2:
       docker-tag: billion-scale-benchmark-diskann
       module: benchmark.algorithms.diskann-t2
@@ -801,85 +728,7 @@ text2image-1M:
           query-args: |
               [{"Ls":50, "BW":4, "T":16}]
 text2image-10M:
-    faiss-t1:
-      docker-tag: billion-scale-benchmark-faissconda
-      module: benchmark.algorithms.faiss_t1
-      constructor: Faiss
-      base-args: ["@metric"]
-      run-groups:
-        base:
-          args: |
-              [{"indexkey": "OPQ32_128,IVF1048576_HNSW32,PQ32"              
-                }]
-          query-args: |
-              ["nprobe=1,quantizer_efSearch=4",
-                "nprobe=2,quantizer_efSearch=4",
-                "nprobe=4,quantizer_efSearch=4",
-                "nprobe=4,quantizer_efSearch=8",
-                "nprobe=8,quantizer_efSearch=4",
-                "nprobe=8,quantizer_efSearch=8",
-                "nprobe=8,quantizer_efSearch=16",
-                "nprobe=8,quantizer_efSearch=32",
-                "nprobe=16,quantizer_efSearch=16",
-                "nprobe=16,quantizer_efSearch=32",
-                "nprobe=16,quantizer_efSearch=64",
-                "nprobe=32,quantizer_efSearch=8",
-                "nprobe=32,quantizer_efSearch=32",
-                "nprobe=32,quantizer_efSearch=64",
-                "nprobe=32,quantizer_efSearch=128",
-                "nprobe=64,quantizer_efSearch=16",
-                "nprobe=64,quantizer_efSearch=32",
-                "nprobe=64,quantizer_efSearch=64",
-                "nprobe=64,quantizer_efSearch=128",
-                "nprobe=64,quantizer_efSearch=256",
-                "nprobe=128,quantizer_efSearch=32",
-                "nprobe=128,quantizer_efSearch=64",
-                "nprobe=128,quantizer_efSearch=128",
-                "nprobe=128,quantizer_efSearch=256",
-                "nprobe=128,quantizer_efSearch=512",
-                "nprobe=256,quantizer_efSearch=64",
-                "nprobe=256,quantizer_efSearch=128",
-                "nprobe=256,quantizer_efSearch=512"]
-    buddy-t1:
-      docker-tag: billion-scale-benchmark-pqbuddy
-      module: benchmark.algorithms.buddy_t1
-      constructor: Buddy
-      base-args: ["@metric"]
-      run-groups:
-        base:
-          args: |
-              [{"indexkey": "OPQ32_128,IVF65536_HNSW32,PQ32"
-                }]
-          query-args: |
-              ["nprobe=1,quantizer_efSearch=4",
-                "nprobe=2,quantizer_efSearch=4",
-                "nprobe=4,quantizer_efSearch=4",
-                "nprobe=4,quantizer_efSearch=8",
-                "nprobe=8,quantizer_efSearch=4",
-                "nprobe=8,quantizer_efSearch=8",
-                "nprobe=8,quantizer_efSearch=16",
-                "nprobe=8,quantizer_efSearch=32",
-                "nprobe=16,quantizer_efSearch=16",
-                "nprobe=16,quantizer_efSearch=32",
-                "nprobe=16,quantizer_efSearch=64",
-                "nprobe=32,quantizer_efSearch=8",
-                "nprobe=32,quantizer_efSearch=32",
-                "nprobe=32,quantizer_efSearch=64",
-                "nprobe=32,quantizer_efSearch=128",
-                "nprobe=64,quantizer_efSearch=16",
-                "nprobe=64,quantizer_efSearch=32",
-                "nprobe=64,quantizer_efSearch=64",
-                "nprobe=64,quantizer_efSearch=128",
-                "nprobe=64,quantizer_efSearch=256",
-                "nprobe=128,quantizer_efSearch=32",
-                "nprobe=128,quantizer_efSearch=64",
-                "nprobe=128,quantizer_efSearch=128",
-                "nprobe=128,quantizer_efSearch=256",
-                "nprobe=128,quantizer_efSearch=512",
-                "nprobe=256,quantizer_efSearch=64",
-                "nprobe=256,quantizer_efSearch=128",
-                "nprobe=256,quantizer_efSearch=512"]  
-    diskann-t2: 
+   diskann-t2: 
       docker-tag: billion-scale-benchmark-diskann
       module: benchmark.algorithms.diskann-t2
       constructor: Diskann
@@ -938,37 +787,20 @@ msspacev-10M:
       run-groups:
         base:
           args: |
-              [{"indexkey": "OPQ32_128,IVF65536_HNSW32,PQ32"
+              [{"indexkey": "OPQ32_128,IVF65536_HNSW32,PQ32",
+                "url": "https://bigannstorage.blob.core.windows.net/buddy-blob/msspacev-10M.buddy.multicollinearity.OPQ32_128,IVF65536_HNSW32,PQ32.faissindex"
                 }]
           query-args: |
-              ["nprobe=1,quantizer_efSearch=4",
-                "nprobe=2,quantizer_efSearch=4",
-                "nprobe=4,quantizer_efSearch=4",
-                "nprobe=4,quantizer_efSearch=8",
-                "nprobe=8,quantizer_efSearch=4",
-                "nprobe=8,quantizer_efSearch=8",
-                "nprobe=8,quantizer_efSearch=16",
-                "nprobe=8,quantizer_efSearch=32",
-                "nprobe=16,quantizer_efSearch=16",
-                "nprobe=16,quantizer_efSearch=32",
-                "nprobe=16,quantizer_efSearch=64",
-                "nprobe=32,quantizer_efSearch=8",
-                "nprobe=32,quantizer_efSearch=32",
-                "nprobe=32,quantizer_efSearch=64",
-                "nprobe=32,quantizer_efSearch=128",
-                "nprobe=64,quantizer_efSearch=16",
-                "nprobe=64,quantizer_efSearch=32",
-                "nprobe=64,quantizer_efSearch=64",
-                "nprobe=64,quantizer_efSearch=128",
-                "nprobe=64,quantizer_efSearch=256",
-                "nprobe=128,quantizer_efSearch=32",
-                "nprobe=128,quantizer_efSearch=64",
+              ["nprobe=256,quantizer_efSearch=128",
                 "nprobe=128,quantizer_efSearch=128",
-                "nprobe=128,quantizer_efSearch=256",
-                "nprobe=128,quantizer_efSearch=512",
-                "nprobe=256,quantizer_efSearch=64",
-                "nprobe=256,quantizer_efSearch=128",
-                "nprobe=256,quantizer_efSearch=512"]  
+                "nprobe=128,quantizer_efSearch=64",
+                "nprobe=64,quantizer_efSearch=128",
+                "nprobe=128,quantizer_efSearch=32",
+                "nprobe=64,quantizer_efSearch=64",
+                "nprobe=64,quantizer_efSearch=32",
+                "nprobe=32,quantizer_efSearch=128",
+                "nprobe=32,quantizer_efSearch=64",
+                "nprobe=32,quantizer_efSearch=32"]
     diskann-t2:
       docker-tag: billion-scale-benchmark-diskann
       module: benchmark.algorithms.diskann-t2
