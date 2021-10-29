@@ -31,6 +31,9 @@ def buddy_up(points,dataset_prefix,copy=True):
     #friends is a 1D array of dimension indexes in order of their buddiness.
     #for example if dims 12,17,18,50,52,96,101,113 are buddies, then they would appear as:
     #[...,12,17,18,50,52,96,101,113,...] in the friends param.
+    if dataset_prefix=="random":
+        return points
+        
     friends = multicollinearity_buddies[dataset_prefix]
     if len(friends):
         #print(f'Dataset {dataset_prefix} broadcasting to {friends}')
