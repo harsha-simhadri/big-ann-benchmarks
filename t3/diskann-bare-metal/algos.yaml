@@ -36,6 +36,7 @@ deep-1B:
                 }]
           query-args: |
               [{"Ls":40, "BW":4, "T":72},
+              {"Ls":50, "BW":4, "T":72},
               {"Ls":60, "BW":4, "T":72},
               {"Ls":80, "BW":4, "T":72},
               {"Ls":100, "BW":4, "T":72},
@@ -44,7 +45,9 @@ deep-1B:
               {"Ls":170, "BW":4, "T":72},
               {"Ls":200, "BW":4, "T":72},
               {"Ls":230, "BW":4, "T":72},
-              {"Ls":260, "BW":4, "T":72}]
+              {"Ls":260, "BW":4, "T":72},
+              {"Ls":300, "BW":4, "T":72},
+              {"Ls":350, "BW":4, "T":72}]
 msspacev-1B:
     diskann-bare-metal:
       docker-tag: billion-scale-benchmark-diskann
@@ -58,7 +61,9 @@ msspacev-1B:
                 "url": "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/diskann-T2-baseline-indices/msspacev-1B/R100_L100_B47_M100"
                 }]
           query-args: |
-              [{"Ls":40, "BW":4, "T":72},
+              [{"Ls":30, "BW":4, "T":72},
+              {"Ls":40, "BW":4, "T":72},
+              {"Ls":50, "BW":4, "T":72},
               {"Ls":60, "BW":4, "T":72},
               {"Ls":80, "BW":4, "T":72},
               {"Ls":100, "BW":4, "T":72},
@@ -67,7 +72,8 @@ msspacev-1B:
               {"Ls":170, "BW":4, "T":72},
               {"Ls":200, "BW":4, "T":72},
               {"Ls":250, "BW":4, "T":72},
-              {"Ls":300, "BW":4, "T":72}]
+              {"Ls":300, "BW":4, "T":72},
+              {"Ls":350, "BW":4, "T":72}]
 msturing-1B:
     diskann-bare-metal:
       docker-tag: billion-scale-benchmark-diskann
@@ -90,7 +96,8 @@ msturing-1B:
               {"Ls":150, "BW":4, "T":72},
               {"Ls":170, "BW":4, "T":72},
               {"Ls":200, "BW":4, "T":72},
-              {"Ls":250, "BW":4, "T":72}]
+              {"Ls":250, "BW":4, "T":72},
+              {"Ls":300, "BW":4, "T":72}]
 bigann-1B:
     diskann-bare-metal:
       docker-tag: billion-scale-benchmark-diskann
@@ -105,6 +112,7 @@ bigann-1B:
                 }]
           query-args: |
               [{"Ls":30, "BW":4, "T":72},
+              {"Ls":40, "BW":4, "T":72},
               {"Ls":50, "BW":4, "T":72},
               {"Ls":70, "BW":4, "T":72},
               {"Ls":90, "BW":4, "T":72},
@@ -113,6 +121,7 @@ bigann-1B:
               {"Ls":160, "BW":4, "T":72},
               {"Ls":190, "BW":4, "T":72},
               {"Ls":230, "BW":4, "T":72},
+              {"Ls":260, "BW":4, "T":72},
               {"Ls":300, "BW":4, "T":72}]
 ssnpp-1B:
     diskann-bare-metal:
