@@ -93,6 +93,21 @@ random-xs:
           args:
             - [ 0.2, 0.8, 1.0 ]
           query-args: [ ]
+    puck-t1:
+      docker-tag: billion-scale-benchmark-puck
+      module: benchmark.algorithms.puck_t1
+      constructor: Puck
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"indexkey": "C10_F10_F5_FN20",
+                "url": "https://gips-test-bucket-0-gz.gz.bcebos.com/similar/random-xs.C10_F10_F5_FN20.puckindex.tar"}]
+          query-args: |
+               [
+                  
+                 "10,20,2000,200",
+                 "10,30,3000,200"]
 deep-10M:
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
@@ -190,8 +205,10 @@ deep-1B:
                  "10,30,20000,300",
                  "10,30,21000,200",
                  "10,40,30000,200",
+
                  "10,90,140000,1100",
                  "10,100,200000,3000"
+
                ] 
 
     
@@ -538,11 +555,14 @@ text2image-1B:
                [
                  "10,10,10000,100",
                  "10,30,10000,1500",
+
                  "10,50,20000,700",
                  "10,30,20000,1100",
                  "10,30,20000,1300",
                  "10,30,20000,1900",
                  "10,40,20000,2400",
+
+
                  "10,30,40000,2400",
                  "10,30,100000,1500"
                ] 
