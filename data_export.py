@@ -21,6 +21,10 @@ if __name__ == "__main__":
         '--recompute',
         action='store_true',
         help='Path to the output csv file')
+    parser.add_argument(
+        '--sensors',
+        action='store_true',
+        help='Retrieve optional sensors data')
     args = parser.parse_args()
 
     datasets = DATASETS.keys()
@@ -31,7 +35,7 @@ if __name__ == "__main__":
         print("Looking at dataset", dataset_name)
         dataset = DATASETS[dataset_name]()
         results = load_all_results(dataset_name)
-        results = compute_metrics_all_runs(dataset, results, args.recompute)
+        results = compute_metrics_all_runs(dataset, results, args.recompute, sensor_metrics=args.sensors)
         cleaned = []
         for result in results:
             if 'k-nn' in result:
