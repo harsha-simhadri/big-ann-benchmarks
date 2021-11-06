@@ -280,6 +280,8 @@ class Faiss(BaseANN):
                 download_accelerated(self._index_params['url'], self.index_name(dataset), quiet=True)
                 print("Loading index")
                 self.index = faiss.read_index(self.index_name(dataset))
+        else:
+            self.index = faiss.read_index(self.index_name(dataset))
                     
         self.ps = faiss.ParameterSpace()
         self.ps.initialize(self.index)

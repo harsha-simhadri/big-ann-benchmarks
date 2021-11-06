@@ -69,11 +69,6 @@ random-xs:
                 }]
           query-args: |
               [
-              "nprobe=16,quantizer_efSearch=8",
-              "nprobe=16,quantizer_efSearch=16",
-              "nprobe=16,quantizer_efSearch=32",
-              "nprobe=16,quantizer_efSearch=64",
-              "nprobe=16,quantizer_efSearch=128",
               "nprobe=32,quantizer_efSearch=16",
               "nprobe=32,quantizer_efSearch=32",
               "nprobe=32,quantizer_efSearch=64",
@@ -82,14 +77,7 @@ random-xs:
               "nprobe=64,quantizer_efSearch=16",
               "nprobe=64,quantizer_efSearch=32",
               "nprobe=64,quantizer_efSearch=64",
-              "nprobe=64,quantizer_efSearch=128",
-              "nprobe=64,quantizer_efSearch=256",
-              "nprobe=64,quantizer_efSearch=512",
-              "nprobe=128,quantizer_efSearch=32",
-              "nprobe=128,quantizer_efSearch=64",
-              "nprobe=128,quantizer_efSearch=128",
-              "nprobe=128,quantizer_efSearch=256",
-              "nprobe=128,quantizer_efSearch=512"
+              "nprobe=64,quantizer_efSearch=128"
               ]
 
     faiss-t1:
@@ -207,7 +195,7 @@ deep-1B:
               "nprobe=256,quantizer_efSearch=128"]
     team11:
       docker-tag: billion-scale-benchmark-faissconda
-      module: benchmark.algorithms.faiss_t1
+      module: benchmark.algorithms.faiss_t1_plus
       constructor: Faiss
       base-args: ["@metric"]
       run-groups:
@@ -217,23 +205,7 @@ deep-1B:
                 "url": "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/track1_baseline_faiss/deep-1B.IVF1M_2level_PQ64x4fsr.faissindex"
                 }]
           query-args: |
-              ["nprobe=1,quantizer_efSearch=4",
-              "nprobe=2,quantizer_efSearch=4",
-              "nprobe=2,quantizer_efSearch=8",
-              "nprobe=4,quantizer_efSearch=4",
-              "nprobe=2,quantizer_efSearch=16",
-              "nprobe=4,quantizer_efSearch=8",
-              "nprobe=4,quantizer_efSearch=16",
-              "nprobe=8,quantizer_efSearch=4",
-              "nprobe=8,quantizer_efSearch=8",
-              "nprobe=8,quantizer_efSearch=16",
-              "nprobe=8,quantizer_efSearch=32",
-              "nprobe=8,quantizer_efSearch=64",
-              "nprobe=16,quantizer_efSearch=8",
-              "nprobe=16,quantizer_efSearch=16",
-              "nprobe=16,quantizer_efSearch=32",
-              "nprobe=16,quantizer_efSearch=64",
-              "nprobe=16,quantizer_efSearch=128",
+              [
               "nprobe=32,quantizer_efSearch=16",
               "nprobe=32,quantizer_efSearch=32",
               "nprobe=32,quantizer_efSearch=64",
@@ -242,16 +214,7 @@ deep-1B:
               "nprobe=64,quantizer_efSearch=16",
               "nprobe=64,quantizer_efSearch=32",
               "nprobe=64,quantizer_efSearch=64",
-              "nprobe=64,quantizer_efSearch=128",
-              "nprobe=64,quantizer_efSearch=256",
-              "nprobe=64,quantizer_efSearch=512",
-              "nprobe=128,quantizer_efSearch=32",
-              "nprobe=128,quantizer_efSearch=64",
-              "nprobe=128,quantizer_efSearch=128",
-              "nprobe=128,quantizer_efSearch=256",
-              "nprobe=128,quantizer_efSearch=512",
-              "nprobe=256,quantizer_efSearch=64",
-              "nprobe=256,quantizer_efSearch=128"]
+              "nprobe=64,quantizer_efSearch=128"]
     diskann-t2:
       docker-tag: billion-scale-benchmark-diskann
       module: benchmark.algorithms.diskann-t2
@@ -374,7 +337,7 @@ msturing-1B:
               "nprobe=256,quantizer_efSearch=512"]
     team11:
       docker-tag: billion-scale-benchmark-faissconda
-      module: benchmark.algorithms.faiss_t1
+      module: benchmark.algorithms.faiss_t1_plus
       constructor: Faiss
       base-args: ["@metric"]
       run-groups:
@@ -385,18 +348,7 @@ msturing-1B:
                 "query_bs": 4096
                 }]
           query-args: |  
-              ["nprobe=1,quantizer_efSearch=4",
-              "nprobe=2,quantizer_efSearch=4",
-              "nprobe=1,quantizer_efSearch=8",
-              "nprobe=2,quantizer_efSearch=8",
-              "nprobe=1,quantizer_efSearch=16",
-              "nprobe=2,quantizer_efSearch=16",
-              "nprobe=4,quantizer_efSearch=16",
-              "nprobe=2,quantizer_efSearch=32",
-              "nprobe=4,quantizer_efSearch=32",
-              "nprobe=8,quantizer_efSearch=32",
-              "nprobe=8,quantizer_efSearch=64",
-              "nprobe=16,quantizer_efSearch=64",
+              [
               "nprobe=16,quantizer_efSearch=128",
               "nprobe=32,quantizer_efSearch=128",
               "nprobe=32,quantizer_efSearch=256",
@@ -406,8 +358,7 @@ msturing-1B:
               "nprobe=64,quantizer_efSearch=512",
               "nprobe=128,quantizer_efSearch=256",
               "nprobe=128,quantizer_efSearch=512",
-              "nprobe=256,quantizer_efSearch=256",
-              "nprobe=256,quantizer_efSearch=512"]
+              "nprobe=256,quantizer_efSearch=256"]
     diskann-t2:
       docker-tag: billion-scale-benchmark-diskann
       module: benchmark.algorithms.diskann-t2
@@ -484,15 +435,8 @@ bigann-1B:
                 "url": "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/track1_baseline_faiss/bigann-1B.IVF1M_2level_PQ64x4fsr.faissindex"
                 }]
           query-args: |
-               ["nprobe=1,quantizer_efSearch=4",
-                "nprobe=2,quantizer_efSearch=4",
-                "nprobe=4,quantizer_efSearch=4",
-                "nprobe=4,quantizer_efSearch=8",
-                "nprobe=8,quantizer_efSearch=4",
-                "nprobe=8,quantizer_efSearch=8",
-                "nprobe=8,quantizer_efSearch=16",
-                "nprobe=8,quantizer_efSearch=32",
-                "nprobe=16,quantizer_efSearch=16",
+               [
+               "nprobe=16,quantizer_efSearch=16",
                 "nprobe=16,quantizer_efSearch=32",
                 "nprobe=16,quantizer_efSearch=64",
                 "nprobe=32,quantizer_efSearch=8",
@@ -501,17 +445,7 @@ bigann-1B:
                 "nprobe=32,quantizer_efSearch=128",
                 "nprobe=64,quantizer_efSearch=16",
                 "nprobe=64,quantizer_efSearch=32",
-                "nprobe=64,quantizer_efSearch=64",
-                "nprobe=64,quantizer_efSearch=128",
-                "nprobe=64,quantizer_efSearch=256",
-                "nprobe=128,quantizer_efSearch=32",
-                "nprobe=128,quantizer_efSearch=64",
-                "nprobe=128,quantizer_efSearch=128",
-                "nprobe=128,quantizer_efSearch=256",
-                "nprobe=128,quantizer_efSearch=512",
-                "nprobe=256,quantizer_efSearch=64",
-                "nprobe=256,quantizer_efSearch=128",
-                "nprobe=256,quantizer_efSearch=512"]             
+                "nprobe=64,quantizer_efSearch=64"]
     diskann-t2:
       docker-tag: billion-scale-benchmark-diskann
       module: benchmark.algorithms.diskann-t2
