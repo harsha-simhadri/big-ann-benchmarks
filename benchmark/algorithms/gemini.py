@@ -330,7 +330,6 @@ class GeminiT3(BaseANN):
         print('D:', D[:40])
         print('lims:', lims[:40])
         
-
     def get_results(self):
         print('in get_results <-----')
         D, I = self.res

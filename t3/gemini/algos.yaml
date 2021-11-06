@@ -254,9 +254,3 @@ msspacev-1B:
                 "{'nprobe': 3200, 'nprobe_refine': 1800, 'hamming_k': 3200, 'average_clstr_size_factor': 0.0}",                 
                 "{'nprobe': 3200, 'nprobe_refine': 2000, 'hamming_k': 3200, 'average_clstr_size_factor': 0.0}"              
                 ]                                                                                         
-                                                                                          
-
-   
-             
-                  
-                  
