@@ -352,7 +352,7 @@ class SSNPPDataset(DatasetCompetitionFormat):
         return "range"
 
     def default_count(self):
-        return 60000
+        return 96237
 
     def distance(self):
         return "euclidean"
