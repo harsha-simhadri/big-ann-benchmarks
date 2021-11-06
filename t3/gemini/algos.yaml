@@ -9,11 +9,11 @@ deep-1B:
               args: >-
                 [
                 "{
-                'files_directory':'/mnt/localdisk3/challenge_1b_bu/deep_1b/'
+                'files_directory':'data/gemini/deep_1b/'
                 , 'fp_quantizer_file_name':'Deep1B.nt83886080.nlist2097152.quantizer'
                 , 'records_encoding_file_name':'records_weight-nbits512.npy'
                 , 'centroids_encoding_file_name':'centroids_weight-nbits768.npy'
-                , 'hd5_file_path':'/mnt/localdisk3/challenge_1b_bu/deep_1b/deep_1b_nt2M.hdf5'
+                , 'hd5_file_path':'data/gemini/deep_1b/deep_1b_nt2M.hdf5'
                 , 'db_file_name':'deep_1b_fdb.npy'
                 , 'nbits':512
                 , 'nlist':2097152
@@ -51,11 +51,11 @@ msturing-1B:
               args: >-
                 [
                 "{
-                'files_directory':'/mnt/localdisk3/challenge_1b_bu/msturing/'
+                'files_directory':'data/gemini/msturing/'
                 , 'fp_quantizer_file_name':'MSFT-TURING-ANNS.nt83886080.nlist2097152.quantizer'
                 , 'records_encoding_file_name':'records_weight-nbits512.npy'
                 , 'centroids_encoding_file_name':'centroids_weight-nbits768.npy'
-                , 'hd5_file_path':'/mnt/localdisk3/challenge_1b_bu/msturing/msturing_1b.hd5'
+                , 'hd5_file_path':'data/gemini/msturing/msturing_1b.hd5'
                 , 'db_file_name':'msturing_1b_fdb.npy'
                 , 'nbits':512
                 , 'nlist':2097152
@@ -92,11 +92,11 @@ bigann-1B:
             base:
               args: >-
                 ["{
-                'files_directory':'/mnt/localdisk3/challenge_1b_bu/bigann/'
+                'files_directory':'data/gemini/bigann/'
                 ,'fp_quantizer_file_name':'BigAnn.nt83886080.nlist2097152.quantizer'
                 ,'records_encoding_file_name':'records_weight-nbits512.npy'
                 , 'centroids_encoding_file_name':'centroids_weight-nbits768.npy'
-                , 'hd5_file_path':'/mnt/localdisk3/challenge_1b_bu/bigann/BigAnn_1B.hd5'
+                , 'hd5_file_path':'data/gemini/bigann/BigAnn_1B.hd5'
                 , 'db_file_name':'BigAnn_db.npy'
                 , 'nbits':512
                 , 'nlist':2097152
@@ -136,11 +136,11 @@ text2image-1B:
               args: >-
                 [
                 "{
-                'files_directory':'/mnt/localdisk3/challenge_1b_bu/text2image/nt83M_nlist2097152_qbits1536_nbits1536/'
+                'files_directory':'data/gemini/text2image/nt83M_nlist2097152_qbits1536_nbits1536/'
                 ,'fp_quantizer_file_name':'Text-to-Image-1B.nt83886080.nlist2097152.quantizer'
                 ,'records_encoding_file_name':'records_weight-nbits1536.npy'
                 ,'centroids_encoding_file_name':'centroids_weight-nbits1536.npy'
-                ,'hd5_file_path':'/mnt/localdisk3/challenge_1b_bu/text2image/nt83M_nlist2097152_qbits1536_nbits1536/Text-to-Image-1B.hd5'
+                ,'hd5_file_path':'data/gemini/text2image/nt83M_nlist2097152_qbits1536_nbits1536/Text-to-Image-1B.hd5'
                 ,'db_file_name':'../base.1B.fbin.f16.npy'
                 , 'nbits':1536
                 , 'nlist':2097152
@@ -168,50 +168,6 @@ text2image-1B:
                 "{'nprobe': 3000, 'nprobe_refine': 1200, 'hamming_k': 10000, 'average_clstr_size_factor': 0.0}"
                 ]
   
-# text2image-1B:               
-#     gemini-t3:
-#           docker-tag: billion-scale-benchmark-faissconda
-#           module: benchmark.algorithms.gsi
-#           constructor: GeminiT3
-#           base-args: ["@metric"]
-#           run-groups:
-#             base:
-#               args: >-
-#                 [
-#                 "{
-#                 'files_directory':'/mnt/localdisk3/challenge_1b_bu/text2image/nt41M_nlist1048576_qbits1536_nbits1536/'
-#                 ,'fp_quantizer_file_name':'Text-to-Image-1B.nt41943040.nlist1048576.quantizer'
-#                 ,'records_encoding_file_name':'records_weight-nbits1536.npy'
-#                 ,'centroids_encoding_file_name':'centroids_weight-nbits1536.npy'
-#                 ,'hd5_file_path':'/mnt/localdisk3/challenge_1b_bu/text2image/nt41M_nlist1048576_qbits1536_nbits1536/Text-to-Image-1B.hd5'
-#                 ,'db_file_name':'base.1B.fbin.f16.npy'
-#                 , 'nbits':1536
-#                 , 'nlist':2097152
-#                 , 'num_features':200
-#                 , 'max_num_queries':100000
-#                 , 'num_apuc':4
-#                 , 'rerank_src_type':'BF16'
-#                 , 'rerank_bf16':True
-#                 ,'num_threads':0 
-#                 }"
-#                 ]
-                  
-#               query-args: |
-#                 [
-#                 "{'nprobe': 2400, 'nprobe_refine': 700, 'hamming_k': 3000, 'average_clstr_size_factor': 0.0}",
-#                 "{'nprobe': 2400, 'nprobe_refine': 700, 'hamming_k': 3400, 'average_clstr_size_factor': 0.0}",
-#                 "{'nprobe': 2400, 'nprobe_refine': 700, 'hamming_k': 3800, 'average_clstr_size_factor': 0.0}",
-#                 "{'nprobe': 2400, 'nprobe_refine': 700, 'hamming_k': 4200, 'average_clstr_size_factor': 0.0}",
-#                 "{'nprobe': 2400, 'nprobe_refine': 700, 'hamming_k': 4600, 'average_clstr_size_factor': 0.0}",
-                
-#                 "{'nprobe': 3000, 'nprobe_refine': 1200, 'hamming_k': 6000, 'average_clstr_size_factor': 0.0}",
-#                 "{'nprobe': 3000, 'nprobe_refine': 1200, 'hamming_k': 7000, 'average_clstr_size_factor': 0.0}",
-#                 "{'nprobe': 3000, 'nprobe_refine': 1200, 'hamming_k': 8000, 'average_clstr_size_factor': 0.0}",
-#                 "{'nprobe': 3000, 'nprobe_refine': 1200, 'hamming_k': 9000, 'average_clstr_size_factor': 0.0}",
-#                 "{'nprobe': 3000, 'nprobe_refine': 1200, 'hamming_k': 10000, 'average_clstr_size_factor': 0.0}"
-#                 ]
-                
-                
 msspacev-1B:               
     gemini-t3:
           docker-tag: billion-scale-benchmark-faissconda
@@ -223,11 +179,11 @@ msspacev-1B:
               args: >-
                 [
                 "{
-                'files_directory':'/mnt/localdisk3/challenge_1b_bu/spacev_1b/'
+                'files_directory':'data/gemini/spacev_1b/'
                 ,'fp_quantizer_file_name':'SPACEV1B.nt83886080.nlist2097152.quantizer'
                 ,'records_encoding_file_name':'records_weight-nbits512.npy'
                 , 'centroids_encoding_file_name':'centroids_weight-nbits768.npy'
-                , 'hd5_file_path':'/mnt/localdisk3/challenge_1b_bu/spacev_1b/spacev_1b.hd5'
+                , 'hd5_file_path':'data/gemini/spacev_1b/spacev_1b.hd5'
                 , 'db_file_name':'spacev1b_base.i8bin.npy'
                 , 'nbits':512
                 , 'nlist':2097152
