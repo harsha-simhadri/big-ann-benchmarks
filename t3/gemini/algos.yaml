@@ -1,0 +1,25 @@
+deep-1B:               
+    gemini-t3:
+          docker-tag: billion-scale-benchmark-faissconda
+          module: benchmark.algorithms.gemini
+          constructor: GeminiT3
+          base-args: ["@metric"]
+          run-groups:
+            base:
+              args: |
+                  [
+                          "{'nbits': 512, 'qbits':768, 'nlist':2097152, 'nt':83886080, 'num_apuc':3, 'f16':True }"
+                  ]
+              query-args: |
+                  [
+                    "{'nprobe': 800, 'nprobe_refine': 480, 'hamming_k': 5000, 'average_clstr_size_factor': 0.0}",
+                    "{'nprobe': 800, 'nprobe_refine': 480, 'hamming_k': 2000, 'average_clstr_size_factor': 0.0}",
+                    "{'nprobe': 800, 'nprobe_refine': 480, 'hamming_k': 1000, 'average_clstr_size_factor': 0.0}",
+                    "{'nprobe': 800, 'nprobe_refine': 480, 'hamming_k': 500, 'average_clstr_size_factor': 0.0}",
+                    "{'nprobe': 800, 'nprobe_refine': 480, 'hamming_k': 250, 'average_clstr_size_factor': 0.0}",
+                    "{'nprobe': 800, 'nprobe_refine': 400, 'hamming_k': 1000, 'average_clstr_size_factor': 0.0}",
+                    "{'nprobe': 800, 'nprobe_refine': 300, 'hamming_k': 1000, 'average_clstr_size_factor': 0.0}",
+                    "{'nprobe': 700, 'nprobe_refine': 380, 'hamming_k': 1000, 'average_clstr_size_factor': 0.0}",
+                    "{'nprobe': 600, 'nprobe_refine': 280, 'hamming_k': 1000, 'average_clstr_size_factor': 0.0}",
+                    "{'nprobe': 500, 'nprobe_refine': 180, 'hamming_k': 1000, 'average_clstr_size_factor': 0.0}"
+                  ]

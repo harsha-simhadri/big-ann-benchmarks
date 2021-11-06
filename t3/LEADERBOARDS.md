@@ -193,25 +193,25 @@
 
 ##### Deep1B Cost Rankings 
 
-|Rank|Submission                                             |Team                          |Hardware               |Status|$$          |capex   |opex   |unit cost|units@100K qps|KwH*4yrs|KwH cost|
-|----|-------------------------------------------------------|------------------------------|-----------------------|------|------------|--------|-------|---------|--------------|--------|--------|
-|   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|**716010.0**|660657.0|  55353| 22021.90|            30|553632.0| 55353.0|
-|   2|                                                      -|                             -|                      -|     -|           -|       -|      -|        -|             -|       -|       -|
-|   3|                                                      -|                             -|                      -|     -|           -|       -|      -|        -|             -|       -|       -|
-|   4|                                                      -|                             -|                      -|     -|           -|       -|      -|        -|             -|       -|       -|
-|   5|                                                      -|                             -|                      -|     -|           -|       -|      -|        -|             -|       -|       -|
-|   6|                                                      -|                             -|                      -|     -|           -|       -|      -|        -|             -|       -|       -|
-|   7|                                                      -|                             -|                      -|     -|           -|       -|      -|        -|             -|       -|       -|
-|   8|                                                      -|                             -|                      -|     -|           -|       -|      -|        -|             -|       -|       -|
-|   9|                                                      -|                             -|                      -|     -|           -|       -|      -|        -|             -|       -|       -|
-|  10|                                                      -|                             -|                      -|     -|           -|       -|      -|        -|             -|       -|       -|
+|Rank|Submission                                             |Team                          |Hardware               |Status|Cost         |capex    |opex   |unit cost|units@100K qps|KwH*4yrs |KwH cost|
+|----|-------------------------------------------------------|------------------------------|-----------------------|------|-------------|---------|-------|---------|--------------|---------|--------|
+|   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|**$716010.0**|$660657.0| $55353|$22021.90|            30|$553632.0|$55353.0|
+|   2|                                                      -|                             -|                      -|     -|            -|        -|      -|        -|             -|        -|       -|
+|   3|                                                      -|                             -|                      -|     -|            -|        -|      -|        -|             -|        -|       -|
+|   4|                                                      -|                             -|                      -|     -|            -|        -|      -|        -|             -|        -|       -|
+|   5|                                                      -|                             -|                      -|     -|            -|        -|      -|        -|             -|        -|       -|
+|   6|                                                      -|                             -|                      -|     -|            -|        -|      -|        -|             -|        -|       -|
+|   7|                                                      -|                             -|                      -|     -|            -|        -|      -|        -|             -|        -|       -|
+|   8|                                                      -|                             -|                      -|     -|            -|        -|      -|        -|             -|        -|       -|
+|   9|                                                      -|                             -|                      -|     -|            -|        -|      -|        -|             -|        -|       -|
+|  10|                                                      -|                             -|                      -|     -|            -|        -|      -|        -|             -|        -|       -|
 
 * The operational point for ranking is 0.90 recall@10. We will use the lowest power consumption/query for the search parameters that meet or exceed 0.90 recall@10.
 * The formula is based on:
   * Take the algorithm's throughput submitted to leaderboard, use it to scale no. of systems needed to scale to 100K qps (using ceiling to round up any decimal.)
   * Capex = cost per system * scale no.
   * Take w*s/q from algorithm's power metric submitted to leaderboard and convert to KwH/q.
-  * Multiply by total queries at 100K qps for 4 years = 4*365*24*60*60*100000 total queries
+  * Multiply by total queries at 100K qps for 4 years = 4x365x24x60x60x100000 total queries
   * Opex = (total queries over 4 years) * KwH/query * $0.10/KwH 
 * Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
 * Abbreviations used in chart:
@@ -289,25 +289,25 @@
 
 ##### BigANN Cost Rankings
 
-|Rank|Submission                                             |Team                          |Hardware               |Status|$$           |capex    |opex   |unit cost|units@100K qps|KwH*4yrs|KwH cost|
-|----|-------------------------------------------------------|------------------------------|-----------------------|------|-------------|---------|-------|---------|--------------|--------|--------|
-|   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|**1079583.4**|1013007.4|66576.0| 22021.90|            46|665760.0| 66576.0|
-|   2|                                                      -|                             -|                      -|     -|            -|        -|      -|        -|             -|        |       -|
-|   3|                                                      -|                             -|                      -|     -|            -|        -|      -|        -|             -|       -|       -|
-|   4|                                                      -|                             -|                      -|     -|            -|        -|      -|        -|             -|       -|       -|
-|   5|                                                      -|                             -|                      -|     -|            -|        -|      -|        -|             -|       -|       -|
-|   6|                                                      -|                             -|                      -|     -|            -|        -|      -|        -|             -|       -|       -|
-|   7|                                                      -|                             -|                      -|     -|            -|        -|      -|        -|             -|       -|       -|
-|   8|                                                      -|                             -|                      -|     -|            -|        -|      -|        -|             -|       -|       -|
-|   9|                                                      -|                             -|                      -|     -|            -|        -|      -|        -|             -|       -|       -|
-|  10|                                                      -|                             -|                      -|     -|            -|        -|      -|        -|             -|       -|       -|
+|Rank|Submission                                             |Team                          |Hardware               |Status|Cost          |capex     |opex    |unit cost|units@100K qps|KwH*4yrs |KwH cost|
+|----|-------------------------------------------------------|------------------------------|-----------------------|------|--------------|----------|--------|---------|--------------|---------|--------|
+|   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|**$1079583.4**|$1013007.4|$66576.0|$22021.90|            46|$665760.0|$66576.0|
+|   2|                                                      -|                             -|                      -|     -|             -|         -|       -|        -|             -|        -|       -|
+|   3|                                                      -|                             -|                      -|     -|             -|         -|       -|        -|             -|        -|       -|
+|   4|                                                      -|                             -|                      -|     -|             -|         -|       -|        -|             -|        -|       -|
+|   5|                                                      -|                             -|                      -|     -|             -|         -|       -|        -|             -|        -|       -|
+|   6|                                                      -|                             -|                      -|     -|             -|         -|       -|        -|             -|        -|       -|
+|   7|                                                      -|                             -|                      -|     -|             -|         -|       -|        -|             -|        -|       -|
+|   8|                                                      -|                             -|                      -|     -|             -|         -|       -|        -|             -|        -|       -|
+|   9|                                                      -|                             -|                      -|     -|             -|         -|       -|        -|             -|        -|       -|
+|  10|                                                      -|                             -|                      -|     -|             -|         -|       -|        -|             -|        -|       -|
 
 * The operational point for ranking is 0.90 recall@10. We will use the lowest power consumption/query for the search parameters that meet or exceed 0.90 recall@10.
 * The formula is based on:
   * Take the algorithm's throughput submitted to leaderboard, use it to scale no. of systems needed to scale to 100K qps (using ceiling to round up any decimal.)
   * Capex = cost per system * scale no.
   * Take w*s/q from algorithm's power metric submitted to leaderboard and convert to KwH/q.
-  * Multiply by total queries at 100K qps for 4 years = 4*365*24*60*60*100000 total queries over 4 years.
+  * Multiply by total queries at 100K qps for 4 years = 4x365x24x60x60x100000 total queries over 4 years.
   * Opex = (total queries over 4 years) * KwH/query * $0.10/KwH
 * Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
 * Abbreviations used in chart:
@@ -385,25 +385,25 @@
 
 ##### MSTuring Cost Rankings
 
-|Rank|Submission                                             |Team                          |Hardware               |Status|$$           |capex    |opex    |unit cost|units@100K qps|KwH*4yrs |KwH cost|
-|----|-------------------------------------------------------|------------------------------|-----------------------|------|-------------|---------|--------|---------|--------------|---------|--------|
-|   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|**1279799.0**|1101095.0|178704.0| 22021.90|            50|1787040.0|178704.0|
-|   2|                                                      -|                             -|                      -|     -|            -|        -|       -|        -|             -|        -|       -|
-|   3|                                                      -|                             -|                      -|     -|            -|        -|       -|        -|             -|        -|       -|
-|   4|                                                      -|                             -|                      -|     -|            -|        -|       -|        -|             -|        -|       -|
-|   5|                                                      -|                             -|                      -|     -|            -|        -|       -|        -|             -|        -|       -|
-|   6|                                                      -|                             -|                      -|     -|            -|        -|       -|        -|             -|        -|       -|
-|   7|                                                      -|                             -|                      -|     -|            -|        -|       -|        -|             -|        -|       -|
-|   8|                                                      -|                             -|                      -|     -|            -|        -|       -|        -|             -|        -|       -|
-|   9|                                                      -|                             -|                      -|     -|            -|        -|       -|        -|             -|        -|       -|
-|  10|                                                      -|                             -|                      -|     -|            -|        -|       -|        -|             -|        -|       -|
+|Rank|Submission                                             |Team                          |Hardware               |Status|Cost          |capex     |opex     |unit cost|units@100K qps|KwH*4yrs  |KwH cost |
+|----|-------------------------------------------------------|------------------------------|-----------------------|------|--------------|----------|---------|---------|--------------|----------|---------|
+|   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|**$1279799.0**|$1101095.0|$178704.0|$22021.90|            50|$1787040.0|$178704.0|
+|   2|                                                      -|                             -|                      -|     -|             -|         -|        -|        -|             -|         -|        -|
+|   3|                                                      -|                             -|                      -|     -|             -|         -|        -|        -|             -|         -|        -|
+|   4|                                                      -|                             -|                      -|     -|             -|         -|        -|        -|             -|         -|        -|
+|   5|                                                      -|                             -|                      -|     -|             -|         -|        -|        -|             -|         -|        -|
+|   6|                                                      -|                             -|                      -|     -|             -|         -|        -|        -|             -|         -|        -|
+|   7|                                                      -|                             -|                      -|     -|             -|         -|        -|        -|             -|         -|        -|
+|   8|                                                      -|                             -|                      -|     -|             -|         -|        -|        -|             -|         -|        -|
+|   9|                                                      -|                             -|                      -|     -|             -|         -|        -|        -|             -|         -|        -|
+|  10|                                                      -|                             -|                      -|     -|             -|         -|        -|        -|             -|         -|        -|
 
 * The operational point for ranking is 0.90 recall@10. We will use the lowest power consumption/query for the search parameters that meet or exceed 0.90 recall@10.
 * The formula is based on:
   * Take the algorithm's throughput submitted to leaderboard, use it to scale no. of systems needed to scale to 100K qps (using ceiling to round up any decimal.)
   * Capex = cost per system * scale no.
   * Take w*s/q from algorithm's power metric submitted to leaderboard and convert to KwH/q.
-  * Multiply by total queries at 100K qps for 4 years = 4*365*24*60*60*100000 total queries over 4 years.
+  * Multiply by total queries at 100K qps for 4 years = 4x365x24x60x60x100000 total queries over 4 years.
   * Opex = (total queries over 4 years) * KwH/query * $0.10/KwH
 * Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
 * Abbreviations used in chart:
@@ -481,25 +481,25 @@
 
 ##### MSSpace Cost Rankings
 
-|Rank|Submission                                             |Team                          |Hardware               |Status|$$           |capex    |opex    |unit cost|units@100K qps|KwH*4yrs |KwH cost|
-|----|-------------------------------------------------------|------------------------------|-----------------------|------|-------------|---------|--------|---------|--------------|---------|--------|
-|   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|**1725249.2**|1497489.2|227760.0| 22021.90|            68|2277600.0|227760.0|
-|   2|                                                      -|                             -|                      -|     -|            -|        -|       -|        -|             -|        -|       -|
-|   3|                                                      -|                             -|                      -|     -|            -|        -|       -|        -|             -|        -|       -|
-|   4|                                                      -|                             -|                      -|     -|            -|        -|       -|        -|             -|        -|       -|
-|   5|                                                      -|                             -|                      -|     -|            -|        -|       -|        -|             -|        -|       -|
-|   6|                                                      -|                             -|                      -|     -|            -|        -|       -|        -|             -|        -|       -|
-|   7|                                                      -|                             -|                      -|     -|            -|        -|       -|        -|             -|        -|       -|
-|   8|                                                      -|                             -|                      -|     -|            -|        -|       -|        -|             -|        -|       -|
-|   9|                                                      -|                             -|                      -|     -|            -|        -|       -|        -|             -|        -|       -|
-|  10|                                                      -|                             -|                      -|     -|            -|        -|       -|        -|             -|        -|       -|
+|Rank|Submission                                             |Team                          |Hardware               |Status|Cost          |capex     |opex     |unit cost|units@100K qps|KwH*4yrs  |KwH cost |
+|----|-------------------------------------------------------|------------------------------|-----------------------|------|--------------|----------|---------|---------|--------------|----------|---------|
+|   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|**$1725249.2**|$1497489.2|$227760.0|$22021.90|            68|$2277600.0|$227760.0|
+|   2|                                                      -|                             -|                      -|     -|             -|         -|        -|        -|             -|         -|        -|
+|   3|                                                      -|                             -|                      -|     -|             -|         -|        -|        -|             -|         -|        -|
+|   4|                                                      -|                             -|                      -|     -|             -|         -|        -|        -|             -|         -|        -|
+|   5|                                                      -|                             -|                      -|     -|             -|         -|        -|        -|             -|         -|        -|
+|   6|                                                      -|                             -|                      -|     -|             -|         -|        -|        -|             -|         -|        -|
+|   7|                                                      -|                             -|                      -|     -|             -|         -|        -|        -|             -|         -|        -|
+|   8|                                                      -|                             -|                      -|     -|             -|         -|        -|        -|             -|         -|        -|
+|   9|                                                      -|                             -|                      -|     -|             -|         -|        -|        -|             -|         -|        -|
+|  10|                                                      -|                             -|                      -|     -|             -|         -|        -|        -|             -|         -|        -|
 
 * The operational point for ranking is 0.90 recall@10. We will use the lowest power consumption/query for the search parameters that meet or exceed 0.90 recall@10.
 * The formula is based on:
   * Take the algorithm's throughput submitted to leaderboard, use it to scale no. of systems needed to scale to 100K qps (using ceiling to round up any decimal.)
   * Capex = cost per system * scale no.
   * Take w*s/q from algorithm's power metric submitted to leaderboard and convert to KwH/q.
-  * Multiply by total queries at 100K qps for 4 years = 4*365*24*60*60*100000 total queries over 4 years.
+  * Multiply by total queries at 100K qps for 4 years = 4x365x24x60x60x100000 total queries over 4 years.
   * Opex = (total queries over 4 years) * KwH/query * $0.10/KwH
 * Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
 * Abbreviations used in chart:
@@ -577,25 +577,25 @@
 
 ##### Text2Image Cost Rankings
 
-|Rank|Submission                                             |Team                          |Hardware               |Status|$$           |capex    |opex    |unit cost|units@100K qps|KwH*4yrs |KwH cost|
-|----|-------------------------------------------------------|------------------------------|-----------------------|------|-------------|---------|--------|---------|--------------|---------|--------|
-|   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|**1125379.2**|1057051.2| 68328.0| 22021.90|            48| 683280.0| 68328.0|
-|   2|                                                      -|                             -|                      -|     -|            -|        -|       -|        -|             -|        -|       -|
-|   3|                                                      -|                             -|                      -|     -|            -|        -|       -|        -|             -|        -|       -|
-|   4|                                                      -|                             -|                      -|     -|            -|        -|       -|        -|             -|        -|       -|
-|   5|                                                      -|                             -|                      -|     -|            -|        -|       -|        -|             -|        -|       -|
-|   6|                                                      -|                             -|                      -|     -|            -|        -|       -|        -|             -|        -|       -|
-|   7|                                                      -|                             -|                      -|     -|            -|        -|       -|        -|             -|        -|       -|
-|   8|                                                      -|                             -|                      -|     -|            -|        -|       -|        -|             -|        -|       -|
-|   9|                                                      -|                             -|                      -|     -|            -|        -|       -|        -|             -|        -|       -|
-|  10|                                                      -|                             -|                      -|     -|            -|        -|       -|        -|             -|        -|       -|
+|Rank|Submission                                             |Team                          |Hardware               |Status|Cost          |capex     |opex    |unit cost|units@100K qps|KwH*4yrs |KwH cost|
+|----|-------------------------------------------------------|------------------------------|-----------------------|------|--------------|----------|--------|---------|--------------|---------|--------|
+|   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|**$1125379.2**|$1057051.2|$68328.0|$22021.90|            48|$683280.0|$68328.0|
+|   2|                                                      -|                             -|                      -|     -|             -|         -|       -|        -|             -|        -|       -|
+|   3|                                                      -|                             -|                      -|     -|             -|         -|       -|        -|             -|        -|       -|
+|   4|                                                      -|                             -|                      -|     -|             -|         -|       -|        -|             -|        -|       -|
+|   5|                                                      -|                             -|                      -|     -|             -|         -|       -|        -|             -|        -|       -|
+|   6|                                                      -|                             -|                      -|     -|             -|         -|       -|        -|             -|        -|       -|
+|   7|                                                      -|                             -|                      -|     -|             -|         -|       -|        -|             -|        -|       -|
+|   8|                                                      -|                             -|                      -|     -|             -|         -|       -|        -|             -|        -|       -|
+|   9|                                                      -|                             -|                      -|     -|             -|         -|       -|        -|             -|        -|       -|
+|  10|                                                      -|                             -|                      -|     -|             -|         -|       -|        -|             -|        -|       -|
 
 * The operational point for ranking is 0.875 recall@10. We will use the lowest power consumption/query for the search parameters that meet or exceed 0.875 recall@10.
 * The formula is based on:
   * Take the algorithm's throughput submitted to leaderboard, use it to scale no. of systems needed to scale to 100K qps (using ceiling to round up any decimal.)
   * Capex = cost per system * scale no.
   * Take w*s/q from algorithm's power metric submitted to leaderboard and convert to KwH/q.
-  * Multiply by total queries at 100K qps for 4 years = 4*365*24*60*60*100000 total queries over 4 years.
+  * Multiply by total queries at 100K qps for 4 years = 4x365x24x60x60x100000 total queries over 4 years.
   * Opex = (total queries over 4 years) * KwH/query * $0.10/KwH
 * Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
 * Abbreviations used in chart:
