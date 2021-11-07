@@ -15,7 +15,7 @@ MAX_RUN_PARMS   = 10 # Competition rule
 class Evaluator():
     '''Useful evaluation functionality for the T3 track.'''
 
-    def __init__(self, csv, baseline_path, comp_path, system_cost=None, verbose=False ):
+    def __init__(self, algoname, csv, baseline_path, comp_path, system_cost=None, verbose=False ):
         '''Constructor performs sanity and some competition rule checks.'''
 
         if sys.version_info[0] < 3:
@@ -46,7 +46,8 @@ class Evaluator():
         if verbose: print("Found unique datasets:", datasets)
         if len(datasets)< MIN_NUM_DATASETS:
             raise Exception("Minimum number of datasets not met.")
-    
+   
+        self.algoname = algoname 
         self.system_cost = system_cost
         self.verbose = verbose
         self.evals = {} 
@@ -70,8 +71,6 @@ class Evaluator():
 
         if not self.evals:
             raise Exception("No evaluation was performed yet.")
-
-        #pd.set_option('display.float_format', lambda x: '%.3f' % x)
 
         # prepare a dictionary for dataframe
         summary = {}
@@ -122,19 +121,26 @@ class Evaluator():
         df = pd.DataFrame(summary.values(),columns=['recall','qps','power','cost'],index=idx)
         if self.verbose: print(df)
 
+        title = "BigANN Benchmarks Competition Summary For '%s'" % self.algoname
+
         # try to display a table when run in jupyter
         try:
             from IPython.display import display, HTML
             df['cost'] = df['cost'].map( lambda x: '{:,.2f}'.format(x) if not np.isnan(x) else np.nan )
             df = df.replace(np.nan,'')
-            display(HTML(df.to_html()))
+
+            html = df.to_html()
+            html = "<b>%s</b><br>" % title + html
+            #print(html)
+            display(HTML(html))
         except:
             traceback.print_exc()
 
         if savepath: # Try to save the table to an image file
             try:
                 import dataframe_image as dfi
-                dfi.export(df, savepath)
+                dfs = df.style.set_caption(title)
+                dfi.export(dfs, savepath)
                 if self.verbose: print("saved summary image at %s" % savepath)
             except:
                 traceback.print_exc()
