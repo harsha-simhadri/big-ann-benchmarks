@@ -432,7 +432,8 @@ class Evaluator():
 if __name__ == "__main__": # Unit test
 
     # TODO: unit test should be related to basline
-    evaluator = Evaluator(  "test.csv",
+    evaluator = Evaluator(  "Test",
+                            "test.csv",
                             "baseline2021.json", 
                             "competition2021.json", 
                             10000.0, 
