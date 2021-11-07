@@ -15,7 +15,7 @@ MAX_RUN_PARMS   = 10 # Competition rule
 class Evaluator():
     '''Useful evaluation functionality for the T3 track.'''
 
-    def __init__(self, csv, baseline_path, comp_path, system_cost=None, verbose=False ):
+    def __init__(self, algoname, csv, baseline_path, comp_path, system_cost=None, verbose=False ):
         '''Constructor performs sanity and some competition rule checks.'''
 
         if sys.version_info[0] < 3:
@@ -46,7 +46,8 @@ class Evaluator():
         if verbose: print("Found unique datasets:", datasets)
         if len(datasets)< MIN_NUM_DATASETS:
             raise Exception("Minimum number of datasets not met.")
-    
+   
+        self.algoname = algoname 
         self.system_cost = system_cost
         self.verbose = verbose
         self.evals = {} 
@@ -65,13 +66,11 @@ class Evaluator():
         if self.verbose: print("This submission has qualified for the competition.")
         return True
 
-    def show_summary(self):
+    def show_summary(self, savepath=None):
         '''Show the final benchmarks.'''
 
         if not self.evals:
             raise Exception("No evaluation was performed yet.")
-
-        #pd.set_option('display.float_format', lambda x: '%.3f' % x)
 
         # prepare a dictionary for dataframe
         summary = {}
@@ -86,51 +85,65 @@ class Evaluator():
             summary[dataset] = cols
       
         # 
-        # compute scores (for final row)
+        # compute ranking scores (for final row)
         #
-        if False: # Not ready yet...
-            if self.verbose: print("computing scores")
-            scores = [0,0,0,0]
-            for dataset in DATASETS:
-                if summary[dataset][0]:
-                    diff = summary[dataset][0] - self.baseline[dataset]["recall"][0]
-                    if self.verbose: print("diff recall",dataset,diff)
-                    scores[0] += diff
+        if self.verbose: print("computing scores")
+        scores = [0, 0, np.nan, np.nan]
+        for dataset in DATASETS:
+            if summary[dataset][0]: # recall
+                diff = summary[dataset][0] - self.baseline[dataset]["recall"][0]
+                if self.verbose: print("diff recall",dataset,diff)
+                scores[0] += diff
 
-                if summary[dataset][1]:
-                    diff = summary[dataset][1] - self.baseline[dataset]["qps"][0]
-                    if self.verbose: print("diff qps",dataset,diff)
-                    scores[1] += diff 
+            if summary[dataset][1]: # throughput
+                diff = summary[dataset][1] - self.baseline[dataset]["qps"][0]
+                if self.verbose: print("diff qps",dataset,diff)
+                scores[1] += diff 
 
-                if summary[dataset][2]:
-                    diff = 0
-                    if self.verbose: print("diff power",dataset,diff)
-                    scores[2] += diff
-
-                if summary[dataset][3]:
-                    diff = 0
-                    if self.verbose: print("diff cost",dataset,diff)
-                    scores[3] += diff
+            #TODO: power and cost scoring not ready yet
+            #if summary[dataset][2]:
+            #    diff = 0
+            #    if self.verbose: print("diff power",dataset,diff)
+            #    scores[2] += diff
+            #if summary[dataset][3]:
+            #    diff = 0
+            #    if self.verbose: print("diff cost",dataset,diff)
+            #    scores[3] += diff
             
-            idx = list(summary.keys()) + ["final-score"]
-            summary["final-score"] = scores
-            if self.verbose: 
-                print("summary", summary)
-        else:
-            idx = list(summary.keys()) + ["final-score"]
-            summary["final-score"] = [ np.nan, np.nan, np.nan, np.nan ]
+        idx = list(summary.keys()) + ["ranking-score"]
+        summary["ranking-score"] = scores
+        if self.verbose: print("summary", summary)
+
+        #else:
+        #    idx = list(summary.keys()) + ["ranking-score"]
+        #    summary["ranking-score"] = [ np.nan, np.nan, np.nan, np.nan ]
        
         df = pd.DataFrame(summary.values(),columns=['recall','qps','power','cost'],index=idx)
         if self.verbose: print(df)
+
+        title = "BigANN Benchmarks Competition Summary For '%s'" % self.algoname
 
         # try to display a table when run in jupyter
         try:
             from IPython.display import display, HTML
             df['cost'] = df['cost'].map( lambda x: '{:,.2f}'.format(x) if not np.isnan(x) else np.nan )
             df = df.replace(np.nan,'')
-            display(HTML(df.to_html()))
+
+            html = df.to_html()
+            html = "<b>%s</b><br>" % title + html
+            #print(html)
+            display(HTML(html))
         except:
             traceback.print_exc()
+
+        if savepath: # Try to save the table to an image file
+            try:
+                import dataframe_image as dfi
+                dfs = df.style.set_caption(title)
+                dfi.export(dfs, savepath)
+                if self.verbose: print("saved summary image at %s" % savepath)
+            except:
+                traceback.print_exc()
 
     def eval_dataset(self, dataset):
         '''Eval benchmarks for a dataset.'''
@@ -236,7 +249,7 @@ class Evaluator():
 
         return True
 
-    def plot_recall(self, dataset, zoom=None, tweak=None):
+    def plot_recall(self, dataset, zoom=None, tweak=None, savepath=None):
         '''Plot all recall data for jupyterlab'''
 
         if not self.evals:
@@ -291,7 +304,11 @@ class Evaluator():
         # label the plots
         t = plt.suptitle("%s recall benchmark (recall=recall@10)" % dataset )
 
-    def plot_throughput(self, dataset, zoom=None, tweak=None):
+        if savepath: # save plot to file
+            if self.verbose: print("saving image to %s" % savepath )
+            fig.savefig( savepath )
+
+    def plot_throughput(self, dataset, zoom=None, tweak=None, savepath=None):
         '''Plot all qps data for jupyterlab'''
 
         if not self.evals:
@@ -347,7 +364,11 @@ class Evaluator():
         # label the plot
         t = plt.suptitle("%s throughput benchmark (qps=queries per second)" % dataset)
 
-    def plot_power(self, dataset, zoom=None, tweak=None):
+        if savepath: # save plot to file
+            if self.verbose: print("saving image to %s" % savepath )
+            fig.savefig( savepath )
+
+    def plot_power(self, dataset, zoom=None, tweak=None, savepath=None):
         '''Plot all power data for jupyterlab'''
 
         if not self.evals:
@@ -403,16 +424,26 @@ class Evaluator():
         # label the plot
         t = plt.suptitle("%s power benchmark (wspq=watt seconds per query)" % dataset)
 
+        if savepath: # save plot to file
+            if self.verbose: print("saving image to %s" % savepath )
+            fig.savefig( savepath )
+
 
 if __name__ == "__main__": # Unit test
 
-    evaluator = Evaluator("gemini/evaluation/2021/public.csv","baseline2021.json", "competition2021.json", 55726.66, True)
+    # TODO: unit test should be related to basline
+    evaluator = Evaluator(  "test.csv",
+                            "baseline2021.json", 
+                            "competition2021.json", 
+                            10000.0, 
+                            True)
     evaluator.eval_all()
-    evaluator.show_summary()
-
+    evaluator.show_summary(savepath="test_summary.png")
+    
     for dataset in DATASETS:
-        print("Trying ", dataset)
-        evaluator.plot_recall(dataset)
-        evaluator.plot_throughput(dataset)
-        evaluator.plot_power(dataset)
+        print("plotting ", dataset)
+        evaluator.plot_recall(dataset, savepath="test_%s_recall.png" % dataset)
+        evaluator.plot_throughput(dataset, savepath="test_%s_throughput.png" % dataset)
+        evaluator.plot_power(dataset, savepath="test_%s_power.png" % dataset)
+
  
