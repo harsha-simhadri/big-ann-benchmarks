@@ -125,11 +125,10 @@ class Evaluator():
 
         # try to display a table when run in jupyter
         try:
-            from IPython.display import display
-            df['cost'] = df['cost'].map('${:,.2f}'.format)
+            from IPython.display import display, HTML
+            df['cost'] = df['cost'].map( lambda x: '{:,.2f}'.format(x) if not np.isnan(x) else np.nan )
             df = df.replace(np.nan,'')
-            df = df.replace('$nan','')
-            display(df)
+            display(HTML(df.to_html()))
         except:
             traceback.print_exc()
 
