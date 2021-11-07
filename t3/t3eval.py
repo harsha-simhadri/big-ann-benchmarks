@@ -406,13 +406,20 @@ class Evaluator():
 
 if __name__ == "__main__": # Unit test
 
-    evaluator = Evaluator("gemini/evaluation/2021/public.csv","baseline2021.json", "competition2021.json", 55726.66, True)
-    evaluator.eval_all()
-    evaluator.show_summary()
+    pass
 
-    for dataset in DATASETS:
-        print("Trying ", dataset)
-        evaluator.plot_recall(dataset)
-        evaluator.plot_throughput(dataset)
-        evaluator.plot_power(dataset)
+#    evaluator = Evaluator(  "gemini/evaluation/2021/public.csv",
+#                            "baseline2021.json", 
+#                            "competition2021.json", 
+#                            55726.66, 
+#                            True)
+#    evaluator.eval_all()
+#    evaluator.show_summary()
+#
+#    for dataset in DATASETS:
+#        print("Trying ", dataset)
+#        evaluator.plot_recall(dataset)
+#        evaluator.plot_throughput(dataset)
+#        evaluator.plot_power(dataset)
+
  
