@@ -47,6 +47,7 @@ This section will present a small tutorial about how to use this framework and s
 First, clone this repository and cd into the project directory:
 ```
 git clone <REPO_URL>
+cd <REPO_URL>
 ```
 Install the python package requirements:
 ```
@@ -63,6 +64,21 @@ python create_dataset.py --dataset deep-10M
 To see a complete list of datasets, run the following:
 ```
 python create_dataset.py --help
+```
+
+For T2, set up the local SSD on Azure Ls8v2 machine by running the following under sudo.
+```
+parted /dev/nvme0n1 mklabel gpt mkpart primary 0% 100%;
+mkfs -t ext4 /dev/nvme0n1;
+mkdir /nvme;
+mount /dev/nvme0n1 /nvme/;
+echo "/dev/nvme0n1 /nvme  ext4   defaults    0   0" >> /etc/fstab;
+```
+You might also want to create a symbolic link to a folder under `/nvme`
+```
+sudo mkdir /nvme/data
+sudo chmod 777 /nvme/data
+ln -s /nvme/data data
 ```
 
 Build the docker container for the T1 or T2 baselines:
