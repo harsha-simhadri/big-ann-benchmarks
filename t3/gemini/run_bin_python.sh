@@ -27,7 +27,7 @@ PATH=/usr/bin:$PATH LD_LIBRARY_PATH="./gsl_resources_prof:$HOME/.local/lib/pytho
 PATH=/usr/bin:$PATH LD_LIBRARY_PATH="./gsl_resources_prof:$HOME/.local/lib/python3.6/site-packages/faiss" PYTHONPATH="./gsl_resources_prof:$HOME/.local/lib/python3.6/site-packages/faiss" python3 run.py --t3  --nodocker --definitions t3/gemini/algos.yaml --dataset bigann-1B --runs 5 --power-capture 192.168.99.32:1234:10
 
 # text2image-1B
-PATH=/usr/bin:$PATH LD_LIBRARY_PATH="./gsl_resources_prof:$HOME/.local/lib/python3.6/site-packages/faiss" PYTHONPATH="./gsl_resources_prof:$HOME/.local/lib/python3.6/site-packages/faiss" python3 run.py --t3  --nodocker --definitions t3/gemini/algos.yaml --dataset text1image-1B --runs 5 --power-capture 192.168.99.32:1234:10
+PATH=/usr/bin:$PATH LD_LIBRARY_PATH="./gsl_resources_prof:$HOME/.local/lib/python3.6/site-packages/faiss" PYTHONPATH="./gsl_resources_prof:$HOME/.local/lib/python3.6/site-packages/faiss" python3 run.py --t3  --nodocker --definitions t3/gemini/algos.yaml --dataset text2image-1B --runs 5 --power-capture 192.168.99.32:1234:10
 
 # msspacev-1B
 PATH=/usr/bin:$PATH LD_LIBRARY_PATH="./gsl_resources_prof:$HOME/.local/lib/python3.6/site-packages/faiss" PYTHONPATH="./gsl_resources_prof:$HOME/.local/lib/python3.6/site-packages/faiss" python3 run.py --t3  --nodocker --definitions t3/gemini/algos.yaml --dataset msspacev-1B --runs 5 --power-capture 192.168.99.32:1234:10
