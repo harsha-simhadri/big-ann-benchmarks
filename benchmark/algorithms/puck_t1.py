@@ -38,24 +38,28 @@ class Puck(BaseANN):
         print("Puck provide the index-data and the Docker image for search. We will open Puck to open source community at the end of this year.")
 
     def index_name(self, name):
-        return f"data/{name}.{self.indexkey}.puckindex.tar"
+        return f"data/{name}.{self.indexkey}.puckindex"
 
     def index_tag_name(self, name):
         return f"{name}.{self.indexkey}.puckindex"
 
     def load_index(self, dataset):
+        index_components = ["filer_data.dat","GNOIMI_coarse.dat","GNOIMI_fine.dat","index.dat","learn_assign.dat"]
         ############ download index && update links
+        print(self.index_name(dataset))
         if not os.path.exists(self.index_name(dataset)):
             if 'url' not in self._index_params:
                 return False
-
+            #5 index files will be downloaded in this lib 
+            index_dir = os.path.join(os.getcwd(), self.index_name(dataset))
+            print(index_dir)
+            os.makedirs(index_dir, mode=0o777, exist_ok=True)
             print('Downloading index in background. This can take a while.')
-            download_accelerated(self._index_params['url'], self.index_name(dataset))
+            for component in index_components:
+                download_accelerated(self._index_params['url']+"_"+component, self.index_name(dataset)+"/"+component)
 
         print("Loading index")
         index_tag = self.index_tag_name(dataset)
-        cmd="tar xvf %s && ln -s ./%s ./puck_index"%(self.index_name(dataset), index_tag)
-        os.system(cmd)
         cmd = " ln -s %s ./puck_index"%(self.index_name(dataset))
         print(cmd)     
         os.system(cmd)

@@ -193,7 +193,7 @@ deep-1B:
         base:
           args: |
               [{"indexkey": "C10000_F5000_FN16_N32",
-                "url": "https://gips-test-bucket-0-gz.gz.bcebos.com/similar/deep-1B.puckindex.tar"}]
+                "url": "https://gips-test-bucket-0-gz.gz.bcebos.com/similar/deep-1B.puckindex"}]
           query-args: |
                [
                   
@@ -405,7 +405,7 @@ bigann-1B:
         base:
           args: |
               [{"indexkey": "C10000_F5000_FN16_N32",
-                "url": "https://gips-test-bucket-0-gz.gz.bcebos.com/similar/bigann-1B.puckindex.tar"
+                "url": "https://gips-test-bucket-0-gz.gz.bcebos.com/similar/bigann-1B.puckindex"
                 }]
           query-args: |
                [
@@ -549,7 +549,7 @@ text2image-1B:
         base:
           args: |
               [{"indexkey": "C10000_F5000_FN12_N41",
-                "url": "https://gips-test-bucket-0-gz.gz.bcebos.com/similar/text2image-1B.puckindex.tar"
+                "url": "https://gips-test-bucket-0-gz.gz.bcebos.com/similar/text2image-1B.puckindex"
                 }]
           query-args: |
                [
