@@ -15,7 +15,7 @@ MAX_RUN_PARMS   = 10 # Competition rule
 class Evaluator():
     '''Useful evaluation functionality for the T3 track.'''
 
-    def __init__(self, algoname, csv, baseline_path, comp_path, system_cost=None, verbose=False ):
+    def __init__(self, algoname, csv, baseline_path, comp_path, system_cost=None, verbose=False, is_baseline=False ):
         '''Constructor performs sanity and some competition rule checks.'''
 
         if sys.version_info[0] < 3:
@@ -49,6 +49,7 @@ class Evaluator():
    
         self.algoname = algoname 
         self.system_cost = system_cost
+        self.is_baseline = is_baseline
         self.verbose = verbose
         self.evals = {} 
 
@@ -60,7 +61,7 @@ class Evaluator():
             self.eval_dataset(dataset)
 
         num_qual_datasets = len( list(self.evals.keys() ) )
-        if num_qual_datasets< MIN_NUM_DATASETS:
+        if num_qual_datasets< MIN_NUM_DATASETS and not self.is_baseline:
             raise Exception("Submission does support enough datasets (%d/%d) to qualify." % (num_qual_datasets, len(DATASETS)))
        
         if self.verbose: print("This submission has qualified for the competition.")
@@ -174,7 +175,10 @@ class Evaluator():
         # get qualifying run parameters
         baseline_recall = self.baseline[dataset]["recall"][0]
         min_qps = self.baseline[dataset]["min-qps"]
-        qualifiers = [ pair for pair in list(zip(qps,recall)) if pair[0]>=min_qps and pair[1]>=baseline_recall ]
+        if self.is_baseline:
+            qualifiers = list(zip(qps, recall))
+        else:
+            qualifiers = [ pair for pair in list(zip(qps,recall)) if pair[0]>=min_qps and pair[1]>=baseline_recall ]
         if self.verbose: print("qualifiers at min_qps=%f and baseline_recall=%f" % (min_qps, baseline_recall), qualifiers)
         if len(qualifiers)==0:
             print("No qualifying recall runs.")
@@ -187,7 +191,10 @@ class Evaluator():
         #
         baseline_qps = self.baseline[dataset]["qps"][0]
         min_recall = self.baseline[dataset]["min-recall"]
-        qualifiers = [ pair for pair in list(zip(recall,qps)) if pair[0]>=min_recall and pair[1]>=baseline_qps ]
+        if self.is_baseline:
+            qualifiers = list(zip(qps, recall))
+        else:
+            qualifiers = [ pair for pair in list(zip(recall,qps)) if pair[0]>=min_recall and pair[1]>=baseline_qps ]
         if self.verbose: print("qualifiers at min_qps=%f and baseline_recall=%f" % (min_qps, baseline_recall), qualifiers)
         if len(qualifiers)==0:
             print("No qualifying throughput runs.")
@@ -199,7 +206,10 @@ class Evaluator():
         # eval power benchmark
         #
         wspq = rows["wspq"].tolist()
-        qualifiers = [ triple for triple in list(zip(recall,qps,wspq)) if triple[0]>=min_recall and triple[1]>=min_qps ]
+        if self.is_baseline:
+            qualifiers = list(zip(qps, recall))
+        else:
+            qualifiers = [ triple for triple in list(zip(recall,qps,wspq)) if triple[0]>=min_recall and triple[1]>=min_qps ]
         if self.verbose: print("qualifiers at min_qps=%f and min_recall=%f" % (min_qps, min_recall), qualifiers)
         if len(qualifiers)==0:
             print("No qualifying power runs.")
