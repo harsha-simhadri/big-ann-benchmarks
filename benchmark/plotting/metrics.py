@@ -39,7 +39,7 @@ def knn(true_nn, run_nn, count, metrics):
     if 'knn' not in metrics:
         print('Computing knn metrics')
         knn_metrics = metrics.create_group('knn')
-        mean, std, recalls = get_recall_values(true_nn, run_nn, count)
+        mean, std, recalls = get_recall_values(true_nn, run_nn, count, count_ties=False) #GW
         knn_metrics.attrs['mean'] = mean
         knn_metrics.attrs['std'] = std
         knn_metrics['recalls'] = recalls
