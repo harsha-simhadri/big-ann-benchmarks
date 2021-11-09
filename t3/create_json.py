@@ -44,6 +44,14 @@ baseline = {
         "min-recall":   0.860,      # not 0.9 because baseline could not reach 0.9
         "min-qps":      1510.624,   # not 2K because baseline could not reach 2K
         "min-wspq":     0.0         # TODO: placeholder
+    },
+    "ssnpp-1B": {
+        "recall":       [0.0, 0.0], # TODO: placeholder
+        "qps":          [0.0, 0.0], # TODO: placeholder
+        "wspq":         [0.0],      # TODO: placeholder
+        "min-recall":   0.0,        # TODO: placeholder
+        "min-qps":      0.0,        # TODO: placeholder
+        "min-wspq":     0.0         # TODO: placeholder
     }
 }
 
