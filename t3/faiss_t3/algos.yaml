@@ -89,7 +89,7 @@ msspacev-1B:
         base:
           args: |
               [{"indexkey": "IVF1048576,SQ8",
-                "url":"https://storage.googleapis.com/bigann/indexes/faiss/1.7.1/msspacev-1B.IVF1048576%2CSQ8.faissindex"}}]
+                "url":"https://storage.googleapis.com/bigann/indexes/faiss/1.7.1/msspacev-1B.IVF1048576%2CSQ8.faissindex"}]
           query-args: |
               ["nprobe=1",
                "nprobe=2",
@@ -110,7 +110,7 @@ text2image-1B:
         base:
           args: |
               [{"indexkey": "IVF1048576,SQ8",
-                "url":"https://storage.googleapis.com/bigann/indexes/faiss/1.7.1/text2image-1B.IVF1048576%2CSQ8.faissindex"}}]
+                "url":"https://storage.googleapis.com/bigann/indexes/faiss/1.7.1/text2image-1B.IVF1048576%2CSQ8.faissindex"}]
           query-args: |
               ["nprobe=1",
                "nprobe=2",
