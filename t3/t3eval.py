@@ -15,7 +15,7 @@ MAX_RUN_PARMS   = 10 # Competition rule
 class Evaluator():
     '''Useful evaluation functionality for the T3 track.'''
 
-    def __init__(self, algoname, csv, baseline_path, comp_path, system_cost=None, verbose=False ):
+    def __init__(self, algoname, csv, baseline_path, comp_path, system_cost=None, verbose=False, pending=[] ):
         '''Constructor performs sanity and some competition rule checks.'''
 
         if sys.version_info[0] < 3:
@@ -49,6 +49,7 @@ class Evaluator():
    
         self.algoname = algoname 
         self.system_cost = system_cost
+        self.pending = pending
         self.verbose = verbose
         self.evals = {} 
 
@@ -78,10 +79,13 @@ class Evaluator():
             if not dataset in list(self.evals.keys()):
                 cols = [ None, None, None, None ]
             else:
-                cols = [ self.evals[dataset]["best_recall"][1], 
-                    self.evals[dataset]["best_qps"][1], 
-                    self.evals[dataset]["best_wspq"][2], 
-                    self.evals[dataset]["cost"] ]
+                if dataset in self.pending:
+                    cols = [ None, None, None, None ]
+                else:
+                    cols = [ self.evals[dataset]["best_recall"][1], 
+                        self.evals[dataset]["best_qps"][1], 
+                        self.evals[dataset]["best_wspq"][2], 
+                        self.evals[dataset]["cost"] ]
             summary[dataset] = cols
       
         # 
@@ -90,6 +94,7 @@ class Evaluator():
         if self.verbose: print("computing scores")
         scores = [0, 0, np.nan, np.nan]
         for dataset in DATASETS:
+
             if summary[dataset][0]: # recall
                 diff = summary[dataset][0] - self.baseline[dataset]["recall"][0]
                 if self.verbose: print("diff recall",dataset,diff)
@@ -114,10 +119,6 @@ class Evaluator():
         summary["ranking-score"] = scores
         if self.verbose: print("summary", summary)
 
-        #else:
-        #    idx = list(summary.keys()) + ["ranking-score"]
-        #    summary["ranking-score"] = [ np.nan, np.nan, np.nan, np.nan ]
-       
         df = pd.DataFrame(summary.values(),columns=['recall','qps','power','cost'],index=idx)
         if self.verbose: print(df)
 
