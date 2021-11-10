@@ -15,7 +15,7 @@ MAX_RUN_PARMS   = 10 # Competition rule
 class Evaluator():
     '''Useful evaluation functionality for the T3 track.'''
 
-    def __init__(self, algoname, csv, baseline_path, comp_path, system_cost=None, verbose=False, is_baseline=False ):
+    def __init__(self, algoname, csv, baseline_path, comp_path, system_cost=None, verbose=False, is_baseline=False, pending=[] ):
         '''Constructor performs sanity and some competition rule checks.'''
 
         if sys.version_info[0] < 3:
@@ -50,6 +50,7 @@ class Evaluator():
         self.algoname = algoname 
         self.system_cost = system_cost
         self.is_baseline = is_baseline
+        self.pending = pending
         self.verbose = verbose
         self.evals = {} 
 
@@ -77,12 +78,15 @@ class Evaluator():
         summary = {}
         for dataset in DATASETS:
             if not dataset in list(self.evals.keys()):
-                cols = [ None, None, None, None ]
+                    cols = [ None, None, None, None ]
             else:
-                cols = [ self.evals[dataset]["best_recall"][1], 
-                    self.evals[dataset]["best_qps"][1], 
-                    self.evals[dataset]["best_wspq"][2], 
-                    self.evals[dataset]["cost"] ]
+                if dataset in self.pending:
+                    cols = [ None, None, None, None ]
+                else:
+                    cols = [ self.evals[dataset]["best_recall"][1],
+                        self.evals[dataset]["best_qps"][1],
+                        self.evals[dataset]["best_wspq"][2],
+                        self.evals[dataset]["cost"] ]
             summary[dataset] = cols
       
         if not self.is_baseline:
