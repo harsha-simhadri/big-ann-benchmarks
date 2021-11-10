@@ -49,8 +49,8 @@ baseline = {
         "recall":       [0.0, 0.0], # TODO: placeholder
         "qps":          [0.0, 0.0], # TODO: placeholder
         "wspq":         [0.0],      # TODO: placeholder
-        "min-recall":   0.0,        # TODO: placeholder
-        "min-qps":      0.0,        # TODO: placeholder
+        "min-recall":   0.9,        # TODO: placeholder
+        "min-qps":      2000,       # TODO: placeholder
         "min-wspq":     0.0         # TODO: placeholder
     }
 }
