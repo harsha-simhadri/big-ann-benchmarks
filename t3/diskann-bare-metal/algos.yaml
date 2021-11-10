@@ -1,7 +1,7 @@
 random-range-xs:
     diskann-bare-metal:
       docker-tag: billion-scale-benchmark-diskann
-      module: benchmark.algorithms.diskann
+      module: benchmark.algorithms.diskann-t2
       constructor: Diskann
       base-args: ["@metric"]
       run-groups:
@@ -13,7 +13,7 @@ random-range-xs:
 random-xs:
     diskann-bare-metal:
       docker-tag: billion-scale-benchmark-diskann
-      module: benchmark.algorithms.diskann
+      module: benchmark.algorithms.diskann-t2
       constructor: Diskann
       base-args: ["@metric"]
       run-groups:
@@ -25,7 +25,7 @@ random-xs:
 deep-1B:
     diskann-bare-metal:
       docker-tag: billion-scale-benchmark-diskann
-      module: benchmark.algorithms.diskann
+      module: benchmark.algorithms.diskann-t2
       constructor: Diskann
       base-args: ["@metric"]
       run-groups:
@@ -40,7 +40,7 @@ deep-1B:
               {"Ls":60, "BW":4, "T":72},
               {"Ls":80, "BW":4, "T":72},
               {"Ls":100, "BW":4, "T":72},
-              {"Ls":120, "BW":4, "T":72},
+              {"Ls":120, "BW":4, "T":72},g
               {"Ls":140, "BW":4, "T":72},
               {"Ls":170, "BW":4, "T":72},
               {"Ls":200, "BW":4, "T":72},
@@ -51,7 +51,7 @@ deep-1B:
 msspacev-1B:
     diskann-bare-metal:
       docker-tag: billion-scale-benchmark-diskann
-      module: benchmark.algorithms.diskann
+      module: benchmark.algorithms.diskann-t2
       constructor: Diskann
       base-args: ["@metric"]
       run-groups:
@@ -77,7 +77,7 @@ msspacev-1B:
 msturing-1B:
     diskann-bare-metal:
       docker-tag: billion-scale-benchmark-diskann
-      module: benchmark.algorithms.diskann
+      module: benchmark.algorithms.diskann-t2
       constructor: Diskann
       base-args: ["@metric"]
       run-groups:
@@ -101,7 +101,7 @@ msturing-1B:
 bigann-1B:
     diskann-bare-metal:
       docker-tag: billion-scale-benchmark-diskann
-      module: benchmark.algorithms.diskann
+      module: benchmark.algorithms.diskann-t2
       constructor: Diskann
       base-args: ["@metric"]
       run-groups:
@@ -126,7 +126,7 @@ bigann-1B:
 ssnpp-1B:
     diskann-bare-metal:
       docker-tag: billion-scale-benchmark-diskann
-      module: benchmark.algorithms.diskann
+      module: benchmark.algorithms.diskann-t2
       constructor: Diskann
       base-args: ["@metric"]
       run-groups:
@@ -149,7 +149,7 @@ ssnpp-1B:
 text2image-1B:
     diskann-bare-metal:
       docker-tag: billion-scale-benchmark-diskann
-      module: benchmark.algorithms.diskann
+      module: benchmark.algorithms.diskann-t2
       constructor: Diskann
       base-args: ["@metric"]
       run-groups:
