@@ -11,11 +11,14 @@ def compute_recall_with_distance_ties(true_ids, true_dists, run_ids, count):
     i = count - 1
     gt_size = np.shape(true_dists)[0]
     while true_dists[i] <= true_dists[count-1] + 1e-6:
-        if i < gt_size - 1:
+        if i == gt_size - 1:
+            i = i + 1
+            break
+        elif i < gt_size - 1:
             i = i + 1
         else:
             break
-    recall =  len(set(true_ids[:i+1]) & set(run_ids))
+    recall =  len(set(true_ids[:i]) & set(run_ids))
     return recall
 
 def get_recall_values(true_nn, run_nn, count, count_ties=True):
