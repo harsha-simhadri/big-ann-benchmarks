@@ -414,8 +414,8 @@ bigann-1B:
         base:
           args: |
               [{"indexkey": "OPQ96_192,IVF1048576_HNSWlibInt8_32,PQ96x4fsr",
-                 "url": "https://faissindex.blob.core.windows.net/faiss/final_index/final_index/bigann-1B.IVF1M_PQ96.faissindex",
-                 "sas": "sv=2020-08-04&st=2021-10-23T01%3A45%3A40Z&se=2021-11-24T01%3A45%3A00Z&sr=b&sp=r&sig=dd4yUfEGGZKSle%2F1U0c5LxV8WgSGf64Rlu%2BNBaZAgf8%3D",
+                 "url": "https://faissindex.blob.core.windows.net/participants/bigann-1B.IVF1M_PQ96.faissindex",
+                 "sas": "sp=rwl&st=2021-11-11T08:00:24Z&se=2021-11-11T16:00:24Z&spr=https&sv=2020-08-04&sr=c&sig=CdMavteKbbDw%2F6kkKzM9JabMzAph%2BCviyL8ZbViLhRw%3D",
                  "query_bs":4096,
                  "scale": 2.23,
                  "bias": -10.794
