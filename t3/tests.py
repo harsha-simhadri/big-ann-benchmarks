@@ -28,6 +28,7 @@ def main_tests():
         recall = get_recall_values( (true_ids, true_dists), run_ids, count, True)
         expected = 1.0
         print("compute recall(consider ties)=%f num_ties=%d" % (recall[0], recall[3]), "expected recall=%f" % expected_with_ties)
+        print("rc", recall)
         if ASSERT:
             assert recall[0]==expected_with_ties
             print("passed")
@@ -69,6 +70,20 @@ def main_tests():
     run_ids     = np.array([ [221456167, 336118969, 971823307, 640142873, 994367459, 504814,    87356234,  628179290, 928121617, 397551598         ] ] )
     count=10
     test_recall( true_ids, true_dists, run_ids, count, 0.5, 0.5 )
+    
+    print("TEST: fake query response with ties, 2 queries and k=3")
+    true_ids    = np.array([ [ 0,   1,   2,   3   ], [ 3,   2,   1,   0   ] ])
+    true_dists  = np.array([ [ 0.0, 1.0, 2.0, 2.0 ], [ 0.0, 1.0, 2.0, 2.0 ] ])
+    run_ids     = np.array([ [ 0,   1,        3   ], [ 3,   2,        0   ] ])
+    count=3
+    test_recall( true_ids, true_dists, run_ids, count, np.mean([2.0, 2.0])/float(count), np.mean([3.0, 3.0])/float(count) )
+    
+    print("TEST: fake query response with ties, 2 queries and k=3")
+    true_ids    = np.array([ [ 0,   1,   2,   3,   4,   5   ], [ 5,   4,   3,   2,   1,   0   ] ])
+    true_dists  = np.array([ [ 0.0, 1.0, 2.0, 2.0, 2.0, 3.0 ], [ 0.0, 1.0, 2.0, 2.0, 2.0, 3.0 ] ])
+    run_ids     = np.array([ [ 0,   1,                  5   ], [ 5,   4,             1        ] ])
+    count=3
+    test_recall( true_ids, true_dists, run_ids, count, np.mean([2.0, 2.0])/float(count), np.mean([2.0, 3.0])/float(count) )
 
     #
     # dataset tests
