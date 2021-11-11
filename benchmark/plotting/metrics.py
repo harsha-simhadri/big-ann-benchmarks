@@ -10,16 +10,18 @@ def compute_recall_without_distance_ties(true_ids, run_ids, count):
 def compute_recall_with_distance_ties(true_ids, true_dists, run_ids, count):
     i = count - 1
     gt_size = np.shape(true_dists)[0]
+    found_tie = False
     while true_dists[i] <= true_dists[count-1] + 1e-6:
-        if i == gt_size - 1:
+        if i == gt_size - 1: # end of GT arr, fixup i and break
             i = i + 1
             break
-        elif i < gt_size - 1:
+        elif i < gt_size - 1: # continue iterating thru GT arr
+            if i!=(count-1): found_tie = True 
             i = i + 1
         else:
             break
     recall =  len(set(true_ids[:i]) & set(run_ids))
-    return recall
+    return recall, found_tie
 
 def get_recall_values(true_nn, run_nn, count, count_ties=True):
     true_ids, true_dists = true_nn
@@ -27,21 +29,25 @@ def get_recall_values(true_nn, run_nn, count, count_ties=True):
         true_ids = true_ids[:, :count]
         assert true_ids.shape == run_nn.shape
     recalls = np.zeros(len(run_nn))
+    queries_with_ties = 0
     # TODO probably not very efficient
     for i in range(len(run_nn)):
         if count_ties:
-            recalls[i] = compute_recall_with_distance_ties(true_ids[i], true_dists[i], run_nn[i], count)
+            recalls[i], found_tie = compute_recall_with_distance_ties(true_ids[i], true_dists[i], run_nn[i], count)
+            if found_tie: queries_with_ties += 1 
         else:
             recalls[i] = compute_recall_without_distance_ties(true_ids[i], run_nn[i], count)
     return (np.mean(recalls) / float(count),
             np.std(recalls) / float(count),
-            recalls)
+            recalls,
+            queries_with_ties)
 
 def knn(true_nn, run_nn, count, metrics):
     if 'knn' not in metrics:
         print('Computing knn metrics')
         knn_metrics = metrics.create_group('knn')
-        mean, std, recalls = get_recall_values(true_nn, run_nn, count)
+        mean, std, recalls, _ = get_recall_values(true_nn, run_nn, count)
+        print("num_ties", num_ties)
         knn_metrics.attrs['mean'] = mean
         knn_metrics.attrs['std'] = std
         knn_metrics['recalls'] = recalls
