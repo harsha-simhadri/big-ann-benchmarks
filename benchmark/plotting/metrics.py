@@ -47,7 +47,6 @@ def knn(true_nn, run_nn, count, metrics):
         print('Computing knn metrics')
         knn_metrics = metrics.create_group('knn')
         mean, std, recalls, _ = get_recall_values(true_nn, run_nn, count)
-        print("num_ties", num_ties)
         knn_metrics.attrs['mean'] = mean
         knn_metrics.attrs['std'] = std
         knn_metrics['recalls'] = recalls
