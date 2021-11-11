@@ -135,6 +135,9 @@ def main_tests():
         run_ids = np.copy( gt[0] )[:,0:count] # create a query set from GT truncated at k
         test_recall( true_ids, true_dists, run_ids, count, 1.0, 1.0 )
 
+    #extract_GT_monotonicity( "bigann-1B", 0, 0, 99 )
+    #extract_GT_monotonicity( "text2image-1B", 0, 0, 99 )
+
     # test GT as query for each dataset
     test_GT_as_query( "bigann-1B", 10 )
     test_GT_as_query( "deep-1B", 10 )
