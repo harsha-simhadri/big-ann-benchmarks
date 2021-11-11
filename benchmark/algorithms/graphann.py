@@ -89,7 +89,7 @@ class GraphANN(BaseANN):
             allocator = self._allocator,
             diskann_format = True,
             numacopy = numacopy,
-            datapath = self._vectors_file 
+            datapath = "/mnt/pm0/public/data.bin"
         )
         self._runner = PyANN.make_runner(
             self._index,
@@ -142,19 +142,21 @@ class GraphANN(BaseANN):
     def create_index_dir(self, dataset):
         index_dir0 = "/mnt/pm0/public"
         index_dir1 = "/mnt/pm1/public"
-        #index_dir = self._index_params.get('pm_dir')
         os.makedirs(index_dir0, mode=0o777, exist_ok=True)
         os.makedirs(index_dir1, mode=0o777, exist_ok=True)
         graph_file0 = os.path.join(index_dir0,'graph.bin')
+        print('Copying index to PMem...')
         if not os.path.isfile(graph_file0):
             shutil.copy(self._index_file, graph_file0)
         graph_file1 = os.path.join(index_dir1,'graph.bin')
         if not os.path.isfile(graph_file1):
             shutil.copy(self._index_file, graph_file1)
-        #vector_file = os.path.join(index_dir,'data.bin')
-        #if not os.path.isfile(vector_file):
-        #    shutil.copy(self._vectors_file, vector_file)
-        #print("Index Path: ", index_dir)
+        print('done')
+        print('Copying vectors to PMem...')
+        vector_file = os.path.join(index_dir0,'data.bin')
+        if not os.path.isfile(vector_file):
+            shutil.copy(self._vectors_file, vector_file)
+        print('done')
         return [index_dir0, index_dir1]
 
 
