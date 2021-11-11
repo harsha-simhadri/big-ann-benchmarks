@@ -2,9 +2,11 @@
 
 import json
 
+
 baseline_outpath = "baseline2021.json"
 
 baseline = { 
+    "version":          "2021",
     "deep-1B": {
         "recall":       [0.942, 2002.490], 
         "qps":          [3422.473, 0.916],
@@ -44,6 +46,14 @@ baseline = {
         "min-recall":   0.860,      # not 0.9 because baseline could not reach 0.9
         "min-qps":      1510.624,   # not 2K because baseline could not reach 2K
         "min-wspq":     0.0         # TODO: placeholder
+    },
+    "ssnpp-1B": {
+        "recall":       [0.978634, 2907.413803], # from focused2.csv
+        "qps":          [5572.272416, 0.910180], # from focused2.csv
+        "wspq":         [0.0],      # TODO: placeholder
+        "min-recall":   0.9,        # TODO: placeholder
+        "min-qps":      2000,       # TODO: placeholder
+        "min-wspq":     0.0         # TODO: placeholder
     }
 }
 
@@ -55,6 +65,7 @@ print("Wrote baseline json at %s" % baseline_outpath )
 competition_outpath = "competition2021.json"
 
 competition = {
+    "version":  "2021", 
     "kwh_cost": 0.10, # 10 cents
     "cost_qps": 100000, # 100,000 queries per second
     "opex_time": 4 # number of years to evaluate opex
