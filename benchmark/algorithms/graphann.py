@@ -58,15 +58,17 @@ class GraphANN(BaseANN):
         # Metric
         if ds.distance() == "euclidean":
             self._metric = PyANN.Euclidean()
+            numacopy = True
         elif ds.distance() == "ip":
             self._metric = PyANN.InnerProduct()
+            numacopy = False
         else:
             print("Unsuported distance function.")
             return False
 
         # Data Type
         if ds.dtype == "float32":
-            self._dtype = PyANN.Float32
+            self._dtype = PyANN.Float16
         elif ds.dtype == "int8":
             self._dtype = PyANN.Int8
         elif ds.dtype == "uint8":
@@ -85,7 +87,9 @@ class GraphANN(BaseANN):
             self._dims,
             self._metric,
             allocator = self._allocator,
-            diskann_format = True
+            diskann_format = True,
+            numacopy = numacopy,
+            datapath = self._vectors_file 
         )
         self._runner = PyANN.make_runner(
             self._index,
@@ -136,17 +140,22 @@ class GraphANN(BaseANN):
         return "generic_index"
 
     def create_index_dir(self, dataset):
-        # index_dir = "/mnt/pm0/public"
-        index_dir = self._index_params.get('pm_dir')
-        os.makedirs(index_dir, mode=0o777, exist_ok=True)
-        graph_file = os.path.join(index_dir,'graph.bin')
-        if not os.path.isfile(graph_file):
-            shutil.copy(self._index_file, graph_file)
-        vector_file = os.path.join(index_dir,'data.bin')
-        if not os.path.isfile(vector_file):
-            shutil.copy(self._vectors_file, vector_file)
-        print("Index Path: ", index_dir)
-        return index_dir
+        index_dir0 = "/mnt/pm0/public"
+        index_dir1 = "/mnt/pm1/public"
+        #index_dir = self._index_params.get('pm_dir')
+        os.makedirs(index_dir0, mode=0o777, exist_ok=True)
+        os.makedirs(index_dir1, mode=0o777, exist_ok=True)
+        graph_file0 = os.path.join(index_dir0,'graph.bin')
+        if not os.path.isfile(graph_file0):
+            shutil.copy(self._index_file, graph_file0)
+        graph_file1 = os.path.join(index_dir1,'graph.bin')
+        if not os.path.isfile(graph_file1):
+            shutil.copy(self._index_file, graph_file1)
+        #vector_file = os.path.join(index_dir,'data.bin')
+        #if not os.path.isfile(vector_file):
+        #    shutil.copy(self._vectors_file, vector_file)
+        #print("Index Path: ", index_dir)
+        return [index_dir0, index_dir1]
 
 
     def set_query_arguments(self, query_args):
