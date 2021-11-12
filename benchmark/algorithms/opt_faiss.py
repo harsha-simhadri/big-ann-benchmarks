@@ -269,7 +269,7 @@ class opt_faiss(BaseANN):
                 return False
 
             print('Downloading index in background. This can take a while.')
-            download_accelerated(self._index_params['url'], self.index_name(dataset), quiet=True,sas_string=self._index_params['sas'])
+            download_accelerated(self._index_params['url'], self.index_name(dataset), quiet=True)
 
         print("Loading index")
 
