@@ -102,7 +102,7 @@ random-xs:
         base:
           args: |
               [{"indexkey": "C10_F10_F5_FN20",
-                "url": "https://gips-test-bucket-0-gz.gz.bcebos.com/similar/random-xs.C10_F10_F5_FN20.puckindex.tar"}]
+                "url": "https://gips-test-bucket-0-gz.gz.bcebos.com/similar/random-xs.C10_F10_F5_FN20.puckindex"}]
           query-args: |
                [
                   
