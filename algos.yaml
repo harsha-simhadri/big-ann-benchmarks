@@ -241,7 +241,7 @@ msspacev-1B:
         base:
           args: |
               [{"indexkey": "OPQ96_192,IVF1048576_HNSWlibInt8_32,PQ96x4fsr",
-                "url": "https://comp21storage.blob.core.windows.net/participants/t1/kst_ann_t1/msspacev-1B.IVF1M_PQ96.faissindex",
+                "url": "https://comp21storage.blob.core.windows.net/participants/msspacev-1B.IVF1M_PQ96.faissindex",
                 "query_bs": 4096,
                 "scale": 2.44,
                 "bias": 0 
@@ -327,7 +327,7 @@ msturing-1B:
         base:
           args: |
               [{"indexkey": "OPQ96_192,IVF1048576_HNSWlibInt8_32,PQ96x4fsr",
-                 "url": "https://comp21storage.blob.core.windows.net/participants/t1/kst_ann_t1/msturing-1B.IVF1M_PQ96.faissindex",            
+                 "url": "https://comp21storage.blob.core.windows.net/participants/msturing-1B.IVF1M_PQ96.faissindex",            
                  "query_bs":4096,
                  "scale": 281.5,
                  "bias": 16.6
