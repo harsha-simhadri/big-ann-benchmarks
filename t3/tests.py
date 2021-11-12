@@ -71,14 +71,21 @@ def main_tests():
     count=10
     test_recall( true_ids, true_dists, run_ids, count, 0.5, 0.5 )
     
-    print("TEST: fake query response with ties, 2 queries and k=3")
+    print("TEST: fake query response with ties at beginning, 2 queries and k=3")
+    true_ids    = np.array([ [ 0,   1,   2,   3   ], [ 3,   2,   1,   0   ] ])
+    true_dists  = np.array([ [ 0.0, 0.0, 1.0, 2.0 ], [ 0.0, 0.0, 1.0, 2.0 ] ])
+    run_ids     = np.array([ [ 0,   1,        3   ], [ 3,   2,        0   ] ])
+    count=3
+    test_recall( true_ids, true_dists, run_ids, count, 1.0, 1.0)
+    
+    print("TEST: fake query response with ties at count-1 and 1 tie after, 2 queries and k=3")
     true_ids    = np.array([ [ 0,   1,   2,   3   ], [ 3,   2,   1,   0   ] ])
     true_dists  = np.array([ [ 0.0, 1.0, 2.0, 2.0 ], [ 0.0, 1.0, 2.0, 2.0 ] ])
     run_ids     = np.array([ [ 0,   1,        3   ], [ 3,   2,        0   ] ])
     count=3
     test_recall( true_ids, true_dists, run_ids, count, np.mean([2.0, 2.0])/float(count), np.mean([3.0, 3.0])/float(count) )
     
-    print("TEST: fake query response with ties, 2 queries and k=3")
+    print("TEST: fake query response with ties at count-1 and 2 ties after, 2 queries and k=3")
     true_ids    = np.array([ [ 0,   1,   2,   3,   4,   5   ], [ 5,   4,   3,   2,   1,   0   ] ])
     true_dists  = np.array([ [ 0.0, 1.0, 2.0, 2.0, 2.0, 3.0 ], [ 0.0, 1.0, 2.0, 2.0, 2.0, 3.0 ] ])
     run_ids     = np.array([ [ 0,   1,                  5   ], [ 5,   4,             1        ] ])
