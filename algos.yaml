@@ -147,7 +147,6 @@ deep-1B:
           args: |
               [{"indexkey": "OPQ96_192,IVF1048576_HNSWlibInt8_32,PQ96x4fsr",
                 "url": "https://comp21storage.blob.core.windows.net/participants/deep-1B.IVF1M_PQ96.faissindex",
-                "sas": "sp=rwl&st=2021-11-11T08:00:24Z&se=2021-11-11T16:00:24Z&spr=https&sv=2020-08-04&sr=c&sig=CdMavteKbbDw%2F6kkKzM9JabMzAph%2BCviyL8ZbViLhRw%3D",
                 "query_bs": 4096,
                 "scale": 1134.489,
                 "bias": -4.0839
@@ -243,7 +242,6 @@ msspacev-1B:
           args: |
               [{"indexkey": "OPQ96_192,IVF1048576_HNSWlibInt8_32,PQ96x4fsr",
                 "url": "https://comp21storage.blob.core.windows.net/participants/t1/kst_ann_t1/msspacev-1B.IVF1M_PQ96.faissindex",
-                "sas": "sp=rwl&st=2021-11-11T08:00:24Z&se=2021-11-11T16:00:24Z&spr=https&sv=2020-08-04&sr=c&sig=CdMavteKbbDw%2F6kkKzM9JabMzAph%2BCviyL8ZbViLhRw%3D",
                 "query_bs": 4096,
                 "scale": 2.44,
                 "bias": 0 
@@ -329,8 +327,7 @@ msturing-1B:
         base:
           args: |
               [{"indexkey": "OPQ96_192,IVF1048576_HNSWlibInt8_32,PQ96x4fsr",
-                 "url": "https://comp21storage.blob.core.windows.net/participants/t1/kst_ann_t1/msturing-1B.IVF1M_PQ96.faissindex",
-                 "sas": "sp=rwl&st=2021-11-11T08:00:24Z&se=2021-11-11T16:00:24Z&spr=https&sv=2020-08-04&sr=c&sig=CdMavteKbbDw%2F6kkKzM9JabMzAph%2BCviyL8ZbViLhRw%3D",               
+                 "url": "https://comp21storage.blob.core.windows.net/participants/t1/kst_ann_t1/msturing-1B.IVF1M_PQ96.faissindex",            
                  "query_bs":4096,
                  "scale": 281.5,
                  "bias": 16.6
@@ -415,7 +412,6 @@ bigann-1B:
           args: |
               [{"indexkey": "OPQ96_192,IVF1048576_HNSWlibInt8_32,PQ96x4fsr",
                  "url": "https://comp21storage.blob.core.windows.net/participants/bigann-1B.IVF1M_PQ96.faissindex",
-                 "sas": "sp=rwl&st=2021-11-11T08:00:24Z&se=2021-11-11T16:00:24Z&spr=https&sv=2020-08-04&sr=c&sig=CdMavteKbbDw%2F6kkKzM9JabMzAph%2BCviyL8ZbViLhRw%3D",
                  "query_bs":4096,
                  "scale": 2.23,
                  "bias": -10.794
