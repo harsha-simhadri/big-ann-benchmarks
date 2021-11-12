@@ -5,18 +5,18 @@ from benchmark.plotting.eval_range_search import compute_AP
 from benchmark.sensors.power_capture import power_capture
 
 def compute_recall_without_distance_ties(true_ids, run_ids, count):
-    return len(set(true_ids) & set(run_ids))
+    return len(set(true_ids) & set(run_ids)), 0
 
 def compute_recall_with_distance_ties(true_ids, true_dists, run_ids, count):
     i = count - 1
     gt_size = np.shape(true_dists)[0]
+    # Goal: i points to the first element that is _not_ considered a nearest neighbors.
     while true_dists[i] <= true_dists[count-1] + 1e-6:
-        if i < gt_size - 1:
-            i = i + 1
-        else:
+        i = i + 1
+        if i >= gt_size:
             break
-    recall =  len(set(true_ids[:i+1]) & set(run_ids))
-    return recall
+    recall =  len(set(true_ids[:i]) & set(run_ids))
+    return recall, i > count
 
 def get_recall_values(true_nn, run_nn, count, count_ties=True):
     true_ids, true_dists = true_nn
@@ -27,18 +27,19 @@ def get_recall_values(true_nn, run_nn, count, count_ties=True):
     # TODO probably not very efficient
     for i in range(len(run_nn)):
         if count_ties:
-            recalls[i] = compute_recall_with_distance_ties(true_ids[i], true_dists[i], run_nn[i], count)
+            recalls[i], ties = compute_recall_with_distance_ties(true_ids[i], true_dists[i], run_nn[i], count)
         else:
-            recalls[i] = compute_recall_without_distance_ties(true_ids[i], run_nn[i], count)
+            recalls[i], ties = compute_recall_without_distance_ties(true_ids[i], run_nn[i], count)
     return (np.mean(recalls) / float(count),
             np.std(recalls) / float(count),
-            recalls)
+            recalls,
+            ties)
 
 def knn(true_nn, run_nn, count, metrics):
     if 'knn' not in metrics:
         print('Computing knn metrics')
         knn_metrics = metrics.create_group('knn')
-        mean, std, recalls = get_recall_values(true_nn, run_nn, count)
+        mean, std, recalls, _ = get_recall_values(true_nn, run_nn, count)
         knn_metrics.attrs['mean'] = mean
         knn_metrics.attrs['std'] = std
         knn_metrics['recalls'] = recalls
@@ -125,17 +126,17 @@ all_metrics = {
     },
     "wspq": {
         "description": "Watt seconds per query (watt*s/query)",
-        "function": lambda true_nn, run_nn, metrics, run_attrs: watt_seconds_per_query(true_nn, run_attrs),  
+        "function": lambda true_nn, run_nn, metrics, run_attrs: watt_seconds_per_query(true_nn, run_attrs),
         "worst": float("-inf")
     },
     "mean_ssd_ios": {
         "description": "Average SSD I/Os per query",
-        "function": lambda true_nn, run_nn, metrics, run_attrs: mean_ssd_ios(run_attrs),  
+        "function": lambda true_nn, run_nn, metrics, run_attrs: mean_ssd_ios(run_attrs),
         "worst": float("inf")
     },
     "mean_latency": {
         "description": "Mean latency across queries",
-        "function": lambda true_nn, run_nn, metrics, run_attrs: mean_latency(run_attrs),  
+        "function": lambda true_nn, run_nn, metrics, run_attrs: mean_latency(run_attrs),
         "worst": float("inf")
     }
 
