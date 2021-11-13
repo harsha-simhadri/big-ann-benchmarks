@@ -179,7 +179,7 @@ class Evaluator():
         recall = rows["recall/ap"].tolist()
         if self.verbose: print("recall:", recall)
         parameters = rows["parameters"].tolist()
-        self.verbose: print("parameters", parameters)
+        if self.verbose: print("parameters", parameters)
 
         # get qualifying run parameters
         baseline_recall = self.baseline[dataset]["recall"][0]
@@ -187,14 +187,21 @@ class Evaluator():
         if self.verbose: print("for recall, min_qps=", min_qps)
         if self.is_baseline:
             qualifiers = [ el for el in list(zip(qps, recall, parameters)) if el[0]>=min_qps ]
-            if self.verbose: print("qualifiers at min_qps=%f" % min_qps, qualifiers)
+            if len(qualifiers)>0:
+                if self.verbose: print("qualifiers at min_qps=%f" % min_qps, qualifiers)
+                best_recall = sorted(qualifiers,key=lambda x: x[1])[-1]
+            else:
+                if self.verbose: print("NO qualifiers meeting min_qps %f, trying without..." % min_qps)
+                qualifiers = [ el for el in list(zip(qps, recall, parameters)) ]
+                if self.verbose: print("NEW qualifiers", qualifiers)
+                best_recall = sorted(qualifiers, key=lambda x: x[0][-1]) # sort by highest qps we got and take that recall
         else:
-            qualifiers = [ el for el in list(zip(qps,recall, parameters)) if el[0]>=min_qps and el[1]>=baseline_recall ]
+            qualifiers = [ el for el in list(zip(qps,recall, parameters)) if el[0]>=min_qps ]
             if self.verbose: print("qualifiers at min_qps=%f and baseline_recall=%f" % (min_qps, baseline_recall), qualifiers)
-        if len(qualifiers)==0:
-            print("No qualifying recall runs.")
-            return False
-        best_recall = sorted(qualifiers,key=lambda x: x[1])[-1]
+            if len(qualifiers)==0:
+                print("NO qualifying recall runs.")
+                return False
+            best_recall = sorted(qualifiers,key=lambda x: x[1])[-1] # sort by highest recall and take the highest
         if self.verbose: print("Best recall at", best_recall, "via", qualifiers[-1])
 
         #
@@ -205,14 +212,21 @@ class Evaluator():
         if self.verbose: print("for throughput, min_recall=", min_recall)
         if self.is_baseline:
             qualifiers = [ el for el in list(zip(recall, qps, parameters)) if el[0]>=min_recall ]
-            if self.verbose: print("qualifiers at min_recall=%f" % min_recall, qualifiers)
+            if len(qualifiers)==0: 
+                if self.verbose: print("NO qualifiers meeting min_recall %f, trying without..." % min_recall)
+                qualifiers = [ el for el in list(zip(recall, qps, parameters)) ]
+                if self.verbose: print("qualifiers no min_recall", qualifiers)
+                best_qps = sorted(qualifiers,key=lambda x: x[1])[-1] # sort by highest recall and take that qps
+            else:
+                if self.verbose: print("qualifiers at min_recall=%f" % min_recall, qualifiers)
+                best_qps = sorted(qualifiers,key=lambda x: x[1])[-1] # sort by highest recall and take that qps
         else:
-            qualifiers = [ el for el in list(zip(recall,qps, parameters)) if el[0]>=min_recall and el[1]>=baseline_qps ]
+            qualifiers = [ el for el in list(zip(recall,qps, parameters)) if el[0]>=min_recall ]
             if self.verbose: print("qualifiers at min_qps=%f and baseline_recall=%f" % (min_qps, baseline_recall), qualifiers)
-        if len(qualifiers)==0:
-            print("No qualifying throughput runs.")
-            return False
-        best_qps = sorted(qualifiers,key=lambda x: x[1])[-1]
+            if len(qualifiers)==0:
+                print("No qualifying throughput runs.")
+                return False
+            best_qps = sorted(qualifiers,key=lambda x: x[1])[-1]
         if self.verbose: print("Best qps at ", best_qps, "via", qualifiers[-1])
 
         #
@@ -223,13 +237,15 @@ class Evaluator():
         qualifiers = [ el for el in list(zip(recall, qps, wspq, parameters )) if el[0]>=min_recall and el[1]>min_qps ]
         if self.verbose: print("qualifiers at min_qps=%f and min_recall=%f" % (min_qps, min_recall), qualifiers)
         if len(qualifiers)==0:
-            if self.verbose: print("No qualifying power runs meeting both min_qps and min_recall...")
-            # fall back to min_recall threshold ( needed for text2image and msturing )
+            if self.verbose: print("NO qualifying power runs meeting both min_qps and min_recall...")
+            # fall back to min_recall threshold
             qualifiers = [ el for el in list(zip(recall, qps, wspq, parameters)) if el[0]>=min_recall ]
-            if self.verbose: print("qualifiers at min_recall=%f" % min_recall, qualifiers)
             if len(qualifiers)==0:
-                print("No qualifying power runs meeting min_recall...")
-                return False
+                qualifiers = [ el for el in list(zip(recall, qps, wspq, parameters)) ]
+                if self.verbose: print("qualifiers at min_recall=%f" % min_recall, qualifiers)
+                if len(qualifiers)==0:
+                    print("No qualifying power runs meeting min_recall...")
+                    return False
         best_wspq = sorted(qualifiers,key=lambda x: x[2])[0]
         if self.verbose: print("Best power at", best_wspq, qualifiers[-1])
 

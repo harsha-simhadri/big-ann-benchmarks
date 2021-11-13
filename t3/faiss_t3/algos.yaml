@@ -107,16 +107,16 @@ text2image-1B:
               [{"indexkey": "IVF1048576,SQ8",
                 "url":"https://storage.googleapis.com/bigann/indexes/faiss/1.7.1/text2image-1B.IVF1048576%2CSQ8.faissindex"}]
           query-args: |
-              ["nprobe=64",
-               "nprobe=70",
-               "nprobe=80",
-               "nprobe=90",
+              ["nprobe=90",
                "nprobe=100",
                "nprobe=110",
                "nprobe=120",
                "nprobe=128",
                "nprobe=140",
-               "nprobe=160"]
+               "nprobe=160",
+               "nprobe=180",
+               "nprobe=200",
+               "nprobe=220"]
 msturing-10M:
     faiss-t3: 
       docker-tag: billion-scale-benchmark-faiss_t3

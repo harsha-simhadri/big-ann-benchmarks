@@ -11,8 +11,8 @@
   - [Submitting Your Algorithm](#submitting_your_algorithm) 
   - [How To Get Help](#how_to_get_help)
   - [Leaderboard Ranking](#leaderboard_ranking)
-    - [Baseline Thresholds](#baseline_thresholds)
-    - [Recall Leaderboard](#recall_leaderboard)
+    - [Baseline Performance](#baseline_performance)
+    - [Recall/Average Precision Leaderboard](#recall/average_precision_leaderboard)
     - [Throughput Leaderboard](#throughput_leaderboard)
     - [Power Leaderboard](#power_leaderboard)
     - [Cost Leaderboard](#cost_leaderboard)
@@ -22,12 +22,11 @@
     - [Participant Gives Remote Access To Evaluators](#participant_gives_remote_access_to_organizer)
     - [Participant Runs And Submits Benchmarks](#participant_runs_and_submits_benchmark)
   - [Evaluating Power Consumption](#evaluating_power_consumption)   
-- [Appendix](#appendix)
 
 ## Introduction
 
 The T1 and T2 tracks of the competition restrict the evaluation of algorithms to standard Azure CPU servers with 64GB of RAM and 2TB of SSD.  The only restriction in the T3 track is that the evaluation machine can be any hardware that is commercially available ( including any commercially available add-on PCIe boards ).  T3 will maintain four leaderboards:
-* One based on recall
+* One based on recall/average precision
 * One based on throughput
 * One based on power consumption
 * One based on hardware cost
@@ -80,7 +79,7 @@ Now analyze the results:
 ```
 python plot.py --definitions t3/faiss_t3/algos.yaml --dataset random-xs
 ```
-This will place a plot of the algorithms performance, recall-vs-throughput, into the *results/* directory.
+This will place a plot of the algorithms performance, recall/average_precision-vs-throughput, into the *results/* directory.
 
 ### Starting_Your_Development
 
@@ -136,7 +135,7 @@ Now you can analyze the results by running:
 ```
 python plot.py --definitions t3/[your_team_name]/algos.yaml --dataset random-xs
 ```
-This will place a plot of the algorithms performance, recall-vs-throughput, into the toplevel [results](../results) directory.
+This will place a plot of the algorithms performance, recall/average_precision-vs-throughput, into the toplevel [results](../results) directory.
 
 The plot.py script supports other benchmarks.  To see a complete list, run:
 ```
@@ -181,11 +180,13 @@ There are several ways to get help as you develop your algorithm using this fram
 
 ### Leaderboard_Ranking
 
-T3 will maintain four different leaderboards 1) one based on recall 2) one based on throughput 3) one based on power consumption and 4) one based on cost.  The details of the ranking metrics are described here.
+T3 will maintain four different leaderboards 1) one based on recall/average precision 2) one based on throughput 3) one based on power consumption and 4) one based on cost.  The details of the ranking metrics are described here.
 
-#### Baseline_Thresholds
+#### Baseline_Performance
 
-Thresholds of performance have been put in place for this competition, based on both queries per second (qps) and recall measured as recall@10.  For the recall leaderboard, we will rank participants by recall@10 at 2K qps.  The table below shows the baseline recall@10 for all the (knn search type) datasets near 2K qps.
+A performance baseline has been established for this competition, based on both queries per second (qps) and recall/average precision (recall measured as recall@10.)  For the recall leaderboard, we will rank participants by recall@10/average precision at 2K qps.  
+
+The table below shows the baseline recall@10 for all the (knn search type) datasets near 2K qps.
 
 |   dataset    |    qps   | recall@10 |
 | ------------ | -------- | --------- |
@@ -205,24 +206,33 @@ For the throughput leaderboard, we will rank participants by qps at 90% recall@1
 | deep-1B      | 3422.473 |   0.916   |
 | msspacev-1B  | 1484.217 |   0.869   |
 
-Baseline thresholds were measured on an 56 core Intel Xeon system with 700GB RAM and a V100 Nvidia GPU using the FAISS library using the index strategy called IVF1048576,SQ8.  More information can be found in the Appendix at the end of this README.
+The following tables show the baseline performance on the range search dataset:
 
-Here are FAISS baseline recall@10 vs throughput plots for the (knn search type) datasets:
-* [msturing-1B](faiss_t3/baseline_plots/msturing-1B-r-vs-t.png)
-* [bigann-1B](faiss_t3/baseline_plots/bigann-1B-r-vs-t.png)
-* [text2image-1B](faiss_t3/baseline_plots/text2image-1B-r-vs-t.png)
-* [deep-1B](faiss_t3/baseline_plots/deep-1B-r-vs-t.png)
-* [msspacev-1B](faiss_t3/baseline_plots/msspacev-1B-r-vs-t.png)
+Instead of recall, the range search dataset utilizes average precision:
 
-Note these plots were acquired using this repo's eval framework.  The baseline thresholds we performed using an old (not obsolete) software framework (see Appendix for more information.)
+|   dataset  |    qps   |    ap
+| -----------| ---------| ---------
+| ssnpp-1B   | 2907.414 |   0.979
 
-#### Recall_Leaderboard
+For throughput:
 
-This leaderboard leverages the standard recall@10 vs throughput benchmark that has become a standard benchmark when evaluating and comparing approximate nearest neighbor algorithms.  We will rank participants based on recall@10 at 2K qps por each dataset.  The evaluation framework allows for 10 different search parameter sets and we will use the best value of recall@10 from the set.
+|   dataset  |    qps   |    ap     |
+| -----------| -------- | --------- |
+| ssnpp-1B   | 5572.272 |   0.910   |
+
+Baselines were measured on an 56 core Intel Xeon system with 700GB RAM and a V100 Nvidia GPU using the FAISS library using the index strategy called IVF1048576,SQ8. 
+
+Please consult [this document](Ranking.md) for a detailed discussion about how the baseline is used to inform competition thresholds and participant scoring, as well as recent developments on baseline performance.
+
+#### Recall/Average_Precision_Leaderboard
+
+This leaderboard leverages the standard recall@10 vs throughput benchmark that has become a standard benchmark when evaluating and comparing approximate nearest neighbor algorithms.  We will rank participants based on recall@10/average_precision at 2K qps por each dataset.  The evaluation framework allows for 10 different search parameter sets and we will use the best value of recall@10 from the set.
 
 The final ranking will be based on a computed score, which is the sum of the improvements in recall over the baseline for the participating databases.  A submission must participate in at least 3 databases.
 
 Participants that cannot meet or exceed the baseline qps threshold for a dataset will be dropped from ranking consideration for that dataset.
+
+Please consult [this document](Ranking.md) for a detailed discussion about how the baseline is used to inform competition thresholds and participant scoring.
 
 #### Throughput_Leaderboard
 
@@ -230,7 +240,7 @@ This leaderboard also leverages the standard recall@10 vs throughput benchmark. 
 
 The final ranking will be based on a computed score, which is the sum of the improvements in throughput over the baseline for the participating databases.  A submission must participate in at least 3 databases.
 
-Participants that cannot meet or exceed the baseline recall@10 threshold for a dataset will be dropped from ranking consideration for that dataset.
+Please consult [this document](Ranking.md) for a detailed discussion about how the baseline is used to inform competition thresholds and participant scoring.
 
 #### Power_Leaderboard
 
@@ -242,14 +252,18 @@ During evaluation, for each search parameter set, power consumption is acquired 
 
 The final ranking will be based on a computed score, which is the sum of the improvements in power consumption over the baseline for the participating databases.  A submission must participate in at least 3 databases.
 
-Participants that cannot meet or exceed the recall@10 baseline threshold for a dataset will be dropped from ranking consideration for that dataset.
+There are no direct thresholds for this benchmark/leaderboard.  Indirectly, participants that cannot meet or exceed the recall@10 threshold for a dataset will be dropped from ranking consideration for that dataset.  Scoring will be based on the baseline performance for power consumption, shown here for each dataset:
 
-Here are all the baseline recall@10 vs watt-seconds/query plots for the (knn search type) datasets:
-* [msturing-1B](faiss_t3/baseline_plots/msturing-1B-r-vs-p.png)
-* [bigann-1B](faiss_t3/baseline_plots/bigann-1B-r-vs-p.png)
-* [text2image-1B](faiss_t3/baseline_plots/text2image-1B-r-vs-p.png)
-* [deep-1B](faiss_t3/baseline_plots/deep-1B-r-vs-p.png)
-* [msspacev-1B](faiss_t3/baseline_plots/msspacev-1B-r-vs-p.png)
+|   dataset    |    power   |
+| ------------ | -----------|
+| msturing-1B  | 0.203740   | 
+| bigann-1B    | 0.167123   | 
+| text2image-1B| 0.089675   |
+| deep-1B      | 0.112581   | 
+| msspacev-1B  | 0.099569   | 
+| ssnpp-1B     | 0.0944865  |
+
+Please consult [this document](Ranking.md) for a detailed discussion about how the baseline is used to inform participant scoring for this benchmark.
 
 #### Cost_Leaderboard
 
@@ -275,7 +289,7 @@ Notes on this formula:
 
 The final ranking will be based on a computed score, which is the sum of the improvements in cost over the baseline for the participating databases.  A submission must participate in at least 3 databases.
 
-Participants that cannot meet or exceed the baseline thresholds for a dataset will be dropped from ranking consideration for that dataset.
+There are no direct thresholds for this benchmark/leaderboard.  Indirectly, participants that cannot meet or exceed the recall@10 threshold for a dataset will be dropped from ranking consideration for that dataset.  
 
 ## For_Evaluators
 
@@ -322,55 +336,3 @@ This will monitor power consumption over that period of time ( 10 seconds is a g
 
 You can retrieve a plot of the power consumptions ( measured as watt-seconds/query ) using the plot.py script.
 
-## Appendix
-
-### Baseline Threshold Experiments
-
-The following table lists the full results used to obtain baseline thresholds:
-
-|              dbase|                 QPS|            recall@10|
-|-------------------|--------------------|---------------------|
-|          bigann-1B|         2186.754570|             0.904860|
-|          bigann-1B|         1926.901416|             0.911140|
-|          bigann-1B|         1657.226695|             0.919860|
-|          bigann-1B|         2058.950046|             0.926560|
-|          bigann-1B|         1931.042641|             0.932450|
-|          bigann-1B|         1770.748406|             0.937190|
-|          bigann-1B|         1609.052224|             0.941330|
-|          bigann-1B|         1504.748288|             0.943890|
-|      text2image-1B|         2607.779941|             0.834820|
-|      text2image-1B|         2456.621393|             0.841845|
-|      text2image-1B|         2285.966847|             0.851920|
-|      text2image-1B|         2120.635218|             0.860156|
-|      text2image-1B|         1917.445903|             0.867244|
-|      text2image-1B|         1748.662912|             0.873469|
-|      text2image-1B|         1612.313130|             0.878757|
-|      text2image-1B|         1510.624227|             0.882487|
-|        msspacev-1B|         2465.473370|             0.844805|
-|        msspacev-1B|         2190.828587|             0.850205|
-|        msspacev-1B|         1935.385102|             0.854864|
-|        msspacev-1B|         1931.506970|             0.858998|
-|        msspacev-1B|         1748.525911|             0.862437|
-|        msspacev-1B|         1585.766679|             0.865152|
-|        msspacev-1B|         1477.389358|             0.867912|
-|        msspacev-1B|         1484.216732|             0.868812|
-|        msturing-1B|         3625.040250|             0.881202|
-|        msturing-1B|         3197.403722|             0.888140|
-|        msturing-1B|         2907.993722|             0.893669|
-|        msturing-1B|         2655.951474|             0.898400|
-|        msturing-1B|         2421.855941|             0.902413|
-|        msturing-1B|         2233.241641|             0.905846|
-|        msturing-1B|         2070.942269|             0.908949|
-|        msturing-1B|         2011.542149|             0.910115|
-|            deep-1B|         3422.472565|             0.915540|
-|            deep-1B|         2732.133452|             0.920430|
-|            deep-1B|         2507.486404|             0.927790|
-|            deep-1B|         1992.323615|             0.932950|
-|            deep-1B|         2037.783443|             0.937940|
-|            deep-1B|         2002.489712|             0.941740|
-|            deep-1B|         1967.826369|             0.945130|
-|            deep-1B|         1874.898854|             0.947430|
-
-These baseline numbers were performed on the machine configuration used for the T3 faiss baseline(see).
-
-An older (now obsolete) code framework was used to determine these thresholds, not the existing evaluation framework so there is no algos.yaml configuration file.
