@@ -516,9 +516,9 @@ if __name__ == "__main__": # Unit test
     evaluator.eval_all()
     evaluator.show_summary(savepath="test_summary.png")
     
-    for dataset in DATASETS:
-        evaluator.plot_recall(dataset, savepath="test_%s_recall.png" % dataset)
-        evaluator.plot_throughput(dataset, savepath="test_%s_throughput.png" % dataset)
-        evaluator.plot_power(dataset, savepath="test_%s_power.png" % dataset)
+    for dataset in evaluator.baseline["datasets"]:
+        evaluator.plot_recall(dataset, savepath="/tmp/test_%s_recall.png" % dataset)
+        evaluator.plot_throughput(dataset, savepath="/tmp/test_%s_throughput.png" % dataset)
+        evaluator.plot_power(dataset, savepath="/tmp/test_%s_power.png" % dataset)
 
  
