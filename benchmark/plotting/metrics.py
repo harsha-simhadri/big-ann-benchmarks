@@ -19,7 +19,7 @@ def compute_recall_with_distance_ties(true_ids, true_dists, run_ids, count):
     dup_candidate= true_dists[0]
     new_dists[0] = dup_candidate
     for i in range(1,true_dists.shape[0]):
-        if abs(true_dists[i]-dup_candidate)<1e-6: 
+        if abs(true_dists[i]-dup_candidate)<=1e-6: 
             new_dists[i] = dup_candidate
         else:       
             new_dists[i] = true_dists[i]
