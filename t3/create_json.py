@@ -35,16 +35,16 @@ baseline = {
         "recall":       [0.850, 2190.829], 
         "qps":          [1484.217, 0.869],
         "wspq":         [0.0],      # TODO: placeholder
-        "min-recall":   0.850,      # not 0.9 because baseline could not reach 0.9
-        "min-qps":      1484.217,   # not 2K because baseline could not reach 2K
+        "min-recall":   0.9,      # 0.85 # not 0.9 because baseline could not reach 0.9
+        "min-qps":      2000,       # 1484.217,   # not 2K because baseline could not reach 2K
         "min-wspq":     0.0
     },
     "text2image-1B": {
         "recall":       [0.860, 2120.635],
         "qps":          [1510.624, 0.882],
         "wspq":         [0.0],      # TODO: placeholder
-        "min-recall":   0.860,      # not 0.9 because baseline could not reach 0.9
-        "min-qps":      1510.624,   # not 2K because baseline could not reach 2K
+        "min-recall":   0.850,      # 0.86 # not 0.9 because baseline could not reach 0.9
+        "min-qps":      2000,       # 1510.624,   # not 2K because baseline could not reach 2K
         "min-wspq":     0.0         # TODO: placeholder
     },
     "ssnpp-1B": {
