@@ -39,6 +39,14 @@ def compute_recall_with_distance_ties(true_ids, true_dists, run_ids, count):
         add_ids = true_ids[ len(new_true_ids): len(new_true_ids)+len(group[1]) ] 
         new_true_ids = np.append( new_true_ids, add_ids )
 
+    #GW - The following was useful during debugging 
+    #if found_tie: 
+    #    print("TIE")
+    #    print("new_true_ids",new_true_ids)
+    #    print("orig_true_dists(trunc)",true_dists[0:len(new_true_ids)])
+    #    print("grouping up to count", grouping_count)
+    #    print("run_ids", run_ids)
+
     # calc recall via set intersection
     recall =  len(set(new_true_ids) & set(run_ids))
 
