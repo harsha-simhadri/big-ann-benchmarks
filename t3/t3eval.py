@@ -54,7 +54,7 @@ class Evaluator():
         self.verbose = verbose
         self.evals = {} 
 
-    def eval_all(self):
+    def eval_all(self ):
         '''Evaluate all the competition datasets.'''
         
         self.evals = {}
@@ -67,6 +67,7 @@ class Evaluator():
                 (num_qual_datasets, len(self.baseline["datasets"].keys())))
        
         if self.verbose: print("This submission has qualified for the competition.")
+
         return True
 
     def show_summary(self, savepath=None):
