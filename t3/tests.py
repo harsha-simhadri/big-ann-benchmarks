@@ -27,7 +27,7 @@ def main_tests():
         #  compute recall, consider ties
         recall = get_recall_values( (true_ids, true_dists), run_ids, count, True)
         expected = 1.0
-        print("compute recall(consider ties)=%f num_ties=%d" % (recall[0], recall[3]), "expected recall=%f" % expected_with_ties)
+        print("compute recall(consider ties)=%f num_queries_with_ties=%d" % (recall[0], recall[3]), "expected recall=%f" % expected_with_ties)
         if ASSERT:
             assert recall[0]==expected_with_ties
             print("passed")
