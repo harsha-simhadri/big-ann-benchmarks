@@ -28,7 +28,6 @@ def main_tests():
         recall = get_recall_values( (true_ids, true_dists), run_ids, count, True)
         expected = 1.0
         print("compute recall(consider ties)=%f num_ties=%d" % (recall[0], recall[3]), "expected recall=%f" % expected_with_ties)
-        print("rc", recall)
         if ASSERT:
             assert recall[0]==expected_with_ties
             print("passed")
@@ -54,6 +53,7 @@ def main_tests():
     true_dists  = np.array([ [ 0.0, 1.0, 2.0, 3.0 ] ])
     run_ids     = np.array([ [ 0,   1,   2        ] ])
     count=3
+    print("yuk true_ids=", true_ids.shape, "run_ids=", run_ids.shape)
     test_recall( true_ids, true_dists, run_ids, count, 1.0, 1.0 )
 
     print("TEST: fake query response with an out-of-bounds distance ties, 1 query, k=3, GT array is larger than run array.")
@@ -76,7 +76,14 @@ def main_tests():
     true_dists  = np.array([ [ 0.0, 0.0, 1.0, 2.0 ], [ 0.0, 0.0, 1.0, 2.0 ] ])
     run_ids     = np.array([ [ 0,   1,        3   ], [ 3,   2,        0   ] ])
     count=3
-    test_recall( true_ids, true_dists, run_ids, count, 1.0, 1.0)
+    test_recall( true_ids, true_dists, run_ids, count, np.mean([2.0,2.0])/count, 1.0)
+    
+    print("TEST: fake query response with ties in middle, 2 queries and k=3")
+    true_ids    = np.array([ [ 0,   1,   2,   3   ], [ 3,   2,   1,   0   ] ])
+    true_dists  = np.array([ [ 0.0, 1.0, 1.0, 2.0 ], [ 0.0, 1.0, 1.0, 2.0 ] ])
+    run_ids     = np.array([ [ 0,   1,        3   ], [ 3,   2,        0   ] ])
+    count=3
+    test_recall( true_ids, true_dists, run_ids, count, np.mean([2.0,2.0])/count, 1.0)
     
     print("TEST: fake query response with ties at count-1 and 1 tie after, 2 queries and k=3")
     true_ids    = np.array([ [ 0,   1,   2,   3   ], [ 3,   2,   1,   0   ] ])
@@ -95,7 +102,7 @@ def main_tests():
     #
     # dataset tests
     #
-    def test_GT_monotonicity( dset ):
+    def test_GT_monotonicity( dset, increasing=True ):
         print("TEST: %s, checking GT distances monotonicity" % dset)
         dataset = DATASETS[dset]()
         gt = dataset.get_groundtruth()
@@ -105,9 +112,10 @@ def main_tests():
         if ASSERT:
             assert true_ids.shape[1]==true_dists.shape[1]
             assert true_ids.shape[1]>=GT_MIN_SIZE 
-            assert true_dists.shape[1]>=GT_MIN_SIZE 
+            assert true_dists.shape[1]>=GT_MIN_SIZE
+        func = monotone_increasing if increasing else monotone_decreasing 
         for i in range(true_dists.shape[0]):
-            mtest = monotone_increasing(true_dists[i])
+            mtest = func(true_dists[i])
             if ASSERT: assert mtest==True
         print()
     
@@ -127,7 +135,7 @@ def main_tests():
     test_GT_monotonicity( "deep-1B" )
     test_GT_monotonicity( "msturing-1B" )
     test_GT_monotonicity( "msspacev-1B" )
-    test_GT_monotonicity( "text2image-1B" )
+    test_GT_monotonicity( "text2image-1B", increasing=False)
 
     #
     # test recall on actual datasets
