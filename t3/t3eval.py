@@ -8,14 +8,12 @@ import matplotlib.pyplot as plt
 import math
 import traceback
 
-DATASETS        = [ "deep-1B", "bigann-1B", "text2image-1B", "msturing-1B", "msspacev-1B", "ssnpp-1B" ]
-MIN_NUM_DATASETS= 3 # Set to 0 for no minimum
-MAX_RUN_PARMS   = 10 # Competition rule
- 
 class Evaluator():
     '''Useful evaluation functionality for the T3 track.'''
 
-    def __init__(self, algoname, csv, baseline_path, comp_path, system_cost=None, verbose=False, is_baseline=False, pending=[] ):
+    def __init__(self,  algoname, csv, baseline_path, comp_path, system_cost=None, 
+                        verbose=False, is_baseline=False, pending=[], print_best=False, 
+                        show_baseline_table=False ):
         '''Constructor performs sanity and some competition rule checks.'''
 
         if sys.version_info[0] < 3:
@@ -44,13 +42,15 @@ class Evaluator():
         self.df = pd.read_csv( csv )
         datasets = self.df.dataset.unique()
         if verbose: print("Found unique datasets:", datasets)
-        if len(datasets)< MIN_NUM_DATASETS:
+        if len(datasets)< self.competition["min_qual_dsets"]:
             raise Exception("Minimum number of datasets not met.")
    
         self.algoname = algoname 
         self.system_cost = system_cost
         self.is_baseline = is_baseline
         self.pending = pending
+        self.print_best = print_best
+        self.show_baseline_table = show_baseline_table
         self.verbose = verbose
         self.evals = {} 
 
@@ -58,12 +58,13 @@ class Evaluator():
         '''Evaluate all the competition datasets.'''
         
         self.evals = {}
-        for dataset in DATASETS:
+        for dataset in self.baseline["datasets"].keys():
             self.eval_dataset(dataset)
 
         num_qual_datasets = len( list(self.evals.keys() ) )
-        if num_qual_datasets< MIN_NUM_DATASETS and not self.is_baseline:
-            raise Exception("Submission does support enough datasets (%d/%d) to qualify." % (num_qual_datasets, len(DATASETS)))
+        if num_qual_datasets< self.competition["min_qual_dsets"] and not self.is_baseline:
+            raise Exception("Submission does support enough datasets (%d/%d) to qualify." % 
+                (num_qual_datasets, len(self.baseline["datasets"].keys())))
        
         if self.verbose: print("This submission has qualified for the competition.")
         return True
@@ -76,7 +77,7 @@ class Evaluator():
 
         # prepare a dictionary for dataframe
         summary = {}
-        for dataset in DATASETS:
+        for dataset in self.baseline["datasets"].keys():
             if not dataset in list(self.evals.keys()):
                     cols = [ None, None, None, None ]
             else:
@@ -94,27 +95,27 @@ class Evaluator():
             # compute ranking scores (for final row)
             #
             if self.verbose: print("computing scores")
-            scores = [0, 0, np.nan, np.nan] # TODO: power and cost not ready yet
-            for dataset in DATASETS:
+            scores = [0, 0, 0, 0] 
+            for dataset in self.baseline["datasets"].keys():
                 if summary[dataset][0]: # recall
-                    diff = summary[dataset][0] - self.baseline[dataset]["recall"][0]
+                    diff = summary[dataset][0] - self.baseline["datasets"][dataset]["recall"][0]
                     if self.verbose: print("diff recall",dataset,diff)
                     scores[0] += diff
 
                 if summary[dataset][1]: # throughput
-                    diff = summary[dataset][1] - self.baseline[dataset]["qps"][0]
+                    diff = summary[dataset][1] - self.baseline["datasets"][dataset]["qps"][0]
                     if self.verbose: print("diff qps",dataset,diff)
                     scores[1] += diff 
 
-                #TODO: power and cost scoring not ready yet
-                #if summary[dataset][2]:
-                #    diff = 0
-                #    if self.verbose: print("diff power",dataset,diff)
-                #    scores[2] += diff
-                #if summary[dataset][3]:
-                #    diff = 0
-                #    if self.verbose: print("diff cost",dataset,diff)
-                #    scores[3] += diff
+                if summary[dataset][2]: # power
+                    diff = summary[dataset][2] - self.baseline["datasets"][dataset]["wspq"][0]
+                    if self.verbose: print("diff power",dataset,diff)
+                    scores[2] += diff
+
+                if summary[dataset][3]: # cost
+                    diff = summary[dataset][2] - self.baseline["datasets"][dataset]["cost"]
+                    if self.verbose: print("diff cost",dataset,diff)
+                    scores[3] += diff
                 
             idx = list(summary.keys()) + ["ranking-score"]
             summary["ranking-score"] = scores
@@ -125,16 +126,12 @@ class Evaluator():
             summary["ranking-score"] = [0.0, 0.0, 0.0, 0.0]
             if self.verbose: print("summary", summary)
 
-        #else:
-        #    idx = list(summary.keys()) + ["ranking-score"]
-        #    summary["ranking-score"] = [ np.nan, np.nan, np.nan, np.nan ]
-       
         df = pd.DataFrame(summary.values(),columns=['recall','qps','power','cost'],index=idx)
         if self.verbose: print(df)
 
         title = "BigANN Benchmarks Competition Summary For '%s'" % self.algoname
 
-        # try to display a table when run in jupyter
+        # try to display a summary table when run in jupyter
         try:
             from IPython.display import display, HTML
             df['cost'] = df['cost'].map( lambda x: '{:,.2f}'.format(x) if not np.isnan(x) else np.nan )
@@ -156,18 +153,46 @@ class Evaluator():
             except:
                 traceback.print_exc()
 
+        # possibly show the baseline table as well 
+        if not self.is_baseline and self.show_baseline_table: 
+            summary = {}
+            for dataset in self.baseline["datasets"].keys():
+                cols = [ self.baseline["datasets"][dataset]["recall"][0],
+                    self.baseline["datasets"][dataset]["qps"][0],
+                    self.baseline["datasets"][dataset]["wspq"][0],
+                    self.baseline["datasets"][dataset]["cost"] ]
+                summary[dataset] = cols
+            
+            idx = list(summary.keys())
+            df = pd.DataFrame(summary.values(),columns=['recall','qps','power','cost'],index=idx)
+            if self.verbose: print(df)
+
+            title = "BigANN Benchmarks Baseline"
+
+            # try to display table when run in jupyter
+            try:
+                from IPython.display import display, HTML
+                df['cost'] = df['cost'].map( lambda x: '{:,.2f}'.format(x) if not np.isnan(x) else np.nan )
+                df = df.replace(np.nan,'')
+
+                html = df.to_html()
+                html = "<b>%s</b><br>" % title + html
+                #print(html)
+                display(HTML(html))
+            except:
+                traceback.print_exc()
+
     def eval_dataset(self, dataset):
         '''Eval benchmarks for a dataset.'''
       
-        if not dataset in DATASETS:
+        if not dataset in self.baseline["datasets"].keys():
             raise Exception("Not a valid dataset (%s)" % dataset)
 
-        if self.verbose: 
-            print()
-            print("evaluating %s" % dataset)
+        if self.verbose: print()
+        print("evaluating %s" % dataset)
 
         rows = self.df.loc[ self.df['dataset'] == dataset ] 
-        if rows.shape[0]>MAX_RUN_PARMS:
+        if rows.shape[0]> self.competition["max_run_params"]:
             print("Invalid number of run parameters at %d" % rows.shape[0])
             return False
 
@@ -186,8 +211,8 @@ class Evaluator():
         if self.verbose: print("parameters", parameters)
 
         # get qualifying run parameters
-        baseline_recall = self.baseline[dataset]["recall"][0]
-        min_qps = self.baseline[dataset]["min-qps"]
+        baseline_recall = self.baseline["datasets"][dataset]["recall"][0]
+        min_qps = self.baseline["datasets"][dataset]["min-qps"]
         if self.verbose: print("for recall, min_qps=", min_qps)
         if self.is_baseline:
             qualifiers = [ el for el in list(zip(qps, recall, parameters)) if el[0]>=min_qps ]
@@ -195,9 +220,9 @@ class Evaluator():
                 if self.verbose: print("qualifiers at min_qps=%f" % min_qps, qualifiers)
                 best_recall = sorted(qualifiers,key=lambda x: x[1])[-1]
             else:
-                if self.verbose: print("NO qualifiers meeting min_qps %f, trying without..." % min_qps)
+                if self.verbose: print("WARNING: NO qualifiers meeting min_qps %f, trying without..." % min_qps)
                 qualifiers = [ el for el in list(zip(qps, recall, parameters)) ]
-                if self.verbose: print("NEW qualifiers", qualifiers)
+                if self.verbose: print("WARNING: NEW qualifiers no min_qps", qualifiers)
                 best_recall = sorted(qualifiers, key=lambda x: x[0][-1]) # sort by highest qps we got and take that recall
         else:
             qualifiers = [ el for el in list(zip(qps,recall, parameters)) if el[0]>=min_qps ]
@@ -206,20 +231,20 @@ class Evaluator():
                 print("NO qualifying recall runs.")
                 return False
             best_recall = sorted(qualifiers,key=lambda x: x[1])[-1] # sort by highest recall and take the highest
-        if self.verbose: print("Best recall at", best_recall, "via", qualifiers[-1])
+        if self.verbose or self.print_best: print("Best recall at", best_recall, "via", qualifiers[-1])
 
         #
         # eval throughput benchmark
         #
-        baseline_qps = self.baseline[dataset]["qps"][0]
-        min_recall = self.baseline[dataset]["min-recall"]
+        baseline_qps = self.baseline["datasets"][dataset]["qps"][0]
+        min_recall = self.baseline["datasets"][dataset]["min-recall"]
         if self.verbose: print("for throughput, min_recall=", min_recall)
         if self.is_baseline:
             qualifiers = [ el for el in list(zip(recall, qps, parameters)) if el[0]>=min_recall ]
             if len(qualifiers)==0: 
-                if self.verbose: print("NO qualifiers meeting min_recall %f, trying without..." % min_recall)
+                if self.verbose: print("WARNING: NO qualifiers meeting min_recall %f, trying without..." % min_recall)
                 qualifiers = [ el for el in list(zip(recall, qps, parameters)) ]
-                if self.verbose: print("qualifiers no min_recall", qualifiers)
+                if self.verbose: print("WARNING: NEW qualifiers no min_recall", qualifiers)
                 best_qps = sorted(qualifiers,key=lambda x: x[1])[-1] # sort by highest recall and take that qps
             else:
                 if self.verbose: print("qualifiers at min_recall=%f" % min_recall, qualifiers)
@@ -231,7 +256,7 @@ class Evaluator():
                 print("No qualifying throughput runs.")
                 return False
             best_qps = sorted(qualifiers,key=lambda x: x[1])[-1]
-        if self.verbose: print("Best qps at ", best_qps, "via", qualifiers[-1])
+        if self.verbose or self.print_best: print("Best qps at ", best_qps, "via", qualifiers[-1])
 
         #
         # eval power benchmark
@@ -241,17 +266,17 @@ class Evaluator():
         qualifiers = [ el for el in list(zip(recall, qps, wspq, parameters )) if el[0]>=min_recall and el[1]>min_qps ]
         if self.verbose: print("qualifiers at min_qps=%f and min_recall=%f" % (min_qps, min_recall), qualifiers)
         if len(qualifiers)==0:
-            if self.verbose: print("NO qualifying power runs meeting both min_qps and min_recall...")
+            if self.verbose: print("WARNING: NO qualifying power runs meeting both min_qps and min_recall...")
             # fall back to min_recall threshold
             qualifiers = [ el for el in list(zip(recall, qps, wspq, parameters)) if el[0]>=min_recall ]
             if len(qualifiers)==0:
                 qualifiers = [ el for el in list(zip(recall, qps, wspq, parameters)) ]
-                if self.verbose: print("qualifiers at min_recall=%f" % min_recall, qualifiers)
+                if self.verbose: print("WARNING: NEW qualifiers at min_recall=%f" % min_recall, qualifiers)
                 if len(qualifiers)==0:
                     print("No qualifying power runs meeting min_recall...")
                     return False
         best_wspq = sorted(qualifiers,key=lambda x: x[2])[0]
-        if self.verbose: print("Best power at", best_wspq, qualifiers[-1])
+        if self.verbose or self.print_best: print("Best power at", best_wspq, qualifiers[-1])
 
         #
         # eval cost benchmark
