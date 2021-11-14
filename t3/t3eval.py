@@ -53,8 +53,9 @@ class Evaluator():
         self.show_baseline_table = show_baseline_table
         self.verbose = verbose
         self.evals = {} 
+        self.summary = None
 
-    def eval_all(self ):
+    def eval_all(self, compute_score=True, save_path=None ):
         '''Evaluate all the competition datasets.'''
         
         self.evals = {}
@@ -68,6 +69,66 @@ class Evaluator():
        
         if self.verbose: print("This submission has qualified for the competition.")
 
+        if compute_score:
+
+            # prepare a dictionary for dataframe
+            summary = {}
+            for dataset in self.baseline["datasets"].keys():
+                if not dataset in list(self.evals.keys()):
+                        cols = [ None, None, None, None ]
+                else:
+                    if dataset in self.pending:
+                        cols = [ None, None, None, None ]
+                    else:
+                        cols = [ self.evals[dataset]["best_recall"][1],
+                            self.evals[dataset]["best_qps"][1],
+                            self.evals[dataset]["best_wspq"][2],
+                            self.evals[dataset]["cost"] ]
+                summary[dataset] = cols
+          
+            if not self.is_baseline:
+                # 
+                # compute ranking scores (for final row)
+                #
+                if self.verbose: print("computing scores")
+                scores = [0, 0, 0, 0] 
+                for dataset in self.baseline["datasets"].keys():
+                    if summary[dataset][0]: # recall
+                        diff = summary[dataset][0] - self.baseline["datasets"][dataset]["recall"][0]
+                        if self.verbose: print("diff recall",dataset,diff)
+                        scores[0] += diff
+
+                    if summary[dataset][1]: # throughput
+                        diff = summary[dataset][1] - self.baseline["datasets"][dataset]["qps"][0]
+                        if self.verbose: print("diff qps",dataset,diff)
+                        scores[1] += diff 
+
+                    if summary[dataset][2]: # power
+                        diff = summary[dataset][2] - self.baseline["datasets"][dataset]["wspq"][0]
+                        if self.verbose: print("diff power",dataset,diff)
+                        scores[2] += diff
+
+                    if summary[dataset][3]: # cost
+                        diff = summary[dataset][2] - self.baseline["datasets"][dataset]["cost"]
+                        if self.verbose: print("diff cost",dataset,diff)
+                        scores[3] += diff
+                    
+                idx = list(summary.keys()) + ["ranking-score"]
+                summary["ranking-score"] = scores
+                if self.verbose: print("summary", summary)
+            else: # is_baseline=True
+                # by definition, the baseline score is zero
+                idx = list(summary.keys()) 
+                if self.verbose: print("summary", summary)
+
+            self.summary = summary
+
+            df = pd.DataFrame(self.summary.values(),columns=['recall','qps','power','cost'],index=idx)
+            if self.verbose: print(df)
+            if save_path:
+                df.to_csv(save_path)
+                if self.verbose: print("Saved CSV to", save_path)
+
         return True
 
     def show_summary(self, savepath=None):
@@ -76,58 +137,11 @@ class Evaluator():
         if not self.evals:
             raise Exception("No evaluation was performed yet.")
 
-        # prepare a dictionary for dataframe
-        summary = {}
-        for dataset in self.baseline["datasets"].keys():
-            if not dataset in list(self.evals.keys()):
-                    cols = [ None, None, None, None ]
-            else:
-                if dataset in self.pending:
-                    cols = [ None, None, None, None ]
-                else:
-                    cols = [ self.evals[dataset]["best_recall"][1],
-                        self.evals[dataset]["best_qps"][1],
-                        self.evals[dataset]["best_wspq"][2],
-                        self.evals[dataset]["cost"] ]
-            summary[dataset] = cols
-      
-        if not self.is_baseline:
-            # 
-            # compute ranking scores (for final row)
-            #
-            if self.verbose: print("computing scores")
-            scores = [0, 0, 0, 0] 
-            for dataset in self.baseline["datasets"].keys():
-                if summary[dataset][0]: # recall
-                    diff = summary[dataset][0] - self.baseline["datasets"][dataset]["recall"][0]
-                    if self.verbose: print("diff recall",dataset,diff)
-                    scores[0] += diff
-
-                if summary[dataset][1]: # throughput
-                    diff = summary[dataset][1] - self.baseline["datasets"][dataset]["qps"][0]
-                    if self.verbose: print("diff qps",dataset,diff)
-                    scores[1] += diff 
-
-                if summary[dataset][2]: # power
-                    diff = summary[dataset][2] - self.baseline["datasets"][dataset]["wspq"][0]
-                    if self.verbose: print("diff power",dataset,diff)
-                    scores[2] += diff
-
-                if summary[dataset][3]: # cost
-                    diff = summary[dataset][2] - self.baseline["datasets"][dataset]["cost"]
-                    if self.verbose: print("diff cost",dataset,diff)
-                    scores[3] += diff
-                
-            idx = list(summary.keys()) + ["ranking-score"]
-            summary["ranking-score"] = scores
-            if self.verbose: print("summary", summary)
-        else:
-            # by definition, the baseline score is zero
-            idx = list(summary.keys()) + ["ranking-score"]
-            summary["ranking-score"] = [0.0, 0.0, 0.0, 0.0]
-            if self.verbose: print("summary", summary)
-
-        df = pd.DataFrame(summary.values(),columns=['recall','qps','power','cost'],index=idx)
+        if not self.summary:
+            raise Exception("No summary to show.")
+            
+        idx = list(self.summary.keys()) 
+        df = pd.DataFrame(self.summary.values(),columns=['recall','qps','power','cost'],index=idx)
         if self.verbose: print(df)
 
         title = "BigANN Benchmarks Competition Summary For '%s'" % self.algoname
@@ -154,7 +168,7 @@ class Evaluator():
             except:
                 traceback.print_exc()
 
-        # possibly show the baseline table as well 
+        # possibly show the baseline table as well in jupyter 
         if not self.is_baseline and self.show_baseline_table: 
             summary = {}
             for dataset in self.baseline["datasets"].keys():
@@ -513,8 +527,8 @@ if __name__ == "__main__": # Unit test
                             "competition2021.json", 
                             10000.0, 
                             True)
-    evaluator.eval_all()
-    evaluator.show_summary(savepath="test_summary.png")
+    evaluator.eval_all(save_path="/tmp/test_competition_benchmarks.csv")
+    evaluator.show_summary(savepath="/tmp/test_summary.png")
     
     for dataset in evaluator.baseline["datasets"]:
         evaluator.plot_recall(dataset, savepath="/tmp/test_%s_recall.png" % dataset)
