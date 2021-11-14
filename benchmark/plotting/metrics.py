@@ -1,26 +1,83 @@
 from __future__ import absolute_import
 import numpy as np
-from benchmark.plotting.eval_range_search import compute_AP
+import itertools
+import operator
+import random
+import sys
+import copy
 
+from benchmark.plotting.eval_range_search import compute_AP
 from benchmark.sensors.power_capture import power_capture
 
-def get_recall_values(true_nn, run_nn, count):
-    true_nn, _ = true_nn
-    true_nn = true_nn[:, :count]
-    assert true_nn.shape == run_nn.shape
+def compute_recall_without_distance_ties(true_ids, run_ids, count):
+    return len(set(true_ids) & set(run_ids))
+
+def compute_recall_with_distance_ties(true_ids, true_dists, run_ids, count):
+   
+    # create new list which replaces very close dists with exact duplicates
+    new_dists = np.empty( true_dists.shape[0] )
+    dup_candidate= true_dists[0]
+    new_dists[0] = dup_candidate
+    for i in range(1,true_dists.shape[0]):
+        if abs(true_dists[i]-dup_candidate)<=1e-6: 
+            new_dists[i] = dup_candidate
+        else:       
+            new_dists[i] = true_dists[i]
+            dup_candidate=true_dists[i]
+ 
+    # locate consecutive dists and group them
+    grouping_all= [ (a,list(b)) for a,b in itertools.groupby(new_dists) ]
+
+    # take only a max of 'count' groups
+    grouping_count = grouping_all[0:count]
+   
+    # create new true_ids from the count-based subset of the groupings
+    new_true_ids = np.empty(0)
+    found_tie = False
+    for group in grouping_count:
+        if len(group[1])>1: found_tie = True
+        add_ids = true_ids[ len(new_true_ids): len(new_true_ids)+len(group[1]) ] 
+        new_true_ids = np.append( new_true_ids, add_ids )
+
+    #GW - The following was useful during debugging 
+    #if found_tie: 
+    #    print("TIE")
+    #    print("new_true_ids",new_true_ids)
+    #    print("orig_true_dists(trunc)",true_dists[0:len(new_true_ids)])
+    #    print("grouping up to count", grouping_count)
+    #    print("run_ids", run_ids)
+
+    # calc recall via set intersection
+    recall =  len(set(new_true_ids) & set(run_ids))
+
+    return recall, found_tie
+
+def get_recall_values(true_nn, run_nn, count, count_ties=True):
+    true_ids, true_dists = true_nn
+    if not count_ties:
+        true_ids = true_ids[:, :count]
+        assert true_ids.shape == run_nn.shape
     recalls = np.zeros(len(run_nn))
+    queries_with_ties = 0
     # TODO probably not very efficient
     for i in range(len(run_nn)):
-        recalls[i] = len(set(true_nn[i]) & set(run_nn[i]))
+        if count_ties:
+            recalls[i], found_tie = compute_recall_with_distance_ties(true_ids[i], true_dists[i], run_nn[i], count)
+            if found_tie: queries_with_ties += 1 
+        else:
+            recalls[i] = compute_recall_without_distance_ties(true_ids[i], run_nn[i], count)
     return (np.mean(recalls) / float(count),
             np.std(recalls) / float(count),
-            recalls)
+            recalls,
+            queries_with_ties)
 
 def knn(true_nn, run_nn, count, metrics):
     if 'knn' not in metrics:
         print('Computing knn metrics')
         knn_metrics = metrics.create_group('knn')
-        mean, std, recalls = get_recall_values(true_nn, run_nn, count)
+        mean, std, recalls, queries_with_ties = get_recall_values(true_nn, run_nn, count)
+        if queries_with_ties>0:
+            print("Warning: %d/%d queries contained ties accounted for in recall" % (queries_with_ties, len(run_nn)))
         knn_metrics.attrs['mean'] = mean
         knn_metrics.attrs['std'] = std
         knn_metrics['recalls'] = recalls
