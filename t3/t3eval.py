@@ -38,7 +38,6 @@ class Evaluator():
             if verbose: print("baseline metrics", self.baseline)
         
         # read the competition json
-        print("comp_path", comp_path)
         with open(comp_path) as j_file:
             self.competition = json.load(j_file)
         if verbose: print("competition constants", self.competition)
@@ -114,7 +113,7 @@ class Evaluator():
                         scores[2] += diff
 
                     if summary[dataset][3]: # cost
-                        diff = summary[dataset][2] - self.baseline["datasets"][dataset]["cost"][0]
+                        diff = summary[dataset][3] - self.baseline["datasets"][dataset]["cost"][0]
                         if self.verbose: print("diff cost",dataset,diff)
                         scores[3] += diff
                     
@@ -164,8 +163,6 @@ class Evaluator():
                 "min-wspq":     [ 0.0 ],
                 "system_cost":  self.system_cost
             }
-
-            print("BASELINE", dataset, baseline["datasets"][dataset])
 
         if self.verbose: print(baseline)
 
@@ -270,7 +267,7 @@ class Evaluator():
         if self.verbose: print("parameters", parameters)
 
         # get qualifying run parameters
-        if self.is_baseline:
+        if True: #self.is_baseline:
             min_qps = self.competition["min_qps"]
             if self.verbose: print("for recall, min_qps=", min_qps)
             qualifiers = [ el for el in list(zip(qps, recall, parameters)) if el[0]>=min_qps ]
@@ -280,14 +277,12 @@ class Evaluator():
             else:
                 if self.verbose: print("WARNING: NO qualifiers meeting min_qps %f, trying without..." % min_qps)
                 qualifiers = [ el for el in list(zip(qps, recall, parameters)) ]
-                print("BASELINE RECALL QUALIFIERS", qualifiers)
                 if self.verbose: print("WARNING: NEW qualifiers no min_qps", qualifiers)
                 best_recall = sorted(qualifiers, key=lambda x: x[1][-1]) # sort by highest recall and take it
-        else:
+        if False: #else
             min_qps = self.baseline["datasets"][dataset]["min-qps"]
             if self.verbose: print("for recall, min_qps=", min_qps)
             qualifiers = [ el for el in list(zip(qps,recall, parameters)) if el[0]>=min_qps ]
-            print("RECALL QUALIFIERS", dataset, min_qps, qualifiers)
             if self.verbose: print("qualifiers at min_qps=%f" % min_qps, qualifiers)
             if len(qualifiers)==0:
                 print("NO qualifying recall runs.")
@@ -298,7 +293,7 @@ class Evaluator():
         #
         # eval throughput benchmark
         #
-        if self.is_baseline:
+        if True: #self.is_baseline:
             min_recall = self.competition["min_recall"]
             if self.verbose: print("for throughput, min_recall=", min_recall)
             qualifiers = [ el for el in list(zip(recall, qps, parameters)) if el[0]>=min_recall ]
@@ -307,23 +302,19 @@ class Evaluator():
                 qualifiers = [ el for el in list(zip(recall, qps, parameters)) ]
                 if self.verbose: print("WARNING: NEW qualifiers no min_recall", qualifiers)
                 best_qps = sorted(qualifiers,key=lambda x: x[0])[-1] # sort by highest recall and take that qps
-                print("BASELINEBEST_QPS", best_qps)
             else:
                 if self.verbose: print("qualifiers at min_recall=%f" % min_recall, qualifiers)
                 best_qps = sorted(qualifiers,key=lambda x: x[1])[-1] # sort by highest qps and take that qps
-                print("BASELINEBEST_QPS", best_qps)
-        else:
+        if False: #else:
             min_recall = self.baseline["datasets"][dataset]["min-recall"]
-            print("SUBM MIN RECALL", min_recall)
             if self.verbose: print("for throughput, min_recall=", min_recall)
             qualifiers = [ el for el in list(zip(recall,qps, parameters)) if el[0]>=min_recall ]
-            print("SUBM QPS QUALIFIERS", dataset, min_recall, qualifiers)
             if self.verbose: print("qualifiers at min_recall=%f" % min_recall, qualifiers)
             if len(qualifiers)==0:
                 print("NO qualifying throughput runs.")
                 return False
             best_qps = sorted(qualifiers,key=lambda x: x[0])[-1] # sort by highest recall and take that qps
-        print("BEST_QPS", best_qps)
+
         if self.verbose or self.print_best: print("Best qps at ", best_qps, "via", qualifiers[-1])
 
         #
@@ -598,7 +589,8 @@ if __name__ == "__main__": # Unit test
                             "test.csv",
                             "competition2021.json", 
                             system_cost=22021.90, 
-                            is_baseline=True )
+                            is_baseline=True,
+                            verbose=False)
     evaluator.eval_all(save_path="/tmp/test_baseline_competition_benchmarks.csv")
     evaluator.commit_baseline("/tmp/baseline2021.json")
     evaluator.show_summary(savepath="/tmp/test_baseline_summary.png")
@@ -606,7 +598,7 @@ if __name__ == "__main__": # Unit test
         evaluator.plot_recall(dataset, savepath="/tmp/test_baseline_%s_recall.png" % dataset)
         evaluator.plot_throughput(dataset, savepath="/tmp/test_baseline_%s_throughput.png" % dataset)
         evaluator.plot_power(dataset, savepath="/tmp/test_baseline_%s_power.png" % dataset)
-    
+ 
     # simulate evaluating a submission
     print("Simulating submission evaluation...")
     evaluator = Evaluator(  "Test_Submission",
