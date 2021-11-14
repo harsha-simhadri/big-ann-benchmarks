@@ -19,7 +19,7 @@ def compute_recall_with_distance_ties(true_ids, true_dists, run_ids, count):
     dup_candidate= true_dists[0]
     new_dists[0] = dup_candidate
     for i in range(1,true_dists.shape[0]):
-        if abs(true_dists[i]-dup_candidate)<1e-6: 
+        if abs(true_dists[i]-dup_candidate)<=1e-6: 
             new_dists[i] = dup_candidate
         else:       
             new_dists[i] = true_dists[i]
@@ -38,6 +38,14 @@ def compute_recall_with_distance_ties(true_ids, true_dists, run_ids, count):
         if len(group[1])>1: found_tie = True
         add_ids = true_ids[ len(new_true_ids): len(new_true_ids)+len(group[1]) ] 
         new_true_ids = np.append( new_true_ids, add_ids )
+
+    #GW - The following was useful during debugging 
+    #if found_tie: 
+    #    print("TIE")
+    #    print("new_true_ids",new_true_ids)
+    #    print("orig_true_dists(trunc)",true_dists[0:len(new_true_ids)])
+    #    print("grouping up to count", grouping_count)
+    #    print("run_ids", run_ids)
 
     # calc recall via set intersection
     recall =  len(set(new_true_ids) & set(run_ids))

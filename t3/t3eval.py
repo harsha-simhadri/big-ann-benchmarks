@@ -11,7 +11,7 @@ import traceback
 class Evaluator():
     '''Useful evaluation functionality for the T3 track.'''
 
-    def __init__(self,  algoname, csv, baseline_path, comp_path, system_cost=None, 
+    def __init__(self,  algoname, csv, comp_path, baseline_path=None, system_cost=None, 
                         verbose=False, is_baseline=False, pending=[], print_best=False, 
                         show_baseline_table=False ):
         '''Constructor performs sanity and some competition rule checks.'''
@@ -22,16 +22,20 @@ class Evaluator():
         if not os.path.exists(csv):
             raise Exception("CSV file does not exist.")
         
-        if not os.path.exists(baseline_path):
-            raise Exception("baseline file does not exist.")
-        
         if not os.path.exists(comp_path):
             raise Exception("competition file does not exist.")
 
+        if is_baseline and baseline_path:
+            raise Exception("cannot init with baseline_path while is_baseline=True")
+
         # read the baseline json
-        with open(baseline_path) as json_file:
-            self.baseline = json.load(json_file)
-        if verbose: print("baseline metrics", self.baseline)
+        if baseline_path:
+            if not os.path.exists(baseline_path):
+                raise Exception("baseline file does not exist.")
+
+            with open(baseline_path) as json_file:
+                self.baseline = json.load(json_file)
+            if verbose: print("baseline metrics", self.baseline)
         
         # read the competition json
         with open(comp_path) as j_file:
@@ -53,21 +57,119 @@ class Evaluator():
         self.show_baseline_table = show_baseline_table
         self.verbose = verbose
         self.evals = {} 
+        self.summary = None
 
-    def eval_all(self):
+    def eval_all(self, compute_score=True, save_path=None ):
         '''Evaluate all the competition datasets.'''
         
         self.evals = {}
-        for dataset in self.baseline["datasets"].keys():
+        for dataset in self.competition["datasets"]:
             self.eval_dataset(dataset)
 
         num_qual_datasets = len( list(self.evals.keys() ) )
         if num_qual_datasets< self.competition["min_qual_dsets"] and not self.is_baseline:
             raise Exception("Submission does support enough datasets (%d/%d) to qualify." % 
-                (num_qual_datasets, len(self.baseline["datasets"].keys())))
+                (num_qual_datasets, len(self.competition["datasets"])))
        
         if self.verbose: print("This submission has qualified for the competition.")
+
+        if compute_score:
+
+            # prepare a dictionary for dataframe
+            summary = {}
+            for dataset in self.competition["datasets"]:
+                if not dataset in list(self.evals.keys()):
+                        cols = [ None, None, None, None ]
+                else:
+                    if dataset in self.pending:
+                        cols = [ None, None, None, None ]
+                    else:
+                        cols = [ self.evals[dataset]["best_recall"][1],
+                            self.evals[dataset]["best_qps"][1],
+                            self.evals[dataset]["best_wspq"][2],
+                            self.evals[dataset]["cost"] ]
+                summary[dataset] = cols
+          
+            if not self.is_baseline:
+                # 
+                # compute ranking scores (for final row)
+                #
+                if self.verbose: print("computing scores")
+                scores = [0, 0, 0, 0] 
+                for dataset in self.competition["datasets"]:
+                    if summary[dataset][0]: # recall
+                        diff = summary[dataset][0] - self.baseline["datasets"][dataset]["recall"][0]
+                        if self.verbose: print("diff recall",dataset,diff)
+                        scores[0] += diff
+
+                    if summary[dataset][1]: # throughput
+                        diff = summary[dataset][1] - self.baseline["datasets"][dataset]["qps"][0]
+                        if self.verbose: print("diff qps",dataset,diff)
+                        scores[1] += diff 
+
+                    if summary[dataset][2]: # power
+                        diff = summary[dataset][2] - self.baseline["datasets"][dataset]["wspq"][0]
+                        if self.verbose: print("diff power",dataset,diff)
+                        scores[2] += diff
+
+                    if summary[dataset][3]: # cost
+                        diff = summary[dataset][3] - self.baseline["datasets"][dataset]["cost"][0]
+                        if self.verbose: print("diff cost",dataset,diff)
+                        scores[3] += diff
+                    
+                idx = list(summary.keys()) + ["ranking-score"]
+                summary["ranking-score"] = scores
+                if self.verbose: print("summary", summary)
+            else: # is_baseline=True
+                # by definition, the baseline score is zero
+                idx = list(summary.keys()) 
+                if self.verbose: print("summary", summary)
+
+            self.summary = summary
+
+            df = pd.DataFrame(self.summary.values(),columns=['recall','qps','power','cost'],index=idx)
+            if self.verbose: print(df)
+            if save_path:
+                df.to_csv(save_path)
+                if self.verbose: print("Saved CSV to", save_path)
+
         return True
+
+    def commit_baseline(self, save_path):
+        '''Commit this benchmark to a baseline config.'''
+
+        if not self.is_baseline:
+            raise Exception("This is not a baseline evaluation.")
+        
+        if not self.summary:
+            raise Exception("No summary available.")
+
+        baseline = {
+            "version":  "2021",
+            "datasets": {}
+        }
+
+        # summary 0=recall, 1=qps, 2=power, 3=cost
+        for dataset in self.competition["datasets"]:
+
+            s = self.summary[dataset]
+            baseline["datasets"][dataset] = {
+                "recall":       [ s[0] ],
+                "qps":          [ s[1] ],
+                "wspq":         [ s[2] ],
+                "cost":         [ s[3] ],
+                "min-recall":   self.competition["min_recall"] if s[0]>= self.competition["min_recall"] else s[0],
+                "min-qps":      self.competition["min_qps"] if s[1]>= self.competition["min_qps"] else s[1],
+                "min-wspq":     [ 0.0 ],
+                "system_cost":  self.system_cost
+            }
+
+        if self.verbose: print(baseline)
+
+        with open(save_path, 'w') as outfile:
+            json.dump(baseline, outfile)
+
+        print("Wrote new baseline json at %s" % save_path )
 
     def show_summary(self, savepath=None):
         '''Show the final benchmarks.'''
@@ -75,58 +177,11 @@ class Evaluator():
         if not self.evals:
             raise Exception("No evaluation was performed yet.")
 
-        # prepare a dictionary for dataframe
-        summary = {}
-        for dataset in self.baseline["datasets"].keys():
-            if not dataset in list(self.evals.keys()):
-                    cols = [ None, None, None, None ]
-            else:
-                if dataset in self.pending:
-                    cols = [ None, None, None, None ]
-                else:
-                    cols = [ self.evals[dataset]["best_recall"][1],
-                        self.evals[dataset]["best_qps"][1],
-                        self.evals[dataset]["best_wspq"][2],
-                        self.evals[dataset]["cost"] ]
-            summary[dataset] = cols
-      
-        if not self.is_baseline:
-            # 
-            # compute ranking scores (for final row)
-            #
-            if self.verbose: print("computing scores")
-            scores = [0, 0, 0, 0] 
-            for dataset in self.baseline["datasets"].keys():
-                if summary[dataset][0]: # recall
-                    diff = summary[dataset][0] - self.baseline["datasets"][dataset]["recall"][0]
-                    if self.verbose: print("diff recall",dataset,diff)
-                    scores[0] += diff
-
-                if summary[dataset][1]: # throughput
-                    diff = summary[dataset][1] - self.baseline["datasets"][dataset]["qps"][0]
-                    if self.verbose: print("diff qps",dataset,diff)
-                    scores[1] += diff 
-
-                if summary[dataset][2]: # power
-                    diff = summary[dataset][2] - self.baseline["datasets"][dataset]["wspq"][0]
-                    if self.verbose: print("diff power",dataset,diff)
-                    scores[2] += diff
-
-                if summary[dataset][3]: # cost
-                    diff = summary[dataset][2] - self.baseline["datasets"][dataset]["cost"]
-                    if self.verbose: print("diff cost",dataset,diff)
-                    scores[3] += diff
-                
-            idx = list(summary.keys()) + ["ranking-score"]
-            summary["ranking-score"] = scores
-            if self.verbose: print("summary", summary)
-        else:
-            # by definition, the baseline score is zero
-            idx = list(summary.keys()) + ["ranking-score"]
-            summary["ranking-score"] = [0.0, 0.0, 0.0, 0.0]
-            if self.verbose: print("summary", summary)
-
-        df = pd.DataFrame(summary.values(),columns=['recall','qps','power','cost'],index=idx)
+        if not self.summary:
+            raise Exception("No summary to show.")
+            
+        idx = list(self.summary.keys()) 
+        df = pd.DataFrame(self.summary.values(),columns=['recall','qps','power','cost'],index=idx)
         if self.verbose: print(df)
 
         title = "BigANN Benchmarks Competition Summary For '%s'" % self.algoname
@@ -142,7 +197,8 @@ class Evaluator():
             #print(html)
             display(HTML(html))
         except:
-            traceback.print_exc()
+            print("Hiding exception: This is likely not a jupyter environment.")
+            # traceback.print_exc()
 
         if savepath: # Try to save the table to an image file
             try:
@@ -153,10 +209,10 @@ class Evaluator():
             except:
                 traceback.print_exc()
 
-        # possibly show the baseline table as well 
+        # possibly show the baseline table as well in jupyter 
         if not self.is_baseline and self.show_baseline_table: 
             summary = {}
-            for dataset in self.baseline["datasets"].keys():
+            for dataset in self.competition["datasets"]:
                 cols = [ self.baseline["datasets"][dataset]["recall"][0],
                     self.baseline["datasets"][dataset]["qps"][0],
                     self.baseline["datasets"][dataset]["wspq"][0],
@@ -185,7 +241,7 @@ class Evaluator():
     def eval_dataset(self, dataset):
         '''Eval benchmarks for a dataset.'''
       
-        if not dataset in self.baseline["datasets"].keys():
+        if not dataset in self.competition["datasets"]:
             raise Exception("Not a valid dataset (%s)" % dataset)
 
         if self.verbose: print()
@@ -211,22 +267,23 @@ class Evaluator():
         if self.verbose: print("parameters", parameters)
 
         # get qualifying run parameters
-        baseline_recall = self.baseline["datasets"][dataset]["recall"][0]
-        min_qps = self.baseline["datasets"][dataset]["min-qps"]
-        if self.verbose: print("for recall, min_qps=", min_qps)
-        if self.is_baseline:
+        if True: #self.is_baseline:
+            min_qps = self.competition["min_qps"]
+            if self.verbose: print("for recall, min_qps=", min_qps)
             qualifiers = [ el for el in list(zip(qps, recall, parameters)) if el[0]>=min_qps ]
             if len(qualifiers)>0:
                 if self.verbose: print("qualifiers at min_qps=%f" % min_qps, qualifiers)
-                best_recall = sorted(qualifiers,key=lambda x: x[1])[-1]
+                best_recall = sorted(qualifiers,key=lambda x: x[1])[-1] # sort by highest recall and take it
             else:
                 if self.verbose: print("WARNING: NO qualifiers meeting min_qps %f, trying without..." % min_qps)
                 qualifiers = [ el for el in list(zip(qps, recall, parameters)) ]
                 if self.verbose: print("WARNING: NEW qualifiers no min_qps", qualifiers)
-                best_recall = sorted(qualifiers, key=lambda x: x[0][-1]) # sort by highest qps we got and take that recall
-        else:
+                best_recall = sorted(qualifiers, key=lambda x: x[1][-1]) # sort by highest recall and take it
+        if False: #else
+            min_qps = self.baseline["datasets"][dataset]["min-qps"]
+            if self.verbose: print("for recall, min_qps=", min_qps)
             qualifiers = [ el for el in list(zip(qps,recall, parameters)) if el[0]>=min_qps ]
-            if self.verbose: print("qualifiers at min_qps=%f and baseline_recall=%f" % (min_qps, baseline_recall), qualifiers)
+            if self.verbose: print("qualifiers at min_qps=%f" % min_qps, qualifiers)
             if len(qualifiers)==0:
                 print("NO qualifying recall runs.")
                 return False
@@ -236,26 +293,28 @@ class Evaluator():
         #
         # eval throughput benchmark
         #
-        baseline_qps = self.baseline["datasets"][dataset]["qps"][0]
-        min_recall = self.baseline["datasets"][dataset]["min-recall"]
-        if self.verbose: print("for throughput, min_recall=", min_recall)
-        if self.is_baseline:
+        if True: #self.is_baseline:
+            min_recall = self.competition["min_recall"]
+            if self.verbose: print("for throughput, min_recall=", min_recall)
             qualifiers = [ el for el in list(zip(recall, qps, parameters)) if el[0]>=min_recall ]
             if len(qualifiers)==0: 
                 if self.verbose: print("WARNING: NO qualifiers meeting min_recall %f, trying without..." % min_recall)
                 qualifiers = [ el for el in list(zip(recall, qps, parameters)) ]
                 if self.verbose: print("WARNING: NEW qualifiers no min_recall", qualifiers)
-                best_qps = sorted(qualifiers,key=lambda x: x[1])[-1] # sort by highest recall and take that qps
+                best_qps = sorted(qualifiers,key=lambda x: x[0])[-1] # sort by highest recall and take that qps
             else:
                 if self.verbose: print("qualifiers at min_recall=%f" % min_recall, qualifiers)
-                best_qps = sorted(qualifiers,key=lambda x: x[1])[-1] # sort by highest recall and take that qps
-        else:
+                best_qps = sorted(qualifiers,key=lambda x: x[1])[-1] # sort by highest qps and take that qps
+        if False: #else:
+            min_recall = self.baseline["datasets"][dataset]["min-recall"]
+            if self.verbose: print("for throughput, min_recall=", min_recall)
             qualifiers = [ el for el in list(zip(recall,qps, parameters)) if el[0]>=min_recall ]
-            if self.verbose: print("qualifiers at min_qps=%f and baseline_recall=%f" % (min_qps, baseline_recall), qualifiers)
+            if self.verbose: print("qualifiers at min_recall=%f" % min_recall, qualifiers)
             if len(qualifiers)==0:
-                print("No qualifying throughput runs.")
+                print("NO qualifying throughput runs.")
                 return False
-            best_qps = sorted(qualifiers,key=lambda x: x[1])[-1]
+            best_qps = sorted(qualifiers,key=lambda x: x[0])[-1] # sort by highest recall and take that qps
+
         if self.verbose or self.print_best: print("Best qps at ", best_qps, "via", qualifiers[-1])
 
         #
@@ -502,22 +561,56 @@ class Evaluator():
             if self.verbose: print("saving image to %s" % savepath )
             fig.savefig( savepath )
 
+def initialize_competition_json(save_path):
+    '''Create the competition config.'''
+
+    competition = {
+        "version":          "2021",
+        "kwh_cost":         0.10,   # 10 cents
+        "cost_qps":         100000, # 100,000 queries per second
+        "opex_time":        4,      # number of years to evaluate opex
+        "min_qual_dsets":   3,
+        "max_run_params":   10,
+        "min_recall":       0.9,
+        "min_qps":          2000,
+        "datasets":         [ "deep-1B", "bigann-1B", "text2image-1B", "msturing-1B", "msspacev-1B", "ssnpp-1B" ]
+    }
+
+    with open(save_path, 'w') as outfile:
+        json.dump(competition, outfile)
+
+    print("Wrote new competition json at %s" % save_path )
 
 if __name__ == "__main__": # Unit test
 
-    # TODO: unit test should be related to basline
-    evaluator = Evaluator(  "Test",
+    # simulate committing a baseline 
+    print("Simulating baseline evaluation...")
+    evaluator = Evaluator(  "Test_Baseline",
                             "test.csv",
-                            "baseline2021.json", 
                             "competition2021.json", 
-                            10000.0, 
-                            True)
-    evaluator.eval_all()
-    evaluator.show_summary(savepath="test_summary.png")
-    
-    for dataset in DATASETS:
-        evaluator.plot_recall(dataset, savepath="test_%s_recall.png" % dataset)
-        evaluator.plot_throughput(dataset, savepath="test_%s_throughput.png" % dataset)
-        evaluator.plot_power(dataset, savepath="test_%s_power.png" % dataset)
-
+                            system_cost=22021.90, 
+                            is_baseline=True,
+                            verbose=False)
+    evaluator.eval_all(save_path="/tmp/test_baseline_competition_benchmarks.csv")
+    evaluator.commit_baseline("/tmp/baseline2021.json")
+    evaluator.show_summary(savepath="/tmp/test_baseline_summary.png")
+    for dataset in evaluator.competition["datasets"]:
+        evaluator.plot_recall(dataset, savepath="/tmp/test_baseline_%s_recall.png" % dataset)
+        evaluator.plot_throughput(dataset, savepath="/tmp/test_baseline_%s_throughput.png" % dataset)
+        evaluator.plot_power(dataset, savepath="/tmp/test_baseline_%s_power.png" % dataset)
+ 
+    # simulate evaluating a submission
+    print("Simulating submission evaluation...")
+    evaluator = Evaluator(  "Test_Submission",
+                            "test.csv",
+                            "competition2021.json", 
+                            baseline_path="/tmp/baseline2021.json",
+                            system_cost=22021.90, 
+                            is_baseline=False )
+    evaluator.eval_all(save_path="/tmp/test_submission_competition_benchmarks.csv")
+    evaluator.show_summary(savepath="/tmp/test_submission_summary.png")
+    for dataset in evaluator.competition["datasets"]:
+        evaluator.plot_recall(dataset, savepath="/tmp/test_submission_%s_recall.png" % dataset)
+        evaluator.plot_throughput(dataset, savepath="/tmp/test_submission_%s_throughput.png" % dataset)
+        evaluator.plot_power(dataset, savepath="/tmp/test_submission_%s_power.png" % dataset)
  
