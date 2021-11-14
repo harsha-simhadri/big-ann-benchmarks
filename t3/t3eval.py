@@ -87,7 +87,7 @@ class Evaluator():
                         cols = [ self.evals[dataset]["best_recall"][1],
                             self.evals[dataset]["best_qps"][1],
                             self.evals[dataset]["best_wspq"][2],
-                            self.evals[dataset]["cost"] ]
+                            self.evals[dataset]["cost"][0] ]
                 summary[dataset] = cols
           
             if not self.is_baseline:
