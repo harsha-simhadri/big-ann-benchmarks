@@ -87,7 +87,7 @@ class Evaluator():
                         cols = [ self.evals[dataset]["best_recall"][1],
                             self.evals[dataset]["best_qps"][1],
                             self.evals[dataset]["best_wspq"][2],
-                            self.evals[dataset]["cost"][0] ]
+                            self.evals[dataset]["cost"] ]
                 summary[dataset] = cols
           
             if not self.is_baseline:
@@ -183,7 +183,7 @@ class Evaluator():
         idx = list(self.summary.keys()) 
         df = pd.DataFrame(self.summary.values(),columns=['recall','qps','power','cost'],index=idx)
         if self.verbose: print(df)
-
+        
         title = "BigANN Benchmarks Competition Summary For '%s'" % self.algoname
 
         # try to display a summary table when run in jupyter
@@ -216,7 +216,7 @@ class Evaluator():
                 cols = [ self.baseline["datasets"][dataset]["recall"][0],
                     self.baseline["datasets"][dataset]["qps"][0],
                     self.baseline["datasets"][dataset]["wspq"][0],
-                    self.baseline["datasets"][dataset]["cost"] ]
+                    self.baseline["datasets"][dataset]["cost"][0] ]
                 summary[dataset] = cols
             
             idx = list(summary.keys())
