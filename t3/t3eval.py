@@ -11,7 +11,7 @@ import traceback
 class Evaluator():
     '''Useful evaluation functionality for the T3 track.'''
 
-    def __init__(self,  algoname, csv, comp_path, baseline_path=None, system_cost=None, 
+    def __init__(self,  algoname, csv=None, comp_path=None, baseline_path=None, system_cost=None, 
                         verbose=False, is_baseline=False, pending=[], print_best=False, 
                         show_baseline_table=False ):
         '''Constructor performs sanity and some competition rule checks.'''
@@ -19,8 +19,9 @@ class Evaluator():
         if sys.version_info[0] < 3:
             raise Exception("Must be using Python 3")
 
-        if not os.path.exists(csv):
-            raise Exception("CSV file does not exist.")
+        if csv:
+            if not os.path.exists(csv):
+                raise Exception("CSV file does not exist.")
         
         if not os.path.exists(comp_path):
             raise Exception("competition file does not exist.")
@@ -38,16 +39,18 @@ class Evaluator():
             if verbose: print("baseline metrics", self.baseline)
         
         # read the competition json
-        with open(comp_path) as j_file:
-            self.competition = json.load(j_file)
-        if verbose: print("competition constants", self.competition)
+        if comp_path:
+            with open(comp_path) as j_file:
+                self.competition = json.load(j_file)
+            if verbose: print("competition constants", self.competition)
 
         # read the csv
-        self.df = pd.read_csv( csv )
-        datasets = self.df.dataset.unique()
-        if verbose: print("Found unique datasets:", datasets)
-        if len(datasets)< self.competition["min_qual_dsets"]:
-            raise Exception("Minimum number of datasets not met.")
+        if csv:
+            self.df = pd.read_csv( csv )
+            datasets = self.df.dataset.unique()
+            if verbose: print("Found unique datasets:", datasets)
+            if len(datasets)< self.competition["min_qual_dsets"]:
+                raise Exception("Minimum number of datasets not met.")
    
         self.algoname = algoname 
         self.system_cost = system_cost
@@ -59,7 +62,22 @@ class Evaluator():
         self.evals = {} 
         self.summary = None
 
-    def eval_all(self, compute_score=True, save_path=None ):
+    def load_state_from_files( self, summary_json, evals_json ):
+        '''Load state from previously stored json files.'''
+
+        if not self.summary:
+            print("Warning: summary was not empty/none")
+        with open(summary_json) as json_file:
+            self.summary = json.load(json_file) 
+
+        if not self.evals:
+            print("Warning: evals was not empty/none")
+        with open(evals_json) as json_file:
+            self.evals = json.load(json_file) 
+
+        print("Loaded state from", summary_json, "and", evals_json)
+
+    def eval_all(self, compute_score=True, save_summary=None, save_evals=None ):
         '''Evaluate all the competition datasets.'''
         
         self.evals = {}
@@ -137,9 +155,15 @@ class Evaluator():
 
             df = pd.DataFrame(self.summary.values(),columns=['recall','qps','power','cost'],index=idx)
             if self.verbose: print(df)
-            if save_path:
-                df.to_csv(save_path)
-                if self.verbose: print("Saved CSV to", save_path)
+            if save_summary:
+                #df.to_csv(save_summary)
+                with open(save_summary, 'w') as outfile:
+                    json.dump(self.summary, outfile)  
+                print("Saved CSV to", save_summary)
+            if save_evals:
+                with open(save_evals, 'w') as outfile:
+                    json.dump(self.evals, outfile)  
+                print("Saved evals JSON to", save_evals)
 
         return True
 
@@ -191,10 +215,6 @@ class Evaluator():
         idx = list(self.summary.keys()) 
         df = pd.DataFrame(self.summary.values(),columns=['recall','qps','power','cost'],index=idx)
 
-        #if savepath: # print csv before any formatting changes
-        #    df.to_csv( savepath + ".csv")
-        #    print("saved summary csv at %s" % savepath + ".csv")
-
         df['cost'] = df['cost'].map( lambda x: '{:,.2f}'.format(x) if x!=None and not np.isnan(x) else np.nan )
         df = df.replace(np.nan,'')
         if self.verbose: print(df)
@@ -219,8 +239,8 @@ class Evaluator():
             try:
                 import dataframe_image as dfi
                 dfs = df.style.set_caption(title)
-                dfi.export(dfs, savepath + ".png")
-                print("saved summary image at %s" % savepath + ".png")
+                dfi.export(dfs, savepath)
+                print("saved summary image at %s" % savepath)
             
             except:
                 traceback.print_exc()

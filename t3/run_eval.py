@@ -5,6 +5,7 @@ import pandas as pd
 from string import Template
 import t3eval
 
+RE_EXPORT               = False
 COMP_RESULTS_TOPLEVEL   = "/Users/gwilliams/Projects/BigANN/competition_results"
 T3_EVAL_TOPLEVEL        = "t3/eval_2021"
 TEAM_MAPPING            = \
@@ -32,7 +33,6 @@ TEAM_MAPPING            = \
     },
     "baseline": "faiss_t3"
 }
-RE_EXPORT               = False
 
 def process_team( team ):
 
@@ -62,9 +62,25 @@ def process_team( team ):
     # create export.csv from results directory as needed
     exported = False
     if do_export or RE_EXPORT:
+        # unlink top-level "results" dir
+        print("unlinking ./results")
+        stream = os.popen("unlink ./results")
+        print("result of unlink=", stream.read())
+
+        # link to relevant "results" dir
+        cwd = os.getcwd()
+        link_cmd = "ln -s %s  %s" % ( results_dir, os.path.join(cwd, "results") )
+        print("running link command=", link_cmd)
+        stream = os.popen(link_cmd)
+        print("result of link=", stream.read())
+
+        # run the export command
         export_cmd = "python data_export.py --recompute --sensors --output='%s'" % export_file
         print("running export command->", export_cmd )
+        stream = os.popen(export_cmd)
+        print("result of export=", stream.read())
 
+        # check export file
         if not os.path.exists( export_file ):
             print("could not find export_file" % export_file)
             sys.exit(1)
@@ -85,9 +101,10 @@ def process_team( team ):
                                         is_baseline=True,
                                         pending = [],
                                         print_best=False )
-        evaluator.eval_all(save_path=os.path.join(eval_team_dir, "summary.csv"))
-        evaluator.commit_baseline("t3/baseline2021.json")
-        evaluator.show_summary(savepath=os.path.join( eval_team_dir, "summary" ))
+        evaluator.eval_all(             save_summary=os.path.join(eval_team_dir, "summary.json"),
+                                        save_evals=os.path.join(eval_team_dir, "evals.json" ) )
+        evaluator.commit_baseline(      "t3/baseline2021.json")
+        evaluator.show_summary(         savepath=os.path.join( eval_team_dir, "summary.png" ))
     else:
         evaluator = t3eval.Evaluator(   team, 
                                         export_file,
@@ -98,8 +115,9 @@ def process_team( team ):
                                         is_baseline=False,
                                         pending = [],
                                         print_best=False )
-        evaluator.eval_all(save_path=os.path.join(eval_team_dir, "summary.csv"))
-        evaluator.show_summary(savepath=os.path.join( eval_team_dir, "summary" ))
+        evaluator.eval_all(             save_summary=os.path.join(eval_team_dir, "summary.json"),
+                                        save_evals=os.path.join(eval_team_dir, "evals.json" ) )
+        evaluator.show_summary(         savepath=os.path.join( eval_team_dir, "summary.png" ))
 
 def produce_rankings(teams):
 
@@ -141,15 +159,11 @@ def produce_rankings(teams):
     rankings = [ "recall", "qps", "power", "cost" ]
     for ranking, rdir in zip(rankings,rankings_dir):
         rankdf = rdf[["team",ranking]]
-        #print("ranking for ", ranking)
         data = rankdf.to_dict(orient='list')
-        #print(data)
         team = data['team']
         score = data[ranking]
         pairs = [ el for el in list(zip(team,score)) if not math.isnan(el[1]) ]
-        #print("pairs=",pairs)
         ordered_ranking = sorted(pairs,reverse=rdir, key=lambda x: x[1])
-        #print("ordering", ordered_ranking)
         orderings[ranking] = ordered_ranking
 
     print("orderings")
@@ -169,21 +183,18 @@ def produce_rankings(teams):
         kee = "$" + TEAM_MAPPING[team]['md_prefix']+"_S"
         rdct[kee] = TEAM_MAPPING[team]['status']
 
-    print("substitution")
-    print(rdct) 
+    print("Substitution dct=", rdct)
     #outp = templ.substitute( GEM_RR="stuff" ) #**rdct )
     outp = lines
     for kee in rdct.keys():
         outp = outp.replace( kee, rdct[kee] )
-
-    #print("outp=",outp)
 
     f = open("t3/NL.md","w")
     f.write(outp)
     f.flush()
     f.close()
 
-    print("Wrote new leaderboard") 
+    print("Wrote new leaderboard README")
  
 if __name__ == "__main__":
 
