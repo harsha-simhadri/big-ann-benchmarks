@@ -6,7 +6,7 @@ from string import Template
 import t3eval
 
 RE_EXPORT               = False
-ONLY_TEMPLATE_GEN       = True
+ONLY_TEMPLATE_GEN       = False
 
 COMP_RESULTS_TOPLEVEL   = "/Users/gwilliams/Projects/BigANN/competition_results"
 T3_EVAL_TOPLEVEL        = "t3/eval_2021"
@@ -33,7 +33,7 @@ TEAM_MAPPING            = \
     "gemini": {
         "results_dir":  "%s/gemini/results.using_gsl_release" % COMP_RESULTS_TOPLEVEL,
         "export_fname": "public_gsl_release.csv",
-        "system_cost":  55726.26,
+        "system_cost":  55726.66,
         "md_prefix":    "GEM",
         "status":       "inprog",
         "display_hw":   "Gemini APU",
