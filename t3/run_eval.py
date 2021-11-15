@@ -17,16 +17,16 @@ TEAM_MAPPING            = \
         "export_fname": "public_with_power_capture.csv",
         "system_cost":  0
     },
+    "gemini": {
+        "results_dir":  "%s/gemini/results.using_gsl_release" % COMP_RESULTS_TOPLEVEL,
+        "export_fname": "public_gsl_release.csv",
+        "system_cost":  55726.26
+    },
     "baseline": "faiss_t3"
 }
 RE_EXPORT               = False
 
-if __name__ == "__main__":
-   
-    # TODO: check its run from the repo top-level
-
-    #team = "faiss_t3"
-    team = "optanne_graphann"
+def process_team( team ):
 
     print("processing team=%s" % team)
 
@@ -92,5 +92,15 @@ if __name__ == "__main__":
         evaluator.eval_all()
         evaluator.show_summary(savepath=os.path.join( eval_team_dir, "summary.png" ))
 
-    sys.exit(0)
-     
+    
+if __name__ == "__main__":
+
+    # TODO: check its run from the repo top-level
+
+    #team = "faiss_t3"
+
+    teams = [ "optanne_graphann", "gemini" ]
+    for team in teams:
+        print("TEAM", team)
+        process_team(team)
+ 
