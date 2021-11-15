@@ -6,6 +6,8 @@ from string import Template
 import t3eval
 
 RE_EXPORT               = False
+ONLY_TEMPLATE_GEN       = True
+
 COMP_RESULTS_TOPLEVEL   = "/Users/gwilliams/Projects/BigANN/competition_results"
 T3_EVAL_TOPLEVEL        = "t3/eval_2021"
 TEAM_MAPPING            = \
@@ -15,21 +17,27 @@ TEAM_MAPPING            = \
         "export_fname": "public_focused.csv",
         "system_cost":  22021.90,
         "md_prefix":    "BS",
-        "status":       "final"
+        "status":       "final",
+        "display_hw":   "NVidia GPU",
+        "readme":       "../t3/faiss_t3/README.md"
     },
     "optanne_graphann": {
         "results_dir":  "%s/optanne_graphann/results.with_power_capture" % COMP_RESULTS_TOPLEVEL,
         "export_fname": "public_with_power_capture.csv",
         "system_cost":  0,
         "md_prefix":    "OPT1",
-        "status":       "inprog"
+        "status":       "inprog",
+        "display_hw":   "Optane",
+        "readme":       "../t3/optanne_graphann/README.md"
     },
     "gemini": {
         "results_dir":  "%s/gemini/results.using_gsl_release" % COMP_RESULTS_TOPLEVEL,
         "export_fname": "public_gsl_release.csv",
         "system_cost":  55726.26,
         "md_prefix":    "GEM",
-        "status":       "inprog"
+        "status":       "inprog",
+        "display_hw":   "Gemini APU",
+        "readme":       "../t3/gemini/README.md"
     },
     "baseline": "faiss_t3"
 }
@@ -121,6 +129,8 @@ def process_team( team ):
 
 def produce_rankings(teams):
 
+    print("Producing rankings...")
+
     dfs = []
 
     # get the data from summary csv
@@ -174,11 +184,41 @@ def produce_rankings(teams):
     f.close()
     templ = Template(lines)
     rdct = {}
+
+    # replace rank by team name
     for team in teams: # ranking info
         for mapping in [ ["recall","RR"], [ "qps", "QR" ], [ "power", "PR" ], [ "cost", "CR" ] ]:
             kee = "$" + TEAM_MAPPING[team]['md_prefix']+"_"+ mapping[1]
             team_order = [ el[0] for el in orderings[mapping[0]] ]
             rdct[kee] = str(team_order.index(team)+1) if team in team_order else "NQ"
+
+    # replace benchmark rank by rank ordering
+    mapping = { "recall": "RR", "qps": "QR", "power":"PR", "cost":"CR" }
+    for benchmark in rankings:
+        print("OB", orderings[benchmark])
+        for idx, rk in enumerate(orderings[benchmark]):
+            # team name
+            team = rk[0]
+            kee = "$%s%d_TM" % ( mapping[benchmark], idx+1)
+            rdct[kee] = team
+            # display hardware
+            hw = TEAM_MAPPING[team]["display_hw"]
+            kee = "$%s%d_HW" % ( mapping[benchmark], idx+1)
+            rdct[kee] = hw
+            # display status
+            st = TEAM_MAPPING[team]["status"]
+            kee = "$%s%d_ST" % ( mapping[benchmark], idx+1)
+            rdct[kee] = st
+            # score
+            sc = rk[1]
+            kee = "$%s%d_SC" % ( mapping[benchmark], idx+1)
+            rdct[kee] = "$" + str(sc)
+            # readme
+            rd = TEAM_MAPPING[team]["readme"]
+            kee = "$%s%d_RD" % ( mapping[benchmark], idx+1)
+            rdct[kee] = rd
+
+    # replace team status by team name
     for team in teams: # status info
         kee = "$" + TEAM_MAPPING[team]['md_prefix']+"_S"
         rdct[kee] = TEAM_MAPPING[team]['status']
@@ -201,8 +241,11 @@ if __name__ == "__main__":
     # TODO: check its run from the repo top-level
 
     teams = [ "faiss_t3", "optanne_graphann", "gemini" ]
-    for team in teams:
-        process_team(team)
-
+        
+    if not ONLY_TEMPLATE_GEN:
+        
+        for team in teams:
+            process_team(team)
+         
     produce_rankings(teams)
  

@@ -26,24 +26,24 @@
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
   * *inprog* = algorithm development still in progress
-  * *NQ* = not (yet) qualified
+  * *NQ* = not qualified
 
 ### Rankings Per Metric
 
 #### Recall Rankings 
 
-|Rank|Submission                                             |Team                          |Hardware               |Status|Score|Deep1B|BigANN|MSTuring|MSSpace|Text2Image|FBSimSearchNet|
-|----|-------------------------------------------------------|------------------------------|-----------------------|------|-----|------|------|--------|-------|----------|--------------|
-|   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|    0|     0|     0|       0|      0|         0|             0|
-|   2|                                                      -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -| 
-|   3|                                                      -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|     
-|   4|                                                      -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|    
-|   5|                                                      -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|   
-|   6|                                                      -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
-|   7|                                                      -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
-|   8|                                                      -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
-|   9|                                                      -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
-|  10|                                                      -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
+|Rank|Submission                                             |Team                          |Hardware               |Status|Score  |Deep1B|BigANN|MSTuring|MSSpace|Text2Image|FBSimSearchNet|
+|----|-------------------------------------------------------|------------------------------|-----------------------|-------|-------|------|------|--------|-------|----------|--------------|
+|   1|[gemini](../t3/gemini/README.md)                                     |gemini                       |Gemini APU                |inprog|$0.2802369519716198|     -|     -|       -|      -|         -|             -|
+|   2|[optanne_graphann](../t3/optanne_graphann/README.md)                                     |optanne_graphann                       |Optane                |inprog|$0.2790678608268525|     -|     -|       -|      -|         -|             -|
+|   3|[faiss_t3](../t3/faiss_t3/README.md)                                     |faiss_t3                       |NVidia GPU                |final|$0.0|     -|     -|       -|      -|         -|             -|
+|   4|                                                      -|                             -|                      -|      -|      -|     -|     -|       -|      -|         -|             -|    
+|   5|                                                      -|                             -|                      -|      -|      -|     -|     -|       -|      -|         -|             -|   
+|   6|                                                      -|                             -|                      -|      -|      -|     -|     -|       -|      -|         -|             -|
+|   7|                                                      -|                             -|                      -|      -|      -|     -|     -|       -|      -|         -|             -|
+|   8|                                                      -|                             -|                      -|      -|      -|     -|     -|       -|      -|         -|             -|
+|   9|                                                      -|                             -|                      -|      -|      -|     -|     -|       -|      -|         -|             -|
+|  10|                                                      -|                             -|                      -|      -|      -|     -|     -|       -|      -|         -|             -|
 
 * A submission must support at least 3 databases to qualify for this ranking.
 * The ranking is based on the score, which is the sum of benchmark improvements of qualifying databases (shown in specific database columns after the score column.)
@@ -52,21 +52,22 @@
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
   * *inprog* = algorithm development still in progress
+  * *NQ* = not qualified
 
 #### Throughput Rankings
 
-|Rank|Submission                                             |Team                          |Hardware               |Status|Score|Deep1B|BigANN|MSTuring|MSSpace|Text2Image|FBSimSearchNet|
-|----|-------------------------------------------------------|------------------------------|-----------------------|------|-----|------|------|--------|-------|----------|--------------|
-|   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|    0|     0|     0|       0|      0|         0|             0|
-|   2|                                                      -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
-|   3|                                                      -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
-|   4|                                                      -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
-|   5|                                                      -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
-|   6|                                                      -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
-|   7|                                                      -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
-|   8|                                                      -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
-|   9|                                                      -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
-|  10|                                                      -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
+|Rank|Submission                                             |Team                          |Hardware               |Status|Score  |Deep1B|BigANN|MSTuring|MSSpace|Text2Image|FBSimSearchNet|
+|----|-------------------------------------------------------|------------------------------|-----------------------|------|-------|------|------|--------|-------|----------|--------------|
+|   1|[optanne_graphann](../t3/optanne_graphann/README.md)                                     |optanne_graphann                       |Optane                |inprog|$821550.2011633916|     -|     -|       -|      -|         -|             -|
+|   2|[gemini](../t3/gemini/README.md)                                     |gemini                       |Gemini APU                |inprog|$34209.03953669113|     -|     -|       -|      -|         -|             -|
+|   3|[faiss_t3](../t3/faiss_t3/README.md)                                     |faiss_t3                       |NVidia GPU                |final|$0.0|     -|     -|       -|      -|         -|             -|
+|   4|                                                      -|                             -|                      -|     -|       -|     -|     -|       -|      -|         -|             -|
+|   5|                                                      -|                             -|                      -|     -|       -|     -|     -|       -|      -|         -|             -|
+|   6|                                                      -|                             -|                      -|     -|       -|     -|     -|       -|      -|         -|             -|
+|   7|                                                      -|                             -|                      -|     -|       -|     -|     -|       -|      -|         -|             -|
+|   8|                                                      -|                             -|                      -|     -|       -|     -|     -|       -|      -|         -|             -|
+|   9|                                                      -|                             -|                      -|     -|       -|     -|     -|       -|      -|         -|             -|
+|  10|                                                      -|                             -|                      -|     -|       -|     -|     -|       -|      -|         -|             -|
 
 * A submission must support at least 3 databases to qualify for this ranking.
 * The ranking is based on the score, which is the sum of benchmark improvements of qualifying databases (shown in specific database columns after the score column.)
@@ -75,21 +76,22 @@
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
   * *inprog* = algorithm development still in progress
+  * *NQ* = not qualified
 
 #### Power Rankings 
 
-|Rank|Submission                                             |Team                          |Hardware               |Status|Score|Deep1B|BigANN|MSTuring|MSSpace|Text2Image|FBSimSearchNet|
-|----|-------------------------------------------------------|------------------------------|-----------------------|------|-----|------|------|--------|-------|----------|--------------|
-|   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|    0|     0|     0|       0|      0|         0|             0|
-|   2|                                                      -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
-|   3|                                                      -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
-|   4|                                                      -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
-|   5|                                                      -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
-|   6|                                                      -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
-|   7|                                                      -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
-|   8|                                                      -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
-|   9|                                                      -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
-|  10|                                                      -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
+|Rank|Submission                                             |Team                          |Hardware               |Status |Score  |Deep1B|BigANN|MSTuring|MSSpace|Text2Image|FBSimSearchNet|
+|----|-------------------------------------------------------|------------------------------|-----------------------|-------|-------|------|------|--------|-------|----------|--------------|
+|   1|[optanne_graphann](../t3/optanne_graphann/README.md)                                     |optanne_graphann                       |Optane                |inprog|$-0.6873303114624362|     -|     -|       -|      -|         -|             -|
+|   2|[gemini](../t3/gemini/README.md)                                     |gemini                       |Gemini APU                |inprog|$-0.12090838376879062|     -|     -|       -|      -|         -|             -|
+|   3|[faiss_t3](../t3/faiss_t3/README.md)                                     |faiss_t3                       |NVidia GPU                |final|$0.0|     -|     -|       -|      -|         -|             -|
+|   4|                                                      -|                             -|                      -|      -|      -|     -|     -|       -|      -|         -|             -|
+|   5|                                                      -|                             -|                      -|      -|      -|     -|     -|       -|      -|         -|             -|
+|   6|                                                      -|                             -|                      -|      -|      -|     -|     -|       -|      -|         -|             -|
+|   7|                                                      -|                             -|                      -|      -|      -|     -|     -|       -|      -|         -|             -|
+|   8|                                                      -|                             -|                      -|      -|      -|     -|     -|       -|      -|         -|             -|
+|   9|                                                      -|                             -|                      -|      -|      -|     -|     -|       -|      -|         -|             -|
+|  10|                                                      -|                             -|                      -|      -|      -|     -|     -|       -|      -|         -|             -|
 
 * A submission must support at least 3 databases to qualify for this ranking.
 * The ranking is based on the score, which is the sum of benchmark improvements of qualifying databases (shown in specific database columns after the score column.)
@@ -98,21 +100,22 @@
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
   * *inprog* = algorithm development still in progress
+  * *NQ* = not qualified
 
 #### Cost Rankings 
 
-|Rank|Submission                                          |Team                          |Hardware                  |Status|Score|Deep1B|BigANN|MSTuring|MSSpace|Text2Image|FBSimSearchNet|
-|----|-------------------------------------------------------|------------------------------|-----------------------|------|-----|------|------|--------|-------|----------|--------------|
-|   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|    0|     0|     0|       0|      0|         0|             0|
-|   2|                                                      -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
-|   3|                                                      -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
-|   4|                                                      -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
-|   5|                                                      -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
-|   6|                                                      -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
-|   7|                                                      -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
-|   8|                                                      -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
-|   9|                                                      -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
-|  10|                                                      -|                             -|                      -|     -|    -|     -|     -|       -|      -|         -|             -|
+|Rank|Submission                                          |Team                          |Hardware               |Status |Score  |Deep1B|BigANN|MSTuring|MSSpace|Text2Image|FBSimSearchNet|
+|----|----------------------------------------------------|------------------------------|-----------------------|-------|-------|------|------|--------|-------|----------|--------------|
+|   1|[faiss_t3](../t3/faiss_t3/README.md)                                  |faiss_t3                       |NVidia GPU                |final|$0.0|     -|     -|       -|      -|         -|             -|
+|   2|[gemini](../t3/gemini/README.md)                                  |gemini                       |Gemini APU                |inprog|$2561736.982327416|     -|     -|       -|      -|         -|             -|
+|   3|[$CR3_TM]($CR3_RD)                                  |$CR3_TM                       |$CR3_HW                |$CR3_ST|$CR3_SC|     -|     -|       -|      -|         -|             -|
+|   4|                                                   -|                             -|                      -|      -|      -|     -|     -|       -|      -|         -|             -|
+|   5|                                                   -|                             -|                      -|      -|      -|     -|     -|       -|      -|         -|             -|
+|   6|                                                   -|                             -|                      -|      -|      -|     -|     -|       -|      -|         -|             -|
+|   7|                                                   -|                             -|                      -|      -|      -|     -|     -|       -|      -|         -|             -|
+|   8|                                                   -|                             -|                      -|      -|      -|     -|     -|       -|      -|         -|             -|
+|   9|                                                   -|                             -|                      -|      -|      -|     -|     -|       -|      -|         -|             -|
+|  10|                                                   -|                             -|                      -|      -|      -|     -|     -|       -|      -|         -|             -|
 
 * A submission must support at least 3 databases to qualify for this ranking.
 * The ranking is based on the score, which is the sum of benchmark improvements of qualifying databases (shown in specific database columns after the score column.)
@@ -121,6 +124,7 @@
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
   * *inprog* = algorithm development still in progress
+  * *NQ* = not qualified
 
 ### Rankings Per Database
 
