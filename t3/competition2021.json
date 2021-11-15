@@ -1,0 +1,1 @@
+{"version": "2021", "kwh_cost": 0.1, "cost_qps": 100000, "opex_time": 4, "min_qual_dsets": 3, "max_run_params": 10, "min_recall": 0.9, "min_qps": 2000, "datasets": ["deep-1B", "bigann-1B", "text2image-1B", "msturing-1B", "msspacev-1B", "ssnpp-1B"]}

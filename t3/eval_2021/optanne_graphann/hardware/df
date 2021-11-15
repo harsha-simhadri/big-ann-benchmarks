@@ -1,0 +1,18 @@
+Filesystem           Size  Used Avail Use% Mounted on
+devtmpfs             252G     0  252G   0% /dev
+tmpfs                252G   12K  252G   1% /dev/shm
+tmpfs                252G   20M  252G   1% /run
+tmpfs                252G     0  252G   0% /sys/fs/cgroup
+/dev/mapper/cl-root   50G   33G   18G  65% /
+/dev/mapper/cl-home  410G  196G  215G  48% /home
+/dev/nvme6n1p2       976M  188M  722M  21% /boot
+/dev/nvme6n1p1       599M   12M  587M   2% /boot/efi
+tmpfs                 51G   24K   51G   1% /run/user/42
+tmpfs                 51G   40K   51G   1% /run/user/1000
+/dev/md127           2.9T  2.5T  232G  92% /mnt/ropt0
+/dev/md124           2.9T  2.5T  238G  92% /mnt/ropt1
+/dev/md125            14T   13T  720G  95% /mnt/data
+/dev/md126           1.8T  786G  954G  46% /mnt/rssd0
+/dev/pmem0           976G  589G  338G  64% /mnt/pm0
+/dev/pmem1           976G  477G  450G  52% /mnt/pm1
+tmpfs                 51G  4.0K   51G   1% /run/user/1004

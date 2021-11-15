@@ -33,19 +33,39 @@ def t3_create_container( definition, cmd, cpu_limit, mem_limit):
         container.start()
         return container
 
-    elif definition.algorithm in [ 'diskann-vm-l8sv2', 'diskann-bare-metal' ]:
+    elif definition.algorithm in [ 'diskann-vm-l8sv2', 'diskann-bare-metal', 'graphann' ]:
+        # GraphANN specific setup
+        # 1. Need to mount PM drives into the container.
+        # Currently, this mounts "/mnt/pm0/public" into "/home/app/indices"
+        #
+        # 2. Need to allow the docker container to run NUMACTL.
+        # Do this by adding the `SYS_NICE` attributs to the container's capabilities.
         print("Launching Container")
         client = docker.from_env()
         container = client.containers.run(
             definition.docker_tag,
             cmd,
+            cap_add=["SYS_NICE"],
+            environment={
+                "JULIA_NUM_THREADS": 28,
+            },
+            entrypoint=[
+                "numactl",
+                "--physcpubind=0-27",
+                "--membind=0",
+                "python3",
+                "-u",
+                "run_algorithm.py",
+            ],
             volumes={
                 os.path.abspath('benchmark'):
-                {'bind': '/home/app/benchmark', 'mode': 'ro'},
+                    {'bind': '/home/app/benchmark', 'mode': 'ro'},
                 os.path.abspath('data'):
-                {'bind': '/home/app/data', 'mode': 'rw'},
+                    {'bind': '/home/app/data', 'mode': 'rw'},
+                "/mnt/pm0/public":
+                    {'bind': "/home/app/indices/"},
                 os.path.abspath('results'):
-                {'bind': '/home/app/results', 'mode': 'rw'},
+                    {'bind': '/home/app/results', 'mode': 'rw'},
             },
             cpuset_cpus=cpu_limit,
             mem_limit=mem_limit,
