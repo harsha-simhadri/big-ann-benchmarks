@@ -1,5 +1,8 @@
 import os
 import sys
+import math
+import pandas as pd
+from string import Template
 
 import t3eval
 
@@ -10,17 +13,20 @@ TEAM_MAPPING            = \
     "faiss_t3": {
         "results_dir":  "%s/faiss_t3/results.baseline_focused" % COMP_RESULTS_TOPLEVEL,
         "export_fname": "public_focused.csv",
-        "system_cost":  22021.90
+        "system_cost":  22021.90,
+        "md_prefix":    "BS"
     },
     "optanne_graphann": {
         "results_dir":  "%s/optanne_graphann/results.with_power_capture" % COMP_RESULTS_TOPLEVEL,
         "export_fname": "public_with_power_capture.csv",
-        "system_cost":  0
+        "system_cost":  0,
+        "md_prefix":    "OPT1"
     },
     "gemini": {
         "results_dir":  "%s/gemini/results.using_gsl_release" % COMP_RESULTS_TOPLEVEL,
         "export_fname": "public_gsl_release.csv",
-        "system_cost":  55726.26
+        "system_cost":  55726.26,
+        "md_prefix":    "GEM"
     },
     "baseline": "faiss_t3"
 }
@@ -28,6 +34,7 @@ RE_EXPORT               = False
 
 def process_team( team ):
 
+    print()
     print("processing team=%s" % team)
 
     # check team exists under eval dir
@@ -76,9 +83,9 @@ def process_team( team ):
                                         is_baseline=True,
                                         pending = [],
                                         print_best=False )
-        evaluator.eval_all()
+        evaluator.eval_all(save_path=os.path.join(eval_team_dir, "summary.csv"))
         evaluator.commit_baseline("t3/baseline2021.json")
-        evaluator.show_summary(savepath=os.path.join( eval_team_dir, "summary.png" ))
+        evaluator.show_summary(savepath=os.path.join( eval_team_dir, "summary" ))
     else:
         evaluator = t3eval.Evaluator(   team, 
                                         export_file,
@@ -89,18 +96,96 @@ def process_team( team ):
                                         is_baseline=False,
                                         pending = [],
                                         print_best=False )
-        evaluator.eval_all()
-        evaluator.show_summary(savepath=os.path.join( eval_team_dir, "summary.png" ))
+        evaluator.eval_all(save_path=os.path.join(eval_team_dir, "summary.csv"))
+        evaluator.show_summary(savepath=os.path.join( eval_team_dir, "summary" ))
 
+def produce_rankings(teams):
+
+    dfs = []
+
+    # get the data from summary csv
+    for team in teams:
+   
+            eval_team_dir = os.path.join( T3_EVAL_TOPLEVEL, team )
+            print("checking %s exists..." % eval_team_dir)
+            if not os.path.exists( eval_team_dir ):
+                print("path does not exist: ", eval_team_dir )
+                sys.exit(1)
+
+            summary_csv = os.path.join(eval_team_dir, "summary.csv")
+            if not os.path.exists( summary_csv ):
+                print("path does not exist: ", summary_csv )
+                sys.exit(1)
+
+            df = pd.read_csv(summary_csv)
+
+            # insert new column with team 
+            df.insert( 0, "team", [ team ] * df.shape[0])
+            df = df.rename(columns={"Unnamed: 0":"dataset"})
+            #print(df)
     
+            dfs.append(df)
+
+    master = pd.concat( dfs, ignore_index=True)
+    print("master")
+    #print(master)
+    #print(master["dataset"])
+
+    # extract each benchmark ranking
+    orderings = {}
+    rankings = [ "recall", "qps", "power", "cost" ]
+    rankings_dir = [ True, True, False, False ]
+    rdf = master.loc[ master['dataset'] == "ranking-score" ]
+    rankings = [ "recall", "qps", "power", "cost" ]
+    for ranking, rdir in zip(rankings,rankings_dir):
+        rankdf = rdf[["team",ranking]]
+        #print("ranking for ", ranking)
+        data = rankdf.to_dict(orient='list')
+        #print(data)
+        team = data['team']
+        score = data[ranking]
+        pairs = [ el for el in list(zip(team,score)) if not math.isnan(el[1]) ]
+        #print("pairs=",pairs)
+        ordered_ranking = sorted(pairs,reverse=rdir, key=lambda x: x[1])
+        #print("ordering", ordered_ranking)
+        orderings[ranking] = ordered_ranking
+
+    print("orderings")
+    print(orderings)
+
+    f = open("t3/LEADERBOARDS.md.templ")
+    lines = f.read()
+    f.close()
+    templ = Template(lines)
+    rdct = {}
+    for team in teams:
+        for mapping in [ ["recall","RR"], [ "qps", "QR" ], [ "power", "PR" ], [ "cost", "CR" ] ]:
+            kee = "$" + TEAM_MAPPING[team]['md_prefix']+"_"+ mapping[1]
+            team_order = [ el[0] for el in orderings[mapping[0]] ]
+            rdct[kee] = str(team_order.index(team)+1) if team in team_order else "NQ"
+    print("substitution")
+    print(rdct) 
+    #outp = templ.substitute( GEM_RR="stuff" ) #**rdct )
+    outp = lines
+    for kee in rdct.keys():
+        outp = outp.replace( kee, rdct[kee] )
+
+    #print("outp=",outp)
+
+    f = open("t3/NL.md","w")
+    f.write(outp)
+    f.flush()
+    f.close()
+
+    print("Wrote new leaderboard") 
+ 
 if __name__ == "__main__":
 
     # TODO: check its run from the repo top-level
 
-    #team = "faiss_t3"
+    teams = [ "faiss_t3", "optanne_graphann", "gemini" ]
+    #for team in teams:
+    #    process_team(team)
 
-    teams = [ "optanne_graphann", "gemini" ]
-    for team in teams:
-        print("TEAM", team)
-        process_team(team)
+    produce_rankings(teams)
  

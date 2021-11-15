@@ -79,7 +79,7 @@ class Evaluator():
             summary = {}
             for dataset in self.competition["datasets"]:
                 if not dataset in list(self.evals.keys()):
-                        cols = [ None, None, None, None ]
+                    cols = [ None, None, None, None ]
                 else:
                     if dataset in self.pending:
                         cols = [ None, None, None, None ]
@@ -129,6 +129,7 @@ class Evaluator():
                 if self.verbose: print("summary", summary)
             else: # is_baseline=True
                 # by definition, the baseline score is zero
+                summary["ranking-score"] = [ 0.0, 0.0, 0.0, 0.0 ]
                 idx = list(summary.keys()) 
                 if self.verbose: print("summary", summary)
 
@@ -189,6 +190,11 @@ class Evaluator():
             
         idx = list(self.summary.keys()) 
         df = pd.DataFrame(self.summary.values(),columns=['recall','qps','power','cost'],index=idx)
+
+        #if savepath: # print csv before any formatting changes
+        #    df.to_csv( savepath + ".csv")
+        #    print("saved summary csv at %s" % savepath + ".csv")
+
         df['cost'] = df['cost'].map( lambda x: '{:,.2f}'.format(x) if x!=None and not np.isnan(x) else np.nan )
         df = df.replace(np.nan,'')
         if self.verbose: print(df)
@@ -209,12 +215,13 @@ class Evaluator():
             print("Hiding exception: This is likely not a jupyter environment.")
             # traceback.print_exc()
 
-        if savepath: # Try to save the table to an image file
+        if savepath: # Try to save the table to an image file and dataframe as csv
             try:
                 import dataframe_image as dfi
                 dfs = df.style.set_caption(title)
-                dfi.export(dfs, savepath)
-                print("saved summary image at %s" % savepath)
+                dfi.export(dfs, savepath + ".png")
+                print("saved summary image at %s" % savepath + ".png")
+            
             except:
                 traceback.print_exc()
 
