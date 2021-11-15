@@ -155,7 +155,7 @@ def read_ibin(filename, start_idx=0, chunk_size=None):
 
 
 def sanitize(x):
-    return numpy.ascontiguousarray(x, dtype='float32')
+    return numpy.ascontiguousarray(x)#, dtype='float32')
 
 
 class Dataset():
