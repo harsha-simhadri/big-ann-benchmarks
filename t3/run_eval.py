@@ -14,7 +14,7 @@ TEAM_MAPPING            = \
     },
     "optanne_graphann": {
         "results_dir":  "%s/optanne_graphann/results.with_power_capture" % COMP_RESULTS_TOPLEVEL,
-        "export_fname": "public.csv",
+        "export_fname": "public_with_power_capture.csv",
         "system_cost":  0
     },
     "baseline": "faiss_t3"
@@ -78,6 +78,18 @@ if __name__ == "__main__":
                                         print_best=False )
         evaluator.eval_all()
         evaluator.commit_baseline("t3/baseline2021.json")
+        evaluator.show_summary(savepath=os.path.join( eval_team_dir, "summary.png" ))
+    else:
+        evaluator = t3eval.Evaluator(   team, 
+                                        export_file,
+                                        "t3/competition2021.json",
+                                        baseline_path="t3/baseline2021.json",
+                                        system_cost= TEAM_MAPPING[team]["system_cost"],
+                                        verbose=False,
+                                        is_baseline=False,
+                                        pending = [],
+                                        print_best=False )
+        evaluator.eval_all()
         evaluator.show_summary(savepath=os.path.join( eval_team_dir, "summary.png" ))
 
     sys.exit(0)
