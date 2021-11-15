@@ -88,6 +88,10 @@ class Evaluator():
                             self.evals[dataset]["best_qps"][1],
                             self.evals[dataset]["best_wspq"][2],
                             self.evals[dataset]["cost"] ]
+                        # good change best_wspq and cost were not collected
+                        if cols[2]<=0.0: cols[2] = None
+                        if cols[3]<=0.0: cols[3] = None
+                        
                 summary[dataset] = cols
           
             if not self.is_baseline:
@@ -116,7 +120,10 @@ class Evaluator():
                         diff = summary[dataset][3] - self.baseline["datasets"][dataset]["cost"][0]
                         if self.verbose: print("diff cost",dataset,diff)
                         scores[3] += diff
-                    
+                
+                if scores[2]<=0.0: scores[2] = None
+                if scores[3]<=0.0: scores[3] = None
+         
                 idx = list(summary.keys()) + ["ranking-score"]
                 summary["ranking-score"] = scores
                 if self.verbose: print("summary", summary)
@@ -182,16 +189,22 @@ class Evaluator():
             
         idx = list(self.summary.keys()) 
         df = pd.DataFrame(self.summary.values(),columns=['recall','qps','power','cost'],index=idx)
+        df['cost'] = df['cost'].map( lambda x: '{:,.2f}'.format(x) if x!=None and not np.isnan(x) else np.nan )
+        df = df.replace(np.nan,'')
         if self.verbose: print(df)
         
         title = "BigANN Benchmarks Competition Summary For '%s'" % self.algoname
+
+        print("a")
 
         # try to display a summary table when run in jupyter
         try:
             from IPython.display import display, HTML
             df['cost'] = df['cost'].map( lambda x: '{:,.2f}'.format(x) if not np.isnan(x) else np.nan )
+            #df.fillna(0)
+            #print(df)
             df = df.replace(np.nan,'')
-
+            
             html = df.to_html()
             html = "<b>%s</b><br>" % title + html
             #print(html)
