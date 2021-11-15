@@ -6,7 +6,7 @@ from string import Template
 import t3eval
 
 RE_EXPORT               = False
-ONLY_TEMPLATE_GEN       = False
+ONLY_TEMPLATE_GEN       = True
 
 COMP_RESULTS_TOPLEVEL   = "/Users/gwilliams/Projects/BigANN/competition_results"
 T3_EVAL_TOPLEVEL        = "t3/eval_2021"
@@ -212,7 +212,7 @@ def produce_rankings(teams):
             # score
             sc = rk[1]
             kee = "$%s%d_SC" % ( mapping[benchmark], idx+1)
-            rdct[kee] = "$" + str(sc)
+            rdct[kee] = str(sc) if benchmark!="cost" else "&#36;" + str(sc)
             # readme
             rd = TEAM_MAPPING[team]["readme"]
             kee = "$%s%d_RD" % ( mapping[benchmark], idx+1)
