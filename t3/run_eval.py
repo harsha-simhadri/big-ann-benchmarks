@@ -10,9 +10,10 @@ ONLY_TEMPLATE_GEN       = True
 
 COMP_RESULTS_TOPLEVEL   = "/Users/gwilliams/Projects/BigANN/competition_results"
 T3_EVAL_TOPLEVEL        = "t3/eval_2021"
-TEAM_MAPPING            = \
+SUBM_MAPPING            = \
 {
     "faiss_t3": {
+        "team":         "Facebook Research",
         "results_dir":  "%s/faiss_t3/results.baseline_focused" % COMP_RESULTS_TOPLEVEL,
         "export_fname": "public_focused.csv",
         "system_cost":  22021.90,
@@ -22,47 +23,49 @@ TEAM_MAPPING            = \
         "readme":       "../t3/faiss_t3/README.md"
     },
     "optanne_graphann": {
+        "team":         "Intel",
         "results_dir":  "%s/optanne_graphann/results.with_power_capture" % COMP_RESULTS_TOPLEVEL,
         "export_fname": "public_with_power_capture.csv",
         "system_cost":  0,
         "md_prefix":    "OPT1",
         "status":       "inprog",
-        "display_hw":   "Optane",
+        "display_hw":   "Intel Optane",
         "readme":       "../t3/optanne_graphann/README.md"
     },
     "gemini": {
+        "team":         "GSI Technology",
         "results_dir":  "%s/gemini/results.using_gsl_release" % COMP_RESULTS_TOPLEVEL,
         "export_fname": "public_gsl_release.csv",
         "system_cost":  55726.66,
         "md_prefix":    "GEM",
         "status":       "inprog",
-        "display_hw":   "Gemini APU",
+        "display_hw":   "LedaE APU",
         "readme":       "../t3/gemini/README.md"
     },
     "baseline": "faiss_t3"
 }
 
-def process_team( team ):
+def process_subm( subm ):
 
     print()
-    print("processing team=%s" % team)
+    print("processing subm=%s" % subm)
 
-    # check team exists under eval dir
-    eval_team_dir = os.path.join( T3_EVAL_TOPLEVEL, team )
-    print("checking %s exists..." % eval_team_dir)
-    if not os.path.exists( eval_team_dir ):
-        print("path does not exist: ", eval_team_dir )
+    # check submexists under eval dir
+    eval_subm_dir = os.path.join( T3_EVAL_TOPLEVEL, subm )
+    print("checking %s exists..." % eval_subm_dir)
+    if not os.path.exists( eval_subm_dir ):
+        print("path does not exist: ", eval_subm_dir )
         sys.exit(1)
 
     # check results dir is valid
-    results_dir = TEAM_MAPPING[team]["results_dir"]
-    if not os.path.exists( eval_team_dir ):
-        print("path does not exist: ", eval_team_dir )
+    results_dir = SUBM_MAPPING[subm]["results_dir"]
+    if not os.path.exists( eval_subm_dir ):
+        print("path does not exist: ", eval_subm_dir )
         sys.exit(1)
   
     # check there is a data export file 
     do_export = False
-    export_file = os.path.join( eval_team_dir, TEAM_MAPPING[team]["export_fname"])
+    export_file = os.path.join( eval_subm_dir, SUBM_MAPPING[subm]["export_fname"])
     if not os.path.exists( export_file ):
         print("path does not exist: ", export_file )
         do_export = True
@@ -100,57 +103,57 @@ def process_team( team ):
     do_summarize = False
 
     # do eval
-    if TEAM_MAPPING["baseline"] == team: # it's the baseline 
-        evaluator = t3eval.Evaluator(   team, 
+    if SUBM_MAPPING["baseline"] == subm: # it's the baseline 
+        evaluator = t3eval.Evaluator(   subm, 
                                         export_file,
                                         "t3/competition2021.json",
-                                        system_cost= TEAM_MAPPING[team]["system_cost"],
+                                        system_cost= SUBM_MAPPING[subm]["system_cost"],
                                         verbose=False,
                                         is_baseline=True,
                                         pending = [],
                                         print_best=False )
-        evaluator.eval_all(             save_summary=os.path.join(eval_team_dir, "summary.json"),
-                                        save_evals=os.path.join(eval_team_dir, "evals.json" ) )
+        evaluator.eval_all(             save_summary=os.path.join(eval_subm_dir, "summary.json"),
+                                        save_evals=os.path.join(eval_subm_dir, "evals.json" ) )
         evaluator.commit_baseline(      "t3/baseline2021.json")
-        evaluator.show_summary(         savepath=os.path.join( eval_team_dir, "summary.png" ))
+        evaluator.show_summary(         savepath=os.path.join( eval_subm_dir, "summary.png" ))
     else:
-        evaluator = t3eval.Evaluator(   team, 
+        evaluator = t3eval.Evaluator(   subm, 
                                         export_file,
                                         "t3/competition2021.json",
                                         baseline_path="t3/baseline2021.json",
-                                        system_cost= TEAM_MAPPING[team]["system_cost"],
+                                        system_cost= SUBM_MAPPING[subm]["system_cost"],
                                         verbose=False,
                                         is_baseline=False,
                                         pending = [],
                                         print_best=False )
-        evaluator.eval_all(             save_summary=os.path.join(eval_team_dir, "summary.json"),
-                                        save_evals=os.path.join(eval_team_dir, "evals.json" ) )
-        evaluator.show_summary(         savepath=os.path.join( eval_team_dir, "summary.png" ))
+        evaluator.eval_all(             save_summary=os.path.join(eval_subm_dir, "summary.json"),
+                                        save_evals=os.path.join(eval_subm_dir, "evals.json" ) )
+        evaluator.show_summary(         savepath=os.path.join( eval_subm_dir, "summary.png" ))
 
-def produce_rankings(teams):
+def produce_rankings(subms):
 
     print("Producing rankings...")
 
     dfs = []
 
     # get the data from summary csv
-    for team in teams:
+    for subm in subms:
    
-            eval_team_dir = os.path.join( T3_EVAL_TOPLEVEL, team )
-            print("checking %s exists..." % eval_team_dir)
-            if not os.path.exists( eval_team_dir ):
-                print("path does not exist: ", eval_team_dir )
+            eval_subm_dir = os.path.join( T3_EVAL_TOPLEVEL, subm )
+            print("checking %s exists..." % eval_subm_dir)
+            if not os.path.exists( eval_subm_dir ):
+                print("path does not exist: ", eval_subm_dir )
                 sys.exit(1)
 
-            summary_csv = os.path.join(eval_team_dir, "summary.csv")
+            summary_csv = os.path.join(eval_subm_dir, "summary.csv")
             if not os.path.exists( summary_csv ):
                 print("path does not exist: ", summary_csv )
                 sys.exit(1)
 
             df = pd.read_csv(summary_csv)
 
-            # insert new column with team 
-            df.insert( 0, "team", [ team ] * df.shape[0])
+            # insert new column with subm
+            df.insert( 0, "subm", [ subm ] * df.shape[0])
             df = df.rename(columns={"Unnamed: 0":"dataset"})
             #print(df)
     
@@ -168,11 +171,11 @@ def produce_rankings(teams):
     rdf = master.loc[ master['dataset'] == "ranking-score" ]
     rankings = [ "recall", "qps", "power", "cost" ]
     for ranking, rdir in zip(rankings,rankings_dir):
-        rankdf = rdf[["team",ranking]]
+        rankdf = rdf[["subm",ranking]]
         data = rankdf.to_dict(orient='list')
-        team = data['team']
+        subm = data['subm']
         score = data[ranking]
-        pairs = [ el for el in list(zip(team,score)) if not math.isnan(el[1]) ]
+        pairs = [ el for el in list(zip(subm,score)) if not math.isnan(el[1]) ]
         ordered_ranking = sorted(pairs,reverse=rdir, key=lambda x: x[1])
         orderings[ranking] = ordered_ranking
 
@@ -185,28 +188,28 @@ def produce_rankings(teams):
     templ = Template(lines)
     rdct = {}
 
-    # replace rank by team name
-    for team in teams: # ranking info
+    # replace rank by subm name
+    for subm in subms: # ranking info
         for mapping in [ ["recall","RR"], [ "qps", "QR" ], [ "power", "PR" ], [ "cost", "CR" ] ]:
-            kee = "$" + TEAM_MAPPING[team]['md_prefix']+"_"+ mapping[1]
-            team_order = [ el[0] for el in orderings[mapping[0]] ]
-            rdct[kee] = str(team_order.index(team)+1) if team in team_order else "NQ"
+            kee = "$" + SUBM_MAPPING[subm]['md_prefix']+"_"+ mapping[1]
+            subm_order = [ el[0] for el in orderings[mapping[0]] ]
+            rdct[kee] = str(subm_order.index(subm)+1) if subm in subm_order else "NQ"
 
     # replace benchmark rank by rank ordering
     mapping = { "recall": "RR", "qps": "QR", "power":"PR", "cost":"CR" }
     for benchmark in rankings:
         print("OB", orderings[benchmark])
         for idx, rk in enumerate(orderings[benchmark]):
-            # team name
-            team = rk[0]
+            # subm name
+            subm = rk[0]
             kee = "$%s%d_TM" % ( mapping[benchmark], idx+1)
-            rdct[kee] = team
+            rdct[kee] = subm
             # display hardware
-            hw = TEAM_MAPPING[team]["display_hw"]
+            hw = SUBM_MAPPING[subm]["display_hw"]
             kee = "$%s%d_HW" % ( mapping[benchmark], idx+1)
             rdct[kee] = hw
             # display status
-            st = TEAM_MAPPING[team]["status"]
+            st = SUBM_MAPPING[subm]["status"]
             kee = "$%s%d_ST" % ( mapping[benchmark], idx+1)
             rdct[kee] = st
             # score
@@ -214,14 +217,14 @@ def produce_rankings(teams):
             kee = "$%s%d_SC" % ( mapping[benchmark], idx+1)
             rdct[kee] = str(sc) if benchmark!="cost" else "&#36;" + str(sc)
             # readme
-            rd = TEAM_MAPPING[team]["readme"]
+            rd = SUBM_MAPPING[subm]["readme"]
             kee = "$%s%d_RD" % ( mapping[benchmark], idx+1)
             rdct[kee] = rd
 
-    # replace team status by team name
-    for team in teams: # status info
-        kee = "$" + TEAM_MAPPING[team]['md_prefix']+"_S"
-        rdct[kee] = TEAM_MAPPING[team]['status']
+    # replace subm status by subm name
+    for subm in subms: # status info
+        kee = "$" + SUBM_MAPPING[subm]['md_prefix']+"_S"
+        rdct[kee] = SUBM_MAPPING[subm]['status']
 
     print("Substitution dct=", rdct)
     #outp = templ.substitute( GEM_RR="stuff" ) #**rdct )
@@ -240,12 +243,12 @@ if __name__ == "__main__":
 
     # TODO: check its run from the repo top-level
 
-    teams = [ "faiss_t3", "optanne_graphann", "gemini" ]
+    subms = [ "faiss_t3", "optanne_graphann", "gemini" ]
         
     if not ONLY_TEMPLATE_GEN:
         
-        for team in teams:
-            process_team(team)
+        for subm in subms:
+            process_subm(subm)
          
-    produce_rankings(teams)
+    produce_rankings(subms)
  
