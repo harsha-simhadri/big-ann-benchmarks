@@ -3,7 +3,6 @@ import sys
 import math
 import pandas as pd
 from string import Template
-
 import t3eval
 
 COMP_RESULTS_TOPLEVEL   = "/Users/gwilliams/Projects/BigANN/competition_results"
@@ -191,8 +190,8 @@ if __name__ == "__main__":
     # TODO: check its run from the repo top-level
 
     teams = [ "faiss_t3", "optanne_graphann", "gemini" ]
-    #for team in teams:
-    #    process_team(team)
+    for team in teams:
+        process_team(team)
 
     produce_rankings(teams)
  
