@@ -8,6 +8,7 @@ import t3eval
 RE_EXPORT               = False
 ONLY_TEMPLATE_GEN       = True
 
+TOTAL_SUBM              = 10
 COMP_RESULTS_TOPLEVEL   = "/Users/gwilliams/Projects/BigANN/competition_results"
 T3_EVAL_TOPLEVEL        = "t3/eval_2021"
 SUBM_MAPPING            = \
@@ -220,6 +221,27 @@ def produce_rankings(subms):
             rd = SUBM_MAPPING[subm]["readme"]
             kee = "$%s%d_RD" % ( mapping[benchmark], idx+1)
             rdct[kee] = rd
+
+        # replace the rest with "-"
+        for i in range(idx+1, TOTAL_SUBM ):
+            print("making empty", i+1)
+            # subm name
+            kee = "$%s%d_TM" % ( mapping[benchmark], i+1)
+            rdct[kee] = "-"
+            # display hardware
+            kee = "$%s%d_HW" % ( mapping[benchmark], i+1)
+            rdct[kee] = "-"
+            # display status
+            st = SUBM_MAPPING[subm]["status"]
+            kee = "$%s%d_ST" % ( mapping[benchmark], i+1)
+            rdct[kee] = "-"
+            # score
+            kee = "$%s%d_SC" % ( mapping[benchmark], i+1)
+            rdct[kee] = "-"
+            # readme
+            kee = "$%s%d_RD" % ( mapping[benchmark], i+1)
+            rdct[kee] = "-"
+
 
     # replace subm status by subm name
     for subm in subms: # status info
