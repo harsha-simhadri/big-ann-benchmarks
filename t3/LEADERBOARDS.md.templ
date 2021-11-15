@@ -12,12 +12,12 @@
 |-------------------------------------------------------|---------------------------------|-------------------------|------|-------------------------------|---------------------------------------|-----------------------------|---------------------------|
 |DeepGram                                               |DeepGram                         |<nobr>NVidia GPU</nobr>  |     -|                              -|                                      -|                            -|                          -|
 |DiskANN                                                |<nobr>Microsoft (org)</nobr>     |<nobr>Intel Optane</nobr>|     -|                              -|                                      -|                            -|                          -|
-|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>   |<nobr>NVidia GPU</nobr>  | final|$BS_RR                         |$BS_QR                                 |$BS_PR                       |$BS_CR                    |
-|[Gemini](../t3/gemini/README.md)                       |<nobr>GSI Technology (org)</nobr>|<nobr>LedaE APU</nobr>   |     -|$GEM_RR                        |$GEM_QR                               -|$GEM_PR                     -|$GEM_CR                  -|
+|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>   |<nobr>NVidia GPU</nobr>  |$BS_S |$BS_RR                         |$BS_QR                                 |$BS_PR                       |$BS_CR                    |
+|[Gemini](../t3/gemini/README.md)                       |<nobr>GSI Technology (org)</nobr>|<nobr>LedaE APU</nobr>   |$GEM_S|$GEM_RR                        |$GEM_QR                                |$GEM_PR                      |$GEM_CR                   |
 |KANNDI                                                 |Silo.ai                          |<nobr>LedaE APU</nobr>   |     -|                              -|                                      -|                            -|                          -|
 |<nobr>NVidia Single GPU</nobr>                         |NVidia                           |<nobr>NVidia GPU</nobr>  |     -|                              -|                                      -|                            -|                          -|
 |<nobr>NVidia Multi GPU</nobr>                          |NVidia                           |<nobr>NVidia GPU</nobr>  |     -|                              -|                                      -|                            -|                          -|
-|OptANNe-1                                              |Intel                            |<nobr>Intel Optane</nobr>|     -|$OPT1_RR                       |$OPT1_QR                               |$OPT1_PR                     |$OPT1_CR                  |
+|OptANNe-1                                              |Intel                            |<nobr>Intel Optane</nobr>|$OPT1_S|$OPT1_RR                      |$OPT1_QR                               |$OPT1_PR                     |$OPT1_CR                  |
 |OptANNE-2                                              |Intel                            |<nobr>Intel Optane</nobr>|     -|                              -|                                      -|                            -|                          -|
 |Vector-T3                                              |<nobr>Vector Institute</nobr>    |<nobr>NVidia GPU</nobr>  |     _|                              -|                                      -|                            -|                          -|
 
@@ -26,6 +26,7 @@
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
   * *inprog* = algorithm development still in progress
+  * *NQ* = not (yet) qualified
 
 ### Rankings Per Metric
 

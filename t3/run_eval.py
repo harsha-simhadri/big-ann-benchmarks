@@ -14,19 +14,22 @@ TEAM_MAPPING            = \
         "results_dir":  "%s/faiss_t3/results.baseline_focused" % COMP_RESULTS_TOPLEVEL,
         "export_fname": "public_focused.csv",
         "system_cost":  22021.90,
-        "md_prefix":    "BS"
+        "md_prefix":    "BS",
+        "status":       "final"
     },
     "optanne_graphann": {
         "results_dir":  "%s/optanne_graphann/results.with_power_capture" % COMP_RESULTS_TOPLEVEL,
         "export_fname": "public_with_power_capture.csv",
         "system_cost":  0,
-        "md_prefix":    "OPT1"
+        "md_prefix":    "OPT1",
+        "status":       "inprog"
     },
     "gemini": {
         "results_dir":  "%s/gemini/results.using_gsl_release" % COMP_RESULTS_TOPLEVEL,
         "export_fname": "public_gsl_release.csv",
         "system_cost":  55726.26,
-        "md_prefix":    "GEM"
+        "md_prefix":    "GEM",
+        "status":       "inprog"
     },
     "baseline": "faiss_t3"
 }
@@ -158,11 +161,15 @@ def produce_rankings(teams):
     f.close()
     templ = Template(lines)
     rdct = {}
-    for team in teams:
+    for team in teams: # ranking info
         for mapping in [ ["recall","RR"], [ "qps", "QR" ], [ "power", "PR" ], [ "cost", "CR" ] ]:
             kee = "$" + TEAM_MAPPING[team]['md_prefix']+"_"+ mapping[1]
             team_order = [ el[0] for el in orderings[mapping[0]] ]
             rdct[kee] = str(team_order.index(team)+1) if team in team_order else "NQ"
+    for team in teams: # status info
+        kee = "$" + TEAM_MAPPING[team]['md_prefix']+"_S"
+        rdct[kee] = TEAM_MAPPING[team]['status']
+
     print("substitution")
     print(rdct) 
     #outp = templ.substitute( GEM_RR="stuff" ) #**rdct )
