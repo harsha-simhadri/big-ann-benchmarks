@@ -36,7 +36,7 @@
 |----|-------------------------------------------------------|------------------------------|-----------------------|-------|-------|------|------|--------|-------|----------|--------------|
 |   1|[gemini](../t3/gemini/README.md)                                     |gemini                       |LedaE APU                |inprog|0.2802369519716198|     -|     -|       -|      -|         -|             -|
 |   2|[optanne_graphann](../t3/optanne_graphann/README.md)                                     |optanne_graphann                       |Intel Optane                |inprog|0.2790678608268525|     -|     -|       -|      -|         -|             -|
-|   3|[faiss_t3](../t3/faiss_t3/README.md)                                     |faiss_t3                       |NVidia GPU                |final|0.0|     -|     -|       -|      -|         -|             -|
+|   3|[faiss_t3](../t3/faiss_t3/README.md)                                     |faiss_t3                       |NVidia GPU                |final|baseline|     -|     -|       -|      -|         -|             -|
 |   4|                                                      -|                             -|                      -|      -|      -|     -|     -|       -|      -|         -|             -|    
 |   5|                                                      -|                             -|                      -|      -|      -|     -|     -|       -|      -|         -|             -|   
 |   6|                                                      -|                             -|                      -|      -|      -|     -|     -|       -|      -|         -|             -|
@@ -60,7 +60,7 @@
 |----|-------------------------------------------------------|------------------------------|-----------------------|------|-------|------|------|--------|-------|----------|--------------|
 |   1|[optanne_graphann](../t3/optanne_graphann/README.md)                                     |optanne_graphann                       |Intel Optane                |inprog|821550.2011633916|     -|     -|       -|      -|         -|             -|
 |   2|[gemini](../t3/gemini/README.md)                                     |gemini                       |LedaE APU                |inprog|34209.03953669113|     -|     -|       -|      -|         -|             -|
-|   3|[faiss_t3](../t3/faiss_t3/README.md)                                     |faiss_t3                       |NVidia GPU                |final|0.0|     -|     -|       -|      -|         -|             -|
+|   3|[faiss_t3](../t3/faiss_t3/README.md)                                     |faiss_t3                       |NVidia GPU                |final|baseline|     -|     -|       -|      -|         -|             -|
 |   4|                                                      -|                             -|                      -|     -|       -|     -|     -|       -|      -|         -|             -|
 |   5|                                                      -|                             -|                      -|     -|       -|     -|     -|       -|      -|         -|             -|
 |   6|                                                      -|                             -|                      -|     -|       -|     -|     -|       -|      -|         -|             -|
@@ -84,7 +84,7 @@
 |----|-------------------------------------------------------|------------------------------|-----------------------|-------|-------|------|------|--------|-------|----------|--------------|
 |   1|[optanne_graphann](../t3/optanne_graphann/README.md)                                     |optanne_graphann                       |Intel Optane                |inprog|-0.6873303114624362|     -|     -|       -|      -|         -|             -|
 |   2|[gemini](../t3/gemini/README.md)                                     |gemini                       |LedaE APU                |inprog|-0.12090838376879062|     -|     -|       -|      -|         -|             -|
-|   3|[faiss_t3](../t3/faiss_t3/README.md)                                     |faiss_t3                       |NVidia GPU                |final|0.0|     -|     -|       -|      -|         -|             -|
+|   3|[faiss_t3](../t3/faiss_t3/README.md)                                     |faiss_t3                       |NVidia GPU                |final|baseline|     -|     -|       -|      -|         -|             -|
 |   4|                                                      -|                             -|                      -|      -|      -|     -|     -|       -|      -|         -|             -|
 |   5|                                                      -|                             -|                      -|      -|      -|     -|     -|       -|      -|         -|             -|
 |   6|                                                      -|                             -|                      -|      -|      -|     -|     -|       -|      -|         -|             -|
@@ -106,7 +106,7 @@
 
 |Rank|Submission                                          |Team                          |Hardware               |Status |Score  |Deep1B|BigANN|MSTuring|MSSpace|Text2Image|FBSimSearchNet|
 |----|----------------------------------------------------|------------------------------|-----------------------|-------|-------|------|------|--------|-------|----------|--------------|
-|   1|[faiss_t3](../t3/faiss_t3/README.md)                                  |faiss_t3                       |NVidia GPU                |final|&#36;0.0|     -|     -|       -|      -|         -|             -|
+|   1|[faiss_t3](../t3/faiss_t3/README.md)                                  |faiss_t3                       |NVidia GPU                |final|baseline|     -|     -|       -|      -|         -|             -|
 |   2|[gemini](../t3/gemini/README.md)                                  |gemini                       |LedaE APU                |inprog|&#36;2561736.982327416|     -|     -|       -|      -|         -|             -|
 |   3|[$CR3_TM]($CR3_RD)                                  |$CR3_TM                       |$CR3_HW                |$CR3_ST|$CR3_SC|     -|     -|       -|      -|         -|             -|
 |   4|                                                   -|                             -|                      -|      -|      -|     -|     -|       -|      -|         -|             -|
