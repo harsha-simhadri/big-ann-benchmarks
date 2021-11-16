@@ -38,5 +38,5 @@ You will need to adjust the submission algos.yaml config file to reflect the loc
 
 ## Run The Competition Algorithm
 
-Please see the [run script]("run.sh") for an example.
+Please see the [run script](run.sh) for an example.
 
