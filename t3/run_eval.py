@@ -383,7 +383,7 @@ def produce_rankings(subms):
  
 if __name__ == "__main__":
 
-    subms = [ "deepgram", "faiss_t3", "optanne_graphann", "gemini" ]
+    subms = [  "faiss_t3", "optanne_graphann", "gemini" ]
        
     # load the evals
     for subm in subms:

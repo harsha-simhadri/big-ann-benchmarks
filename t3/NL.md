@@ -8,18 +8,18 @@
 
 ### Rankings By Submission Name (alphabetical)
 
-|Submission          |Team    |Hardware|Status |[Recall Rank](#recall-rankings)|[Throughput Rank](#throughput-rankings)|[Power Rank](#power-rankings)|[Cost Rank](#cost-rankings)| 
-|--------------------|--------|--------|-------|-------------------------------|---------------------------------------|-----------------------------|---------------------------|
-|deepgram            |       -|       -|      -|                              -|                                      -|                            -|                          -|
-|diskANN             |       -|       -|      -|                              -|                                      -|                            -|                          -|
-|[faiss_t3](../t3/faiss_t3/README.md)    |Facebook Research  |NVidia GPU  |final  |3                         |3                                 |3                       |1                     |
-|[gemini](../t3/gemini/README.md)  |GSI Technology |LedaE APU |inprog |1                        |2                                |2                      |2                    |
-|kanndi              |       -|       -|      -|                              -|                                      -|                            -|                          -|
-|nvidia_single_gpu   |       -|       -|      -|                              -|                                      -|                            -|                          -|
-|nvidia_multi_gpu    |       -|       -|      -|                              -|                                      -|                            -|                          -|
-|[optanne_graphann](../t3/optanne_graphann/README.md)|Intel|Intel Optane|inprog|2                       |1                               |1                     |NQ                   |
-|optanne_diskann     |       -|       -|      -|                              -|                                      -|                            -|                          -|
-|vector_t3           |       -|       -|      -|                              -|                                      -|                            -|                          -|
+|Submission          |Team       |Hardware  |Status |[Recall Rank](#recall-rankings)|[Throughput Rank](#throughput-rankings)|[Power Rank](#power-rankings)|[Cost Rank](#cost-rankings)| 
+|--------------------|-----------|----------|-------|-------------------------------|---------------------------------------|-----------------------------|---------------------------|
+|deepgram            |DeepGram   |NVidia GPU|inprog |                              -|                                      -|                            -|                          -|
+|diskANN             |Microsoft  |Optane    |inprog |                              -|                                      -|                            -|                          -|
+|[faiss_t3](../t3/faiss_t3/README.md)    |Facebook Research     |NVidia GPU    |final  |3                         |3                                 |3                       |1                     |
+|[gemini](../t3/gemini/README.md)  |GSI Technology    |LedaE APU   |inprog |1                        |2                                |2                      |2                    |
+|kanndi              |Silo.ai    |LedaE APU   |inprog |                              -|                                      -|                            -|                          -|
+|nvidia_single_gpu   |NVidia     |NVidia GPU|inprog |                              -|                                      -|                            -|                          -|
+|nvidia_multi_gpu    |NVidia     |NVidia GPU|inprog |                              -|                                      -|                            -|                          -|
+|[optanne_graphann](../t3/optanne_graphann/README.md)|Intel   |Intel Optane  |inprog|2                       |1                               |1                     |NQ                   |
+|optanne_diskann     |Intel   |$OPT!_HW  |inprog |                              -|                                      -|                            -|                          -|
+|vector_t3           |Vector Inst|NVidia GPU|      -|                              -|                                      -|                            -|                          -|
 
 
 * Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
