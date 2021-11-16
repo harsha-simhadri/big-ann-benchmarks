@@ -349,7 +349,7 @@ def produce_rankings(subms):
                 rdct[kee]=kv
                 kee = "$%s%d%s_V" % ( DBS[db], idx+1, dbmapping[benchmark])
                 fmt = bestformatmapping[benchmark]
-                kv = fmt.format(item[1]) if benchmark=="cost" else mklnk( item[1], fmt, subm, db, benchmark )
+                kv = fmt.format(item[1]) if benchmark=="cost" else mklnk( item[1], fmt, item[0], db, benchmark )
                 rdct[kee]=kv
             for i in range(idx+1, TOTAL_SUBM):
                 kee = "$%s%d%s_SB" % ( DBS[db], i+1, dbmapping[benchmark] )

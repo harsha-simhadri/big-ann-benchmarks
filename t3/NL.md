@@ -137,8 +137,8 @@
 |Rank|Submission                                             |Team                          |Hardware               |Status  |R@10       |Q/S     |
 |----|-------------------------------------------------------|------------------------------|-----------------------|--------|-----------|--------|
 |   1|[gemini](../t3/gemini/README.md)                                   |GSI Technology                      |LedaE APU               |inprog|**[0.989](eval_2021/gemini/deep-1B_recall.png)**|       -|
-|   2|[optanne_graphann](../t3/gemini/README.md)                                   |Intel                      |LedaE APU               |inprog|**[0.983](eval_2021/gemini/deep-1B_recall.png)**|       -|
-|   3|[faiss_t3](../t3/gemini/README.md)                                   |Facebook Research                      |LedaE APU               |inprog|**[0.943](eval_2021/gemini/deep-1B_recall.png)**|       -|
+|   2|[optanne_graphann](../t3/gemini/README.md)                                   |Intel                      |LedaE APU               |inprog|**[0.983](eval_2021/optanne_graphann/deep-1B_recall.png)**|       -|
+|   3|[faiss_t3](../t3/gemini/README.md)                                   |Facebook Research                      |LedaE APU               |inprog|**[0.943](eval_2021/faiss_t3/deep-1B_recall.png)**|       -|
 |   4|                                                      -|                             -|                      -|       -|          -|       -|
 |   5|                                                      -|                             -|                      -|       -|          -|       -|
 |   6|                                                      -|                             -|                      -|       -|          -|       -|
@@ -159,9 +159,9 @@
 
 |Rank|Submission                                             |Team                          |Hardware               |Status  |Q/S        |
 |----|-------------------------------------------------------|------------------------------|-----------------------|--------|-----------|
-|   1|[optanne_graphann](../t3/gemini/README.md)                                   |Intel                      |LedaE APU               |inprog|**[184,490.708](eval_2021/gemini/deep-1B_throughput.png)**|
+|   1|[optanne_graphann](../t3/gemini/README.md)                                   |Intel                      |LedaE APU               |inprog|**[184,490.708](eval_2021/optanne_graphann/deep-1B_throughput.png)**|
 |   2|[gemini](../t3/gemini/README.md)                                   |GSI Technology                      |LedaE APU               |inprog|**[9,150.271](eval_2021/gemini/deep-1B_throughput.png)**|
-|   3|[faiss_t3](../t3/gemini/README.md)                                   |Facebook Research                      |LedaE APU               |inprog|**[4,417.036](eval_2021/gemini/deep-1B_throughput.png)**|
+|   3|[faiss_t3](../t3/gemini/README.md)                                   |Facebook Research                      |LedaE APU               |inprog|**[4,417.036](eval_2021/faiss_t3/deep-1B_throughput.png)**|
 |   2|                                                      -|                             -|                      -|       -|          -|    
 |   3|                                                      -|                             -|                      -|       -|          -|    
 |   4|                                                      -|                             -|                      -|       -|          -|    
@@ -184,9 +184,9 @@
 
 |Rank|Submission                                             |Team                          |Hardware               |Status  |W*S/Q      |
 |----|-------------------------------------------------------|------------------------------|-----------------------|--------|-----------|
-|   1|[optanne_graphann](../t3/gemini/README.md)                                   |Intel                      |LedaE APU               |inprog|**[0.004](eval_2021/gemini/deep-1B_power.png)**|
+|   1|[optanne_graphann](../t3/gemini/README.md)                                   |Intel                      |LedaE APU               |inprog|**[0.004](eval_2021/optanne_graphann/deep-1B_power.png)**|
 |   2|[gemini](../t3/gemini/README.md)                                   |GSI Technology                      |LedaE APU               |inprog|**[0.040](eval_2021/gemini/deep-1B_power.png)**|
-|   3|[faiss_t3](../t3/gemini/README.md)                                   |Facebook Research                      |LedaE APU               |inprog|**[0.113](eval_2021/gemini/deep-1B_power.png)**|
+|   3|[faiss_t3](../t3/gemini/README.md)                                   |Facebook Research                      |LedaE APU               |inprog|**[0.113](eval_2021/faiss_t3/deep-1B_power.png)**|
 |   2|                                                      -|                             -|                      -|       -|          -|
 |   3|                                                      -|                             -|                      -|       -|          -|
 |   4|                                                      -|                             -|                      -|       -|          -|
@@ -241,8 +241,8 @@
 |Rank|Submission                                             |Team                          |Hardware               |Status  |R@10         |
 |----|-------------------------------------------------------|------------------------------|-----------------------|--------|-------------|
 |   1|[gemini](../t3/gemini/README.md)                                   |GSI Technology                      |LedaE APU               |inprog|**[0.993](eval_2021/gemini/bigann-1B_recall.png)**  |
-|   2|[optanne_graphann](../t3/gemini/README.md)                                   |Intel                      |LedaE APU               |inprog|**[0.991](eval_2021/gemini/bigann-1B_recall.png)**  |
-|   3|[faiss_t3](../t3/gemini/README.md)                                   |Facebook Research                      |LedaE APU               |inprog|**[0.927](eval_2021/gemini/bigann-1B_recall.png)**  |
+|   2|[optanne_graphann](../t3/gemini/README.md)                                   |Intel                      |LedaE APU               |inprog|**[0.991](eval_2021/optanne_graphann/bigann-1B_recall.png)**  |
+|   3|[faiss_t3](../t3/gemini/README.md)                                   |Facebook Research                      |LedaE APU               |inprog|**[0.927](eval_2021/faiss_t3/bigann-1B_recall.png)**  |
 |   3|                                                      -|                             -|                      -|       -|            -|
 |   4|                                                      -|                             -|                      -|       -|            -|
 |   5|                                                      -|                             -|                      -|       -|            -|
@@ -264,9 +264,9 @@
 
 |Rank|Submission                                             |Team                          |Hardware               |Status  |Q/S          |
 |----|-------------------------------------------------------|------------------------------|-----------------------|--------|-------------|
-|   1|[optanne_graphann](../t3/gemini/README.md)                                   |Intel                      |LedaE APU               |inprog|**[343,727.791](eval_2021/gemini/bigann-1B_throughput.png)**  |
+|   1|[optanne_graphann](../t3/gemini/README.md)                                   |Intel                      |LedaE APU               |inprog|**[343,727.791](eval_2021/optanne_graphann/bigann-1B_throughput.png)**  |
 |   2|[gemini](../t3/gemini/README.md)                                   |GSI Technology                      |LedaE APU               |inprog|**[9,504.865](eval_2021/gemini/bigann-1B_throughput.png)**  |
-|   3|[faiss_t3](../t3/gemini/README.md)                                   |Facebook Research                      |LedaE APU               |inprog|**[3,086.656](eval_2021/gemini/bigann-1B_throughput.png)**  |
+|   3|[faiss_t3](../t3/gemini/README.md)                                   |Facebook Research                      |LedaE APU               |inprog|**[3,086.656](eval_2021/faiss_t3/bigann-1B_throughput.png)**  |
 |   4|                                                      -|                             -|                      -|       -|            -|
 |   5|                                                      -|                             -|                      -|       -|            -|
 |   6|                                                      -|                             -|                      -|       -|            -|
@@ -287,9 +287,9 @@
 
 |Rank|Submission                                             |Team                          |Hardware               |Status  |W*S/Q      |
 |----|-------------------------------------------------------|------------------------------|-----------------------|--------|-----------|
-|   1|[optanne_graphann](../t3/gemini/README.md)                                   |Intel                      |LedaE APU               |inprog|**[0.002](eval_2021/gemini/bigann-1B_power.png)**|       
+|   1|[optanne_graphann](../t3/gemini/README.md)                                   |Intel                      |LedaE APU               |inprog|**[0.002](eval_2021/optanne_graphann/bigann-1B_power.png)**|       
 |   2|[gemini](../t3/gemini/README.md)                                   |GSI Technology                      |LedaE APU               |inprog|**[0.039](eval_2021/gemini/bigann-1B_power.png)**|       
-|   3|[faiss_t3](../t3/gemini/README.md)                                   |Facebook Research                      |LedaE APU               |inprog|**[0.167](eval_2021/gemini/bigann-1B_power.png)**|      
+|   3|[faiss_t3](../t3/gemini/README.md)                                   |Facebook Research                      |LedaE APU               |inprog|**[0.167](eval_2021/faiss_t3/bigann-1B_power.png)**|      
 |   4|                                                      -|                             -|                      -|       -|          -|
 |   5|                                                      -|                             -|                      -|       -|          -|
 |   6|                                                      -|                             -|                      -|       -|          -|
@@ -344,8 +344,8 @@
 |Rank|Submission                                             |Team                          |Hardware               |Status  |R@10           |
 |----|-------------------------------------------------------|------------------------------|-----------------------|--------|---------------|
 |   1|[gemini](../t3/gemini/README.md)                                   |GSI Technology                      |LedaE APU               |inprog|**[0.978](eval_2021/gemini/msturing-1B_recall.png)**    |
-|   2|[optanne_graphann](../t3/gemini/README.md)                                   |Intel                      |LedaE APU               |inprog|**[0.962](eval_2021/gemini/msturing-1B_recall.png)**    |
-|   3|[faiss_t3](../t3/gemini/README.md)                                   |Facebook Research                      |LedaE APU               |inprog|**[0.909](eval_2021/gemini/msturing-1B_recall.png)**    |
+|   2|[optanne_graphann](../t3/gemini/README.md)                                   |Intel                      |LedaE APU               |inprog|**[0.962](eval_2021/optanne_graphann/msturing-1B_recall.png)**    |
+|   3|[faiss_t3](../t3/gemini/README.md)                                   |Facebook Research                      |LedaE APU               |inprog|**[0.909](eval_2021/faiss_t3/msturing-1B_recall.png)**    |
 |   4|                                                      -|                             -|                      -|       -|              -|
 |   5|                                                      -|                             -|                      -|       -|              -|
 |   6|                                                      -|                             -|                      -|       -|              -|
@@ -366,9 +366,9 @@
 
 |Rank|Submission                                             |Team                          |Hardware               |Status  |Q/S         |
 |----|-------------------------------------------------------|------------------------------|-----------------------|--------|------------|
-|   1|[optanne_graphann](../t3/gemini/README.md)                                   |Intel                      |LedaE APU               |inprog|**[157,277.710](eval_2021/gemini/msturing-1B_throughput.png)** |
+|   1|[optanne_graphann](../t3/gemini/README.md)                                   |Intel                      |LedaE APU               |inprog|**[157,277.710](eval_2021/optanne_graphann/msturing-1B_throughput.png)** |
 |   2|[gemini](../t3/gemini/README.md)                                   |GSI Technology                      |LedaE APU               |inprog|**[20,166.678](eval_2021/gemini/msturing-1B_throughput.png)** |
-|   3|[faiss_t3](../t3/gemini/README.md)                                   |Facebook Research                      |LedaE APU               |inprog|**[2,359.485](eval_2021/gemini/msturing-1B_throughput.png)** |
+|   3|[faiss_t3](../t3/gemini/README.md)                                   |Facebook Research                      |LedaE APU               |inprog|**[2,359.485](eval_2021/faiss_t3/msturing-1B_throughput.png)** |
 |   4|                                                      -|                             -|                      -|       -|           -|
 |   5|                                                      -|                             -|                      -|       -|           -|
 |   6|                                                      -|                             -|                      -|       -|           -|
@@ -389,9 +389,9 @@
 
 |Rank|Submission                                             |Team                          |Hardware               |Status|W*S/Q         |
 |----|-------------------------------------------------------|------------------------------|-----------------------|------|--------------|
-|   1|[optanne_graphann](../t3/gemini/README.md)                                   |Intel                      |LedaE APU               |inprog|**[0.005](eval_2021/gemini/msturing-1B_power.png)** |
+|   1|[optanne_graphann](../t3/gemini/README.md)                                   |Intel                      |LedaE APU               |inprog|**[0.005](eval_2021/optanne_graphann/msturing-1B_power.png)** |
 |   2|[gemini](../t3/gemini/README.md)                                   |GSI Technology                      |LedaE APU               |inprog|**[0.023](eval_2021/gemini/msturing-1B_power.png)** |
-|   3|[faiss_t3](../t3/gemini/README.md)                                   |Facebook Research                      |LedaE APU               |inprog|**[0.204](eval_2021/gemini/msturing-1B_power.png)** |
+|   3|[faiss_t3](../t3/gemini/README.md)                                   |Facebook Research                      |LedaE APU               |inprog|**[0.204](eval_2021/faiss_t3/msturing-1B_power.png)** |
 |   4|                                                      -|                             -|                      -|       -|           -|
 |   5|                                                      -|                             -|                      -|       -|           -|
 |   6|                                                      -|                             -|                      -|       -|           -|
@@ -443,9 +443,9 @@
 
 |Rank|Submission                                             |Team                          |Hardware               |Status  |R@10     |
 |----|-------------------------------------------------------|------------------------------|-----------------------|--------|---------|
-|   1|[optanne_graphann](../t3/gemini/README.md)                                   |Intel                      |LedaE APU               |inprog|**[0.005](eval_2021/gemini/msspacev-1B_power.png)** |
+|   1|[optanne_graphann](../t3/gemini/README.md)                                   |Intel                      |LedaE APU               |inprog|**[0.005](eval_2021/optanne_graphann/msspacev-1B_power.png)** |
 |   2|[gemini](../t3/gemini/README.md)                                   |GSI Technology                      |LedaE APU               |inprog|**[0.048](eval_2021/gemini/msspacev-1B_power.png)** |
-|   3|[faiss_t3](../t3/gemini/README.md)                                   |Facebook Research                      |LedaE APU               |inprog|**[0.167](eval_2021/gemini/msspacev-1B_power.png)** |
+|   3|[faiss_t3](../t3/gemini/README.md)                                   |Facebook Research                      |LedaE APU               |inprog|**[0.167](eval_2021/faiss_t3/msspacev-1B_power.png)** |
 |   4|                                                      -|                             -|                      -|       -|        -|
 |   5|                                                      -|                             -|                      -|       -|        -|
 |   6|                                                      -|                             -|                      -|       -|        -|
@@ -466,9 +466,9 @@
 
 |Rank|Submission                                             |Team                          |Hardware               |Status  |Q/S         |
 |----|-------------------------------------------------------|------------------------------|-----------------------|--------|------------|
-|   1|[optanne_graphann](../t3/gemini/README.md)                                   |Intel                      |LedaE APU               |inprog|**[139,612.021](eval_2021/gemini/msspacev-1B_throughput.png)** |
+|   1|[optanne_graphann](../t3/gemini/README.md)                                   |Intel                      |LedaE APU               |inprog|**[139,612.021](eval_2021/optanne_graphann/msspacev-1B_throughput.png)** |
 |   2|[gemini](../t3/gemini/README.md)                                   |GSI Technology                      |LedaE APU               |inprog|**[8,587.024](eval_2021/gemini/msspacev-1B_throughput.png)** |
-|   3|[faiss_t3](../t3/gemini/README.md)                                   |Facebook Research                      |LedaE APU               |inprog|**[2,770.848](eval_2021/gemini/msspacev-1B_throughput.png)** |
+|   3|[faiss_t3](../t3/gemini/README.md)                                   |Facebook Research                      |LedaE APU               |inprog|**[2,770.848](eval_2021/faiss_t3/msspacev-1B_throughput.png)** |
 |   2|                                                      -|                             -|                      -|       -|           -|    
 |   3|                                                      -|                             -|                      -|       -|           -|   
 |   4|                                                      -|                             -|                      -|       -|           -|   
@@ -491,9 +491,9 @@
 
 |Rank|Submission                                             |Team                          |Hardware               |Status  |W*S/Q       |
 |----|-------------------------------------------------------|------------------------------|-----------------------|--------|------------|
-|   1|[optanne_graphann](../t3/gemini/README.md)                                   |Intel                      |LedaE APU               |inprog|**[0.005](eval_2021/gemini/msspacev-1B_power.png)** |
+|   1|[optanne_graphann](../t3/gemini/README.md)                                   |Intel                      |LedaE APU               |inprog|**[0.005](eval_2021/optanne_graphann/msspacev-1B_power.png)** |
 |   2|[gemini](../t3/gemini/README.md)                                   |GSI Technology                      |LedaE APU               |inprog|**[0.048](eval_2021/gemini/msspacev-1B_power.png)** |
-|   3|[faiss_t3](../t3/gemini/README.md)                                   |Facebook Research                      |LedaE APU               |inprog|**[0.167](eval_2021/gemini/msspacev-1B_power.png)** |
+|   3|[faiss_t3](../t3/gemini/README.md)                                   |Facebook Research                      |LedaE APU               |inprog|**[0.167](eval_2021/faiss_t3/msspacev-1B_power.png)** |
 |   4|                                                      -|                             -|                      -|       -|           -|
 |   5|                                                      -|                             -|                      -|       -|           -|
 |   6|                                                      -|                             -|                      -|       -|           -|
@@ -545,9 +545,9 @@
 
 |Rank|Submission                                             |Team                          |Hardware               |Status  |R@10         |
 |----|-------------------------------------------------------|------------------------------|-----------------------|--------|-------------|
-|   1|[optanne_graphann](../t3/gemini/README.md)                                   |Intel                      |LedaE APU               |inprog|**[0.903](eval_2021/gemini/text2image-1B_recall.png)**  |
+|   1|[optanne_graphann](../t3/gemini/README.md)                                   |Intel                      |LedaE APU               |inprog|**[0.903](eval_2021/optanne_graphann/text2image-1B_recall.png)**  |
 |   2|[gemini](../t3/gemini/README.md)                                   |GSI Technology                      |LedaE APU               |inprog|**[0.882](eval_2021/gemini/text2image-1B_recall.png)**  |
-|   3|[faiss_t3](../t3/gemini/README.md)                                   |Facebook Research                      |LedaE APU               |inprog|**[0.860](eval_2021/gemini/text2image-1B_recall.png)**  |
+|   3|[faiss_t3](../t3/gemini/README.md)                                   |Facebook Research                      |LedaE APU               |inprog|**[0.860](eval_2021/faiss_t3/text2image-1B_recall.png)**  |
 |   4|                                                      -|                             -|                      -|       -|            -|
 |   5|                                                      -|                             -|                      -|       -|            -|
 |   6|                                                      -|                             -|                      -|       -|            -|
@@ -568,8 +568,8 @@
 
 |Rank|Submission                                             |Team                          |Hardware               |Status  |Q/S         |
 |----|-------------------------------------------------------|------------------------------|-----------------------|--------|------------|
-|   1|[optanne_graphann](../t3/gemini/README.md)                                   |Intel                      |LedaE APU               |inprog|**[10,838.358](eval_2021/gemini/text2image-1B_throughput.png)** |
-|   2|[faiss_t3](../t3/gemini/README.md)                                   |Facebook Research                      |LedaE APU               |inprog|**[1,762.363](eval_2021/gemini/text2image-1B_throughput.png)** |
+|   1|[optanne_graphann](../t3/gemini/README.md)                                   |Intel                      |LedaE APU               |inprog|**[10,838.358](eval_2021/optanne_graphann/text2image-1B_throughput.png)** |
+|   2|[faiss_t3](../t3/gemini/README.md)                                   |Facebook Research                      |LedaE APU               |inprog|**[1,762.363](eval_2021/faiss_t3/text2image-1B_throughput.png)** |
 |   3|[gemini](../t3/gemini/README.md)                                   |GSI Technology                      |LedaE APU               |inprog|**[1,196.589](eval_2021/gemini/text2image-1B_throughput.png)** |
 |   4|                                                      -|                             -|                      -|       -|           -|    
 |   5|                                                      -|                             -|                      -|       -|           -|   
@@ -591,8 +591,8 @@
 
 |Rank|Submission                                             |Team                          |Hardware               |Status  |W*S/Q      |
 |----|-------------------------------------------------------|------------------------------|-----------------------|--------|-----------|
-|   1|[optanne_graphann](../t3/gemini/README.md)                                   |Intel                      |LedaE APU               |inprog|**[0.070](eval_2021/gemini/text2image-1B_power.png)**|
-|   2|[faiss_t3](../t3/gemini/README.md)                                   |Facebook Research                      |LedaE APU               |inprog|**[0.123](eval_2021/gemini/text2image-1B_power.png)**|
+|   1|[optanne_graphann](../t3/gemini/README.md)                                   |Intel                      |LedaE APU               |inprog|**[0.070](eval_2021/optanne_graphann/text2image-1B_power.png)**|
+|   2|[faiss_t3](../t3/gemini/README.md)                                   |Facebook Research                      |LedaE APU               |inprog|**[0.123](eval_2021/faiss_t3/text2image-1B_power.png)**|
 |   3|[gemini](../t3/gemini/README.md)                                   |GSI Technology                      |LedaE APU               |inprog|**[0.503](eval_2021/gemini/text2image-1B_power.png)**|
 |   4|                                                      -|                             -|                      -|       -|        -|
 |   5|                                                      -|                             -|                      -|       -|        -|
