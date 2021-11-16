@@ -261,18 +261,18 @@
 
 ##### BigANN Throughput Rankings
 
-|Rank|Submission                                             |Team                          |Hardware               |Status|Q/S          |
-|----|-------------------------------------------------------|------------------------------|-----------------------|------|-------------|
-|   1|[optanne_graphann](../t3/gemini/README.md)                                   |Intel                      |LedaE APU               |inprog|**343,727.791**|
-|   2|[gemini](../t3/gemini/README.md)                                   |GSI Technology                      |LedaE APU               |inprog|**9,504.865**|
-|   3|[faiss_t3](../t3/gemini/README.md)                                   |Facebook Research                      |LedaE APU               |inprog|**3,086.656**|
-|   4|                                                      -|                             -|                      -|     -|            -|
-|   5|                                                      -|                             -|                      -|     -|            -|
-|   6|                                                      -|                             -|                      -|     -|            -|
-|   7|                                                      -|                             -|                      -|     -|            -|
-|   8|                                                      -|                             -|                      -|     -|            -|
-|   9|                                                      -|                             -|                      -|     -|            -|
-|  10|                                                      -|                             -|                      -|     -|            -|
+|Rank|Submission                                             |Team                          |Hardware               |Status  |Q/S          |
+|----|-------------------------------------------------------|------------------------------|-----------------------|--------|-------------|
+|   1|[optanne_graphann](../t3/gemini/README.md)                                   |Intel                      |LedaE APU               |inprog|**343,727.791**  |
+|   2|[gemini](../t3/gemini/README.md)                                   |GSI Technology                      |LedaE APU               |inprog|**9,504.865**  |
+|   3|[faiss_t3](../t3/gemini/README.md)                                   |Facebook Research                      |LedaE APU               |inprog|**3,086.656**  |
+|   4|                                                      -|                             -|                      -|       -|            -|
+|   5|                                                      -|                             -|                      -|       -|            -|
+|   6|                                                      -|                             -|                      -|       -|            -|
+|   7|                                                      -|                             -|                      -|       -|            -|
+|   8|                                                      -|                             -|                      -|       -|            -|
+|   9|                                                      -|                             -|                      -|       -|            -|
+|  10|                                                      -|                             -|                      -|       -|            -|
 
 * The operational point for ranking is 0.90 recall@10. We will use the highest throughput for the search parameters that meet or exceed 0.90 recall@10.
 * Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
@@ -340,18 +340,18 @@
 
 ##### MSTuring Recall Rankings
 
-|Rank|Submission                                             |Team                          |Hardware               |Status|R@10     |Q/S     |
-|----|-------------------------------------------------------|------------------------------|-----------------------|------|---------|--------|
-|   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|**0.910**|2011.542|
-|   2|                                                      -|                             -|                      -|     -|        -|       -|
-|   3|                                                      -|                             -|                      -|     -|        -|       -|
-|   4|                                                      -|                             -|                      -|     -|        -|       -|
-|   5|                                                      -|                             -|                      -|     -|        -|       -|
-|   6|                                                      -|                             -|                      -|     -|        -|       -|
-|   7|                                                      -|                             -|                      -|     -|        -|       -|
-|   8|                                                      -|                             -|                      -|     -|        -|       -|
-|   9|                                                      -|                             -|                      -|     -|        -|       -|
-|  10|                                                      -|                             -|                      -|     -|        -|       -|
+|Rank|Submission                                             |Team                          |Hardware               |Status  |R@10           |
+|----|-------------------------------------------------------|------------------------------|-----------------------|--------|---------------|
+|   1|[gemini](../t3/gemini/README.md)                                   |GSI Technology                      |LedaE APU               |inprog|**0.978**    |
+|   2|[optanne_graphann](../t3/gemini/README.md)                                   |Intel                      |LedaE APU               |inprog|**0.962**    |
+|   3|[faiss_t3](../t3/gemini/README.md)                                   |Facebook Research                      |LedaE APU               |inprog|**0.909**    |
+|   4|                                                      -|                             -|                      -|       -|              -|
+|   5|                                                      -|                             -|                      -|       -|              -|
+|   6|                                                      -|                             -|                      -|       -|              -|
+|   7|                                                      -|                             -|                      -|       -|              -|       
+|   8|                                                      -|                             -|                      -|       -|              -|       
+|   9|                                                      -|                             -|                      -|       -|              -|       
+|  10|                                                      -|                             -|                      -|       -|              -|       
 
 * The operational point for ranking is 2000 QPS. We will use the highest recall for the search parameters that meet or exceed 2000 QPS.
 * Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
@@ -363,18 +363,18 @@
 
 ##### MSTuring Throughput Rankings
 
-|Rank|Submission                                             |Team                          |Hardware               |Status|Q/S         |R@10 |
-|----|-------------------------------------------------------|------------------------------|-----------------------|------|------------|-----|
-|   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|**2421.856**|0.902|
-|   2|                                                      -|                             -|                      -|     -|           -|    -|
-|   3|                                                      -|                             -|                      -|     -|           -|    -|
-|   4|                                                      -|                             -|                      -|     -|           -|    -|
-|   5|                                                      -|                             -|                      -|     -|           -|    -|
-|   6|                                                      -|                             -|                      -|     -|           -|    -|
-|   7|                                                      -|                             -|                      -|     -|           -|    -|
-|   8|                                                      -|                             -|                      -|     -|           -|    -|
-|   9|                                                      -|                             -|                      -|     -|           -|    -|
-|  10|                                                      -|                             -|                      -|     -|           -|    -|
+|Rank|Submission                                             |Team                          |Hardware               |Status  |Q/S         |
+|----|-------------------------------------------------------|------------------------------|-----------------------|--------|------------|
+|   1|[optanne_graphann](../t3/gemini/README.md)                                   |Intel                      |LedaE APU               |inprog|**157,277.710** |
+|   2|[gemini](../t3/gemini/README.md)                                   |GSI Technology                      |LedaE APU               |inprog|**20,166.678** |
+|   3|[faiss_t3](../t3/gemini/README.md)                                   |Facebook Research                      |LedaE APU               |inprog|**2,359.485** |
+|   4|                                                      -|                             -|                      -|       -|           -|
+|   5|                                                      -|                             -|                      -|       -|           -|
+|   6|                                                      -|                             -|                      -|       -|           -|
+|   7|                                                      -|                             -|                      -|       -|           -|
+|   8|                                                      -|                             -|                      -|       -|           -|
+|   9|                                                      -|                             -|                      -|       -|           -|
+|  10|                                                      -|                             -|                      -|       -|           -|
 
 * The operational point for ranking is 0.90 recall@10. We will use the highest throughput for the search parameters that meet or exceed 0.90 recall@10.
 * Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
@@ -386,18 +386,18 @@
 
 ##### MSTuring Power Rankings
 
-|Rank|Submission                                             |Team                          |Hardware               |Status|W*S/Q   |
-|----|-------------------------------------------------------|------------------------------|-----------------------|------|--------|
-|   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|**0.51**|
-|   2|                                                      -|                             -|                      -|     -|       -|
-|   3|                                                      -|                             -|                      -|     -|       -|
-|   4|                                                      -|                             -|                      -|     -|       -|
-|   5|                                                      -|                             -|                      -|     -|       -|
-|   6|                                                      -|                             -|                      -|     -|       -|
-|   7|                                                      -|                             -|                      -|     -|       -|
-|   8|                                                      -|                             -|                      -|     -|       -|
-|   9|                                                      -|                             -|                      -|     -|       -|
-|  10|                                                      -|                             -|                      -|     -|       -|
+|Rank|Submission                                             |Team                          |Hardware               |Status|W*S/Q         |
+|----|-------------------------------------------------------|------------------------------|-----------------------|------|--------------|
+|   1|[optanne_graphann](../t3/gemini/README.md)                                   |Intel                      |LedaE APU               |inprog|**0.005** |
+|   2|[gemini](../t3/gemini/README.md)                                   |GSI Technology                      |LedaE APU               |inprog|**0.023** |
+|   3|[faiss_t3](../t3/gemini/README.md)                                   |Facebook Research                      |LedaE APU               |inprog|**0.204** |
+|   4|                                                      -|                             -|                      -|       -|           -|
+|   5|                                                      -|                             -|                      -|       -|           -|
+|   6|                                                      -|                             -|                      -|       -|           -|
+|   7|                                                      -|                             -|                      -|       -|           -|
+|   8|                                                      -|                             -|                      -|       -|           -|
+|   9|                                                      -|                             -|                      -|       -|           -|
+|  10|                                                      -|                             -|                      -|       -|           -|
 
 * The operational point for ranking is 0.90 recall@10. We will use the lowest power consumption for the search parameters that meet or exceed 0.90 recall@10.
 * Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
@@ -409,18 +409,18 @@
 
 ##### MSTuring Cost Rankings
 
-|Rank|Submission                                             |Team                          |Hardware               |Status|Cost          |capex     |opex     |unit cost|units@100K qps|KwH*4yrs  |KwH cost |
-|----|-------------------------------------------------------|------------------------------|-----------------------|------|--------------|----------|---------|---------|--------------|----------|---------|
-|   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|**$1279799.0**|$1101095.0|$178704.0|$22021.90|            50|$1787040.0|$178704.0|
-|   2|                                                      -|                             -|                      -|     -|             -|         -|        -|        -|             -|         -|        -|
-|   3|                                                      -|                             -|                      -|     -|             -|         -|        -|        -|             -|         -|        -|
-|   4|                                                      -|                             -|                      -|     -|             -|         -|        -|        -|             -|         -|        -|
-|   5|                                                      -|                             -|                      -|     -|             -|         -|        -|        -|             -|         -|        -|
-|   6|                                                      -|                             -|                      -|     -|             -|         -|        -|        -|             -|         -|        -|
-|   7|                                                      -|                             -|                      -|     -|             -|         -|        -|        -|             -|         -|        -|
-|   8|                                                      -|                             -|                      -|     -|             -|         -|        -|        -|             -|         -|        -|
-|   9|                                                      -|                             -|                      -|     -|             -|         -|        -|        -|             -|         -|        -|
-|  10|                                                      -|                             -|                      -|     -|             -|         -|        -|        -|             -|         -|        -|
+|Rank|Submission                          |Team                          |Hardware               |Status  |Cost          |capex     |opex     |unit cost|units@100K qps|KwH*4yrs  |KwH cost |
+|----|------------------------------------|------------------------------|-----------------------|--------|--------------|----------|---------|---------|--------------|----------|---------|
+|   1|[gemini](../t3/gemini/README.md)                |GSI Technology                      |LedaE APU               |inprog|**$286,578.81**   |         -|        -|        -|             -|         -|        -|
+|   2|[faiss_t3](../t3/gemini/README.md)                |Facebook Research                      |LedaE APU               |inprog|**$1,018,332.30**   |         -|        -|        -|             -|         -|        -|
+|   3|[-](-)                |-                      |-               |-|**-**   |         -|        -|        -|             -|         -|        -|
+|   4|                                   -|                             -|                      -|       -|             -|         -|        -|        -|             -|         -|        -|
+|   5|                                   -|                             -|                      -|       -|             -|         -|        -|        -|             -|         -|        -|
+|   6|                                   -|                             -|                      -|       -|             -|         -|        -|        -|             -|         -|        -|
+|   7|                                   -|                             -|                      -|       -|             -|         -|        -|        -|             -|         -|        -|
+|   8|                                   -|                             -|                      -|       -|             -|         -|        -|        -|             -|         -|        -|
+|   9|                                   -|                             -|                      -|       -|             -|         -|        -|        -|             -|         -|        -|
+|  10|                                   -|                             -|                      -|       -|             -|         -|        -|        -|             -|         -|        -|
 
 * The operational point for ranking is 0.90 recall@10. We will use the lowest power consumption/query for the search parameters that meet or exceed 0.90 recall@10.
 * The formula is based on:
@@ -440,18 +440,18 @@
 
 ##### MSSpace Recall Rankings
 
-|Rank|Submission                                             |Team                          |Hardware               |Status|R@10     |Q/S     |
-|----|-------------------------------------------------------|------------------------------|-----------------------|------|---------|--------|
-|   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|**0.850**|2190.829|
-|   2|                                                      -|                             -|                      -|     -|        -|       -|
-|   3|                                                      -|                             -|                      -|     -|        -|       -|
-|   4|                                                      -|                             -|                      -|     -|        -|       -|
-|   5|                                                      -|                             -|                      -|     -|        -|       -|
-|   6|                                                      -|                             -|                      -|     -|        -|       -|
-|   7|                                                      -|                             -|                      -|     -|        -|       -|
-|   8|                                                      -|                             -|                      -|     -|        -|       -|
-|   9|                                                      -|                             -|                      -|     -|        -|       -|
-|  10|                                                      -|                             -|                      -|     -|        -|       -|
+|Rank|Submission                                             |Team                          |Hardware               |Status  |R@10     |
+|----|-------------------------------------------------------|------------------------------|-----------------------|--------|---------|
+|   1|[optanne_graphann](../t3/gemini/README.md)                                   |Intel                      |LedaE APU               |inprog|**0.005** |
+|   2|[gemini](../t3/gemini/README.md)                                   |GSI Technology                      |LedaE APU               |inprog|**0.048** |
+|   3|[faiss_t3](../t3/gemini/README.md)                                   |Facebook Research                      |LedaE APU               |inprog|**0.167** |
+|   4|                                                      -|                             -|                      -|       -|        -|
+|   5|                                                      -|                             -|                      -|       -|        -|
+|   6|                                                      -|                             -|                      -|       -|        -|
+|   7|                                                      -|                             -|                      -|       -|        -|
+|   8|                                                      -|                             -|                      -|       -|        -|
+|   9|                                                      -|                             -|                      -|       -|        -|
+|  10|                                                      -|                             -|                      -|       -|        -|
 
 * The operational point for ranking is 2000 QPS. We will use the highest recall for the search parameters that meet or exceed 2000 QPS.
 * Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
@@ -463,18 +463,20 @@
 
 ##### MSSpace Throughput Rankings
 
-|Rank|Submission                                             |Team                          |Hardware               |Status|Q/S         |R@10 |
-|----|-------------------------------------------------------|------------------------------|-----------------------|------|------------|-----|
-|   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|**1484.217**|0.869|
-|   2|                                                      -|                             -|                      -|     -|           -|    -|
-|   3|                                                      -|                             -|                      -|     -|           -|    -|
-|   4|                                                      -|                             -|                      -|     -|           -|    -|
-|   5|                                                      -|                             -|                      -|     -|           -|    -|
-|   6|                                                      -|                             -|                      -|     -|           -|    -|
-|   7|                                                      -|                             -|                      -|     -|           -|    -|
-|   8|                                                      -|                             -|                      -|     -|           -|    -|
-|   9|                                                      -|                             -|                      -|     -|           -|    -|
-|  10|                                                      -|                             -|                      -|     -|           -|    -|
+|Rank|Submission                                             |Team                          |Hardware               |Status  |Q/S         |
+|----|-------------------------------------------------------|------------------------------|-----------------------|--------|------------|
+|   1|[optanne_graphann](../t3/gemini/README.md)                                   |Intel                      |LedaE APU               |inprog|**139,612.021** |
+|   2|[gemini](../t3/gemini/README.md)                                   |GSI Technology                      |LedaE APU               |inprog|**8,587.024** |
+|   3|[faiss_t3](../t3/gemini/README.md)                                   |Facebook Research                      |LedaE APU               |inprog|**2,770.848** |
+|   2|                                                      -|                             -|                      -|       -|           -|    
+|   3|                                                      -|                             -|                      -|       -|           -|   
+|   4|                                                      -|                             -|                      -|       -|           -|   
+|   5|                                                      -|                             -|                      -|       -|           -|    
+|   6|                                                      -|                             -|                      -|       -|           -|   
+|   7|                                                      -|                             -|                      -|       -|           -|    
+|   8|                                                      -|                             -|                      -|       -|           -|    
+|   9|                                                      -|                             -|                      -|       -|           -|   
+|  10|                                                      -|                             -|                      -|       -|           -|    
 
 * The operational point for ranking is 0.86 recall@10. We will use the highest throughput for the search parameters that meet or exceed 0.86 recall@10.
 * Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
@@ -486,18 +488,18 @@
 
 ##### MSSpace Power Rankings
 
-|Rank|Submission                                             |Team                          |Hardware               |Status|W*S/Q   |
-|----|-------------------------------------------------------|------------------------------|-----------------------|------|--------|
-|   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|**0.65**|
-|   2|                                                      -|                             -|                      -|     -|       -|
-|   3|                                                      -|                             -|                      -|     -|       -|
-|   4|                                                      -|                             -|                      -|     -|       -|
-|   5|                                                      -|                             -|                      -|     -|       -|
-|   6|                                                      -|                             -|                      -|     -|       -|
-|   7|                                                      -|                             -|                      -|     -|       -|
-|   8|                                                      -|                             -|                      -|     -|       -|
-|   9|                                                      -|                             -|                      -|     -|       -|
-|  10|                                                      -|                             -|                      -|     -|       -|
+|Rank|Submission                                             |Team                          |Hardware               |Status  |W*S/Q       |
+|----|-------------------------------------------------------|------------------------------|-----------------------|--------|------------|
+|   1|[optanne_graphann](../t3/gemini/README.md)                                   |Intel                      |LedaE APU               |inprog|**0.005** |
+|   2|[gemini](../t3/gemini/README.md)                                   |GSI Technology                      |LedaE APU               |inprog|**0.048** |
+|   3|[faiss_t3](../t3/gemini/README.md)                                   |Facebook Research                      |LedaE APU               |inprog|**0.167** |
+|   4|                                                      -|                             -|                      -|       -|           -|
+|   5|                                                      -|                             -|                      -|       -|           -|
+|   6|                                                      -|                             -|                      -|       -|           -|
+|   7|                                                      -|                             -|                      -|       -|           -|
+|   8|                                                      -|                             -|                      -|       -|           -|
+|   9|                                                      -|                             -|                      -|       -|           -|
+|  10|                                                      -|                             -|                      -|       -|           -|
 
 * The operational point for ranking is 0.86 recall@10. We will use the lowest power consumption for the search parameters that meet or exceed 0.86 recall@10.
 * Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
@@ -509,18 +511,18 @@
 
 ##### MSSpace Cost Rankings
 
-|Rank|Submission                                             |Team                          |Hardware               |Status|Cost          |capex     |opex     |unit cost|units@100K qps|KwH*4yrs  |KwH cost |
-|----|-------------------------------------------------------|------------------------------|-----------------------|------|--------------|----------|---------|---------|--------------|----------|---------|
-|   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|**$1725249.2**|$1497489.2|$227760.0|$22021.90|            68|$2277600.0|$227760.0|
-|   2|                                                      -|                             -|                      -|     -|             -|         -|        -|        -|             -|         -|        -|
-|   3|                                                      -|                             -|                      -|     -|             -|         -|        -|        -|             -|         -|        -|
-|   4|                                                      -|                             -|                      -|     -|             -|         -|        -|        -|             -|         -|        -|
-|   5|                                                      -|                             -|                      -|     -|             -|         -|        -|        -|             -|         -|        -|
-|   6|                                                      -|                             -|                      -|     -|             -|         -|        -|        -|             -|         -|        -|
-|   7|                                                      -|                             -|                      -|     -|             -|         -|        -|        -|             -|         -|        -|
-|   8|                                                      -|                             -|                      -|     -|             -|         -|        -|        -|             -|         -|        -|
-|   9|                                                      -|                             -|                      -|     -|             -|         -|        -|        -|             -|         -|        -|
-|  10|                                                      -|                             -|                      -|     -|             -|         -|        -|        -|             -|         -|        -|
+|Rank|Submission                             |Team                          |Hardware               |Status |Cost          |capex     |opex     |unit cost|units@100K qps|KwH*4yrs  |KwH cost |
+|----|---------------------------------------|------------------------------|-----------------------|-------|--------------|----------|---------|---------|--------------|----------|---------|
+|   1|[$MS1_SB]($MS1_RD)                     |$MS1_TM                       |$MS1_HW                |$MS1_ST|$MS1_SC       |         -|        -|        -|             -|         -|        -|
+|   2|[$MS2_SB]($MS2_RD)                     |$MS2_TM                       |$MS2_HW                |$MS2_ST|$MS2_SC       |         -|        -|        -|             -|         -|        -|
+|   3|[$MS3_SB]($MS3_RD)                     |$MS3_TM                       |$MS3_HW                |$MS3_ST|$MS3_SC       |         -|        -|        -|             -|         -|        -|
+|   4|                                      -|                             -|                      -|      -|             -|         -|        -|        -|             -|         -|        -|
+|   5|                                      -|                             -|                      -|      -|             -|         -|        -|        -|             -|         -|        -|
+|   6|                                      -|                             -|                      -|      -|             -|         -|        -|        -|             -|         -|        -|
+|   7|                                      -|                             -|                      -|      -|             -|         -|        -|        -|             -|         -|        -|
+|   8|                                      -|                             -|                      -|      -|             -|         -|        -|        -|             -|         -|        -|
+|   9|                                      -|                             -|                      -|      -|             -|         -|        -|        -|             -|         -|        -|
+|  10|                                      -|                             -|                      -|      -|             -|         -|        -|        -|             -|         -|        -|
 
 * The operational point for ranking is 0.90 recall@10. We will use the lowest power consumption/query for the search parameters that meet or exceed 0.90 recall@10.
 * The formula is based on:
@@ -540,18 +542,18 @@
 
 ##### Text2Image Recall Rankings
 
-|Rank|Submission                                             |Team                          |Hardware               |Status|R@10     |Q/S     |
-|----|-------------------------------------------------------|------------------------------|-----------------------|------|---------|--------|
-|   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|**0.860**|2120.635|
-|   2|                                                      -|                             -|                      -|     -|        -|       -|
-|   3|                                                      -|                             -|                      -|     -|        -|       -|
-|   4|                                                      -|                             -|                      -|     -|        -|       -|
-|   5|                                                      -|                             -|                      -|     -|        -|       -|
-|   6|                                                      -|                             -|                      -|     -|        -|       -|
-|   7|                                                      -|                             -|                      -|     -|        -|       -|
-|   8|                                                      -|                             -|                      -|     -|        -|       -|
-|   9|                                                      -|                             -|                      -|     -|        -|       -|
-|  10|                                                      -|                             -|                      -|     -|        -|       -|
+|Rank|Submission                                             |Team                          |Hardware               |Status  |R@10         |
+|----|-------------------------------------------------------|------------------------------|-----------------------|--------|-------------|
+|   1|[optanne_graphann](../t3/gemini/README.md)                                   |Intel                      |LedaE APU               |inprog|**0.903**  |
+|   2|[gemini](../t3/gemini/README.md)                                   |GSI Technology                      |LedaE APU               |inprog|**0.882**  |
+|   3|[faiss_t3](../t3/gemini/README.md)                                   |Facebook Research                      |LedaE APU               |inprog|**0.860**  |
+|   4|                                                      -|                             -|                      -|       -|            -|
+|   5|                                                      -|                             -|                      -|       -|            -|
+|   6|                                                      -|                             -|                      -|       -|            -|
+|   7|                                                      -|                             -|                      -|       -|            -|
+|   8|                                                      -|                             -|                      -|       -|            -|
+|   9|                                                      -|                             -|                      -|       -|            -|
+|  10|                                                      -|                             -|                      -|       -|            -|
 
 * The operational point for ranking is 2000 QPS. We will use the highest recall for the search parameters that meet or exceed 2000 QPS.
 * Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
@@ -563,18 +565,18 @@
 
 ##### Text2Image Throughput Rankings
 
-|Rank|Submission                                             |Team                          |Hardware               |Status|Q/S         |R@10 |
-|----|-------------------------------------------------------|------------------------------|-----------------------|------|------------|-----|
-|   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|**1510.624**|0.882|
-|   2|                                                      -|                             -|                      -|     -|           -|    -|
-|   3|                                                      -|                             -|                      -|     -|           -|    -|
-|   4|                                                      -|                             -|                      -|     -|           -|    -|
-|   5|                                                      -|                             -|                      -|     -|           -|    -|
-|   6|                                                      -|                             -|                      -|     -|           -|    -|
-|   7|                                                      -|                             -|                      -|     -|           -|    -|
-|   8|                                                      -|                             -|                      -|     -|           -|    -|
-|   9|                                                      -|                             -|                      -|     -|           -|    -|
-|  10|                                                      -|                             -|                      -|     -|           -|    -|
+|Rank|Submission                                             |Team                          |Hardware               |Status  |Q/S         |
+|----|-------------------------------------------------------|------------------------------|-----------------------|--------|------------|
+|   1|[optanne_graphann](../t3/gemini/README.md)                                   |Intel                      |LedaE APU               |inprog|**10,838.358** |
+|   2|[faiss_t3](../t3/gemini/README.md)                                   |Facebook Research                      |LedaE APU               |inprog|**1,762.363** |
+|   3|[gemini](../t3/gemini/README.md)                                   |GSI Technology                      |LedaE APU               |inprog|**1,196.589** |
+|   4|                                                      -|                             -|                      -|       -|           -|    
+|   5|                                                      -|                             -|                      -|       -|           -|   
+|   6|                                                      -|                             -|                      -|       -|           -|    
+|   7|                                                      -|                             -|                      -|       -|           -|    
+|   8|                                                      -|                             -|                      -|       -|           -|    
+|   9|                                                      -|                             -|                      -|       -|           -|    
+|  10|                                                      -|                             -|                      -|       -|           -|    
 
 * The operational point for ranking is 0.875 recall@10. We will use the highest throughput for the search parameters that meet or exceed 0.875 recall@10.
 * Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
@@ -586,18 +588,18 @@
 
 ##### Text2Image Power Rankings
 
-|Rank|Submission                                             |Team                          |Hardware               |Status|W*S/Q    |
-|----|-------------------------------------------------------|------------------------------|-----------------------|------|---------|
-|   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|**0.195**|
-|   2|                                                      -|                             -|                      -|     -|        -|
-|   3|                                                      -|                             -|                      -|     -|        -|
-|   4|                                                      -|                             -|                      -|     -|        -|
-|   5|                                                      -|                             -|                      -|     -|        -|
-|   6|                                                      -|                             -|                      -|     -|        -|
-|   7|                                                      -|                             -|                      -|     -|        -|
-|   8|                                                      -|                             -|                      -|     -|        -|
-|   9|                                                      -|                             -|                      -|     -|        -|
-|  10|                                                      -|                             -|                      -|     -|        -|
+|Rank|Submission                                             |Team                          |Hardware               |Status  |W*S/Q      |
+|----|-------------------------------------------------------|------------------------------|-----------------------|--------|-----------|
+|   1|[optanne_graphann](../t3/gemini/README.md)                                   |Intel                      |LedaE APU               |inprog|**0.070**|
+|   2|[faiss_t3](../t3/gemini/README.md)                                   |Facebook Research                      |LedaE APU               |inprog|**0.123**|
+|   3|[gemini](../t3/gemini/README.md)                                   |GSI Technology                      |LedaE APU               |inprog|**0.503**|
+|   4|                                                      -|                             -|                      -|       -|        -|
+|   5|                                                      -|                             -|                      -|       -|        -|
+|   6|                                                      -|                             -|                      -|       -|        -|
+|   7|                                                      -|                             -|                      -|       -|        -|
+|   8|                                                      -|                             -|                      -|       -|        -|
+|   9|                                                      -|                             -|                      -|       -|        -|
+|  10|                                                      -|                             -|                      -|       -|        -|
 
 * The operational point for ranking is 0.86 recall@10. We will use the lowest power consumption for the search parameters that meet or exceed 0.86 recall@10.
 * Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
@@ -609,18 +611,18 @@
 
 ##### Text2Image Cost Rankings
 
-|Rank|Submission                                             |Team                          |Hardware               |Status|Cost          |capex     |opex    |unit cost|units@100K qps|KwH*4yrs |KwH cost|
-|----|-------------------------------------------------------|------------------------------|-----------------------|------|--------------|----------|--------|---------|--------------|---------|--------|
-|   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|**$1125379.2**|$1057051.2|$68328.0|$22021.90|            48|$683280.0|$68328.0|
-|   2|                                                      -|                             -|                      -|     -|             -|         -|       -|        -|             -|        -|       -|
-|   3|                                                      -|                             -|                      -|     -|             -|         -|       -|        -|             -|        -|       -|
-|   4|                                                      -|                             -|                      -|     -|             -|         -|       -|        -|             -|        -|       -|
-|   5|                                                      -|                             -|                      -|     -|             -|         -|       -|        -|             -|        -|       -|
-|   6|                                                      -|                             -|                      -|     -|             -|         -|       -|        -|             -|        -|       -|
-|   7|                                                      -|                             -|                      -|     -|             -|         -|       -|        -|             -|        -|       -|
-|   8|                                                      -|                             -|                      -|     -|             -|         -|       -|        -|             -|        -|       -|
-|   9|                                                      -|                             -|                      -|     -|             -|         -|       -|        -|             -|        -|       -|
-|  10|                                                      -|                             -|                      -|     -|             -|         -|       -|        -|             -|        -|       -|
+|Rank|Submission                                     |Team                          |Hardware             |Status  |Cost          |capex     |opex    |unit cost|units@100K qps|KwH*4yrs |KwH cost|
+|----|-----------------------------------------------|------------------------------|---------------------|--------|--------------|----------|--------|---------|--------------|---------|--------|
+|   1|[faiss_t3](../t3/gemini/README.md)                           |Facebook Research                      |LedaE APU             |inprog|**$1,298,436.77**   |         -|       -|        -|             -|        -|       -|
+|   2|[gemini](../t3/gemini/README.md)                           |GSI Technology                      |LedaE APU             |inprog|**$4,857,248.23**   |         -|       -|        -|             -|        -|       -|
+|   3|[-](-)                           |-                      |-             |-|**-**   |         -|       -|        -|             -|        -|       -|
+|   4|                                              -|                             -|                    -|       -|             -|         -|       -|        -|             -|        -|       -|
+|   5|                                              -|                             -|                    -|       -|             -|         -|       -|        -|             -|        -|       -|
+|   6|                                              -|                             -|                    -|       -|             -|         -|       -|        -|             -|        -|       -|
+|   7|                                              -|                             -|                    -|       -|             -|         -|       -|        -|             -|        -|       -|
+|   8|                                              -|                             -|                    -|       -|             -|         -|       -|        -|             -|        -|       -|
+|   9|                                              -|                             -|                    -|       -|             -|         -|       -|        -|             -|        -|       -|
+|  10|                                              -|                             -|                    -|       -|             -|         -|       -|        -|             -|        -|       -|
 
 * The operational point for ranking is 0.875 recall@10. We will use the lowest power consumption/query for the search parameters that meet or exceed 0.875 recall@10.
 * The formula is based on:
