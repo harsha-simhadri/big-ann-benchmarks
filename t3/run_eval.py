@@ -6,8 +6,8 @@ import pandas as pd
 from string import Template
 import t3eval
 
-RE_EXPORT               = False
-ONLY_TEMPLATE_GEN       = True
+RE_EXPORT               = True
+ONLY_TEMPLATE_GEN       = False
 
 TOTAL_SUBM              = 10
 COMP_RESULTS_TOPLEVEL   = "/Users/gwilliams/Projects/BigANN/competition_results"
@@ -309,7 +309,6 @@ def produce_rankings(subms):
                     val = best_val if benchmark=="cost" else best_val[ bestidxmapping[benchmark] ]
                     if val!=0: best_vals.append( (subm, val) )
             best_vals = sorted( best_vals, key=lambda x: x[1], reverse=True if benchmark in [ "recall", "qps" ] else False )
-            print("SORTED", benchmark, db, best_vals )
             for idx, item in enumerate(best_vals):
                 kee = "$%s%d%s_SB" % ( DBS[db], idx+1, dbmapping[benchmark] )
                 kv = item[0]
