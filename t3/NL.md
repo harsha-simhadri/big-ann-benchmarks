@@ -11,7 +11,7 @@
 |Submission          |Team       |Hardware  |Status |[Recall Rank](#recall-rankings)|[Throughput Rank](#throughput-rankings)|[Power Rank](#power-rankings)|[Cost Rank](#cost-rankings)| 
 |--------------------|-----------|----------|-------|-------------------------------|---------------------------------------|-----------------------------|---------------------------|
 |deepgram            |DeepGram   |NVidia GPU|inprog |                              -|                                      -|                            -|                          -|
-|diskANN             |Microsoft  |Optane    |inprog |                              -|                                      -|                            -|                          -|
+|diskANN             |Microsoft  |Intel Optane  |inprog |                              -|                                      -|                            -|                          -|
 |[faiss_t3](../t3/faiss_t3/README.md)    |Facebook Research     |NVidia GPU    |final  |3                         |3                                 |3                       |1                     |
 |[gemini](../t3/gemini/README.md)  |GSI Technology    |LedaE APU   |inprog |1                        |2                                |2                      |2                    |
 |kanndi              |Silo.ai    |LedaE APU   |inprog |                              -|                                      -|                            -|                          -|
