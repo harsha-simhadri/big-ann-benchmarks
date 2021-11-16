@@ -22,6 +22,7 @@
 |vector_t3           |Vector Inst|NVidia GPU|inprog |                              -|                                      -|                            -|                          -|
 
 
+
 * Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
