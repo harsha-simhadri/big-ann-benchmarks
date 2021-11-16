@@ -147,6 +147,13 @@ def process_subm( subm ):
                                         save_evals=os.path.join(eval_subm_dir, "evals.json" ) )
         evaluator.show_summary(         savepath=os.path.join( eval_subm_dir, "summary.png" ))
 
+def mklnk( val, subm, db, benchmark ):
+    if benchmark=="qps": benchmark="throughput"
+    eval_img = os.path.join( "eval_2021", subm, "%s_%s.png" % (db, benchmark) )
+    print("eval img", eval_img)
+    lnk = "[%s](%s)" % ( str(val), eval_img )
+    return lnk 
+
 def produce_rankings(subms):
 
     print("Producing rankings...")
@@ -342,7 +349,7 @@ def produce_rankings(subms):
                 rdct[kee]=kv
                 kee = "$%s%d%s_V" % ( DBS[db], idx+1, dbmapping[benchmark])
                 fmt = bestformatmapping[benchmark]
-                kv = fmt.format(item[1])
+                kv = fmt.format(item[1]) if benchmark=="cost" else mklnk( item[1], subm, db, benchmark )
                 rdct[kee]=kv
             for i in range(idx+1, TOTAL_SUBM):
                 kee = "$%s%d%s_SB" % ( DBS[db], i+1, dbmapping[benchmark] )
