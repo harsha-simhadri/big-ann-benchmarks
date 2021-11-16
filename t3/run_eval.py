@@ -195,18 +195,28 @@ def produce_rankings(subms):
             kee = "$" + SUBM_MAPPING[subm]['md_prefix']+"_"+ mapping[1]
             subm_order = [ el[0] for el in orderings[mapping[0]] ]
             rdct[kee] = str(subm_order.index(subm)+1) if subm in subm_order else "NQ"
+        kee = "$" + SUBM_MAPPING[subm]['md_prefix']+"_HW"
+        rdct[kee] = SUBM_MAPPING[subm]["display_hw"]
+        kee = "$" + SUBM_MAPPING[subm]['md_prefix']+"_TM"
+        rdct[kee] = SUBM_MAPPING[subm]['team']
+        kee = "$" + SUBM_MAPPING[subm]['md_prefix']+"_SB"
+        rdct[kee] = subm
+        kee = "$" + SUBM_MAPPING[subm]['md_prefix']+"_RD"
+        rdct[kee] = SUBM_MAPPING[subm]['readme']
 
     #
     # replace benchmark rank by rank ordering
     #
     mapping = { "recall": "RR", "qps": "QR", "power":"PR", "cost":"CR" }
     for benchmark in rankings:
-        #print("OB", orderings[benchmark])
         for idx, rk in enumerate(orderings[benchmark]):
             # subm name
             subm = rk[0]
-            kee = "$%s%d_TM" % ( mapping[benchmark], idx+1)
+            kee = "$%s%d_SB" % ( mapping[benchmark], idx+1)
             rdct[kee] = subm
+            # team
+            kee = "$%s%d_TM" % ( mapping[benchmark], idx+1)
+            rdct[kee] = SUBM_MAPPING[subm]["team"]
             # display hardware
             hw = SUBM_MAPPING[subm]["display_hw"]
             kee = "$%s%d_HW" % ( mapping[benchmark], idx+1)
@@ -248,8 +258,10 @@ def produce_rankings(subms):
 
         # replace the rest with "-"
         for i in range(idx+1, TOTAL_SUBM ):
-            #print("making empty", i+1)
             # subm name
+            kee = "$%s%d_SB" % ( mapping[benchmark], i+1)
+            rdct[kee] = "-"
+            # team
             kee = "$%s%d_TM" % ( mapping[benchmark], i+1)
             rdct[kee] = "-"
             # display hardware
@@ -299,8 +311,11 @@ def produce_rankings(subms):
             best_vals = sorted( best_vals, key=lambda x: x[1], reverse=True if benchmark in [ "recall", "qps" ] else False )
             print("SORTED", benchmark, db, best_vals )
             for idx, item in enumerate(best_vals):
-                kee = "$%s%d%s_TM" % ( DBS[db], idx+1, dbmapping[benchmark] )
+                kee = "$%s%d%s_SB" % ( DBS[db], idx+1, dbmapping[benchmark] )
                 kv = item[0]
+                rdct[kee]=kv
+                kee = "$%s%d%s_TM" % ( DBS[db], idx+1, dbmapping[benchmark] )
+                kv = SUBM_MAPPING[item[0]]["team"]
                 rdct[kee]=kv
                 kee = "$%s%d%s_ST" % ( DBS[db], idx+1, dbmapping[benchmark] )
                 kv = SUBM_MAPPING[subm]["status"]
@@ -315,6 +330,20 @@ def produce_rankings(subms):
                 fmt = bestformatmapping[benchmark]
                 kv = fmt.format(item[1])
                 rdct[kee]=kv
+            print("IDX", idx)
+            for i in range(idx+1, TOTAL_SUBM):
+                kee = "$%s%d%s_SB" % ( DBS[db], i+1, dbmapping[benchmark] )
+                rdct[kee]="-"
+                kee = "$%s%d%s_TM" % ( DBS[db], i+1, dbmapping[benchmark] )
+                rdct[kee]="-"
+                kee = "$%s%d%s_ST" % ( DBS[db], i+1, dbmapping[benchmark] )
+                rdct[kee]="-"
+                kee = "$%s%d%s_RD" % ( DBS[db], i+1, dbmapping[benchmark] )
+                rdct[kee]="-"
+                kee = "$%s%d%s_HW" % ( DBS[db], i+1, dbmapping[benchmark])
+                rdct[kee]="-"
+                kee = "$%s%d%s_V" % ( DBS[db], i+1, dbmapping[benchmark])
+                rdct[kee]="-"
                  
 
     #

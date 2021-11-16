@@ -8,18 +8,18 @@
 
 ### Rankings By Submission Name (alphabetical)
 
-|Submission                                             |Team                             |Hardware                 |Status|[Recall Rank](#recall-rankings)|[Throughput Rank](#throughput-rankings)|[Power Rank](#power-rankings)|[Cost Rank](#cost-rankings)| 
-|-------------------------------------------------------|---------------------------------|-------------------------|------|-------------------------------|---------------------------------------|-----------------------------|---------------------------|
-|DeepGram                                               |DeepGram                         |<nobr>NVidia GPU</nobr>  |     -|                              -|                                      -|                            -|                          -|
-|DiskANN                                                |<nobr>Microsoft (org)</nobr>     |<nobr>Intel Optane</nobr>|     -|                              -|                                      -|                            -|                          -|
-|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>   |<nobr>NVidia GPU</nobr>  |$BS_S |$BS_RR                         |$BS_QR                                 |$BS_PR                       |$BS_CR                    |
-|[Gemini](../t3/gemini/README.md)                       |<nobr>GSI Technology (org)</nobr>|<nobr>LedaE APU</nobr>   |$GEM_S|$GEM_RR                        |$GEM_QR                                |$GEM_PR                      |$GEM_CR                   |
-|KANNDI                                                 |Silo.ai                          |<nobr>LedaE APU</nobr>   |     -|                              -|                                      -|                            -|                          -|
-|<nobr>NVidia Single GPU</nobr>                         |NVidia                           |<nobr>NVidia GPU</nobr>  |     -|                              -|                                      -|                            -|                          -|
-|<nobr>NVidia Multi GPU</nobr>                          |NVidia                           |<nobr>NVidia GPU</nobr>  |     -|                              -|                                      -|                            -|                          -|
-|OptANNe-1                                              |Intel                            |<nobr>Intel Optane</nobr>|$OPT1_S|$OPT1_RR                      |$OPT1_QR                               |$OPT1_PR                     |$OPT1_CR                  |
-|OptANNE-2                                              |Intel                            |<nobr>Intel Optane</nobr>|     -|                              -|                                      -|                            -|                          -|
-|Vector-T3                                              |<nobr>Vector Institute</nobr>    |<nobr>NVidia GPU</nobr>  |     _|                              -|                                      -|                            -|                          -|
+|Submission          |Team    |Hardware|Status |[Recall Rank](#recall-rankings)|[Throughput Rank](#throughput-rankings)|[Power Rank](#power-rankings)|[Cost Rank](#cost-rankings)| 
+|--------------------|--------|--------|-------|-------------------------------|---------------------------------------|-----------------------------|---------------------------|
+|deepgram            |       -|       -|      -|                              -|                                      -|                            -|                          -|
+|diskANN             |       -|       -|      -|                              -|                                      -|                            -|                          -|
+|[$BS_SB)[$BS_RD)    |$BS_TM  |$BS_HW  |$BS_S  |$BS_RR                         |$BS_QR                                 |$BS_PR                       |$BS_CR                     |
+|[$GEM_SB)[$GEM_RD)  |$GEM_TM |$GEM_HW |$GEM_S |$GEM_RR                        |$GEM_QR                                |$GEM_PR                      |$GEM_CR                    |
+|kanndi              |       -|       -|      -|                              -|                                      -|                            -|                          -|
+|nvidia_single_gpu   |       -|       -|      -|                              -|                                      -|                            -|                          -|
+|nvidia_multi_gpu    |       -|       -|      -|                              -|                                      -|                            -|                          -|
+|[$OPT1_SB]($OPT1_RD)|$OPT1_TM|$OPT1_HW|$OPT1_S|$OPT1_RR                       |$OPT1_QR                               |$OPT1_PR                     |$OPT1_CR                   |
+|optanne_diskann     |       -|       -|      -|                              -|                                      -|                            -|                          -|
+|vector_t3           |       -|       -|      -|                              -|                                      -|                            -|                          -|
 
 * Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
 * Abbreviations used in chart:
@@ -34,9 +34,9 @@
 
 |Rank|Submission                                             |Team                          |Hardware               |Status|Score   |Deep1B|BigANN|MSTuring|MSSpace|Text2Image|FBSimSearchNet|
 |----|-------------------------------------------------------|------------------------------|-----------------------|-------|-------|------|------|--------|-------|----------|--------------|
-|   1|[$RR1_TM]($RR1_RD)                                     |$RR1_TM                       |$RR1_HW                |$RR1_ST|$RR1_SC|$DPR1 |$BAR1 |$MTR1   |$MSR1  |$TIR1     |$FBR1         |
-|   2|[$RR2_TM]($RR2_RD)                                     |$RR2_TM                       |$RR2_HW                |$RR2_ST|$RR2_SC|$DPR2 |$BAR2 |$MTR2   |$MSR2  |$TIR2     |$FBR2         |
-|   3|[$RR3_TM]($RR3_RD)                                     |$RR3_TM                       |$RR3_HW                |$RR3_ST|$RR3_SC|$DPR3 |$BAR3 |$MTR3   |$MSR3  |$TIR3     |$FBR3         |
+|   1|[$RR1_SB]($RR1_RD)                                     |$RR1_TM                       |$RR1_HW                |$RR1_ST|$RR1_SC|$DPR1 |$BAR1 |$MTR1   |$MSR1  |$TIR1     |$FBR1         |
+|   2|[$RR2_SB]($RR2_RD)                                     |$RR2_TM                       |$RR2_HW                |$RR2_ST|$RR2_SC|$DPR2 |$BAR2 |$MTR2   |$MSR2  |$TIR2     |$FBR2         |
+|   3|[$RR3_SB]($RR3_RD)                                     |$RR3_TM                       |$RR3_HW                |$RR3_ST|$RR3_SC|$DPR3 |$BAR3 |$MTR3   |$MSR3  |$TIR3     |$FBR3         |
 |   4|                                                      -|                             -|                      -|      -|      -|     -|     -|       -|      -|         -|             -|    
 |   5|                                                      -|                             -|                      -|      -|      -|     -|     -|       -|      -|         -|             -|   
 |   6|                                                      -|                             -|                      -|      -|      -|     -|     -|       -|      -|         -|             -|
@@ -58,9 +58,9 @@
 
 |Rank|Submission                                             |Team                          |Hardware               |Status |Score  |Deep1B|BigANN|MSTuring|MSSpace|Text2Image|FBSimSearchNet|
 |----|-------------------------------------------------------|------------------------------|-----------------------|-------|-------|------|------|--------|-------|----------|--------------|
-|   1|[$QR1_TM]($QR1_RD)                                     |$QR1_TM                       |$QR1_HW                |$QR1_ST|$QR1_SC|$DPQ1 |$BAQ1 |$MTQ1   |$MSQ1  |$TIQ1     |$FBQ1         |
-|   2|[$QR2_TM]($QR2_RD)                                     |$QR2_TM                       |$QR2_HW                |$QR2_ST|$QR2_SC|$DPQ2 |$BAQ2 |$MTQ2   |$MSQ2  |$TIQ2     |$FBQ2         | 
-|   3|[$QR3_TM]($QR3_RD)                                     |$QR3_TM                       |$QR3_HW                |$QR3_ST|$QR3_SC|$DPQ3 |$BAQ3 |$MTQ3   |$MSQ3  |$TIQ3     |$FBQ3         | 
+|   1|[$QR1_SB]($QR1_RD)                                     |$QR1_TM                       |$QR1_HW                |$QR1_ST|$QR1_SC|$DPQ1 |$BAQ1 |$MTQ1   |$MSQ1  |$TIQ1     |$FBQ1         |
+|   2|[$QR2_SB]($QR2_RD)                                     |$QR2_TM                       |$QR2_HW                |$QR2_ST|$QR2_SC|$DPQ2 |$BAQ2 |$MTQ2   |$MSQ2  |$TIQ2     |$FBQ2         | 
+|   3|[$QR3_SB]($QR3_RD)                                     |$QR3_TM                       |$QR3_HW                |$QR3_ST|$QR3_SC|$DPQ3 |$BAQ3 |$MTQ3   |$MSQ3  |$TIQ3     |$FBQ3         | 
 |   4|                                                      -|                             -|                      -|      -|      -|     -|     -|       -|      -|         -|             -|
 |   5|                                                      -|                             -|                      -|      -|      -|     -|     -|       -|      -|         -|             -|
 |   6|                                                      -|                             -|                      -|      -|      -|     -|     -|       -|      -|         -|             -|
@@ -82,9 +82,9 @@
 
 |Rank|Submission                                             |Team                          |Hardware               |Status |Score  |Deep1B|BigANN|MSTuring|MSSpace|Text2Image|FBSimSearchNet|
 |----|-------------------------------------------------------|------------------------------|-----------------------|-------|-------|------|------|--------|-------|----------|--------------|
-|   1|[$PR1_TM]($QR1_RD)                                     |$PR1_TM                       |$PR1_HW                |$PR1_ST|$PR1_SC|$DPP1 |$BAP1 |$MTP1   |$MSP1  |$TIP1     |$FBP1         |
-|   2|[$PR2_TM]($QR2_RD)                                     |$PR2_TM                       |$PR2_HW                |$PR2_ST|$PR2_SC|$DPP2 |$BAP2 |$MTP2   |$MSP2  |$TIP2     |$FBP2         | 
-|   3|[$PR3_TM]($QR3_RD)                                     |$PR3_TM                       |$PR3_HW                |$PR3_ST|$PR3_SC|$DPP3 |$BAP3 |$MTP3   |$MSP3  |$TIP3     |$FBP3         | 
+|   1|[$PR1_SB]($QR1_RD)                                     |$PR1_TM                       |$PR1_HW                |$PR1_ST|$PR1_SC|$DPP1 |$BAP1 |$MTP1   |$MSP1  |$TIP1     |$FBP1         |
+|   2|[$PR2_SB]($QR2_RD)                                     |$PR2_TM                       |$PR2_HW                |$PR2_ST|$PR2_SC|$DPP2 |$BAP2 |$MTP2   |$MSP2  |$TIP2     |$FBP2         | 
+|   3|[$PR3_SB]($QR3_RD)                                     |$PR3_TM                       |$PR3_HW                |$PR3_ST|$PR3_SC|$DPP3 |$BAP3 |$MTP3   |$MSP3  |$TIP3     |$FBP3         | 
 |   4|                                                      -|                             -|                      -|      -|      -|     -|     -|       -|      -|         -|             -|
 |   5|                                                      -|                             -|                      -|      -|      -|     -|     -|       -|      -|         -|             -|
 |   6|                                                      -|                             -|                      -|      -|      -|     -|     -|       -|      -|         -|             -|
@@ -106,9 +106,9 @@
 
 |Rank|Submission                                          |Team                          |Hardware               |Status |Score  |Deep1B|BigANN|MSTuring|MSSpace|Text2Image|FBSimSearchNet|
 |----|----------------------------------------------------|------------------------------|-----------------------|-------|-------|------|------|--------|-------|----------|--------------|
-|   1|[$CR1_TM]($CR1_RD)                                  |$CR1_TM                       |$CR1_HW                |$CR1_ST|$CR1_SC|$DPC1 |$BAC1 |$MTC1   |$MSC1  |$TIC1     |$FBC1         |
-|   2|[$CR2_TM]($CR2_RD)                                  |$CR2_TM                       |$CR2_HW                |$CR2_ST|$CR2_SC|$DPC2 |$BAC2 |$MTC2   |$MSC2  |$TIC2     |$FBC2         |
-|   3|[$CR3_TM]($CR3_RD)                                  |$CR3_TM                       |$CR3_HW                |$CR3_ST|$CR3_SC|$DPC3 |$BAC3 |$MTC3   |$MSC3  |$TIC3     |$FBC3         |
+|   1|[$CR1_SB]($CR1_RD)                                  |$CR1_TM                       |$CR1_HW                |$CR1_ST|$CR1_SC|$DPC1 |$BAC1 |$MTC1   |$MSC1  |$TIC1     |$FBC1         |
+|   2|[$CR2_SB]($CR2_RD)                                  |$CR2_TM                       |$CR2_HW                |$CR2_ST|$CR2_SC|$DPC2 |$BAC2 |$MTC2   |$MSC2  |$TIC2     |$FBC2         |
+|   3|[$CR3_SB]($CR3_RD)                                  |$CR3_TM                       |$CR3_HW                |$CR3_ST|$CR3_SC|$DPC3 |$BAC3 |$MTC3   |$MSC3  |$TIC3     |$FBC3         |
 |   4|                                                   -|                             -|                      -|      -|      -|     -|     -|       -|      -|         -|             -|
 |   5|                                                   -|                             -|                      -|      -|      -|     -|     -|       -|      -|         -|             -|
 |   6|                                                   -|                             -|                      -|      -|      -|     -|     -|       -|      -|         -|             -|
@@ -134,9 +134,9 @@
 
 |Rank|Submission                                             |Team                          |Hardware               |Status  |R@10       |Q/S     |
 |----|-------------------------------------------------------|------------------------------|-----------------------|--------|-----------|--------|
-|   1|[$DP1R_TM]($DP1R_RD)                                   |$DP1R_TM                      |$DP1R_HW               |$DP1R_ST|**$DP1R_V**|       -|
-|   2|[$DP2R_TM]($DP2R_RD)                                   |$DP2R_TM                      |$DP2R_HW               |$DP2R_ST|**$DP2R_V**|       -|
-|   3|[$DP3R_TM]($DP3R_RD)                                   |$DP3R_TM                      |$DP3R_HW               |$DP3R_ST|**$DP3R_V**|       -|
+|   1|[$DP1R_SB]($DP1R_RD)                                   |$DP1R_TM                      |$DP1R_HW               |$DP1R_ST|**$DP1R_V**|       -|
+|   2|[$DP2R_SB]($DP2R_RD)                                   |$DP2R_TM                      |$DP2R_HW               |$DP2R_ST|**$DP2R_V**|       -|
+|   3|[$DP3R_SB]($DP3R_RD)                                   |$DP3R_TM                      |$DP3R_HW               |$DP3R_ST|**$DP3R_V**|       -|
 |   4|                                                      -|                             -|                      -|       -|          -|       -|
 |   5|                                                      -|                             -|                      -|       -|          -|       -|
 |   6|                                                      -|                             -|                      -|       -|          -|       -|
@@ -155,20 +155,20 @@
 
 ##### Deep1B Throughput Rankings 
 
-|Rank|Submission                                             |Team                          |Hardware               |Status|Q/S         |R@10 |
-|----|-------------------------------------------------------|------------------------------|-----------------------|------|------------|-----|
-|   1|[$DP1Q_TM]($DP1__RD)                                   |$DP1Q_TM                      |$DP1Q_HW               |$DP1Q_ST|**$DP1Q_V**|       -|
-|   2|[$DP2Q_TM]($DP2Q_RD)                                   |$DP2Q_TM                      |$DP2Q_HW               |$DP2Q_ST|**$DP2Q_V**|       -|
-|   3|[$DP3Q_TM]($DP3Q_RD)                                   |$DP3Q_TM                      |$DP3Q_HW               |$DP3Q_ST|**$DP3Q_V**|       -|
-|   2|                                                      -|                             -|                      -|     -|           -|    -|
-|   3|                                                      -|                             -|                      -|     -|           -|    -|
-|   4|                                                      -|                             -|                      -|     -|           -|    -|
-|   5|                                                      -|                             -|                      -|     -|           -|    -|
-|   6|                                                      -|                             -|                      -|     -|           -|    -|
-|   7|                                                      -|                             -|                      -|     -|           -|    -|
-|   8|                                                      -|                             -|                      -|     -|           -|    -|
-|   9|                                                      -|                             -|                      -|     -|           -|    -|
-|  10|                                                      -|                             -|                      -|     -|           -|    -|
+|Rank|Submission                                             |Team                          |Hardware               |Status  |Q/S        |
+|----|-------------------------------------------------------|------------------------------|-----------------------|--------|-----------|
+|   1|[$DP1Q_SB]($DP1Q_RD)                                   |$DP1Q_TM                      |$DP1Q_HW               |$DP1Q_ST|**$DP1Q_V**|
+|   2|[$DP2Q_SB]($DP2Q_RD)                                   |$DP2Q_TM                      |$DP2Q_HW               |$DP2Q_ST|**$DP2Q_V**|
+|   3|[$DP3Q_SB]($DP3Q_RD)                                   |$DP3Q_TM                      |$DP3Q_HW               |$DP3Q_ST|**$DP3Q_V**|
+|   2|                                                      -|                             -|                      -|       -|          -|    
+|   3|                                                      -|                             -|                      -|       -|          -|    
+|   4|                                                      -|                             -|                      -|       -|          -|    
+|   5|                                                      -|                             -|                      -|       -|          -|    
+|   6|                                                      -|                             -|                      -|       -|          -|    
+|   7|                                                      -|                             -|                      -|       -|          -|    
+|   8|                                                      -|                             -|                      -|       -|          -|    
+|   9|                                                      -|                             -|                      -|       -|          -|    
+|  10|                                                      -|                             -|                      -|       -|          -|    
 
 * The operational point for ranking is 0.90 recall@10. We will use the highest throughput for the search parameters that meet or exceed 0.90 recall@10.
 * Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
@@ -180,20 +180,20 @@
 
 ##### Deep1B Power Rankings 
 
-|Rank|Submission                                             |Team                          |Hardware               |Status|W*S/Q    |
-|----|-------------------------------------------------------|------------------------------|-----------------------|------|---------|
-|   1|[$DP1P_TM]($DP1P_RD)                                   |$DP1P_TM                      |$DP1P_HW               |$DP1P_ST|**$DP1P_V**|       -|
-|   2|[$DP2P_TM]($DP2P_RD)                                   |$DP2P_TM                      |$DP2P_HW               |$DP2P_ST|**$DP2P_V**|       -|
-|   3|[$DP3P_TM]($DP3P_RD)                                   |$DP3P_TM                      |$DP3P_HW               |$DP3P_ST|**$DP3P_V**|       -|
-|   2|                                                      -|                             -|                      -|     -|        -|
-|   3|                                                      -|                             -|                      -|     -|        -|
-|   4|                                                      -|                             -|                      -|     -|        -|
-|   5|                                                      -|                             -|                      -|     -|        -|
-|   6|                                                      -|                             -|                      -|     -|        -|
-|   7|                                                      -|                             -|                      -|     -|        -|
-|   8|                                                      -|                             -|                      -|     -|        -|
-|   9|                                                      -|                             -|                      -|     -|        -|
-|  10|                                                      -|                             -|                      -|     -|        -|
+|Rank|Submission                                             |Team                          |Hardware               |Status  |W*S/Q      |
+|----|-------------------------------------------------------|------------------------------|-----------------------|--------|-----------|
+|   1|[$DP1P_SB]($DP1P_RD)                                   |$DP1P_TM                      |$DP1P_HW               |$DP1P_ST|**$DP1P_V**|
+|   2|[$DP2P_SB]($DP2P_RD)                                   |$DP2P_TM                      |$DP2P_HW               |$DP2P_ST|**$DP2P_V**|
+|   3|[$DP3P_SB]($DP3P_RD)                                   |$DP3P_TM                      |$DP3P_HW               |$DP3P_ST|**$DP3P_V**|
+|   2|                                                      -|                             -|                      -|       -|          -|
+|   3|                                                      -|                             -|                      -|       -|          -|
+|   4|                                                      -|                             -|                      -|       -|          -|
+|   5|                                                      -|                             -|                      -|       -|          -|
+|   6|                                                      -|                             -|                      -|       -|          -|
+|   7|                                                      -|                             -|                      -|       -|          -|
+|   8|                                                      -|                             -|                      -|       -|          -|
+|   9|                                                      -|                             -|                      -|       -|          -|
+|  10|                                                      -|                             -|                      -|       -|          -|
 
 * The operational point for ranking is 0.90 recall@10. We will use the lowest power consumption for the search parameters that meet or exceed 0.90 recall@10.
 * Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
@@ -207,9 +207,9 @@
 
 |Rank|Submission                                     |Team                          |Hardware               |Status  |Cost         |capex    |opex   |unit cost|units@100K qps|KwH*4yrs |KwH cost|
 |----|-----------------------------------------------|------------------------------|-----------------------|--------|-------------|---------|-------|---------|--------------|---------|--------|
-|   1|[$DP1C_TM]($DP1C_RD)                           |$DP1C_TM                      |$DP1C_HW               |$DP1C_ST|**$DP1C_V**  |        -|      -|        -|             -|        -|       -|
-|   2|[$DP2C_TM]($DP2C_RD)                           |$DP2C_TM                      |$DP2C_HW               |$DP2C_ST|**$DP2C_V**  |        -|      -|        -|             -|        -|       -|
-|   3|[$DP3C_TM]($DP3C_RD)                           |$DP3C_TM                      |$DP3C_HW               |$DP3C_ST|**$DP3C_V**  |        -|      -|        -|             -|        -|       -|
+|   1|[$DP1C_SB]($DP1C_RD)                           |$DP1C_TM                      |$DP1C_HW               |$DP1C_ST|**$DP1C_V**  |        -|      -|        -|             -|        -|       -|
+|   2|[$DP2C_SB]($DP2C_RD)                           |$DP2C_TM                      |$DP2C_HW               |$DP2C_ST|**$DP2C_V**  |        -|      -|        -|             -|        -|       -|
+|   3|[$DP3C_SB]($DP3C_RD)                           |$DP3C_TM                      |$DP3C_HW               |$DP3C_ST|**$DP3C_V**  |        -|      -|        -|             -|        -|       -|
 |   4|                                              -|                             -|                      -|       -|            -|        -|      -|        -|             -|        -|       -|
 |   5|                                              -|                             -|                      -|       -|            -|        -|      -|        -|             -|        -|       -|
 |   6|                                              -|                             -|                      -|       -|            -|        -|      -|        -|             -|        -|       -|
@@ -236,18 +236,19 @@
 
 ##### BigANN Recall Rankings
 
-|Rank|Submission                                             |Team                          |Hardware               |Status|R@10     |Q/S     |
-|----|-------------------------------------------------------|------------------------------|-----------------------|------|---------|--------|
-|   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|**0.927**|2058.950|
-|   2|                                                      -|                             -|                      -|     -|        -|       -|
-|   3|                                                      -|                             -|                      -|     -|        -|       -|
-|   4|                                                      -|                             -|                      -|     -|        -|       -|
-|   5|                                                      -|                             -|                      -|     -|        -|       -|
-|   6|                                                      -|                             -|                      -|     -|        -|       -|
-|   7|                                                      -|                             -|                      -|     -|        -|       -|
-|   8|                                                      -|                             -|                      -|     -|        -|       -|
-|   9|                                                      -|                             -|                      -|     -|        -|       -|
-|  10|                                                      -|                             -|                      -|     -|        -|       -|
+|Rank|Submission                                             |Team                          |Hardware               |Status  |R@10         |
+|----|-------------------------------------------------------|------------------------------|-----------------------|--------|-------------|
+|   1|[$BA1R_SB]($BA1R_RD)                                   |$BA1R_TM                      |$BA1R_HW               |$BA1R_ST|**$BA1R_V**  |
+|   2|[$BA2R_SB]($BA2R_RD)                                   |$BA2R_TM                      |$BA2R_HW               |$BA2R_ST|**$BA2R_V**  |
+|   3|[$BA3R_SB]($BA3R_RD)                                   |$BA3R_TM                      |$BA3R_HW               |$BA3R_ST|**$BA3R_V**  |
+|   3|                                                      -|                             -|                      -|       -|            -|
+|   4|                                                      -|                             -|                      -|       -|            -|
+|   5|                                                      -|                             -|                      -|       -|            -|
+|   6|                                                      -|                             -|                      -|       -|            -|
+|   7|                                                      -|                             -|                      -|       -|            -|
+|   8|                                                      -|                             -|                      -|       -|            -|
+|   9|                                                      -|                             -|                      -|       -|            -|
+|  10|                                                      -|                             -|                      -|       -|            -|
 
 * The operational point for ranking is 2000 QPS. We will use the highest recall for the search parameters that meet or exceed 2000 QPS.
 * Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
@@ -259,18 +260,18 @@
 
 ##### BigANN Throughput Rankings
 
-|Rank|Submission                                             |Team                          |Hardware               |Status|Q/S         |R@10 |
-|----|-------------------------------------------------------|------------------------------|-----------------------|------|------------|-----|
-|   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|**2186.755**|0.905|
-|   2|                                                      -|                             -|                      -|     -|           -|    -|
-|   3|                                                      -|                             -|                      -|     -|           -|    -|
-|   4|                                                      -|                             -|                      -|     -|           -|    -|
-|   5|                                                      -|                             -|                      -|     -|           -|    -|
-|   6|                                                      -|                             -|                      -|     -|           -|    -|
-|   7|                                                      -|                             -|                      -|     -|           -|    -|
-|   8|                                                      -|                             -|                      -|     -|           -|    -|
-|   9|                                                      -|                             -|                      -|     -|           -|    -|
-|  10|                                                      -|                             -|                      -|     -|           -|    -|
+|Rank|Submission                                             |Team                          |Hardware               |Status|Q/S          |
+|----|-------------------------------------------------------|------------------------------|-----------------------|------|-------------|
+|   1|[$BA1Q_SB]($BA1Q_RD)                                   |$BA1Q_TM                      |$BA1Q_HW               |$BA1Q_ST|**$BA1Q_V**|
+|   2|[$BA2Q_SB]($BA2Q_RD)                                   |$BA2Q_TM                      |$BA2Q_HW               |$BA2Q_ST|**$BA2Q_V**|
+|   3|[$BA3Q_SB]($BA3Q_RD)                                   |$BA3Q_TM                      |$BA3Q_HW               |$BA3Q_ST|**$BA3Q_V**|
+|   4|                                                      -|                             -|                      -|     -|            -|
+|   5|                                                      -|                             -|                      -|     -|            -|
+|   6|                                                      -|                             -|                      -|     -|            -|
+|   7|                                                      -|                             -|                      -|     -|            -|
+|   8|                                                      -|                             -|                      -|     -|            -|
+|   9|                                                      -|                             -|                      -|     -|            -|
+|  10|                                                      -|                             -|                      -|     -|            -|
 
 * The operational point for ranking is 0.90 recall@10. We will use the highest throughput for the search parameters that meet or exceed 0.90 recall@10.
 * Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
@@ -282,18 +283,18 @@
 
 ##### BigANN Power Rankings
 
-|Rank|Submission                                             |Team                          |Hardware               |Status|W*S/Q   |
-|----|-------------------------------------------------------|------------------------------|-----------------------|------|--------|
-|   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|**0.19**|
-|   2|                                                      -|                             -|                      -|     -|       -|
-|   3|                                                      -|                             -|                      -|     -|       -|
-|   4|                                                      -|                             -|                      -|     -|       -|
-|   5|                                                      -|                             -|                      -|     -|       -|
-|   6|                                                      -|                             -|                      -|     -|       -|
-|   7|                                                      -|                             -|                      -|     -|       -|
-|   8|                                                      -|                             -|                      -|     -|       -|
-|   9|                                                      -|                             -|                      -|     -|       -|
-|  10|                                                      -|                             -|                      -|     -|       -|
+|Rank|Submission                                             |Team                          |Hardware               |Status  |W*S/Q      |
+|----|-------------------------------------------------------|------------------------------|-----------------------|--------|-----------|
+|   1|[$BA1P_SB]($BA1P_RD)                                   |$BA1P_TM                      |$BA1P_HW               |$BA1P_ST|**$BA1P_V**|       
+|   2|[$BA2P_SB]($BA2P_RD)                                   |$BA2P_TM                      |$BA2P_HW               |$BA2P_ST|**$BA2P_V**|       
+|   3|[$BA3P_SB]($BA3P_RD)                                   |$BA3P_TM                      |$BA3P_HW               |$BA3P_ST|**$BA3P_V**|      
+|   4|                                                      -|                             -|                      -|       -|          -|
+|   5|                                                      -|                             -|                      -|       -|          -|
+|   6|                                                      -|                             -|                      -|       -|          -|
+|   7|                                                      -|                             -|                      -|       -|          -|
+|   8|                                                      -|                             -|                      -|       -|          -|
+|   9|                                                      -|                             -|                      -|       -|          -|
+|  10|                                                      -|                             -|                      -|       -|          -|
 
 * The operational point for ranking is 0.90 recall@10. We will use the lowest power consumption for the search parameters that meet or exceed 0.90 recall@10.
 * Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
@@ -305,18 +306,20 @@
 
 ##### BigANN Cost Rankings
 
-|Rank|Submission                                             |Team                          |Hardware               |Status|Cost          |capex     |opex    |unit cost|units@100K qps|KwH*4yrs |KwH cost|
-|----|-------------------------------------------------------|------------------------------|-----------------------|------|--------------|----------|--------|---------|--------------|---------|--------|
-|   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|**$1079583.4**|$1013007.4|$66576.0|$22021.90|            46|$665760.0|$66576.0|
-|   2|                                                      -|                             -|                      -|     -|             -|         -|       -|        -|             -|        -|       -|
-|   3|                                                      -|                             -|                      -|     -|             -|         -|       -|        -|             -|        -|       -|
-|   4|                                                      -|                             -|                      -|     -|             -|         -|       -|        -|             -|        -|       -|
-|   5|                                                      -|                             -|                      -|     -|             -|         -|       -|        -|             -|        -|       -|
-|   6|                                                      -|                             -|                      -|     -|             -|         -|       -|        -|             -|        -|       -|
-|   7|                                                      -|                             -|                      -|     -|             -|         -|       -|        -|             -|        -|       -|
-|   8|                                                      -|                             -|                      -|     -|             -|         -|       -|        -|             -|        -|       -|
-|   9|                                                      -|                             -|                      -|     -|             -|         -|       -|        -|             -|        -|       -|
-|  10|                                                      -|                             -|                      -|     -|             -|         -|       -|        -|             -|        -|       -|
+|Rank|Submission                                      |Team                          |Hardware            |Status  |Cost          |capex     |opex    |unit cost|units@100K qps|KwH*4yrs |KwH cost|
+|----|------------------------------------------------|------------------------------|--------------------|--------|--------------|----------|--------|---------|--------------|---------|--------|
+|   1|[$BA1C_SB]($BA1C_RD)                            |$BA1C_TM                      |$BA1C_HW            |$BA1C_ST|**$BA1C_V**   |         -|       -|        -|             -|        -|       -|
+|   2|[$BA2C_SB]($BA2C_RD)                            |$BA2C_TM                      |$BA2C_HW            |$BA2C_ST|**$BA2C_V**   |         -|       -|        -|             -|        -|       -|
+|   3|[$BA3C_SB]($BA3C_RD)                            |$BA3C_TM                      |$BA3C_HW            |$BA3C_ST|**$BA3C_V**   |         -|       -|        -|             -|        -|       -|
+|   2|                                               -|                             -|                   -|       -|             -|         -|       -|        -|             -|        -|       -|
+|   3|                                               -|                             -|                   -|       -|             -|         -|       -|        -|             -|        -|       -|
+|   4|                                               -|                             -|                   -|       -|             -|         -|       -|        -|             -|        -|       -|
+|   5|                                               -|                             -|                   -|       -|             -|         -|       -|        -|             -|        -|       -|
+|   6|                                               -|                             -|                   -|       -|             -|         -|       -|        -|             -|        -|       -|
+|   7|                                               -|                             -|                   -|       -|             -|         -|       -|        -|             -|        -|       -|
+|   8|                                               -|                             -|                   -|       -|             -|         -|       -|        -|             -|        -|       -|
+|   9|                                               -|                             -|                   -|       -|             -|         -|       -|        -|             -|        -|       -|
+|  10|                                               -|                             -|                   -|       -|             -|         -|       -|        -|             -|        -|       -|
 
 * The operational point for ranking is 0.90 recall@10. We will use the lowest power consumption/query for the search parameters that meet or exceed 0.90 recall@10.
 * The formula is based on:
