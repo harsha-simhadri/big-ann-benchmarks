@@ -12,12 +12,12 @@
 |--------------------|-----------|----------|-------|-------------------------------|---------------------------------------|-----------------------------|---------------------------|
 |deepgram            |DeepGram   |NVidia GPU|inprog |                              -|                                      -|                            -|                          -|
 |diskANN             |Microsoft  |Intel Optane  |inprog |                              -|                                      -|                            -|                          -|
-|[faiss_t3](../t3/faiss_t3/README.md)    |Facebook Research     |NVidia GPU    |final  |3                         |3                                 |3                       |1                     |
-|[gemini](../t3/gemini/README.md)  |GSI Technology    |LedaE APU   |inprog |1                        |2                                |2                      |2                    |
+|[faiss_t3](../t3/faiss_t3/README.md)    |Facebook Research     |NVidia GPU    |final  |[3](#recall-rankings)                         |[3](#throughput-rankings)                                 |[3](#power-rankings)                       |[1](#cost-rankings)                     |
+|[gemini](../t3/gemini/README.md)  |GSI Technology    |LedaE APU   |inprog |[1](#recall-rankings)                        |[2](#throughput-rankings)                                |[2](#power-rankings)                      |[2](#cost-rankings)                    |
 |kanndi              |Silo.ai    |LedaE APU   |inprog |                              -|                                      -|                            -|                          -|
 |nvidia_single_gpu   |NVidia     |NVidia GPU|inprog |                              -|                                      -|                            -|                          -|
 |nvidia_multi_gpu    |NVidia     |NVidia GPU|inprog |                              -|                                      -|                            -|                          -|
-|[optanne_graphann](../t3/optanne_graphann/README.md)|Intel   |Intel Optane  |inprog|2                       |1                               |1                     |NQ                   |
+|[optanne_graphann](../t3/optanne_graphann/README.md)|Intel   |Intel Optane  |inprog|[2](#recall-rankings)                       |[1](#throughput-rankings)                               |[1](#power-rankings)                     |NQ                   |
 |optanne_diskann     |Intel   |Intel Optane  |inprog |                              -|                                      -|                            -|                          -|
 |vector_t3           |Vector Inst|NVidia GPU|inprog |                              -|                                      -|                            -|                          -|
 

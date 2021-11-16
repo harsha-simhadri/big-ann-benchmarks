@@ -147,12 +147,22 @@ def process_subm( subm ):
                                         save_evals=os.path.join(eval_subm_dir, "evals.json" ) )
         evaluator.show_summary(         savepath=os.path.join( eval_subm_dir, "summary.png" ))
 
-def mklnk( val, fmt, subm, db, benchmark ):
+def mklnka( val, fmt, subm, db, benchmark ):
     if benchmark=="qps": benchmark="throughput"
     eval_img = os.path.join( "eval_2021", subm, "%s_%s.png" % (db, benchmark) )
-    print("eval img", eval_img)
+    #print("eval img", eval_img)
     lnk = "[%s](%s)" % ( fmt.format(val), eval_img )
     return lnk 
+
+def mklnkr( idx, benchmark ):
+    links = {   "recall":"#recall-rankings", 
+                "qps":"#throughput-rankings",
+                "power":"#power-rankings",
+                "cost":"#cost-rankings" }
+    lnk = "[%d](%s)" % ( idx, links[benchmark] )
+    print("lnk", lnk)
+    return lnk 
+
 
 def produce_rankings(subms):
 
@@ -216,7 +226,9 @@ def produce_rankings(subms):
         for mapping in [ ["recall","RR"], [ "qps", "QR" ], [ "power", "PR" ], [ "cost", "CR" ] ]:
             kee = "$" + SUBM_MAPPING[subm]['md_prefix']+"_"+ mapping[1]
             subm_order = [ el[0] for el in orderings[mapping[0]] ]
-            rdct[kee] = str(subm_order.index(subm)+1) if subm in subm_order else "NQ"
+            #lnk = mklnkr( subm_order.index(subm)+1, mapping[0] )
+            #rdct[kee] = str(subm_order.index(subm)+1) if subm in subm_order else "NQ"
+            rdct[kee] = mklnkr( subm_order.index(subm)+1, mapping[0] ) if subm in subm_order else "NQ"
         kee = "$" + SUBM_MAPPING[subm]['md_prefix']+"_HW"
         rdct[kee] = SUBM_MAPPING[subm]["display_hw"]
         kee = "$" + SUBM_MAPPING[subm]['md_prefix']+"_TM"
@@ -272,7 +284,7 @@ def produce_rankings(subms):
                     if best_benchmark in supported_benchmarks:
                         val = best_val[ bestidxmapping[benchmark] ] if not benchmark=="cost" else best_val
                         fmt = bestformatmapping[benchmark]
-                        rdct[kee] = fmt.format(val)
+                        rdct[kee] = fmt.format(val) if benchmark=="cost" else mklnka( val, fmt, subm, db, benchmark )
                     else:
                         rdct[kee]="-"
                 else:
@@ -349,7 +361,7 @@ def produce_rankings(subms):
                 rdct[kee]=kv
                 kee = "$%s%d%s_V" % ( DBS[db], idx+1, dbmapping[benchmark])
                 fmt = bestformatmapping[benchmark]
-                kv = fmt.format(item[1]) if benchmark=="cost" else mklnk( item[1], fmt, item[0], db, benchmark )
+                kv = fmt.format(item[1]) if benchmark=="cost" else mklnka( item[1], fmt, item[0], db, benchmark )
                 rdct[kee]=kv
             for i in range(idx+1, TOTAL_SUBM):
                 kee = "$%s%d%s_SB" % ( DBS[db], i+1, dbmapping[benchmark] )
