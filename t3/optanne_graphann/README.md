@@ -4,34 +4,29 @@ This README contains information required for T3 Track submissions.
 
 ## Hardware Configuration And Cost
 
-|Part                         |Model                                             |No. |Unit Price                                       |Total Price|
-|-----------------------------|--------------------------------------------------|----|-------------------------------------------------|-----------|
-|Chassis and Motherboard      |                                                  |   1|                                                 |          -|
-|RAM                          |                                                  |   -|                                                 |          -|
-|SSD                          |                                                  |   1|                                                 |          -|
-|Optane                       |                                                  |   -|                                                 |          -|
-|Total                        |                                                  |   1|                                                 |          -|
+|Part                    |Model                                                    |No. |Unit Price                                       |Total Price|
+|------------------------|---------------------------------------------------------|----|-------------------------------------------------|-----------|
+|Integrated 1U System    |[Supermicro SYS-120-TNR]("cost/BIGANN_system_invoce.pdf")|   1|                                        $13576.20|  $13576.20|
+|                        |w/2X Intel Xeon Gold 6330N Processor                     |    |                                                 |          -|
+|                        |w/16X Intel Optane Persistent Memory 200 Series          |    |                                                 |          -|
+|                        |w/Network card, boot drive, etc.                         |    |                                                 |          -|
+|                        |[w/16X 16GB DDR4-3200 RDIMM]("cost/DRAM16.pdf")          |  16|                                              $82|          -|
+|Replacement DRAM        |w/16X 32GB DDR4("cost/DRAM32.pdf")                       |  16|                                 ($150-$82) = $68|      $1088|
+|Total                   |                                                         |    |                                                 |  $14664.20|
 
 ## Hardware Access
 
-[ TODO: Explain How To Access The Same or Similar Hardware.  This Could Be Just Contact Info. ]
+The hardware components are commercially available ( see hardware table above ).
+
+For more information, please contact the T3 participant Sourabh Dongaonkar sourabh.dongaonkar@intel.com.
 
 ## No Source Code Declarations
 
-This submission requires the following software components where source-code is not available and/or not part of the source-code for this submission:
-[ TODO ]
+All components of the software are open-source.
 
 ## Hardware Setup And Software Installation
 
-### Prerequisites
-
-* Linux xxx
-* Python xxx
-* etc
-
-### Test Your Hardware
-
-[ TODO ]
+Please consult the following [installation readme]("INSTALLATION_README.md") for detailed setup instructions.
 
 ### Competition Index Files
 
@@ -39,8 +34,9 @@ Currently the competition index files must be downloaded and installed manually.
 
 Download all the index files from [here](tbd) (TBD) and unpack into the cloned repo's data directory.
 
+You will need to adjust the submission algos.yaml config file to reflect the local path to your index files.
+
 ## Run The Competition Algorithm
 
-In the top-level directory of the cloned repository, run the following command:
+Please see the [run script]("run.sh") for an example.
 
-[ TODO ]
