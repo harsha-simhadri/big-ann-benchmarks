@@ -162,11 +162,10 @@ def produce_rankings(subms):
             dfs.append(df)
 
     master = pd.concat( dfs, ignore_index=True)
-    #print("master")
-    #print(master)
-    #print(master["dataset"])
 
-    # extract each benchmark ranking
+    #
+    # extract each benchmark ranking order
+    #
     orderings = {}
     rankings = [ "recall", "qps", "power", "cost" ]
     rankings_dir = [ True, True, False, False ]
@@ -178,11 +177,9 @@ def produce_rankings(subms):
         subm = data['subm']
         score = data[ranking]
         pairs = [ el for el in list(zip(subm,score)) if not math.isnan(el[1]) ]
-        ordered_ranking = sorted(pairs,reverse=rdir, key=lambda x: x[1])
+        ordered_ranking = sorted(pairs,reverse=rdir, key=lambda x: x[1]) #, reverse=False if benchmark in [ "recall", "qps" ] else True )
         orderings[ranking] = ordered_ranking
 
-    #print("orderings")
-    #print(orderings)
 
     f = open("t3/LEADERBOARDS.md.templ")
     lines = f.read()
@@ -190,14 +187,18 @@ def produce_rankings(subms):
     templ = Template(lines)
     rdct = {}
 
+    #
     # replace rank by subm name
+    #
     for subm in subms: # ranking info
         for mapping in [ ["recall","RR"], [ "qps", "QR" ], [ "power", "PR" ], [ "cost", "CR" ] ]:
             kee = "$" + SUBM_MAPPING[subm]['md_prefix']+"_"+ mapping[1]
             subm_order = [ el[0] for el in orderings[mapping[0]] ]
             rdct[kee] = str(subm_order.index(subm)+1) if subm in subm_order else "NQ"
 
+    #
     # replace benchmark rank by rank ordering
+    #
     mapping = { "recall": "RR", "qps": "QR", "power":"PR", "cost":"CR" }
     for benchmark in rankings:
         #print("OB", orderings[benchmark])
@@ -233,14 +234,12 @@ def produce_rankings(subms):
                 kee = "$%s%s%d" % (DBS[db], dbmapping[benchmark], idx+1 )
                 best_benchmark = bestmapping[benchmark]
                 supported_dbs = SUBM_MAPPING[subm]["evals"].keys()
-                #print("SUP", supported_dbs)
                 if db in supported_dbs:
                     best_val = SUBM_MAPPING[subm]["evals"][db][best_benchmark]
                     supported_benchmarks = SUBM_MAPPING[subm]["evals"][db].keys()
                     if best_benchmark in supported_benchmarks:
                         val = best_val[ bestidxmapping[benchmark] ] if not benchmark=="cost" else best_val
                         fmt = bestformatmapping[benchmark]
-                        #print("SETTING KEE", kee, best_benchmark, val, fmt)
                         rdct[kee] = fmt.format(val)
                     else:
                         rdct[kee]="-"
@@ -274,24 +273,65 @@ def produce_rankings(subms):
             bestformatmapping = { "recall": "{:,.3f}", "qps": "{:,.3f}", "power":"{:,.3f}", "cost":"${:,.2f}" }
             DBS = { "deep-1B":"DP", "bigann-1B":"BA", "msturing-1B":"MT", "msspacev-1B":"MS", "text2image-1B":"TI", "ssnpp-1B":"FB" }
             for db in DBS.keys():
-                #print("DB",db)
                 kee = "$%s%s%d" % (DBS[db], dbmapping[benchmark], i+1 )
                 best_benchmark = bestmapping[benchmark]
-                #print("KEE CLEARa",kee) 
                 rdct[kee]="-"
 
+    #
+    # do per database replacement
+    #
+    DBS = { "deep-1B":"DP", "bigann-1B":"BA", "msturing-1B":"MT", "msspacev-1B":"MS", "text2image-1B":"TI", "ssnpp-1B":"FB" }
+    for db in DBS.keys():
+        # iterate over benchmark
+        for benchmark in rankings:
+            # get best values for this benchmark for the database for all subm
+            best_vals = []
+            for subm in subms:
+                bestidxmapping = { "recall":1, "qps":1, "power":2, "cost":-1 }
+                dbmapping = { "recall":"R", "qps":"Q", "cost":"C", "power":"P" }
+                bestmapping = { "recall":"best_recall", "qps":"best_qps", "power":"best_wspq", "cost":"cost" }
+                bestformatmapping = { "recall": "{:,.3f}", "qps": "{:,.3f}", "power":"{:,.3f}", "cost":"${:,.2f}" }
+                supported_dbs = SUBM_MAPPING[subm]["evals"].keys()
+                if db in supported_dbs:
+                    best_val = SUBM_MAPPING[subm]["evals"][db][ bestmapping[benchmark] ]
+                    val = best_val if benchmark=="cost" else best_val[ bestidxmapping[benchmark] ]
+                    best_vals.append( (subm, val) )
+            best_vals = sorted( best_vals, key=lambda x: x[1], reverse=True if benchmark in [ "recall", "qps" ] else False )
+            print("SORTED", benchmark, db, best_vals )
+            for idx, item in enumerate(best_vals):
+                kee = "$%s%d%s_TM" % ( DBS[db], idx+1, dbmapping[benchmark] )
+                kv = item[0]
+                rdct[kee]=kv
+                kee = "$%s%d%s_ST" % ( DBS[db], idx+1, dbmapping[benchmark] )
+                kv = SUBM_MAPPING[subm]["status"]
+                rdct[kee]=kv
+                kee = "$%s%d%s_RD" % ( DBS[db], idx+1, dbmapping[benchmark] )
+                kv = SUBM_MAPPING[subm]["readme"]
+                rdct[kee]=kv
+                kee = "$%s%d%s_HW" % ( DBS[db], idx+1, dbmapping[benchmark])
+                kv = SUBM_MAPPING[subm]["display_hw"]
+                rdct[kee]=kv
+                kee = "$%s%d%s_V" % ( DBS[db], idx+1, dbmapping[benchmark])
+                fmt = bestformatmapping[benchmark]
+                kv = fmt.format(item[1])
+                rdct[kee]=kv
+                 
 
+    #
     # replace subm status by subm name
+    #
     for subm in subms: # status info
         kee = "$" + SUBM_MAPPING[subm]['md_prefix']+"_S"
         rdct[kee] = SUBM_MAPPING[subm]['status']
 
+    #
+    # do the substitution 
+    #
     #print("Substitution dct=", rdct)
     #outp = templ.substitute( GEM_RR="stuff" ) #**rdct )
     outp = lines
     for kee in rdct.keys():
         outp = outp.replace( kee, rdct[kee] )
-
     f = open("t3/NL.md","w")
     f.write(outp)
     f.flush()

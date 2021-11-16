@@ -132,18 +132,18 @@
 
 ##### Deep1B Recall Rankings 
 
-|Rank|Submission                                             |Team                          |Hardware               |Status|R@10     |Q/S     |
-|----|-------------------------------------------------------|------------------------------|-----------------------|------|---------|--------|
-|   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|**0.942**|2002.490|
-|   2|                                                      -|                             -|                      -|     -|        -|       -|
-|   3|                                                      -|                             -|                      -|     -|        -|       -|
-|   4|                                                      -|                             -|                      -|     -|        -|       -|
-|   5|                                                      -|                             -|                      -|     -|        -|       -|
-|   6|                                                      -|                             -|                      -|     -|        -|       -|
-|   7|                                                      -|                             -|                      -|     -|        -|       -|
-|   8|                                                      -|                             -|                      -|     -|        -|       -|
-|   9|                                                      -|                             -|                      -|     -|        -|       -|
-|  10|                                                      -|                             -|                      -|     -|        -|       -|
+|Rank|Submission                                             |Team                          |Hardware               |Status  |R@10       |Q/S     |
+|----|-------------------------------------------------------|------------------------------|-----------------------|--------|-----------|--------|
+|   1|[$DP1R_TM]($DP1R_RD)                                   |$DP1R_TM                      |$DP1R_HW               |$DP1R_ST|**$DP1R_V**|       -|
+|   2|[$DP2R_TM]($DP2R_RD)                                   |$DP2R_TM                      |$DP2R_HW               |$DP2R_ST|**$DP2R_V**|       -|
+|   3|[$DP3R_TM]($DP3R_RD)                                   |$DP3R_TM                      |$DP3R_HW               |$DP3R_ST|**$DP3R_V**|       -|
+|   4|                                                      -|                             -|                      -|       -|          -|       -|
+|   5|                                                      -|                             -|                      -|       -|          -|       -|
+|   6|                                                      -|                             -|                      -|       -|          -|       -|
+|   7|                                                      -|                             -|                      -|       -|          -|       -|
+|   8|                                                      -|                             -|                      -|       -|          -|       -|
+|   9|                                                      -|                             -|                      -|       -|          -|       -|
+|  10|                                                      -|                             -|                      -|       -|          -|       -|
 
 * The operational point for ranking is 2000 QPS. We will use the highest recall for the search parameters that meet or exceed 2000 QPS.
 * Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
@@ -151,12 +151,15 @@
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
   * *inprog* = algorithm development still in progress
+  * *NQ* = not qualified
 
 ##### Deep1B Throughput Rankings 
 
 |Rank|Submission                                             |Team                          |Hardware               |Status|Q/S         |R@10 |
 |----|-------------------------------------------------------|------------------------------|-----------------------|------|------------|-----|
-|   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|**3422.473**|0.916|
+|   1|[$DP1Q_TM]($DP1__RD)                                   |$DP1Q_TM                      |$DP1Q_HW               |$DP1Q_ST|**$DP1Q_V**|       -|
+|   2|[$DP2Q_TM]($DP2Q_RD)                                   |$DP2Q_TM                      |$DP2Q_HW               |$DP2Q_ST|**$DP2Q_V**|       -|
+|   3|[$DP3Q_TM]($DP3Q_RD)                                   |$DP3Q_TM                      |$DP3Q_HW               |$DP3Q_ST|**$DP3Q_V**|       -|
 |   2|                                                      -|                             -|                      -|     -|           -|    -|
 |   3|                                                      -|                             -|                      -|     -|           -|    -|
 |   4|                                                      -|                             -|                      -|     -|           -|    -|
@@ -173,12 +176,15 @@
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
   * *inprog* = algorithm development still in progress
+  * *NQ* = not qualified
 
 ##### Deep1B Power Rankings 
 
 |Rank|Submission                                             |Team                          |Hardware               |Status|W*S/Q    |
 |----|-------------------------------------------------------|------------------------------|-----------------------|------|---------|
-|   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|**0.158**|
+|   1|[$DP1P_TM]($DP1P_RD)                                   |$DP1P_TM                      |$DP1P_HW               |$DP1P_ST|**$DP1P_V**|       -|
+|   2|[$DP2P_TM]($DP2P_RD)                                   |$DP2P_TM                      |$DP2P_HW               |$DP2P_ST|**$DP2P_V**|       -|
+|   3|[$DP3P_TM]($DP3P_RD)                                   |$DP3P_TM                      |$DP3P_HW               |$DP3P_ST|**$DP3P_V**|       -|
 |   2|                                                      -|                             -|                      -|     -|        -|
 |   3|                                                      -|                             -|                      -|     -|        -|
 |   4|                                                      -|                             -|                      -|     -|        -|
@@ -195,21 +201,22 @@
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
   * *inprog* = algorithm development still in progress
+  * *NQ* = not qualified
 
 ##### Deep1B Cost Rankings 
 
-|Rank|Submission                                             |Team                          |Hardware               |Status|Cost         |capex    |opex   |unit cost|units@100K qps|KwH*4yrs |KwH cost|
-|----|-------------------------------------------------------|------------------------------|-----------------------|------|-------------|---------|-------|---------|--------------|---------|--------|
-|   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|**$716010.0**|$660657.0| $55353|$22021.90|            30|$553632.0|$55353.0|
-|   2|                                                      -|                             -|                      -|     -|            -|        -|      -|        -|             -|        -|       -|
-|   3|                                                      -|                             -|                      -|     -|            -|        -|      -|        -|             -|        -|       -|
-|   4|                                                      -|                             -|                      -|     -|            -|        -|      -|        -|             -|        -|       -|
-|   5|                                                      -|                             -|                      -|     -|            -|        -|      -|        -|             -|        -|       -|
-|   6|                                                      -|                             -|                      -|     -|            -|        -|      -|        -|             -|        -|       -|
-|   7|                                                      -|                             -|                      -|     -|            -|        -|      -|        -|             -|        -|       -|
-|   8|                                                      -|                             -|                      -|     -|            -|        -|      -|        -|             -|        -|       -|
-|   9|                                                      -|                             -|                      -|     -|            -|        -|      -|        -|             -|        -|       -|
-|  10|                                                      -|                             -|                      -|     -|            -|        -|      -|        -|             -|        -|       -|
+|Rank|Submission                                     |Team                          |Hardware               |Status  |Cost         |capex    |opex   |unit cost|units@100K qps|KwH*4yrs |KwH cost|
+|----|-----------------------------------------------|------------------------------|-----------------------|--------|-------------|---------|-------|---------|--------------|---------|--------|
+|   1|[$DP1C_TM]($DP1C_RD)                           |$DP1C_TM                      |$DP1C_HW               |$DP1C_ST|**$DP1C_V**  |        -|      -|        -|             -|        -|       -|
+|   2|[$DP2C_TM]($DP2C_RD)                           |$DP2C_TM                      |$DP2C_HW               |$DP2C_ST|**$DP2C_V**  |        -|      -|        -|             -|        -|       -|
+|   3|[$DP3C_TM]($DP3C_RD)                           |$DP3C_TM                      |$DP3C_HW               |$DP3C_ST|**$DP3C_V**  |        -|      -|        -|             -|        -|       -|
+|   4|                                              -|                             -|                      -|       -|            -|        -|      -|        -|             -|        -|       -|
+|   5|                                              -|                             -|                      -|       -|            -|        -|      -|        -|             -|        -|       -|
+|   6|                                              -|                             -|                      -|       -|            -|        -|      -|        -|             -|        -|       -|
+|   7|                                              -|                             -|                      -|       -|            -|        -|      -|        -|             -|        -|       -|
+|   8|                                              -|                             -|                      -|       -|            -|        -|      -|        -|             -|        -|       -|
+|   9|                                              -|                             -|                      -|       -|            -|        -|      -|        -|             -|        -|       -|
+|  10|                                              -|                             -|                      -|       -|            -|        -|      -|        -|             -|        -|       -|
 
 * The operational point for ranking is 0.90 recall@10. We will use the lowest power consumption/query for the search parameters that meet or exceed 0.90 recall@10.
 * The formula is based on:
@@ -223,6 +230,7 @@
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
   * *inprog* = algorithm development still in progress
+  * *NQ* = not qualified
 
 #### BigANN
 
@@ -247,6 +255,7 @@
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
   * *inprog* = algorithm development still in progress
+  * *NQ* = not qualified
 
 ##### BigANN Throughput Rankings
 
@@ -269,6 +278,7 @@
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
   * *inprog* = algorithm development still in progress
+  * *NQ* = not qualified
 
 ##### BigANN Power Rankings
 
@@ -291,6 +301,7 @@
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
   * *inprog* = algorithm development still in progress
+  * *NQ* = not qualified
 
 ##### BigANN Cost Rankings
 
@@ -319,6 +330,7 @@
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
   * *inprog* = algorithm development still in progress
+  * *NQ* = not qualified
 
 #### MSTuring
 
@@ -343,6 +355,7 @@
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
   * *inprog* = algorithm development still in progress
+  * *NQ* = not qualified
 
 ##### MSTuring Throughput Rankings
 
@@ -365,6 +378,7 @@
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
   * *inprog* = algorithm development still in progress
+  * *NQ* = not qualified
 
 ##### MSTuring Power Rankings
 
@@ -387,6 +401,7 @@
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
   * *inprog* = algorithm development still in progress
+  * *NQ* = not qualified
 
 ##### MSTuring Cost Rankings
 
@@ -415,6 +430,7 @@
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
   * *inprog* = algorithm development still in progress
+  * *NQ* = not qualified
 
 #### MSSpace
 
@@ -439,6 +455,7 @@
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
   * *inprog* = algorithm development still in progress
+  * *NQ* = not qualified
 
 ##### MSSpace Throughput Rankings
 
@@ -461,6 +478,7 @@
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
   * *inprog* = algorithm development still in progress
+  * *NQ* = not qualified
 
 ##### MSSpace Power Rankings
 
@@ -483,6 +501,7 @@
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
   * *inprog* = algorithm development still in progress
+  * *NQ* = not qualified
 
 ##### MSSpace Cost Rankings
 
@@ -511,6 +530,7 @@
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
   * *inprog* = algorithm development still in progress
+  * *NQ* = not qualified
 
 #### Text2Image
 
@@ -535,6 +555,7 @@
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
   * *inprog* = algorithm development still in progress
+  * *NQ* = not qualified
 
 ##### Text2Image Throughput Rankings
 
@@ -557,6 +578,7 @@
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
   * *inprog* = algorithm development still in progress
+  * *NQ* = not qualified
 
 ##### Text2Image Power Rankings
 
@@ -579,6 +601,7 @@
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
   * *inprog* = algorithm development still in progress
+  * *NQ* = not qualified
 
 ##### Text2Image Cost Rankings
 
@@ -607,6 +630,7 @@
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
   * *inprog* = algorithm development still in progress
+  * *NQ* = not qualified
 
 #### FBSimSearchNet
 

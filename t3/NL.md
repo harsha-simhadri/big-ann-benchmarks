@@ -132,18 +132,18 @@
 
 ##### Deep1B Recall Rankings 
 
-|Rank|Submission                                             |Team                          |Hardware               |Status|R@10     |Q/S     |
-|----|-------------------------------------------------------|------------------------------|-----------------------|------|---------|--------|
-|   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|**0.942**|2002.490|
-|   2|                                                      -|                             -|                      -|     -|        -|       -|
-|   3|                                                      -|                             -|                      -|     -|        -|       -|
-|   4|                                                      -|                             -|                      -|     -|        -|       -|
-|   5|                                                      -|                             -|                      -|     -|        -|       -|
-|   6|                                                      -|                             -|                      -|     -|        -|       -|
-|   7|                                                      -|                             -|                      -|     -|        -|       -|
-|   8|                                                      -|                             -|                      -|     -|        -|       -|
-|   9|                                                      -|                             -|                      -|     -|        -|       -|
-|  10|                                                      -|                             -|                      -|     -|        -|       -|
+|Rank|Submission                                             |Team                          |Hardware               |Status  |R@10       |Q/S     |
+|----|-------------------------------------------------------|------------------------------|-----------------------|--------|-----------|--------|
+|   1|[gemini](../t3/gemini/README.md)                                   |gemini                      |LedaE APU               |inprog|**0.989**|       -|
+|   2|[optanne_graphann](../t3/gemini/README.md)                                   |optanne_graphann                      |LedaE APU               |inprog|**0.983**|       -|
+|   3|[faiss_t3](../t3/gemini/README.md)                                   |faiss_t3                      |LedaE APU               |inprog|**0.943**|       -|
+|   4|                                                      -|                             -|                      -|       -|          -|       -|
+|   5|                                                      -|                             -|                      -|       -|          -|       -|
+|   6|                                                      -|                             -|                      -|       -|          -|       -|
+|   7|                                                      -|                             -|                      -|       -|          -|       -|
+|   8|                                                      -|                             -|                      -|       -|          -|       -|
+|   9|                                                      -|                             -|                      -|       -|          -|       -|
+|  10|                                                      -|                             -|                      -|       -|          -|       -|
 
 * The operational point for ranking is 2000 QPS. We will use the highest recall for the search parameters that meet or exceed 2000 QPS.
 * Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
@@ -151,12 +151,15 @@
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
   * *inprog* = algorithm development still in progress
+  * *NQ* = not qualified
 
 ##### Deep1B Throughput Rankings 
 
 |Rank|Submission                                             |Team                          |Hardware               |Status|Q/S         |R@10 |
 |----|-------------------------------------------------------|------------------------------|-----------------------|------|------------|-----|
-|   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|**3422.473**|0.916|
+|   1|[optanne_graphann]($DP1__RD)                                   |optanne_graphann                      |LedaE APU               |inprog|**184,490.708**|       -|
+|   2|[gemini](../t3/gemini/README.md)                                   |gemini                      |LedaE APU               |inprog|**9,150.271**|       -|
+|   3|[faiss_t3](../t3/gemini/README.md)                                   |faiss_t3                      |LedaE APU               |inprog|**4,417.036**|       -|
 |   2|                                                      -|                             -|                      -|     -|           -|    -|
 |   3|                                                      -|                             -|                      -|     -|           -|    -|
 |   4|                                                      -|                             -|                      -|     -|           -|    -|
@@ -173,12 +176,15 @@
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
   * *inprog* = algorithm development still in progress
+  * *NQ* = not qualified
 
 ##### Deep1B Power Rankings 
 
 |Rank|Submission                                             |Team                          |Hardware               |Status|W*S/Q    |
 |----|-------------------------------------------------------|------------------------------|-----------------------|------|---------|
-|   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|**0.158**|
+|   1|[optanne_graphann](../t3/gemini/README.md)                                   |optanne_graphann                      |LedaE APU               |inprog|**0.004**|       -|
+|   2|[gemini](../t3/gemini/README.md)                                   |gemini                      |LedaE APU               |inprog|**0.040**|       -|
+|   3|[faiss_t3](../t3/gemini/README.md)                                   |faiss_t3                      |LedaE APU               |inprog|**0.113**|       -|
 |   2|                                                      -|                             -|                      -|     -|        -|
 |   3|                                                      -|                             -|                      -|     -|        -|
 |   4|                                                      -|                             -|                      -|     -|        -|
@@ -195,21 +201,22 @@
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
   * *inprog* = algorithm development still in progress
+  * *NQ* = not qualified
 
 ##### Deep1B Cost Rankings 
 
-|Rank|Submission                                             |Team                          |Hardware               |Status|Cost         |capex    |opex   |unit cost|units@100K qps|KwH*4yrs |KwH cost|
-|----|-------------------------------------------------------|------------------------------|-----------------------|------|-------------|---------|-------|---------|--------------|---------|--------|
-|   1|<nobr>[FAISS Baseline](../t3/faiss_t3/README.md)</nobr>|<nobr>FB Research (org)</nobr>|<nobr>NVidia GPU</nobr>| final|**$716010.0**|$660657.0| $55353|$22021.90|            30|$553632.0|$55353.0|
-|   2|                                                      -|                             -|                      -|     -|            -|        -|      -|        -|             -|        -|       -|
-|   3|                                                      -|                             -|                      -|     -|            -|        -|      -|        -|             -|        -|       -|
-|   4|                                                      -|                             -|                      -|     -|            -|        -|      -|        -|             -|        -|       -|
-|   5|                                                      -|                             -|                      -|     -|            -|        -|      -|        -|             -|        -|       -|
-|   6|                                                      -|                             -|                      -|     -|            -|        -|      -|        -|             -|        -|       -|
-|   7|                                                      -|                             -|                      -|     -|            -|        -|      -|        -|             -|        -|       -|
-|   8|                                                      -|                             -|                      -|     -|            -|        -|      -|        -|             -|        -|       -|
-|   9|                                                      -|                             -|                      -|     -|            -|        -|      -|        -|             -|        -|       -|
-|  10|                                                      -|                             -|                      -|     -|            -|        -|      -|        -|             -|        -|       -|
+|Rank|Submission                                     |Team                          |Hardware               |Status  |Cost         |capex    |opex   |unit cost|units@100K qps|KwH*4yrs |KwH cost|
+|----|-----------------------------------------------|------------------------------|-----------------------|--------|-------------|---------|-------|---------|--------------|---------|--------|
+|   1|[optanne_graphann](../t3/gemini/README.md)                           |optanne_graphann                      |LedaE APU               |inprog|**$0.00**  |        -|      -|        -|             -|        -|       -|
+|   2|[faiss_t3](../t3/gemini/README.md)                           |faiss_t3                      |LedaE APU               |inprog|**$545,952.10**  |        -|      -|        -|             -|        -|       -|
+|   3|[gemini](../t3/gemini/README.md)                           |gemini                      |LedaE APU               |inprog|**$626,932.94**  |        -|      -|        -|             -|        -|       -|
+|   4|                                              -|                             -|                      -|       -|            -|        -|      -|        -|             -|        -|       -|
+|   5|                                              -|                             -|                      -|       -|            -|        -|      -|        -|             -|        -|       -|
+|   6|                                              -|                             -|                      -|       -|            -|        -|      -|        -|             -|        -|       -|
+|   7|                                              -|                             -|                      -|       -|            -|        -|      -|        -|             -|        -|       -|
+|   8|                                              -|                             -|                      -|       -|            -|        -|      -|        -|             -|        -|       -|
+|   9|                                              -|                             -|                      -|       -|            -|        -|      -|        -|             -|        -|       -|
+|  10|                                              -|                             -|                      -|       -|            -|        -|      -|        -|             -|        -|       -|
 
 * The operational point for ranking is 0.90 recall@10. We will use the lowest power consumption/query for the search parameters that meet or exceed 0.90 recall@10.
 * The formula is based on:
@@ -223,6 +230,7 @@
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
   * *inprog* = algorithm development still in progress
+  * *NQ* = not qualified
 
 #### BigANN
 
@@ -247,6 +255,7 @@
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
   * *inprog* = algorithm development still in progress
+  * *NQ* = not qualified
 
 ##### BigANN Throughput Rankings
 
@@ -269,6 +278,7 @@
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
   * *inprog* = algorithm development still in progress
+  * *NQ* = not qualified
 
 ##### BigANN Power Rankings
 
@@ -291,6 +301,7 @@
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
   * *inprog* = algorithm development still in progress
+  * *NQ* = not qualified
 
 ##### BigANN Cost Rankings
 
@@ -319,6 +330,7 @@
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
   * *inprog* = algorithm development still in progress
+  * *NQ* = not qualified
 
 #### MSTuring
 
@@ -343,6 +355,7 @@
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
   * *inprog* = algorithm development still in progress
+  * *NQ* = not qualified
 
 ##### MSTuring Throughput Rankings
 
@@ -365,6 +378,7 @@
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
   * *inprog* = algorithm development still in progress
+  * *NQ* = not qualified
 
 ##### MSTuring Power Rankings
 
@@ -387,6 +401,7 @@
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
   * *inprog* = algorithm development still in progress
+  * *NQ* = not qualified
 
 ##### MSTuring Cost Rankings
 
@@ -415,6 +430,7 @@
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
   * *inprog* = algorithm development still in progress
+  * *NQ* = not qualified
 
 #### MSSpace
 
@@ -439,6 +455,7 @@
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
   * *inprog* = algorithm development still in progress
+  * *NQ* = not qualified
 
 ##### MSSpace Throughput Rankings
 
@@ -461,6 +478,7 @@
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
   * *inprog* = algorithm development still in progress
+  * *NQ* = not qualified
 
 ##### MSSpace Power Rankings
 
@@ -483,6 +501,7 @@
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
   * *inprog* = algorithm development still in progress
+  * *NQ* = not qualified
 
 ##### MSSpace Cost Rankings
 
@@ -511,6 +530,7 @@
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
   * *inprog* = algorithm development still in progress
+  * *NQ* = not qualified
 
 #### Text2Image
 
@@ -535,6 +555,7 @@
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
   * *inprog* = algorithm development still in progress
+  * *NQ* = not qualified
 
 ##### Text2Image Throughput Rankings
 
@@ -557,6 +578,7 @@
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
   * *inprog* = algorithm development still in progress
+  * *NQ* = not qualified
 
 ##### Text2Image Power Rankings
 
@@ -579,6 +601,7 @@
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
   * *inprog* = algorithm development still in progress
+  * *NQ* = not qualified
 
 ##### Text2Image Cost Rankings
 
@@ -607,6 +630,7 @@
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
   * *inprog* = algorithm development still in progress
+  * *NQ* = not qualified
 
 #### FBSimSearchNet
 
