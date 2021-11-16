@@ -11,7 +11,7 @@ This README contains information required for T3 Track submissions.
 |                        |w/16X Intel Optane Persistent Memory 200 Series          |    |                                                 |          -|
 |                        |w/Network card, boot drive, etc.                         |    |                                                 |          -|
 |                        |[w/16X 16GB DDR4-3200 RDIMM](cost/DRAM16.pdf)            |  16|                                              $82|          -|
-|Replacement DRAM        |w/16X 32GB DDR4(cost/DRAM32.pdf)                         |  16|                                 ($150-$82) = $68|      $1088|
+|Replacement DRAM        |[w/16X 32GB DDR4](cost/DRAM32.pdf)                         |  16|                                 ($150-$82) = $68|      $1088|
 |Total                   |                                                         |    |                                                 |  $14664.20|
 
 ## Hardware Access
