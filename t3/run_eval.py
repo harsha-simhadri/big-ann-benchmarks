@@ -357,7 +357,7 @@ def produce_rankings(subms):
                 kv = SUBM_MAPPING[subm]["readme"]
                 rdct[kee]=kv
                 kee = "$%s%d%s_HW" % ( DBS[db], idx+1, dbmapping[benchmark])
-                kv = SUBM_MAPPING[subm]["display_hw"]
+                kv = SUBM_MAPPING[item[0]]["display_hw"]
                 rdct[kee]=kv
                 kee = "$%s%d%s_V" % ( DBS[db], idx+1, dbmapping[benchmark])
                 fmt = bestformatmapping[benchmark]
