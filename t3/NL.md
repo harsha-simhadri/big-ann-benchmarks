@@ -12,14 +12,15 @@
 |--------------------|--------|--------|-------|-------------------------------|---------------------------------------|-----------------------------|---------------------------|
 |deepgram            |       -|       -|      -|                              -|                                      -|                            -|                          -|
 |diskANN             |       -|       -|      -|                              -|                                      -|                            -|                          -|
-|[faiss_t3)[../t3/faiss_t3/README.md)    |Facebook Research  |NVidia GPU  |final  |3                         |3                                 |3                       |1                     |
-|[gemini)[../t3/gemini/README.md)  |GSI Technology |LedaE APU |inprog |1                        |2                                |2                      |2                    |
+|[faiss_t3](../t3/faiss_t3/README.md)    |Facebook Research  |NVidia GPU  |final  |3                         |3                                 |3                       |1                     |
+|[gemini](../t3/gemini/README.md)  |GSI Technology |LedaE APU |inprog |1                        |2                                |2                      |2                    |
 |kanndi              |       -|       -|      -|                              -|                                      -|                            -|                          -|
 |nvidia_single_gpu   |       -|       -|      -|                              -|                                      -|                            -|                          -|
 |nvidia_multi_gpu    |       -|       -|      -|                              -|                                      -|                            -|                          -|
 |[optanne_graphann](../t3/optanne_graphann/README.md)|Intel|Intel Optane|inprog|2                       |1                               |1                     |NQ                   |
 |optanne_diskann     |       -|       -|      -|                              -|                                      -|                            -|                          -|
 |vector_t3           |       -|       -|      -|                              -|                                      -|                            -|                          -|
+
 
 * Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
 * Abbreviations used in chart:
