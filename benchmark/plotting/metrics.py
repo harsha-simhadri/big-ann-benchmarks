@@ -25,16 +25,15 @@ def compute_recall_with_distance_ties(true_ids, true_dists, run_ids, count):
     else:
         dist_tie_check = true_dists[count-1] # tie check anchored at count-1 in GT dists
      
-        for i in range( count, gt_size ):
-            is_close = abs(dist_tie_check - true_dists[i] ) < 1e-6 
-            if is_close: 
-                # continue iterating
-                found_tie=True
-                set_end = i+1
-            else:
-                # stop iterating
-                set_end = i
-                break
+        set_end = gt_size
+
+        for i in range(count, gt_size):
+          is_close = abs(dist_tie_check - true_dists[i] ) < 1e-6 
+          if not is_close:
+            set_end = i
+            break
+
+        found_tie = set_end > count
 
         recall =  len(set(true_ids[:set_end]) & set(run_ids))
  
