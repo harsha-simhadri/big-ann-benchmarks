@@ -479,7 +479,7 @@
 |   9|                                                      -|                             -|                      -|       -|           -|   
 |  10|                                                      -|                             -|                      -|       -|           -|    
 
-* The operational point for ranking is 0.86 recall@10. We will use the highest throughput for the search parameters that meet or exceed 0.86 recall@10.
+* The operational point for ranking is 0.9 recall@10. We will use the highest throughput for the search parameters that meet or exceed 0.9 recall@10.
 * Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
@@ -502,7 +502,7 @@
 |   9|                                                      -|                             -|                      -|       -|           -|
 |  10|                                                      -|                             -|                      -|       -|           -|
 
-* The operational point for ranking is 0.86 recall@10. We will use the lowest power consumption for the search parameters that meet or exceed 0.86 recall@10.
+* The operational point for ranking is 0.9 recall@10. We will use the lowest power consumption for the search parameters that meet or exceed 0.9 recall@10.
 * Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
@@ -579,7 +579,7 @@
 |   9|                                                      -|                             -|                      -|       -|           -|    
 |  10|                                                      -|                             -|                      -|       -|           -|    
 
-* The operational point for ranking is 0.875 recall@10. We will use the highest throughput for the search parameters that meet or exceed 0.875 recall@10.
+* The operational point for ranking is 0.860 recall@10. We will use the highest throughput for the search parameters that meet or exceed 0.860 recall@10.
 * Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
@@ -625,7 +625,7 @@
 |   9|                                              -|                             -|                    -|       -|             -|         -|       -|        -|             -|        -|       -|
 |  10|                                              -|                             -|                    -|       -|             -|         -|       -|        -|             -|        -|       -|
 
-* The operational point for ranking is 0.875 recall@10. We will use the lowest power consumption/query for the search parameters that meet or exceed 0.875 recall@10.
+* The operational point for ranking is 0.86 recall@10. We will use the lowest power consumption/query for the search parameters that meet or exceed 0.86 recall@10.
 * The formula is based on:
   * Take the algorithm's throughput submitted to leaderboard, use it to scale no. of systems needed to scale to 100K qps (using ceiling to round up any decimal.)
   * Capex = cost per system * scale no.
@@ -643,16 +643,100 @@
 
 ##### FBSimSearchNet Recall Rankings
 
-[TBD]
+|Rank|Submission                                             |Team                          |Hardware               |Status  |R@10         |
+|----|-------------------------------------------------------|------------------------------|-----------------------|--------|-------------|
+|   1|[$FB1R_SB]($FB1R_RD)                                   |$FB1R_TM                      |$FB1R_HW               |$FB1R_ST|**$FB1R_V**  |
+|   2|[$FB2R_SB]($FB2R_RD)                                   |$FB2R_TM                      |$FB2R_HW               |$FB2R_ST|**$FB2R_V**  |
+|   3|[$FB3R_SB]($FB3R_RD)                                   |$FB3R_TM                      |$FB3R_HW               |$FB3R_ST|**$FB3R_V**  |
+|   4|                                                      -|                             -|                      -|       -|            -|
+|   5|                                                      -|                             -|                      -|       -|            -|
+|   6|                                                      -|                             -|                      -|       -|            -|
+|   7|                                                      -|                             -|                      -|       -|            -|
+|   8|                                                      -|                             -|                      -|       -|            -|
+|   9|                                                      -|                             -|                      -|       -|            -|
+|  10|                                                      -|                             -|                      -|       -|            -|
+
+* The operational point for ranking is 2000 QPS. We will use the highest recall for the search parameters that meet or exceed 2000 QPS.
+* Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
+* Abbreviations used in chart:
+  * *org* = submitted by challenge organizer, so subject to competition restrictions
+  * *final* = final submission
+  * *inprog* = algorithm development still in progress
+  * *NQ* = not qualified
 
 ##### FBSimSearchNet Throughput Rankings
 
-[TBD]
+|Rank|Submission                                             |Team                          |Hardware               |Status  |Q/S         |
+|----|-------------------------------------------------------|------------------------------|-----------------------|--------|------------|
+|   1|[$FB1Q_SB]($FB1Q_RD)                                   |$FB1Q_TM                      |$FB1Q_HW               |$FB1Q_ST|**$FB1Q_V** |
+|   2|[$FB2Q_SB]($FB2Q_RD)                                   |$FB2Q_TM                      |$FB2Q_HW               |$FB2Q_ST|**$FB2Q_V** |
+|   3|[$FB3Q_SB]($FB3Q_RD)                                   |$FB3Q_TM                      |$FB3Q_HW               |$FB3Q_ST|**$FB3Q_V** |
+|   4|                                                      -|                             -|                      -|       -|           -|
+|   5|                                                      -|                             -|                      -|       -|           -|
+|   6|                                                      -|                             -|                      -|       -|           -|
+|   7|                                                      -|                             -|                      -|       -|           -|
+|   8|                                                      -|                             -|                      -|       -|           -|
+|   9|                                                      -|                             -|                      -|       -|           -|
+|  10|                                                      -|                             -|                      -|       -|           -|
+
+* The operational point for ranking is 0.9 recall@10. We will use the highest throughput for the search parameters that meet or exceed 0.9 recall@10.
+* Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
+* Abbreviations used in chart:
+  * *org* = submitted by challenge organizer, so subject to competition restrictions
+  * *final* = final submission
+  * *inprog* = algorithm development still in progress
+  * *NQ* = not qualified
+
 
 ##### FBSimSearchNet Power Rankings
 
-[TBD]
+|Rank|Submission                                             |Team                          |Hardware               |Status  |W*S/Q      |
+|----|-------------------------------------------------------|------------------------------|-----------------------|--------|-----------|
+|   1|[$FB1P_SB]($FB1P_RD)                                   |$FB1P_TM                      |$FB1P_HW               |$FB1P_ST|**$FB1P_V**|
+|   2|[$FB2P_SB]($FB2P_RD)                                   |$FB2P_TM                      |$FB2P_HW               |$FB2P_ST|**$FB2P_V**|
+|   3|[$FB3P_SB]($FB3P_RD)                                   |$FB3P_TM                      |$FB3P_HW               |$FB3P_ST|**$FB3P_V**|
+|   4|                                                      -|                             -|                      -|       -|          -|
+|   5|                                                      -|                             -|                      -|       -|          -|
+|   6|                                                      -|                             -|                      -|       -|          -|
+|   7|                                                      -|                             -|                      -|       -|          -|
+|   8|                                                      -|                             -|                      -|       -|          -|
+|   9|                                                      -|                             -|                      -|       -|          -|
+|  10|                                                      -|                             -|                      -|       -|          -|
+
+* The operational point for ranking is 0.9 recall@10. We will use the lowest power consumption for the search parameters that meet or exceed 0.9 recall@10.
+* Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
+* Abbreviations used in chart:
+  * *org* = submitted by challenge organizer, so subject to competition restrictions
+  * *final* = final submission
+  * *inprog* = algorithm development still in progress
+  * *NQ* = not qualified
 
 ##### FBSimSearchNet Cost Rankings
 
-[TBD]
+|Rank|Submission                                     |Team                          |Hardware             |Status  |Cost          |capex     |opex    |unit cost|units@100K qps|KwH*4yrs |KwH cost|
+|----|-----------------------------------------------|------------------------------|---------------------|--------|--------------|----------|--------|---------|--------------|---------|--------|
+|   1|[$FB1C_SB]($FB1C_RD)                           |$FB1C_TM                      |$FB1C_HW             |$FB1C_ST|**$FB1C_V**   |         -|       -|        -|             -|        -|       -|
+|   2|[$FB2C_SB]($FB2C_RD)                           |$FB2C_TM                      |$FB2C_HW             |$FB2C_ST|**$FB2C_V**   |         -|       -|        -|             -|        -|       -|
+|   3|[$FB3C_SB]($FB3C_RD)                           |$FB3C_TM                      |$FB3C_HW             |$FB3C_ST|**$FB3C_V**   |         -|       -|        -|             -|        -|       -|
+|   4|                                              -|                             -|                    -|       -|             -|         -|       -|        -|             -|        -|       -|
+|   5|                                              -|                             -|                    -|       -|             -|         -|       -|        -|             -|        -|       -|
+|   6|                                              -|                             -|                    -|       -|             -|         -|       -|        -|             -|        -|       -|
+|   7|                                              -|                             -|                    -|       -|             -|         -|       -|        -|             -|        -|       -|
+|   8|                                              -|                             -|                    -|       -|             -|         -|       -|        -|             -|        -|       -|
+|   9|                                              -|                             -|                    -|       -|             -|         -|       -|        -|             -|        -|       -|
+|  10|                                              -|                             -|                    -|       -|             -|         -|       -|        -|             -|        -|       -|
+
+* The operational point for ranking is 0.9 recall@10. We will use the lowest power consumption/query for the search parameters that meet or exceed 0.9 recall@10.
+* The formula is based on:
+  * Take the algorithm's throughput submitted to leaderboard, use it to scale no. of systems needed to scale to 100K qps (using ceiling to round up any decimal.)
+  * Capex = cost per system * scale no.
+  * Take w*s/q from algorithm's power metric submitted to leaderboard and convert to KwH/q.
+  * Multiply by total queries at 100K qps for 4 years = 4x365x24x60x60x100000 total queries over 4 years.
+  * Opex = (total queries over 4 years) * KwH/query * $0.10/KwH
+* Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
+* Abbreviations used in chart:
+  * *org* = submitted by challenge organizer, so subject to competition restrictions
+  * *final* = final submission
+  * *inprog* = algorithm development still in progress
+  * *NQ* = not qualified
+

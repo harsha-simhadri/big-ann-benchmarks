@@ -479,7 +479,7 @@
 |   9|                                                      -|                             -|                      -|       -|           -|   
 |  10|                                                      -|                             -|                      -|       -|           -|    
 
-* The operational point for ranking is 0.86 recall@10. We will use the highest throughput for the search parameters that meet or exceed 0.86 recall@10.
+* The operational point for ranking is 0.9 recall@10. We will use the highest throughput for the search parameters that meet or exceed 0.9 recall@10.
 * Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
@@ -502,7 +502,7 @@
 |   9|                                                      -|                             -|                      -|       -|           -|
 |  10|                                                      -|                             -|                      -|       -|           -|
 
-* The operational point for ranking is 0.86 recall@10. We will use the lowest power consumption for the search parameters that meet or exceed 0.86 recall@10.
+* The operational point for ranking is 0.9 recall@10. We will use the lowest power consumption for the search parameters that meet or exceed 0.9 recall@10.
 * Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
@@ -579,7 +579,7 @@
 |   9|                                                      -|                             -|                      -|       -|           -|    
 |  10|                                                      -|                             -|                      -|       -|           -|    
 
-* The operational point for ranking is 0.875 recall@10. We will use the highest throughput for the search parameters that meet or exceed 0.875 recall@10.
+* The operational point for ranking is 0.860 recall@10. We will use the highest throughput for the search parameters that meet or exceed 0.860 recall@10.
 * Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
@@ -625,7 +625,7 @@
 |   9|                                              -|                             -|                    -|       -|             -|         -|       -|        -|             -|        -|       -|
 |  10|                                              -|                             -|                    -|       -|             -|         -|       -|        -|             -|        -|       -|
 
-* The operational point for ranking is 0.875 recall@10. We will use the lowest power consumption/query for the search parameters that meet or exceed 0.875 recall@10.
+* The operational point for ranking is 0.86 recall@10. We will use the lowest power consumption/query for the search parameters that meet or exceed 0.86 recall@10.
 * The formula is based on:
   * Take the algorithm's throughput submitted to leaderboard, use it to scale no. of systems needed to scale to 100K qps (using ceiling to round up any decimal.)
   * Capex = cost per system * scale no.
@@ -643,16 +643,100 @@
 
 ##### FBSimSearchNet Recall Rankings
 
-[TBD]
+|Rank|Submission                                             |Team                          |Hardware               |Status  |R@10         |
+|----|-------------------------------------------------------|------------------------------|-----------------------|--------|-------------|
+|   1|[faiss_t3](../t3/gemini/README.md)                                   |Facebook Research                      |NVidia GPU               |inprog|**[0.979](eval_2021/faiss_t3/ssnpp-1B_recall.png)**  |
+|   2|[-](-)                                   |-                      |-               |-|**-**  |
+|   3|[-](-)                                   |-                      |-               |-|**-**  |
+|   4|                                                      -|                             -|                      -|       -|            -|
+|   5|                                                      -|                             -|                      -|       -|            -|
+|   6|                                                      -|                             -|                      -|       -|            -|
+|   7|                                                      -|                             -|                      -|       -|            -|
+|   8|                                                      -|                             -|                      -|       -|            -|
+|   9|                                                      -|                             -|                      -|       -|            -|
+|  10|                                                      -|                             -|                      -|       -|            -|
+
+* The operational point for ranking is 2000 QPS. We will use the highest recall for the search parameters that meet or exceed 2000 QPS.
+* Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
+* Abbreviations used in chart:
+  * *org* = submitted by challenge organizer, so subject to competition restrictions
+  * *final* = final submission
+  * *inprog* = algorithm development still in progress
+  * *NQ* = not qualified
 
 ##### FBSimSearchNet Throughput Rankings
 
-[TBD]
+|Rank|Submission                                             |Team                          |Hardware               |Status  |Q/S         |
+|----|-------------------------------------------------------|------------------------------|-----------------------|--------|------------|
+|   1|[faiss_t3](../t3/gemini/README.md)                                   |Facebook Research                      |NVidia GPU               |inprog|**[5,572.272](eval_2021/faiss_t3/ssnpp-1B_throughput.png)** |
+|   2|[-](-)                                   |-                      |-               |-|**-** |
+|   3|[-](-)                                   |-                      |-               |-|**-** |
+|   4|                                                      -|                             -|                      -|       -|           -|
+|   5|                                                      -|                             -|                      -|       -|           -|
+|   6|                                                      -|                             -|                      -|       -|           -|
+|   7|                                                      -|                             -|                      -|       -|           -|
+|   8|                                                      -|                             -|                      -|       -|           -|
+|   9|                                                      -|                             -|                      -|       -|           -|
+|  10|                                                      -|                             -|                      -|       -|           -|
+
+* The operational point for ranking is 0.9 recall@10. We will use the highest throughput for the search parameters that meet or exceed 0.9 recall@10.
+* Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
+* Abbreviations used in chart:
+  * *org* = submitted by challenge organizer, so subject to competition restrictions
+  * *final* = final submission
+  * *inprog* = algorithm development still in progress
+  * *NQ* = not qualified
+
 
 ##### FBSimSearchNet Power Rankings
 
-[TBD]
+|Rank|Submission                                             |Team                          |Hardware               |Status  |W*S/Q      |
+|----|-------------------------------------------------------|------------------------------|-----------------------|--------|-----------|
+|   1|[faiss_t3](../t3/gemini/README.md)                                   |Facebook Research                      |NVidia GPU               |inprog|**[0.095](eval_2021/faiss_t3/ssnpp-1B_power.png)**|
+|   2|[-](-)                                   |-                      |-               |-|**-**|
+|   3|[-](-)                                   |-                      |-               |-|**-**|
+|   4|                                                      -|                             -|                      -|       -|          -|
+|   5|                                                      -|                             -|                      -|       -|          -|
+|   6|                                                      -|                             -|                      -|       -|          -|
+|   7|                                                      -|                             -|                      -|       -|          -|
+|   8|                                                      -|                             -|                      -|       -|          -|
+|   9|                                                      -|                             -|                      -|       -|          -|
+|  10|                                                      -|                             -|                      -|       -|          -|
+
+* The operational point for ranking is 0.9 recall@10. We will use the lowest power consumption for the search parameters that meet or exceed 0.9 recall@10.
+* Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
+* Abbreviations used in chart:
+  * *org* = submitted by challenge organizer, so subject to competition restrictions
+  * *final* = final submission
+  * *inprog* = algorithm development still in progress
+  * *NQ* = not qualified
 
 ##### FBSimSearchNet Cost Rankings
 
-[TBD]
+|Rank|Submission                                     |Team                          |Hardware             |Status  |Cost          |capex     |opex    |unit cost|units@100K qps|KwH*4yrs |KwH cost|
+|----|-----------------------------------------------|------------------------------|---------------------|--------|--------------|----------|--------|---------|--------------|---------|--------|
+|   1|[faiss_t3](../t3/gemini/README.md)                           |Facebook Research                      |NVidia GPU             |inprog|**$429,634.84**   |         -|       -|        -|             -|        -|       -|
+|   2|[-](-)                           |-                      |-             |-|**-**   |         -|       -|        -|             -|        -|       -|
+|   3|[-](-)                           |-                      |-             |-|**-**   |         -|       -|        -|             -|        -|       -|
+|   4|                                              -|                             -|                    -|       -|             -|         -|       -|        -|             -|        -|       -|
+|   5|                                              -|                             -|                    -|       -|             -|         -|       -|        -|             -|        -|       -|
+|   6|                                              -|                             -|                    -|       -|             -|         -|       -|        -|             -|        -|       -|
+|   7|                                              -|                             -|                    -|       -|             -|         -|       -|        -|             -|        -|       -|
+|   8|                                              -|                             -|                    -|       -|             -|         -|       -|        -|             -|        -|       -|
+|   9|                                              -|                             -|                    -|       -|             -|         -|       -|        -|             -|        -|       -|
+|  10|                                              -|                             -|                    -|       -|             -|         -|       -|        -|             -|        -|       -|
+
+* The operational point for ranking is 0.9 recall@10. We will use the lowest power consumption/query for the search parameters that meet or exceed 0.9 recall@10.
+* The formula is based on:
+  * Take the algorithm's throughput submitted to leaderboard, use it to scale no. of systems needed to scale to 100K qps (using ceiling to round up any decimal.)
+  * Capex = cost per system * scale no.
+  * Take w*s/q from algorithm's power metric submitted to leaderboard and convert to KwH/q.
+  * Multiply by total queries at 100K qps for 4 years = 4x365x24x60x60x100000 total queries over 4 years.
+  * Opex = (total queries over 4 years) * KwH/query * $0.10/KwH
+* Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
+* Abbreviations used in chart:
+  * *org* = submitted by challenge organizer, so subject to competition restrictions
+  * *final* = final submission
+  * *inprog* = algorithm development still in progress
+  * *NQ* = not qualified
+
