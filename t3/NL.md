@@ -511,18 +511,18 @@
 
 ##### MSSpace Cost Rankings
 
-|Rank|Submission                             |Team                          |Hardware               |Status |Cost          |capex     |opex     |unit cost|units@100K qps|KwH*4yrs  |KwH cost |
-|----|---------------------------------------|------------------------------|-----------------------|-------|--------------|----------|---------|---------|--------------|----------|---------|
-|   1|[$MS1_SB]($MS1_RD)                     |$MS1_TM                       |$MS1_HW                |$MS1_ST|$MS1_SC       |         -|        -|        -|             -|         -|        -|
-|   2|[$MS2_SB]($MS2_RD)                     |$MS2_TM                       |$MS2_HW                |$MS2_ST|$MS2_SC       |         -|        -|        -|             -|         -|        -|
-|   3|[$MS3_SB]($MS3_RD)                     |$MS3_TM                       |$MS3_HW                |$MS3_ST|$MS3_SC       |         -|        -|        -|             -|         -|        -|
-|   4|                                      -|                             -|                      -|      -|             -|         -|        -|        -|             -|         -|        -|
-|   5|                                      -|                             -|                      -|      -|             -|         -|        -|        -|             -|         -|        -|
-|   6|                                      -|                             -|                      -|      -|             -|         -|        -|        -|             -|         -|        -|
-|   7|                                      -|                             -|                      -|      -|             -|         -|        -|        -|             -|         -|        -|
-|   8|                                      -|                             -|                      -|      -|             -|         -|        -|        -|             -|         -|        -|
-|   9|                                      -|                             -|                      -|      -|             -|         -|        -|        -|             -|         -|        -|
-|  10|                                      -|                             -|                      -|      -|             -|         -|        -|        -|             -|         -|        -|
+|Rank|Submission                             |Team                          |Hardware               |Status  |Cost          |capex     |opex     |unit cost|units@100K qps|KwH*4yrs  |KwH cost |
+|----|---------------------------------------|------------------------------|-----------------------|------- |--------------|----------|---------|---------|--------------|----------|---------|
+|   1|[gemini](../t3/gemini/README.md)                   |GSI Technology                      |LedaE APU               |inprog|$MS1C_SC      |         -|        -|        -|             -|         -|        -|
+|   2|[faiss_t3](../t3/gemini/README.md)                   |Facebook Research                      |LedaE APU               |inprog|$MS2C_SC      |         -|        -|        -|             -|         -|        -|
+|   3|[-](-)                   |-                      |-               |-|$MS3C_SC      |         -|        -|        -|             -|         -|        -|
+|   4|                                      -|                             -|                      -|       -|             -|         -|        -|        -|             -|         -|        -|
+|   5|                                      -|                             -|                      -|       -|             -|         -|        -|        -|             -|         -|        -|
+|   6|                                      -|                             -|                      -|       -|             -|         -|        -|        -|             -|         -|        -|
+|   7|                                      -|                             -|                      -|       -|             -|         -|        -|        -|             -|         -|        -|
+|   8|                                      -|                             -|                      -|       -|             -|         -|        -|        -|             -|         -|        -|
+|   9|                                      -|                             -|                      -|       -|             -|         -|        -|        -|             -|         -|        -|
+|  10|                                      -|                             -|                      -|       -|             -|         -|        -|        -|             -|         -|        -|
 
 * The operational point for ranking is 0.90 recall@10. We will use the lowest power consumption/query for the search parameters that meet or exceed 0.90 recall@10.
 * The formula is based on:

@@ -330,7 +330,6 @@ def produce_rankings(subms):
                 fmt = bestformatmapping[benchmark]
                 kv = fmt.format(item[1])
                 rdct[kee]=kv
-            print("IDX", idx)
             for i in range(idx+1, TOTAL_SUBM):
                 kee = "$%s%d%s_SB" % ( DBS[db], i+1, dbmapping[benchmark] )
                 rdct[kee]="-"
