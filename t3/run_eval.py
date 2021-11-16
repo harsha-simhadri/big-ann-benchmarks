@@ -1,6 +1,7 @@
 import os
 import sys
 import math
+import json
 import pandas as pd
 from string import Template
 import t3eval
@@ -222,9 +223,32 @@ def produce_rankings(subms):
             kee = "$%s%d_RD" % ( mapping[benchmark], idx+1)
             rdct[kee] = rd
 
+            # iterate datasets for this benchmark
+            dbmapping = { "recall":"R", "qps":"Q", "cost":"C", "power":"P" }
+            bestmapping = { "recall":"best_recall", "qps":"best_qps", "power":"best_wspq", "cost":"cost" }
+            bestidxmapping = { "recall":1, "qps":1, "power":2, "cost":-1 }
+            bestformatmapping = { "recall": "{:,.3f}", "qps": "{:,.3f}", "power":"{:,.3f}", "cost":"${:,.2f}" }
+            DBS = { "deep-1B":"DP", "bigann-1B":"BA", "msturing-1B":"MT", "msspacev-1B":"MS", "text2image-1B":"TI", "ssnpp-1B":"FB" }
+            for db in DBS.keys():
+                kee = "$%s%s%d" % (DBS[db], dbmapping[benchmark], idx+1 )
+                best_benchmark = bestmapping[benchmark]
+                supported_dbs = SUBM_MAPPING[subm]["evals"].keys()
+                if db in supported_dbs:
+                    best_val = SUBM_MAPPING[subm]["evals"][db][best_benchmark]
+                    supported_benchmarks = SUBM_MAPPING[subm]["evals"][db].keys()
+                    if best_benchmark in supported_benchmarks:
+                        val = best_val[ bestidxmapping[benchmark] ] if not benchmark=="cost" else best_val
+                        fmt = bestformatmapping[benchmark]
+                        print("kee", kee, best_benchmark, best_val, val, fmt)
+                        rdct[kee] = fmt.format(val)
+                    else:
+                        rdct[kee]="-"
+                else:
+                    rdct[kee]="-"
+
         # replace the rest with "-"
         for i in range(idx+1, TOTAL_SUBM ):
-            print("making empty", i+1)
+            #print("making empty", i+1)
             # subm name
             kee = "$%s%d_TM" % ( mapping[benchmark], i+1)
             rdct[kee] = "-"
@@ -263,10 +287,15 @@ def produce_rankings(subms):
  
 if __name__ == "__main__":
 
-    # TODO: check its run from the repo top-level
-
     subms = [ "faiss_t3", "optanne_graphann", "gemini" ]
-        
+       
+    # load the evals
+    for subm in subms:
+        jpath = "t3/eval_2021/%s/evals.json" % subm          
+        with open(jpath) as json_file:
+            SUBM_MAPPING[subm]["evals"] = json.load(json_file)
+    print("SUBM MAPPING", SUBM_MAPPING)
+ 
     if not ONLY_TEMPLATE_GEN:
         
         for subm in subms:
