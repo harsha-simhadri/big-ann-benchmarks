@@ -134,18 +134,18 @@
 
 ##### Deep1B Recall Rankings 
 
-|Rank|Submission                                             |Team                          |Hardware               |Status  |R@10       |Q/S     |
-|----|-------------------------------------------------------|------------------------------|-----------------------|--------|-----------|--------|
-|   1|[gemini](../t3/gemini/README.md)                                   |GSI Technology                      |LedaE APU               |inprog|**[0.989](eval_2021/gemini/deep-1B_recall.png)**|       -|
-|   2|[optanne_graphann](../t3/gemini/README.md)                                   |Intel                      |LedaE APU               |inprog|**[0.983](eval_2021/optanne_graphann/deep-1B_recall.png)**|       -|
-|   3|[faiss_t3](../t3/gemini/README.md)                                   |Facebook Research                      |LedaE APU               |inprog|**[0.943](eval_2021/faiss_t3/deep-1B_recall.png)**|       -|
-|   4|                                                      -|                             -|                      -|       -|          -|       -|
-|   5|                                                      -|                             -|                      -|       -|          -|       -|
-|   6|                                                      -|                             -|                      -|       -|          -|       -|
-|   7|                                                      -|                             -|                      -|       -|          -|       -|
-|   8|                                                      -|                             -|                      -|       -|          -|       -|
-|   9|                                                      -|                             -|                      -|       -|          -|       -|
-|  10|                                                      -|                             -|                      -|       -|          -|       -|
+|Rank|Submission                                             |Team                          |Hardware               |Status  |R@10       |
+|----|-------------------------------------------------------|------------------------------|-----------------------|--------|-----------|
+|   1|[gemini](../t3/gemini/README.md)                                   |GSI Technology                      |LedaE APU               |inprog|**[0.989](eval_2021/gemini/deep-1B_recall.png)**|       
+|   2|[optanne_graphann](../t3/gemini/README.md)                                   |Intel                      |LedaE APU               |inprog|**[0.983](eval_2021/optanne_graphann/deep-1B_recall.png)**|       
+|   3|[faiss_t3](../t3/gemini/README.md)                                   |Facebook Research                      |LedaE APU               |inprog|**[0.943](eval_2021/faiss_t3/deep-1B_recall.png)**|       
+|   4|                                                      -|                             -|                      -|       -|          -|       
+|   5|                                                      -|                             -|                      -|       -|          -|       
+|   6|                                                      -|                             -|                      -|       -|          -|       
+|   7|                                                      -|                             -|                      -|       -|          -|       
+|   8|                                                      -|                             -|                      -|       -|          -|       
+|   9|                                                      -|                             -|                      -|       -|          -|       
+|  10|                                                      -|                             -|                      -|       -|          -|       
 
 * The operational point for ranking is 2000 QPS. We will use the highest recall for the search parameters that meet or exceed 2000 QPS.
 * Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
