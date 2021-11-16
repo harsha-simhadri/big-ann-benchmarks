@@ -19,7 +19,7 @@
 |nvidia_multi_gpu    |NVidia     |NVidia GPU|inprog |                              -|                                      -|                            -|                          -|
 |[optanne_graphann](../t3/optanne_graphann/README.md)|Intel   |Intel Optane  |inprog|2                       |1                               |1                     |NQ                   |
 |optanne_diskann     |Intel   |$OPT!_HW  |inprog |                              -|                                      -|                            -|                          -|
-|vector_t3           |Vector Inst|NVidia GPU|      -|                              -|                                      -|                            -|                          -|
+|vector_t3           |Vector Inst|NVidia GPU|inprog |                              -|                                      -|                            -|                          -|
 
 
 * Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
