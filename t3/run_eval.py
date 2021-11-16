@@ -6,8 +6,8 @@ import pandas as pd
 from string import Template
 import t3eval
 
-RE_EXPORT               = True
-ONLY_TEMPLATE_GEN       = False
+RE_EXPORT               = False
+ONLY_TEMPLATE_GEN       = True
 
 TOTAL_SUBM              = 10
 COMP_RESULTS_TOPLEVEL   = "/Users/gwilliams/Projects/BigANN/competition_results"
@@ -45,6 +45,21 @@ SUBM_MAPPING            = \
         "readme":       "../t3/gemini/README.md"
     },
     "baseline": "faiss_t3"
+}
+
+notyet = {
+    "deepgram": {
+        "team":         "DeepGram",
+        "results_dir":  "",
+        "export_fname": "",
+        "system_cost":  0.00,
+        "md_prefix":    "DG",
+        "status":       "inprog",
+        "display_hw":   "NVidia GPU",
+        "readme":       ""
+    },
+
+
 }
 
 def process_subm( subm ):
@@ -368,7 +383,7 @@ def produce_rankings(subms):
  
 if __name__ == "__main__":
 
-    subms = [ "faiss_t3", "optanne_graphann", "gemini" ]
+    subms = [ "deepgram", "faiss_t3", "optanne_graphann", "gemini" ]
        
     # load the evals
     for subm in subms:
