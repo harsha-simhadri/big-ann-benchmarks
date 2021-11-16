@@ -18,7 +18,7 @@
 |nvidia_single_gpu   |NVidia     |NVidia GPU|inprog |                              -|                                      -|                            -|                          -|
 |nvidia_multi_gpu    |NVidia     |NVidia GPU|inprog |                              -|                                      -|                            -|                          -|
 |[optanne_graphann](../t3/optanne_graphann/README.md)|Intel   |Intel Optane  |inprog|2                       |1                               |1                     |NQ                   |
-|optanne_diskann     |Intel   |$OPT!_HW  |inprog |                              -|                                      -|                            -|                          -|
+|optanne_diskann     |Intel   |Intel Optane  |inprog |                              -|                                      -|                            -|                          -|
 |vector_t3           |Vector Inst|NVidia GPU|inprog |                              -|                                      -|                            -|                          -|
 
 
