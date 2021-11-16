@@ -207,9 +207,9 @@
 
 |Rank|Submission                                     |Team                          |Hardware               |Status  |Cost         |capex    |opex   |unit cost|units@100K qps|KwH*4yrs |KwH cost|
 |----|-----------------------------------------------|------------------------------|-----------------------|--------|-------------|---------|-------|---------|--------------|---------|--------|
-|   1|[optanne_graphann](../t3/gemini/README.md)                           |optanne_graphann                      |LedaE APU               |inprog|**$0.00**  |        -|      -|        -|             -|        -|       -|
-|   2|[faiss_t3](../t3/gemini/README.md)                           |faiss_t3                      |LedaE APU               |inprog|**$545,952.10**  |        -|      -|        -|             -|        -|       -|
-|   3|[gemini](../t3/gemini/README.md)                           |gemini                      |LedaE APU               |inprog|**$626,932.94**  |        -|      -|        -|             -|        -|       -|
+|   1|[faiss_t3](../t3/gemini/README.md)                           |faiss_t3                      |LedaE APU               |inprog|**$545,952.10**  |        -|      -|        -|             -|        -|       -|
+|   2|[gemini](../t3/gemini/README.md)                           |gemini                      |LedaE APU               |inprog|**$626,932.94**  |        -|      -|        -|             -|        -|       -|
+|   3|[$DP3C_TM]($DP3C_RD)                           |$DP3C_TM                      |$DP3C_HW               |$DP3C_ST|**$DP3C_V**  |        -|      -|        -|             -|        -|       -|
 |   4|                                              -|                             -|                      -|       -|            -|        -|      -|        -|             -|        -|       -|
 |   5|                                              -|                             -|                      -|       -|            -|        -|      -|        -|             -|        -|       -|
 |   6|                                              -|                             -|                      -|       -|            -|        -|      -|        -|             -|        -|       -|

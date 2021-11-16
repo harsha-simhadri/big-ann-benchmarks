@@ -295,7 +295,7 @@ def produce_rankings(subms):
                 if db in supported_dbs:
                     best_val = SUBM_MAPPING[subm]["evals"][db][ bestmapping[benchmark] ]
                     val = best_val if benchmark=="cost" else best_val[ bestidxmapping[benchmark] ]
-                    best_vals.append( (subm, val) )
+                    if val!=0: best_vals.append( (subm, val) )
             best_vals = sorted( best_vals, key=lambda x: x[1], reverse=True if benchmark in [ "recall", "qps" ] else False )
             print("SORTED", benchmark, db, best_vals )
             for idx, item in enumerate(best_vals):
