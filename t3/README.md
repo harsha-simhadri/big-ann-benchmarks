@@ -254,7 +254,7 @@ This leaderboard leverages the standard recall@10 vs throughput benchmark that h
 
 The final ranking will be based on a computed score, which is the sum of the improvements in recall over the baseline for the participating databases.  A submission must participate in at least 3 databases.
 
-Participants that cannot meet or exceed the baseline qps threshold for a dataset will be dropped from ranking consideration for that dataset.
+Participants that cannot meet or exceed the 2000 qps minimum threshold ( or 1762.363 qps for Text2Image ) for a dataset will be dropped from ranking consideration for that dataset.
 
 Please consult [this document](Ranking.md) for a detailed discussion about how the baseline is used to inform competition thresholds and participant scoring.
 
@@ -268,7 +268,7 @@ Please consult [this document](Ranking.md) for a detailed discussion about how t
 
 #### Power_Leaderboard
 
-This leaderboard is related to power consumption, which is an important consideration when scaling applications and servers in a datacenter.  The primary ranking metric is ( kilowatt-hour / query.)  Participants must meet or exceed the recall@10 of the baseline threshold. The reason for those minimum thresholds is to discourage algorithm’s designers from purposefully sacrificing too much performance in order to lower the power consumption.
+This leaderboard is related to power consumption, which is an important consideration when scaling applications and servers in a datacenter.  The primary ranking metric is ( kilowatt-hour / query.)  Participants must meet or exceed the recall@10 and 2000QPS minimum threshold ( for Text2Image, the baseline performance is the minimum threshold.) The reason for those minimum thresholds is to discourage algorithm’s designers from purposefully sacrificing too much performance in order to lower the power consumption.
 
 The evaluation framework leverages the power sensors available in the standard IPMI power management interface of most commercial server chassis’.  We also leverage the open source project ipmicap ( https://github.com/fractalsproject/ipmicap ) to capture the power sensors and calculate the power consumption.
 
@@ -276,16 +276,7 @@ During evaluation, for each search parameter set, power consumption is acquired 
 
 The final ranking will be based on a computed score, which is the sum of the improvements in power consumption over the baseline for the participating databases.  A submission must participate in at least 3 databases.
 
-There are no direct thresholds for this benchmark/leaderboard.  Indirectly, participants that cannot meet or exceed the recall@10 threshold for a dataset will be dropped from ranking consideration for that dataset.  Scoring will be based on the baseline performance for power consumption, shown here for each dataset:
-
-|   dataset    |    power   |
-| ------------ | -----------|
-| msturing-1B  | 0.203740   | 
-| bigann-1B    | 0.167123   | 
-| text2image-1B| 0.089675   |
-| deep-1B      | 0.112581   | 
-| msspacev-1B  | 0.099569   | 
-| ssnpp-1B     | 0.0944865  |
+There are no direct thresholds for this benchmark/leaderboard.  Indirectly, participants that cannot meet or exceed the recall@10 threshold ( or 0.86 for Text2Image ) for a dataset will be dropped from ranking consideration for that dataset.  Scoring will be based on the baseline performance for power consumption, shown here for each dataset:
 
 Please consult [this document](Ranking.md) for a detailed discussion about how the baseline is used to inform participant scoring for this benchmark.
 
@@ -313,7 +304,7 @@ Notes on this formula:
 
 The final ranking will be based on a computed score, which is the sum of the improvements in cost over the baseline for the participating databases.  A submission must participate in at least 3 databases.
 
-There are no direct thresholds for this benchmark/leaderboard.  Indirectly, participants that cannot meet or exceed the recall@10 threshold for a dataset will be dropped from ranking consideration for that dataset.  
+There are no direct thresholds for this benchmark/leaderboard.  Indirectly, participants that cannot meet or exceed the recall@10 minimum threshold ( or 0.86 for Text2Image ) for a dataset will be dropped from ranking consideration for that dataset.  
 
 ## For_Evaluators
 
