@@ -26,7 +26,7 @@ All components of the software are open-source.
 
 ## Hardware Setup And Software Installation
 
-Please consult the following [installation readme]("INSTALLATION_README.md") for detailed setup instructions.
+Please consult the following [installation readme]("INSTALLATION.md") for detailed setup instructions.
 
 ### Competition Index Files
 
