@@ -82,18 +82,18 @@
 
 #### Power Rankings 
 
-|Rank|Submission                                         |Team                          |Hardware               |Status |Score      |Deep1B|BigANN|MSTuring|MSSpace|Text2Image|FBSimSearchNet|
-|----|---------------------------------------------------|------------------------------|-----------------------|-------|-----------|------|------|--------|-------|----------|--------------|
-|   1|[optanne_graphann](../t3/optanne_graphann/README.md)                                 |Intel                       |Intel Optane                |inprog|**-0.687**|[0.004](eval_2021/optanne_graphann/deep-1B_power.png) |[0.002](eval_2021/optanne_graphann/bigann-1B_power.png) |[0.005](eval_2021/optanne_graphann/msturing-1B_power.png)   |[0.005](eval_2021/optanne_graphann/msspacev-1B_power.png)  |[0.070](eval_2021/optanne_graphann/text2image-1B_power.png)     |-         |
-|   2|[gemini](../t3/gemini/README.md)                                 |GSI Technology                       |LedaE APU                |inprog|**-0.121**|[0.040](eval_2021/gemini/deep-1B_power.png) |[0.039](eval_2021/gemini/bigann-1B_power.png) |[0.023](eval_2021/gemini/msturing-1B_power.png)   |[0.048](eval_2021/gemini/msspacev-1B_power.png)  |[0.503](eval_2021/gemini/text2image-1B_power.png)     |-         | 
-|   3|[faiss_t3](../t3/faiss_t3/README.md)                                 |Facebook Research                       |NVidia GPU                |final|**baseline**|[0.113](eval_2021/faiss_t3/deep-1B_power.png) |[0.167](eval_2021/faiss_t3/bigann-1B_power.png) |[0.204](eval_2021/faiss_t3/msturing-1B_power.png)   |[0.167](eval_2021/faiss_t3/msspacev-1B_power.png)  |[0.123](eval_2021/faiss_t3/text2image-1B_power.png)     |[0.095](eval_2021/faiss_t3/ssnpp-1B_power.png)         | 
-|   4|                                                  -|                             -|                      -|      -|          -|     -|     -|       -|      -|         -|             -|
-|   5|                                                  -|                             -|                      -|      -|          -|     -|     -|       -|      -|         -|             -|
-|   6|                                                  -|                             -|                      -|      -|          -|     -|     -|       -|      -|         -|             -|
-|   7|                                                  -|                             -|                      -|      -|          -|     -|     -|       -|      -|         -|             -|
-|   8|                                                  -|                             -|                      -|      -|          -|     -|     -|       -|      -|         -|             -|
-|   9|                                                  -|                             -|                      -|      -|          -|     -|     -|       -|      -|         -|             -|
-|  10|                                                  -|                             -|                      -|      -|          -|     -|     -|       -|      -|         -|             -|
+|Rank|Submission        |Team   |Hardware|Status |Score      |[Deep1B](#deep1B-recall-rankings)|[BigANN](#bigann-recall-rankings)|[MSTuring](#msturing-recall-rankings)|[MSSpace](#msspace-recall-rankings)|[Text2Image](#text2image-recall-rankings)|[FBSSNet](#fbsimsearchnet-recall-rankings)|
+|----|------------------|-------|--------|-------|-----------|------|------|--------|-------|-----|-----|
+|   1|[optanne_graphann](../t3/optanne_graphann/README.md)|Intel|Intel Optane |inprog|**-0.687**|[0.004](eval_2021/optanne_graphann/deep-1B_power.png) |[0.002](eval_2021/optanne_graphann/bigann-1B_power.png) |[0.005](eval_2021/optanne_graphann/msturing-1B_power.png)   |[0.005](eval_2021/optanne_graphann/msspacev-1B_power.png)  |[0.070](eval_2021/optanne_graphann/text2image-1B_power.png)|-|
+|   2|[gemini](../t3/gemini/README.md)|GSI Technology|LedaE APU |inprog|**-0.121**|[0.040](eval_2021/gemini/deep-1B_power.png) |[0.039](eval_2021/gemini/bigann-1B_power.png) |[0.023](eval_2021/gemini/msturing-1B_power.png)   |[0.048](eval_2021/gemini/msspacev-1B_power.png)  |[0.503](eval_2021/gemini/text2image-1B_power.png)|-| 
+|   3|[faiss_t3](../t3/faiss_t3/README.md)|Facebook Research|NVidia GPU |final|**baseline**|[0.113](eval_2021/faiss_t3/deep-1B_power.png) |[0.167](eval_2021/faiss_t3/bigann-1B_power.png) |[0.204](eval_2021/faiss_t3/msturing-1B_power.png)   |[0.167](eval_2021/faiss_t3/msspacev-1B_power.png)  |[0.123](eval_2021/faiss_t3/text2image-1B_power.png)|[0.095](eval_2021/faiss_t3/ssnpp-1B_power.png)| 
+|   4|                 -|      -|       -|      -|          -|     -|     -|       -|      -|    -|    -|
+|   5|                 -|      -|       -|      -|          -|     -|     -|       -|      -|    -|    -|
+|   6|                 -|      -|       -|      -|          -|     -|     -|       -|      -|    -|    -|
+|   7|                 -|      -|       -|      -|          -|     -|     -|       -|      -|    -|    -|
+|   8|                 -|      -|       -|      -|          -|     -|     -|       -|      -|    -|    -|
+|   9|                 -|      -|       -|      -|          -|     -|     -|       -|      -|    -|    -|
+|  10|                 -|      -|       -|      -|          -|     -|     -|       -|      -|    -|    -|
 
 * A submission must support at least 3 databases to qualify for this ranking.
 * The ranking is based on the score, which is the sum of benchmark improvements of qualifying databases (shown in specific database columns after the score column.)
@@ -106,18 +106,18 @@
 
 #### Cost Rankings 
 
-|Rank|Submission                                          |Team                          |Hardware               |Status |Score      |Deep1B|BigANN|MSTuring|MSSpace|Text2Image|FBSimSearchNet|
-|----|----------------------------------------------------|------------------------------|-----------------------|-------|-----------|------|------|--------|-------|----------|--------------|
-|   1|[optanne_graphann](../t3/optanne_graphann/README.md)                                  |Intel                       |Intel Optane                |inprog|**$-4,285,768.44**|$16,082.49 |$15,407.15 |$16,397.80   |$16,563.61  |$171,244.96     |-         |
-|   2|[faiss_t3](../t3/faiss_t3/README.md)                                  |Facebook Research                       |NVidia GPU                |final|**baseline**|$545,952.10 |$785,282.45 |$1,018,332.30   |$873,460.84  |$1,298,436.77     |$429,634.84         |
-|   3|[gemini](../t3/gemini/README.md)                                  |GSI Technology                       |LedaE APU                |inprog|**$2,561,786.18**|$626,932.94 |$626,785.91 |$286,578.81   |$685,704.76  |$4,857,248.23     |-         |
-|   4|                                                   -|                             -|                      -|      -|          -|     -|     -|       -|      -|         -|             -|
-|   5|                                                   -|                             -|                      -|      -|          -|     -|     -|       -|      -|         -|             -|
-|   6|                                                   -|                             -|                      -|      -|          -|     -|     -|       -|      -|         -|             -|
-|   7|                                                   -|                             -|                      -|      -|          -|     -|     -|       -|      -|         -|             -|
-|   8|                                                   -|                             -|                      -|      -|          -|     -|     -|       -|      -|         -|             -|
-|   9|                                                   -|                             -|                      -|      -|          -|     -|     -|       -|      -|         -|             -|
-|  10|                                                   -|                             -|                      -|      -|          -|     -|     -|       -|      -|         -|             -|
+|Rank|Submission        |Team   |Hardware|Status |Score      |[Deep1B](#deep1B-recall-rankings)|[BigANN](#bigann-recall-rankings)|[MSTuring](#msturing-recall-rankings)|[MSSpace](#msspace-recall-rankings)|[Text2Image](#text2image-recall-rankings)|[FBSSNet](#fbsimsearchnet-recall-rankings)|
+|----|------------------|-------|--------|-------|-----------|------|------|--------|-------|----------|--------------|
+|   1|[optanne_graphann](../t3/optanne_graphann/README.md)|Intel|Intel Optane |inprog|**$-4,285,768.44**|$16,082.49 |$15,407.15 |$16,397.80   |$16,563.61  |$171,244.96     |-         |
+|   2|[faiss_t3](../t3/faiss_t3/README.md)|Facebook Research|NVidia GPU |final|**baseline**|$545,952.10 |$785,282.45 |$1,018,332.30   |$873,460.84  |$1,298,436.77     |$429,634.84         |
+|   3|[gemini](../t3/gemini/README.md)|GSI Technology|LedaE APU |inprog|**$2,561,786.18**|$626,932.94 |$626,785.91 |$286,578.81   |$685,704.76  |$4,857,248.23     |-         |
+|   4|                 -|      -|       -|      -|          -|     -|     -|       -|      -|         -|             -|
+|   5|                 -|      -|       -|      -|          -|     -|     -|       -|      -|         -|             -|
+|   6|                 -|      -|       -|      -|          -|     -|     -|       -|      -|         -|             -|
+|   7|                 -|      -|       -|      -|          -|     -|     -|       -|      -|         -|             -|
+|   8|                 -|      -|       -|      -|          -|     -|     -|       -|      -|         -|             -|
+|   9|                 -|      -|       -|      -|          -|     -|     -|       -|      -|         -|             -|
+|  10|                 -|      -|       -|      -|          -|     -|     -|       -|      -|         -|             -|
 
 * A submission must support at least 3 databases to qualify for this ranking.
 * The ranking is based on the score, which is the sum of benchmark improvements of qualifying databases (shown in specific database columns after the score column.)
