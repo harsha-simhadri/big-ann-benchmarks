@@ -34,18 +34,18 @@
 
 #### Recall Rankings 
 
-|Rank|Submission                                         |Team                          |Hardware               |Status |Score      |Deep1B|BigANN|MSTuring|MSSpace|Text2Image|FBSimSearchNet|
-|----|---------------------------------------------------|------------------------------|-----------------------|-------|-----------|------|------|--------|-------|----------|--------------|
-|   1|[gemini](../t3/gemini/README.md)                                 |GSI Technology                       |LedaE APU                |inprog|**0.280**|[0.989](eval_2021/gemini/deep-1B_recall.png) |[0.993](eval_2021/gemini/bigann-1B_recall.png) |[0.978](eval_2021/gemini/msturing-1B_recall.png)   |[0.986](eval_2021/gemini/msspacev-1B_recall.png)  |[0.882](eval_2021/gemini/text2image-1B_recall.png)     |-         |
-|   2|[optanne_graphann](../t3/optanne_graphann/README.md)                                 |Intel                       |Intel Optane                |inprog|**0.279**|[0.983](eval_2021/optanne_graphann/deep-1B_recall.png) |[0.991](eval_2021/optanne_graphann/bigann-1B_recall.png) |[0.962](eval_2021/optanne_graphann/msturing-1B_recall.png)   |[0.988](eval_2021/optanne_graphann/msspacev-1B_recall.png)  |[0.903](eval_2021/optanne_graphann/text2image-1B_recall.png)     |-         |
-|   3|[faiss_t3](../t3/faiss_t3/README.md)                                 |Facebook Research                       |NVidia GPU                |final|**baseline**|[0.943](eval_2021/faiss_t3/deep-1B_recall.png) |[0.927](eval_2021/faiss_t3/bigann-1B_recall.png) |[0.909](eval_2021/faiss_t3/msturing-1B_recall.png)   |[0.909](eval_2021/faiss_t3/msspacev-1B_recall.png)  |[0.860](eval_2021/faiss_t3/text2image-1B_recall.png)     |[0.979](eval_2021/faiss_t3/ssnpp-1B_recall.png)         |
-|   4|                                                  -|                             -|                      -|      -|          -|     -|     -|       -|      -|         -|             -|    
-|   5|                                                  -|                             -|                      -|      -|          -|     -|     -|       -|      -|         -|             -|   
-|   6|                                                  -|                             -|                      -|      -|          -|     -|     -|       -|      -|         -|             -|
-|   7|                                                  -|                             -|                      -|      -|          -|     -|     -|       -|      -|         -|             -|
-|   8|                                                  -|                             -|                      -|      -|          -|     -|     -|       -|      -|         -|             -|
-|   9|                                                  -|                             -|                      -|      -|          -|     -|     -|       -|      -|         -|             -|
-|  10|                                                  -|                             -|                      -|      -|          -|     -|     -|       -|      -|         -|             -|
+|Rank|Submission        |Team   |Hardware|Status |Score      |[Deep1B](deep1B-recall-rankings)|BigANN|MSTuring|MSSpace|Text2Image|FBSSNet|
+|----|------------------|-------|--------|-------|-----------|------|------|--------|-------|----------|-------|
+|   1|[gemini](../t3/gemini/README.md)|GSI Technology|LedaE APU |inprog|**0.280**|[0.989](eval_2021/gemini/deep-1B_recall.png) |[0.993](eval_2021/gemini/bigann-1B_recall.png) |[0.978](eval_2021/gemini/msturing-1B_recall.png)   |[0.986](eval_2021/gemini/msspacev-1B_recall.png)  |[0.882](eval_2021/gemini/text2image-1B_recall.png)     |-  |
+|   2|[optanne_graphann](../t3/optanne_graphann/README.md)|Intel|Intel Optane |inprog|**0.279**|[0.983](eval_2021/optanne_graphann/deep-1B_recall.png) |[0.991](eval_2021/optanne_graphann/bigann-1B_recall.png) |[0.962](eval_2021/optanne_graphann/msturing-1B_recall.png)   |[0.988](eval_2021/optanne_graphann/msspacev-1B_recall.png)  |[0.903](eval_2021/optanne_graphann/text2image-1B_recall.png)     |-  |
+|   3|[faiss_t3](../t3/faiss_t3/README.md)|Facebook Research|NVidia GPU |final|**baseline**|[0.943](eval_2021/faiss_t3/deep-1B_recall.png) |[0.927](eval_2021/faiss_t3/bigann-1B_recall.png) |[0.909](eval_2021/faiss_t3/msturing-1B_recall.png)   |[0.909](eval_2021/faiss_t3/msspacev-1B_recall.png)  |[0.860](eval_2021/faiss_t3/text2image-1B_recall.png)     |[0.979](eval_2021/faiss_t3/ssnpp-1B_recall.png)  |
+|   4|                 -|      -|       -|      -|          -|     -|     -|       -|      -|         -|      -|    
+|   5|                 -|      -|       -|      -|          -|     -|     -|       -|      -|         -|      -|   
+|   6|                 -|      -|       -|      -|          -|     -|     -|       -|      -|         -|      -|
+|   7|                 -|      -|       -|      -|          -|     -|     -|       -|      -|         -|      -|
+|   8|                 -|      -|       -|      -|          -|     -|     -|       -|      -|         -|      -|
+|   9|                 -|      -|       -|      -|          -|     -|     -|       -|      -|         -|      -|
+|  10|                 -|      -|       -|      -|          -|     -|     -|       -|      -|         -|      -|
 
 * A submission must support at least 3 databases to qualify for this ranking.
 * The ranking is based on the score, which is the sum of benchmark improvements of qualifying databases (shown in specific database columns after the score column.)
