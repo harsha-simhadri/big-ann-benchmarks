@@ -28,7 +28,7 @@ SUBM_MAPPING            = \
         "team":         "Intel",
         "results_dir":  "%s/optanne_graphann/results.with_power_capture" % COMP_RESULTS_TOPLEVEL,
         "export_fname": "public_with_power_capture.csv",
-        "system_cost":  0,
+        "system_cost":  14664.20,
         "md_prefix":    "OPT1",
         "status":       "inprog",
         "display_hw":   "Intel Optane",
@@ -134,6 +134,7 @@ def process_subm( subm ):
         evaluator.commit_baseline(      "t3/baseline2021.json")
         evaluator.show_summary(         savepath=os.path.join( eval_subm_dir, "summary.png" ))
     else:
+        print("EVALUATOR", SUBM_MAPPING[subm])
         evaluator = t3eval.Evaluator(   subm, 
                                         export_file,
                                         "t3/competition2021.json",
@@ -160,7 +161,6 @@ def mklnkr( idx, benchmark ):
                 "power":"#power-rankings",
                 "cost":"#cost-rankings" }
     lnk = "[%d](%s)" % ( idx, links[benchmark] )
-    print("lnk", lnk)
     return lnk 
 
 
@@ -178,18 +178,25 @@ def produce_rankings(subms):
             if not os.path.exists( eval_subm_dir ):
                 print("path does not exist: ", eval_subm_dir )
                 sys.exit(1)
-
-            summary_csv = os.path.join(eval_subm_dir, "summary.csv")
-            if not os.path.exists( summary_csv ):
-                print("path does not exist: ", summary_csv )
+            
+            summary_json = os.path.join(eval_subm_dir, "summary.json")
+            if not os.path.exists( summary_json ):
+                print("path does not exist: ", summary_json )
                 sys.exit(1)
-
-            df = pd.read_csv(summary_csv)
+            jpath = "t3/eval_2021/%s/summary.json" % subm
+            with open(jpath) as json_file:
+                summary = json.load(json_file)
+ 
+            # reconstitute the summary df
+            sdf = {}
+            for db in summary.keys():
+                sdf[db] = summary[db]
+            df = pd.DataFrame.from_dict(sdf, orient='index', columns=['recall','qps','power','cost'] )
+            df.reset_index(level=0, inplace=True)
+            df.rename(columns={'index':'dataset'}, inplace=True)
 
             # insert new column with subm
             df.insert( 0, "subm", [ subm ] * df.shape[0])
-            df = df.rename(columns={"Unnamed: 0":"dataset"})
-            #print(df)
     
             dfs.append(df)
 
@@ -211,7 +218,6 @@ def produce_rankings(subms):
         pairs = [ el for el in list(zip(subm,score)) if not math.isnan(el[1]) ]
         ordered_ranking = sorted(pairs,reverse=rdir, key=lambda x: x[1]) #, reverse=False if benchmark in [ "recall", "qps" ] else True )
         orderings[ranking] = ordered_ranking
-
 
     f = open("t3/LEADERBOARDS.md.templ")
     lines = f.read()
@@ -404,16 +410,15 @@ if __name__ == "__main__":
 
     subms = [  "faiss_t3", "optanne_graphann", "gemini" ]
        
+    if not ONLY_TEMPLATE_GEN:
+        for subm in subms:
+            process_subm(subm)
+    
     # load the evals
     for subm in subms:
         jpath = "t3/eval_2021/%s/evals.json" % subm          
         with open(jpath) as json_file:
             SUBM_MAPPING[subm]["evals"] = json.load(json_file)
- 
-    if not ONLY_TEMPLATE_GEN:
-        
-        for subm in subms:
-            process_subm(subm)
-         
+
     produce_rankings(subms)
  

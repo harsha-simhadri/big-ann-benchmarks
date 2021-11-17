@@ -152,6 +152,7 @@ class Evaluator():
                 if self.verbose: print("summary", summary)
 
             self.summary = summary
+            self.evals["summary"] = summary
 
             df = pd.DataFrame(self.summary.values(),columns=['recall','qps','power','cost'],index=idx)
             if self.verbose: print(df)
@@ -303,54 +304,33 @@ class Evaluator():
         if self.verbose: print("parameters", parameters)
 
         # get qualifying run parameters
-        if True: #self.is_baseline:
-            min_qps = self.competition["min_qps"]
-            if self.verbose: print("for recall, min_qps=", min_qps)
-            qualifiers = [ el for el in list(zip(qps, recall, parameters)) if el[0]>=min_qps ]
-            if len(qualifiers)>0:
-                if self.verbose: print("qualifiers at min_qps=%f" % min_qps, qualifiers)
-                best_recall = sorted(qualifiers,key=lambda x: x[1])[-1] # sort by highest recall and take it
-            else:
-                if self.verbose: print("WARNING: NO qualifiers meeting min_qps %f, trying without..." % min_qps)
-                qualifiers = [ el for el in list(zip(qps, recall, parameters)) ]
-                if self.verbose: print("WARNING: NEW qualifiers no min_qps", qualifiers)
-                best_recall = sorted(qualifiers, key=lambda x: x[1][-1]) # sort by highest recall and take it
-        if False: #else
-            min_qps = self.baseline["datasets"][dataset]["min-qps"]
-            if self.verbose: print("for recall, min_qps=", min_qps)
-            qualifiers = [ el for el in list(zip(qps,recall, parameters)) if el[0]>=min_qps ]
+        min_qps = self.competition["min_qps"]
+        if self.verbose: print("for recall, min_qps=", min_qps)
+        qualifiers = [ el for el in list(zip(qps, recall, parameters)) if el[0]>=min_qps ]
+        if len(qualifiers)>0:
             if self.verbose: print("qualifiers at min_qps=%f" % min_qps, qualifiers)
-            if len(qualifiers)==0:
-                print("NO qualifying recall runs.")
-                return False
-            best_recall = sorted(qualifiers,key=lambda x: x[1])[-1] # sort by highest recall and take the highest
+            best_recall = sorted(qualifiers,key=lambda x: x[1])[-1] # sort by highest recall and take it
+        else:
+            if self.verbose: print("WARNING: NO qualifiers meeting min_qps %f, trying without..." % min_qps)
+            qualifiers = [ el for el in list(zip(qps, recall, parameters)) ]
+            if self.verbose: print("WARNING: NEW qualifiers no min_qps", qualifiers)
+            best_recall = sorted(qualifiers, key=lambda x: x[1][-1]) # sort by highest recall and take it
         if self.verbose or self.print_best: print("Best recall at", best_recall, "via", qualifiers[-1])
 
         #
         # eval throughput benchmark
         #
-        if True: #self.is_baseline:
-            min_recall = self.competition["min_recall"]
-            if self.verbose: print("for throughput, min_recall=", min_recall)
-            qualifiers = [ el for el in list(zip(recall, qps, parameters)) if el[0]>=min_recall ]
-            if len(qualifiers)==0: 
-                if self.verbose: print("WARNING: NO qualifiers meeting min_recall %f, trying without..." % min_recall)
-                qualifiers = [ el for el in list(zip(recall, qps, parameters)) ]
-                if self.verbose: print("WARNING: NEW qualifiers no min_recall", qualifiers)
-                best_qps = sorted(qualifiers,key=lambda x: x[0])[-1] # sort by highest recall and take that qps
-            else:
-                if self.verbose: print("qualifiers at min_recall=%f" % min_recall, qualifiers)
-                best_qps = sorted(qualifiers,key=lambda x: x[1])[-1] # sort by highest qps and take that qps
-        if False: #else:
-            min_recall = self.baseline["datasets"][dataset]["min-recall"]
-            if self.verbose: print("for throughput, min_recall=", min_recall)
-            qualifiers = [ el for el in list(zip(recall,qps, parameters)) if el[0]>=min_recall ]
-            if self.verbose: print("qualifiers at min_recall=%f" % min_recall, qualifiers)
-            if len(qualifiers)==0:
-                print("NO qualifying throughput runs.")
-                return False
+        min_recall = self.competition["min_recall"]
+        if self.verbose: print("for throughput, min_recall=", min_recall)
+        qualifiers = [ el for el in list(zip(recall, qps, parameters)) if el[0]>=min_recall ]
+        if len(qualifiers)==0: 
+            if self.verbose: print("WARNING: NO qualifiers meeting min_recall %f, trying without..." % min_recall)
+            qualifiers = [ el for el in list(zip(recall, qps, parameters)) ]
+            if self.verbose: print("WARNING: NEW qualifiers no min_recall", qualifiers)
             best_qps = sorted(qualifiers,key=lambda x: x[0])[-1] # sort by highest recall and take that qps
-
+        else:
+            if self.verbose: print("qualifiers at min_recall=%f" % min_recall, qualifiers)
+            best_qps = sorted(qualifiers,key=lambda x: x[1])[-1] # sort by highest qps and take that qps
         if self.verbose or self.print_best: print("Best qps at ", best_qps, "via", qualifiers[-1])
 
         #
@@ -379,7 +359,6 @@ class Evaluator():
         if self.system_cost!=None and self.system_cost<=0:
             print("WARNING: System cost not provided for %s, so not computing cost benchmark." % dataset)
             total_cost = 0
-
         else:      
             # determine (ceiling) number of units needed to scale to competition's cost qps 
             no_units = math.ceil( self.competition["cost_qps"] / best_qps[1] )
