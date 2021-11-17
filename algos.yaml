@@ -224,7 +224,8 @@ deep-1B:
       run-groups:
         base:
           args: |
-              [{"q": 400000, "s": 500, "b": 1000000, "rs": 1000000, "ri": 600, "rx": 10}]
+              [{"q": 400000, "s": 500, "b": 1000000, "rs": 1000000, "ri": 600, "rx": 10,
+                "index": "https://ngtf-rlab.east.edge.storage-yahoo.jp/neurips21/indices/1113/Deep1BDataset-1000000000.tar"}]
           query-args: |
               [{"epsilon":0.10, "edge":0, "blob":500},
                {"epsilon":0.16, "edge":0, "blob":500},
@@ -245,7 +246,8 @@ deep-1B:
       run-groups:
         base:
           args: |
-              [{"q": 400000, "s": 500, "b": 1000000, "rs": 1000000, "ri": 600, "rx": 10}]
+              [{"q": 400000, "s": 500, "b": 1000000, "rs": 1000000, "ri": 600, "rx": 10,
+                "index": "https://ngtf-rlab.east.edge.storage-yahoo.jp/neurips21/indices/1113/Deep1BDataset-1000000000.tar"}]
           query-args: |
               [{"epsilon":0.20, "edge":0, "blob":500, "expansion":1.0},
                {"epsilon":0.20, "edge":0, "blob":500, "expansion":2.0},
@@ -326,18 +328,20 @@ msspacev-1B:
       run-groups:
         base:
           args: |
-              [{"q": 400000, "s": 500, "b": 1000000, "rs": 1000000, "ri": 600, "rx": 10}]
+              [{"q": 400000, "s": 500, "b": 1000000, "rs": 1000000, "ri": 600, "rx": 10,
+                "index": "https://ngtf-rlab.east.edge.storage-yahoo.jp/neurips21/indices/1115/MSSPACEV1B-1000000000.tar"}]
           query-args: |
               [{"epsilon":0.10, "edge":0, "blob":500},
                {"epsilon":0.15, "edge":0, "blob":500},
                {"epsilon":0.18, "edge":0, "blob":500},
-               {"epsilon":0.19, "edge":0, "blob":500},
                {"epsilon":0.20, "edge":0, "blob":500},
-               {"epsilon":0.21, "edge":0, "blob":500},
                {"epsilon":0.22, "edge":0, "blob":500},
-               {"epsilon":0.25, "edge":0, "blob":500},
+               {"epsilon":0.24, "edge":0, "blob":500},
+               {"epsilon":0.26, "edge":0, "blob":500},
                {"epsilon":0.30, "edge":0, "blob":500},
-               {"epsilon":0.35, "edge":0, "blob":500}]
+               {"epsilon":0.32, "edge":0, "blob":500},
+               {"epsilon":0.34, "edge":0, "blob":500},
+               {"epsilon":0.36, "edge":0, "blob":500}]
     ngt-t2:
       # ngt-t2: msspacev-1B
       docker-tag: billion-scale-benchmark-ngt
@@ -347,7 +351,8 @@ msspacev-1B:
       run-groups:
         base:
           args: |
-              [{"q": 400000, "s": 500, "b": 1000000, "rs": 1000000, "ri": 600, "rx": 10}]
+              [{"q": 400000, "s": 500, "b": 1000000, "rs": 1000000, "ri": 600, "rx": 10,
+                "index": "https://ngtf-rlab.east.edge.storage-yahoo.jp/neurips21/indices/1115/MSSPACEV1B-1000000000.tar"}]
           query-args: |
               [{"epsilon":0.18, "edge":0, "blob":500, "expansion":2},
                {"epsilon":0.18, "edge":0, "blob":500, "expansion":3},
@@ -426,16 +431,18 @@ msturing-1B:
       run-groups:
         base:
           args: |
-              [{"q": 400000, "s": 200, "b": 1000000, "rs": 1000000, "ri": 600, "rx": 10}]
+              [{"q": 400000, "s": 200, "b": 1000000, "rs": 1000000, "ri": 600, "rx": 10,
+                "index": "https://ngtf-rlab.east.edge.storage-yahoo.jp/neurips21/indices/1112/MSTuringANNS-1000000000.tar"}]
           query-args: |
               [{"epsilon":0.10, "edge":0, "blob":500},
-               {"epsilon":0.11, "edge":0, "blob":500},
                {"epsilon":0.12, "edge":0, "blob":500},
-               {"epsilon":0.13, "edge":0, "blob":500},
                {"epsilon":0.14, "edge":0, "blob":500},
-               {"epsilon":0.15, "edge":0, "blob":500},
+               {"epsilon":0.16, "edge":0, "blob":500},
+               {"epsilon":0.18, "edge":0, "blob":500},
                {"epsilon":0.20, "edge":0, "blob":500},
-               {"epsilon":0.25, "edge":0, "blob":500},
+               {"epsilon":0.22, "edge":0, "blob":500},
+               {"epsilon":0.24, "edge":0, "blob":500},
+               {"epsilon":0.26, "edge":0, "blob":500},
                {"epsilon":0.30, "edge":0, "blob":500}]
     ngt-t2:
       # ngt-t2: msturing-1B:
@@ -446,17 +453,18 @@ msturing-1B:
       run-groups:
         base:
           args: |
-              [{"q": 400000, "s": 200, "b": 1000000, "rs": 1000000, "ri": 600, "rx": 10}]
+              [{"q": 400000, "s": 200, "b": 1000000, "rs": 1000000, "ri": 600, "rx": 10,
+                "index": "https://ngtf-rlab.east.edge.storage-yahoo.jp/neurips21/indices/1112/MSTuringANNS-1000000000.tar"}]
           query-args: |
-              [{"epsilon":0.14, "edge":0, "blob":500, "expansion":1.0},
-               {"epsilon":0.14, "edge":0, "blob":500, "expansion":1.2},
-               {"epsilon":0.14, "edge":0, "blob":500, "expansion":1.4},
-               {"epsilon":0.14, "edge":0, "blob":500, "expansion":1.6},
-               {"epsilon":0.14, "edge":0, "blob":500, "expansion":1.8},
-               {"epsilon":0.14, "edge":0, "blob":500, "expansion":2.0},
-               {"epsilon":0.14, "edge":0, "blob":500, "expansion":2.2},
-               {"epsilon":0.14, "edge":0, "blob":500, "expansion":2.4},
-               {"epsilon":0.14, "edge":0, "blob":500, "expansion":2.6}]
+              [{"epsilon":0.20, "edge":0, "blob":500, "expansion":1.0},
+               {"epsilon":0.20, "edge":0, "blob":500, "expansion":1.2},
+               {"epsilon":0.20, "edge":0, "blob":500, "expansion":1.4},
+               {"epsilon":0.20, "edge":0, "blob":500, "expansion":1.6},
+               {"epsilon":0.20, "edge":0, "blob":500, "expansion":1.8},
+               {"epsilon":0.20, "edge":0, "blob":500, "expansion":2.0},
+               {"epsilon":0.20, "edge":0, "blob":500, "expansion":2.2},
+               {"epsilon":0.20, "edge":0, "blob":500, "expansion":2.4},
+               {"epsilon":0.20, "edge":0, "blob":500, "expansion":2.6}]
 bigann-1B:
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
@@ -529,10 +537,14 @@ bigann-1B:
       run-groups:
         base:
           args: |
-              [{"q": 400000, "s": 500, "b": 1000000, "rs": 1000000, "ri": 600, "rx": 10}]
+              [{"q": 400000, "s": 500, "b": 1000000, "rs": 1000000, "ri": 600, "rx": 10,
+                "index": "https://ngtf-rlab.east.edge.storage-yahoo.jp/neurips21/indices/1108/BigANNDataset-1000000000.tar"}]
           query-args: |
               [{"epsilon":0.10, "edge":0, "blob":500},
                {"epsilon":0.15, "edge":0, "blob":500},
+               {"epsilon":0.17, "edge":0, "blob":500},
+               {"epsilon":0.18, "edge":0, "blob":500},
+               {"epsilon":0.19, "edge":0, "blob":500},
                {"epsilon":0.20, "edge":0, "blob":500},
                {"epsilon":0.21, "edge":0, "blob":500},
                {"epsilon":0.22, "edge":0, "blob":500},
@@ -551,7 +563,8 @@ bigann-1B:
       run-groups:
         base:
           args: |
-              [{"q": 400000, "s": 500, "b": 1000000, "rs": 1000000, "ri": 600, "rx": 10}]
+              [{"q": 400000, "s": 500, "b": 1000000, "rs": 1000000, "ri": 600, "rx": 10,
+                "index": "https://ngtf-rlab.east.edge.storage-yahoo.jp/neurips21/indices/1108/BigANNDataset-1000000000.tar"}]
           query-args: |
               [{"epsilon":0.22, "edge":0, "blob":500, "expansion":2},
                {"epsilon":0.22, "edge":0, "blob":500, "expansion":4},

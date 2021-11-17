@@ -24,9 +24,9 @@ class NGT(BaseANN):
         self._is_open = False
 
     def setIndexPath(self, dataset):
-        path = f"data/indices/trackT1/algo.NGT:q{self._quantization}-s{self._quantization_sample}-b{self._blob}-rs{self._num_of_r_samples}-ri{self._num_of_r_iterations}"
-        os.makedirs(path, exist_ok=True)
-        self._index_path = os.path.join(path, DATASETS[dataset]().short_name())
+        self._path = f"data/indices/trackT1/algo.NGT:q{self._quantization}-s{self._quantization_sample}-b{self._blob}-rs{self._num_of_r_samples}-ri{self._num_of_r_iterations}"
+        os.makedirs(self._path, exist_ok=True)
+        self._index_path = os.path.join(self._path, DATASETS[dataset]().short_name())
         
     def fit(self, dataset):
         index_params = self._params
@@ -76,8 +76,18 @@ class NGT(BaseANN):
         self.setIndexPath(dataset)
 
         if not os.path.exists(self._index_path + "/grp"):
-            return False
-
+            if "index" not in self._params:
+                return False
+            if not os.path.exists(self._index_path + ".tar"):
+                print(f"NGT: dowinloading the index... index={self._params['index']}->{self._index_path}")
+                download_accelerated(self._params["index"], self._index_path + ".tar", quiet=True)
+            args = ['tar', 'xf', self._index_path + ".tar", "-C", self._path]
+            print(args)
+            subprocess.call(args)
+            args = ['rm', '-r', self._index_path + ".tar"]
+            print(args)
+            subprocess.call(args)
+            
         if not self._is_open:
             print("NGT: opening the index...")
             self._index = ngtpy.QuantizedBlobIndex(self._index_path)
@@ -87,10 +97,10 @@ class NGT(BaseANN):
         self._epsilon = query_args.get("epsilon", 0.1)
         self._edge_size = query_args.get("edge", 0)
         self._exploration_size = query_args.get("blob", 120)
-        # only this part is different from t2.
+        # only this part is different between t1 and t2
         #self._exact_result_expansion = query_args.get("expansion", 2.0)
         self._exact_result_expansion = 0.0
-        self._index.set(epsilon=self._epsilon, edge_size=self._edge_size,
+        self._index.set(epsilon=self._epsilon, blob_epsilon=0.0, edge_size=self._edge_size,
                         exploration_size=self._exploration_size,
                         exact_result_expansion=self._exact_result_expansion)
         print(f"NGT: epsilon={self._epsilon} edge={self._edge_size} blob={self._exploration_size}")
