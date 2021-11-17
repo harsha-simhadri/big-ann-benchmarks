@@ -74,7 +74,7 @@ The benchmarks used in the score calculation are listed below for each dataset:
 
 ## Measurements
 
-The baseline benchmarks are based on the most recent measurements.  At the start, and during the competition, we had published different numbers.  The reason for the changes are described in [Appendix A](#appendix-a)] below.
+The baseline benchmarks are based on the most recent measurements.  At the start, and during the competition, we had published different numbers.  The reason for the changes are described in [Appendix A](#appendix-a) below.
 
 # Appendix
 
@@ -91,7 +91,7 @@ At the start of the competition, we had release the following thresholds:
 |text2image-1B      |0.86       |1510.624        |
 |ssnpp-1B           |0.9        |2000            |
 
-The most recent thresholds have changed from the original to the following reasons:
+The most recent thresholds have changed from the original for the following reasons:
 * Changes in how recall was computing to deal with ties in distance.
 * Changes in the radius for how the range search dataset
 * Also we decided to re-run the measurements of the baseline algorithm on the T3 baseline machine using the current evaluation framework.  The original baselines were measured using a different software framework
