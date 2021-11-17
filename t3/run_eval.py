@@ -347,7 +347,8 @@ def produce_rankings(subms):
                 if db in supported_dbs:
                     best_val = SUBM_MAPPING[subm]["evals"][db][ bestmapping[benchmark] ]
                     val = best_val[ bestidxmapping[benchmark] ] # if benchmark=="cost" else best_val[ bestidxmapping[benchmark] ]
-                    if val!=0: best_vals.append( (subm, val) )
+                    vals = best_val
+                    if val!=0: best_vals.append( (subm, val, vals) )
             best_vals = sorted( best_vals, key=lambda x: x[1], reverse=True if benchmark in [ "recall", "qps" ] else False )
             for idx, item in enumerate(best_vals):
                 kee = "$%s%d%s_SB" % ( DBS[db], idx+1, dbmapping[benchmark] )
@@ -369,6 +370,24 @@ def produce_rankings(subms):
                 fmt = bestformatmapping[benchmark]
                 kv = fmt.format(item[1]) if benchmark=="cost" else mklnka( item[1], fmt, item[0], db, benchmark )
                 rdct[kee]=kv
+                #$DP1C_CX|$DP1C_OX|$DP1C_UC |$DP1C_UN      |$DP1C_KWT|
+                if benchmark=="cost":
+                    kee = "$%s%d%s_CX" % ( DBS[db], idx+1, dbmapping[benchmark])
+                    kv = fmt.format(item[2][1]) #capex
+                    rdct[kee]=kv
+                    kee = "$%s%d%s_OX" % ( DBS[db], idx+1, dbmapping[benchmark])
+                    kv = fmt.format(item[2][2]) #opex
+                    rdct[kee]=kv
+                    kee = "$%s%d%s_UC" % ( DBS[db], idx+1, dbmapping[benchmark])
+                    kv = fmt.format(item[2][3]) #unit cost
+                    rdct[kee]=kv
+                    kee = "$%s%d%s_UN" % ( DBS[db], idx+1, dbmapping[benchmark])
+                    kv = str(item[2][4]) #units
+                    rdct[kee]=kv
+                    kee = "$%s%d%s_KWT" % ( DBS[db], idx+1, dbmapping[benchmark])
+                    kv = "{:,.3f}".format(item[2][5]) #kwt
+                    rdct[kee]=kv
+                 
             for i in range(idx+1, TOTAL_SUBM):
                 kee = "$%s%d%s_SB" % ( DBS[db], i+1, dbmapping[benchmark] )
                 rdct[kee]="-"

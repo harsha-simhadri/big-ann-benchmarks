@@ -387,7 +387,7 @@ class Evaluator():
             "best_recall": best_recall,
             "best_qps": best_qps,
             "best_wspq": best_wspq,
-            "cost": [total_cost]
+            "cost": [total_cost, capex, opex, self.system_cost, no_units, opex_kwh_per_query*opex_tot_queries]
         }
         
         self.evals[dataset] = this_eval

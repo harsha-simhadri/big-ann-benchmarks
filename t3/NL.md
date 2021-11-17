@@ -207,18 +207,18 @@
 
 ##### Deep1B Cost Rankings 
 
-|Rank|Submission                                     |Team                          |Hardware               |Status  |Cost         |capex    |opex   |unit cost|units@100K qps|KwH*4yrs |KwH cost|
-|----|-----------------------------------------------|------------------------------|-----------------------|--------|-------------|---------|-------|---------|--------------|---------|--------|
-|   1|[optanne_graphann](../t3/gemini/README.md)                           |Intel                      |Intel Optane               |inprog|**$16,082.49**  |        -|      -|        -|             -|        -|       -|
-|   2|[faiss_t3](../t3/gemini/README.md)                           |Facebook Research                      |NVidia GPU               |inprog|**$545,952.10**  |        -|      -|        -|             -|        -|       -|
-|   3|[gemini](../t3/gemini/README.md)                           |GSI Technology                      |LedaE APU               |inprog|**$626,932.94**  |        -|      -|        -|             -|        -|       -|
-|   4|                                              -|                             -|                      -|       -|            -|        -|      -|        -|             -|        -|       -|
-|   5|                                              -|                             -|                      -|       -|            -|        -|      -|        -|             -|        -|       -|
-|   6|                                              -|                             -|                      -|       -|            -|        -|      -|        -|             -|        -|       -|
-|   7|                                              -|                             -|                      -|       -|            -|        -|      -|        -|             -|        -|       -|
-|   8|                                              -|                             -|                      -|       -|            -|        -|      -|        -|             -|        -|       -|
-|   9|                                              -|                             -|                      -|       -|            -|        -|      -|        -|             -|        -|       -|
-|  10|                                              -|                             -|                      -|       -|            -|        -|      -|        -|             -|        -|       -|
+|Rank|Submission          |Team     |Hardware               |Status  |Cost         |capex   |opex    |unit cost|units@100K qps|KwH*4yrs |
+|----|--------------------|---------|-----------------------|--------|-------------|--------|--------|---------|--------------|---------|
+|   1|[optanne_graphann](../t3/gemini/README.md)|Intel |Intel Optane               |inprog|**$14,182.93**  |$14,664.20|$1,418.29|$14,664.20 |1      |14,182.933|
+|   2|[gemini](../t3/gemini/README.md)|GSI Technology |LedaE APU               |inprog|**$139,396.81**  |        -|      -|        -|             -|        -|
+|   3|[faiss_t3](../t3/gemini/README.md)|Facebook Research |NVidia GPU               |inprog|**$394,484.03**  |        -|      -|        -|             -|        -|
+|   4|                   -|        -|                      -|       -|            -|        -|      -|        -|             -|        -|
+|   5|                   -|        -|                      -|       -|            -|        -|      -|        -|             -|        -|
+|   6|                   -|        -|                      -|       -|            -|        -|      -|        -|             -|        -|
+|   7|                   -|        -|                      -|       -|            -|        -|      -|        -|             -|        -|
+|   8|                   -|        -|                      -|       -|            -|        -|      -|        -|             -|        -|
+|   9|                   -|        -|                      -|       -|            -|        -|      -|        -|             -|        -|
+|  10|                   -|        -|                      -|       -|            -|        -|      -|        -|             -|        -|
 
 * The operational point for ranking is 0.90 recall@10. We will use the lowest power consumption/query for the search parameters that meet or exceed 0.90 recall@10.
 * The formula is based on:
@@ -310,9 +310,9 @@
 
 |Rank|Submission                                      |Team                          |Hardware            |Status  |Cost          |capex     |opex    |unit cost|units@100K qps|KwH*4yrs |KwH cost|
 |----|------------------------------------------------|------------------------------|--------------------|--------|--------------|----------|--------|---------|--------------|---------|--------|
-|   1|[optanne_graphann](../t3/gemini/README.md)                            |Intel                      |Intel Optane            |inprog|**$15,407.15**   |         -|       -|        -|             -|        -|       -|
-|   2|[gemini](../t3/gemini/README.md)                            |GSI Technology                      |LedaE APU            |inprog|**$626,785.91**   |         -|       -|        -|             -|        -|       -|
-|   3|[faiss_t3](../t3/gemini/README.md)                            |Facebook Research                      |NVidia GPU            |inprog|**$785,282.45**   |         -|       -|        -|             -|        -|       -|
+|   1|[optanne_graphann](../t3/gemini/README.md)                            |Intel                      |Intel Optane            |inprog|**$7,429.54**   |         -|       -|        -|             -|        -|       -|
+|   2|[gemini](../t3/gemini/README.md)                            |GSI Technology                      |LedaE APU            |inprog|**$137,926.46**   |         -|       -|        -|             -|        -|       -|
+|   3|[faiss_t3](../t3/gemini/README.md)                            |Facebook Research                      |NVidia GPU            |inprog|**$585,597.50**   |         -|       -|        -|             -|        -|       -|
 |   2|                                               -|                             -|                   -|       -|             -|         -|       -|        -|             -|        -|       -|
 |   3|                                               -|                             -|                   -|       -|             -|         -|       -|        -|             -|        -|       -|
 |   4|                                               -|                             -|                   -|       -|             -|         -|       -|        -|             -|        -|       -|
@@ -412,9 +412,9 @@
 
 |Rank|Submission                          |Team                          |Hardware               |Status  |Cost          |capex     |opex     |unit cost|units@100K qps|KwH*4yrs  |KwH cost |
 |----|------------------------------------|------------------------------|-----------------------|--------|--------------|----------|---------|---------|--------------|----------|---------|
-|   1|[optanne_graphann](../t3/gemini/README.md)                |Intel                      |Intel Optane               |inprog|**$16,397.80**   |         -|        -|        -|             -|         -|        -|
-|   2|[gemini](../t3/gemini/README.md)                |GSI Technology                      |LedaE APU               |inprog|**$286,578.81**   |         -|        -|        -|             -|         -|        -|
-|   3|[faiss_t3](../t3/gemini/README.md)                |Facebook Research                      |NVidia GPU               |inprog|**$1,018,332.30**   |         -|        -|        -|             -|         -|        -|
+|   1|[optanne_graphann](../t3/gemini/README.md)                |Intel                      |Intel Optane               |inprog|**$17,335.98**   |         -|        -|        -|             -|         -|        -|
+|   2|[gemini](../t3/gemini/README.md)                |GSI Technology                      |LedaE APU               |inprog|**$79,455.07**   |         -|        -|        -|             -|         -|        -|
+|   3|[faiss_t3](../t3/gemini/README.md)                |Facebook Research                      |NVidia GPU               |inprog|**$713,905.96**   |         -|        -|        -|             -|         -|        -|
 |   4|                                   -|                             -|                      -|       -|             -|         -|        -|        -|             -|         -|        -|
 |   5|                                   -|                             -|                      -|       -|             -|         -|        -|        -|             -|         -|        -|
 |   6|                                   -|                             -|                      -|       -|             -|         -|        -|        -|             -|         -|        -|
@@ -514,9 +514,9 @@
 
 |Rank|Submission                             |Team                          |Hardware               |Status  |Cost          |capex     |opex     |unit cost|units@100K qps|KwH*4yrs  |KwH cost |
 |----|---------------------------------------|------------------------------|-----------------------|------- |--------------|----------|---------|---------|--------------|----------|---------|
-|   1|[optanne_graphann](../t3/gemini/README.md)                   |Intel                      |Intel Optane               |inprog|**$16,563.61**   |         -|        -|        -|             -|         -|        -|
-|   2|[gemini](../t3/gemini/README.md)                   |GSI Technology                      |LedaE APU               |inprog|**$685,704.76**   |         -|        -|        -|             -|         -|        -|
-|   3|[faiss_t3](../t3/gemini/README.md)                   |Facebook Research                      |NVidia GPU               |inprog|**$873,460.84**   |         -|        -|        -|             -|         -|        -|
+|   1|[optanne_graphann](../t3/gemini/README.md)                   |Intel                      |Intel Optane               |inprog|**$18,994.11**   |         -|        -|        -|             -|         -|        -|
+|   2|[gemini](../t3/gemini/README.md)                   |GSI Technology                      |LedaE APU               |inprog|**$169,848.42**   |         -|        -|        -|             -|         -|        -|
+|   3|[faiss_t3](../t3/gemini/README.md)                   |Facebook Research                      |NVidia GPU               |inprog|**$586,505.42**   |         -|        -|        -|             -|         -|        -|
 |   4|                                      -|                             -|                      -|       -|             -|         -|        -|        -|             -|         -|        -|
 |   5|                                      -|                             -|                      -|       -|             -|         -|        -|        -|             -|         -|        -|
 |   6|                                      -|                             -|                      -|       -|             -|         -|        -|        -|             -|         -|        -|
@@ -614,9 +614,9 @@
 
 |Rank|Submission                                     |Team                          |Hardware             |Status  |Cost          |capex     |opex    |unit cost|units@100K qps|KwH*4yrs |KwH cost|
 |----|-----------------------------------------------|------------------------------|---------------------|--------|--------------|----------|--------|---------|--------------|---------|--------|
-|   1|[optanne_graphann](../t3/gemini/README.md)                           |Intel                      |Intel Optane             |inprog|**$171,244.96**   |         -|       -|        -|             -|        -|       -|
-|   2|[faiss_t3](../t3/gemini/README.md)                           |Facebook Research                      |NVidia GPU             |inprog|**$1,298,436.77**   |         -|       -|        -|             -|        -|       -|
-|   3|[gemini](../t3/gemini/README.md)                           |GSI Technology                      |LedaE APU             |inprog|**$4,857,248.23**   |         -|       -|        -|             -|        -|       -|
+|   1|[optanne_graphann](../t3/gemini/README.md)                           |Intel                      |Intel Optane             |inprog|**$246,029.62**   |         -|       -|        -|             -|        -|       -|
+|   2|[faiss_t3](../t3/gemini/README.md)                           |Facebook Research                      |NVidia GPU             |inprog|**$431,884.67**   |         -|       -|        -|             -|        -|       -|
+|   3|[gemini](../t3/gemini/README.md)                           |GSI Technology                      |LedaE APU             |inprog|**$1,762,087.85**   |         -|       -|        -|             -|        -|       -|
 |   4|                                              -|                             -|                    -|       -|             -|         -|       -|        -|             -|        -|       -|
 |   5|                                              -|                             -|                    -|       -|             -|         -|       -|        -|             -|        -|       -|
 |   6|                                              -|                             -|                    -|       -|             -|         -|       -|        -|             -|        -|       -|
@@ -715,7 +715,7 @@
 
 |Rank|Submission                                     |Team                          |Hardware             |Status  |Cost          |capex     |opex    |unit cost|units@100K qps|KwH*4yrs |KwH cost|
 |----|-----------------------------------------------|------------------------------|---------------------|--------|--------------|----------|--------|---------|--------------|---------|--------|
-|   1|[faiss_t3](../t3/gemini/README.md)                           |Facebook Research                      |NVidia GPU             |inprog|**$429,634.84**   |         -|       -|        -|             -|        -|       -|
+|   1|[faiss_t3](../t3/gemini/README.md)                           |Facebook Research                      |NVidia GPU             |inprog|**$332,406.44**   |         -|       -|        -|             -|        -|       -|
 |   2|[-](-)                           |-                      |-             |-|**-**   |         -|       -|        -|             -|        -|       -|
 |   3|[-](-)                           |-                      |-             |-|**-**   |         -|       -|        -|             -|        -|       -|
 |   4|                                              -|                             -|                    -|       -|             -|         -|       -|        -|             -|        -|       -|
