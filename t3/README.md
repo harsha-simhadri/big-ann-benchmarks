@@ -246,7 +246,7 @@ The following table shows the baseline performance on all datasets for cost:
 
 Baselines were measured on an 56 core Intel Xeon system with 700GB RAM and a V100 Nvidia GPU using the FAISS library using the index strategy called IVF1048576,SQ8. 
 
-Please consult [this document](Ranking.md) for a detailed discussion about how the baseline is used to inform competition thresholds and participant scoring, as well as recent developments on baseline performance.
+Please consult [this document](RANKING.md) for a detailed discussion about how the baseline is used to inform competition thresholds and participant scoring, as well as recent developments on baseline performance.
 
 #### Recall/Average_Precision_Leaderboard
 
@@ -256,7 +256,7 @@ The final ranking will be based on a computed score, which is the sum of the imp
 
 Participants that cannot meet or exceed the 2000 qps minimum threshold ( or 1762.363 qps for Text2Image ) for a dataset will be dropped from ranking consideration for that dataset.
 
-Please consult [this document](Ranking.md) for a detailed discussion about how the baseline is used to inform competition thresholds and participant scoring.
+Please consult [this document](RANKING.md) for a detailed discussion about how the baseline is used to inform competition thresholds and participant scoring.
 
 #### Throughput_Leaderboard
 
@@ -264,7 +264,7 @@ This leaderboard also leverages the standard recall@10 vs throughput benchmark. 
 
 The final ranking will be based on a computed score, which is the sum of the improvements in throughput over the baseline for the participating databases.  A submission must participate in at least 3 databases.
 
-Please consult [this document](Ranking.md) for a detailed discussion about how the baseline is used to inform competition thresholds and participant scoring.
+Please consult [this document](RANKING.md) for a detailed discussion about how the baseline is used to inform competition thresholds and participant scoring.
 
 #### Power_Leaderboard
 
@@ -278,7 +278,7 @@ The final ranking will be based on a computed score, which is the sum of the imp
 
 There are no direct thresholds for this benchmark/leaderboard.  Indirectly, participants that cannot meet or exceed the recall@10 threshold ( or 0.86 for Text2Image ) for a dataset will be dropped from ranking consideration for that dataset.  Scoring will be based on the baseline performance for power consumption, shown here for each dataset:
 
-Please consult [this document](Ranking.md) for a detailed discussion about how the baseline is used to inform participant scoring for this benchmark.
+Please consult [this document](RANKING.md) for a detailed discussion about how the baseline is used to inform participant scoring for this benchmark.
 
 #### Cost_Leaderboard
 
