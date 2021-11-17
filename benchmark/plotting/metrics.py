@@ -13,43 +13,30 @@ def compute_recall_without_distance_ties(true_ids, run_ids, count):
     return len(set(true_ids) & set(run_ids))
 
 def compute_recall_with_distance_ties(true_ids, true_dists, run_ids, count):
-   
-    # create new list which replaces very close dists with exact duplicates
-    new_dists = np.empty( true_dists.shape[0] )
-    dup_candidate= true_dists[0]
-    new_dists[0] = dup_candidate
-    for i in range(1,true_dists.shape[0]):
-        if abs(true_dists[i]-dup_candidate)<=1e-6: 
-            new_dists[i] = dup_candidate
-        else:       
-            new_dists[i] = true_dists[i]
-            dup_candidate=true_dists[i]
- 
-    # locate consecutive dists and group them
-    grouping_all= [ (a,list(b)) for a,b in itertools.groupby(new_dists) ]
+    # This function assumes "true_dists" is monotonic either increasing or decreasing
 
-    # take only a max of 'count' groups
-    grouping_count = grouping_all[0:count]
-   
-    # create new true_ids from the count-based subset of the groupings
-    new_true_ids = np.empty(0)
     found_tie = False
-    for group in grouping_count:
-        if len(group[1])>1: found_tie = True
-        add_ids = true_ids[ len(new_true_ids): len(new_true_ids)+len(group[1]) ] 
-        new_true_ids = np.append( new_true_ids, add_ids )
+    gt_size = np.shape(true_dists)[0]
 
-    #GW - The following was useful during debugging 
-    #if found_tie: 
-    #    print("TIE")
-    #    print("new_true_ids",new_true_ids)
-    #    print("orig_true_dists(trunc)",true_dists[0:len(new_true_ids)])
-    #    print("grouping up to count", grouping_count)
-    #    print("run_ids", run_ids)
+    if gt_size==count:
+        # nothing fancy to do in this case
+        recall =  len(set(true_ids[:count]) & set(run_ids))
 
-    # calc recall via set intersection
-    recall =  len(set(new_true_ids) & set(run_ids))
+    else:
+        dist_tie_check = true_dists[count-1] # tie check anchored at count-1 in GT dists
+     
+        set_end = gt_size
 
+        for i in range(count, gt_size):
+          is_close = abs(dist_tie_check - true_dists[i] ) < 1e-6 
+          if not is_close:
+            set_end = i
+            break
+
+        found_tie = set_end > count
+
+        recall =  len(set(true_ids[:set_end]) & set(run_ids))
+ 
     return recall, found_tie
 
 def get_recall_values(true_nn, run_nn, count, count_ties=True):

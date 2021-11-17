@@ -6,20 +6,207 @@ deep-1B:
           base-args: ["@metric"]
           run-groups:
             base:
-              args: |
-                  [
-                          "{'nbits': 512, 'qbits':768, 'nlist':2097152, 'nt':83886080, 'num_apuc':3, 'f16':True }"
-                  ]
+              args: >-
+                [
+                "{
+                'files_directory':'data/gemini/deep_1b/'
+                , 'fp_quantizer_file_name':'Deep1B.nt83886080.nlist2097152.quantizer'
+                , 'records_encoding_file_name':'records_weight-nbits512.npy'
+                , 'centroids_encoding_file_name':'centroids_weight-nbits768.npy'
+                , 'hd5_file_path':'data/gemini/deep_1b/deep_1b_nt2M.hdf5'
+                , 'db_file_name':'deep_1b_fdb.npy'
+                , 'nbits':512
+                , 'nlist':2097152
+                , 'num_features':96
+                , 'max_num_queries':10000
+                , 'num_apuc':4
+                , 'rerank_src_type':'F32'
+                , 'rerank_bf16':False
+                , 'num_threads':0 
+                }"
+                ]
+                  
               query-args: |
-                  [
-                    "{'nprobe': 800, 'nprobe_refine': 480, 'hamming_k': 5000, 'average_clstr_size_factor': 0.0}",
-                    "{'nprobe': 800, 'nprobe_refine': 480, 'hamming_k': 2000, 'average_clstr_size_factor': 0.0}",
-                    "{'nprobe': 800, 'nprobe_refine': 480, 'hamming_k': 1000, 'average_clstr_size_factor': 0.0}",
-                    "{'nprobe': 800, 'nprobe_refine': 480, 'hamming_k': 500, 'average_clstr_size_factor': 0.0}",
-                    "{'nprobe': 800, 'nprobe_refine': 480, 'hamming_k': 250, 'average_clstr_size_factor': 0.0}",
-                    "{'nprobe': 800, 'nprobe_refine': 400, 'hamming_k': 1000, 'average_clstr_size_factor': 0.0}",
-                    "{'nprobe': 800, 'nprobe_refine': 300, 'hamming_k': 1000, 'average_clstr_size_factor': 0.0}",
-                    "{'nprobe': 700, 'nprobe_refine': 380, 'hamming_k': 1000, 'average_clstr_size_factor': 0.0}",
-                    "{'nprobe': 600, 'nprobe_refine': 280, 'hamming_k': 1000, 'average_clstr_size_factor': 0.0}",
-                    "{'nprobe': 500, 'nprobe_refine': 180, 'hamming_k': 1000, 'average_clstr_size_factor': 0.0}"
-                  ]
+                [
+                 "{'nprobe': 512,  'nprobe_refine': 160,   'hamming_k': 512,  'average_clstr_size_factor': 0.0}"      
+                ,"{'nprobe': 512,  'nprobe_refine': 200,   'hamming_k': 512,  'average_clstr_size_factor': 0.0}"      
+                ,"{'nprobe': 512,  'nprobe_refine': 240,   'hamming_k': 512,  'average_clstr_size_factor': 0.0}"
+                ,"{'nprobe': 512,  'nprobe_refine': 280,   'hamming_k': 512,  'average_clstr_size_factor': 0.0}"
+                ,"{'nprobe': 512,  'nprobe_refine': 320,   'hamming_k': 512,  'average_clstr_size_factor': 0.0}"
+                
+                ,"{'nprobe': 3000, 'nprobe_refine': 1500,  'hamming_k': 2000, 'average_clstr_size_factor': 0.0}"
+                ,"{'nprobe': 3000, 'nprobe_refine': 1500,  'hamming_k': 2500, 'average_clstr_size_factor': 0.0}"
+                ,"{'nprobe': 3000, 'nprobe_refine': 1500,  'hamming_k': 3000, 'average_clstr_size_factor': 0.0}"
+                ,"{'nprobe': 3000, 'nprobe_refine': 1500,  'hamming_k': 3500, 'average_clstr_size_factor': 0.0}"
+                ,"{'nprobe': 3000, 'nprobe_refine': 1500,  'hamming_k': 4000, 'average_clstr_size_factor': 0.0}"
+                ] 
+msturing-1B:
+    gemini-t3:
+          docker-tag: billion-scale-benchmark-faissconda
+          module: benchmark.algorithms.gemini
+          constructor: GeminiT3
+          base-args: ["@metric"]
+          run-groups:
+            base:
+              args: >-
+                [
+                "{
+                'files_directory':'data/gemini/msturing/'
+                , 'fp_quantizer_file_name':'MSFT-TURING-ANNS.nt83886080.nlist2097152.quantizer'
+                , 'records_encoding_file_name':'records_weight-nbits512.npy'
+                , 'centroids_encoding_file_name':'centroids_weight-nbits768.npy'
+                , 'hd5_file_path':'data/gemini/msturing/msturing_1b.hd5'
+                , 'db_file_name':'msturing_1b_fdb.npy'
+                , 'nbits':512
+                , 'nlist':2097152
+                , 'num_features':100
+                , 'max_num_queries':100000
+                , 'num_apuc':4
+                , 'rerank_src_type':'F32'
+                , 'rerank_bf16':False
+                , 'num_threads':0 
+                }"
+                ]
+                  
+              query-args: |
+                [
+                  "{'nprobe': 160, 'nprobe_refine': 48,  'hamming_k': 512, 'average_clstr_size_factor': 0.0}"
+                 ,"{'nprobe': 160, 'nprobe_refine': 64,  'hamming_k': 512, 'average_clstr_size_factor': 0.0}"
+                 ,"{'nprobe': 160, 'nprobe_refine': 72,  'hamming_k': 512, 'average_clstr_size_factor': 0.0}"
+                 ,"{'nprobe': 160, 'nprobe_refine': 80,  'hamming_k': 512, 'average_clstr_size_factor': 0.0}"
+                 ,"{'nprobe': 160, 'nprobe_refine': 88,  'hamming_k': 512, 'average_clstr_size_factor': 0.0}"
+                 
+                 ,"{'nprobe': 4000, 'nprobe_refine': 1600,  'hamming_k': 2000, 'average_clstr_size_factor': 0.0}"
+                 ,"{'nprobe': 4000, 'nprobe_refine': 1800,  'hamming_k': 2000, 'average_clstr_size_factor': 0.0}"
+                 ,"{'nprobe': 4000, 'nprobe_refine': 2000,  'hamming_k': 2000, 'average_clstr_size_factor': 0.0}"
+                 ,"{'nprobe': 4000, 'nprobe_refine': 2200,  'hamming_k': 2000, 'average_clstr_size_factor': 0.0}"
+                 ,"{'nprobe': 4000, 'nprobe_refine': 2400,  'hamming_k': 2000, 'average_clstr_size_factor': 0.0}"
+                ]                                     
+bigann-1B:
+    gemini-t3:
+          docker-tag: billion-scale-benchmark-faissconda
+          module: benchmark.algorithms.gemini
+          constructor: GeminiT3
+          base-args: ["@metric"]
+          run-groups:
+            base:
+              args: >-
+                ["{
+                'files_directory':'data/gemini/bigann/'
+                ,'fp_quantizer_file_name':'BigAnn.nt83886080.nlist2097152.quantizer'
+                ,'records_encoding_file_name':'records_weight-nbits512.npy'
+                , 'centroids_encoding_file_name':'centroids_weight-nbits768.npy'
+                , 'hd5_file_path':'data/gemini/bigann/BigAnn_1B.hd5'
+                , 'db_file_name':'BigAnn_db.npy'
+                , 'nbits':512
+                , 'nlist':2097152
+                , 'num_features':128
+                , 'max_num_queries':10000
+                , 'num_apuc':4
+                , 'rerank_src_type':'U8'
+                , 'rerank_bf16':False
+                , 'num_threads':0 
+                }"
+                ]
+                 
+                  
+              query-args: |
+                [
+                "{'nprobe': 300, 'nprobe_refine': 160, 'hamming_k': 800, 'average_clstr_size_factor': 0.0}",
+                "{'nprobe': 300, 'nprobe_refine': 180, 'hamming_k': 800, 'average_clstr_size_factor': 0.0}",                 
+                "{'nprobe': 300, 'nprobe_refine': 200, 'hamming_k': 800, 'average_clstr_size_factor': 0.0}",                 
+                "{'nprobe': 300, 'nprobe_refine': 220, 'hamming_k': 800, 'average_clstr_size_factor': 0.0}",                 
+                "{'nprobe': 300, 'nprobe_refine': 240, 'hamming_k': 800, 'average_clstr_size_factor': 0.0}",                 
+
+                "{'nprobe': 3200, 'nprobe_refine': 1200, 'hamming_k': 3200, 'average_clstr_size_factor': 0.0}",                 
+                "{'nprobe': 3200, 'nprobe_refine': 1400, 'hamming_k': 3200, 'average_clstr_size_factor': 0.0}",                 
+                "{'nprobe': 3200, 'nprobe_refine': 1600, 'hamming_k': 3200, 'average_clstr_size_factor': 0.0}",                 
+                "{'nprobe': 3200, 'nprobe_refine': 1800, 'hamming_k': 3200, 'average_clstr_size_factor': 0.0}",                 
+                "{'nprobe': 3200, 'nprobe_refine': 2000, 'hamming_k': 3200, 'average_clstr_size_factor': 0.0}"              
+                ]
+                
+text2image-1B:               
+    gemini-t3:
+          docker-tag: billion-scale-benchmark-faissconda
+          module: benchmark.algorithms.gemini
+          constructor: GeminiT3
+          base-args: ["@metric"]
+          run-groups:
+            base:
+              args: >-
+                [
+                "{
+                'files_directory':'data/gemini/text2image/nt83M_nlist2097152_qbits1536_nbits1536/'
+                ,'fp_quantizer_file_name':'Text-to-Image-1B.nt83886080.nlist2097152.quantizer'
+                ,'records_encoding_file_name':'records_weight-nbits1536.npy'
+                ,'centroids_encoding_file_name':'centroids_weight-nbits1536.npy'
+                ,'hd5_file_path':'data/gemini/text2image/nt83M_nlist2097152_qbits1536_nbits1536/Text-to-Image-1B.hd5'
+                ,'db_file_name':'../base.1B.fbin.f16.npy'
+                , 'nbits':1536
+                , 'nlist':2097152
+                , 'num_features':200
+                , 'max_num_queries':100000
+                , 'num_apuc':4
+                , 'rerank_src_type':'BF16'
+                , 'rerank_bf16':True
+                ,'num_threads':0 
+                }"
+                ]
+                  
+              query-args: |
+                [
+                "{'nprobe': 2400, 'nprobe_refine': 700, 'hamming_k': 3000, 'average_clstr_size_factor': 0.0}",
+                "{'nprobe': 2400, 'nprobe_refine': 700, 'hamming_k': 3400, 'average_clstr_size_factor': 0.0}",
+                "{'nprobe': 2400, 'nprobe_refine': 700, 'hamming_k': 3800, 'average_clstr_size_factor': 0.0}",
+                "{'nprobe': 2400, 'nprobe_refine': 700, 'hamming_k': 4200, 'average_clstr_size_factor': 0.0}",
+                "{'nprobe': 2400, 'nprobe_refine': 700, 'hamming_k': 4600, 'average_clstr_size_factor': 0.0}",
+                
+                "{'nprobe': 3000, 'nprobe_refine': 1200, 'hamming_k': 6000, 'average_clstr_size_factor': 0.0}",
+                "{'nprobe': 3000, 'nprobe_refine': 1200, 'hamming_k': 7000, 'average_clstr_size_factor': 0.0}",
+                "{'nprobe': 3000, 'nprobe_refine': 1200, 'hamming_k': 8000, 'average_clstr_size_factor': 0.0}",
+                "{'nprobe': 3000, 'nprobe_refine': 1200, 'hamming_k': 9000, 'average_clstr_size_factor': 0.0}",
+                "{'nprobe': 3000, 'nprobe_refine': 1200, 'hamming_k': 10000, 'average_clstr_size_factor': 0.0}"
+                ]
+  
+msspacev-1B:               
+    gemini-t3:
+          docker-tag: billion-scale-benchmark-faissconda
+          module: benchmark.algorithms.gemini
+          constructor: GeminiT3
+          base-args: ["@metric"]
+          run-groups:
+            base:
+              args: >-
+                [
+                "{
+                'files_directory':'data/gemini/spacev_1b/'
+                ,'fp_quantizer_file_name':'SPACEV1B.nt83886080.nlist2097152.quantizer'
+                ,'records_encoding_file_name':'records_weight-nbits512.npy'
+                , 'centroids_encoding_file_name':'centroids_weight-nbits768.npy'
+                , 'hd5_file_path':'data/gemini/spacev_1b/spacev_1b.hd5'
+                , 'db_file_name':'spacev1b_base.i8bin.npy'
+                , 'nbits':512
+                , 'nlist':2097152
+                , 'num_features':100
+                , 'max_num_queries':29316
+                , 'num_apuc':4
+                , 'rerank_src_type':'S8'
+                , 'rerank_bf16':False
+                , 'num_threads':0 
+                }"
+                ]                
+                  
+              query-args: |
+                [
+                "{'nprobe': 600, 'nprobe_refine': 320, 'hamming_k': 512, 'average_clstr_size_factor': 0.0}",
+                "{'nprobe': 600, 'nprobe_refine': 360, 'hamming_k': 512, 'average_clstr_size_factor': 0.0}",                 
+                "{'nprobe': 600, 'nprobe_refine': 400, 'hamming_k': 512, 'average_clstr_size_factor': 0.0}",                 
+                "{'nprobe': 600, 'nprobe_refine': 440, 'hamming_k': 512, 'average_clstr_size_factor': 0.0}",                 
+                "{'nprobe': 600, 'nprobe_refine': 480, 'hamming_k': 512, 'average_clstr_size_factor': 0.0}",                 
+
+                "{'nprobe': 3200, 'nprobe_refine': 1200, 'hamming_k': 3200, 'average_clstr_size_factor': 0.0}",                 
+                "{'nprobe': 3200, 'nprobe_refine': 1400, 'hamming_k': 3200, 'average_clstr_size_factor': 0.0}",                 
+                "{'nprobe': 3200, 'nprobe_refine': 1600, 'hamming_k': 3200, 'average_clstr_size_factor': 0.0}",                 
+                "{'nprobe': 3200, 'nprobe_refine': 1800, 'hamming_k': 3200, 'average_clstr_size_factor': 0.0}",                 
+                "{'nprobe': 3200, 'nprobe_refine': 2000, 'hamming_k': 3200, 'average_clstr_size_factor': 0.0}"              
+                ]                                                                                         
