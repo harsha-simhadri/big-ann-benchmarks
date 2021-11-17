@@ -321,7 +321,7 @@ def produce_rankings(subms):
             # iterate datasets for this benchmark
             dbmapping = { "recall":"R", "qps":"Q", "cost":"C", "power":"P" }
             bestmapping = { "recall":"best_recall", "qps":"best_qps", "power":"best_wspq", "cost":"cost" }
-            bestidxmapping = { "recall":1, "qps":1, "power":2, "cost":-1 }
+            bestidxmapping = { "recall":1, "qps":1, "power":2, "cost":0 }
             bestformatmapping = { "recall": "{:,.3f}", "qps": "{:,.3f}", "power":"{:,.3f}", "cost":"${:,.2f}" }
             DBS = { "deep-1B":"DP", "bigann-1B":"BA", "msturing-1B":"MT", "msspacev-1B":"MS", "text2image-1B":"TI", "ssnpp-1B":"FB" }
             for db in DBS.keys():
@@ -339,7 +339,7 @@ def produce_rankings(subms):
             # get best values for this benchmark for the database for all subm
             best_vals = []
             for subm in subms:
-                bestidxmapping = { "recall":1, "qps":1, "power":2, "cost":-1 }
+                bestidxmapping = { "recall":1, "qps":1, "power":2, "cost":0 }
                 dbmapping = { "recall":"R", "qps":"Q", "cost":"C", "power":"P" }
                 bestmapping = { "recall":"best_recall", "qps":"best_qps", "power":"best_wspq", "cost":"cost" }
                 bestformatmapping = { "recall": "{:,.3f}", "qps": "{:,.3f}", "power":"{:,.3f}", "cost":"${:,.2f}" }
@@ -369,9 +369,11 @@ def produce_rankings(subms):
                 kee = "$%s%d%s_V" % ( DBS[db], idx+1, dbmapping[benchmark])
                 fmt = bestformatmapping[benchmark]
                 kv = fmt.format(item[1]) if benchmark=="cost" else mklnka( item[1], fmt, item[0], db, benchmark )
+                #print("TOT COST item", db, idx, item[0], benchmark, item[1])
                 rdct[kee]=kv
                 #$DP1C_CX|$DP1C_OX|$DP1C_UC |$DP1C_UN      |$DP1C_KWT|
                 if benchmark=="cost":
+                    print("COST item", db, idx, item[0], item[1], benchmark, item[2])
                     kee = "$%s%d%s_CX" % ( DBS[db], idx+1, dbmapping[benchmark])
                     kv = fmt.format(item[2][1]) #capex
                     rdct[kee]=kv

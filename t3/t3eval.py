@@ -379,6 +379,8 @@ class Evaluator():
             if self.verbose: print("Cost benchmark: opex=%f" % opex )
 
             total_cost = capex + opex
+
+            print("TOTAL", dataset, total_cost, capex, opex )
  
         this_eval = { 
             "qps": qps,
