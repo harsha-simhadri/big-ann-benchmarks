@@ -34,7 +34,7 @@
 
 #### Recall Rankings 
 
-|Rank|Submission        |Team   |Hardware|Status |Score      |[Deep1B](#deep1B-recall-rankings)|[BigANN](#bigann-recall-rankings)|[MSTuring](#msturing-recall-rankings)|[MSSpace](#msspace-recall-rankings)|[Text2Image](text2image-recall-rankings)|[FBSSNet](#fbsimsearchnet-recall-rankings)|
+|Rank|Submission        |Team   |Hardware|Status |Score      |[Deep1B](#deep1B-recall-rankings)|[BigANN](#bigann-recall-rankings)|[MSTuring](#msturing-recall-rankings)|[MSSpace](#msspace-recall-rankings)|[Text2Image](#text2image-recall-rankings)|[FBSSNet](#fbsimsearchnet-recall-rankings)|
 |----|------------------|-------|--------|-------|-----------|------|------|--------|-------|----------|-------|
 |   1|[gemini](../t3/gemini/README.md)|GSI Technology|LedaE APU |inprog|**0.280**|[0.989](eval_2021/gemini/deep-1B_recall.png) |[0.993](eval_2021/gemini/bigann-1B_recall.png) |[0.978](eval_2021/gemini/msturing-1B_recall.png)   |[0.986](eval_2021/gemini/msspacev-1B_recall.png)  |[0.882](eval_2021/gemini/text2image-1B_recall.png)     |-  |
 |   2|[optanne_graphann](../t3/optanne_graphann/README.md)|Intel|Intel Optane |inprog|**0.279**|[0.983](eval_2021/optanne_graphann/deep-1B_recall.png) |[0.991](eval_2021/optanne_graphann/bigann-1B_recall.png) |[0.962](eval_2021/optanne_graphann/msturing-1B_recall.png)   |[0.988](eval_2021/optanne_graphann/msspacev-1B_recall.png)  |[0.903](eval_2021/optanne_graphann/text2image-1B_recall.png)     |-  |
@@ -58,18 +58,18 @@
 
 #### Throughput Rankings
 
-|Rank|Submission                                         |Team                          |Hardware               |Status |Score      |Deep1B|BigANN|MSTuring|MSSpace|Text2Image|FBSimSearchNet|
-|----|---------------------------------------------------|------------------------------|-----------------------|-------|-----------|------|------|--------|-------|----------|--------------|
-|   1|[optanne_graphann](../t3/optanne_graphann/README.md)                                 |Intel                       |Intel Optane                |inprog|**821550.201**|[184,490.708](eval_2021/optanne_graphann/deep-1B_throughput.png) |[343,727.791](eval_2021/optanne_graphann/bigann-1B_throughput.png) |[157,277.710](eval_2021/optanne_graphann/msturing-1B_throughput.png)   |[139,612.021](eval_2021/optanne_graphann/msspacev-1B_throughput.png)  |[10,838.358](eval_2021/optanne_graphann/text2image-1B_throughput.png)     |-         |
-|   2|[gemini](../t3/gemini/README.md)                                 |GSI Technology                       |LedaE APU                |inprog|**34209.040**|[9,150.271](eval_2021/gemini/deep-1B_throughput.png) |[9,504.865](eval_2021/gemini/bigann-1B_throughput.png) |[20,166.678](eval_2021/gemini/msturing-1B_throughput.png)   |[8,587.024](eval_2021/gemini/msspacev-1B_throughput.png)  |[1,196.589](eval_2021/gemini/text2image-1B_throughput.png)     |-         | 
-|   3|[faiss_t3](../t3/faiss_t3/README.md)                                 |Facebook Research                       |NVidia GPU                |final|**baseline**|[4,417.036](eval_2021/faiss_t3/deep-1B_throughput.png) |[3,086.656](eval_2021/faiss_t3/bigann-1B_throughput.png) |[2,359.485](eval_2021/faiss_t3/msturing-1B_throughput.png)   |[2,770.848](eval_2021/faiss_t3/msspacev-1B_throughput.png)  |[1,762.363](eval_2021/faiss_t3/text2image-1B_throughput.png)     |[5,572.272](eval_2021/faiss_t3/ssnpp-1B_throughput.png)         | 
-|   4|                                                  -|                             -|                      -|      -|          -|     -|     -|       -|      -|         -|             -|
-|   5|                                                  -|                             -|                      -|      -|          -|     -|     -|       -|      -|         -|             -|
-|   6|                                                  -|                             -|                      -|      -|          -|     -|     -|       -|      -|         -|             -|
-|   7|                                                  -|                             -|                      -|      -|          -|     -|     -|       -|      -|         -|             -|
-|   8|                                                  -|                             -|                      -|      -|          -|     -|     -|       -|      -|         -|             -|
-|   9|                                                  -|                             -|                      -|      -|          -|     -|     -|       -|      -|         -|             -|
-|  10|                                                  -|                             -|                      -|      -|          -|     -|     -|       -|      -|         -|             -|
+|Rank|Submission        |Team   |Hardware|Status |Score      |[Deep1B](#deep1B-recall-rankings)|[BigANN](#bigann-recall-rankings)|[MSTuring](#msturing-recall-rankings)|[MSSpace](#msspace-recall-rankings)|[Text2Image](#text2image-recall-rankings)|[FBSSNet](#fbsimsearchnet-recall-rankings)|
+|----|------------------|-------|--------|-------|-----------|------|------|--------|-------|----------|--------------|
+|   1|[optanne_graphann](../t3/optanne_graphann/README.md)|Intel|Intel Optane |inprog|**821550.201**|[184,490.708](eval_2021/optanne_graphann/deep-1B_throughput.png) |[343,727.791](eval_2021/optanne_graphann/bigann-1B_throughput.png) |[157,277.710](eval_2021/optanne_graphann/msturing-1B_throughput.png)   |[139,612.021](eval_2021/optanne_graphann/msspacev-1B_throughput.png)  |[10,838.358](eval_2021/optanne_graphann/text2image-1B_throughput.png)     |-         |
+|   2|[gemini](../t3/gemini/README.md)|GSI Technology|LedaE APU |inprog|**34209.040**|[9,150.271](eval_2021/gemini/deep-1B_throughput.png) |[9,504.865](eval_2021/gemini/bigann-1B_throughput.png) |[20,166.678](eval_2021/gemini/msturing-1B_throughput.png)   |[8,587.024](eval_2021/gemini/msspacev-1B_throughput.png)  |[1,196.589](eval_2021/gemini/text2image-1B_throughput.png)     |-         | 
+|   3|[faiss_t3](../t3/faiss_t3/README.md)|Facebook Research|NVidia GPU |final|**baseline**|[4,417.036](eval_2021/faiss_t3/deep-1B_throughput.png) |[3,086.656](eval_2021/faiss_t3/bigann-1B_throughput.png) |[2,359.485](eval_2021/faiss_t3/msturing-1B_throughput.png)   |[2,770.848](eval_2021/faiss_t3/msspacev-1B_throughput.png)  |[1,762.363](eval_2021/faiss_t3/text2image-1B_throughput.png)     |[5,572.272](eval_2021/faiss_t3/ssnpp-1B_throughput.png)         | 
+|   4|                 -|      -|       -|      -|          -|     -|     -|       -|      -|         -|             -|
+|   5|                 -|      -|       -|      -|          -|     -|     -|       -|      -|         -|             -|
+|   6|                 -|      -|       -|      -|          -|     -|     -|       -|      -|         -|             -|
+|   7|                 -|      -|       -|      -|          -|     -|     -|       -|      -|         -|             -|
+|   8|                 -|      -|       -|      -|          -|     -|     -|       -|      -|         -|             -|
+|   9|                 -|      -|       -|      -|          -|     -|     -|       -|      -|         -|             -|
+|  10|                 -|      -|       -|      -|          -|     -|     -|       -|      -|         -|             -|
 
 * A submission must support at least 3 databases to qualify for this ranking.
 * The ranking is based on the score, which is the sum of benchmark improvements of qualifying databases (shown in specific database columns after the score column.)
