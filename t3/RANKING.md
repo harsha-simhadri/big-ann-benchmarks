@@ -93,7 +93,7 @@ At the start of the competition, we had release the following thresholds:
 
 The most recent thresholds have changed from the original for the following reasons:
 * Changes in how recall was computing to deal with ties in distance.
-* Changes in the radius for how the range search dataset
+* Changes in the radius for the range search dataset
 * Also we decided to re-run the measurements of the baseline algorithm on the T3 baseline machine using the current evaluation framework.  The original baselines were measured using a different software framework
 * The original baselines published did not calculate and report baseline cost.
 
