@@ -186,7 +186,7 @@ T3 will maintain four different leaderboards 1) one based on recall/average prec
 
 A performance baseline has been established for this competition, based on both queries per second (qps) and recall/average precision (recall measured as recall@10.)  For the recall leaderboard, we will rank participants by recall@10/average precision at 2K qps.  
 
-The table below shows the baseline recall@10 for all the (knn search type) datasets near 2K qps.
+The table below shows the baseline recall@10 for all the (knn search type) datasets at or above 2K qps ( or as close to it as possible. )
 
 |   dataset    | recall@10 |
 | ------------ | --------- |
@@ -196,7 +196,7 @@ The table below shows the baseline recall@10 for all the (knn search type) datas
 | deep-1B      | 0.943     |
 | msspacev-1B  | 0.909     |
 
-For the throughput leaderboard, we will rank participants by qps at 90% recall@10 (or close to it as possible.) The table below shows the baseline throughput for all the (knn search type) datasets near 90% recall@10.
+For the throughput leaderboard, we will rank participants by qps at or above 90% recall@10 (or close to it as possible.) The table below shows the baseline throughput for all the (knn search type) datasets near 90% recall@10.
 
 |   dataset    |    qps   | 
 | ------------ | -------- | 
