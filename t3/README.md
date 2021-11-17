@@ -188,37 +188,61 @@ A performance baseline has been established for this competition, based on both 
 
 The table below shows the baseline recall@10 for all the (knn search type) datasets near 2K qps.
 
-|   dataset    |    qps   | recall@10 |
-| ------------ | -------- | --------- |
-| msturing-1B  | 2011.542 |   0.910   |
-| bigann-1B    | 2058.950 |   0.927   |
-| text2image-1B| 2120.635 |   0.860   |
-| deep-1B      | 2002.490 |   0.942   |
-| msspacev-1B  | 2190.829 |   0.850   |
+|   dataset    | recall@10 |
+| ------------ | --------- |
+| msturing-1B  | 0.909     |
+| bigann-1B    | 0.927     |
+| text2image-1B| 0.860     |
+| deep-1B      | 0.943     |
+| msspacev-1B  | 0.909     |
 
-For the throughput leaderboard, we will rank participants by qps at 90% recall@10. The table below shows the baseline throughput for all the (knn search type) datasets near 90% recall@10.
+For the throughput leaderboard, we will rank participants by qps at 90% recall@10 (or close to it as possible.) The table below shows the baseline throughput for all the (knn search type) datasets near 90% recall@10.
 
-|   dataset    |    qps   | recall@10 |
-| ------------ | -------- | --------- |
-| msturing-1B  | 2421.856 |   0.902   |
-| bigann-1B    | 2186.755 |   0.905   |
-| text2image-1B| 1510.624 |   0.882   |
-| deep-1B      | 3422.473 |   0.916   |
-| msspacev-1B  | 1484.217 |   0.869   |
+|   dataset    |    qps   | 
+| ------------ | -------- | 
+| msturing-1B  | 2359.485  |  
+| bigann-1B    | 3086.656  |  
+| text2image-1B| 1762.363 |
+| deep-1B      | 4417.036 |
+| msspacev-1B  | 2770.848 |
 
 The following tables show the baseline performance on the range search dataset:
 
 Instead of recall, the range search dataset utilizes average precision:
 
-|   dataset  |    qps   |    ap
-| -----------| ---------| ---------
-| ssnpp-1B   | 2907.414 |   0.979
+|   dataset  |   ap   |
+| -----------| -------| 
+| ssnpp-1B   | 0.979  |
 
 For throughput:
 
-|   dataset  |    qps   |    ap     |
-| -----------| -------- | --------- |
-| ssnpp-1B   | 5572.272 |   0.910   |
+|   dataset  |    qps   |   
+| -----------| -------- | 
+| ssnpp-1B   | 5572.272 |  
+
+The following table shows the baseline performance on all datasets for power:
+
+|   dataset    |    qps   | 
+| ------------ | -------- | 
+| msturing-1B  | 0.204    |  
+| bigann-1B    | 0.167    |  
+| text2image-1B| 0.123    |
+| deep-1B      | 0.113    |
+| msspacev-1B  | 0.167    |
+| ssnpp-1B     | 0.095    |
+
+The following table shows the baseline performance on all datasets for cost:
+
+|   dataset    |    qps          | 
+| ------------ | --------------- | 
+| msturing-1B  | $1,018,332.30   |  
+| bigann-1B    | $785,282.45     |
+| text2image-1B| $1,298,436.77   |
+| deep-1B      | $545,952.10     |
+| msspacev-1B  | $873,460.84     |
+| ssnpp-1B     | $429,634.84     |
+
+
 
 Baselines were measured on an 56 core Intel Xeon system with 700GB RAM and a V100 Nvidia GPU using the FAISS library using the index strategy called IVF1048576,SQ8. 
 
