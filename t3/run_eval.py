@@ -7,7 +7,7 @@ from string import Template
 import t3eval
 
 RE_EXPORT               = False
-ONLY_TEMPLATE_GEN       = True
+ONLY_TEMPLATE_GEN       = False
 
 TOTAL_SUBM              = 10
 COMP_RESULTS_TOPLEVEL   = "/Users/gwilliams/Projects/BigANN/competition_results"
@@ -277,7 +277,7 @@ def produce_rankings(subms):
             # iterate datasets for this benchmark
             dbmapping = { "recall":"R", "qps":"Q", "cost":"C", "power":"P" }
             bestmapping = { "recall":"best_recall", "qps":"best_qps", "power":"best_wspq", "cost":"cost" }
-            bestidxmapping = { "recall":1, "qps":1, "power":2, "cost":-1 }
+            bestidxmapping = { "recall":1, "qps":1, "power":2, "cost":0 }
             bestformatmapping = { "recall": "{:,.3f}", "qps": "{:,.3f}", "power":"{:,.3f}", "cost":"${:,.2f}" }
             DBS = { "deep-1B":"DP", "bigann-1B":"BA", "msturing-1B":"MT", "msspacev-1B":"MS", "text2image-1B":"TI", "ssnpp-1B":"FB" }
             for db in DBS.keys():
@@ -288,7 +288,7 @@ def produce_rankings(subms):
                     best_val = SUBM_MAPPING[subm]["evals"][db][best_benchmark]
                     supported_benchmarks = SUBM_MAPPING[subm]["evals"][db].keys()
                     if best_benchmark in supported_benchmarks:
-                        val = best_val[ bestidxmapping[benchmark] ] if not benchmark=="cost" else best_val
+                        val = best_val[ bestidxmapping[benchmark] ] #if not benchmark=="cost" else best_val
                         fmt = bestformatmapping[benchmark]
                         rdct[kee] = fmt.format(val) if benchmark=="cost" else mklnka( val, fmt, subm, db, benchmark )
                     else:
@@ -346,7 +346,7 @@ def produce_rankings(subms):
                 supported_dbs = SUBM_MAPPING[subm]["evals"].keys()
                 if db in supported_dbs:
                     best_val = SUBM_MAPPING[subm]["evals"][db][ bestmapping[benchmark] ]
-                    val = best_val if benchmark=="cost" else best_val[ bestidxmapping[benchmark] ]
+                    val = best_val[ bestidxmapping[benchmark] ] # if benchmark=="cost" else best_val[ bestidxmapping[benchmark] ]
                     if val!=0: best_vals.append( (subm, val) )
             best_vals = sorted( best_vals, key=lambda x: x[1], reverse=True if benchmark in [ "recall", "qps" ] else False )
             for idx, item in enumerate(best_vals):

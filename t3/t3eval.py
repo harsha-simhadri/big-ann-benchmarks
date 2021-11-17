@@ -105,7 +105,7 @@ class Evaluator():
                         cols = [ self.evals[dataset]["best_recall"][1],
                             self.evals[dataset]["best_qps"][1],
                             self.evals[dataset]["best_wspq"][2],
-                            self.evals[dataset]["cost"] ]
+                            self.evals[dataset]["cost"][0] ]
                         # good change best_wspq and cost were not collected
                         if cols[2]==0.0: cols[2] = None
                         if cols[3]==0.0: cols[3] = None
@@ -387,7 +387,7 @@ class Evaluator():
             "best_recall": best_recall,
             "best_qps": best_qps,
             "best_wspq": best_wspq,
-            "cost": total_cost
+            "cost": [total_cost]
         }
         
         self.evals[dataset] = this_eval
