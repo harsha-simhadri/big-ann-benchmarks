@@ -345,8 +345,10 @@ Capture the machine IP address of the machine which is running IPMICAP ( it does
 
 Now run the following for each competition dataset:
 ```
-python run.py --dataset [DATASET] --t3 --definitions [DEFINITION FILE] --powercapture [IPMICAP_MACHINE_IP]:[IPMICAP_LISTEN_PORT]:[TIME_IN_SECONDS]
+python run.py --dataset [DATASET] --t3 --definitions [DEFINITION FILE] --sensors [S1 S2 ...] --sessions --powercapture [IPMICAP_MACHINE_IP]:[IPMICAP_LISTEN_PORT]:[TIME_IN_SECONDS]
 ```
+where S1, S2,... = the sensor records for all POWER_IN sensors ( please see the IPMCAP documentation to determine these sensor records. )
+
 This will monitor power consumption over that period of time ( 10 seconds is a good number ).
 
 You can retrieve a plot of the power consumptions ( measured as watt-seconds/query ) using the plot.py script.
