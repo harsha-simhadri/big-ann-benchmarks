@@ -63,14 +63,14 @@ The performance of the baseline algorithm factors into the scoring used to rank 
 
 The benchmarks used in the score calculation are listed below for each dataset:
 
-|Dataset            |Recall@10  |Throughput(qps) |Cost(ws/q) |
-|-------------------|-----------|----------------|-----------|
-|deep-1B            |0.943      |4417.036        |0.113      |
-|bigann-1B          |0.927      |3086.656        |0.167      |
-|msturing-1B        |0.909      |2359.485        |0.204      |
-|msspacev-1B        |0.909      |2770.848        |0.167      |
-|text2image-1B      |0.860      |1762.363        |0.123      |
-|ssnpp-1B           |0.979      |5572.272        |0.095      |
+|Dataset            |Recall@10/AP|Throughput(qps) |Cost(wspq) |
+|-------------------|------------|----------------|-----------|
+|deep-1B            |0.943       |4417.036        |0.113      |
+|bigann-1B          |0.927       |3086.656        |0.167      |
+|msturing-1B        |0.909       |2359.485        |0.204      |
+|msspacev-1B        |0.909       |2770.848        |0.167      |
+|text2image-1B      |0.860       |1762.363        |0.123      |
+|ssnpp-1B           |0.979       |5572.272        |0.095      |
 
 ## Measurements
 
@@ -117,15 +117,6 @@ And for throughput:
 | deep-1B      | 3422.473 |   0.916   |
 | msspacev-1B  | 1484.217 |   0.869   |
 
-|   dataset    |    power   |
-| ------------ | -----------|
-| msturing-1B  | 0.203740   |
-| bigann-1B    | 0.167123   |
-| text2image-1B| 0.089675   |
-| deep-1B      | 0.112581   |
-| msspacev-1B  | 0.099569   |
-| ssnpp-1B     | 0.0944865  |
-
 The following tables show the baseline performance on the range search dataset:
 
 Instead of recall, the range search dataset utilizes average precision:
@@ -142,17 +133,17 @@ For throughput:
 
 Here were the published baselines for power:
 
-|   dataset    |    power   |
-| ------------ | -----------|
-| msturing-1B  | 0.203740   |
-| bigann-1B    | 0.167123   |
-| text2image-1B| 0.089675   |
-| deep-1B      | 0.112581   |
-| msspacev-1B  | 0.099569   |
-| ssnpp-1B     | 0.0944865  |
+|   dataset    | power(wspq) |
+| ------------ | ------------|
+| msturing-1B  | 0.203740    |
+| bigann-1B    | 0.167123    |
+| text2image-1B| 0.089675    |
+| deep-1B      | 0.112581    |
+| msspacev-1B  | 0.099569    |
+| ssnpp-1B     | 0.0944865   |
 
 
-The following table lists the full results for baseline performance experiments that informed the original baselines:
+The following table lists the full measurements for baseline performance experiments that informed the original baselines (only recall and throughput are shown.)
 
 |              dbase|    throughtput(qps)|            recall@10|
 |-------------------|--------------------|---------------------|

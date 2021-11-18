@@ -220,9 +220,9 @@ For throughput:
 | -----------| -------- | 
 | ssnpp-1B   | 5572.272 |  
 
-The following table shows the baseline performance on all datasets for power:
+The following table shows the baseline performance on all datasets for power, shown as watt-seconds/query:
 
-|   dataset    |    qps   | 
+|   dataset    |   wspq   | 
 | ------------ | -------- | 
 | msturing-1B  | 0.204    |  
 | bigann-1B    | 0.167    |  
@@ -233,7 +233,7 @@ The following table shows the baseline performance on all datasets for power:
 
 The following table shows the baseline performance on all datasets for cost:
 
-|   dataset    |    qps          | 
+|   dataset    |    cost         | 
 | ------------ | --------------- | 
 | msturing-1B  | $1,018,332.30   |  
 | bigann-1B    | $785,282.45     |
@@ -242,7 +242,7 @@ The following table shows the baseline performance on all datasets for cost:
 | msspacev-1B  | $873,460.84     |
 | ssnpp-1B     | $429,634.84     |
 
-
+Details of how power is measured and how cost is computed are explained further down.
 
 Baselines were measured on an 56 core Intel Xeon system with 700GB RAM and a V100 Nvidia GPU using the FAISS library using the index strategy called IVF1048576,SQ8. 
 
