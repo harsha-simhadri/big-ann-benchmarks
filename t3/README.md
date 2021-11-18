@@ -165,7 +165,7 @@ Your submission's top-level directory should contain a README.md with the follow
 * **Hardware Setup And Software Installation**  This section should contain any hardware and software installation instructions.
 * **Run Competition Algorithm**  This section should contain instructions to run the competition algorithm, for example, run scripts.
 
-Please consult the baseline [README.md](faiss_t3/README.md) example.
+Please consult the baseline [README](faiss_t3/README.md) example.
 
 ### Optional Information
 
