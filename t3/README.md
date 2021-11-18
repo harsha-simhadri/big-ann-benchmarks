@@ -341,13 +341,13 @@ Determine the IP address, port, and authentication credentials of that interface
 
 Follow the instructions at IPMICAP open-source project ( http://www.github.com/fractalsproject/ipmicap ) to access the IPMI and configure it to listen to an available port number.
 
-Capture the machine IP address of the machine which is running IPMICAP ( it does not have to be the same machine as the target hardware. )
+Capture the machine IP address of the machine which is running IPMICAP ( it does not have to be the same machine as the target hardware. 
 
 Now run the following for each competition dataset:
 ```
 python run.py --dataset [DATASET] --t3 --definitions [DEFINITION FILE] --sensors [S1 S2 ...] --sessions --powercapture [IPMICAP_MACHINE_IP]:[IPMICAP_LISTEN_PORT]:[TIME_IN_SECONDS]
 ```
-where S1, S2,... = the sensor records for all POWER_IN sensors ( please see the IPMCAP documentation to determine these sensor records. )
+where S1, S2,... = the sensor records for all POWER_IN sensors ( please see the IPMCAP documentation to determine these sensor records. 
 
 This will monitor power consumption over that period of time ( 10 seconds is a good number ).
 
