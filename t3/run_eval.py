@@ -44,6 +44,16 @@ SUBM_MAPPING            = \
         "display_hw":   "LedaE APU",
         "readme":       "../t3/gemini/README.md"
     },
+    "diskann": {
+        "team":         "Microsoft Research",
+        "results_dir":  "%s/gemini/results.ms_bare_metal" % COMP_RESULTS_TOPLEVEL,
+        "export_fname": "public.csv",
+        "system_cost":  0,
+        "md_prefix":    "MSD",
+        "status":       "inprog",
+        "display_hw":   "Dell",
+        "readme":       "../t3/diskann/README.md"
+    },
     "baseline": "faiss_t3"
 }
 
@@ -429,7 +439,7 @@ def produce_rankings(subms):
  
 if __name__ == "__main__":
 
-    subms = [  "faiss_t3", "optanne_graphann", "gemini" ]
+    subms = [  "faiss_t3", "optanne_graphann", "gemini", "diskann" ]
        
     if not ONLY_TEMPLATE_GEN:
         for subm in subms:
