@@ -10,10 +10,10 @@
 
 |Submission          |Team       |Hardware  |Status |[Recall Rank](#recall-rankings)|[Throughput Rank](#throughput-rankings)|[Power Rank](#power-rankings)|[Cost Rank](#cost-rankings)| 
 |--------------------|-----------|----------|-------|-------------------------------|---------------------------------------|-----------------------------|---------------------------|
-|deepgram            |DeepGram   |NVidia GPU|final  |                             NQ|                                     NQ|                           NQ|                         NQ|
-|[diskann](../t3/diskann-bare-metal/README.md)  |Microsoft Research    |Dell PowerEdge   |inprog |[1](#recall-rankings)                       -|[2](#throughput-rankings)                               -|NQ                     -|NQ                   -|
-|[faiss_t3](../t3/faiss_t3/README.md)    |Facebook Research     |NVidia GPU    |final  |[4](#recall-rankings)                         |[4](#throughput-rankings)                                 |[3](#power-rankings)                       |[2](#cost-rankings)                     |
-|[gemini](../t3/gemini/README.md)  |GSI Technology    |LedaE APU   |inprog |[2](#recall-rankings)                        |[3](#throughput-rankings)                                |[2](#power-rankings)                      |[3](#cost-rankings)                    |
+|deepgram            |DeepGram   |NVidia GPU|final  |                           *NQ*|                                     NQ|                           NQ|                         NQ|
+|[diskann](../t3/diskann-bare-metal/README.md)  |Microsoft Research(*org*)    |Dell PowerEdge   |inprog |[1](#recall-rankings)                       -|[2](#throughput-rankings)                               -|NQ                     -|NQ                   -|
+|[faiss_t3](../t3/faiss_t3/README.md)    |Facebook Research(*org*)     |NVidia GPU    |final  |[4](#recall-rankings)                         |[4](#throughput-rankings)                                 |[3](#power-rankings)                       |[2](#cost-rankings)                     |
+|[gemini](../t3/gemini/README.md)  |GSI Technology(*org*)    |LedaE APU   |inprog |[2](#recall-rankings)                        |[3](#throughput-rankings)                                |[2](#power-rankings)                      |[3](#cost-rankings)                    |
 |kanndi              |Silo.ai    |LedaE APU   |inprog |                              -|                                      -|                            -|                          -|
 |nvidia_single_gpu   |NVidia     |NVidia GPU|inprog |                              -|                                      -|                            -|                          -|
 |nvidia_multi_gpu    |NVidia     |NVidia GPU|inprog |                              -|                                      -|                            -|                          -|

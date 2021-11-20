@@ -22,7 +22,8 @@ SUBM_MAPPING            = \
         "md_prefix":    "BS",
         "status":       "final",
         "display_hw":   "NVidia GPU",
-        "readme":       "../t3/faiss_t3/README.md"
+        "readme":       "../t3/faiss_t3/README.md",
+        "org":          True
     },
     "optanne_graphann": {
         "team":         "Intel",
@@ -32,7 +33,8 @@ SUBM_MAPPING            = \
         "md_prefix":    "OPT1",
         "status":       "inprog",
         "display_hw":   "Intel Optane",
-        "readme":       "../t3/optanne_graphann/README.md"
+        "readme":       "../t3/optanne_graphann/README.md",
+        "org":          False
     },
     "gemini": {
         "team":         "GSI Technology",
@@ -42,7 +44,8 @@ SUBM_MAPPING            = \
         "md_prefix":    "GEM",
         "status":       "inprog",
         "display_hw":   "LedaE APU",
-        "readme":       "../t3/gemini/README.md"
+        "readme":       "../t3/gemini/README.md",
+        "org":          True
     },
     "diskann": {
         "team":         "Microsoft Research",
@@ -53,7 +56,8 @@ SUBM_MAPPING            = \
         "md_prefix":    "MSD",
         "status":       "inprog",
         "display_hw":   "Dell PowerEdge",
-        "readme":       "../t3/diskann-bare-metal/README.md"
+        "readme":       "../t3/diskann-bare-metal/README.md",
+        "org":          True
     },
     "baseline": "faiss_t3"
 }
@@ -249,13 +253,11 @@ def produce_rankings(subms):
             for mapping in [ ["recall","RR"], [ "qps", "QR" ], [ "power", "PR" ], [ "cost", "CR" ] ]:
                 kee = "$" + SUBM_MAPPING[subm]['md_prefix']+"_"+ mapping[1]
                 subm_order = [ el[0] for el in orderings[mapping[0]] ]
-                #lnk = mklnkr( subm_order.index(subm)+1, mapping[0] )
-                #rdct[kee] = str(subm_order.index(subm)+1) if subm in subm_order else "NQ"
                 rdct[kee] = mklnkr( subm_order.index(subm)+1, mapping[0] ) if subm in subm_order else "NQ"
             kee = "$" + SUBM_MAPPING[subm]['md_prefix']+"_HW"
             rdct[kee] = SUBM_MAPPING[subm]["display_hw"]
             kee = "$" + SUBM_MAPPING[subm]['md_prefix']+"_TM"
-            rdct[kee] = SUBM_MAPPING[subm]['team']
+            rdct[kee] = SUBM_MAPPING[subm]['team'] if not SUBM_MAPPING[subm]['org'] else SUBM_MAPPING[subm]['team']+"(*org*)"
             kee = "$" + SUBM_MAPPING[subm]['md_prefix']+"_SB"
             rdct[kee] = subm
             kee = "$" + SUBM_MAPPING[subm]['md_prefix']+"_RD"
