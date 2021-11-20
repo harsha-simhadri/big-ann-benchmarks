@@ -8,7 +8,7 @@
 
 ### Rankings By Submission Name (alphabetical)
 
-|Submission          |Team       |Hardware  |Status |[Recall Rank](#recall-ap-rankings)|[Throughput Rank](#throughput-rankings)|[Power Rank](#power-rankings)|[Cost Rank](#cost-rankings)| 
+|Submission          |Team       |Hardware  |Status |[Recall Rank](#recall-ap-or-rankings)|[Throughput Rank](#throughput-rankings)|[Power Rank](#power-rankings)|[Cost Rank](#cost-rankings)| 
 |--------------------|-----------|----------|-------|-------------------------------|---------------------------------------|-----------------------------|---------------------------|
 |deepgram            |DeepGram   |NVidia GPU|final  |                           *NQ*|                                   *NQ*|                         *NQ*|                       *NQ*|
 |[diskann](../t3/diskann-bare-metal/README.md)  |Microsoft Research(*org*)    |Dell PowerEdge   |inprog |[1](#recall-rankings)                        |[2](#throughput-rankings)                                |*NQ*                      |*NQ*                    |
