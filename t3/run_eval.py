@@ -278,7 +278,7 @@ def produce_rankings(subms):
                 rdct[kee] = subm
                 # team
                 kee = "$%s%d_TM" % ( mapping[benchmark], idx+1)
-                rdct[kee] = SUBM_MAPPING[subm]["team"]
+                rdct[kee] = SUBM_MAPPING[subm]['team'] if not SUBM_MAPPING[subm]['org'] else SUBM_MAPPING[subm]['team']+"(*org*)"
                 # display hardware
                 hw = SUBM_MAPPING[subm]["display_hw"]
                 kee = "$%s%d_HW" % ( mapping[benchmark], idx+1)
@@ -377,7 +377,7 @@ def produce_rankings(subms):
                     kv = item[0]
                     rdct[kee]=kv
                     kee = "$%s%d%s_TM" % ( DBS[db], idx+1, dbmapping[benchmark] )
-                    kv = SUBM_MAPPING[item[0]]["team"]
+                    kv = SUBM_MAPPING[item[0]]['team'] if not SUBM_MAPPING[item[0]]['org'] else SUBM_MAPPING[item[0]]['team']+"(*org*)"
                     rdct[kee]=kv
                     kee = "$%s%d%s_ST" % ( DBS[db], idx+1, dbmapping[benchmark] )
                     kv = SUBM_MAPPING[subm]["status"]
