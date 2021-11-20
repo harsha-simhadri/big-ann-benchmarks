@@ -253,7 +253,7 @@ def produce_rankings(subms):
             for mapping in [ ["recall","RR"], [ "qps", "QR" ], [ "power", "PR" ], [ "cost", "CR" ] ]:
                 kee = "$" + SUBM_MAPPING[subm]['md_prefix']+"_"+ mapping[1]
                 subm_order = [ el[0] for el in orderings[mapping[0]] ]
-                rdct[kee] = mklnkr( subm_order.index(subm)+1, mapping[0] ) if subm in subm_order else "NQ"
+                rdct[kee] = mklnkr( subm_order.index(subm)+1, mapping[0] ) if subm in subm_order else "*NQ*"
             kee = "$" + SUBM_MAPPING[subm]['md_prefix']+"_HW"
             rdct[kee] = SUBM_MAPPING[subm]["display_hw"]
             kee = "$" + SUBM_MAPPING[subm]['md_prefix']+"_TM"
