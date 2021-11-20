@@ -8,7 +8,7 @@
 
 ### Rankings By Submission Name (alphabetical)
 
-|Submission          |Team       |Hardware  |Status |[Recall Rank](#recall-rankings)|[Throughput Rank](#throughput-rankings)|[Power Rank](#power-rankings)|[Cost Rank](#cost-rankings)| 
+|Submission          |Team       |Hardware  |Status |[Recall Rank](#recall/ap-rankings)|[Throughput Rank](#throughput-rankings)|[Power Rank](#power-rankings)|[Cost Rank](#cost-rankings)| 
 |--------------------|-----------|----------|-------|-------------------------------|---------------------------------------|-----------------------------|---------------------------|
 |deepgram            |DeepGram   |NVidia GPU|final  |                           *NQ*|                                   *NQ*|                         *NQ*|                       *NQ*|
 |[$MSD_SB]($MSD_RD)  |$MSD_TM    |$MSD_HW   |inprog |$MSD_RR                        |$MSD_QR                                |$MSD_PR                      |$MSD_CR                    |
@@ -32,9 +32,9 @@
 
 ### Rankings Per Metric
 
-#### Recall Rankings 
+#### Recall/AP Rankings 
 
-|Rank|Submission        |Team   |Hardware|Status |Score      |[Deep1B](#deep1B-recall-rankings)|[BigANN](#bigann-recall-rankings)|[MSTuring](#msturing-recall-rankings)|[MSSpace](#msspace-recall-rankings)|[Text2Image](#text2image-recall-rankings)|[FBSSNet](#fbsimsearchnet-recall-rankings)|
+|Rank|Submission        |Team   |Hardware|Status |Score      |[Deep1B](#deep1B-recall-rankings)|[BigANN](#bigann-recall-rankings)|[MSTuring](#msturing-recall-rankings)|[MSSpace](#msspace-recall-rankings)|[Text2Image](#text2image-recall-rankings)|[FBSSNet](#fbsimsearchnet-ap-rankings)|
 |----|------------------|-------|--------|-------|-----------|------|------|--------|-------|----------|-------|
 |   1|[$RR1_SB]($RR1_RD)|$RR1_TM|$RR1_HW |$RR1_ST|**$RR1_SC**|$DPR1 |$BAR1 |$MTR1   |$MSR1  |$TIR1     |$FBR1  |
 |   2|[$RR2_SB]($RR2_RD)|$RR2_TM|$RR2_HW |$RR2_ST|**$RR2_SC**|$DPR2 |$BAR2 |$MTR2   |$MSR2  |$TIR2     |$FBR2  |
@@ -612,9 +612,9 @@
 
 #### FBSimSearchNet
 
-##### FBSimSearchNet Recall Rankings
+##### FBSimSearchNet AP Rankings
 
-|Rank|Submission                                             |Team                          |Hardware               |Status  |R@10         |
+|Rank|Submission                                             |Team                          |Hardware               |Status  |AP          |
 |----|-------------------------------------------------------|------------------------------|-----------------------|--------|-------------|
 |   1|[$FB1R_SB]($FB1R_RD)                                   |$FB1R_TM                      |$FB1R_HW               |$FB1R_ST|**$FB1R_V**  |
 |   2|[$FB2R_SB]($FB2R_RD)                                   |$FB2R_TM                      |$FB2R_HW               |$FB2R_ST|**$FB2R_V**  |
@@ -649,7 +649,7 @@
 |   9|                                                      -|                             -|                      -|       -|           -|
 |  10|                                                      -|                             -|                      -|       -|           -|
 
-* The operational point for ranking is 0.9 recall@10. We will use the highest throughput for the search parameters that meet or exceed 0.9 recall@10.
+* The operational point for ranking is 0.9 recall@10. We will use the highest throughput for the search parameters that meet or exceed 0.9 average precision.
 * Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
@@ -672,7 +672,7 @@
 |   9|                                                      -|                             -|                      -|       -|          -|
 |  10|                                                      -|                             -|                      -|       -|          -|
 
-* The operational point for ranking is 0.9 recall@10. We will use the lowest power consumption for the search parameters that meet or exceed 0.9 recall@10.
+* The operational point for ranking is 0.9 recall@10. We will use the lowest power consumption for the search parameters that meet or exceed 0.9 average precision.
 * Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions

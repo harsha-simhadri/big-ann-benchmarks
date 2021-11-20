@@ -8,7 +8,7 @@
 
 ### Rankings By Submission Name (alphabetical)
 
-|Submission          |Team       |Hardware  |Status |[Recall Rank](#recall-rankings)|[Throughput Rank](#throughput-rankings)|[Power Rank](#power-rankings)|[Cost Rank](#cost-rankings)| 
+|Submission          |Team       |Hardware  |Status |[Recall Rank](#recall/ap-rankings)|[Throughput Rank](#throughput-rankings)|[Power Rank](#power-rankings)|[Cost Rank](#cost-rankings)| 
 |--------------------|-----------|----------|-------|-------------------------------|---------------------------------------|-----------------------------|---------------------------|
 |deepgram            |DeepGram   |NVidia GPU|final  |                           *NQ*|                                   *NQ*|                         *NQ*|                       *NQ*|
 |[diskann](../t3/diskann-bare-metal/README.md)  |Microsoft Research(*org*)    |Dell PowerEdge   |inprog |[1](#recall-rankings)                        |[2](#throughput-rankings)                                |*NQ*                      |*NQ*                    |
@@ -32,9 +32,9 @@
 
 ### Rankings Per Metric
 
-#### Recall Rankings 
+#### Recall/AP Rankings 
 
-|Rank|Submission        |Team   |Hardware|Status |Score      |[Deep1B](#deep1B-recall-rankings)|[BigANN](#bigann-recall-rankings)|[MSTuring](#msturing-recall-rankings)|[MSSpace](#msspace-recall-rankings)|[Text2Image](#text2image-recall-rankings)|[FBSSNet](#fbsimsearchnet-recall-rankings)|
+|Rank|Submission        |Team   |Hardware|Status |Score      |[Deep1B](#deep1B-recall-rankings)|[BigANN](#bigann-recall-rankings)|[MSTuring](#msturing-recall-rankings)|[MSSpace](#msspace-recall-rankings)|[Text2Image](#text2image-recall-rankings)|[FBSSNet](#fbsimsearchnet-ap-rankings)|
 |----|------------------|-------|--------|-------|-----------|------|------|--------|-------|----------|-------|
 |   1|[diskann](../t3/diskann-bare-metal/README.md)|Microsoft Research(*org*)|Dell PowerEdge |inprog|**0.420**|[0.99821](eval_2021/diskann-bare-metal/deep-1B_recall.png) |[0.99976](eval_2021/diskann-bare-metal/bigann-1B_recall.png) |[0.99444](eval_2021/diskann-bare-metal/msturing-1B_recall.png)   |[0.99342](eval_2021/diskann-bare-metal/msspacev-1B_recall.png)  |[0.98130](eval_2021/diskann-bare-metal/text2image-1B_recall.png)     |-  |
 |   2|[gemini](../t3/gemini/README.md)|GSI Technology(*org*)|LedaE APU |inprog|**0.280**|[0.98871](eval_2021/gemini/deep-1B_recall.png) |[0.99253](eval_2021/gemini/bigann-1B_recall.png) |[0.97841](eval_2021/gemini/msturing-1B_recall.png)   |[0.98622](eval_2021/gemini/msspacev-1B_recall.png)  |[0.88163](eval_2021/gemini/text2image-1B_recall.png)     |-  |
@@ -612,9 +612,9 @@
 
 #### FBSimSearchNet
 
-##### FBSimSearchNet Recall Rankings
+##### FBSimSearchNet AP Rankings
 
-|Rank|Submission                                             |Team                          |Hardware               |Status  |R@10         |
+|Rank|Submission                                             |Team                          |Hardware               |Status  |AP          |
 |----|-------------------------------------------------------|------------------------------|-----------------------|--------|-------------|
 |   1|[faiss_t3](../t3/faiss_t3/README.md)                                   |Facebook Research(*org*)                      |NVidia GPU               |final|**[0.97863](eval_2021/faiss_t3/ssnpp-1B_recall.png)**  |
 |   2|[-](-)                                   |-                      |-               |-|**-**  |
@@ -649,7 +649,7 @@
 |   9|                                                      -|                             -|                      -|       -|           -|
 |  10|                                                      -|                             -|                      -|       -|           -|
 
-* The operational point for ranking is 0.9 recall@10. We will use the highest throughput for the search parameters that meet or exceed 0.9 recall@10.
+* The operational point for ranking is 0.9 recall@10. We will use the highest throughput for the search parameters that meet or exceed 0.9 average precision.
 * Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
@@ -672,7 +672,7 @@
 |   9|                                                      -|                             -|                      -|       -|          -|
 |  10|                                                      -|                             -|                      -|       -|          -|
 
-* The operational point for ranking is 0.9 recall@10. We will use the lowest power consumption for the search parameters that meet or exceed 0.9 recall@10.
+* The operational point for ranking is 0.9 recall@10. We will use the lowest power consumption for the search parameters that meet or exceed 0.9 average precision.
 * Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
