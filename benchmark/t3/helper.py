@@ -33,13 +33,13 @@ def t3_create_container( definition, cmd, cpu_limit, mem_limit):
         container.start()
         return container
 
-    # GraphANN specific setup
-    # 1. Need to mount PM drives into the container.
-    # Currently, this mounts "/mnt/pm0/public" into "/home/app/indices"
-    #
-    # 2. Need to allow the docker container to run NUMACTL.
-    # Do this by adding the `SYS_NICE` attributs to the container's capabilities.
-    elif definition.algorithm in [ 'graphann' ]:
+    elif definition.algorithm in [ 'diskann-vm-l8sv2', 'diskann-bare-metal', 'graphann' ]:
+        # GraphANN specific setup
+        # 1. Need to mount PM drives into the container.
+        # Currently, this mounts "/mnt/pm0/public" into "/home/app/indices"
+        #
+        # 2. Need to allow the docker container to run NUMACTL.
+        # Do this by adding the `SYS_NICE` attributs to the container's capabilities.
         print("Launching Container")
         client = docker.from_env()
         container = client.containers.run(
@@ -70,11 +70,10 @@ def t3_create_container( definition, cmd, cpu_limit, mem_limit):
             cpuset_cpus=cpu_limit,
             mem_limit=mem_limit,
             detach=True)
-
+        
         container.start()
         return container
-
-
+    
     else:
         raise Exception("Docker invoke not supported for this algorithm.")
 
