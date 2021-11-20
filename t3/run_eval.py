@@ -431,9 +431,9 @@ def produce_rankings(subms):
                     rdct[kee]='-'
                     kee = "$%s%d%s_UC" % ( DBS[db], i+1, dbmapping[benchmark])
                     rdct[kee]='-'
-                    kee = "$%s%d%s_UN" % ( DBS[db], 1, dbmapping[benchmark])
+                    kee = "$%s%d%s_UN" % ( DBS[db], i+1, dbmapping[benchmark])
                     rdct[kee]='-'
-                    kee = "$%s%d%s_KWT" % ( DBS[db], 1, dbmapping[benchmark])
+                    kee = "$%s%d%s_KWT" % ( DBS[db], i+1, dbmapping[benchmark])
                     rdct[kee]='-'
     
     # retrieve data and compute rankings             
