@@ -52,7 +52,7 @@ SUBM_MAPPING            = \
         "system_cost":  0,
         "md_prefix":    "MSD",
         "status":       "inprog",
-        "display_hw":   "Dell",
+        "display_hw":   "Dell PowerEdge",
         "readme":       "../t3/diskann-bare-metal/README.md"
     },
     "baseline": "faiss_t3"
