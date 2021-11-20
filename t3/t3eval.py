@@ -285,9 +285,9 @@ class Evaluator():
         print("evaluating %s" % dataset)
 
         rows = self.df.loc[ self.df['dataset'] == dataset ] 
-        if rows.shape[0]> self.competition["max_run_params"]:
-            print("Invalid number of run parameters at %d" % rows.shape[0])
-            return False
+        #if rows.shape[0]> self.competition["max_run_params"]:
+        #    print("Invalid number of run parameters at %d" % rows.shape[0])
+        #    return False
 
         if len(rows)==0:
             if self.verbose: print("Warning: No data for %s present" % dataset)
@@ -336,21 +336,25 @@ class Evaluator():
         #
         # eval power benchmark
         #
-        wspq = rows["wspq"].tolist()
-        if self.verbose: print("for power, min_qps=%f min_recall=%f " % (min_qps,min_recall))
-        qualifiers = [ el for el in list(zip(recall, qps, wspq, parameters )) if el[0]>=min_recall and el[1]>min_qps ]
-        if self.verbose: print("qualifiers at min_qps=%f and min_recall=%f" % (min_qps, min_recall), qualifiers)
-        if len(qualifiers)==0:
-            if self.verbose: print("WARNING: NO qualifying power runs meeting both min_qps and min_recall...")
-            # fall back to min_recall threshold
-            qualifiers = [ el for el in list(zip(recall, qps, wspq, parameters)) if el[0]>=min_recall ]
+        if "wspq" in rows.keys():
+            wspq = rows["wspq"].tolist()
+            if self.verbose: print("for power, min_qps=%f min_recall=%f " % (min_qps,min_recall))
+            qualifiers = [ el for el in list(zip(recall, qps, wspq, parameters )) if el[0]>=min_recall and el[1]>min_qps ]
+            if self.verbose: print("qualifiers at min_qps=%f and min_recall=%f" % (min_qps, min_recall), qualifiers)
             if len(qualifiers)==0:
-                qualifiers = [ el for el in list(zip(recall, qps, wspq, parameters)) ]
-                if self.verbose: print("WARNING: NEW qualifiers at min_recall=%f" % min_recall, qualifiers)
+                if self.verbose: print("WARNING: NO qualifying power runs meeting both min_qps and min_recall...")
+                # fall back to min_recall threshold
+                qualifiers = [ el for el in list(zip(recall, qps, wspq, parameters)) if el[0]>=min_recall ]
                 if len(qualifiers)==0:
-                    print("No qualifying power runs meeting min_recall...")
-                    return False
-        best_wspq = sorted(qualifiers,key=lambda x: x[2])[0]
+                    qualifiers = [ el for el in list(zip(recall, qps, wspq, parameters)) ]
+                    if self.verbose: print("WARNING: NEW qualifiers at min_recall=%f" % min_recall, qualifiers)
+                    if len(qualifiers)==0:
+                        print("No qualifying power runs meeting min_recall...")
+                        return False
+            best_wspq = sorted(qualifiers,key=lambda x: x[2])[0]
+        else:
+            wspq = []
+            best_wspq = [0,0,0]
         if self.verbose or self.print_best: print("Best power at", best_wspq, qualifiers[-1])
 
         #
@@ -389,7 +393,7 @@ class Evaluator():
             "best_recall": best_recall,
             "best_qps": best_qps,
             "best_wspq": best_wspq,
-            "cost": [total_cost, capex, opex, self.system_cost, no_units, opex_kwh_per_query*opex_tot_queries]
+            "cost": [total_cost, capex, opex, self.system_cost, no_units, opex_kwh_per_query*opex_tot_queries] if len(wspq)>0 else [0,0,0,0,0,0]
         }
         
         self.evals[dataset] = this_eval
