@@ -171,7 +171,6 @@ def mklnka( val, fmt, subm, db, benchmark ):
     if benchmark=="qps": benchmark="throughput"
     use_subm = SUBM_MAPPING[subm]["use_subm_dir"] \
         if "use_subm_dir" in SUBM_MAPPING[subm].keys() else subm
-
     eval_img = os.path.join( "eval_2021", use_subm, "%s_%s.png" % (db, benchmark) )
     print("eval img", val, fmt, subm, db, benchmark, "-->", eval_img)
     lnk = "[%s](%s)" % ( fmt.format(val), eval_img )
@@ -375,15 +374,16 @@ def produce_rankings(subms):
                 for idx, item in enumerate(best_vals):
                     kee = "$%s%d%s_SB" % ( DBS[db], idx+1, dbmapping[benchmark] )
                     kv = item[0]
+                    #print("KV", kee, kv )
                     rdct[kee]=kv
                     kee = "$%s%d%s_TM" % ( DBS[db], idx+1, dbmapping[benchmark] )
                     kv = SUBM_MAPPING[item[0]]['team'] if not SUBM_MAPPING[item[0]]['org'] else SUBM_MAPPING[item[0]]['team']+"(*org*)"
                     rdct[kee]=kv
                     kee = "$%s%d%s_ST" % ( DBS[db], idx+1, dbmapping[benchmark] )
-                    kv = SUBM_MAPPING[subm]["status"]
+                    kv = SUBM_MAPPING[item[0]]["status"]
                     rdct[kee]=kv
                     kee = "$%s%d%s_RD" % ( DBS[db], idx+1, dbmapping[benchmark] )
-                    kv = SUBM_MAPPING[subm]["readme"]
+                    kv = SUBM_MAPPING[item[0]]["readme"]
                     rdct[kee]=kv
                     kee = "$%s%d%s_HW" % ( DBS[db], idx+1, dbmapping[benchmark])
                     kv = SUBM_MAPPING[item[0]]["display_hw"]
