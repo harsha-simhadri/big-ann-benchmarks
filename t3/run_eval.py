@@ -46,8 +46,9 @@ SUBM_MAPPING            = \
     },
     "diskann": {
         "team":         "Microsoft Research",
+        "use_subm_dir": "diskann-bare-metal",
         "results_dir":  "%s/gemini/results.ms_bare_metal" % COMP_RESULTS_TOPLEVEL,
-        "export_fname": "public.csv",
+        "export_fname": "res.csv",
         "system_cost":  0,
         "md_prefix":    "MSD",
         "status":       "inprog",
@@ -78,7 +79,9 @@ def process_subm( subm ):
     print("processing subm=%s" % subm)
 
     # check submexists under eval dir
-    eval_subm_dir = os.path.join( T3_EVAL_TOPLEVEL, subm )
+    subm_dir = SUBM_MAPPING[subm]["use_subm_dir"] \
+        if "use_subm_dir" in SUBM_MAPPING[subm].keys() else subm
+    eval_subm_dir = os.path.join( T3_EVAL_TOPLEVEL, subm_dir )
     print("checking %s exists..." % eval_subm_dir)
     if not os.path.exists( eval_subm_dir ):
         print("path does not exist: ", eval_subm_dir )
@@ -92,10 +95,12 @@ def process_subm( subm ):
   
     # check there is a data export file 
     do_export = False
-    export_file = os.path.join( eval_subm_dir, SUBM_MAPPING[subm]["export_fname"])
+    export_file = os.path.join( eval_subm_dir, SUBM_MAPPING[subm]["export_fname"] )
+    print("EXP FILE", export_file)
     if not os.path.exists( export_file ):
         print("path does not exist: ", export_file )
-        do_export = True
+        # do_export = True
+        sys.exit(1)
 
     # create export.csv from results directory as needed
     exported = False
