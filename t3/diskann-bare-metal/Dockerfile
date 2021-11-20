@@ -21,6 +21,8 @@ RUN echo "/opt/intel/mkl/lib/intel64" >> /etc/ld.so.conf.d/mkl.conf
 RUN ldconfig
 RUN echo "MKL_THREADING_LAYER=GNU" >> /etc/environment
 
+RUN apt-get install -y numactl
+
 RUN git clone --single-branch --branch python_bindings_diskann https://github.com/microsoft/diskann
 RUN mkdir -p diskann/build
 RUN cd diskann/build && cmake -DCMAKE_BUILD_TYPE=Release ..

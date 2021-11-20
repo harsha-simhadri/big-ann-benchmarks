@@ -24,7 +24,7 @@ random-xs:
               [{"Ls":10, "BW":4, "T":16}]
 deep-1B:
     diskann-bare-metal:
-      docker-tag: billion-scale-benchmark-diskann
+      docker-tag: billion-scale-benchmark-diskann-bare-metal
       module: benchmark.algorithms.diskann-t2
       constructor: Diskann
       base-args: ["@metric"]
