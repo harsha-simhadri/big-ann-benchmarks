@@ -9,6 +9,8 @@ import t3eval
 RE_EXPORT               = False
 ONLY_TEMPLATE_GEN       = True
 
+OFFICIAL                = False
+
 TOTAL_SUBM              = 10
 COMP_RESULTS_TOPLEVEL   = "/Users/gwilliams/Projects/BigANN/competition_results"
 T3_EVAL_TOPLEVEL        = "t3/eval_2021"
@@ -451,6 +453,9 @@ def produce_rankings(subms):
         kee = "$" + SUBM_MAPPING[subm]['md_prefix']+"_S"
         rdct[kee] = SUBM_MAPPING[subm]['status']
 
+    # replace offlabel status
+    rdct["$OFFLABEL"] = "Official" if OFFICIAL else "Unofficial"
+
     # load the leaderboard template
     f = open("t3/LEADERBOARDS.md.templ")
     lines = f.read()
@@ -458,8 +463,6 @@ def produce_rankings(subms):
     templ = Template(lines)
 
     # do the substitution and create new leaderboard
-    #print("Substitution dct=", rdct)
-    #outp = templ.substitute( GEM_RR="stuff" ) #**rdct )
     outp = lines
     for kee in rdct.keys():
         outp = outp.replace( kee, rdct[kee] )
