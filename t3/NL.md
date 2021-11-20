@@ -11,7 +11,7 @@
 |Submission          |Team       |Hardware  |Status |[Recall Rank](#recall-rankings)|[Throughput Rank](#throughput-rankings)|[Power Rank](#power-rankings)|[Cost Rank](#cost-rankings)| 
 |--------------------|-----------|----------|-------|-------------------------------|---------------------------------------|-----------------------------|---------------------------|
 |deepgram            |DeepGram   |NVidia GPU|final  |                           *NQ*|                                   *NQ*|                         *NQ*|                       *NQ*|
-|[diskann](../t3/diskann-bare-metal/README.md)  |Microsoft Research(*org*)    |Dell PowerEdge   |inprog |[1](#recall-rankings)                       -|[2](#throughput-rankings)                                |*NQ*                      |*NQ*                    |
+|[diskann](../t3/diskann-bare-metal/README.md)  |Microsoft Research(*org*)    |Dell PowerEdge   |inprog |[1](#recall-rankings)                        |[2](#throughput-rankings)                                |*NQ*                      |*NQ*                    |
 |[faiss_t3](../t3/faiss_t3/README.md)    |Facebook Research(*org*)     |NVidia GPU    |final  |[4](#recall-rankings)                         |[4](#throughput-rankings)                                 |[3](#power-rankings)                       |[2](#cost-rankings)                     |
 |[gemini](../t3/gemini/README.md)  |GSI Technology(*org*)    |LedaE APU   |inprog |[2](#recall-rankings)                        |[3](#throughput-rankings)                                |[2](#power-rankings)                      |[3](#cost-rankings)                    |
 |kanndi              |Silo.ai    |LedaE APU   |inprog |                              -|                                      -|                            -|                          -|
@@ -36,10 +36,10 @@
 
 |Rank|Submission        |Team   |Hardware|Status |Score      |[Deep1B](#deep1B-recall-rankings)|[BigANN](#bigann-recall-rankings)|[MSTuring](#msturing-recall-rankings)|[MSSpace](#msspace-recall-rankings)|[Text2Image](#text2image-recall-rankings)|[FBSSNet](#fbsimsearchnet-recall-rankings)|
 |----|------------------|-------|--------|-------|-----------|------|------|--------|-------|----------|-------|
-|   1|[diskann](../t3/diskann-bare-metal/README.md)|Microsoft Research|Dell PowerEdge |inprog|**0.420**|[0.998](eval_2021/diskann/deep-1B_recall.png) |[1.000](eval_2021/diskann/bigann-1B_recall.png) |[0.994](eval_2021/diskann/msturing-1B_recall.png)   |[0.993](eval_2021/diskann/msspacev-1B_recall.png)  |[0.981](eval_2021/diskann/text2image-1B_recall.png)     |-  |
-|   2|[gemini](../t3/gemini/README.md)|GSI Technology|LedaE APU |inprog|**0.280**|[0.989](eval_2021/gemini/deep-1B_recall.png) |[0.993](eval_2021/gemini/bigann-1B_recall.png) |[0.978](eval_2021/gemini/msturing-1B_recall.png)   |[0.986](eval_2021/gemini/msspacev-1B_recall.png)  |[0.882](eval_2021/gemini/text2image-1B_recall.png)     |-  |
-|   3|[optanne_graphann](../t3/optanne_graphann/README.md)|Intel|Intel Optane |inprog|**0.279**|[0.983](eval_2021/optanne_graphann/deep-1B_recall.png) |[0.991](eval_2021/optanne_graphann/bigann-1B_recall.png) |[0.962](eval_2021/optanne_graphann/msturing-1B_recall.png)   |[0.988](eval_2021/optanne_graphann/msspacev-1B_recall.png)  |[0.903](eval_2021/optanne_graphann/text2image-1B_recall.png)     |-  |
-|   4|[faiss_t3](../t3/faiss_t3/README.md)|Facebook Research|NVidia GPU |final|**baseline**|[0.943](eval_2021/faiss_t3/deep-1B_recall.png) |[0.927](eval_2021/faiss_t3/bigann-1B_recall.png) |[0.909](eval_2021/faiss_t3/msturing-1B_recall.png)   |[0.909](eval_2021/faiss_t3/msspacev-1B_recall.png)  |[0.860](eval_2021/faiss_t3/text2image-1B_recall.png)     |[0.979](eval_2021/faiss_t3/ssnpp-1B_recall.png)  |
+|   1|[diskann](../t3/diskann-bare-metal/README.md)|Microsoft Research|Dell PowerEdge |inprog|**0.420**|[0.998](eval_2021/diskann-bare-metal/deep-1B_recall.png) |[1.000](eval_2021/diskann-bare-metal/bigann-1B_recall.png) |[0.994](eval_2021/diskann-bare-metal/msturing-1B_recall.png)   |[0.993](eval_2021/diskann-bare-metal/msspacev-1B_recall.png)  |[0.981](eval_2021/diskann-bare-metal/text2image-1B_recall.png)     |-  |
+|   2|[gemini](../t3/gemini/README.md)|GSI Technology|LedaE APU |inprog|**0.280**|[0.989](eval_2021/diskann-bare-metal/deep-1B_recall.png) |[0.993](eval_2021/diskann-bare-metal/bigann-1B_recall.png) |[0.978](eval_2021/diskann-bare-metal/msturing-1B_recall.png)   |[0.986](eval_2021/diskann-bare-metal/msspacev-1B_recall.png)  |[0.882](eval_2021/diskann-bare-metal/text2image-1B_recall.png)     |-  |
+|   3|[optanne_graphann](../t3/optanne_graphann/README.md)|Intel|Intel Optane |inprog|**0.279**|[0.983](eval_2021/diskann-bare-metal/deep-1B_recall.png) |[0.991](eval_2021/diskann-bare-metal/bigann-1B_recall.png) |[0.962](eval_2021/diskann-bare-metal/msturing-1B_recall.png)   |[0.988](eval_2021/diskann-bare-metal/msspacev-1B_recall.png)  |[0.903](eval_2021/diskann-bare-metal/text2image-1B_recall.png)     |-  |
+|   4|[faiss_t3](../t3/faiss_t3/README.md)|Facebook Research|NVidia GPU |final|**baseline**|[0.943](eval_2021/diskann-bare-metal/deep-1B_recall.png) |[0.927](eval_2021/diskann-bare-metal/bigann-1B_recall.png) |[0.909](eval_2021/diskann-bare-metal/msturing-1B_recall.png)   |[0.909](eval_2021/diskann-bare-metal/msspacev-1B_recall.png)  |[0.860](eval_2021/diskann-bare-metal/text2image-1B_recall.png)     |[0.979](eval_2021/diskann-bare-metal/ssnpp-1B_recall.png)  |
 |   5|                 -|      -|       -|      -|          -|     -|     -|       -|      -|         -|      -|   
 |   6|                 -|      -|       -|      -|          -|     -|     -|       -|      -|         -|      -|
 |   7|                 -|      -|       -|      -|          -|     -|     -|       -|      -|         -|      -|
@@ -60,10 +60,10 @@
 
 |Rank|Submission        |Team   |Hardware|Status |Score      |[Deep1B](#deep1B-throughput-rankings)|[BigANN](#bigann-throughput-rankings)|[MSTuring](#msturing-throughput-rankings)|[MSSpace](#msspace-throughput-rankings)|[Text2Image](#text2image-throughput-rankings)|[FBSSNet](#fbsimsearchnet-throughput-rankings)|
 |----|------------------|-------|--------|-------|-----------|------|------|--------|-------|----------|--------------|
-|   1|[optanne_graphann](../t3/optanne_graphann/README.md)|Intel|Intel Optane |inprog|**821550.201**|[184,490.708](eval_2021/optanne_graphann/deep-1B_throughput.png) |[343,727.791](eval_2021/optanne_graphann/bigann-1B_throughput.png) |[157,277.710](eval_2021/optanne_graphann/msturing-1B_throughput.png)   |[139,612.021](eval_2021/optanne_graphann/msspacev-1B_throughput.png)  |[10,838.358](eval_2021/optanne_graphann/text2image-1B_throughput.png)     |-         |
-|   2|[diskann](../t3/diskann-bare-metal/README.md)|Microsoft Research|Dell PowerEdge |inprog|**50635.296**|[12,926.890](eval_2021/diskann/deep-1B_throughput.png) |[19,094.371](eval_2021/diskann/bigann-1B_throughput.png) |[17,200.601](eval_2021/diskann/msturing-1B_throughput.png)   |[6,503.212](eval_2021/diskann/msspacev-1B_throughput.png)  |[9,306.610](eval_2021/diskann/text2image-1B_throughput.png)     |-         | 
-|   3|[gemini](../t3/gemini/README.md)|GSI Technology|LedaE APU |inprog|**34209.040**|[9,150.271](eval_2021/gemini/deep-1B_throughput.png) |[9,504.865](eval_2021/gemini/bigann-1B_throughput.png) |[20,166.678](eval_2021/gemini/msturing-1B_throughput.png)   |[8,587.024](eval_2021/gemini/msspacev-1B_throughput.png)  |[1,196.589](eval_2021/gemini/text2image-1B_throughput.png)     |-         | 
-|   4|[faiss_t3](../t3/faiss_t3/README.md)|Facebook Research|NVidia GPU |final|**baseline**|[4,417.036](eval_2021/faiss_t3/deep-1B_throughput.png) |[3,086.656](eval_2021/faiss_t3/bigann-1B_throughput.png) |[2,359.485](eval_2021/faiss_t3/msturing-1B_throughput.png)   |[2,770.848](eval_2021/faiss_t3/msspacev-1B_throughput.png)  |[1,762.363](eval_2021/faiss_t3/text2image-1B_throughput.png)     |[5,572.272](eval_2021/faiss_t3/ssnpp-1B_throughput.png)         | 
+|   1|[optanne_graphann](../t3/optanne_graphann/README.md)|Intel|Intel Optane |inprog|**821550.201**|[184,490.708](eval_2021/diskann-bare-metal/deep-1B_throughput.png) |[343,727.791](eval_2021/diskann-bare-metal/bigann-1B_throughput.png) |[157,277.710](eval_2021/diskann-bare-metal/msturing-1B_throughput.png)   |[139,612.021](eval_2021/diskann-bare-metal/msspacev-1B_throughput.png)  |[10,838.358](eval_2021/diskann-bare-metal/text2image-1B_throughput.png)     |-         |
+|   2|[diskann](../t3/diskann-bare-metal/README.md)|Microsoft Research|Dell PowerEdge |inprog|**50635.296**|[12,926.890](eval_2021/diskann-bare-metal/deep-1B_throughput.png) |[19,094.371](eval_2021/diskann-bare-metal/bigann-1B_throughput.png) |[17,200.601](eval_2021/diskann-bare-metal/msturing-1B_throughput.png)   |[6,503.212](eval_2021/diskann-bare-metal/msspacev-1B_throughput.png)  |[9,306.610](eval_2021/diskann-bare-metal/text2image-1B_throughput.png)     |-         | 
+|   3|[gemini](../t3/gemini/README.md)|GSI Technology|LedaE APU |inprog|**34209.040**|[9,150.271](eval_2021/diskann-bare-metal/deep-1B_throughput.png) |[9,504.865](eval_2021/diskann-bare-metal/bigann-1B_throughput.png) |[20,166.678](eval_2021/diskann-bare-metal/msturing-1B_throughput.png)   |[8,587.024](eval_2021/diskann-bare-metal/msspacev-1B_throughput.png)  |[1,196.589](eval_2021/diskann-bare-metal/text2image-1B_throughput.png)     |-         | 
+|   4|[faiss_t3](../t3/faiss_t3/README.md)|Facebook Research|NVidia GPU |final|**baseline**|[4,417.036](eval_2021/diskann-bare-metal/deep-1B_throughput.png) |[3,086.656](eval_2021/diskann-bare-metal/bigann-1B_throughput.png) |[2,359.485](eval_2021/diskann-bare-metal/msturing-1B_throughput.png)   |[2,770.848](eval_2021/diskann-bare-metal/msspacev-1B_throughput.png)  |[1,762.363](eval_2021/diskann-bare-metal/text2image-1B_throughput.png)     |[5,572.272](eval_2021/diskann-bare-metal/ssnpp-1B_throughput.png)         | 
 |   5|                 -|      -|       -|      -|          -|     -|     -|       -|      -|         -|             -|
 |   6|                 -|      -|       -|      -|          -|     -|     -|       -|      -|         -|             -|
 |   7|                 -|      -|       -|      -|          -|     -|     -|       -|      -|         -|             -|
@@ -84,9 +84,9 @@
 
 |Rank|Submission        |Team   |Hardware|Status |Score      |[Deep1B](#deep1B-power-rankings)|[BigANN](#bigann-power-rankings)|[MSTuring](#msturing-power-rankings)|[MSSpace](#msspace-power-rankings)|[Text2Image](#text2image-power-rankings)|[FBSSNet](#fbsimsearchnet-power-rankings)|
 |----|------------------|-------|--------|-------|-----------|------|------|--------|-------|-----|-----|
-|   1|[optanne_graphann](../t3/optanne_graphann/README.md)|Intel|Intel Optane |inprog|**-0.687**|[0.004](eval_2021/optanne_graphann/deep-1B_power.png) |[0.002](eval_2021/optanne_graphann/bigann-1B_power.png) |[0.005](eval_2021/optanne_graphann/msturing-1B_power.png)   |[0.005](eval_2021/optanne_graphann/msspacev-1B_power.png)  |[0.070](eval_2021/optanne_graphann/text2image-1B_power.png)|-|
-|   2|[gemini](../t3/diskann-bare-metal/README.md)|GSI Technology|LedaE APU |inprog|**-0.121**|[0.040](eval_2021/gemini/deep-1B_power.png) |[0.039](eval_2021/gemini/bigann-1B_power.png) |[0.023](eval_2021/gemini/msturing-1B_power.png)   |[0.048](eval_2021/gemini/msspacev-1B_power.png)  |[0.503](eval_2021/gemini/text2image-1B_power.png)|-| 
-|   3|[faiss_t3](../t3/gemini/README.md)|Facebook Research|NVidia GPU |final|**baseline**|[0.113](eval_2021/faiss_t3/deep-1B_power.png) |[0.167](eval_2021/faiss_t3/bigann-1B_power.png) |[0.204](eval_2021/faiss_t3/msturing-1B_power.png)   |[0.167](eval_2021/faiss_t3/msspacev-1B_power.png)  |[0.123](eval_2021/faiss_t3/text2image-1B_power.png)|[0.095](eval_2021/faiss_t3/ssnpp-1B_power.png)| 
+|   1|[optanne_graphann](../t3/optanne_graphann/README.md)|Intel|Intel Optane |inprog|**-0.687**|[0.004](eval_2021/diskann-bare-metal/deep-1B_power.png) |[0.002](eval_2021/diskann-bare-metal/bigann-1B_power.png) |[0.005](eval_2021/diskann-bare-metal/msturing-1B_power.png)   |[0.005](eval_2021/diskann-bare-metal/msspacev-1B_power.png)  |[0.070](eval_2021/diskann-bare-metal/text2image-1B_power.png)|-|
+|   2|[gemini](../t3/diskann-bare-metal/README.md)|GSI Technology|LedaE APU |inprog|**-0.121**|[0.040](eval_2021/diskann-bare-metal/deep-1B_power.png) |[0.039](eval_2021/diskann-bare-metal/bigann-1B_power.png) |[0.023](eval_2021/diskann-bare-metal/msturing-1B_power.png)   |[0.048](eval_2021/diskann-bare-metal/msspacev-1B_power.png)  |[0.503](eval_2021/diskann-bare-metal/text2image-1B_power.png)|-| 
+|   3|[faiss_t3](../t3/gemini/README.md)|Facebook Research|NVidia GPU |final|**baseline**|[0.113](eval_2021/diskann-bare-metal/deep-1B_power.png) |[0.167](eval_2021/diskann-bare-metal/bigann-1B_power.png) |[0.204](eval_2021/diskann-bare-metal/msturing-1B_power.png)   |[0.167](eval_2021/diskann-bare-metal/msspacev-1B_power.png)  |[0.123](eval_2021/diskann-bare-metal/text2image-1B_power.png)|[0.095](eval_2021/diskann-bare-metal/ssnpp-1B_power.png)| 
 |   4|[-](../t3/faiss_t3/README.md)|-|- |-|**-**|- |- |-   |-  |-|-| 
 |   5|                 -|      -|       -|      -|          -|     -|     -|       -|      -|    -|    -|
 |   6|                 -|      -|       -|      -|          -|     -|     -|       -|      -|    -|    -|
@@ -136,10 +136,10 @@
 
 |Rank|Submission                                             |Team                          |Hardware               |Status  |R@10       |
 |----|-------------------------------------------------------|------------------------------|-----------------------|--------|-----------|
-|   1|[diskann](../t3/diskann-bare-metal/README.md)                                   |Microsoft Research                      |Dell PowerEdge               |inprog|**[0.998](eval_2021/diskann/deep-1B_recall.png)**|       
-|   2|[gemini](../t3/diskann-bare-metal/README.md)                                   |GSI Technology                      |LedaE APU               |inprog|**[0.989](eval_2021/gemini/deep-1B_recall.png)**|       
-|   3|[optanne_graphann](../t3/diskann-bare-metal/README.md)                                   |Intel                      |Intel Optane               |inprog|**[0.983](eval_2021/optanne_graphann/deep-1B_recall.png)**|       
-|   4|[faiss_t3](../t3/diskann-bare-metal/README.md)                                   |Facebook Research                      |NVidia GPU               |inprog|**[0.943](eval_2021/faiss_t3/deep-1B_recall.png)**|       
+|   1|[diskann](../t3/diskann-bare-metal/README.md)                                   |Microsoft Research                      |Dell PowerEdge               |inprog|**[0.998](eval_2021/diskann-bare-metal/deep-1B_recall.png)**|       
+|   2|[gemini](../t3/diskann-bare-metal/README.md)                                   |GSI Technology                      |LedaE APU               |inprog|**[0.989](eval_2021/diskann-bare-metal/deep-1B_recall.png)**|       
+|   3|[optanne_graphann](../t3/diskann-bare-metal/README.md)                                   |Intel                      |Intel Optane               |inprog|**[0.983](eval_2021/diskann-bare-metal/deep-1B_recall.png)**|       
+|   4|[faiss_t3](../t3/diskann-bare-metal/README.md)                                   |Facebook Research                      |NVidia GPU               |inprog|**[0.943](eval_2021/diskann-bare-metal/deep-1B_recall.png)**|       
 |   5|                                                      -|                             -|                      -|       -|          -|       
 |   6|                                                      -|                             -|                      -|       -|          -|       
 |   7|                                                      -|                             -|                      -|       -|          -|       
@@ -159,10 +159,10 @@
 
 |Rank|Submission                                             |Team                          |Hardware               |Status  |Q/S        |
 |----|-------------------------------------------------------|------------------------------|-----------------------|--------|-----------|
-|   1|[optanne_graphann](../t3/diskann-bare-metal/README.md)                                   |Intel                      |Intel Optane               |inprog|**[184,490.708](eval_2021/optanne_graphann/deep-1B_throughput.png)**|
-|   2|[diskann](../t3/diskann-bare-metal/README.md)                                   |Microsoft Research                      |Dell PowerEdge               |inprog|**[12,926.890](eval_2021/diskann/deep-1B_throughput.png)**|
-|   3|[gemini](../t3/diskann-bare-metal/README.md)                                   |GSI Technology                      |LedaE APU               |inprog|**[9,150.271](eval_2021/gemini/deep-1B_throughput.png)**|
-|   4|[faiss_t3](../t3/diskann-bare-metal/README.md)                                   |Facebook Research                      |NVidia GPU               |inprog|**[4,417.036](eval_2021/faiss_t3/deep-1B_throughput.png)**|
+|   1|[optanne_graphann](../t3/diskann-bare-metal/README.md)                                   |Intel                      |Intel Optane               |inprog|**[184,490.708](eval_2021/diskann-bare-metal/deep-1B_throughput.png)**|
+|   2|[diskann](../t3/diskann-bare-metal/README.md)                                   |Microsoft Research                      |Dell PowerEdge               |inprog|**[12,926.890](eval_2021/diskann-bare-metal/deep-1B_throughput.png)**|
+|   3|[gemini](../t3/diskann-bare-metal/README.md)                                   |GSI Technology                      |LedaE APU               |inprog|**[9,150.271](eval_2021/diskann-bare-metal/deep-1B_throughput.png)**|
+|   4|[faiss_t3](../t3/diskann-bare-metal/README.md)                                   |Facebook Research                      |NVidia GPU               |inprog|**[4,417.036](eval_2021/diskann-bare-metal/deep-1B_throughput.png)**|
 |   3|                                                      -|                             -|                      -|       -|          -|    
 |   4|                                                      -|                             -|                      -|       -|          -|    
 |   5|                                                      -|                             -|                      -|       -|          -|    
@@ -184,9 +184,9 @@
 
 |Rank|Submission                                             |Team                          |Hardware               |Status  |W*S/Q      |
 |----|-------------------------------------------------------|------------------------------|-----------------------|--------|-----------|
-|   1|[optanne_graphann](../t3/diskann-bare-metal/README.md)                                   |Intel                      |Intel Optane               |inprog|**[0.004](eval_2021/optanne_graphann/deep-1B_power.png)**|
-|   2|[gemini](../t3/diskann-bare-metal/README.md)                                   |GSI Technology                      |LedaE APU               |inprog|**[0.040](eval_2021/gemini/deep-1B_power.png)**|
-|   3|[faiss_t3](../t3/diskann-bare-metal/README.md)                                   |Facebook Research                      |NVidia GPU               |inprog|**[0.113](eval_2021/faiss_t3/deep-1B_power.png)**|
+|   1|[optanne_graphann](../t3/diskann-bare-metal/README.md)                                   |Intel                      |Intel Optane               |inprog|**[0.004](eval_2021/diskann-bare-metal/deep-1B_power.png)**|
+|   2|[gemini](../t3/diskann-bare-metal/README.md)                                   |GSI Technology                      |LedaE APU               |inprog|**[0.040](eval_2021/diskann-bare-metal/deep-1B_power.png)**|
+|   3|[faiss_t3](../t3/diskann-bare-metal/README.md)                                   |Facebook Research                      |NVidia GPU               |inprog|**[0.113](eval_2021/diskann-bare-metal/deep-1B_power.png)**|
 |   4|[-](-)                                   |-                      |-               |-|**-**|
 |   4|                                                      -|                             -|                      -|       -|          -|
 |   5|                                                      -|                             -|                      -|       -|          -|
@@ -239,10 +239,10 @@
 
 |Rank|Submission                                             |Team                          |Hardware               |Status  |R@10         |
 |----|-------------------------------------------------------|------------------------------|-----------------------|--------|-------------|
-|   1|[diskann](../t3/diskann-bare-metal/README.md)                                   |Microsoft Research                      |Dell PowerEdge               |inprog|**[1.000](eval_2021/diskann/bigann-1B_recall.png)**  |
-|   2|[gemini](../t3/diskann-bare-metal/README.md)                                   |GSI Technology                      |LedaE APU               |inprog|**[0.993](eval_2021/gemini/bigann-1B_recall.png)**  |
-|   3|[optanne_graphann](../t3/diskann-bare-metal/README.md)                                   |Intel                      |Intel Optane               |inprog|**[0.991](eval_2021/optanne_graphann/bigann-1B_recall.png)**  |
-|   4|[faiss_t3](../t3/diskann-bare-metal/README.md)                                   |Facebook Research                      |NVidia GPU               |inprog|**[0.927](eval_2021/faiss_t3/bigann-1B_recall.png)**  |
+|   1|[diskann](../t3/diskann-bare-metal/README.md)                                   |Microsoft Research                      |Dell PowerEdge               |inprog|**[1.000](eval_2021/diskann-bare-metal/bigann-1B_recall.png)**  |
+|   2|[gemini](../t3/diskann-bare-metal/README.md)                                   |GSI Technology                      |LedaE APU               |inprog|**[0.993](eval_2021/diskann-bare-metal/bigann-1B_recall.png)**  |
+|   3|[optanne_graphann](../t3/diskann-bare-metal/README.md)                                   |Intel                      |Intel Optane               |inprog|**[0.991](eval_2021/diskann-bare-metal/bigann-1B_recall.png)**  |
+|   4|[faiss_t3](../t3/diskann-bare-metal/README.md)                                   |Facebook Research                      |NVidia GPU               |inprog|**[0.927](eval_2021/diskann-bare-metal/bigann-1B_recall.png)**  |
 |   5|                                                      -|                             -|                      -|       -|            -|
 |   6|                                                      -|                             -|                      -|       -|            -|
 |   7|                                                      -|                             -|                      -|       -|            -|
@@ -262,10 +262,10 @@
 
 |Rank|Submission                                             |Team                          |Hardware               |Status  |Q/S          |
 |----|-------------------------------------------------------|------------------------------|-----------------------|--------|-------------|
-|   1|[optanne_graphann](../t3/diskann-bare-metal/README.md)                                   |Intel                      |Intel Optane               |inprog|**[343,727.791](eval_2021/optanne_graphann/bigann-1B_throughput.png)**  |
-|   2|[diskann](../t3/diskann-bare-metal/README.md)                                   |Microsoft Research                      |Dell PowerEdge               |inprog|**[19,094.371](eval_2021/diskann/bigann-1B_throughput.png)**  |
-|   3|[gemini](../t3/diskann-bare-metal/README.md)                                   |GSI Technology                      |LedaE APU               |inprog|**[9,504.865](eval_2021/gemini/bigann-1B_throughput.png)**  |
-|   4|[faiss_t3](../t3/diskann-bare-metal/README.md)                                   |Facebook Research                      |NVidia GPU               |inprog|**[3,086.656](eval_2021/faiss_t3/bigann-1B_throughput.png)**  |
+|   1|[optanne_graphann](../t3/diskann-bare-metal/README.md)                                   |Intel                      |Intel Optane               |inprog|**[343,727.791](eval_2021/diskann-bare-metal/bigann-1B_throughput.png)**  |
+|   2|[diskann](../t3/diskann-bare-metal/README.md)                                   |Microsoft Research                      |Dell PowerEdge               |inprog|**[19,094.371](eval_2021/diskann-bare-metal/bigann-1B_throughput.png)**  |
+|   3|[gemini](../t3/diskann-bare-metal/README.md)                                   |GSI Technology                      |LedaE APU               |inprog|**[9,504.865](eval_2021/diskann-bare-metal/bigann-1B_throughput.png)**  |
+|   4|[faiss_t3](../t3/diskann-bare-metal/README.md)                                   |Facebook Research                      |NVidia GPU               |inprog|**[3,086.656](eval_2021/diskann-bare-metal/bigann-1B_throughput.png)**  |
 |   5|                                                      -|                             -|                      -|       -|            -|
 |   6|                                                      -|                             -|                      -|       -|            -|
 |   7|                                                      -|                             -|                      -|       -|            -|
@@ -285,9 +285,9 @@
 
 |Rank|Submission                                             |Team                          |Hardware               |Status  |W*S/Q      |
 |----|-------------------------------------------------------|------------------------------|-----------------------|--------|-----------|
-|   1|[optanne_graphann](../t3/diskann-bare-metal/README.md)                                   |Intel                      |Intel Optane               |inprog|**[0.002](eval_2021/optanne_graphann/bigann-1B_power.png)**|       
-|   2|[gemini](../t3/diskann-bare-metal/README.md)                                   |GSI Technology                      |LedaE APU               |inprog|**[0.039](eval_2021/gemini/bigann-1B_power.png)**|       
-|   3|[faiss_t3](../t3/diskann-bare-metal/README.md)                                   |Facebook Research                      |NVidia GPU               |inprog|**[0.167](eval_2021/faiss_t3/bigann-1B_power.png)**|      
+|   1|[optanne_graphann](../t3/diskann-bare-metal/README.md)                                   |Intel                      |Intel Optane               |inprog|**[0.002](eval_2021/diskann-bare-metal/bigann-1B_power.png)**|       
+|   2|[gemini](../t3/diskann-bare-metal/README.md)                                   |GSI Technology                      |LedaE APU               |inprog|**[0.039](eval_2021/diskann-bare-metal/bigann-1B_power.png)**|       
+|   3|[faiss_t3](../t3/diskann-bare-metal/README.md)                                   |Facebook Research                      |NVidia GPU               |inprog|**[0.167](eval_2021/diskann-bare-metal/bigann-1B_power.png)**|      
 |   4|[-](-)                                   |-                      |-               |-|**-**|      
 |   5|                                                      -|                             -|                      -|       -|          -|
 |   6|                                                      -|                             -|                      -|       -|          -|
@@ -339,10 +339,10 @@
 
 |Rank|Submission                                             |Team                          |Hardware               |Status  |R@10           |
 |----|-------------------------------------------------------|------------------------------|-----------------------|--------|---------------|
-|   1|[diskann](../t3/diskann-bare-metal/README.md)                                   |Microsoft Research                      |Dell PowerEdge               |inprog|**[0.994](eval_2021/diskann/msturing-1B_recall.png)**    |
-|   2|[gemini](../t3/diskann-bare-metal/README.md)                                   |GSI Technology                      |LedaE APU               |inprog|**[0.978](eval_2021/gemini/msturing-1B_recall.png)**    |
-|   3|[optanne_graphann](../t3/diskann-bare-metal/README.md)                                   |Intel                      |Intel Optane               |inprog|**[0.962](eval_2021/optanne_graphann/msturing-1B_recall.png)**    |
-|   4|[faiss_t3](../t3/diskann-bare-metal/README.md)                                   |Facebook Research                      |NVidia GPU               |inprog|**[0.909](eval_2021/faiss_t3/msturing-1B_recall.png)**    |
+|   1|[diskann](../t3/diskann-bare-metal/README.md)                                   |Microsoft Research                      |Dell PowerEdge               |inprog|**[0.994](eval_2021/diskann-bare-metal/msturing-1B_recall.png)**    |
+|   2|[gemini](../t3/diskann-bare-metal/README.md)                                   |GSI Technology                      |LedaE APU               |inprog|**[0.978](eval_2021/diskann-bare-metal/msturing-1B_recall.png)**    |
+|   3|[optanne_graphann](../t3/diskann-bare-metal/README.md)                                   |Intel                      |Intel Optane               |inprog|**[0.962](eval_2021/diskann-bare-metal/msturing-1B_recall.png)**    |
+|   4|[faiss_t3](../t3/diskann-bare-metal/README.md)                                   |Facebook Research                      |NVidia GPU               |inprog|**[0.909](eval_2021/diskann-bare-metal/msturing-1B_recall.png)**    |
 |   5|                                                      -|                             -|                      -|       -|              -|
 |   6|                                                      -|                             -|                      -|       -|              -|
 |   7|                                                      -|                             -|                      -|       -|              -|       
@@ -362,10 +362,10 @@
 
 |Rank|Submission                                             |Team                          |Hardware               |Status  |Q/S         |
 |----|-------------------------------------------------------|------------------------------|-----------------------|--------|------------|
-|   1|[optanne_graphann](../t3/diskann-bare-metal/README.md)                                   |Intel                      |Intel Optane               |inprog|**[157,277.710](eval_2021/optanne_graphann/msturing-1B_throughput.png)** |
-|   2|[gemini](../t3/diskann-bare-metal/README.md)                                   |GSI Technology                      |LedaE APU               |inprog|**[20,166.678](eval_2021/gemini/msturing-1B_throughput.png)** |
-|   3|[diskann](../t3/diskann-bare-metal/README.md)                                   |Microsoft Research                      |Dell PowerEdge               |inprog|**[17,200.601](eval_2021/diskann/msturing-1B_throughput.png)** |
-|   4|[faiss_t3](../t3/diskann-bare-metal/README.md)                                   |Facebook Research                      |NVidia GPU               |inprog|**[2,359.485](eval_2021/faiss_t3/msturing-1B_throughput.png)** |
+|   1|[optanne_graphann](../t3/diskann-bare-metal/README.md)                                   |Intel                      |Intel Optane               |inprog|**[157,277.710](eval_2021/diskann-bare-metal/msturing-1B_throughput.png)** |
+|   2|[gemini](../t3/diskann-bare-metal/README.md)                                   |GSI Technology                      |LedaE APU               |inprog|**[20,166.678](eval_2021/diskann-bare-metal/msturing-1B_throughput.png)** |
+|   3|[diskann](../t3/diskann-bare-metal/README.md)                                   |Microsoft Research                      |Dell PowerEdge               |inprog|**[17,200.601](eval_2021/diskann-bare-metal/msturing-1B_throughput.png)** |
+|   4|[faiss_t3](../t3/diskann-bare-metal/README.md)                                   |Facebook Research                      |NVidia GPU               |inprog|**[2,359.485](eval_2021/diskann-bare-metal/msturing-1B_throughput.png)** |
 |   5|                                                      -|                             -|                      -|       -|           -|
 |   6|                                                      -|                             -|                      -|       -|           -|
 |   7|                                                      -|                             -|                      -|       -|           -|
@@ -385,9 +385,9 @@
 
 |Rank|Submission                                             |Team                          |Hardware               |Status|W*S/Q         |
 |----|-------------------------------------------------------|------------------------------|-----------------------|------|--------------|
-|   1|[optanne_graphann](../t3/diskann-bare-metal/README.md)                                   |Intel                      |Intel Optane               |inprog|**[0.005](eval_2021/optanne_graphann/msturing-1B_power.png)** |
-|   2|[gemini](../t3/diskann-bare-metal/README.md)                                   |GSI Technology                      |LedaE APU               |inprog|**[0.023](eval_2021/gemini/msturing-1B_power.png)** |
-|   3|[faiss_t3](../t3/diskann-bare-metal/README.md)                                   |Facebook Research                      |NVidia GPU               |inprog|**[0.204](eval_2021/faiss_t3/msturing-1B_power.png)** |
+|   1|[optanne_graphann](../t3/diskann-bare-metal/README.md)                                   |Intel                      |Intel Optane               |inprog|**[0.005](eval_2021/diskann-bare-metal/msturing-1B_power.png)** |
+|   2|[gemini](../t3/diskann-bare-metal/README.md)                                   |GSI Technology                      |LedaE APU               |inprog|**[0.023](eval_2021/diskann-bare-metal/msturing-1B_power.png)** |
+|   3|[faiss_t3](../t3/diskann-bare-metal/README.md)                                   |Facebook Research                      |NVidia GPU               |inprog|**[0.204](eval_2021/diskann-bare-metal/msturing-1B_power.png)** |
 |   4|[-](-)                                   |-                      |-               |-|**-** |
 |   5|                                                      -|                             -|                      -|       -|           -|
 |   6|                                                      -|                             -|                      -|       -|           -|
@@ -439,9 +439,9 @@
 
 |Rank|Submission                                             |Team                          |Hardware               |Status  |R@10     |
 |----|-------------------------------------------------------|------------------------------|-----------------------|--------|---------|
-|   1|[optanne_graphann](../t3/diskann-bare-metal/README.md)                                   |Intel                      |Intel Optane               |inprog|**[0.005](eval_2021/optanne_graphann/msspacev-1B_power.png)** |
-|   2|[gemini](../t3/diskann-bare-metal/README.md)                                   |GSI Technology                      |LedaE APU               |inprog|**[0.048](eval_2021/gemini/msspacev-1B_power.png)** |
-|   3|[faiss_t3](../t3/diskann-bare-metal/README.md)                                   |Facebook Research                      |NVidia GPU               |inprog|**[0.167](eval_2021/faiss_t3/msspacev-1B_power.png)** |
+|   1|[optanne_graphann](../t3/diskann-bare-metal/README.md)                                   |Intel                      |Intel Optane               |inprog|**[0.005](eval_2021/diskann-bare-metal/msspacev-1B_power.png)** |
+|   2|[gemini](../t3/diskann-bare-metal/README.md)                                   |GSI Technology                      |LedaE APU               |inprog|**[0.048](eval_2021/diskann-bare-metal/msspacev-1B_power.png)** |
+|   3|[faiss_t3](../t3/diskann-bare-metal/README.md)                                   |Facebook Research                      |NVidia GPU               |inprog|**[0.167](eval_2021/diskann-bare-metal/msspacev-1B_power.png)** |
 |   4|[-](-)                                   |-                      |-               |-|**-** |
 |   5|                                                      -|                             -|                      -|       -|        -|
 |   6|                                                      -|                             -|                      -|       -|        -|
@@ -462,10 +462,10 @@
 
 |Rank|Submission                                             |Team                          |Hardware               |Status  |Q/S         |
 |----|-------------------------------------------------------|------------------------------|-----------------------|--------|------------|
-|   1|[optanne_graphann](../t3/diskann-bare-metal/README.md)                                   |Intel                      |Intel Optane               |inprog|**[139,612.021](eval_2021/optanne_graphann/msspacev-1B_throughput.png)** |
-|   2|[gemini](../t3/diskann-bare-metal/README.md)                                   |GSI Technology                      |LedaE APU               |inprog|**[8,587.024](eval_2021/gemini/msspacev-1B_throughput.png)** |
-|   3|[diskann](../t3/diskann-bare-metal/README.md)                                   |Microsoft Research                      |Dell PowerEdge               |inprog|**[6,503.212](eval_2021/diskann/msspacev-1B_throughput.png)** |
-|   4|[faiss_t3](../t3/diskann-bare-metal/README.md)                                   |Facebook Research                      |NVidia GPU               |inprog|**[2,770.848](eval_2021/faiss_t3/msspacev-1B_throughput.png)** |
+|   1|[optanne_graphann](../t3/diskann-bare-metal/README.md)                                   |Intel                      |Intel Optane               |inprog|**[139,612.021](eval_2021/diskann-bare-metal/msspacev-1B_throughput.png)** |
+|   2|[gemini](../t3/diskann-bare-metal/README.md)                                   |GSI Technology                      |LedaE APU               |inprog|**[8,587.024](eval_2021/diskann-bare-metal/msspacev-1B_throughput.png)** |
+|   3|[diskann](../t3/diskann-bare-metal/README.md)                                   |Microsoft Research                      |Dell PowerEdge               |inprog|**[6,503.212](eval_2021/diskann-bare-metal/msspacev-1B_throughput.png)** |
+|   4|[faiss_t3](../t3/diskann-bare-metal/README.md)                                   |Facebook Research                      |NVidia GPU               |inprog|**[2,770.848](eval_2021/diskann-bare-metal/msspacev-1B_throughput.png)** |
 |   5|                                                      -|                             -|                      -|       -|           -|    
 |   6|                                                      -|                             -|                      -|       -|           -|   
 |   7|                                                      -|                             -|                      -|       -|           -|    
@@ -485,9 +485,9 @@
 
 |Rank|Submission                                             |Team                          |Hardware               |Status  |W*S/Q       |
 |----|-------------------------------------------------------|------------------------------|-----------------------|--------|------------|
-|   1|[optanne_graphann](../t3/diskann-bare-metal/README.md)                                   |Intel                      |Intel Optane               |inprog|**[0.005](eval_2021/optanne_graphann/msspacev-1B_power.png)** |
-|   2|[gemini](../t3/diskann-bare-metal/README.md)                                   |GSI Technology                      |LedaE APU               |inprog|**[0.048](eval_2021/gemini/msspacev-1B_power.png)** |
-|   3|[faiss_t3](../t3/diskann-bare-metal/README.md)                                   |Facebook Research                      |NVidia GPU               |inprog|**[0.167](eval_2021/faiss_t3/msspacev-1B_power.png)** |
+|   1|[optanne_graphann](../t3/diskann-bare-metal/README.md)                                   |Intel                      |Intel Optane               |inprog|**[0.005](eval_2021/diskann-bare-metal/msspacev-1B_power.png)** |
+|   2|[gemini](../t3/diskann-bare-metal/README.md)                                   |GSI Technology                      |LedaE APU               |inprog|**[0.048](eval_2021/diskann-bare-metal/msspacev-1B_power.png)** |
+|   3|[faiss_t3](../t3/diskann-bare-metal/README.md)                                   |Facebook Research                      |NVidia GPU               |inprog|**[0.167](eval_2021/diskann-bare-metal/msspacev-1B_power.png)** |
 |   4|[-](-)                                   |-                      |-               |-|**-** |
 |   5|                                                      -|                             -|                      -|       -|           -|
 |   6|                                                      -|                             -|                      -|       -|           -|
@@ -539,10 +539,10 @@
 
 |Rank|Submission                                             |Team                          |Hardware               |Status  |R@10         |
 |----|-------------------------------------------------------|------------------------------|-----------------------|--------|-------------|
-|   1|[diskann](../t3/diskann-bare-metal/README.md)                                   |Microsoft Research                      |Dell PowerEdge               |inprog|**[0.981](eval_2021/diskann/text2image-1B_recall.png)**  |
-|   2|[optanne_graphann](../t3/diskann-bare-metal/README.md)                                   |Intel                      |Intel Optane               |inprog|**[0.903](eval_2021/optanne_graphann/text2image-1B_recall.png)**  |
-|   3|[gemini](../t3/diskann-bare-metal/README.md)                                   |GSI Technology                      |LedaE APU               |inprog|**[0.882](eval_2021/gemini/text2image-1B_recall.png)**  |
-|   4|[faiss_t3](../t3/diskann-bare-metal/README.md)                                   |Facebook Research                      |NVidia GPU               |inprog|**[0.860](eval_2021/faiss_t3/text2image-1B_recall.png)**  |
+|   1|[diskann](../t3/diskann-bare-metal/README.md)                                   |Microsoft Research                      |Dell PowerEdge               |inprog|**[0.981](eval_2021/diskann-bare-metal/text2image-1B_recall.png)**  |
+|   2|[optanne_graphann](../t3/diskann-bare-metal/README.md)                                   |Intel                      |Intel Optane               |inprog|**[0.903](eval_2021/diskann-bare-metal/text2image-1B_recall.png)**  |
+|   3|[gemini](../t3/diskann-bare-metal/README.md)                                   |GSI Technology                      |LedaE APU               |inprog|**[0.882](eval_2021/diskann-bare-metal/text2image-1B_recall.png)**  |
+|   4|[faiss_t3](../t3/diskann-bare-metal/README.md)                                   |Facebook Research                      |NVidia GPU               |inprog|**[0.860](eval_2021/diskann-bare-metal/text2image-1B_recall.png)**  |
 |   5|                                                      -|                             -|                      -|       -|            -|
 |   6|                                                      -|                             -|                      -|       -|            -|
 |   7|                                                      -|                             -|                      -|       -|            -|
@@ -562,10 +562,10 @@
 
 |Rank|Submission                                             |Team                          |Hardware               |Status  |Q/S         |
 |----|-------------------------------------------------------|------------------------------|-----------------------|--------|------------|
-|   1|[optanne_graphann](../t3/diskann-bare-metal/README.md)                                   |Intel                      |Intel Optane               |inprog|**[10,838.358](eval_2021/optanne_graphann/text2image-1B_throughput.png)** |
-|   2|[diskann](../t3/diskann-bare-metal/README.md)                                   |Microsoft Research                      |Dell PowerEdge               |inprog|**[9,306.610](eval_2021/diskann/text2image-1B_throughput.png)** |
-|   3|[faiss_t3](../t3/diskann-bare-metal/README.md)                                   |Facebook Research                      |NVidia GPU               |inprog|**[1,762.363](eval_2021/faiss_t3/text2image-1B_throughput.png)** |
-|   4|[gemini](../t3/diskann-bare-metal/README.md)                                   |GSI Technology                      |LedaE APU               |inprog|**[1,196.589](eval_2021/gemini/text2image-1B_throughput.png)** |
+|   1|[optanne_graphann](../t3/diskann-bare-metal/README.md)                                   |Intel                      |Intel Optane               |inprog|**[10,838.358](eval_2021/diskann-bare-metal/text2image-1B_throughput.png)** |
+|   2|[diskann](../t3/diskann-bare-metal/README.md)                                   |Microsoft Research                      |Dell PowerEdge               |inprog|**[9,306.610](eval_2021/diskann-bare-metal/text2image-1B_throughput.png)** |
+|   3|[faiss_t3](../t3/diskann-bare-metal/README.md)                                   |Facebook Research                      |NVidia GPU               |inprog|**[1,762.363](eval_2021/diskann-bare-metal/text2image-1B_throughput.png)** |
+|   4|[gemini](../t3/diskann-bare-metal/README.md)                                   |GSI Technology                      |LedaE APU               |inprog|**[1,196.589](eval_2021/diskann-bare-metal/text2image-1B_throughput.png)** |
 |   5|                                                      -|                             -|                      -|       -|           -|   
 |   6|                                                      -|                             -|                      -|       -|           -|    
 |   7|                                                      -|                             -|                      -|       -|           -|    
@@ -585,9 +585,9 @@
 
 |Rank|Submission                                             |Team                          |Hardware               |Status  |W*S/Q      |
 |----|-------------------------------------------------------|------------------------------|-----------------------|--------|-----------|
-|   1|[optanne_graphann](../t3/diskann-bare-metal/README.md)                                   |Intel                      |Intel Optane               |inprog|**[0.070](eval_2021/optanne_graphann/text2image-1B_power.png)**|
-|   2|[faiss_t3](../t3/diskann-bare-metal/README.md)                                   |Facebook Research                      |NVidia GPU               |inprog|**[0.123](eval_2021/faiss_t3/text2image-1B_power.png)**|
-|   3|[gemini](../t3/diskann-bare-metal/README.md)                                   |GSI Technology                      |LedaE APU               |inprog|**[0.503](eval_2021/gemini/text2image-1B_power.png)**|
+|   1|[optanne_graphann](../t3/diskann-bare-metal/README.md)                                   |Intel                      |Intel Optane               |inprog|**[0.070](eval_2021/diskann-bare-metal/text2image-1B_power.png)**|
+|   2|[faiss_t3](../t3/diskann-bare-metal/README.md)                                   |Facebook Research                      |NVidia GPU               |inprog|**[0.123](eval_2021/diskann-bare-metal/text2image-1B_power.png)**|
+|   3|[gemini](../t3/diskann-bare-metal/README.md)                                   |GSI Technology                      |LedaE APU               |inprog|**[0.503](eval_2021/diskann-bare-metal/text2image-1B_power.png)**|
 |   4|[-](-)                                   |-                      |-               |-|**-**|
 |   4|                                                      -|                             -|                      -|       -|        -|
 |   5|                                                      -|                             -|                      -|       -|        -|
@@ -640,7 +640,7 @@
 
 |Rank|Submission                                             |Team                          |Hardware               |Status  |R@10         |
 |----|-------------------------------------------------------|------------------------------|-----------------------|--------|-------------|
-|   1|[faiss_t3](../t3/diskann-bare-metal/README.md)                                   |Facebook Research                      |NVidia GPU               |inprog|**[0.979](eval_2021/faiss_t3/ssnpp-1B_recall.png)**  |
+|   1|[faiss_t3](../t3/diskann-bare-metal/README.md)                                   |Facebook Research                      |NVidia GPU               |inprog|**[0.979](eval_2021/diskann-bare-metal/ssnpp-1B_recall.png)**  |
 |   2|[-](-)                                   |-                      |-               |-|**-**  |
 |   3|[-](-)                                   |-                      |-               |-|**-**  |
 |   4|[-](-)                                   |-                      |-               |-|**-**  |
@@ -663,7 +663,7 @@
 
 |Rank|Submission                                             |Team                          |Hardware               |Status  |Q/S         |
 |----|-------------------------------------------------------|------------------------------|-----------------------|--------|------------|
-|   1|[faiss_t3](../t3/diskann-bare-metal/README.md)                                   |Facebook Research                      |NVidia GPU               |inprog|**[5,572.272](eval_2021/faiss_t3/ssnpp-1B_throughput.png)** |
+|   1|[faiss_t3](../t3/diskann-bare-metal/README.md)                                   |Facebook Research                      |NVidia GPU               |inprog|**[5,572.272](eval_2021/diskann-bare-metal/ssnpp-1B_throughput.png)** |
 |   2|[-](-)                                   |-                      |-               |-|**-** |
 |   3|[-](-)                                   |-                      |-               |-|**-** |
 |   4|[-](-)                                   |-                      |-               |-|**-** |
@@ -687,7 +687,7 @@
 
 |Rank|Submission                                             |Team                          |Hardware               |Status  |W*S/Q      |
 |----|-------------------------------------------------------|------------------------------|-----------------------|--------|-----------|
-|   1|[faiss_t3](../t3/diskann-bare-metal/README.md)                                   |Facebook Research                      |NVidia GPU               |inprog|**[0.095](eval_2021/faiss_t3/ssnpp-1B_power.png)**|
+|   1|[faiss_t3](../t3/diskann-bare-metal/README.md)                                   |Facebook Research                      |NVidia GPU               |inprog|**[0.095](eval_2021/diskann-bare-metal/ssnpp-1B_power.png)**|
 |   2|[-](-)                                   |-                      |-               |-|**-**|
 |   3|[-](-)                                   |-                      |-               |-|**-**|
 |   4|[-](-)                                   |-                      |-               |-|**-**|
