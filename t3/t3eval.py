@@ -536,6 +536,10 @@ class Evaluator():
         wspq = self.evals[dataset]["wspq"]
         best = self.evals[dataset]["best_wspq"]
         if self.verbose: print("BEST POWER", best)
+    
+        if len(wspq)==0:
+            print("No power metrics were provided.  This submission probably did not qualify for this benchmark.")
+            return False
 
         # plot all run parameters (recall vs wspq)
         plt.rcParams['font.size'] = '16'
