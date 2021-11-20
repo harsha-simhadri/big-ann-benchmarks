@@ -7,7 +7,7 @@ from string import Template
 import t3eval
 
 RE_EXPORT               = False
-ONLY_TEMPLATE_GEN       = False
+ONLY_TEMPLATE_GEN       = True
 
 TOTAL_SUBM              = 10
 COMP_RESULTS_TOPLEVEL   = "/Users/gwilliams/Projects/BigANN/competition_results"
@@ -222,7 +222,8 @@ def produce_rankings(subms):
                 dfs.append(df)
 
         master = pd.concat( dfs, ignore_index=True)
-        print("MASTER",master)
+        print("MASTER DATAFRAME")
+        print(master)
         return master
 
     def retrieve_rankings(master):
@@ -237,9 +238,7 @@ def produce_rankings(subms):
             data = rankdf.to_dict(orient='list')
             subm = data['subm']
             score = data[ranking]
-            print("SCORE", ranking, score, type(score), list(zip(subm,score)))
             pairs = [ el for el in list(zip(subm,score)) if not el[1]==None and not math.isnan(el[1]) ]
-            print("PAIRS", pairs)
             ordered_ranking = sorted(pairs,reverse=rdir, key=lambda x: x[1]) #, reverse=False if benchmark in [ "recall", "qps" ] else True )
             orderings[ranking] = ordered_ranking
         return orderings
@@ -364,7 +363,7 @@ def produce_rankings(subms):
                     supported_dbs = SUBM_MAPPING[subm]["evals"].keys()
                     if db in supported_dbs:
                         best_val = SUBM_MAPPING[subm]["evals"][db][ bestmapping[benchmark] ]
-                        val = best_val[ bestidxmapping[benchmark] ] # if benchmark=="cost" else best_val[ bestidxmapping[benchmark] ]
+                        val = best_val[ bestidxmapping[benchmark] ] 
                         vals = best_val
                         if val!=0: best_vals.append( (subm, val, vals) )
                 best_vals = sorted( best_vals, key=lambda x: x[1], reverse=True if benchmark in [ "recall", "qps" ] else False )
@@ -391,7 +390,7 @@ def produce_rankings(subms):
                     rdct[kee]=kv
                     #$DP1C_CX|$DP1C_OX|$DP1C_UC |$DP1C_UN      |$DP1C_KWT|
                     if benchmark=="cost":
-                        print("COST item", db, idx, item[0], item[1], benchmark, item[2])
+                        #print("COST item", db, idx, item[0], item[1], benchmark, item[2])
                         kee = "$%s%d%s_CX" % ( DBS[db], idx+1, dbmapping[benchmark])
                         kv = fmt.format(item[2][1]) #capex
                         rdct[kee]=kv
@@ -409,7 +408,7 @@ def produce_rankings(subms):
                         rdct[kee]=kv
                      
                 for i in range(idx+1, TOTAL_SUBM):
-                    kee = "$%s%d%s_SB" % ( DBS[db], i+1, dbmapping[benchmark] )
+                    kee = "$%s%d%s_SB" % ( DBS[db], i+1, dbmapping[benchmark] ) 
                     rdct[kee]="-"
                     kee = "$%s%d%s_TM" % ( DBS[db], i+1, dbmapping[benchmark] )
                     rdct[kee]="-"
@@ -421,6 +420,16 @@ def produce_rankings(subms):
                     rdct[kee]="-"
                     kee = "$%s%d%s_V" % ( DBS[db], i+1, dbmapping[benchmark])
                     rdct[kee]="-"
+                    kee = "$%s%d%s_CX" % ( DBS[db], i+1, dbmapping[benchmark])
+                    rdct[kee]='-'
+                    kee = "$%s%d%s_OX" % ( DBS[db], i+1, dbmapping[benchmark])
+                    rdct[kee]='-'
+                    kee = "$%s%d%s_UC" % ( DBS[db], i+1, dbmapping[benchmark])
+                    rdct[kee]='-'
+                    kee = "$%s%d%s_UN" % ( DBS[db], 1, dbmapping[benchmark])
+                    rdct[kee]='-'
+                    kee = "$%s%d%s_KWT" % ( DBS[db], 1, dbmapping[benchmark])
+                    rdct[kee]='-'
     
     # retrieve data and compute rankings             
     master = get_master_df()

@@ -10,7 +10,7 @@
 
 |Submission          |Team       |Hardware  |Status |[Recall Rank](#recall-rankings)|[Throughput Rank](#throughput-rankings)|[Power Rank](#power-rankings)|[Cost Rank](#cost-rankings)| 
 |--------------------|-----------|----------|-------|-------------------------------|---------------------------------------|-----------------------------|---------------------------|
-|deepgram            |DeepGram   |NVidia GPU|inprog |                              -|                                      -|                            -|                          -|
+|deepgram            |DeepGram   |NVidia GPU|inprog |                             NQ|                                     NQ|                           NQ|                         NQ|
 |[diskann](../t3/diskann-bare-metal/README.md)  |Microsoft Research    |Dell   |inprog |[1](#recall-rankings)                       -|[2](#throughput-rankings)                               -|NQ                     -|NQ                   -|
 |[faiss_t3](../t3/faiss_t3/README.md)    |Facebook Research     |NVidia GPU    |final  |[4](#recall-rankings)                         |[4](#throughput-rankings)                                 |[3](#power-rankings)                       |[2](#cost-rankings)                     |
 |[gemini](../t3/gemini/README.md)  |GSI Technology    |LedaE APU   |inprog |[2](#recall-rankings)                        |[3](#throughput-rankings)                                |[2](#power-rankings)                      |[3](#cost-rankings)                    |
@@ -18,8 +18,8 @@
 |nvidia_single_gpu   |NVidia     |NVidia GPU|inprog |                              -|                                      -|                            -|                          -|
 |nvidia_multi_gpu    |NVidia     |NVidia GPU|inprog |                              -|                                      -|                            -|                          -|
 |[optanne_graphann](../t3/optanne_graphann/README.md)|Intel   |Intel Optane  |inprog|[3](#recall-rankings)                       |[1](#throughput-rankings)                               |[1](#power-rankings)                     |[1](#cost-rankings)                   |
-|optanne_diskann     |Intel   |Intel Optane  |inprog |                              -|                                      -|                            -|                          -|
-|vector_t3           |Vector Inst|NVidia GPU|inprog |                              -|                                      -|                            -|                          -|
+|optanne_graphann_2  |Intel   |Intel Optane  |inprog |                              -|                                      -|                            -|                          -|
+|vector_t3           |Vector Inst|NVidia GPU|inprog |                             NQ|                                     NQ|                           NQ|                         NQ|
 
 
 
@@ -208,10 +208,10 @@
 
 |Rank|Submission          |Team     |Hardware               |Status  |Cost         |capex   |opex    |unit cost|units@100K qps|KwH*4yrs |
 |----|--------------------|---------|-----------------------|--------|-------------|--------|--------|---------|--------------|---------|
-|   1|[optanne_graphann](../t3/diskann-bare-metal/README.md)|Intel |Intel Optane               |inprog|**$16,082.49**  |$14,664.20|$1,418.29|$14,664.20 |1      |14,182.933|
+|   1|[optanne_graphann](../t3/diskann-bare-metal/README.md)|Intel |Intel Optane               |inprog|**$16,082.49**  |$14,664.20|$1,418.29|$14,664.20 |-      |-|
 |   2|[faiss_t3](../t3/diskann-bare-metal/README.md)|Facebook Research |NVidia GPU               |inprog|**$545,952.10**  |$506,503.70|$39,448.40|$22,021.90 |23      |394,484.028|
 |   3|[gemini](../t3/diskann-bare-metal/README.md)|GSI Technology |LedaE APU               |inprog|**$626,932.94**  |$612,993.26|$13,939.68|$55,726.66 |11      |139,396.812|
-|   4|[-](-)|- |-               |-|**-**  |$DP4C_CX|$DP4C_OX|$DP4C_UC |$DP4C_UN      |$DP4C_KWT|
+|   4|[-](-)|- |-               |-|**-**  |-|-|- |$DP4C_UN      |$DP4C_KWT|
 |   5|                   -|        -|                      -|       -|            -|        -|      -|        -|             -|        -|
 |   6|                   -|        -|                      -|       -|            -|        -|      -|        -|             -|        -|
 |   7|                   -|        -|                      -|       -|            -|        -|      -|        -|             -|        -|
@@ -308,10 +308,10 @@
 
 |Rank|Submission          |Team                          |Hardware            |Status  |Cost          |capex   |opex    |unit cost|units@100K qps|KwH*4yrs |
 |----|--------------------|------------------------------|--------------------|--------|--------------|--------|--------|---------|--------------|---------|
-|   1|[optanne_graphann](../t3/diskann-bare-metal/README.md)|Intel                      |Intel Optane            |inprog|**$15,407.15**   |$14,664.20|$742.95|$14,664.20 |1      |7,429.540|
+|   1|[optanne_graphann](../t3/diskann-bare-metal/README.md)|Intel                      |Intel Optane            |inprog|**$15,407.15**   |$14,664.20|$742.95|$14,664.20 |-      |-|
 |   2|[gemini](../t3/diskann-bare-metal/README.md)|GSI Technology                      |LedaE APU            |inprog|**$626,785.91**   |$612,993.26|$13,792.65|$55,726.66 |11      |137,926.464|      
 |   3|[faiss_t3](../t3/diskann-bare-metal/README.md)|Facebook Research                      |NVidia GPU            |inprog|**$785,282.45**   |$726,722.70|$58,559.75|$22,021.90 |33      |585,597.505|  
-|   4|[-](-)|-                      |-            |-|**-**   |$BA4C_CX|$BA4C_OX|$BA4C_UC |$BA4C_UN      |$BA4C_KWT|  
+|   4|[-](-)|-                      |-            |-|**-**   |-|-|- |$BA4C_UN      |$BA4C_KWT|  
 |   5|                   -|                             -|                   -|       -|             -|       -|       -|        -|             -|        -|
 |   6|                   -|                             -|                   -|       -|             -|       -|       -|        -|             -|        -|
 |   7|                   -|                             -|                   -|       -|             -|       -|       -|        -|             -|        -|
@@ -408,10 +408,10 @@
 
 |Rank|Submission                          |Team                          |Hardware               |Status  |Cost          |capex   |opex    |unit cost|units@100K qps|KwH*4yrs  |
 |----|------------------------------------|------------------------------|-----------------------|--------|--------------|--------|--------|---------|--------------|----------|
-|   1|[optanne_graphann](../t3/diskann-bare-metal/README.md)                |Intel                      |Intel Optane               |inprog|**$16,397.80**   |$14,664.20|$1,733.60|$14,664.20 |1      |17,335.975 |
+|   1|[optanne_graphann](../t3/diskann-bare-metal/README.md)                |Intel                      |Intel Optane               |inprog|**$16,397.80**   |$14,664.20|$1,733.60|$14,664.20 |-      |- |
 |   2|[gemini](../t3/diskann-bare-metal/README.md)                |GSI Technology                      |LedaE APU               |inprog|**$286,578.81**   |$278,633.30|$7,945.51|$55,726.66 |5      |79,455.069 |         
 |   3|[faiss_t3](../t3/diskann-bare-metal/README.md)                |Facebook Research                      |NVidia GPU               |inprog|**$1,018,332.30**   |$946,941.70|$71,390.60|$22,021.90 |43      |713,905.964 |       
-|   4|[-](-)                |-                      |-               |-|**-**   |$MT4C_CX|$MT4C_OX|$MT4C_UC |$MT4C_UN      |$MT4C_KWT |       
+|   4|[-](-)                |-                      |-               |-|**-**   |-|-|- |$MT4C_UN      |$MT4C_KWT |       
 |   5|                                   -|                             -|                      -|       -|             -|       -|        -|       -|             -|         -|
 |   6|                                   -|                             -|                      -|       -|             -|       -|        -|       -|             -|         -|
 |   7|                                   -|                             -|                      -|       -|             -|       -|        -|       -|             -|         -|
@@ -508,10 +508,10 @@
 
 |Rank|Submission          |Team                          |Hardware               |Status  |Cost          |capex   |opex    |unit cost|units@100K qps|KwH*4yrs  |
 |----|--------------------|------------------------------|-----------------------|------- |--------------|--------|--------|---------|--------------|----------|
-|   1|[optanne_graphann](../t3/diskann-bare-metal/README.md)|Intel                      |Intel Optane               |inprog|**$16,563.61**   |$14,664.20|$1,899.41|$14,664.20 |1      |18,994.109 |
+|   1|[optanne_graphann](../t3/diskann-bare-metal/README.md)|Intel                      |Intel Optane               |inprog|**$16,563.61**   |$14,664.20|$1,899.41|$14,664.20 |-      |- |
 |   2|[gemini](../t3/diskann-bare-metal/README.md)|GSI Technology                      |LedaE APU               |inprog|**$685,704.76**   |$668,719.92|$16,984.84|$55,726.66 |12      |169,848.419 |
 |   3|[faiss_t3](../t3/diskann-bare-metal/README.md)|Facebook Research                      |NVidia GPU               |inprog|**$873,460.84**   |$814,810.30|$58,650.54|$22,021.90 |37      |586,505.424 |
-|   4|[-](-)|-                      |-               |-|**-**   |$MS4C_CX|$MS4C_OX|$MS4C_UC |$MS4C_UN      |$MS4C_KWT |
+|   4|[-](-)|-                      |-               |-|**-**   |-|-|- |$MS4C_UN      |$MS4C_KWT |
 |   5|                   -|                             -|                      -|       -|             -|       -|       -|        -|             -|         -|        
 |   6|                   -|                             -|                      -|       -|             -|       -|       -|        -|             -|         -|        
 |   7|                   -|                             -|                      -|       -|             -|       -|       -|        -|             -|         -|        
@@ -609,10 +609,10 @@
 
 |Rank|Submission           |Team                          |Hardware             |Status  |Cost          |capex   |opex    |unit cost|units@100K qps|KwH*4yrs |
 |----|---------------------|------------------------------|---------------------|--------|--------------|--------|--------|---------|--------------|---------|
-|   1|[optanne_graphann](../t3/diskann-bare-metal/README.md) |Intel                      |Intel Optane             |inprog|**$171,244.96**   |$146,642.00|$24,602.96|$14,664.20 |10      |246,029.624|
+|   1|[optanne_graphann](../t3/diskann-bare-metal/README.md) |Intel                      |Intel Optane             |inprog|**$171,244.96**   |$146,642.00|$24,602.96|$14,664.20 |-      |-|
 |   2|[faiss_t3](../t3/diskann-bare-metal/README.md) |Facebook Research                      |NVidia GPU             |inprog|**$1,298,436.77**   |$1,255,248.30|$43,188.47|$22,021.90 |57      |431,884.673| 
 |   3|[gemini](../t3/diskann-bare-metal/README.md) |GSI Technology                      |LedaE APU             |inprog|**$4,857,248.23**   |$4,681,039.44|$176,208.79|$55,726.66 |84      |1,762,087.853| 
-|   4|[-](-) |-                      |-             |-|**-**   |$TI4C_CX|$TI4C_OX|$TI4C_UC |$TI4C_UN      |$TI4C_KWT| 
+|   4|[-](-) |-                      |-             |-|**-**   |-|-|- |$TI4C_UN      |$TI4C_KWT| 
 |   5|                    -|                             -|                    -|       -|             -|       -|       -|        -|             -|        -|       
 |   6|                    -|                             -|                    -|       -|             -|       -|       -|        -|             -|        -|       
 |   7|                    -|                             -|                    -|       -|             -|       -|       -|        -|             -|        -|       
@@ -710,7 +710,7 @@
 
 |Rank|Submission          |Team                          |Hardware             |Status  |Cost          |capex   |opex    |unit cost|units@100K qps|KwH*4yrs |
 |----|--------------------|------------------------------|---------------------|--------|--------------|--------|--------|---------|--------------|---------|
-|   1|[faiss_t3](../t3/diskann-bare-metal/README.md)|Facebook Research                      |NVidia GPU             |inprog|**$429,634.84**   |$396,394.20|$33,240.64|$22,021.90 |18      |332,406.441|
+|   1|[faiss_t3](../t3/diskann-bare-metal/README.md)|Facebook Research                      |NVidia GPU             |inprog|**$429,634.84**   |$396,394.20|$33,240.64|$22,021.90 |-      |-|
 |   2|[-](-)|-                      |-             |-|**-**   |       -|       -|        -|             -|        -|       
 |   3|[-](-)|-                      |-             |-|**-**   |       -|       -|        -|             -|        -|       
 |   4|[-](-)|-                      |-             |-|**-**   |       -|       -|        -|             -|        -|       
