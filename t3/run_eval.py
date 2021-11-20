@@ -169,11 +169,11 @@ def process_subm( subm ):
 
 def mklnka( val, fmt, subm, db, benchmark ):
     if benchmark=="qps": benchmark="throughput"
-    subm_dir = SUBM_MAPPING[subm]["use_subm_dir"] \
+    use_subm = SUBM_MAPPING[subm]["use_subm_dir"] \
         if "use_subm_dir" in SUBM_MAPPING[subm].keys() else subm
 
     eval_img = os.path.join( "eval_2021", use_subm, "%s_%s.png" % (db, benchmark) )
-    #print("eval img", eval_img)
+    print("eval img", val, fmt, subm, db, benchmark, "-->", eval_img)
     lnk = "[%s](%s)" % ( fmt.format(val), eval_img )
     return lnk 
 
