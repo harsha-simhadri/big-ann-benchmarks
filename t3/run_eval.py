@@ -179,7 +179,7 @@ def mklnka( val, fmt, subm, db, benchmark ):
     return lnk 
 
 def mklnkr( idx, benchmark ):
-    links = {   "recall":"#recall-rankings", 
+    links = {   "recall":"#recall-or-ap-rankings", 
                 "qps":"#throughput-rankings",
                 "power":"#power-rankings",
                 "cost":"#cost-rankings" }
