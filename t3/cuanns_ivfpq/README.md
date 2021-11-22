@@ -34,22 +34,22 @@ Note that all the subsequent commands must be run in the top-level directory of 
 
 First build the cuanns_ivfpq docker container:
 ```
-python install.py --dockerfile t3/cuanns_ivfpq/Dockerfile
+python3 install.py --dockerfile t3/cuanns_ivfpq/Dockerfile
 ```
-Download datasets for competitions supported by cuanns_ivfpq. Note that even if you do not build the index files, you still need to download the datasets.
+Setup links to downloaded dataset and pre-built index files.
 ```
-python create_dataset.py --dataset [bigann-1B|deep-1B|msturing-1B|msspacev-1B|text2image-1B]
+./setup_links.sh
 ```
-Donwload index files. The download instructions will be updated as soon as the location of the index files is determined.
+Otherwise, download datasets for competitions supported by cuanns_ivfpq.
 ```
-(to be updated)
+python3 create_dataset.py --dataset [bigann-1B|deep-1B|msturing-1B|msspacev-1B|text2image-1B]
 ```
 
 ## Run Competition Algorithm
 
 You can run this algorithm on the competition dataset using the run.py script.
 ```
-python run.py --t3 --definitions t3/cuanns_ivfpq/algos.yaml --dataset [bigann-1B|deep-1B|msturing-1B|msspacev-1B|text2image-1B]
+python3 run.py --t3 --definitions t3/cuanns_ivfpq/algos.yaml --dataset [bigann-1B|deep-1B|msturing-1B|msspacev-1B|text2image-1B]
 ```
 
 #### Known Issues
