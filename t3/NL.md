@@ -1,8 +1,12 @@
 # T3 Track Leaderboards (Unofficial)
 
+Please note that all rankings are currently unofficial due to the following reasons:
+* We continue to take changes to algorithms and indexes until Dec 1, so scores and rankings are still subject to change.
+* All [open tasks and issues](TASKS_ISSUES_RESOLUTIONS.md) must be resolved.
+
 ## Final Rankings On Private Query Set
 
-*Available December 2021*
+*Not yet available*
  
 ## Rankings On Public Query Set
 
@@ -21,9 +25,6 @@
 |optanne_graphann_2  |Intel   |Intel Optane  |inprog |        -|        -|       -|        -|             -|                            -|                          -|
 |vector_t3           |Vector Inst|NVidia GPU|final  |        -|        -|       -|     *NQ*|          *NQ*|                         *NQ*|                       *NQ*|
 
-
-
-* Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
@@ -49,7 +50,6 @@
 
 * A submission must support at least 3 databases to qualify for this ranking.
 * The ranking is based on the score, which is the sum of benchmark improvements of qualifying databases (shown in specific database columns after the score column.)
-* Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
@@ -72,7 +72,6 @@
 
 * A submission must support at least 3 databases to qualify for this ranking.
 * The ranking is based on the score, which is the sum of benchmark improvements of qualifying databases (shown in specific database columns after the score column.)
-* Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
@@ -95,7 +94,6 @@
 
 * A submission must support at least 3 databases to qualify for this ranking.
 * The ranking is based on the score, which is the sum of benchmark improvements of qualifying databases (shown in specific database columns after the score column.)
-* Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
@@ -118,7 +116,6 @@
 
 * A submission must support at least 3 databases to qualify for this ranking.
 * The ranking is based on the score, which is the sum of benchmark improvements of qualifying databases (shown in specific database columns after the score column.)
-* Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
@@ -144,7 +141,6 @@
 |  10|                                                      -|                             -|                      -|       -|          -|       
 
 * The operational point for ranking is 2000 QPS. We will use the highest recall for the search parameters that meet or exceed 2000 QPS.
-* Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
@@ -166,7 +162,6 @@
 |  10|                                                      -|                             -|                      -|       -|          -|    
 
 * The operational point for ranking is 0.90 recall@10. We will use the highest throughput for the search parameters that meet or exceed 0.90 recall@10.
-* Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
@@ -188,7 +183,6 @@
 |  10|                                                      -|                             -|                      -|       -|          -|
 
 * The operational point for ranking is 0.90 recall@10. We will use the lowest power consumption for the search parameters that meet or exceed 0.90 recall@10.
-* Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
@@ -216,7 +210,6 @@
   * Take w*s/q from algorithm's power metric submitted to leaderboard and convert to KwH/q.
   * Multiply by total queries at 100K qps for 4 years = 4x365x24x60x60x100000 total queries
   * Opex = (total queries over 4 years) * KwH/query * $0.10/KwH 
-* Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
@@ -240,7 +233,6 @@
 |  10|                                                      -|                             -|                      -|       -|            -|
 
 * The operational point for ranking is 2000 QPS. We will use the highest recall for the search parameters that meet or exceed 2000 QPS.
-* Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
@@ -262,7 +254,6 @@
 |  10|                                                      -|                             -|                      -|       -|            -|
 
 * The operational point for ranking is 0.90 recall@10. We will use the highest throughput for the search parameters that meet or exceed 0.90 recall@10.
-* Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
@@ -284,7 +275,6 @@
 |  10|                                                      -|                             -|                      -|       -|          -|
 
 * The operational point for ranking is 0.90 recall@10. We will use the lowest power consumption for the search parameters that meet or exceed 0.90 recall@10.
-* Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
@@ -312,7 +302,6 @@
   * Take w*s/q from algorithm's power metric submitted to leaderboard and convert to KwH/q.
   * Multiply by total queries at 100K qps for 4 years = 4x365x24x60x60x100000 total queries over 4 years.
   * Opex = (total queries over 4 years) * KwH/query * $0.10/KwH
-* Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
@@ -336,7 +325,6 @@
 |  10|                                                      -|                             -|                      -|       -|              -|       
 
 * The operational point for ranking is 2000 QPS. We will use the highest recall for the search parameters that meet or exceed 2000 QPS.
-* Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
@@ -358,7 +346,6 @@
 |  10|                                                      -|                             -|                      -|       -|           -|
 
 * The operational point for ranking is 0.90 recall@10. We will use the highest throughput for the search parameters that meet or exceed 0.90 recall@10.
-* Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
@@ -380,7 +367,6 @@
 |  10|                                                      -|                             -|                      -|       -|           -|
 
 * The operational point for ranking is 0.90 recall@10. We will use the lowest power consumption for the search parameters that meet or exceed 0.90 recall@10.
-* Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
@@ -408,7 +394,6 @@
   * Take w*s/q from algorithm's power metric submitted to leaderboard and convert to KwH/q.
   * Multiply by total queries at 100K qps for 4 years = 4x365x24x60x60x100000 total queries over 4 years.
   * Opex = (total queries over 4 years) * KwH/query * $0.10/KwH
-* Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
@@ -432,7 +417,6 @@
 |  10|                                                      -|                             -|                      -|       -|        -|
 
 * The operational point for ranking is 2000 QPS. We will use the highest recall for the search parameters that meet or exceed 2000 QPS.
-* Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
@@ -455,7 +439,6 @@
 |  10|                                                      -|                             -|                      -|       -|           -|    
 
 * The operational point for ranking is 0.9 recall@10. We will use the highest throughput for the search parameters that meet or exceed 0.9 recall@10.
-* Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
@@ -477,7 +460,6 @@
 |  10|                                                      -|                             -|                      -|       -|           -|
 
 * The operational point for ranking is 0.9 recall@10. We will use the lowest power consumption for the search parameters that meet or exceed 0.9 recall@10.
-* Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
@@ -505,7 +487,6 @@
   * Take w*s/q from algorithm's power metric submitted to leaderboard and convert to KwH/q.
   * Multiply by total queries at 100K qps for 4 years = 4x365x24x60x60x100000 total queries over 4 years.
   * Opex = (total queries over 4 years) * KwH/query * $0.10/KwH
-* Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
@@ -529,7 +510,6 @@
 |  10|                                                      -|                             -|                      -|       -|            -|
 
 * The operational point for ranking is 2000 QPS. We will use the highest recall for the search parameters that meet or exceed 2000 QPS.
-* Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
@@ -551,7 +531,6 @@
 |  10|                                                      -|                             -|                      -|       -|           -|    
 
 * The operational point for ranking is 0.860 recall@10. We will use the highest throughput for the search parameters that meet or exceed 0.860 recall@10.
-* Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
@@ -573,7 +552,6 @@
 |  10|                                                      -|                             -|                      -|       -|        -|
 
 * The operational point for ranking is 0.86 recall@10. We will use the lowest power consumption for the search parameters that meet or exceed 0.86 recall@10.
-* Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
@@ -601,7 +579,6 @@
   * Take w*s/q from algorithm's power metric submitted to leaderboard and convert to KwH/q.
   * Multiply by total queries at 100K qps for 4 years = 4x365x24x60x60x100000 total queries over 4 years.
   * Opex = (total queries over 4 years) * KwH/query * $0.10/KwH
-* Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
@@ -625,7 +602,6 @@
 |  10|                                                      -|                             -|                      -|       -|            -|
 
 * The operational point for ranking is 2000 QPS. We will use the highest recall for the search parameters that meet or exceed 2000 QPS.
-* Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
@@ -647,7 +623,6 @@
 |  10|                                                      -|                             -|                      -|       -|           -|
 
 * The operational point for ranking is 0.9 recall@10. We will use the highest throughput for the search parameters that meet or exceed 0.9 average precision.
-* Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
@@ -670,7 +645,6 @@
 |  10|                                                      -|                             -|                      -|       -|          -|
 
 * The operational point for ranking is 0.9 recall@10. We will use the lowest power consumption for the search parameters that meet or exceed 0.9 average precision.
-* Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
@@ -698,7 +672,6 @@
   * Take w*s/q from algorithm's power metric submitted to leaderboard and convert to KwH/q.
   * Multiply by total queries at 100K qps for 4 years = 4x365x24x60x60x100000 total queries over 4 years.
   * Opex = (total queries over 4 years) * KwH/query * $0.10/KwH
-* Rankings are subject to change until all submissions are finalized in Nov/Dec 2021.
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
