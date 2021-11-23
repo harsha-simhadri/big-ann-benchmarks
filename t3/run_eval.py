@@ -84,8 +84,8 @@ SUBM_MAPPING            = \
         "readme":       "../t3/cuanns_multigpu/README.md",
         "org":          False,
         "evaluator":    "George Williams",
-        "algo":         "[src](/blob/gw/T3/benchmark/algorithms/cuanns_multigpu.py)",
-        "analysis":     "[nb](/blob/gw/T3/t3/eval_2021/cuanns_multigpu/EvalPublic.ipynb)"
+        "algo":         "[src](../blob/gw/T3/benchmark/algorithms/cuanns_multigpu.py)",
+        "analysis":     "[nb](../blob/gw/T3/t3/eval_2021/cuanns_multigpu/EvalPublic.ipynb)"
     },
     "baseline": "faiss_t3"
 }
