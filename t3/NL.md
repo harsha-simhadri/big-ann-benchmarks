@@ -8,18 +8,18 @@
 
 ### Rankings By Submission Name (alphabetical)
 
-|Submission          |Team       |Hardware  |Status |[Recall Rank](#recall-or-ap-rankings)|[Throughput Rank](#throughput-rankings)|[Power Rank](#power-rankings)|[Cost Rank](#cost-rankings)| 
-|--------------------|-----------|----------|-------|-------------------------------|---------------------------------------|-----------------------------|---------------------------|
-|deepgram            |DeepGram   |NVidia GPU|final  |                           *NQ*|                                   *NQ*|                         *NQ*|                       *NQ*|
-|[diskann](../t3/diskann-bare-metal/README.md)  |Microsoft Research(*org*)    |Dell PowerEdge   |inprog |[1](#recall-or-ap-rankings)                        |[3](#throughput-rankings)                                |*NQ*                      |*NQ*                    |
-|[faiss_t3](../t3/faiss_t3/README.md)    |Facebook Research(*org*)     |NVidia GPU    |final  |[5](#recall-or-ap-rankings)                         |[5](#throughput-rankings)                                 |[3](#power-rankings)                       |[2](#cost-rankings)                     |
-|[gemini](../t3/gemini/README.md)  |GSI Technology(*org*)    |LedaE APU   |inprog |[2](#recall-or-ap-rankings)                        |[4](#throughput-rankings)                                |[2](#power-rankings)                      |[3](#cost-rankings)                    |
-|kanndi              |Silo.ai    |LedaE APU   |inprog |                              -|                                      -|                            -|                          -|
-|nvidia_single_gpu   |NVidia     |NVidia GPU|inprog |                              -|                                      -|                            -|                          -|
-|[cuanns_multigpu](../t3/cuanns_multigpu/README.md)    |NVidia     |NVidia GPU    |inprog  |[4](#recall-or-ap-rankings)                         |[1](#throughput-rankings)                                 |*NQ*                       |*NQ*                     |
-|[optanne_graphann](../t3/optanne_graphann/README.md)|Intel   |Intel Optane  |inprog|[3](#recall-or-ap-rankings)                       |[2](#throughput-rankings)                               |[1](#power-rankings)                     |[1](#cost-rankings)                   |
-|optanne_graphann_2  |Intel   |Intel Optane  |inprog |                              -|                                      -|                            -|                          -|
-|vector_t3           |Vector Inst|NVidia GPU|final  |                           *NQ*|                                   *NQ*|                         *NQ*|                       *NQ*|
+|Submission          |Team       |Hardware  |Status |Evaluator|[Recall Rank](#recall-or-ap-rankings)|[Throughput Rank](#throughput-rankings)|[Power Rank](#power-rankings)|[Cost Rank](#cost-rankings)| 
+|--------------------|-----------|----------|-------|---------|---------|--------------|-----------------------------|---------------------------|
+|deepgram            |DeepGram   |NVidia GPU|final  |         |     *NQ*|          *NQ*|                         *NQ*|                       *NQ*|
+|[diskann](../t3/diskann-bare-metal/README.md)  |Microsoft Research(*org*)    |Dell PowerEdge   |inprog |Harsha Simhadri  |[1](#recall-or-ap-rankings)  |[3](#throughput-rankings)       |*NQ*                      |*NQ*                    |
+|[faiss_t3](../t3/faiss_t3/README.md)    |Facebook Research(*org*)     |NVidia GPU    |final  |George Williams   |[5](#recall-or-ap-rankings)   |[5](#throughput-rankings)        |[3](#power-rankings)                       |[2](#cost-rankings)                     |
+|[gemini](../t3/gemini/README.md)  |GSI Technology(*org*)    |LedaE APU   |inprog |George Williams  |[2](#recall-or-ap-rankings)  |[4](#throughput-rankings)       |[2](#power-rankings)                      |[3](#cost-rankings)                    |
+|kanndi              |Silo.ai    |LedaE APU   |inprog |        -|        -|             -|                            -|                          -|
+|nvidia_single_gpu   |NVidia     |NVidia GPU|inprog |        -|        -|             -|                            -|                          -|
+|[cuanns_multigpu](../t3/cuanns_multigpu/README.md)    |NVidia     |NVidia GPU    |inprog  |George Williams   |[4](#recall-or-ap-rankings)   |[1](#throughput-rankings)        |*NQ*                       |*NQ*                     |
+|[optanne_graphann](../t3/optanne_graphann/README.md)|Intel   |Intel Optane  |inprog|George Williams |[3](#recall-or-ap-rankings) |[2](#throughput-rankings)      |[1](#power-rankings)                     |[1](#cost-rankings)                   |
+|optanne_graphann_2  |Intel   |Intel Optane  |inprog |        -|        -|             -|                            -|                          -|
+|vector_t3           |Vector Inst|NVidia GPU|final  |        -|     *NQ*|          *NQ*|                         *NQ*|                       *NQ*|
 
 
 

@@ -25,7 +25,8 @@ SUBM_MAPPING            = \
         "status":       "final",
         "display_hw":   "NVidia GPU",
         "readme":       "../t3/faiss_t3/README.md",
-        "org":          True
+        "org":          True,
+        "evaluator":    "George Williams",
     },
     "optanne_graphann": {
         "team":         "Intel",
@@ -36,7 +37,8 @@ SUBM_MAPPING            = \
         "status":       "inprog",
         "display_hw":   "Intel Optane",
         "readme":       "../t3/optanne_graphann/README.md",
-        "org":          False
+        "org":          False,
+        "evaluator":    "George Williams"
     },
     "gemini": {
         "team":         "GSI Technology",
@@ -47,7 +49,8 @@ SUBM_MAPPING            = \
         "status":       "inprog",
         "display_hw":   "LedaE APU",
         "readme":       "../t3/gemini/README.md",
-        "org":          True
+        "org":          True,
+        "evaluator":    "George Williams"
     },
     "diskann": {
         "team":         "Microsoft Research",
@@ -59,7 +62,8 @@ SUBM_MAPPING            = \
         "status":       "inprog",
         "display_hw":   "Dell PowerEdge",
         "readme":       "../t3/diskann-bare-metal/README.md",
-        "org":          True
+        "org":          True,
+        "evaluator":    "Harsha Simhadri"
     },
     "cuanns_multigpu": {
         "team":         "NVidia",
@@ -70,24 +74,10 @@ SUBM_MAPPING            = \
         "status":       "inprog",
         "display_hw":   "NVidia GPU",
         "readme":       "../t3/cuanns_multigpu/README.md",
-        "org":          False
+        "org":          False,
+        "evaluator":    "George Williams"
     },
     "baseline": "faiss_t3"
-}
-
-notyet = {
-    "deepgram": {
-        "team":         "DeepGram",
-        "results_dir":  "",
-        "export_fname": "",
-        "system_cost":  0.00,
-        "md_prefix":    "DG",
-        "status":       "inprog",
-        "display_hw":   "NVidia GPU",
-        "readme":       ""
-    },
-
-
 }
 
 def process_subm( subm ):
@@ -277,6 +267,8 @@ def produce_rankings(subms):
             rdct[kee] = subm
             kee = "$" + SUBM_MAPPING[subm]['md_prefix']+"_RD"
             rdct[kee] = SUBM_MAPPING[subm]['readme']
+            kee = "$" + SUBM_MAPPING[subm]['md_prefix']+"_EV"
+            rdct[kee] = SUBM_MAPPING[subm]['evaluator']
 
     def ranking_by_benchmark(orderings, rdct):
         '''replace benchmark rank by rank ordering'''
