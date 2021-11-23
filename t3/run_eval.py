@@ -42,7 +42,7 @@ SUBM_MAPPING            = \
         "org":          False,
         "evaluator":    "George Williams",
         "algo":         "[src](../benchmark/algorithms/graphann.py)",
-        "analysis":     "[nb](eval_2021/optanne_graphann/EvalPublic.ipynbi)"
+        "analysis":     "[nb](eval_2021/optanne_graphann/EvalPublic.ipynb)"
     },
     "gemini": {
         "team":         "GSI Technology",
@@ -70,7 +70,7 @@ SUBM_MAPPING            = \
         "readme":       "../t3/diskann-bare-metal/README.md",
         "org":          True,
         "evaluator":    "Harsha Simhadri",
-        "algo":         "[src](../benchmark/algorithms/diskann_v2.py)",
+        "algo":         "[src](../benchmark/algorithms/diskann-t2.py)",
         "analysis":     "[nb](eval_2021/diskann-bare-metal/EvalPublic.ipynb)"
     },
     "cuanns_multigpu": {

@@ -8,16 +8,16 @@
 
 ### Rankings By Submission Name (alphabetical)
 
-|Submission          |Team       |Hardware  |Status |Evaluator|Algo     |Analysis|[Recall Rank](#recall-or-ap-rankings)|[Throughput Rank](#throughput-rankings)|[Power Rank](#power-rankings)|[Cost Rank](#cost-rankings)| 
+|Submission          |Team       |Hardware  |Status |Evaluator|Algo     |Runs    |[Recall Rank](#recall-or-ap-rankings)|[Throughput Rank](#throughput-rankings)|[Power Rank](#power-rankings)|[Cost Rank](#cost-rankings)| 
 |--------------------|-----------|----------|-------|---------|---------|--------|---------|--------------|-----------------------------|---------------------------|
 |deepgram            |DeepGram   |NVidia GPU|final  |        -|        -|       -|     *NQ*|          *NQ*|                         *NQ*|                       *NQ*|
-|[diskann](../t3/diskann-bare-metal/README.md)  |Microsoft Research(*org*)    |Dell PowerEdge   |inprog |Harsha Simhadri  |[src](../benchmark/algorithms/diskann_v2.py)  |[nb](eval_2021/diskann-bare-metal/EvalPublic.ipynb) |[1](#recall-or-ap-rankings)  |[3](#throughput-rankings)       |*NQ*                      |*NQ*                    |
+|[diskann](../t3/diskann-bare-metal/README.md)  |Microsoft Research(*org*)    |Dell PowerEdge   |inprog |Harsha Simhadri  |[src](../benchmark/algorithms/diskann-t2.py)  |[nb](eval_2021/diskann-bare-metal/EvalPublic.ipynb) |[1](#recall-or-ap-rankings)  |[3](#throughput-rankings)       |*NQ*                      |*NQ*                    |
 |[faiss_t3](../t3/faiss_t3/README.md)    |Facebook Research(*org*)     |NVidia GPU    |final  |George Williams   |[src](../benchmark/algorithms/faiss_t3.py)   |[nb](eval_2021/faiss_t3/EvalPublic.ipynb)  |[5](#recall-or-ap-rankings)   |[5](#throughput-rankings)        |[3](#power-rankings)                       |[2](#cost-rankings)                     |
 |[gemini](../t3/gemini/README.md)  |GSI Technology(*org*)    |LedaE APU   |inprog |George Williams  |[src](../benchmark/algorithms/gemini.py)  |[nb](eval_2021/gemini/EvalPublic.ipynb) |[2](#recall-or-ap-rankings)  |[4](#throughput-rankings)       |[2](#power-rankings)                      |[3](#cost-rankings)                    |
 |kanndi              |Silo.ai    |LedaE APU   |inprog |        -|        -|       -|        -|             -|                            -|                          -|
 |nvidia_single_gpu   |NVidia     |NVidia GPU|inprog |        -|        -|       -|        -|             -|                            -|                          -|
 |[cuanns_multigpu](../t3/cuanns_multigpu/README.md)    |NVidia     |NVidia GPU    |inprog  |George Williams   |[src](../benchmark/algorithms/cuanns_multigpu.py)   |[nb](eval_2021/diskann-bare-metal/EvalPublic.ipynb)  |[4](#recall-or-ap-rankings)   |[1](#throughput-rankings)        |*NQ*                       |*NQ*                     |
-|[optanne_graphann](../t3/optanne_graphann/README.md)|Intel   |Intel Optane  |inprog|George Williams |[src](../benchmark/algorithms/graphann.py) |[nb](eval_2021/optanne_graphann/EvalPublic.ipynbi)|[3](#recall-or-ap-rankings) |[2](#throughput-rankings)      |[1](#power-rankings)                     |[1](#cost-rankings)                   |
+|[optanne_graphann](../t3/optanne_graphann/README.md)|Intel   |Intel Optane  |inprog|George Williams |[src](../benchmark/algorithms/graphann.py) |[nb](eval_2021/optanne_graphann/EvalPublic.ipynb)|[3](#recall-or-ap-rankings) |[2](#throughput-rankings)      |[1](#power-rankings)                     |[1](#cost-rankings)                   |
 |optanne_graphann_2  |Intel   |Intel Optane  |inprog |        -|        -|       -|        -|             -|                            -|                          -|
 |vector_t3           |Vector Inst|NVidia GPU|final  |        -|        -|       -|     *NQ*|          *NQ*|                         *NQ*|                       *NQ*|
 
