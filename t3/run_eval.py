@@ -24,11 +24,11 @@ SUBM_MAPPING            = \
         "md_prefix":    "BS",
         "status":       "final",
         "display_hw":   "NVidia GPU",
-        "readme":       "../t3/faiss_t3/README.md",
+        "readme":       "../../../gw/T3/t3/faiss_t3/README.md",
         "org":          True,
         "evaluator":    "George Williams",
-        "algo":         "[src](../benchmark/algorithms/faiss_t3.py)",
-        "analysis":     "[nb](eval_2021/faiss_t3/EvalPublic.ipynb)"
+        "algo":         "[src](../../../gw/T3/benchmark/algorithms/faiss_t3.py)",
+        "analysis":     "[nb](../../../gw/T3/t3/eval_2021/faiss_t3/EvalPublic.ipynb)"
     },
     "optanne_graphann": {
         "team":         "Intel",
@@ -38,11 +38,11 @@ SUBM_MAPPING            = \
         "md_prefix":    "OPT1",
         "status":       "inprog",
         "display_hw":   "Intel Optane",
-        "readme":       "../t3/optanne_graphann/README.md",
+        "readme":       "../../../gw/T3/t3/optanne_graphann/README.md",
         "org":          False,
         "evaluator":    "George Williams",
-        "algo":         "[src](../benchmark/algorithms/graphann.py)",
-        "analysis":     "[nb](eval_2021/optanne_graphann/EvalPublic.ipynb)"
+        "algo":         "[src](../../../gw/T3/benchmark/algorithms/graphann.py)",
+        "analysis":     "[nb](../../../gw/T3/t3/eval_2021/optanne_graphann/EvalPublic.ipynb)"
     },
     "gemini": {
         "team":         "GSI Technology",
@@ -52,11 +52,11 @@ SUBM_MAPPING            = \
         "md_prefix":    "GEM",
         "status":       "inprog",
         "display_hw":   "LedaE APU",
-        "readme":       "../t3/gemini/README.md",
+        "readme":       "../../../gw/T3/t3/gemini/README.md",
         "org":          True,
         "evaluator":    "George Williams",
-        "algo":         "[src](../benchmark/algorithms/gemini.py)",
-        "analysis":     "[nb](eval_2021/gemini/EvalPublic.ipynb)"
+        "algo":         "[src](../../../gw/T3/benchmark/algorithms/gemini.py)",
+        "analysis":     "[nb](../../../gw/T3/t3/eval_2021/gemini/EvalPublic.ipynb)"
     },
     "diskann": {
         "team":         "Microsoft Research",
@@ -67,11 +67,11 @@ SUBM_MAPPING            = \
         "md_prefix":    "MSD",
         "status":       "inprog",
         "display_hw":   "Dell PowerEdge",
-        "readme":       "../t3/diskann-bare-metal/README.md",
+        "readme":       "../../../gw/T3/t3/diskann-bare-metal/README.md",
         "org":          True,
         "evaluator":    "Harsha Simhadri",
-        "algo":         "[src](../benchmark/algorithms/diskann-t2.py)",
-        "analysis":     "[nb](eval_2021/diskann-bare-metal/EvalPublic.ipynb)"
+        "algo":         "[src](../../../gw/T3/benchmark/algorithms/diskann-t2.py)",
+        "analysis":     "[nb](../../../gw/T3/t3/eval_2021/diskann-bare-metal/EvalPublic.ipynb)"
     },
     "cuanns_multigpu": {
         "team":         "NVidia",
@@ -81,7 +81,7 @@ SUBM_MAPPING            = \
         "md_prefix":    "NV",
         "status":       "inprog",
         "display_hw":   "NVidia GPU",
-        "readme":       "../t3/cuanns_multigpu/README.md",
+        "readme":       "../../../gw/T3/t3/cuanns_multigpu/README.md",
         "org":          False,
         "evaluator":    "George Williams",
         "algo":         "[src](../../../gw/T3/benchmark/algorithms/cuanns_multigpu.py)",
@@ -184,7 +184,7 @@ def mklnka( val, fmt, subm, db, benchmark ):
     if benchmark=="qps": benchmark="throughput"
     use_subm = SUBM_MAPPING[subm]["use_subm_dir"] \
         if "use_subm_dir" in SUBM_MAPPING[subm].keys() else subm
-    eval_img = os.path.join( "eval_2021", use_subm, "%s_%s.png" % (db, benchmark) )
+    eval_img = os.path.join( "../../../gw/T3/t3/eval_2021", use_subm, "%s_%s.png" % (db, benchmark) )
     print("eval img", val, fmt, subm, db, benchmark, "-->", eval_img)
     lnk = "[%s](%s)" % ( fmt.format(val), eval_img )
     return lnk 
