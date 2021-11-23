@@ -84,8 +84,8 @@ SUBM_MAPPING            = \
         "readme":       "../t3/cuanns_multigpu/README.md",
         "org":          False,
         "evaluator":    "George Williams",
-        "algo":         "[src](../benchmark/algorithms/cuanns_multigpu.py)",
-        "analysis":     "[nb](eval_2021/cuanns_multigpu/EvalPublic.ipynb)"
+        "algo":         "[src](../blob/gw/T3/benchmark/algorithms/cuanns_multigpu.py)",
+        "analysis":     "[nb](../blob/gw/T3/t3/eval_2021/cuanns_multigpu/EvalPublic.ipynb)"
     },
     "baseline": "faiss_t3"
 }
@@ -483,7 +483,7 @@ def produce_rankings(subms):
     outp = lines
     for kee in rdct.keys():
         outp = outp.replace( kee, rdct[kee] )
-    f = open("t3/NL.md","w")
+    f = open("t3/LEADERBOARDS.md","w")
     f.write(outp)
     f.flush()
     f.close()
