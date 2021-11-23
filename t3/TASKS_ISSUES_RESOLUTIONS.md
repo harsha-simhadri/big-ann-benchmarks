@@ -19,4 +19,5 @@ Participants should send their questions and issues to the T3 organizer directly
 
 ## Resolutions
 
-None
+* [GSI asks] What does NQ mean?
+  * [T3 Organizer responds] It could mean 1) team did not submit a qualifying algorithm for the benchmark 2) team decided did not participate in that benchmark 3) unable to get some key data for the benchmark (such as power or system cost, or both ).
