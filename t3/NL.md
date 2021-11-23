@@ -10,7 +10,7 @@
 
 |Submission          |Team       |Hardware  |Status |Evaluator|[Recall Rank](#recall-or-ap-rankings)|[Throughput Rank](#throughput-rankings)|[Power Rank](#power-rankings)|[Cost Rank](#cost-rankings)| 
 |--------------------|-----------|----------|-------|---------|---------|--------------|-----------------------------|---------------------------|
-|deepgram            |DeepGram   |NVidia GPU|final  |         |     *NQ*|          *NQ*|                         *NQ*|                       *NQ*|
+|deepgram            |DeepGram   |NVidia GPU|final  |        -|     *NQ*|          *NQ*|                         *NQ*|                       *NQ*|
 |[diskann](../t3/diskann-bare-metal/README.md)  |Microsoft Research(*org*)    |Dell PowerEdge   |inprog |Harsha Simhadri  |[1](#recall-or-ap-rankings)  |[3](#throughput-rankings)       |*NQ*                      |*NQ*                    |
 |[faiss_t3](../t3/faiss_t3/README.md)    |Facebook Research(*org*)     |NVidia GPU    |final  |George Williams   |[5](#recall-or-ap-rankings)   |[5](#throughput-rankings)        |[3](#power-rankings)                       |[2](#cost-rankings)                     |
 |[gemini](../t3/gemini/README.md)  |GSI Technology(*org*)    |LedaE APU   |inprog |George Williams  |[2](#recall-or-ap-rankings)  |[4](#throughput-rankings)       |[2](#power-rankings)                      |[3](#cost-rankings)                    |
