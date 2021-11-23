@@ -85,7 +85,7 @@ SUBM_MAPPING            = \
         "org":          False,
         "evaluator":    "George Williams",
         "algo":         "[src](../benchmark/algorithms/cuanns_multigpu.py)",
-        "analysis":     "[nb](eval_2021/diskann-bare-metal/EvalPublic.ipynb)"
+        "analysis":     "[nb](eval_2021/cuanns_multigpu/EvalPublic.ipynb)"
     },
     "baseline": "faiss_t3"
 }
