@@ -14,7 +14,8 @@ Participants should send their questions and issues to the T3 organizer directly
 
 ## Issues (open)
 
-* [Intel asks] Why won't there be one winner for T3 that combines all individual benchmarks?
+* [Intel asks T3 Organizer] Why won't there be one winner for T3 that combines all individual benchmarks?
+* [Intel asks T3 Organizer] Why are power and cost rankings optional for a submission?
 * [GSI to T3 Organizer] We cannot reproduce the baseline performance on SSNPP on same/similar hardware.
 
 ## Resolutions
