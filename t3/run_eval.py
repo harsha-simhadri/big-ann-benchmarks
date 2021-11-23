@@ -27,8 +27,8 @@ SUBM_MAPPING            = \
         "readme":       "../t3/faiss_t3/README.md",
         "org":          True,
         "evaluator":    "George Williams",
-        "algo":         "[faiss_t3.py](../benchmark/algorithms/faiss_t3.py)",
-        "analysis":     "[notebook](eval_2021/faiss_t3/EvalPublic.ipynb)"
+        "algo":         "[src](../benchmark/algorithms/faiss_t3.py)",
+        "analysis":     "[nb](eval_2021/faiss_t3/EvalPublic.ipynb)"
     },
     "optanne_graphann": {
         "team":         "Intel",
@@ -41,8 +41,8 @@ SUBM_MAPPING            = \
         "readme":       "../t3/optanne_graphann/README.md",
         "org":          False,
         "evaluator":    "George Williams",
-        "algo":         "[graphann.py](../benchmark/algorithms/graphann.py)",
-        "analysis":     "[notebook](eval_2021/optanne_graphann/EvalPublic.ipynbi)"
+        "algo":         "[src](../benchmark/algorithms/graphann.py)",
+        "analysis":     "[nb](eval_2021/optanne_graphann/EvalPublic.ipynbi)"
     },
     "gemini": {
         "team":         "GSI Technology",
@@ -55,8 +55,8 @@ SUBM_MAPPING            = \
         "readme":       "../t3/gemini/README.md",
         "org":          True,
         "evaluator":    "George Williams",
-        "algo":         "[gemini.py](../benchmark/algorithms/gemini.py)",
-        "analysis":     "[notebook](eval_2021/gemini/EvalPublic.ipynb)"
+        "algo":         "[src](../benchmark/algorithms/gemini.py)",
+        "analysis":     "[nb](eval_2021/gemini/EvalPublic.ipynb)"
     },
     "diskann": {
         "team":         "Microsoft Research",
@@ -70,8 +70,8 @@ SUBM_MAPPING            = \
         "readme":       "../t3/diskann-bare-metal/README.md",
         "org":          True,
         "evaluator":    "Harsha Simhadri",
-        "algo":         "[diskann_v2.py](../benchmark/algorithms/diskann_v2.py)",
-        "analysis":     "[notebook](eval_2021/diskann-bare-metal/EvalPublic.ipynb)"
+        "algo":         "[src](../benchmark/algorithms/diskann_v2.py)",
+        "analysis":     "[nb](eval_2021/diskann-bare-metal/EvalPublic.ipynb)"
     },
     "cuanns_multigpu": {
         "team":         "NVidia",
@@ -84,8 +84,8 @@ SUBM_MAPPING            = \
         "readme":       "../t3/cuanns_multigpu/README.md",
         "org":          False,
         "evaluator":    "George Williams",
-        "algo":         "[cuanns_multigpu.py](../benchmark/algorithms/cuanns_multigpu.py)",
-        "analysis":     "[notebook](eval_2021/diskann-bare-metal/EvalPublic.ipynb)"
+        "algo":         "[src](../benchmark/algorithms/cuanns_multigpu.py)",
+        "analysis":     "[nb](eval_2021/diskann-bare-metal/EvalPublic.ipynb)"
     },
     "baseline": "faiss_t3"
 }
