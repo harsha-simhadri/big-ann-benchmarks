@@ -27,6 +27,8 @@ SUBM_MAPPING            = \
         "readme":       "../t3/faiss_t3/README.md",
         "org":          True,
         "evaluator":    "George Williams",
+        "algo":         "[faiss_t3.py](../benchmark/algorithms/faiss_t3.py)",
+        "analysis":     "[notebook](eval_2021/faiss_t3/EvalPublic.ipynb)"
     },
     "optanne_graphann": {
         "team":         "Intel",
@@ -38,7 +40,9 @@ SUBM_MAPPING            = \
         "display_hw":   "Intel Optane",
         "readme":       "../t3/optanne_graphann/README.md",
         "org":          False,
-        "evaluator":    "George Williams"
+        "evaluator":    "George Williams",
+        "algo":         "[graphann.py](../benchmark/algorithms/graphann.py)",
+        "analysis":     "[notebook](eval_2021/optanne_graphann/EvalPublic.ipynbi)"
     },
     "gemini": {
         "team":         "GSI Technology",
@@ -50,7 +54,9 @@ SUBM_MAPPING            = \
         "display_hw":   "LedaE APU",
         "readme":       "../t3/gemini/README.md",
         "org":          True,
-        "evaluator":    "George Williams"
+        "evaluator":    "George Williams",
+        "algo":         "[gemini.py](../benchmark/algorithms/gemini.py)",
+        "analysis":     "[notebook](eval_2021/gemini/EvalPublic.ipynb)"
     },
     "diskann": {
         "team":         "Microsoft Research",
@@ -63,7 +69,9 @@ SUBM_MAPPING            = \
         "display_hw":   "Dell PowerEdge",
         "readme":       "../t3/diskann-bare-metal/README.md",
         "org":          True,
-        "evaluator":    "Harsha Simhadri"
+        "evaluator":    "Harsha Simhadri",
+        "algo":         "[diskann_v2.py](../benchmark/algorithms/diskann_v2.py)",
+        "analysis":     "[notebook](eval_2021/diskann-bare-metal/EvalPublic.ipynb)"
     },
     "cuanns_multigpu": {
         "team":         "NVidia",
@@ -75,7 +83,9 @@ SUBM_MAPPING            = \
         "display_hw":   "NVidia GPU",
         "readme":       "../t3/cuanns_multigpu/README.md",
         "org":          False,
-        "evaluator":    "George Williams"
+        "evaluator":    "George Williams",
+        "algo":         "[cuanns_multigpu.py](../benchmark/algorithms/cuanns_multigpu.py)",
+        "analysis":     "[notebook](eval_2021/diskann-bare-metal/EvalPublic.ipynb)"
     },
     "baseline": "faiss_t3"
 }
@@ -269,6 +279,10 @@ def produce_rankings(subms):
             rdct[kee] = SUBM_MAPPING[subm]['readme']
             kee = "$" + SUBM_MAPPING[subm]['md_prefix']+"_EV"
             rdct[kee] = SUBM_MAPPING[subm]['evaluator']
+            kee = "$" + SUBM_MAPPING[subm]['md_prefix']+"_AL"
+            rdct[kee] = SUBM_MAPPING[subm]['algo']
+            kee = "$" + SUBM_MAPPING[subm]['md_prefix']+"_AN"
+            rdct[kee] = SUBM_MAPPING[subm]['analysis']
 
     def ranking_by_benchmark(orderings, rdct):
         '''replace benchmark rank by rank ordering'''
