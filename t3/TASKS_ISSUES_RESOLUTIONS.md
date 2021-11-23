@@ -13,12 +13,14 @@ Participants should send their questions and issues to the T3 organizer directly
 * [GSI to T3 Organizer] Need better documentation for how to extract power benchmark from plot.py script.
 * [T3 Organizer self-report] Need to retrieve "results" h5py files from MS DiskANN remote machine.
 * [T3 Organizer self-report] Need to retrieve "results" h5py files from NVidia's remote machine.
+* [T3 Organizer to NVidia] Need to retrieve power monitoring "results" from NVidia's remote machine.
 
 ## Issues (open)
 
 * [Intel asks T3 Organizer] Why won't there be one winner for T3 that combines all individual benchmarks?
 * [Intel asks T3 Organizer] Why are power and cost rankings optional for a submission?
 * [GSI to T3 Organizer] We cannot reproduce the baseline performance on SSNPP on same/similar hardware.
+* [T3 Organizer asks NVidia] Can't we use an MSRP from another company as proxy for system cost?
 
 ## Resolutions
 
