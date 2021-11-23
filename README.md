@@ -71,3 +71,7 @@ python3.8 eval/show_operating_points.py --algorithm faiss-t1 --threshold 10000
 See [Track T1/T2](t1_t2/README.md) for more details on evaluation for Tracks T1 and T2.
 
 See [Track T3](t3/README.md) for more details on evaluation for Track T3.
+
+# Credits
+
+This project is a version of [ann-benchmarks](https://github.com/erikbern/ann-benchmarks) by [Erik Bernhardsson](https://erikbern.com/) and contributors targetting billion-scale datasets.

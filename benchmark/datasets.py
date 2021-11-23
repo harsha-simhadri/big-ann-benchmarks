@@ -155,7 +155,7 @@ def read_ibin(filename, start_idx=0, chunk_size=None):
 
 
 def sanitize(x):
-    return numpy.ascontiguousarray(x, dtype='float32')
+    return numpy.ascontiguousarray(x)#, dtype='float32')
 
 
 class Dataset():
@@ -352,7 +352,7 @@ class SSNPPDataset(DatasetCompetitionFormat):
         return "range"
 
     def default_count(self):
-        return 60000
+        return 96237
 
     def distance(self):
         return "euclidean"

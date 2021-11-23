@@ -45,6 +45,17 @@ random-range-xs:
               [{"R":32, "L":32, "B":0.0001, "M":1}]
           query-args: |
             [{"Lmin":3, "Lmax":100, "BW":4, "T":16}]
+    diskann-v0_3-t2:
+      docker-tag: billion-scale-benchmark-diskann
+      module: benchmark.algorithms.diskann-v0_3
+      constructor: Diskann
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"R":32, "L":32, "B":0.0001, "M":1}]
+          query-args: |
+            [{"Lmin":3, "Lmax":100, "BW":4, "T":16}]
     httpann_example:
       docker-tag: billion-scale-benchmark-httpann_example
       module: benchmark.algorithms.httpann_example
@@ -75,6 +86,17 @@ random-xs:
     diskann-t2:
       docker-tag: billion-scale-benchmark-diskann
       module: benchmark.algorithms.diskann-t2
+      constructor: Diskann
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"R":32, "L":32, "B":0.0001, "M":1}]
+          query-args: |
+              [{"Ls":10, "BW":4, "T":16}]
+    diskann-v0_3-t2:
+      docker-tag: billion-scale-benchmark-diskann
+      module: benchmark.algorithms.diskann-v0_3
       constructor: Diskann
       base-args: ["@metric"]
       run-groups:
@@ -191,6 +213,28 @@ deep-1B:
               {"Ls":70, "BW":4, "T":16},
               {"Ls":80, "BW":4, "T":16},
               {"Ls":100, "BW":4, "T":16}]
+    graphann:
+      docker-tag: billion-scale-benchmark-graphann
+      module: benchmark.algorithms.graphann
+      constructor: GraphANN
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"index_file":"/mnt/data/competition_indexes/deep1b_index127-superflat.index",
+                "vectors_file":"/mnt/data/competition_indexes/deep1b_vectors16.bin",
+                "vectors_location":"HUGE"
+               }]
+          query-args: |
+              [
+                {"search_window_size": 128}, 
+                {"search_window_size": 24}, 
+                {"search_window_size": 26}, 
+                {"search_window_size": 27},
+                {"search_window_size": 28},
+                {"search_window_size": 30}
+              ]
+
 msspacev-1B:
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
@@ -252,6 +296,28 @@ msspacev-1B:
               {"Ls":110, "BW":4, "T":16},
               {"Ls":120, "BW":4, "T":16},
               {"Ls":130, "BW":4, "T":16}]
+    graphann:
+      docker-tag: billion-scale-benchmark-graphann
+      module: benchmark.algorithms.graphann
+      constructor: GraphANN
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"index_file":"/mnt/data/competition_indexes/spacev1b_index127-superflat.index",
+                "vectors_file":"/mnt/data/competition_indexes/spacev1b_vectors.bin",
+                "vectors_location":"HUGE"
+               }]
+          query-args: |
+              [
+                {"search_window_size": 196},
+                {"search_window_size": 46},
+                {"search_window_size": 48},
+                {"search_window_size": 49},
+                {"search_window_size": 50},
+                {"search_window_size": 52}
+              ]
+
 msturing-1B:
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
@@ -265,7 +331,7 @@ msturing-1B:
                 "url": "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/track1_baseline_faiss/msturing-1B.IVF1M_2level_PQ64x4fsr.faissindex",
                 "query_bs": 4096
                 }]
-          query-args: |  
+          query-args: |
               ["nprobe=1,quantizer_efSearch=4",
               "nprobe=2,quantizer_efSearch=4",
               "nprobe=1,quantizer_efSearch=8",
@@ -311,6 +377,29 @@ msturing-1B:
               {"Ls":70, "BW":4, "T":16},
               {"Ls":80, "BW":4, "T":16},
               {"Ls":100, "BW":4, "T":16}]
+    graphann:
+      docker-tag: billion-scale-benchmark-graphann
+      module: benchmark.algorithms.graphann
+      constructor: GraphANN
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"index_file":"/mnt/data/competition_indexes/msturing_index127-superflat.index",
+                "vectors_file":"/mnt/data/competition_indexes/msturing_vectors16.bin",
+                "vectors_location":"HUGE"
+               }]
+          query-args: |
+              [
+                {"search_window_size": 128},
+                {"search_window_size": 34},
+                {"search_window_size": 37},
+                {"search_window_size": 38},
+                {"search_window_size": 39}
+              ]
+
+
+
 bigann-1B:
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
@@ -351,7 +440,7 @@ bigann-1B:
                 "nprobe=128,quantizer_efSearch=512",
                 "nprobe=256,quantizer_efSearch=64",
                 "nprobe=256,quantizer_efSearch=128",
-                "nprobe=256,quantizer_efSearch=512"] 
+                "nprobe=256,quantizer_efSearch=512"]
     diskann-t2:
       docker-tag: billion-scale-benchmark-diskann
       module: benchmark.algorithms.diskann-t2
@@ -374,6 +463,30 @@ bigann-1B:
               {"Ls":70, "BW":4, "T":16},
               {"Ls":80, "BW":4, "T":16},
               {"Ls":100, "BW":4, "T":16}]
+
+    graphann:
+      docker-tag: billion-scale-benchmark-graphann
+      module: benchmark.algorithms.graphann
+      constructor: GraphANN
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"index_file":"/mnt/data/competition_indexes/bigann1b_index127-superflat.index",
+                "vectors_file":"/mnt/data/competition_indexes/bigann1b_vectors.bin",
+                "vectors_location":"HUGE"
+               }]
+          query-args: |
+              [
+                {"search_window_size": 128},
+                {"search_window_size": 20},
+                {"search_window_size": 23},
+                {"search_window_size": 24},
+                {"search_window_size": 25},
+                {"search_window_size": 28}
+              ]
+
+
 ssnpp-1B:
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
@@ -450,7 +563,7 @@ text2image-1B:
               "url": "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/track1_baseline_faiss/text2image-1B.IVF1M_2level_PQ32.faissindex"
                 }]
           # Trying all combinations of nprobe x efSearch
-          query-args: | 
+          query-args: |
               ["nprobe=1,quantizer_efSearch=4,ht=106",
               "nprobe=1,quantizer_efSearch=16,ht=114",
               "nprobe=1,quantizer_efSearch=16,ht=116",
@@ -493,6 +606,29 @@ text2image-1B:
               {"Ls":80, "BW":10, "T":16},
               {"Ls":90, "BW":10, "T":16},
               {"Ls":100, "BW":10, "T":16}]
+    graphann:
+      docker-tag: billion-scale-benchmark-graphann
+      module: benchmark.algorithms.graphann
+      constructor: GraphANN
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"index_file":"/mnt/ropt0/text2image/text2image_baseline-superflat.index",
+                "vectors_file":"/mnt/data/competition_indexes/text2image_vectorsf16.bin",
+                "vectors_location":"HUGE"
+               }]
+          query-args: |
+              [
+                {"search_window_size": 256},
+                {"search_window_size": 240},
+                {"search_window_size": 244},
+                {"search_window_size": 248},
+                {"search_window_size": 252}
+              ]
+
+
+
 ssnpp-10M:
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
@@ -547,7 +683,7 @@ msspacev-1M:
           query-args: |
               [{"Ls":50, "BW":4, "T":16}]
 text2image-1M:
-   diskann-t2: 
+   diskann-t2:
       docker-tag: billion-scale-benchmark-diskann
       module: benchmark.algorithms.diskann-t2
       constructor: Diskann
@@ -559,7 +695,7 @@ text2image-1M:
           query-args: |
               [{"Ls":50, "BW":4, "T":16}]
 text2image-10M:
-   diskann-t2: 
+   diskann-t2:
       docker-tag: billion-scale-benchmark-diskann
       module: benchmark.algorithms.diskann-t2
       constructor: Diskann
