@@ -7,10 +7,12 @@ Participants should send their questions and issues to the T3 organizer directly
 
 ## Tasks (open)
 
-* [T3 Organizer report] Currently reported DiskANN CSV results is using an old version of recall computation (ie, not accounting for ties and it will likely affect msspacev-1B recall mostly).
-* [T3 Organizer report] Currently, DiskANN cannot qualify for power and cost benchmarks due to issue with running IPMICAP ( python ipmi in particular seems to be the issue. )
+* [T3 Organizer self-report] Currently reported DiskANN CSV results is using an old version of recall computation (ie, not accounting for ties and it will likely affect msspacev-1B recall mostly).
+* [T3 Organizer self-report] Currently, DiskANN cannot qualify for power and cost benchmarks due to issue with running IPMICAP ( python ipmi in particular seems to be the issue. )
 * [GSI to T3 Organizer] New index for SSNPP and Text2Image requires re-evaluation for those datasets and updated scores.
 * [GSI to T3 Organizer] Need better documentation for how to extract power benchmark from plot.py script.
+* [T3 Organizer self-report] Need to retrieve "results" h5py files from MS DiskANN remote machine.
+* [T3 Organizer self-report] Need to retrieve "results" h5py files from NVidia's remote machine.
 
 ## Issues (open)
 
