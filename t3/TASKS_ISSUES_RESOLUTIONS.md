@@ -7,17 +7,17 @@ Participants should send their questions and issues to the T3 organizer directly
 
 ## Tasks (open)
 
-* [T3 Organizer] Currently reported DiskANN results may be using an old version of recall computation (ie, not accounting for ties).
-* [T3 Organizer] Currently, DiskANN cannot qualify for power and cost benchmarks due to issue with running IPMICAP ( python ipmi in particular seems to be the issue. )
-* [GSI] New index for SSNPP and Text2Image requires re-evaluation for those datasets and updated scores.
-* [GSI] Need better documentation for how to extract power benchmark from plot.py script.
+* [T3 Organizer report] Currently reported DiskANN CSV results is using an old version of recall computation (ie, not accounting for ties and it will likely affect msspacev-1B recall mostly).
+* [T3 Organizer report] Currently, DiskANN cannot qualify for power and cost benchmarks due to issue with running IPMICAP ( python ipmi in particular seems to be the issue. )
+* [GSI to T3 Organizer] New index for SSNPP and Text2Image requires re-evaluation for those datasets and updated scores.
+* [GSI to T3 Organizer] Need better documentation for how to extract power benchmark from plot.py script.
 
 ## Issues (open)
 
-* [Intel] Why won't there be one winner for T3 that combines all individual benchmarks?
-* [GSI] We cannot reproduce the baseline performance on SSNPP on same/similar hardware.
+* [Intel asks] Why won't there be one winner for T3 that combines all individual benchmarks?
+* [GSI to T3 Organizer] We cannot reproduce the baseline performance on SSNPP on same/similar hardware.
 
 ## Resolutions
 
-* [GSI asks] What does NQ mean?
-  * [T3 Organizer responds] It could mean 1) team did not submit a qualifying algorithm for the benchmark 2) team decided did not participate in that benchmark 3) unable to get some key data for the benchmark (such as power or system cost, or both ).
+* [GSI asked] What does NQ mean?
+  * [T3 Organizer responded] It could mean 1) team did not submit a qualifying algorithm for the benchmark 2) team decided did not participate in that benchmark 3) unable to get some key data for the benchmark (such as power or system cost, or both ).
