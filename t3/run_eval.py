@@ -7,7 +7,7 @@ from string import Template
 import t3eval
 
 RE_EXPORT               = False
-ONLY_TEMPLATE_GEN       = True
+ONLY_TEMPLATE_GEN       = False
 
 OFFICIAL                = False
 
@@ -52,7 +52,7 @@ SUBM_MAPPING            = \
     "diskann": {
         "team":         "Microsoft Research",
         "use_subm_dir": "diskann-bare-metal",
-        "results_dir":  "%s/gemini/results.ms_bare_metal" % COMP_RESULTS_TOPLEVEL,
+        "results_dir":  "%s/diskann/results.ms_bare_metal" % COMP_RESULTS_TOPLEVEL,
         "export_fname": "res.csv",
         "system_cost":  0,
         "md_prefix":    "MSD",
@@ -60,6 +60,17 @@ SUBM_MAPPING            = \
         "display_hw":   "Dell PowerEdge",
         "readme":       "../t3/diskann-bare-metal/README.md",
         "org":          True
+    },
+    "cuanns_multigpu": {
+        "team":         "NVidia",
+        "results_dir":  "%s/nvidia/results.cuanns_multigpu" % COMP_RESULTS_TOPLEVEL,
+        "export_fname": "res.no_power_mon.csv",
+        "system_cost":  0,
+        "md_prefix":    "NV",
+        "status":       "inprog",
+        "display_hw":   "NVidia GPU",
+        "readme":       "../t3/cuanns_multigpu/README.md",
+        "org":          False
     },
     "baseline": "faiss_t3"
 }
@@ -474,7 +485,7 @@ def produce_rankings(subms):
  
 if __name__ == "__main__":
 
-    subms = [  "faiss_t3", "optanne_graphann", "gemini", "diskann" ]
+    subms = [  "faiss_t3", "optanne_graphann", "gemini", "diskann", "cuanns_multigpu" ]
     #subms = [ "diskann" ]
        
     if not ONLY_TEMPLATE_GEN:
