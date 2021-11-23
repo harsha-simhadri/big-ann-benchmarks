@@ -1,5 +1,5 @@
 
-# BigANN Challenge Tasks, Issues, and Resolutions
+# BigANN Challenge T3 Tasks, Issues, and Resolutions
 
 In the spirit of maintaining a fair and open competition, we will be tracking all important remaining tasks and issues, and their respective resolution - and making that all public here on this README.  All competition rankings and winners will be "unofficial" until all tasks and issues have been resolved.
 
