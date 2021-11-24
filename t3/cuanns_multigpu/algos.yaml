@@ -70,13 +70,13 @@ msspacev-1B:
                 }]
           query-args: |
               [{ "iteration_num": 512, "searcher_k": 512 },
+               { "iteration_num":  60, "searcher_k":  64 },
+               { "iteration_num":  64, "searcher_k":  64 },
+               { "iteration_num":  67, "searcher_k":  96 },
+               { "iteration_num":  70, "searcher_k":  96 },
+               { "iteration_num":  75, "searcher_k":  96 },
                { "iteration_num":  80, "searcher_k":  96 },
                { "iteration_num":  85, "searcher_k":  96 },
-               { "iteration_num":  90, "searcher_k":  96 },
-               { "iteration_num":  96, "searcher_k":  96 },
-               { "iteration_num": 100, "searcher_k": 128 },
-               { "iteration_num": 105, "searcher_k": 128 },
-               { "iteration_num": 110, "searcher_k": 128 },
                { "iteration_num": 128, "searcher_k": 128 },
                { "iteration_num": 256, "searcher_k": 256 }]
 
