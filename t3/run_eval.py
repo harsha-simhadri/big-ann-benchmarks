@@ -62,7 +62,7 @@ SUBM_MAPPING            = \
         "team":         "Microsoft Research",
         "use_subm_dir": "diskann-bare-metal",
         "results_dir":  "%s/diskann/results.ms_bare_metal" % COMP_RESULTS_TOPLEVEL,
-        "export_fname": "res.csv",
+        "export_fname": "diskann-bare-metal-res-pruned.csv", #"res.csv"
         "system_cost":  0,
         "md_prefix":    "MSD",
         "status":       "inprog",
