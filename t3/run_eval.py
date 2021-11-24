@@ -75,8 +75,8 @@ SUBM_MAPPING            = \
     },
     "cuanns_multigpu": {
         "team":         "NVidia",
-        "results_dir":  "%s/nvidia/results.cuanns_multigpu" % COMP_RESULTS_TOPLEVEL,
-        "export_fname": "res.no_power_mon.csv",
+        "results_dir":  "%s/nvidia/cuanns_multigpu/results.power_mon" % COMP_RESULTS_TOPLEVEL,
+        "export_fname": "res.power_mon.csv", #"res.no_power_mon.csv",
         "system_cost":  0,
         "md_prefix":    "NV",
         "status":       "inprog",
@@ -116,8 +116,8 @@ def process_subm( subm ):
     print("EXP FILE", export_file)
     if not os.path.exists( export_file ):
         print("path does not exist: ", export_file )
-        # do_export = True
-        sys.exit(1)
+        do_export = True
+        #sys.exit(1)
 
     # create export.csv from results directory as needed
     exported = False
@@ -493,6 +493,7 @@ if __name__ == "__main__":
 
     subms = [  "faiss_t3", "optanne_graphann", "gemini", "diskann", "cuanns_multigpu" ]
     #subms = [ "diskann" ]
+    #subms = [  "cuanns_multigpu" ]
        
     if not ONLY_TEMPLATE_GEN:
         for subm in subms:

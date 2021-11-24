@@ -393,7 +393,7 @@ class Evaluator():
             "best_recall": best_recall,
             "best_qps": best_qps,
             "best_wspq": best_wspq,
-            "cost": [total_cost, capex, opex, self.system_cost, no_units, opex_kwh_per_query*opex_tot_queries] if len(wspq)>0 else [0,0,0,0,0,0]
+            "cost": [total_cost, capex, opex, self.system_cost, no_units, opex_kwh_per_query*opex_tot_queries] if len(wspq)>0 and total_cost!=0 else [0,0,0,0,0,0]
         }
         
         self.evals[dataset] = this_eval
