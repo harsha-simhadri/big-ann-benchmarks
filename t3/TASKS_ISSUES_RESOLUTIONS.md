@@ -12,8 +12,6 @@ Participants should send their questions and issues to the T3 organizer directly
 * [GSI to T3 Organizer] New index for SSNPP and Text2Image requires re-evaluation for those datasets and updated scores.
 * [GSI to T3 Organizer] Need better documentation for how to extract power benchmark from plot.py script.
 * [T3 Organizer self-report] Need to retrieve "results" h5py files from MS DiskANN remote machine.
-* [T3 Organizer self-report] Need to retrieve "results" h5py files from NVidia's remote machine.
-* [T3 Organizer to NVidia] Need to retrieve power monitoring "results" from NVidia's remote machine.
 
 ## Issues (open)
 
@@ -27,3 +25,7 @@ Participants should send their questions and issues to the T3 organizer directly
 
 * [GSI asked] What does NQ mean?
   * [T3 Organizer responded] It could mean 1) team did not submit a qualifying algorithm for the benchmark 2) team decided did not participate in that benchmark 3) unable to get some key data for the benchmark (such as power or system cost, or both ).
+* [T3 Organizer self-report] Need to retrieve "results" h5py files from NVidia's remote machine.
+  * Done on 11/23/2021
+* [T3 Organizer to NVidia] Need to retrieve power monitoring "results" from NVidia's remote machine.
+  * Done on 11/23/2021
