@@ -188,6 +188,11 @@ class Dataset():
         Return (nq, d) array containing the nq queries.
         """
         pass
+    def get_private_queries(self):
+        """
+        Return (private_nq, d) array containing the private_nq private queries.
+        """
+        pass
     def get_groundtruth(self, k=None):
         """
         Return (nq, k) array containing groundtruth indices
@@ -323,6 +328,12 @@ class DatasetCompetitionFormat(Dataset):
         filename = os.path.join(self.basedir, self.qs_fn)
         x = xbin_mmap(filename, dtype=self.dtype)
         assert x.shape == (self.nq, self.d)
+        return sanitize(x)
+
+    def get_private_queries(self):
+        filename = os.path.join(self.basedir, self.private_qs_fn)
+        x = xbin_mmap(filename, dtype=self.dtype)
+        assert x.shape == (self.private_nq, self.d)
         return sanitize(x)
 
 subset_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/"
