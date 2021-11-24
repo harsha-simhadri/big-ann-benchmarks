@@ -77,7 +77,7 @@ SUBM_MAPPING            = \
         "team":         "NVidia",
         "results_dir":  "%s/nvidia/cuanns_multigpu/results2.power_mon" % COMP_RESULTS_TOPLEVEL,
         "export_fname": "res2.power_mon.csv", #"res.no_power_mon.csv",
-        "system_cost":  150000,
+        "system_cost":  0,
         "md_prefix":    "NV",
         "status":       "inprog",
         "display_hw":   "NVidia GPU",
