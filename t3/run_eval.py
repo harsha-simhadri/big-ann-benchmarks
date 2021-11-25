@@ -87,6 +87,20 @@ SUBM_MAPPING            = \
         "algo":         "[src](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/benchmark/algorithms/cuanns_multigpu.py)",
         "analysis":     "[nb](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/cuanns_multigpu/EvalPublic.ipynb)"
     },
+    "cuanns_ivfpq": {
+        "team":         "NVidia",
+        "results_dir":  "%s/nvidia/cuanns_ivfpq/results.ivfpq.power_mon" % COMP_RESULTS_TOPLEVEL,
+        "export_fname": "res.ivfpq.power_mon.csv",
+        "system_cost":  0,
+        "md_prefix":    "NV2",
+        "status":       "inprog",
+        "display_hw":   "NVidia GPU",
+        "readme":       "https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/cuanns_ivfpq/README.md",
+        "org":          False,
+        "evaluator":    "George Williams",
+        "algo":         "[src](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/benchmark/algorithms/cuanns_ivfpq.py)",
+        "analysis":     "[nb](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/cuanns_ivfpq/EvalPublic.ipynb)"
+    },
     "baseline": "faiss_t3"
 }
 
@@ -491,9 +505,9 @@ def produce_rankings(subms):
  
 if __name__ == "__main__":
 
-    subms = [  "faiss_t3", "optanne_graphann", "gemini", "diskann", "cuanns_multigpu" ]
-    #subms = [ "diskann" ]
+    subms = [  "faiss_t3", "optanne_graphann", "gemini", "diskann", "cuanns_multigpu", "cuanns_ivfpq" ]
     #subms = [  "cuanns_multigpu" ]
+    #subms = [  "cuanns_ivfpq" ]
        
     if not ONLY_TEMPLATE_GEN:
         for subm in subms:
