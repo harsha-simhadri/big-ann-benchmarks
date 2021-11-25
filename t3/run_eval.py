@@ -6,7 +6,7 @@ import pandas as pd
 from string import Template
 import t3eval
 
-RE_EXPORT               = True
+RE_EXPORT               = False
 ONLY_TEMPLATE_GEN       = False
 
 OFFICIAL                = False
@@ -505,9 +505,9 @@ def produce_rankings(subms):
  
 if __name__ == "__main__":
 
-    #subms = [  "faiss_t3", "optanne_graphann", "gemini", "diskann", "cuanns_multigpu", "cuanns_ivfpq" ]
+    subms = [  "faiss_t3", "optanne_graphann", "gemini", "diskann", "cuanns_multigpu", "cuanns_ivfpq" ]
     #subms = [  "cuanns_multigpu" ]
-    subms = [  "cuanns_ivfpq" ]
+    #subms = [  "cuanns_ivfpq" ]
        
     if not ONLY_TEMPLATE_GEN:
         for subm in subms:
