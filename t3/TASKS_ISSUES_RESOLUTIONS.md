@@ -20,6 +20,7 @@ Participants should send their questions and issues to the T3 organizer directly
 * [GSI to T3 Organizers] We cannot reproduce the baseline performance on SSNPP on same/similar hardware.
 * [T3 Organizer asks NVidia] Can't we use an MSRP from another company as proxy for system cost?
 * [GSI to T3 Organizers] Have you discussed taking power also on the recall working point and not just on the throughput working point?
+[GSI asks T3 Organizers] Since some algorithms implement smart caching mechanisms to simulate real life scenarios and since the competition framework sends the same queries again and again 50 time for each dataset (5 runs x 10 query configurations) which is not a real life case. It is important that competition framework needs to verify the results, automatically (and if not possible manually) that no caching mechanism is used in between runs and in between query configurations. One way is to make sure that the throughput for the runs doesn’t differ much taking into account that there are 5 runs and 10 configurations with the same queries. Probably a better way is to send for different queries or somehow cool down the cache in between runs by sending random queries.
 
 ## Resolutions
 
