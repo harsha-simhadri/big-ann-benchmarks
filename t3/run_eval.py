@@ -6,7 +6,7 @@ import pandas as pd
 from string import Template
 import t3eval
 
-RE_EXPORT               = False
+RE_EXPORT               = True
 ONLY_TEMPLATE_GEN       = False
 
 OFFICIAL                = False
@@ -75,8 +75,8 @@ SUBM_MAPPING            = \
     },
     "cuanns_multigpu": {
         "team":         "NVidia",
-        "results_dir":  "%s/nvidia/cuanns_multigpu/results2.power_mon" % COMP_RESULTS_TOPLEVEL,
-        "export_fname": "res2.power_mon.csv", #"res.no_power_mon.csv",
+        "results_dir":  "%s/nvidia/cuanns_multigpu/results3.power_mon" % COMP_RESULTS_TOPLEVEL,
+        "export_fname": "results3.power_mon.csv", 
         "system_cost":  0,
         "md_prefix":    "NV",
         "status":       "inprog",
@@ -491,9 +491,9 @@ def produce_rankings(subms):
  
 if __name__ == "__main__":
 
-    subms = [  "faiss_t3", "optanne_graphann", "gemini", "diskann", "cuanns_multigpu" ]
+    #subms = [  "faiss_t3", "optanne_graphann", "gemini", "diskann", "cuanns_multigpu" ]
     #subms = [ "diskann" ]
-    #subms = [  "cuanns_multigpu" ]
+    subms = [  "cuanns_multigpu" ]
        
     if not ONLY_TEMPLATE_GEN:
         for subm in subms:
