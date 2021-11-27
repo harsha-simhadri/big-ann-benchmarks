@@ -205,11 +205,11 @@ deep-1B:
                }]
           query-args: |
               [
-                {"search_window_size": 2272}, 
-                {"search_window_size": 2288}, 
-                {"search_window_size": 2304}, 
                 {"search_window_size": 2320}, 
                 {"search_window_size": 2336}, 
+                {"search_window_size": 2352}, 
+                {"search_window_size": 2368}, 
+                {"search_window_size": 2384}, 
                 {"search_window_size": 25}, 
                 {"search_window_size": 26}, 
                 {"search_window_size": 27},
@@ -292,16 +292,16 @@ msspacev-1B:
                }]
           query-args: |
               [
-                {"search_window_size": 2848},
-                {"search_window_size": 2864},
-                {"search_window_size": 2880},
-                {"search_window_size": 2896},
-                {"search_window_size": 2912},
-                {"search_window_size": 47},
-                {"search_window_size": 48},
-                {"search_window_size": 49},
-                {"search_window_size": 50},
-                {"search_window_size": 51}
+                  {"search_window_size": 2736},
+                  {"search_window_size": 2768},
+                  {"search_window_size": 2800},
+                  {"search_window_size": 2832},
+                  {"search_window_size": 2884},
+                  {"search_window_size": 42},
+                  {"search_window_size": 41},
+                  {"search_window_size": 40},
+                  {"search_window_size": 39},
+                  {"search_window_size": 38}
               ]
 
 msturing-1B:
