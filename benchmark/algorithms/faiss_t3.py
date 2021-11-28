@@ -256,6 +256,9 @@ class IndexQuantizerOnGPU:
         return D, I
 
     def range_search(self, x, radius):
+
+        x = x.astype( np.float32 ) #GW
+
         bs = self.search_bs
         if self.vec_transform:
             x = self.vec_transform(x)
