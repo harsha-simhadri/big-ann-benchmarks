@@ -205,7 +205,7 @@ class Evaluator():
                 import dataframe_image as dfi
                 dfs = df.style.set_caption(title)
                 dfi.export(dfs, savepath)
-                if self.verbose: print("saved summary image at %s" % savepath)
+                print("saved summary image at %s" % savepath)
             except:
                 traceback.print_exc()
 
@@ -436,7 +436,7 @@ class Evaluator():
         t = plt.suptitle("%s recall benchmark (recall=recall@10)" % dataset )
 
         if savepath: # save plot to file
-            if self.verbose: print("saving image to %s" % savepath )
+            print("saving image to %s" % savepath )
             fig.savefig( savepath )
 
     def plot_throughput(self, dataset, zoom=None, tweak=None, savepath=None):
