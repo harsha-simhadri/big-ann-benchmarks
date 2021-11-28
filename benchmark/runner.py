@@ -25,6 +25,7 @@ def run_individual_query(algo, X, distance, count, run_count, search_type):
     for i in range(run_count):
         print('Run %d/%d...' % (i + 1, run_count))
 
+        search_times = []
         start = time.time()
         if search_type == "knn":
             algo.query(X, count)
@@ -38,6 +39,7 @@ def run_individual_query(algo, X, distance, count, run_count, search_type):
 
         search_time = total
         best_search_time = min(best_search_time, search_time)
+        search_times.append( search_time )
 
     attrs = {
         "best_search_time": best_search_time,
@@ -45,7 +47,8 @@ def run_individual_query(algo, X, distance, count, run_count, search_type):
         "run_count": run_count,
         "distance": distance,
         "type": search_type,
-        "count": int(count)
+        "count": int(count),
+        "search_times": search_times
     }
     additional = algo.get_additional()
     for k in additional:
