@@ -14,6 +14,7 @@ OFFICIAL                = False
 TOTAL_SUBM              = 10
 COMP_RESULTS_TOPLEVEL   = "/Users/gwilliams/Projects/BigANN/competition_results"
 T3_EVAL_TOPLEVEL        = "t3/eval_2021"
+
 SUBM_MAPPING            = \
 {
     "faiss_t3": {
@@ -46,8 +47,10 @@ SUBM_MAPPING            = \
     },
     "gemini": {
         "team":         "GSI Technology",
-        "results_dir":  "%s/gemini/results.using_gsl_release" % COMP_RESULTS_TOPLEVEL,
-        "export_fname": "public_gsl_release.csv",
+        "results_dir":  "%s/gemini/results_merge_new_ssnpp_text1image_to_use_gsl_release/merged" % COMP_RESULTS_TOPLEVEL,
+        #GW last results=  "results_dir":  "%s/gemini/results.using_gsl_release" % COMP_RESULTS_TOPLEVEL,
+        "export_fname": "public_gsl_release_merged_latest_ssnpp_text2image.csv",
+        #GW last export name = "export_fname": "public_gsl_release.csv",
         "system_cost":  55726.66,
         "md_prefix":    "GEM",
         "status":       "inprog",
@@ -508,6 +511,7 @@ if __name__ == "__main__":
     subms = [  "faiss_t3", "optanne_graphann", "gemini", "diskann", "cuanns_multigpu", "cuanns_ivfpq" ]
     #subms = [  "cuanns_multigpu" ]
     #subms = [  "cuanns_ivfpq" ]
+    #subms = [  "gemini" ]
        
     if not ONLY_TEMPLATE_GEN:
         for subm in subms:
