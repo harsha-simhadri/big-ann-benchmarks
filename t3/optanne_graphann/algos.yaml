@@ -205,11 +205,19 @@ deep-1B:
                }]
           query-args: |
               [
+<<<<<<< HEAD
                 {"search_window_size": 2320}, 
                 {"search_window_size": 2336}, 
                 {"search_window_size": 2352}, 
                 {"search_window_size": 2368}, 
                 {"search_window_size": 2384}, 
+=======
+                {"search_window_size": 2272}, 
+                {"search_window_size": 2288}, 
+                {"search_window_size": 2304}, 
+                {"search_window_size": 2320}, 
+                {"search_window_size": 2336}, 
+>>>>>>> cfc2a1f8dde60b48d7fe9964aeee5fab863d646e
                 {"search_window_size": 25}, 
                 {"search_window_size": 26}, 
                 {"search_window_size": 27},
@@ -292,6 +300,7 @@ msspacev-1B:
                }]
           query-args: |
               [
+<<<<<<< HEAD
                   {"search_window_size": 2736},
                   {"search_window_size": 2768},
                   {"search_window_size": 2800},
@@ -302,6 +311,18 @@ msspacev-1B:
                   {"search_window_size": 40},
                   {"search_window_size": 39},
                   {"search_window_size": 38}
+=======
+                {"search_window_size": 2848},
+                {"search_window_size": 2864},
+                {"search_window_size": 2880},
+                {"search_window_size": 2896},
+                {"search_window_size": 2912},
+                {"search_window_size": 47},
+                {"search_window_size": 48},
+                {"search_window_size": 49},
+                {"search_window_size": 50},
+                {"search_window_size": 51}
+>>>>>>> cfc2a1f8dde60b48d7fe9964aeee5fab863d646e
               ]
 
 msturing-1B:
