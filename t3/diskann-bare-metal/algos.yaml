@@ -1,0 +1,167 @@
+random-range-xs:
+    diskann-bare-metal:
+      docker-tag: billion-scale-benchmark-diskann
+      module: benchmark.algorithms.diskann-t2
+      constructor: Diskann
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"R":32, "L":32, "B":0.0001, "M":1}]
+          query-args: |
+            [{"Lmin":3, "Lmax":100, "BW":4, "T":16}]
+random-xs:
+    diskann-bare-metal:
+      docker-tag: billion-scale-benchmark-diskann
+      module: benchmark.algorithms.diskann-t2
+      constructor: Diskann
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"R":32, "L":32, "B":0.0001, "M":1}]
+          query-args: |
+              [{"Ls":10, "BW":4, "T":16}]
+deep-1B:
+    diskann-bare-metal:
+      docker-tag: billion-scale-benchmark-diskann-bare-metal
+      module: benchmark.algorithms.diskann-t2
+      constructor: Diskann
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"R":100, "L":100, "B":50, "M":110,
+                "url": "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/diskann-T2-baseline-indices/deep-1B/R100_L100_B50_M110"
+                }]
+          query-args: |
+              [{"Ls":40, "BW":4, "T":72},
+              {"Ls":50, "BW":4, "T":72},
+              {"Ls":60, "BW":4, "T":72},
+              {"Ls":80, "BW":4, "T":72},
+              {"Ls":100, "BW":4, "T":72},
+              {"Ls":120, "BW":4, "T":72},
+              {"Ls":140, "BW":4, "T":72},
+              {"Ls":170, "BW":4, "T":72},
+              {"Ls":200, "BW":4, "T":72},
+              {"Ls":230, "BW":4, "T":72},
+              {"Ls":260, "BW":4, "T":72},
+              {"Ls":300, "BW":4, "T":72},
+              {"Ls":350, "BW":4, "T":72}]
+msspacev-1B:
+    diskann-bare-metal:
+      docker-tag: billion-scale-benchmark-diskann
+      module: benchmark.algorithms.diskann-t2
+      constructor: Diskann
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"R":100, "L":100, "B":47, "M":100,
+                "url": "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/diskann-T2-baseline-indices/msspacev-1B/R100_L100_B47_M100"
+                }]
+          query-args: |
+              [{"Ls":25, "BW":4, "T":72},
+              {"Ls":40, "BW":4, "T":72},
+              {"Ls":60, "BW":4, "T":72},
+              {"Ls":80, "BW":4, "T":72},
+              {"Ls":100, "BW":4, "T":72},
+              {"Ls":150, "BW":4, "T":72},
+              {"Ls":200, "BW":4, "T":72},
+              {"Ls":250, "BW":4, "T":72},
+              {"Ls":300, "BW":4, "T":72},
+              {"Ls":350, "BW":4, "T":72},
+              {"Ls":400, "BW":4, "T":72}]
+msturing-1B:
+    diskann-bare-metal:
+      docker-tag: billion-scale-benchmark-diskann
+      module: benchmark.algorithms.diskann-t2
+      constructor: Diskann
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"R":100, "L":100, "B":50, "M":80,
+                "url": "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/diskann-T2-baseline-indices/msturing-1B/R100_L100_B50_M80"
+                }]
+          query-args: |
+              [{"Ls":25, "BW":4, "T":72},
+              {"Ls":40, "BW":4, "T":72},
+              {"Ls":70, "BW":4, "T":72},
+              {"Ls":100, "BW":4, "T":72},
+              {"Ls":150, "BW":4, "T":72},
+              {"Ls":200, "BW":4, "T":72},
+              {"Ls":250, "BW":4, "T":72},
+              {"Ls":300, "BW":4, "T":72},
+              {"Ls":350, "BW":4, "T":72},
+              {"Ls":400, "BW":4, "T":72}]
+bigann-1B:
+    diskann-bare-metal:
+      docker-tag: billion-scale-benchmark-diskann
+      module: benchmark.algorithms.diskann-t2
+      constructor: Diskann
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"R":100, "L":100, "B":50, "M":80,
+                "url": "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/diskann-T2-baseline-indices/bigann-1B/R100_L100_B50_M80"
+                }]
+          query-args: |
+              [{"Ls":25, "BW":4, "T":72},
+              {"Ls":30, "BW":4, "T":72},
+              {"Ls":50, "BW":4, "T":72},
+              {"Ls":70, "BW":4, "T":72},
+              {"Ls":100, "BW":4, "T":72},
+              {"Ls":150, "BW":4, "T":72},
+              {"Ls":200, "BW":4, "T":72},
+              {"Ls":250, "BW":4, "T":72},
+              {"Ls":300, "BW":4, "T":72},
+              {"Ls":350, "BW":4, "T":72},
+              {"Ls":400, "BW":4, "T":72}]
+ssnpp-1B:
+    diskann-bare-metal:
+      docker-tag: billion-scale-benchmark-diskann
+      module: benchmark.algorithms.diskann-t2
+      constructor: Diskann
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"R":100, "L":100, "B":60, "M":100, "C":500000, "CM":2,
+                "url": "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/diskann-T2-baseline-indices/fbssnpp-1B/R100_L100_B60_M100"
+                }]
+          query-args: |
+              [{"Lmin":8, "Lmax":10000, "BW":4, "T":16},
+               {"Lmin":12, "Lmax":10000, "BW":4, "T":16},
+               {"Lmin":8, "Lmax":20000, "BW":4, "T":16},
+               {"Lmin":12, "Lmax":20000, "BW":4, "T":16},
+               {"Lmin":8, "Lmax":30000, "BW":4, "T":16},
+               {"Lmin":12, "Lmax":30000, "BW":4, "T":16},
+               {"Lmin":16, "Lmax":30000, "BW":4, "T":16},
+               {"Lmin":8, "Lmax":45000, "BW":4, "T":16},
+               {"Lmin":12, "Lmax":45000, "BW":4, "T":16},
+               {"Lmin":16, "Lmax":45000, "BW":4, "T":16}]
+text2image-1B:
+    diskann-bare-metal:
+      docker-tag: billion-scale-benchmark-diskann
+      module: benchmark.algorithms.diskann-t2
+      constructor: Diskann
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"R":100, "L":100, "B":60, "M":115, "PQ":200, "C":500000, "CM":2,
+                "url": "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/diskann-T2-baseline-indices/text2image-1B/R100_L100_B60_M115_PQ200"
+                }]
+          query-args: |
+              [{"Ls":40, "BW":10, "T":72},
+              {"Ls":70, "BW":10, "T":72},
+              {"Ls":100, "BW":10, "T":72},
+              {"Ls":130, "BW":10, "T":72},
+              {"Ls":170, "BW":10, "T":72},
+              {"Ls":200, "BW":10, "T":72},
+              {"Ls":250, "BW":10, "T":72},
+              {"Ls":300, "BW":10, "T":72},
+              {"Ls":400, "BW":10, "T":72},
+              {"Ls":500, "BW":10, "T":72}]

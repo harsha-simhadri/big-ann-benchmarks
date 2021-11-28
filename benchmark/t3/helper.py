@@ -12,7 +12,7 @@ def print_cuda_versions():
 
 def t3_create_container( definition, cmd, cpu_limit, mem_limit):
 
-    if definition.algorithm in [ 'faiss-t3' ]:
+    if definition.algorithm in [ 'faiss-t3', 'cuanns_multigpu' ]:
 
         print("Launching GPU container")
         container = create_container_with_gpu_support(
@@ -33,13 +33,13 @@ def t3_create_container( definition, cmd, cpu_limit, mem_limit):
         container.start()
         return container
 
-    # GraphANN specific setup
-    # 1. Need to mount PM drives into the container.
-    # Currently, this mounts "/mnt/pm0/public" into "/home/app/indices"
-    #
-    # 2. Need to allow the docker container to run NUMACTL.
-    # Do this by adding the `SYS_NICE` attributs to the container's capabilities.
-    elif definition.algorithm in [ 'graphann' ]:
+    elif definition.algorithm in [ 'diskann-vm-l8sv2', 'diskann-bare-metal', 'graphann' ]:
+        # GraphANN specific setup
+        # 1. Need to mount PM drives into the container.
+        # Currently, this mounts "/mnt/pm0/public" into "/home/app/indices"
+        #
+        # 2. Need to allow the docker container to run NUMACTL.
+        # Do this by adding the `SYS_NICE` attributs to the container's capabilities.
         print("Launching Container")
         client = docker.from_env()
         container = client.containers.run(
@@ -70,10 +70,32 @@ def t3_create_container( definition, cmd, cpu_limit, mem_limit):
             cpuset_cpus=cpu_limit,
             mem_limit=mem_limit,
             detach=True)
-
+        
         container.start()
         return container
+    
+    elif definition.algorithm in [ 'cuanns_ivfpq' ]:
 
+        print("Launching GPU container")
+        volumes = {
+            os.path.abspath('benchmark'): {'bind': '/home/app/benchmark', 'mode': 'ro'},
+            os.path.abspath('data'): {'bind': '/home/app/data', 'mode': 'rw'},
+            os.path.abspath('results'): {'bind': '/home/app/results', 'mode': 'rw'},
+        }
+        for path in definition.docker_volumes:
+            if os.path.exists(path):
+                volumes[path] = {'bind': path, 'mode': 'rw'}
+        # print('# volumes: {}'.format(volumes))
+        container = create_container_with_gpu_support(
+            docker.from_env(),
+            definition.docker_tag,
+            cmd,
+            volumes=volumes,
+            cpuset_cpus=cpu_limit,
+            mem_limit=mem_limit,
+            detach=True)
+        container.start()
+        return container
 
     else:
         raise Exception("Docker invoke not supported for this algorithm.")

@@ -35,17 +35,15 @@ The thresholds are listed below for each dataset:
 |deep-1B            |0.9        |2000            |                                 
 |bigann-1B          |0.9        |2000            |                                 
 |msturing-1B        |0.9        |2000            |                                 
-|msspacev-1B        |0.85       |1484.217        |                                 
-|text2image-1B      |0.86       |1510.624        |                                 
+|msspacev-1B        |0.0        |2000            |                                 
+|text2image-1B      |0.86       |1762.363        |                                 
 |ssnpp-1B           |0.9        |2000            |
 
 ## Thresholds Explained
 
 We had to decide very early in the planning of this competition reasonable performance thresholds to implement.  
 
-We observed that the performance of the T3 baseline algorithm (see below) was achieving at least 90% recall@10 at 2000qps for several datasets, so we decided to bake this into the competition rules.  As our internal testing evolved we discovered that two datasets (msspacev-1B and text2image-1B) could not achieve those thresholds, and so we decided to lower the threshold based on the baseline performance we observed at that time.
-
-Fast forward several months, we improved the baseline performance of both msspacev-1B and text2image-1B as well as changed the recall computation to account for ties (see below).  We decided that it would not be fair to participants to change the thresholds that were already established, so we kept the thresholds shown in the table above.  In the baseline section below, you will see results of the original experiments that established the track thresholds, as well as the most recent benchmarks that indeed improve on those thresholds.
+We observed that the performance of the T3 baseline algorithm (see below) was achieving at least 90% recall@10 at 2000qps for several datasets, so we decided to bake this into the competition rules.  As our internal testing evolved we discovered that 1 dataset (text2image-1B) could not achieve those thresholds, and so we decided to lower the threshold based on the baseline performance we observed at that time.
 
 # Baseline
 
@@ -53,7 +51,7 @@ Fast forward several months, we improved the baseline performance of both msspac
 
 The baseline algorithm is based on FAISS library version 1.7.1.  The FAISS library provides several ANN approaches and the baselined leverages the FAISS index called "IVF1048576,SQ8." The choice of this index was based on experimentation and consultation with Mathijs Douje of Facebook, one of the competition organizers.  You can view the algorithm [here].
 
-The hardware is 1 PCIe V100 NVidia GPU attached to an Advantech SKY motherboard with 768 GB RAM.  More details about the hardware can be found [here].
+The hardware is 1 PCIe V100 NVidia GPU attached to an Advantech SKY motherboard with 768 GB RAM.  More details about the hardware can be found [here](faiss_t3/README.md).
 
 ## Threshold
 
@@ -65,30 +63,87 @@ The performance of the baseline algorithm factors into the scoring used to rank 
 
 The benchmarks used in the score calculation are listed below for each dataset:
 
-|Dataset            |Recall@10  |Throughput(qps) |
-|-------------------|-----------|----------------|
-|deep-1B            |0.942      |3422.473        |
-|bigann-1B          |0.927      |2186.755        |
-|msturing-1B        |0.910      |2421.856        |
-|msspacev-1B        |0.850      |1484.217        |
-|text2image-1B      |0.860      |1510.624        |
-|ssnpp-1B           |0.979      |5572.272        |
+|Dataset            |Recall@10/AP|Throughput(qps) |Cost(wspq) |
+|-------------------|------------|----------------|-----------|
+|deep-1B            |0.943       |4417.036        |0.113      |
+|bigann-1B          |0.927       |3086.656        |0.167      |
+|msturing-1B        |0.909       |2359.485        |0.204      |
+|msspacev-1B        |0.909       |2770.848        |0.167      |
+|text2image-1B      |0.860       |1762.363        |0.123      |
+|ssnpp-1B           |0.979       |5572.272        |0.095      |
 
 ## Measurements
 
-The baseline benchmarks used for the score calculation in the table above was based on very early experiments.  The full results of those benchmarks are shown in Appendix A below.
-
-The decision point was based on the following:
-* for recall/average precision, we chose the highest recall/average precision that exceeded the threshold minimum for that dataset ( see Threshold section above. )
-* for throughput, we chose the highest qps that exceeded the threshold minimum for that dataset ( see Threshold section above. )
-
-As mentioned previously, the recall/average precision and throughput benchmarks on the baseline improved since the original measurements, but we decided not to change either the thresholds or scoring benchmarks out of fairness to participants.  That said, you can view those most recent baseline benchmarks in Appendix B.  In future competitions, we will likely update the thresholds and scoring benchmarks based on the most recent baseline measurements. 
+The baseline benchmarks are based on the most recent measurements.  At the start, and during the competition, we had published different numbers.  The reason for the changes are described in [Appendix A](#appendix-a) below.
 
 # Appendix
 
 ## Appendix A
 
-The following table lists the full results for baseline performance:
+At the start of the competition, we had release the following thresholds:
+
+|Dataset            |R@10/AP    |Throughput(qps) |
+|-------------------|-----------|----------------|
+|deep-1B            |0.9        |2000            |
+|bigann-1B          |0.9        |2000            |
+|msturing-1B        |0.9        |2000            |
+|msspacev-1B        |0.85       |1484.217        |
+|text2image-1B      |0.86       |1510.624        |
+|ssnpp-1B           |0.9        |2000            |
+
+The most recent thresholds have changed from the original for the following reasons:
+* Changes in how recall was computing to deal with ties in distance.
+* Changes in the radius for the range search dataset
+* Also we decided to re-run the measurements of the baseline algorithm on the T3 baseline machine using the current evaluation framework.  The original baselines were measured using a different software framework
+* The original baselines published did not calculate and report baseline cost.
+
+The original baselines that were published are shown below. For recall:
+
+|   dataset    |    qps   | recall@10 |
+| ------------ | -------- | --------- |
+| msturing-1B  | 2011.542 |   0.910   |
+| bigann-1B    | 2058.950 |   0.927   |
+| text2image-1B| 2120.635 |   0.860   |
+| deep-1B      | 2002.490 |   0.942   |
+| msspacev-1B  | 2190.829 |   0.850   |
+
+And for throughput:
+
+|   dataset    |    qps   | recall@10 |
+| ------------ | -------- | --------- |
+| msturing-1B  | 2421.856 |   0.902   |
+| bigann-1B    | 2186.755 |   0.905   |
+| text2image-1B| 1510.624 |   0.882   |
+| deep-1B      | 3422.473 |   0.916   |
+| msspacev-1B  | 1484.217 |   0.869   |
+
+The following tables show the baseline performance on the range search dataset:
+
+Instead of recall, the range search dataset utilizes average precision:
+
+|   dataset  |    qps   |    ap
+| -----------| ---------| ---------
+| ssnpp-1B   | 2907.414 |   0.979
+
+For throughput:
+
+|   dataset  |    qps   |    ap     |
+| -----------| -------- | --------- |
+| ssnpp-1B   | 5572.272 |   0.910   |
+
+Here were the published baselines for power:
+
+|   dataset    | power(wspq) |
+| ------------ | ------------|
+| msturing-1B  | 0.203740    |
+| bigann-1B    | 0.167123    |
+| text2image-1B| 0.089675    |
+| deep-1B      | 0.112581    |
+| msspacev-1B  | 0.099569    |
+| ssnpp-1B     | 0.0944865   |
+
+
+The following table lists the full measurements for baseline performance experiments that informed the original baselines (only recall and throughput are shown.)
 
 |              dbase|    throughtput(qps)|            recall@10|
 |-------------------|--------------------|---------------------|
@@ -137,12 +192,5 @@ These baseline numbers were performed on the machine configuration used for the 
 
 An older (now obsolete) code framework was used to determine these thresholds, not the existing evaluation framework so unfortunately there is no algos.yaml configuration file.
 
-The following shows the meaurements used to acquire the range search baseline [ TODO ]
-
-## Appendix B
-
-The following show the most recent baseline performance, which improve on the original measurements take that were used to inform the track thresholds and scoring benchmarks:
-
-[TODO]
 
 

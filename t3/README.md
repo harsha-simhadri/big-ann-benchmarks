@@ -165,7 +165,7 @@ Your submission's top-level directory should contain a README.md with the follow
 * **Hardware Setup And Software Installation**  This section should contain any hardware and software installation instructions.
 * **Run Competition Algorithm**  This section should contain instructions to run the competition algorithm, for example, run scripts.
 
-Please consult the baseline [README.md](faiss_t3/README.md) example.
+Please consult the baseline [README](faiss_t3/README.md) example.
 
 ### Optional Information
 
@@ -186,43 +186,67 @@ T3 will maintain four different leaderboards 1) one based on recall/average prec
 
 A performance baseline has been established for this competition, based on both queries per second (qps) and recall/average precision (recall measured as recall@10.)  For the recall leaderboard, we will rank participants by recall@10/average precision at 2K qps.  
 
-The table below shows the baseline recall@10 for all the (knn search type) datasets near 2K qps.
+The table below shows the baseline recall@10 for all the (knn search type) datasets at or above 2K qps ( or as close to it as possible. )
 
-|   dataset    |    qps   | recall@10 |
-| ------------ | -------- | --------- |
-| msturing-1B  | 2011.542 |   0.910   |
-| bigann-1B    | 2058.950 |   0.927   |
-| text2image-1B| 2120.635 |   0.860   |
-| deep-1B      | 2002.490 |   0.942   |
-| msspacev-1B  | 2190.829 |   0.850   |
+|   dataset    | recall@10 |
+| ------------ | --------- |
+| msturing-1B  | 0.909     |
+| bigann-1B    | 0.927     |
+| text2image-1B| 0.860     |
+| deep-1B      | 0.943     |
+| msspacev-1B  | 0.909     |
 
-For the throughput leaderboard, we will rank participants by qps at 90% recall@10. The table below shows the baseline throughput for all the (knn search type) datasets near 90% recall@10.
+For the throughput leaderboard, we will rank participants by qps at or above 90% recall@10 (or close to it as possible.) The table below shows the baseline throughput for all the (knn search type) datasets near 90% recall@10.
 
-|   dataset    |    qps   | recall@10 |
-| ------------ | -------- | --------- |
-| msturing-1B  | 2421.856 |   0.902   |
-| bigann-1B    | 2186.755 |   0.905   |
-| text2image-1B| 1510.624 |   0.882   |
-| deep-1B      | 3422.473 |   0.916   |
-| msspacev-1B  | 1484.217 |   0.869   |
+|   dataset    |    qps   | 
+| ------------ | -------- | 
+| msturing-1B  | 2359.485  |  
+| bigann-1B    | 3086.656  |  
+| text2image-1B| 1762.363 |
+| deep-1B      | 4417.036 |
+| msspacev-1B  | 2770.848 |
 
 The following tables show the baseline performance on the range search dataset:
 
 Instead of recall, the range search dataset utilizes average precision:
 
-|   dataset  |    qps   |    ap
-| -----------| ---------| ---------
-| ssnpp-1B   | 2907.414 |   0.979
+|   dataset  |   ap   |
+| -----------| -------| 
+| ssnpp-1B   | 0.979  |
 
 For throughput:
 
-|   dataset  |    qps   |    ap     |
-| -----------| -------- | --------- |
-| ssnpp-1B   | 5572.272 |   0.910   |
+|   dataset  |    qps   |   
+| -----------| -------- | 
+| ssnpp-1B   | 5572.272 |  
+
+The following table shows the baseline performance on all datasets for power, shown as watt-seconds/query:
+
+|   dataset    |   wspq   | 
+| ------------ | -------- | 
+| msturing-1B  | 0.204    |  
+| bigann-1B    | 0.167    |  
+| text2image-1B| 0.123    |
+| deep-1B      | 0.113    |
+| msspacev-1B  | 0.167    |
+| ssnpp-1B     | 0.095    |
+
+The following table shows the baseline performance on all datasets for cost:
+
+|   dataset    |    cost         | 
+| ------------ | --------------- | 
+| msturing-1B  | $1,018,332.30   |  
+| bigann-1B    | $785,282.45     |
+| text2image-1B| $1,298,436.77   |
+| deep-1B      | $545,952.10     |
+| msspacev-1B  | $873,460.84     |
+| ssnpp-1B     | $429,634.84     |
+
+Details of how power is measured and how cost is computed are explained further down.
 
 Baselines were measured on an 56 core Intel Xeon system with 700GB RAM and a V100 Nvidia GPU using the FAISS library using the index strategy called IVF1048576,SQ8. 
 
-Please consult [this document](Ranking.md) for a detailed discussion about how the baseline is used to inform competition thresholds and participant scoring, as well as recent developments on baseline performance.
+Please consult [this document](RANKING.md) for a detailed discussion about how the baseline is used to inform competition thresholds and participant scoring, as well as recent developments on baseline performance.
 
 #### Recall/Average_Precision_Leaderboard
 
@@ -230,9 +254,9 @@ This leaderboard leverages the standard recall@10 vs throughput benchmark that h
 
 The final ranking will be based on a computed score, which is the sum of the improvements in recall over the baseline for the participating databases.  A submission must participate in at least 3 databases.
 
-Participants that cannot meet or exceed the baseline qps threshold for a dataset will be dropped from ranking consideration for that dataset.
+Participants that cannot meet or exceed the 2000 qps minimum threshold ( or 1762.363 qps for Text2Image ) for a dataset will be dropped from ranking consideration for that dataset.
 
-Please consult [this document](Ranking.md) for a detailed discussion about how the baseline is used to inform competition thresholds and participant scoring.
+Please consult [this document](RANKING.md) for a detailed discussion about how the baseline is used to inform competition thresholds and participant scoring.
 
 #### Throughput_Leaderboard
 
@@ -240,11 +264,11 @@ This leaderboard also leverages the standard recall@10 vs throughput benchmark. 
 
 The final ranking will be based on a computed score, which is the sum of the improvements in throughput over the baseline for the participating databases.  A submission must participate in at least 3 databases.
 
-Please consult [this document](Ranking.md) for a detailed discussion about how the baseline is used to inform competition thresholds and participant scoring.
+Please consult [this document](RANKING.md) for a detailed discussion about how the baseline is used to inform competition thresholds and participant scoring.
 
 #### Power_Leaderboard
 
-This leaderboard is related to power consumption, which is an important consideration when scaling applications and servers in a datacenter.  The primary ranking metric is ( kilowatt-hour / query.)  Participants must meet or exceed the recall@10 of the baseline threshold. The reason for those minimum thresholds is to discourage algorithm’s designers from purposefully sacrificing too much performance in order to lower the power consumption.
+This leaderboard is related to power consumption, which is an important consideration when scaling applications and servers in a datacenter.  The primary ranking metric is ( kilowatt-hour / query.)  Participants must meet or exceed the recall@10 and 2000QPS minimum threshold ( for Text2Image, the baseline performance is the minimum threshold.) The reason for those minimum thresholds is to discourage algorithm’s designers from purposefully sacrificing too much performance in order to lower the power consumption.
 
 The evaluation framework leverages the power sensors available in the standard IPMI power management interface of most commercial server chassis’.  We also leverage the open source project ipmicap ( https://github.com/fractalsproject/ipmicap ) to capture the power sensors and calculate the power consumption.
 
@@ -252,18 +276,9 @@ During evaluation, for each search parameter set, power consumption is acquired 
 
 The final ranking will be based on a computed score, which is the sum of the improvements in power consumption over the baseline for the participating databases.  A submission must participate in at least 3 databases.
 
-There are no direct thresholds for this benchmark/leaderboard.  Indirectly, participants that cannot meet or exceed the recall@10 threshold for a dataset will be dropped from ranking consideration for that dataset.  Scoring will be based on the baseline performance for power consumption, shown here for each dataset:
+There are no direct thresholds for this benchmark/leaderboard.  Indirectly, participants that cannot meet or exceed the recall@10 threshold ( or 0.86 for Text2Image ) for a dataset will be dropped from ranking consideration for that dataset.  Scoring will be based on the baseline performance for power consumption, shown here for each dataset:
 
-|   dataset    |    power   |
-| ------------ | -----------|
-| msturing-1B  | 0.203740   | 
-| bigann-1B    | 0.167123   | 
-| text2image-1B| 0.089675   |
-| deep-1B      | 0.112581   | 
-| msspacev-1B  | 0.099569   | 
-| ssnpp-1B     | 0.0944865  |
-
-Please consult [this document](Ranking.md) for a detailed discussion about how the baseline is used to inform participant scoring for this benchmark.
+Please consult [this document](RANKING.md) for a detailed discussion about how the baseline is used to inform participant scoring for this benchmark.
 
 #### Cost_Leaderboard
 
@@ -289,7 +304,7 @@ Notes on this formula:
 
 The final ranking will be based on a computed score, which is the sum of the improvements in cost over the baseline for the participating databases.  A submission must participate in at least 3 databases.
 
-There are no direct thresholds for this benchmark/leaderboard.  Indirectly, participants that cannot meet or exceed the recall@10 threshold for a dataset will be dropped from ranking consideration for that dataset.  
+There are no direct thresholds for this benchmark/leaderboard.  Indirectly, participants that cannot meet or exceed the recall@10 minimum threshold ( or 0.86 for Text2Image ) for a dataset will be dropped from ranking consideration for that dataset.  
 
 ## For_Evaluators
 
@@ -326,12 +341,14 @@ Determine the IP address, port, and authentication credentials of that interface
 
 Follow the instructions at IPMICAP open-source project ( http://www.github.com/fractalsproject/ipmicap ) to access the IPMI and configure it to listen to an available port number.
 
-Capture the machine IP address of the machine which is running IPMICAP ( it does not have to be the same machine as the target hardware. )
+Capture the machine IP address of the machine which is running IPMICAP ( it does not have to be the same machine as the target hardware. 
 
 Now run the following for each competition dataset:
 ```
-python run.py --dataset [DATASET] --t3 --definitions [DEFINITION FILE] --powercapture [IPMICAP_MACHINE_IP]:[IPMICAP_LISTEN_PORT]:[TIME_IN_SECONDS]
+python run.py --dataset [DATASET] --t3 --definitions [DEFINITION FILE] --sensors [S1 S2 ...] --sessions --powercapture [IPMICAP_MACHINE_IP]:[IPMICAP_LISTEN_PORT]:[TIME_IN_SECONDS]
 ```
+where S1, S2,... = the sensor records for all POWER_IN sensors ( please see the IPMCAP documentation to determine these sensor records. 
+
 This will monitor power consumption over that period of time ( 10 seconds is a good number ).
 
 You can retrieve a plot of the power consumptions ( measured as watt-seconds/query ) using the plot.py script.
