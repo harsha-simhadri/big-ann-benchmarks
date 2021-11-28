@@ -38,3 +38,5 @@ Participants should send their questions and issues to the T3 organizer directly
 * [T3 Organizer to NVidia] Need to retrieve power monitoring "results" h5py files from NVidia's remote machine.
   * Done on 11/23/2021 and subsequently on changes to algos.yaml
 * [GSI to T3 Organizer] Need better documentation for how to extract power benchmark from plot.py script.
+  * Answered via email.  Basically, you need to supply "wspq" as an explicit metric you want to retrieve using the chosen axis.  Run "python ploy.py --help" to get more information.
+
