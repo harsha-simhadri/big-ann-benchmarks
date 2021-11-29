@@ -131,7 +131,6 @@ function""" % (definition.module, definition.constructor, definition.arguments)
                 descriptor["index_size"] = index_size
                 descriptor["algo"] = definition.algorithm
                 descriptor["dataset"] = dataset
-                print("descriptor store", descriptor) 
                 if power_capture.enabled():
                     power_stats = power_capture.run(algo, X, distance, count,
                                                     run_count, search_type, descriptor)
