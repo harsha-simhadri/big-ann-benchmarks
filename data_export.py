@@ -34,7 +34,8 @@ if __name__ == "__main__":
         '--detect_caching',
         type=float,
         default=None,
-        help='Try to detect query response caching by analyzing search times.  Supply a percent threshold such as 0.3.')
+        metavar="THRESHOLD",
+        help='Try to detect query response caching by analyzing search times.  Supply a threshold betwee 0 and 1, such as 0.3.')
     args = parser.parse_args()
 
     if args.detect_caching!=None and not args.search_times:
