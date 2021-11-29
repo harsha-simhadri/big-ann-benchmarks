@@ -67,7 +67,8 @@ def compute_metrics(true_nn, res, metric_1, metric_2,
 
     return all_results
 
-def compute_metrics_all_runs(dataset, res, recompute=False, sensor_metrics=False):
+def compute_metrics_all_runs(dataset, res, recompute=False, \
+        sensor_metrics=False, search_times=False):
     try:
         true_nn = dataset.get_groundtruth()
     except:
@@ -108,7 +109,9 @@ def compute_metrics_all_runs(dataset, res, recompute=False, sensor_metrics=False
             if search_type == "knn" and name == "ap" or\
                 search_type == "range" and name == "k-nn":
                 continue
-            if not sensor_metrics and name=="wspq": #don't process sensor_metrics by default
+            if not sensor_metrics and name=="wspq": #don't process power sensor_metrics by default
+                continue
+            if not search_times and name=="search_times": #don't process search_times by default
                 continue
             v = metric["function"](true_nn, run_nn, metrics_cache, properties)
             run_result[name] = v
