@@ -166,7 +166,7 @@ all_metrics = {
     },
     "search_times": {
         "description": "List of consecutive search times for the same run parameter",
-        "function": lambda true_nn, run_nn, metrics, run_attrs: run_attrs["search_times"], 
+        "function": lambda true_nn, run_nn, metrics, run_attrs: run_attrs.get("search_times",[]), 
         "worst": float("inf")
     },
 
