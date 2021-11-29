@@ -49,7 +49,9 @@ def run_individual_query(algo, X, distance, count, run_count, search_type):
         "run_count": run_count,
         "distance": distance,
         "type": search_type,
-        "count": int(count)
+        "count": int(count),
+
+        "search_times": search_times
     }
     additional = algo.get_additional()
     for k in additional:
