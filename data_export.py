@@ -50,9 +50,7 @@ if __name__ == "__main__":
                 result['recall/ap'] = result['ap']
                 del result['ap']
             if args.sensors:
-                if 'wspq' in result:
-                    result['wspq'] = result['wspq']
-                else:
+                if 'wspq' not in result:
                     print('Warning: wspq sensor data not available.')
             if args.search_times:
                 if 'search_times' in result:
