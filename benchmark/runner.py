@@ -22,6 +22,8 @@ from benchmark.t3.helper import t3_create_container
 
 def run_individual_query(algo, X, distance, count, run_count, search_type):
     best_search_time = float('inf')
+
+    search_times = []
     for i in range(run_count):
         print('Run %d/%d...' % (i + 1, run_count))
 
