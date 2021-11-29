@@ -22,10 +22,10 @@ from benchmark.t3.helper import t3_create_container
 
 def run_individual_query(algo, X, distance, count, run_count, search_type):
     best_search_time = float('inf')
+    search_times = []
     for i in range(run_count):
         print('Run %d/%d...' % (i + 1, run_count))
 
-        search_times = []
         start = time.time()
         if search_type == "knn":
             algo.query(X, count)
@@ -131,7 +131,7 @@ function""" % (definition.module, definition.constructor, definition.arguments)
                 descriptor["index_size"] = index_size
                 descriptor["algo"] = definition.algorithm
                 descriptor["dataset"] = dataset
-                
+                print("descriptor store", descriptor) 
                 if power_capture.enabled():
                     power_stats = power_capture.run(algo, X, distance, count,
                                                     run_count, search_type, descriptor)

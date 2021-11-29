@@ -21,6 +21,14 @@ if __name__ == "__main__":
         '--recompute',
         action='store_true',
         help='Path to the output csv file')
+    parser.add_argument(
+        '--sensors',
+        action='store_true',
+        help='Export sensors data if available')
+    parser.add_argument(
+        '--search_times',
+        action='store_true',
+        help='Export search times data if available')
     args = parser.parse_args()
 
     datasets = DATASETS.keys()
@@ -31,7 +39,8 @@ if __name__ == "__main__":
         print("Looking at dataset", dataset_name)
         dataset = DATASETS[dataset_name]()
         results = load_all_results(dataset_name)
-        results = compute_metrics_all_runs(dataset, results, args.recompute)
+        results = compute_metrics_all_runs(dataset, results, args.recompute, \
+                args.sensors, args.search_times)
         cleaned = []
         for result in results:
             if 'k-nn' in result:
@@ -40,6 +49,18 @@ if __name__ == "__main__":
             if 'ap' in result:
                 result['recall/ap'] = result['ap']
                 del result['ap']
+            if args.sensors:
+                if 'wspq' in result:
+                    result['wspq'] = result['wspq']
+                else:
+                    print('Warning: wspq sensor data not available.')
+            if args.search_times:
+                if 'search_times' in result:
+                    # create a space separated list suitable as column for a csv
+                    result['search_times'] = \
+                        " ".join( [str(el) for el in result['search_times'] ] )
+                else:
+                    print("Warning: 'search_times' not avaalable.")
             cleaned.append(result)
         dfs.append(pd.DataFrame(cleaned))
     if len(dfs) > 0:
