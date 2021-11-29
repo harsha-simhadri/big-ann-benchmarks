@@ -24,6 +24,7 @@ def run_individual_query(algo, X, distance, count, run_count, search_type):
     best_search_time = float('inf')
 
     search_times = []
+
     for i in range(run_count):
         print('Run %d/%d...' % (i + 1, run_count))
 
@@ -40,7 +41,8 @@ def run_individual_query(algo, X, distance, count, run_count, search_type):
 
         search_time = total
         best_search_time = min(best_search_time, search_time)
-
+        search_times.append( search_time )
+ 
     attrs = {
         "best_search_time": best_search_time,
         "name": str(algo),
