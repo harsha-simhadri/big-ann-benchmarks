@@ -1,4 +1,4 @@
-# T3: Cuanns IVFPQ
+# T3: Cuanns IVFPQ (Single GPU)
 
 ## Hardware Configuration And Cost
 
