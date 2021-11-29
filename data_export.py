@@ -6,6 +6,7 @@ mpl.use('Agg')
 import matplotlib.pyplot as plt
 import argparse
 import bz2
+import sys
 
 from benchmark.datasets import DATASETS
 from benchmark.plotting.utils  import compute_metrics_all_runs
@@ -29,7 +30,16 @@ if __name__ == "__main__":
         '--search_times',
         action='store_true',
         help='Export search times data if available')
+    parser.add_argument(
+        '--detect_caching',
+        type=float,
+        default=None,
+        help='Try to detect query response caching by analyzing search times.  Supply a percent threshold such as 0.3.')
     args = parser.parse_args()
+
+    if args.detect_caching!=None and not args.search_times:
+        print("Error: --detect_caching requires the --search_times flag")
+        sys.exit(1)
 
     datasets = DATASETS.keys()
     dfs = []
@@ -53,10 +63,22 @@ if __name__ == "__main__":
                 if 'wspq' not in result:
                     print('Warning: wspq sensor data not available.')
             if args.search_times:
+                search_times = result['search_times']
                 if 'search_times' in result:
                     # create a space separated list suitable as column for a csv
                     result['search_times'] = \
-                        " ".join( [str(el) for el in result['search_times'] ] )
+                        " ".join( [str(el) for el in search_times ] )
+
+                    if args.detect_caching != None:  
+                        print("%s: Checking for response caching for these search times->" % dataset_name, search_times) 
+                        percent_improvement = (search_times[0]-search_times[-1])/search_times[0]
+                        caching = percent_improvement > args.detect_caching
+                        result['caching'] = "%d %f %f" % ( 1 if caching else 0, args.detect_caching, percent_improvement )
+                        if caching:
+                            print("Possible caching discovered: %.3f > %.3f" % ( percent_improvement, args.detect_caching) )
+                        else:
+                            print("No response caching detected.")
+
                 else:
                     print("Warning: 'search_times' not available.")
             cleaned.append(result)
