@@ -13,7 +13,7 @@ from itertools import product
 
 Definition = collections.namedtuple(
     'Definition',
-    ['algorithm', 'constructor', 'module', 'docker_tag', 'docker_volumes',
+    ['algorithm', 'constructor', 'module', 'docker_tag',
      'arguments', 'query_argument_groups', 'disabled'])
 
 
@@ -122,10 +122,6 @@ def get_definitions(definition_file, dimension, dataset,
         if "base-args" in algo:
             base_args = algo["base-args"]
 
-        docker_volumes = []
-        if "docker-volumes" in algo:
-            docker_volumes = algo["docker-volumes"]
-
         for run_group in algo["run-groups"].values():
             if "arg-groups" in run_group:
                 groups = []
@@ -173,7 +169,6 @@ def get_definitions(definition_file, dimension, dataset,
                 definitions.append(Definition(
                     algorithm=name,
                     docker_tag=algo['docker-tag'],
-                    docker_volumes=docker_volumes,
                     module=algo['module'],
                     constructor=algo['constructor'],
                     arguments=aargs,
