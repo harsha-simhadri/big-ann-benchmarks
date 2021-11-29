@@ -22,6 +22,8 @@ from benchmark.t3.helper import t3_create_container
 
 def run_individual_query(algo, X, distance, count, run_count, search_type):
     best_search_time = float('inf')
+
+    search_times = []
     for i in range(run_count):
         print('Run %d/%d...' % (i + 1, run_count))
 
@@ -38,6 +40,7 @@ def run_individual_query(algo, X, distance, count, run_count, search_type):
 
         search_time = total
         best_search_time = min(best_search_time, search_time)
+        search_times.append( search_time )
 
     attrs = {
         "best_search_time": best_search_time,
@@ -45,7 +48,8 @@ def run_individual_query(algo, X, distance, count, run_count, search_type):
         "run_count": run_count,
         "distance": distance,
         "type": search_type,
-        "count": int(count)
+        "count": int(count),
+        "search_times": search_times
     }
     additional = algo.get_additional()
     for k in additional:
@@ -55,7 +59,7 @@ def run_individual_query(algo, X, distance, count, run_count, search_type):
 def run(definition, dataset, count, run_count, rebuild,
         upload_index=False, download_index=False,
         blob_prefix="", sas_string=""):
-
+    
     algo = instantiate_algorithm(definition)
     assert not definition.query_argument_groups \
            or hasattr(algo, "set_query_arguments"), """\
@@ -64,7 +68,7 @@ algorithm instantiated from it does not implement the set_query_arguments \
 function""" % (definition.module, definition.constructor, definition.arguments)
 
     assert not upload_index or not download_index
-
+    
     ds = DATASETS[dataset]()
     #X_train = numpy.array(D['train'])
     X =  ds.get_queries()
@@ -72,13 +76,13 @@ function""" % (definition.module, definition.constructor, definition.arguments)
     search_type = ds.search_type()
     print(f"Running {definition.algorithm} on {dataset}")
     print(fr"Got {len(X)} queries")
-
+    
     try:
         # Try loading the index from the file
         memory_usage_before = algo.get_memory_usage()
         if download_index:
             local_dir, index_prefix, components = algo.index_files_to_store(dataset)
-            remote_location = blob_prefix + '/' + algo.track() + '/' + algo.__str__() + '/' + DATASETS[dataset]().short_name() + '/'
+            remote_location = blob_prefix + '/' + algo.track() + '/' + algo.__str__() + '/' + DATASETS[dataset]().short_name() + '/' 
             for component in components:
                 download_accelerated(remote_location + index_prefix + component,
                                      local_dir + '/' + index_prefix + component,
@@ -97,14 +101,14 @@ function""" % (definition.module, definition.constructor, definition.arguments)
         else:
             print("Loaded existing index")
 
-
+            
         index_size = algo.get_memory_usage() - memory_usage_before
         print('Index memory footprint: ', index_size)
 
         if upload_index:
             print("Starting index upload...")
             local_dir, index_prefix, components = algo.index_files_to_store(dataset)
-            remote_location = blob_prefix + '/' + algo.track() + '/' + algo.__str__() + '/' + DATASETS[dataset]().short_name()
+            remote_location = blob_prefix + '/' + algo.track() + '/' + algo.__str__() + '/' + DATASETS[dataset]().short_name() 
             for component in components:
                 upload_accelerated(local_dir, remote_location,
                                    index_prefix + component, sas_string)
@@ -128,11 +132,10 @@ function""" % (definition.module, definition.constructor, definition.arguments)
                 descriptor["index_size"] = index_size
                 descriptor["algo"] = definition.algorithm
                 descriptor["dataset"] = dataset
-
                 if power_capture.enabled():
                     power_stats = power_capture.run(algo, X, distance, count,
                                                     run_count, search_type, descriptor)
-
+                    
                 store_results(dataset, count, definition,
                               query_arguments, descriptor, results, search_type)
     finally:
@@ -205,7 +208,7 @@ def run_from_cmdline(args=None):
         '--sas-string',
         help='SAS string to authenticate to Azure blob storage.')
 
-
+    
     args = parser.parse_args(args)
     algo_args = json.loads(args.build)
     print(algo_args)
@@ -218,7 +221,6 @@ def run_from_cmdline(args=None):
     definition = Definition(
         algorithm=args.algorithm,
         docker_tag=None,  # not needed
-        docker_volumes=[],
         module=args.module,
         constructor=args.constructor,
         arguments=algo_args,

@@ -108,16 +108,16 @@ text2image-1B:
                 "dim_pq": 72,
                 "bit_pq": 8}]
           query-args: |
-              [{"max_batch_size": 10000, "topk": 10, "refine_rate": 64, "num_probes": 144},
-               {"max_batch_size": 10000, "topk": 10, "refine_rate": 64, "num_probes": 160},
-               {"max_batch_size": 10000, "topk": 10, "refine_rate": 64, "num_probes": 176},
-               {"max_batch_size": 10000, "topk": 10, "refine_rate": 64, "num_probes": 192},
-               {"max_batch_size": 10000, "topk": 10, "refine_rate": 64, "num_probes": 224},
-               {"max_batch_size": 10000, "topk": 10, "refine_rate": 64, "num_probes": 256},
-               {"max_batch_size": 10000, "topk": 10, "refine_rate": 128, "num_probes": 256},
+              [{"max_batch_size": 10000, "topk": 10, "refine_rate": 128, "num_probes": 256},
+               {"max_batch_size": 10000, "topk": 10, "refine_rate": 128, "num_probes": 264},
+               {"max_batch_size": 10000, "topk": 10, "refine_rate": 128, "num_probes": 272},
+               {"max_batch_size": 10000, "topk": 10, "refine_rate": 128, "num_probes": 288},
+               {"max_batch_size": 10000, "topk": 10, "refine_rate": 128, "num_probes": 304},
                {"max_batch_size": 10000, "topk": 10, "refine_rate": 128, "num_probes": 320},
-               {"max_batch_size": 10000, "topk": 10, "refine_rate": 256, "num_probes": 896},
-               {"max_batch_size": 10000, "topk": 10, "refine_rate": 256, "num_probes": 1024}]
+               {"max_batch_size": 10000, "topk": 10, "refine_rate": 128, "num_probes": 352},
+               {"max_batch_size": 10000, "topk": 10, "refine_rate": 128, "num_probes": 384},
+               {"max_batch_size": 10000, "topk": 10, "refine_rate": 256, "num_probes": 1024},
+               {"max_batch_size": 10000, "topk": 10, "refine_rate": 256, "num_probes": 1536}]
 bigann-100M:
     cuanns_ivfpq:
       docker-tag: billion-scale-benchmark-cuanns_ivfpq
