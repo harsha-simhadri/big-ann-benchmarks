@@ -33,8 +33,10 @@ SUBM_MAPPING            = \
     },
     "optanne_graphann": {
         "team":         "Intel",
-        "results_dir":  "%s/optanne_graphann/results.with_power_capture" % COMP_RESULTS_TOPLEVEL,
-        "export_fname": "public_with_power_capture.csv",
+        # last results dir - "results_dir":  "%s/optanne_graphann/results.with_power_capture" % COMP_RESULTS_TOPLEVEL,
+        "results_dir":  "%s/optanne_graphann/results.new_algos_yaml_with_power" % COMP_RESULTS_TOPLEVEL,
+        # last export - "export_fname": "public_with_power_capture.csv",
+        "export_fname": "public.new_algos_yaml_with_power.csv",
         "system_cost":  14664.20,
         "md_prefix":    "OPT1",
         "status":       "inprog",
@@ -512,6 +514,7 @@ if __name__ == "__main__":
     #subms = [  "cuanns_multigpu" ]
     #subms = [  "cuanns_ivfpq" ]
     #subms = [  "gemini" ]
+    #subms = [ "optanne_graphann" ]
        
     if not ONLY_TEMPLATE_GEN:
         for subm in subms:
