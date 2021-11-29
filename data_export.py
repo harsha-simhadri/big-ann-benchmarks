@@ -60,7 +60,7 @@ if __name__ == "__main__":
                     result['search_times'] = \
                         " ".join( [str(el) for el in result['search_times'] ] )
                 else:
-                    print("Warning: 'search_times' not avaalable.")
+                    print("Warning: 'search_times' not available.")
             cleaned.append(result)
         dfs.append(pd.DataFrame(cleaned))
     if len(dfs) > 0:
