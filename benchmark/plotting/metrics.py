@@ -163,6 +163,11 @@ all_metrics = {
         "description": "Mean latency across queries",
         "function": lambda true_nn, run_nn, metrics, run_attrs: mean_latency(run_attrs),  
         "worst": float("inf")
-    }
+    },
+    "search_times": {
+        "description": "List of consecutive search times for the same run parameter",
+        "function": lambda true_nn, run_nn, metrics, run_attrs: run_attrs.get("search_times",[]), 
+        "worst": float("inf")
+    },
 
 }
