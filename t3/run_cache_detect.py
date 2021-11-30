@@ -16,7 +16,7 @@ SUBM_MAPPING            = \
 {
     "faiss_t3": {
         "team":         "Facebook Research",
-        "results_dir":  "%s/faiss/results_faiss_stimes_4_dsets" % RESULTS_TOPLEVEL,
+        "results_dir":  "%s/faiss/results_faiss_stimes_all_dsets" % RESULTS_TOPLEVEL,
         "export_fname": "cache_detect.csv",
         "md_prefix":    "BS",
         "display_hw":   "NVidia GPU",
@@ -69,7 +69,7 @@ SUBM_MAPPING            = \
     },
     "cuanns_ivfpq": {
         "team":         "NVidia",
-        "results_dir":  "%s/nvidia/ivfpq/results_nv_ivfpq_stimes_all" % RESULTS_TOPLEVEL,
+        "results_dir":  "%s/nvidia/ivfpq/results_nv_ivfpq_merge_all_and_1" % RESULTS_TOPLEVEL,
         "export_fname": "cache_detect.csv",
         "md_prefix":    "NV2",
         "status":       "inprog",
@@ -149,6 +149,7 @@ if __name__ == "__main__":
     subms = [  "faiss_t3", "optanne_graphann", "gemini", "cuanns_multigpu", "cuanns_ivfpq" ]
     #subms = [ "faiss_t3" ]
     #subms = [ "cuanns_multigpu" ]
+    #subms = [ "cuanns_ivfpq" ]
 
     # produce a master dataframe of all results 
     dfs = [] 
