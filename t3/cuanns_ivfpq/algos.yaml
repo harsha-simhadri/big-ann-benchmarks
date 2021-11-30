@@ -12,16 +12,16 @@ bigann-1B:
                 "dim_pq": 64,
                 "bit_pq": 5}]
           query-args: |
-             [{"max_batch_size": 10000, "topk": 10, "refine_rate": 4, "num_probes": 52},
-               {"max_batch_size": 10000, "topk": 10, "refine_rate": 4, "num_probes": 54},
-               {"max_batch_size": 10000, "topk": 10, "refine_rate": 4, "num_probes": 56},
-               {"max_batch_size": 10000, "topk": 10, "refine_rate": 4, "num_probes": 64},
-               {"max_batch_size": 10000, "topk": 10, "refine_rate": 4, "num_probes": 72},
-               {"max_batch_size": 10000, "topk": 10, "refine_rate": 4, "num_probes": 80},
-               {"max_batch_size": 10000, "topk": 10, "refine_rate": 4, "num_probes": 88},
-               {"max_batch_size": 10000, "topk": 10, "refine_rate": 4, "num_probes": 96},
-               {"max_batch_size": 10000, "topk": 10, "refine_rate": 8, "num_probes": 2048},
-               {"max_batch_size": 10000, "topk": 10, "refine_rate": 8, "num_probes": 3072}]
+             [{"max_batch_size": 10000, "topk": 10, "refine_rate": 8, "num_probes": 2048},
+              {"max_batch_size": 10000, "topk": 10, "refine_rate": 8, "num_probes": 3072},
+              {"max_batch_size": 10000, "topk": 10, "refine_rate": 4, "num_probes": 52},
+              {"max_batch_size": 10000, "topk": 10, "refine_rate": 4, "num_probes": 54},
+              {"max_batch_size": 10000, "topk": 10, "refine_rate": 4, "num_probes": 56},
+              {"max_batch_size": 10000, "topk": 10, "refine_rate": 4, "num_probes": 64},
+              {"max_batch_size": 10000, "topk": 10, "refine_rate": 4, "num_probes": 72},
+              {"max_batch_size": 10000, "topk": 10, "refine_rate": 4, "num_probes": 80},
+              {"max_batch_size": 10000, "topk": 10, "refine_rate": 4, "num_probes": 88},
+              {"max_batch_size": 10000, "topk": 10, "refine_rate": 4, "num_probes": 96}]
 deep-1B:
     cuanns_ivfpq:
       docker-tag: billion-scale-benchmark-cuanns_ivfpq
@@ -36,16 +36,16 @@ deep-1B:
                 "dim_pq": 64,
                 "bit_pq": 5}]
           query-args: |
-              [{"max_batch_size": 10000, "topk": 10, "refine_rate": 4, "num_probes": 44},
+              [{"max_batch_size": 10000, "topk": 10, "refine_rate": 8, "num_probes": 2048},
+               {"max_batch_size": 10000, "topk": 10, "refine_rate": 8, "num_probes": 3072},
+               {"max_batch_size": 10000, "topk": 10, "refine_rate": 4, "num_probes": 44},
                {"max_batch_size": 10000, "topk": 10, "refine_rate": 4, "num_probes": 48},
                {"max_batch_size": 10000, "topk": 10, "refine_rate": 4, "num_probes": 52},
                {"max_batch_size": 10000, "topk": 10, "refine_rate": 4, "num_probes": 56},
                {"max_batch_size": 10000, "topk": 10, "refine_rate": 4, "num_probes": 64},
                {"max_batch_size": 10000, "topk": 10, "refine_rate": 4, "num_probes": 72},
                {"max_batch_size": 10000, "topk": 10, "refine_rate": 4, "num_probes": 80},
-               {"max_batch_size": 10000, "topk": 10, "refine_rate": 4, "num_probes": 88},
-               {"max_batch_size": 10000, "topk": 10, "refine_rate": 8, "num_probes": 2048},
-               {"max_batch_size": 10000, "topk": 10, "refine_rate": 8, "num_probes": 3072}]
+               {"max_batch_size": 10000, "topk": 10, "refine_rate": 4, "num_probes": 88}]
 msspacev-1B:
     cuanns_ivfpq:
       docker-tag: billion-scale-benchmark-cuanns_ivfpq
@@ -60,16 +60,16 @@ msspacev-1B:
                 "dim_pq": 64,
                 "bit_pq": 5}]
           query-args: |
-              [{"max_batch_size": 10000, "topk": 10, "refine_rate": 2, "num_probes": 32},
+              [{"max_batch_size": 10000, "topk": 10, "refine_rate": 8, "num_probes": 3072},
+               {"max_batch_size": 10000, "topk": 10, "refine_rate": 8, "num_probes": 4096},
+               {"max_batch_size": 10000, "topk": 10, "refine_rate": 2, "num_probes": 32},
                {"max_batch_size": 10000, "topk": 10, "refine_rate": 2, "num_probes": 36},
                {"max_batch_size": 10000, "topk": 10, "refine_rate": 2, "num_probes": 40},
                {"max_batch_size": 10000, "topk": 10, "refine_rate": 2, "num_probes": 48},
                {"max_batch_size": 10000, "topk": 10, "refine_rate": 2, "num_probes": 56},
                {"max_batch_size": 10000, "topk": 10, "refine_rate": 2, "num_probes": 64},
                {"max_batch_size": 10000, "topk": 10, "refine_rate": 2, "num_probes": 80},
-               {"max_batch_size": 10000, "topk": 10, "refine_rate": 2, "num_probes": 96},
-               {"max_batch_size": 10000, "topk": 10, "refine_rate": 8, "num_probes": 3072},
-               {"max_batch_size": 10000, "topk": 10, "refine_rate": 8, "num_probes": 4096}]
+               {"max_batch_size": 10000, "topk": 10, "refine_rate": 2, "num_probes": 96}]
 msturing-1B:
     cuanns_ivfpq:
       docker-tag: billion-scale-benchmark-cuanns_ivfpq
@@ -84,16 +84,16 @@ msturing-1B:
                 "dim_pq": 64,
                 "bit_pq": 5}]
           query-args: |
-              [{"max_batch_size": 10000, "topk": 10, "refine_rate": 3, "num_probes": 44},
+              [{"max_batch_size": 10000, "topk": 10, "refine_rate": 8, "num_probes": 2048},
+               {"max_batch_size": 10000, "topk": 10, "refine_rate": 8, "num_probes": 3072},
+               {"max_batch_size": 10000, "topk": 10, "refine_rate": 3, "num_probes": 44},
                {"max_batch_size": 10000, "topk": 10, "refine_rate": 3, "num_probes": 46},
                {"max_batch_size": 10000, "topk": 10, "refine_rate": 3, "num_probes": 48},
                {"max_batch_size": 10000, "topk": 10, "refine_rate": 3, "num_probes": 56},
                {"max_batch_size": 10000, "topk": 10, "refine_rate": 3, "num_probes": 64},
                {"max_batch_size": 10000, "topk": 10, "refine_rate": 3, "num_probes": 72},
                {"max_batch_size": 10000, "topk": 10, "refine_rate": 4, "num_probes": 80},
-               {"max_batch_size": 10000, "topk": 10, "refine_rate": 4, "num_probes": 88},
-               {"max_batch_size": 10000, "topk": 10, "refine_rate": 8, "num_probes": 2048},
-               {"max_batch_size": 10000, "topk": 10, "refine_rate": 8, "num_probes": 3072}]
+               {"max_batch_size": 10000, "topk": 10, "refine_rate": 4, "num_probes": 88}]
 text2image-1B:
     cuanns_ivfpq:
       docker-tag: billion-scale-benchmark-cuanns_ivfpq
@@ -108,16 +108,16 @@ text2image-1B:
                 "dim_pq": 72,
                 "bit_pq": 8}]
           query-args: |
-              [{"max_batch_size": 10000, "topk": 10, "refine_rate": 128, "num_probes": 256},
+              [{"max_batch_size": 10000, "topk": 10, "refine_rate": 256, "num_probes": 1024},
+               {"max_batch_size": 10000, "topk": 10, "refine_rate": 256, "num_probes": 1536},
+               {"max_batch_size": 10000, "topk": 10, "refine_rate": 128, "num_probes": 256},
                {"max_batch_size": 10000, "topk": 10, "refine_rate": 128, "num_probes": 264},
                {"max_batch_size": 10000, "topk": 10, "refine_rate": 128, "num_probes": 272},
                {"max_batch_size": 10000, "topk": 10, "refine_rate": 128, "num_probes": 288},
                {"max_batch_size": 10000, "topk": 10, "refine_rate": 128, "num_probes": 304},
                {"max_batch_size": 10000, "topk": 10, "refine_rate": 128, "num_probes": 320},
                {"max_batch_size": 10000, "topk": 10, "refine_rate": 128, "num_probes": 352},
-               {"max_batch_size": 10000, "topk": 10, "refine_rate": 128, "num_probes": 384},
-               {"max_batch_size": 10000, "topk": 10, "refine_rate": 256, "num_probes": 1024},
-               {"max_batch_size": 10000, "topk": 10, "refine_rate": 256, "num_probes": 1536}]
+               {"max_batch_size": 10000, "topk": 10, "refine_rate": 128, "num_probes": 384}]
 bigann-100M:
     cuanns_ivfpq:
       docker-tag: billion-scale-benchmark-cuanns_ivfpq
@@ -132,13 +132,13 @@ bigann-100M:
                 "dim_pq": 64,
                 "bit_pq": 5}]
           query-args: |
-              [{"max_batch_size": 10000, "topk": 10, "refine_rate": 4, "num_probes": 8},
+              [{"max_batch_size": 10000, "topk": 10, "refine_rate": 4, "num_probes": 2048},
+               {"max_batch_size": 10000, "topk": 10, "refine_rate": 4, "num_probes": 4096},
+               {"max_batch_size": 10000, "topk": 10, "refine_rate": 4, "num_probes": 8},
                {"max_batch_size": 10000, "topk": 10, "refine_rate": 4, "num_probes": 16},
                {"max_batch_size": 10000, "topk": 10, "refine_rate": 4, "num_probes": 32},
                {"max_batch_size": 10000, "topk": 10, "refine_rate": 4, "num_probes": 64},
                {"max_batch_size": 10000, "topk": 10, "refine_rate": 4, "num_probes": 128},
                {"max_batch_size": 10000, "topk": 10, "refine_rate": 4, "num_probes": 256},
                {"max_batch_size": 10000, "topk": 10, "refine_rate": 4, "num_probes": 512},
-               {"max_batch_size": 10000, "topk": 10, "refine_rate": 4, "num_probes": 1024},
-               {"max_batch_size": 10000, "topk": 10, "refine_rate": 4, "num_probes": 2048},
-               {"max_batch_size": 10000, "topk": 10, "refine_rate": 4, "num_probes": 4096}]
+               {"max_batch_size": 10000, "topk": 10, "refine_rate": 4, "num_probes": 1024}]
