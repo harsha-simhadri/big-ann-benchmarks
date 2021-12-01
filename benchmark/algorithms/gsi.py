@@ -24,32 +24,6 @@ num_records = 1000000000
 def time_diff_to_mins_and_secs(time_diff):
     return int(time_diff / 60), int(time_diff % 60)
 
-# def knn_to_range(vals, indices, radius):
-#     count_st_radius = np.sum(vals < radius, axis=1)
-#     total_num_res = np.sum(count_st_radius)
-#     n = len(count_st_radius)
-#     #debugging
-#     print('debug: total_num_res =', total_num_res)
-#     print('debug: average =', total_num_res / n)
-#     print('debug: count_st_radius[0] =', count_st_radius[0])
-#     print('debug: count_st_radius[50000] =', count_st_radius[50000])
-#     print('debug: count_st_radius[90000] =', count_st_radius[90000])
-#     res_limits = np.empty(n + 1, indices.dtype)
-#     res_vals = np.empty(total_num_res, vals.dtype)
-#     res_indices = np.empty(total_num_res, indices.dtype)
-
-#     offset = 0
-#     for i in range(n):
-#         res_limits[i] = offset
-#         count = count_st_radius[i]
-#         next_offset = offset + count
-#         res_vals[offset:next_offset] = vals[i][:count]
-#         res_indices[offset:next_offset] = indices[i][:count]
-#         offset = next_offset
-#     res_limits[n] = offset
-
-#     return res_limits, res_vals, res_indices
-
 def knn_to_range(vals, indices, threshold):
     count_lt_threshold = np.sum(vals < threshold, axis=1)
     total_num_res = np.sum(count_lt_threshold)
@@ -144,6 +118,7 @@ class Faiss(BaseANN):
         self.num_threads = self.index_params['num_threads']
         if self.num_threads == 0:
             self.num_threads = os.cpu_count()
+        print('num threads =', self.num_threads)
         self.gsl_ctx = Context(gdl_ctx_ids[:self.num_apuc], max_num_threads=self.num_threads)
         # GSL init end
 
@@ -222,9 +197,8 @@ class Faiss(BaseANN):
 
         if self.is_rerank:
             print('init rerank...')
-            #use_numa = self.index_params.get('use_numa', True)
-            #self.rerank = gsld_rerank.init(num_records, num_features, num_features * rerank_dtype_size, self.rerank_src_type, self.rerank_metric, rerank_bf16, db_file_path, use_numa)        
-            self.rerank = gsld_rerank.init(num_records, num_features, num_features * rerank_dtype_size, self.rerank_src_type, self.rerank_metric, rerank_bf16, db_file_path)        
+            use_numa =self.index_params.get('use_numa', True)
+            self.rerank = gsld_rerank.init(num_records, num_features, num_features * rerank_dtype_size, self.rerank_src_type, self.rerank_metric, rerank_bf16, db_file_path, use_numa)        
             print('finished init rerank')
 
 
@@ -258,7 +232,8 @@ class Faiss(BaseANN):
         self.centroids_fdb = self.gsl_ctx.create_fdb(fp_centroids, self.l2_norm)
 
         if self.is_sq:
-            self.records_encoding = SQEncoding(min_matrix=self.offset.reshape((1, -1)), diff_matrix=self.scaler.reshape((1, -1)))
+            self.records_encoding = L2Encoding(min_matrix=self.offset.reshape((1, -1)), diff_matrix=self.scaler.reshape((1, -1)), normalize=False)
+            # self.records_encoding = SQEncoding(min_matrix=self.offset.reshape((1, -1)), diff_matrix=self.scaler.reshape((1, -1)))
         else:
             self.records_encoding = create_encoding(records_encoding_file_path, self.l2_norm)
         
@@ -326,12 +301,14 @@ class Faiss(BaseANN):
             
         rerank_desc = RerankDesc(self.centroids_fdb, nprobe_refine, self.gsl_metric)
 
-        if 1:#self.hamming_threshold == -1:
-            parallelization_flag = gsl.GSL_CLSTR_HAMMING_CENTROID_FLAT_PARALLEL_SEARCH_FLAG if self.num_apuc == 4 else gsl.GSL_CLSTR_HAMMING_CENTROID_FLAT_DEFAULT_SEARCH_FLAG
-        else:   #TODO: remove this once hamming threshold supports parallelization
-            parallelization_flag = gsl.GSL_CLSTR_HAMMING_CENTROID_FLAT_SERIAL_SEARCH_FLAG
+        assert(self.num_apuc == 4)
+        # if num_apuc is less than 4 you need to decide what you want value to assign to parallelization_flag
+        parallelization_flag = gsl.GSL_CLSTR_HAMMING_CENTROID_FLAT_PARALLEL_SEARCH_FLAG if max_query_batch_size < self.max_num_queries else gsl.GSL_CLSTR_HAMMING_CENTROID_FLAT_SERIAL_SEARCH_FLAG
 
-        sq_params = ClusterSQParams(offset=self.offset,  scalar=self.scaler) if self.is_sq else None
+        # sq_params = ClusterL2Params(offset= offset, scalar=scalar)
+
+        # sq_params = ClusterSQParams(offset=self.offset,  scalar=self.scaler) if self.is_sq else None
+        sq_params = ClusterL2Params(offset=self.offset,  scalar=self.scaler) if self.is_sq else None
         desc = ClusterHammingDesc(self.max_num_queries,
                                   typical_num_queries,
                                   max_query_batch_size,
@@ -344,6 +321,7 @@ class Faiss(BaseANN):
                                   self.clstr_bdb,
                                   average_clstr_size_factor,
                                   parallelization_flag,
+                                  not self.hamming_threshold == -1,
                                   sq_params)
                           
         self.session_hdl = self.gsl_ctx.create_session(desc)
@@ -363,9 +341,9 @@ class Faiss(BaseANN):
         gsl_search_start = time.time()
         #print('queries =', X.shape, 'dtype =', X.dtype)
         #print('Performing search on GSL')
-        out_shape = (X.shape[0], n if self.is_sq else  self.search_params['hamming_k'])
+        out_shape = (X.shape[0], self.search_params['hamming_k'])
         #print('out_shape =', out_shape)
-        outputs = ClusterFlatOutputs(np.empty(out_shape, dtype=np.uint32), np.empty(out_shape, dtype=np.float32))
+        outputs = ClusterFlatOutputs(np.empty(out_shape, dtype=np.uint32), np.empty(out_shape, dtype=np.float32) if self.is_sq else None)
         out_indices, out_distances = self.gsl_ctx.search(ClusterInputs(X), outputs)
         print('Finished search on GSL time:', time.time()-gsl_search_start)
 
@@ -382,10 +360,10 @@ class Faiss(BaseANN):
             rerank_end = time.time()
             rerank_time = rerank_end - rerank_start
             self.rerank_time += rerank_time
-            self.res = out_distances.astype(np.int32), res_idx.astype(np.int64) #TODO: ask Josh about data-type of distances
+            self.res = out_distances, res_idx.astype(np.int64) #TODO: ask Josh about data-type of distances
             print('rerank time(s): ', rerank_time)
         else:
-            self.res = out_distances.astype(np.int32), out_indices.astype(np.int64)
+            self.res = out_distances, out_indices.astype(np.int64)
 
     def range_query(self, X, radius):
                 
@@ -401,8 +379,8 @@ class Faiss(BaseANN):
         gsl_search_time = time.time()
         out_shape = (Y.shape[0], self.search_params['hamming_k'])
         print('out_shape =', out_shape)
-        outputs = ClusterFlatOutputs(np.empty(out_shape, dtype=np.uint32), np.empty(out_shape, dtype=np.float32))
-        out_indices, out_distances = self.gsl_ctx.search(ClusterThreshHoldInputs(Y, self.hamming_threshold), outputs)
+        outputs = ClusterFlatOutputs(np.empty(out_shape, dtype=np.uint32), None)
+        out_indices, _ = self.gsl_ctx.search(ClusterThreshHoldInputs(Y, self.hamming_threshold), outputs)
         print('Finished search on GSL time', time.time() - gsl_search_time)
 
         if self.is_rerank:

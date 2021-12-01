@@ -28,18 +28,19 @@ deep-1B:
                   
               query-args: |
                 [
-                 "{'nprobe': 512,  'nprobe_refine': 160,   'hamming_k': 512,  'max_query_batch_size': 2500}"      
-                ,"{'nprobe': 512,  'nprobe_refine': 200,   'hamming_k': 512,  'max_query_batch_size': 2500}"      
-                ,"{'nprobe': 512,  'nprobe_refine': 240,   'hamming_k': 512,  'max_query_batch_size': 2500}"
-                ,"{'nprobe': 512,  'nprobe_refine': 280,   'hamming_k': 512,  'max_query_batch_size': 2500}"
-                ,"{'nprobe': 512,  'nprobe_refine': 320,   'hamming_k': 512,  'max_query_batch_size': 2500}"
+                 "{'nprobe': 220,  'nprobe_refine': 160,   'hamming_k': 1000,  'max_query_batch_size': 3400}"      
+                ,"{'nprobe': 220,  'nprobe_refine': 200,   'hamming_k': 1000,  'max_query_batch_size': 3400}"      
+                ,"{'nprobe': 250,  'nprobe_refine': 200,   'hamming_k': 1000,  'max_query_batch_size': 3400}"      
+                ,"{'nprobe': 250,  'nprobe_refine': 200,   'hamming_k': 2000,  'max_query_batch_size': 3400}"
+                ,"{'nprobe': 350,  'nprobe_refine': 320,   'hamming_k': 1000,  'max_query_batch_size': 3400}"           
                 
-                ,"{'nprobe': 3000, 'nprobe_refine': 1500,  'hamming_k': 2500, 'max_query_batch_size': 0}"
-                ,"{'nprobe': 3000, 'nprobe_refine': 1500,  'hamming_k': 3000, 'max_query_batch_size': 0}"
-                ,"{'nprobe': 3000, 'nprobe_refine': 1500,  'hamming_k': 3500, 'max_query_batch_size': 0}"
-                ,"{'nprobe': 3000, 'nprobe_refine': 1500,  'hamming_k': 4000, 'max_query_batch_size': 0}"
-                ,"{'nprobe': 3000, 'nprobe_refine': 1500,  'hamming_k': 4500, 'max_query_batch_size': 0}"
+                ,"{'nprobe': 3428, 'nprobe_refine': 1400,  'hamming_k': 9000, 'max_query_batch_size': 1120}"
+                ,"{'nprobe': 3428, 'nprobe_refine': 1450,  'hamming_k': 9000, 'max_query_batch_size': 1120}"
+                ,"{'nprobe': 3428, 'nprobe_refine': 1500,  'hamming_k': 9000, 'max_query_batch_size': 1120}"
+                ,"{'nprobe': 3428, 'nprobe_refine': 1550,  'hamming_k': 9000, 'max_query_batch_size': 1120}"
+                ,"{'nprobe': 3428, 'nprobe_refine': 1600,  'hamming_k': 9000, 'max_query_batch_size': 1120}"
                 ] 
+                
 msturing-1B:
     gsi-t3:
           docker-tag: billion-scale-benchmark-faissconda
@@ -70,18 +71,18 @@ msturing-1B:
                   
               query-args: |
                 [
-                  "{'nprobe': 160, 'nprobe_refine': 48,  'hamming_k': 512}"
-                 ,"{'nprobe': 160, 'nprobe_refine': 64,  'hamming_k': 512}"
-                 ,"{'nprobe': 160, 'nprobe_refine': 72,  'hamming_k': 512}"
-                 ,"{'nprobe': 160, 'nprobe_refine': 80,  'hamming_k': 512}"
-                 ,"{'nprobe': 160, 'nprobe_refine': 88,  'hamming_k': 512}"
+                  "{'nprobe': 160, 'nprobe_refine': 48,  'hamming_k': 512, 'max_query_batch_size':25000}"
+                 ,"{'nprobe': 160, 'nprobe_refine': 64,  'hamming_k': 512, 'max_query_batch_size':25000}"
+                 ,"{'nprobe': 160, 'nprobe_refine': 72,  'hamming_k': 512, 'max_query_batch_size':25000}"
+                 ,"{'nprobe': 160, 'nprobe_refine': 80,  'hamming_k': 512, 'max_query_batch_size':25000}"
+                 ,"{'nprobe': 160, 'nprobe_refine': 88,  'hamming_k': 512, 'max_query_batch_size':25000}"
                  
-                 ,"{'nprobe': 4000, 'nprobe_refine': 1600,  'hamming_k': 2000}"
-                 ,"{'nprobe': 4000, 'nprobe_refine': 1800,  'hamming_k': 2000}"
-                 ,"{'nprobe': 4000, 'nprobe_refine': 2000,  'hamming_k': 2000}"
-                 ,"{'nprobe': 4000, 'nprobe_refine': 2200,  'hamming_k': 2000}"
-                 ,"{'nprobe': 4000, 'nprobe_refine': 2400,  'hamming_k': 2000}"
-                ]                                     
+                 ,"{'nprobe': 4000, 'nprobe_refine': 1600,  'hamming_k': 2000, 'max_query_batch_size':3125}"
+                 ,"{'nprobe': 4000, 'nprobe_refine': 1800,  'hamming_k': 2000, 'max_query_batch_size':3125}"
+                 ,"{'nprobe': 4000, 'nprobe_refine': 2000,  'hamming_k': 2000, 'max_query_batch_size':3125}"
+                 ,"{'nprobe': 4000, 'nprobe_refine': 2200,  'hamming_k': 2000, 'max_query_batch_size':3125}"
+                 ,"{'nprobe': 4000, 'nprobe_refine': 2400,  'hamming_k': 2000, 'max_query_batch_size':3125}"
+                ]                                      
 bigann-1B:
     gsi-t3:
           docker-tag: billion-scale-benchmark-faissconda
@@ -112,17 +113,17 @@ bigann-1B:
                   
               query-args: |
                 [
-                "{'nprobe': 300, 'nprobe_refine': 160, 'hamming_k': 800}",
-                "{'nprobe': 300, 'nprobe_refine': 180, 'hamming_k': 800}",                 
-                "{'nprobe': 300, 'nprobe_refine': 200, 'hamming_k': 800}",                 
-                "{'nprobe': 300, 'nprobe_refine': 220, 'hamming_k': 800}",                 
-                "{'nprobe': 300, 'nprobe_refine': 240, 'hamming_k': 800}",                 
+                "{'nprobe': 300, 'nprobe_refine': 160, 'hamming_k': 800, 'max_query_batch_size':2500}",
+                "{'nprobe': 300, 'nprobe_refine': 180, 'hamming_k': 800, 'max_query_batch_size':2500}",                 
+                "{'nprobe': 300, 'nprobe_refine': 200, 'hamming_k': 800, 'max_query_batch_size':2500}",                 
+                "{'nprobe': 300, 'nprobe_refine': 220, 'hamming_k': 800, 'max_query_batch_size':2500}",                 
+                "{'nprobe': 300, 'nprobe_refine': 240, 'hamming_k': 800, 'max_query_batch_size':2500}",                 
 
-                "{'nprobe': 3200, 'nprobe_refine': 1200, 'hamming_k': 3200}",                 
-                "{'nprobe': 3200, 'nprobe_refine': 1400, 'hamming_k': 3200}",                 
-                "{'nprobe': 3200, 'nprobe_refine': 1600, 'hamming_k': 3200}",                 
-                "{'nprobe': 3200, 'nprobe_refine': 1800, 'hamming_k': 3200}",                 
-                "{'nprobe': 3200, 'nprobe_refine': 2000, 'hamming_k': 3200}"              
+                "{'nprobe': 3200, 'nprobe_refine': 1400, 'hamming_k': 6000, 'max_query_batch_size':1120}",                 
+                "{'nprobe': 3200, 'nprobe_refine': 1600, 'hamming_k': 6000, 'max_query_batch_size':1120}",                 
+                "{'nprobe': 3600, 'nprobe_refine': 1600, 'hamming_k': 6000, 'max_query_batch_size':1120}",                 
+                "{'nprobe': 3600, 'nprobe_refine': 1800, 'hamming_k': 6000, 'max_query_batch_size':1120}",                 
+                "{'nprobe': 3600, 'nprobe_refine': 1800, 'hamming_k': 7000, 'max_query_batch_size':1120}"              
                 ]
                 
 text2image-1B:               
@@ -136,36 +137,40 @@ text2image-1B:
               args: >-
                 [
                 "{
-                'files_directory':'/mnt/localdisk3/challenge_1b_bu/text2image/nt83M_nlist2097152_qbits1536_nbits1536/'
+                'files_directory':'/mnt/localdisk3/challenge_1b_bu/text2image/nt83M_nlist2097152_qbits1536_SQ8/'
                 ,'fp_quantizer_file_name':'Text-to-Image-1B.nt83886080.nlist2097152.quantizer'
                 ,'records_encoding_file_name':'records_weight-nbits1536.npy'
                 ,'centroids_encoding_file_name':'centroids_weight-nbits1536.npy'
-                ,'hd5_file_path':'/mnt/localdisk3/challenge_1b_bu/text2image/nt83M_nlist2097152_qbits1536_nbits1536/Text-to-Image-1B.hd5'
+                ,'hd5_file_path':'/mnt/localdisk3/challenge_1b_bu/text2image/nt83M_nlist2097152_qbits1536_SQ8/text2image_sq8.hd5'
                 ,'db_file_name':'../base.1B.fbin.f16.npy'
-                , 'nbits':1536
+                , 'nbits':1600
                 , 'nlist':2097152
                 , 'num_features':200
                 , 'max_num_queries':100000
                 , 'num_apuc':4
+                , 'rerank':True
                 , 'rerank_src_type':'BF16'
                 , 'rerank_bf16':True
-                ,'num_threads':0 
+                , 'num_threads':0
+                , 'sq':True
+                , 'scaler_file_name':'text2image_scaler.npy'
+                , 'offset_file_name':'text2image_offset.npy'
                 }"
                 ]
                   
               query-args: |
                 [
-                "{'nprobe': 1500, 'nprobe_refine': 350, 'hamming_k': 3500, 'max_query_batch_size':5000}",
-                "{'nprobe': 1500, 'nprobe_refine': 350, 'hamming_k': 4000, 'max_query_batch_size':5000}",
-                "{'nprobe': 2000, 'nprobe_refine': 350, 'hamming_k': 3500, 'max_query_batch_size':5000}",
-                "{'nprobe': 2000, 'nprobe_refine': 350, 'hamming_k': 4000, 'max_query_batch_size':5000}",
-                "{'nprobe': 2000, 'nprobe_refine': 500, 'hamming_k': 4000, 'max_query_batch_size':5000}",
-                
-                "{'nprobe': 3000, 'nprobe_refine': 700, 'hamming_k': 3800, 'max_query_batch_size':5000}",
-                "{'nprobe': 3000, 'nprobe_refine': 700, 'hamming_k': 4000, 'max_query_batch_size':5000}",
-                "{'nprobe': 3000, 'nprobe_refine': 700, 'hamming_k': 4200, 'max_query_batch_size':5000}",
-                "{'nprobe': 3000, 'nprobe_refine': 700, 'hamming_k': 4400, 'max_query_batch_size':5000}",
-                "{'nprobe': 3000, 'nprobe_refine': 700, 'hamming_k': 4800, 'max_query_batch_size':5000}"
+                "{'nprobe': 1000, 'nprobe_refine': 300, 'hamming_k': 50, 'max_query_batch_size':0}",
+                "{'nprobe': 1000, 'nprobe_refine': 350, 'hamming_k': 50, 'max_query_batch_size':0}",
+                "{'nprobe': 1200, 'nprobe_refine': 300, 'hamming_k': 50, 'max_query_batch_size':0}",
+                "{'nprobe': 1200, 'nprobe_refine': 350, 'hamming_k': 50, 'max_query_batch_size':0}",
+                "{'nprobe': 1500, 'nprobe_refine': 400, 'hamming_k': 50, 'max_query_batch_size':0}",
+                                
+                "{'nprobe': 2400, 'nprobe_refine': 700, 'hamming_k': 50,  'max_query_batch_size':3125}",
+                "{'nprobe': 2800, 'nprobe_refine': 850, 'hamming_k': 50,  'max_query_batch_size':3125}",
+                "{'nprobe': 3000, 'nprobe_refine': 800, 'hamming_k': 50,  'max_query_batch_size':3125}",
+                "{'nprobe': 3000, 'nprobe_refine': 850, 'hamming_k': 50,  'max_query_batch_size':3125}",
+                "{'nprobe': 3000, 'nprobe_refine': 900, 'hamming_k': 50,  'max_query_batch_size':3125}"
 
                 ]
 
@@ -201,18 +206,18 @@ msspacev-1B:
                   
               query-args: |
                 [
-                "{'nprobe': 600, 'nprobe_refine': 320, 'hamming_k': 512, 'average_clstr_size_factor': 0.0}",
-                "{'nprobe': 600, 'nprobe_refine': 360, 'hamming_k': 512, 'average_clstr_size_factor': 0.0}",                 
-                "{'nprobe': 600, 'nprobe_refine': 400, 'hamming_k': 512, 'average_clstr_size_factor': 0.0}",                 
-                "{'nprobe': 600, 'nprobe_refine': 440, 'hamming_k': 512, 'average_clstr_size_factor': 0.0}",                 
-                "{'nprobe': 600, 'nprobe_refine': 480, 'hamming_k': 512, 'average_clstr_size_factor': 0.0}",                 
-
-                "{'nprobe': 3200, 'nprobe_refine': 1200, 'hamming_k': 3200, 'average_clstr_size_factor': 0.0}",                 
-                "{'nprobe': 3200, 'nprobe_refine': 1400, 'hamming_k': 3200, 'average_clstr_size_factor': 0.0}",                 
-                "{'nprobe': 3200, 'nprobe_refine': 1600, 'hamming_k': 3200, 'average_clstr_size_factor': 0.0}",                 
-                "{'nprobe': 3200, 'nprobe_refine': 1800, 'hamming_k': 3200, 'average_clstr_size_factor': 0.0}",                 
-                "{'nprobe': 3200, 'nprobe_refine': 2000, 'hamming_k': 3200, 'average_clstr_size_factor': 0.0}"              
-                ]                                                                                         
+                "{'nprobe': 48, 'nprobe_refine': 32, 'hamming_k': 1000, 'max_query_batch_size':3000}",
+                "{'nprobe': 64, 'nprobe_refine': 32, 'hamming_k': 1000, 'max_query_batch_size':3000}",
+                "{'nprobe': 96, 'nprobe_refine': 64, 'hamming_k': 1000, 'max_query_batch_size':3000}",
+                "{'nprobe': 128, 'nprobe_refine': 64, 'hamming_k': 1000, 'max_query_batch_size':3000}",
+                "{'nprobe': 160, 'nprobe_refine': 96, 'hamming_k': 1000, 'max_query_batch_size':3000}",
+                
+                "{'nprobe': 3200, 'nprobe_refine': 1200, 'hamming_k': 3200}",                 
+                "{'nprobe': 3200, 'nprobe_refine': 1400, 'hamming_k': 3200}",                 
+                "{'nprobe': 3200, 'nprobe_refine': 1600, 'hamming_k': 3200}",                 
+                "{'nprobe': 3200, 'nprobe_refine': 1800, 'hamming_k': 3200}",                 
+                "{'nprobe': 3200, 'nprobe_refine': 2000, 'hamming_k': 3200}"              
+                ]                                                                                               
                                                                                           
 ssnpp-1B:               
     gsi-t3:
@@ -247,17 +252,17 @@ ssnpp-1B:
                   
               query-args: |
                   [
-                    "{'nprobe': 200, 'nprobe_refine':  32,  'hamming_k':20000, 'hamming_threshold':350}",
-                    "{'nprobe': 250, 'nprobe_refine':  32,  'hamming_k':20000, 'hamming_threshold':350}",
-                    "{'nprobe': 300, 'nprobe_refine':  32,  'hamming_k':20000, 'hamming_threshold':350}",
-                    "{'nprobe': 350, 'nprobe_refine':  32,  'hamming_k':20000, 'hamming_threshold':350}",
-                    "{'nprobe': 200, 'nprobe_refine':  32,  'hamming_k':40000, 'hamming_threshold':400}",
+                    "{'nprobe': 48, 'nprobe_refine':  32,  'hamming_k':60000, 'hamming_threshold':350}",
+                    "{'nprobe': 64, 'nprobe_refine':  32,  'hamming_k':60000, 'hamming_threshold':350}",
+                    "{'nprobe': 96, 'nprobe_refine':  32,  'hamming_k':60000, 'hamming_threshold':350}",
+                    "{'nprobe': 128, 'nprobe_refine':  32,  'hamming_k':60000, 'hamming_threshold':350}",
+                    "{'nprobe': 160, 'nprobe_refine':  32,  'hamming_k':60000, 'hamming_threshold':350}",
                     
                     "{'nprobe': 1000, 'nprobe_refine': 128, 'hamming_k':40000, 'hamming_threshold':300}",
                     "{'nprobe': 1000, 'nprobe_refine': 128, 'hamming_k':40000, 'hamming_threshold':320}",
                     "{'nprobe': 1000, 'nprobe_refine': 128, 'hamming_k':40000, 'hamming_threshold':360}",
-                    "{'nprobe': 1000, 'nprobe_refine': 128, 'hamming_k':40000, 'hamming_threshold':400}",
-                    "{'nprobe': 1000, 'nprobe_refine': 128, 'hamming_k':30000, 'hamming_threshold':400}"
+                    "{'nprobe': 1000, 'nprobe_refine': 128, 'hamming_k':60000, 'hamming_threshold':400}",
+                    "{'nprobe': 1500, 'nprobe_refine': 256, 'hamming_k':60000, 'hamming_threshold':400}"
                    ]           
               
               
