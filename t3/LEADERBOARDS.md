@@ -12,18 +12,14 @@ Please note that all rankings are currently unofficial due to the following reas
 
 ### Rankings By Submission Name (alphabetical)
 
-|Submission          |Team       |Hardware  |Status |Evaluator|Algo     |Runs    |[Recall Rank](#recall-or-ap-rankings)|[Thru-put Rank](#throughput-rankings)|[Power Rank](#power-rankings)|[Cost Rank](#cost-rankings)| 
-|--------------------|-----------|----------|-------|---------|---------|--------|---------|--------------|-----------------------------|---------------------------|
-|deepgram            |DeepGram   |NVidia GPU|final  |        -|        -|       -|     *NQ*|          *NQ*|                         *NQ*|                       *NQ*|
-|[diskann](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/diskann-bare-metal/README.md)  |Microsoft Research(*org*)    |Dell PowerEdge   |inprog |Harsha Simhadri  |[src](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/benchmark/algorithms/diskann-t2.py)  |[nb](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/diskann-bare-metal/EvalPublic.ipynb) |[1](#recall-or-ap-rankings)  |[4](#throughput-rankings)       |*NQ*                      |*NQ*                    |
-|[faiss_t3](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/faiss_t3/README.md)    |Facebook Research(*org*)     |NVidia GPU    |final  |George Williams   |[src](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/benchmark/algorithms/faiss_t3.py)   |[nb](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/faiss_t3/EvalPublic.ipynb)  |[6](#recall-or-ap-rankings)   |[6](#throughput-rankings)        |[5](#power-rankings)                       |[4](#cost-rankings)                     |
-|[gemini](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/gemini/README.md)  |GSI Technology(*org*)    |LedaE APU   |inprog |George Williams  |[src](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/benchmark/algorithms/gemini.py)  |[nb](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/gemini/EvalPublic.ipynb) |[3](#recall-or-ap-rankings)  |[5](#throughput-rankings)       |[4](#power-rankings)                      |[5](#cost-rankings)                    |
-|kanndi              |Silo.ai    |LedaE APU   |inprog |        -|        -|       -|        -|             -|                            -|                          -|
-|[cuanns_ivfpq](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/cuanns_ivfpq/README.md)  |NVidia    |NVidia GPU   |inprog |George Williams  |[src](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/benchmark/algorithms/cuanns_ivfpq.py)  |[nb](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/cuanns_ivfpq/EvalPublic.ipynb) |[2](#recall-or-ap-rankings)  |[3](#throughput-rankings)       |[1](#power-rankings)                      |[3](#cost-rankings)                    |
-|[cuanns_multigpu](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/cuanns_multigpu/README.md)    |NVidia     |NVidia GPU    |inprog  |George Williams   |[src](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/benchmark/algorithms/cuanns_multigpu.py)   |[nb](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/cuanns_multigpu/EvalPublic.ipynb)  |[4](#recall-or-ap-rankings)   |[1](#throughput-rankings)        |[3](#power-rankings)                       |[2](#cost-rankings)                     |
-|[optanne_graphann](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/optanne_graphann/README.md)|Intel   |Intel Optane  |inprog|George Williams |[src](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/benchmark/algorithms/graphann.py) |[nb](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/optanne_graphann/EvalPublic.ipynb)|[5](#recall-or-ap-rankings) |[2](#throughput-rankings)      |[2](#power-rankings)                     |[1](#cost-rankings)                   |
-|optanne_graphann_2  |Intel   |Intel Optane  |inprog |        -|        -|       -|        -|             -|                            -|                          -|
-|vector_t3           |Vector Inst|NVidia GPU|final  |        -|        -|       -|     *NQ*|          *NQ*|                         *NQ*|                       *NQ*|
+|Submission          |Team       |Hardware  |[Recall Rank](#recall-or-ap-rankings)|[Thru-put Rank](#throughput-rankings)|[Power Rank](#power-rankings)|[Cost Rank](#cost-rankings)|Status |Evaluator|Algo     |Runs   |  
+|--------------------|-----------|----------|---------|---------|---------|--------|---------|---------|---------|--------|
+|[diskann](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/diskann-bare-metal/README.md)  |Microsoft Research(*org*)    |Dell PowerEdge   |[1](#recall-or-ap-rankings)  |[4](#throughput-rankings)  |*NQ*  |*NQ* |$MS_S    |Harsha Simhadri  |[src](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/benchmark/algorithms/diskann-t2.py)  |[nb](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/diskann-bare-metal/EvalPublic.ipynb) |
+|[faiss_t3](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/faiss_t3/README.md)    |Facebook Research(*org*)     |NVidia GPU    |[6](#recall-or-ap-rankings)   |[6](#throughput-rankings)   |[5](#power-rankings)   |[4](#cost-rankings)  |final    |George Williams   |[src](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/benchmark/algorithms/faiss_t3.py)   |[nb](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/faiss_t3/EvalPublic.ipynb)  |
+|[gemini](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/gemini/README.md)  |GSI Technology(*org*)    |LedaE APU   |[3](#recall-or-ap-rankings)  |[5](#throughput-rankings)  |[4](#power-rankings)  |[5](#cost-rankings) |inprog   |George Williams  |[src](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/benchmark/algorithms/gemini.py)  |[nb](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/gemini/EvalPublic.ipynb) |
+|[cuanns_ivfpq](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/cuanns_ivfpq/README.md)  |NVidia    |NVidia GPU   |[2](#recall-or-ap-rankings)  |[3](#throughput-rankings)  |[1](#power-rankings)  |[3](#cost-rankings) |inprog   |George Williams  |[src](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/benchmark/algorithms/cuanns_ivfpq.py)  |[nb](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/cuanns_ivfpq/EvalPublic.ipynb) |
+|[cuanns_multigpu](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/cuanns_multigpu/README.md)    |NVidia     |NVidia GPU    |[4](#recall-or-ap-rankings)   |[1](#throughput-rankings)   |[3](#power-rankings)   |[2](#cost-rankings)  |inprog    |George Williams   |[src](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/benchmark/algorithms/cuanns_multigpu.py)   |[nb](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/cuanns_multigpu/EvalPublic.ipynb)  |
+|[optanne_graphann](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/optanne_graphann/README.md)|Intel   |Intel Optane  |[5](#recall-or-ap-rankings) |[2](#throughput-rankings) |[2](#power-rankings) |[1](#cost-rankings)|inprog  |George Williams |[src](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/benchmark/algorithms/graphann.py) |[nb](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/optanne_graphann/EvalPublic.ipynb)|
 
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
@@ -43,10 +39,6 @@ Please note that all rankings are currently unofficial due to the following reas
 |   4|[cuanns_multigpu](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/cuanns_multigpu/README.md)|NVidia|NVidia GPU |inprog|**0.268**|[0.99504](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/cuanns_multigpu/deep-1B_recall.png) |[0.99815](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/cuanns_multigpu/bigann-1B_recall.png) |[0.98399](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/cuanns_multigpu/msturing-1B_recall.png)   |[0.98785](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/cuanns_multigpu/msspacev-1B_recall.png)  |-     |-  |
 |   5|[optanne_graphann](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/optanne_graphann/README.md)|Intel|Intel Optane |inprog|**0.226**|[0.90830](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/optanne_graphann/deep-1B_recall.png) |[0.99978](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/optanne_graphann/bigann-1B_recall.png) |[0.90521](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/optanne_graphann/msturing-1B_recall.png)   |[0.99835](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/optanne_graphann/msspacev-1B_recall.png)  |[0.97154](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/optanne_graphann/text2image-1B_recall.png)     |-  |
 |   6|[faiss_t3](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/faiss_t3/README.md)|Facebook Research(*org*)|NVidia GPU |final|**baseline**|[0.94275](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/faiss_t3/deep-1B_recall.png) |[0.93260](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/faiss_t3/bigann-1B_recall.png) |[0.91322](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/faiss_t3/msturing-1B_recall.png)   |[0.90853](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/faiss_t3/msspacev-1B_recall.png)  |[0.86028](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/faiss_t3/text2image-1B_recall.png)     |[0.97863](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/faiss_t3/ssnpp-1B_recall.png)  |
-|   7|                 -|      -|       -|      -|          -|     -|     -|       -|      -|         -|      -|
-|   8|                 -|      -|       -|      -|          -|     -|     -|       -|      -|         -|      -|
-|   9|                 -|      -|       -|      -|          -|     -|     -|       -|      -|         -|      -|
-|  10|                 -|      -|       -|      -|          -|     -|     -|       -|      -|         -|      -|
 
 * A submission must support at least 3 databases to qualify for this ranking.
 * The ranking is based on the score, which is the sum of benchmark improvements of qualifying databases (shown in specific database columns after the score column.)
@@ -65,10 +57,6 @@ Please note that all rankings are currently unofficial due to the following reas
 |   4|[diskann](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/diskann-bare-metal/README.md)|Microsoft Research(*org*)|Dell PowerEdge |inprog|**49398.127**|[12,926.890](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/diskann-bare-metal/deep-1B_throughput.png) |[19,094.371](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/diskann-bare-metal/bigann-1B_throughput.png) |[17,200.601](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/diskann-bare-metal/msturing-1B_throughput.png)   |[6,503.212](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/diskann-bare-metal/msspacev-1B_throughput.png)  |[9,306.610](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/diskann-bare-metal/text2image-1B_throughput.png)     |-         | 
 |   5|[gemini](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/gemini/README.md)|GSI Technology(*org*)|LedaE APU |inprog|**36064.137**|[9,150.271](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/gemini/deep-1B_throughput.png) |[9,504.865](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/gemini/bigann-1B_throughput.png) |[20,166.678](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/gemini/msturing-1B_throughput.png)   |[8,587.024](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/gemini/msspacev-1B_throughput.png)  |[1,864.634](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/gemini/text2image-1B_throughput.png)     |[8,123.552](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/gemini/ssnpp-1B_throughput.png)         | 
 |   6|[faiss_t3](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/faiss_t3/README.md)|Facebook Research(*org*)|NVidia GPU |final|**baseline**|[4,464.182](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/faiss_t3/deep-1B_throughput.png) |[3,270.535](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/faiss_t3/bigann-1B_throughput.png) |[2,844.816](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/faiss_t3/msturing-1B_throughput.png)   |[3,265.367](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/faiss_t3/msspacev-1B_throughput.png)  |[1,788.657](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/faiss_t3/text2image-1B_throughput.png)     |[5,699.329](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/faiss_t3/ssnpp-1B_throughput.png)         | 
-|   7|                 -|      -|       -|      -|          -|     -|     -|       -|      -|         -|             -|
-|   8|                 -|      -|       -|      -|          -|     -|     -|       -|      -|         -|             -|
-|   9|                 -|      -|       -|      -|          -|     -|     -|       -|      -|         -|             -|
-|  10|                 -|      -|       -|      -|          -|     -|     -|       -|      -|         -|             -|
 
 * A submission must support at least 3 databases to qualify for this ranking.
 * The ranking is based on the score, which is the sum of benchmark improvements of qualifying databases (shown in specific database columns after the score column.)
@@ -87,10 +75,6 @@ Please note that all rankings are currently unofficial due to the following reas
 |   4|[gemini](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/diskann-bare-metal/README.md)|GSI Technology(*org*)|LedaE APU |inprog|**-0.418**|[0.0398](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/gemini/deep-1B_power.png) |[0.0394](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/gemini/bigann-1B_power.png) |[0.0227](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/gemini/msturing-1B_power.png)   |[0.0485](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/gemini/msspacev-1B_power.png)  |[0.1759](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/gemini/text2image-1B_power.png)|[0.0540](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/gemini/ssnpp-1B_power.png)| 
 |   5|[faiss_t3](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/gemini/README.md)|Facebook Research(*org*)|NVidia GPU |final|**baseline**|[0.1117](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/faiss_t3/deep-1B_power.png) |[0.1576](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/faiss_t3/bigann-1B_power.png) |[0.1743](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/faiss_t3/msturing-1B_power.png)   |[0.1520](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/faiss_t3/msspacev-1B_power.png)  |[0.1128](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/faiss_t3/text2image-1B_power.png)|[0.0904](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/faiss_t3/ssnpp-1B_power.png)| 
 |   6|[-](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/faiss_t3/README.md)|-|- |-|**-**|- |- |-   |-  |-|-| 
-|   7|                 -|      -|       -|      -|          -|     -|     -|       -|      -|    -|    -|
-|   8|                 -|      -|       -|      -|          -|     -|     -|       -|      -|    -|    -|
-|   9|                 -|      -|       -|      -|          -|     -|     -|       -|      -|    -|    -|
-|  10|                 -|      -|       -|      -|          -|     -|     -|       -|      -|    -|    -|
 
 * A submission must support at least 3 databases to qualify for this ranking.
 * The ranking is based on the score, which is the sum of benchmark improvements of qualifying databases (shown in specific database columns after the score column.)
@@ -109,10 +93,6 @@ Please note that all rankings are currently unofficial due to the following reas
 |   4|[faiss_t3](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/faiss_t3/README.md)|Facebook Research(*org*)|NVidia GPU |final|**baseline**|$545,633.16 |$737,886.17 |$853,857.46   |$735,942.66  |$1,272,735.86     |$428,074.79         |
 |   5|[gemini](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/gemini/README.md)|GSI Technology(*org*)|LedaE APU |inprog|**$1,466,140.17**|$626,932.94 |$626,785.91 |$286,578.81   |$685,704.76  |$3,070,882.16     |$743,385.69         |
 |   6|[-](-)|-|- |-|**-**|- |- |-   |-  |-     |-         |
-|   7|                 -|      -|       -|      -|          -|     -|     -|       -|      -|         -|             -|
-|   8|                 -|      -|       -|      -|          -|     -|     -|       -|      -|         -|             -|
-|   9|                 -|      -|       -|      -|          -|     -|     -|       -|      -|         -|             -|
-|  10|                 -|      -|       -|      -|          -|     -|     -|       -|      -|         -|             -|
 
 * A submission must support at least 3 databases to qualify for this ranking.
 * The ranking is based on the score, which is the sum of benchmark improvements of qualifying databases (shown in specific database columns after the score column.)
@@ -135,10 +115,6 @@ Please note that all rankings are currently unofficial due to the following reas
 |   4|[gemini](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/gemini/README.md)                                   |GSI Technology(*org*)                      |LedaE APU               |inprog|**[0.98871](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/gemini/deep-1B_recall.png)**|       
 |   5|[faiss_t3](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/faiss_t3/README.md)                                   |Facebook Research(*org*)                      |NVidia GPU               |final|**[0.94275](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/faiss_t3/deep-1B_recall.png)**|       
 |   6|[optanne_graphann](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/optanne_graphann/README.md)                                   |Intel                      |Intel Optane               |inprog|**[0.90830](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/optanne_graphann/deep-1B_recall.png)**|       
-|   7|                                                      -|                             -|                      -|       -|          -|       
-|   8|                                                      -|                             -|                      -|       -|          -|       
-|   9|                                                      -|                             -|                      -|       -|          -|       
-|  10|                                                      -|                             -|                      -|       -|          -|       
 
 * The operational point for ranking is 2000 QPS. We will use the highest recall for the search parameters that meet or exceed 2000 QPS.
 * Abbreviations used in chart:
@@ -156,10 +132,6 @@ Please note that all rankings are currently unofficial due to the following reas
 |   4|[diskann](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/diskann-bare-metal/README.md)                                   |Microsoft Research(*org*)                      |Dell PowerEdge               |inprog|**[12,926.890](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/diskann-bare-metal/deep-1B_throughput.png)**|
 |   5|[gemini](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/gemini/README.md)                                   |GSI Technology(*org*)                      |LedaE APU               |inprog|**[9,150.271](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/gemini/deep-1B_throughput.png)**|
 |   6|[faiss_t3](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/faiss_t3/README.md)                                   |Facebook Research(*org*)                      |NVidia GPU               |final|**[4,464.182](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/faiss_t3/deep-1B_throughput.png)**|
-|   7|                                                      -|                             -|                      -|       -|          -|    
-|   8|                                                      -|                             -|                      -|       -|          -|    
-|   9|                                                      -|                             -|                      -|       -|          -|    
-|  10|                                                      -|                             -|                      -|       -|          -|    
 
 * The operational point for ranking is 0.90 recall@10. We will use the highest throughput for the search parameters that meet or exceed 0.90 recall@10.
 * Abbreviations used in chart:
@@ -177,10 +149,6 @@ Please note that all rankings are currently unofficial due to the following reas
 |   4|[gemini](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/gemini/README.md)                                   |GSI Technology(*org*)                      |LedaE APU               |inprog|**[0.0398](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/gemini/deep-1B_power.png)**|
 |   5|[faiss_t3](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/faiss_t3/README.md)                                   |Facebook Research(*org*)                      |NVidia GPU               |final|**[0.1117](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/faiss_t3/deep-1B_power.png)**|
 |   6|[-](-)                                   |-                      |-               |-|**-**|
-|   7|                                                      -|                             -|                      -|       -|          -|
-|   8|                                                      -|                             -|                      -|       -|          -|
-|   9|                                                      -|                             -|                      -|       -|          -|
-|  10|                                                      -|                             -|                      -|       -|          -|
 
 * The operational point for ranking is 0.90 recall@10. We will use the lowest power consumption for the search parameters that meet or exceed 0.90 recall@10.
 * Abbreviations used in chart:
@@ -198,11 +166,6 @@ Please note that all rankings are currently unofficial due to the following reas
 |   4|[faiss_t3](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/faiss_t3/README.md)|Facebook Research(*org*) |NVidia GPU               |final|**$545,633.16**  |$506,503.70|$39,129.46|$22,021.90 |23      |391,294.584|
 |   5|[gemini](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/gemini/README.md)|GSI Technology(*org*) |LedaE APU               |inprog|**$626,932.94**  |$612,993.26|$13,939.68|$55,726.66 |11      |139,396.812|
 |   6|[-](-)|- |-               |-|**-**  |-|-|- |-      |-|
-|   6|                   -|        -|                      -|       -|            -|        -|      -|        -|             -|        -|
-|   7|                   -|        -|                      -|       -|            -|        -|      -|        -|             -|        -|
-|   8|                   -|        -|                      -|       -|            -|        -|      -|        -|             -|        -|
-|   9|                   -|        -|                      -|       -|            -|        -|      -|        -|             -|        -|
-|  10|                   -|        -|                      -|       -|            -|        -|      -|        -|             -|        -|
 
 * The operational point for ranking is 0.90 recall@10. We will use the lowest power consumption/query for the search parameters that meet or exceed 0.90 recall@10.
 * The formula is based on:
@@ -228,10 +191,6 @@ Please note that all rankings are currently unofficial due to the following reas
 |   4|[cuanns_multigpu](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/cuanns_multigpu/README.md)                                   |NVidia                      |NVidia GPU               |inprog|**[0.99815](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/cuanns_multigpu/bigann-1B_recall.png)**  |
 |   5|[gemini](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/gemini/README.md)                                   |GSI Technology(*org*)                      |LedaE APU               |inprog|**[0.99253](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/gemini/bigann-1B_recall.png)**  |
 |   6|[faiss_t3](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/faiss_t3/README.md)                                   |Facebook Research(*org*)                      |NVidia GPU               |final|**[0.93260](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/faiss_t3/bigann-1B_recall.png)**  |
-|   7|                                                      -|                             -|                      -|       -|            -|
-|   8|                                                      -|                             -|                      -|       -|            -|
-|   9|                                                      -|                             -|                      -|       -|            -|
-|  10|                                                      -|                             -|                      -|       -|            -|
 
 * The operational point for ranking is 2000 QPS. We will use the highest recall for the search parameters that meet or exceed 2000 QPS.
 * Abbreviations used in chart:
@@ -249,10 +208,6 @@ Please note that all rankings are currently unofficial due to the following reas
 |   4|[diskann](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/diskann-bare-metal/README.md)                                   |Microsoft Research(*org*)                      |Dell PowerEdge               |inprog|**[19,094.371](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/diskann-bare-metal/bigann-1B_throughput.png)**  |
 |   5|[gemini](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/gemini/README.md)                                   |GSI Technology(*org*)                      |LedaE APU               |inprog|**[9,504.865](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/gemini/bigann-1B_throughput.png)**  |
 |   6|[faiss_t3](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/faiss_t3/README.md)                                   |Facebook Research(*org*)                      |NVidia GPU               |final|**[3,270.535](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/faiss_t3/bigann-1B_throughput.png)**  |
-|   7|                                                      -|                             -|                      -|       -|            -|
-|   8|                                                      -|                             -|                      -|       -|            -|
-|   9|                                                      -|                             -|                      -|       -|            -|
-|  10|                                                      -|                             -|                      -|       -|            -|
 
 * The operational point for ranking is 0.90 recall@10. We will use the highest throughput for the search parameters that meet or exceed 0.90 recall@10.
 * Abbreviations used in chart:
@@ -270,10 +225,6 @@ Please note that all rankings are currently unofficial due to the following reas
 |   4|[gemini](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/gemini/README.md)                                   |GSI Technology(*org*)                      |LedaE APU               |inprog|**[0.0394](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/gemini/bigann-1B_power.png)**|      
 |   5|[faiss_t3](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/faiss_t3/README.md)                                   |Facebook Research(*org*)                      |NVidia GPU               |final|**[0.1576](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/faiss_t3/bigann-1B_power.png)**|      
 |   6|[-](-)                                   |-                      |-               |-|**-**|      
-|   7|                                                      -|                             -|                      -|       -|          -|
-|   8|                                                      -|                             -|                      -|       -|          -|
-|   9|                                                      -|                             -|                      -|       -|          -|
-|  10|                                                      -|                             -|                      -|       -|          -|
 
 * The operational point for ranking is 0.90 recall@10. We will use the lowest power consumption for the search parameters that meet or exceed 0.90 recall@10.
 * Abbreviations used in chart:
@@ -291,10 +242,6 @@ Please note that all rankings are currently unofficial due to the following reas
 |   4|[gemini](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/gemini/README.md)|GSI Technology(*org*)                      |LedaE APU            |inprog|**$626,785.91**   |$612,993.26|$13,792.65|$55,726.66 |11      |137,926.464|  
 |   5|[faiss_t3](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/faiss_t3/README.md)|Facebook Research(*org*)                      |NVidia GPU            |final|**$737,886.17**   |$682,678.90|$55,207.27|$22,021.90 |31      |552,072.703|  
 |   6|[-](-)|-                      |-            |-|**-**   |-|-|- |-      |-|  
-|   7|                   -|                             -|                   -|       -|             -|       -|       -|        -|             -|        -|
-|   8|                   -|                             -|                   -|       -|             -|       -|       -|        -|             -|        -|
-|   9|                   -|                             -|                   -|       -|             -|       -|       -|        -|             -|        -|
-|  10|                   -|                             -|                   -|       -|             -|       -|       -|        -|             -|        -|
 
 * The operational point for ranking is 0.90 recall@10. We will use the lowest power consumption/query for the search parameters that meet or exceed 0.90 recall@10.
 * The formula is based on:
@@ -320,10 +267,6 @@ Please note that all rankings are currently unofficial due to the following reas
 |   4|[gemini](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/gemini/README.md)                                   |GSI Technology(*org*)                      |LedaE APU               |inprog|**[0.97841](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/gemini/msturing-1B_recall.png)**    |
 |   5|[faiss_t3](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/faiss_t3/README.md)                                   |Facebook Research(*org*)                      |NVidia GPU               |final|**[0.91322](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/faiss_t3/msturing-1B_recall.png)**    |
 |   6|[optanne_graphann](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/optanne_graphann/README.md)                                   |Intel                      |Intel Optane               |inprog|**[0.90521](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/optanne_graphann/msturing-1B_recall.png)**    |
-|   7|                                                      -|                             -|                      -|       -|              -|       
-|   8|                                                      -|                             -|                      -|       -|              -|       
-|   9|                                                      -|                             -|                      -|       -|              -|       
-|  10|                                                      -|                             -|                      -|       -|              -|       
 
 * The operational point for ranking is 2000 QPS. We will use the highest recall for the search parameters that meet or exceed 2000 QPS.
 * Abbreviations used in chart:
@@ -341,10 +284,6 @@ Please note that all rankings are currently unofficial due to the following reas
 |   4|[gemini](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/gemini/README.md)                                   |GSI Technology(*org*)                      |LedaE APU               |inprog|**[20,166.678](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/gemini/msturing-1B_throughput.png)** |
 |   5|[diskann](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/diskann-bare-metal/README.md)                                   |Microsoft Research(*org*)                      |Dell PowerEdge               |inprog|**[17,200.601](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/diskann-bare-metal/msturing-1B_throughput.png)** |
 |   6|[faiss_t3](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/faiss_t3/README.md)                                   |Facebook Research(*org*)                      |NVidia GPU               |final|**[2,844.816](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/faiss_t3/msturing-1B_throughput.png)** |
-|   7|                                                      -|                             -|                      -|       -|           -|
-|   8|                                                      -|                             -|                      -|       -|           -|
-|   9|                                                      -|                             -|                      -|       -|           -|
-|  10|                                                      -|                             -|                      -|       -|           -|
 
 * The operational point for ranking is 0.90 recall@10. We will use the highest throughput for the search parameters that meet or exceed 0.90 recall@10.
 * Abbreviations used in chart:
@@ -362,10 +301,6 @@ Please note that all rankings are currently unofficial due to the following reas
 |   4|[gemini](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/gemini/README.md)                                   |GSI Technology(*org*)                      |LedaE APU               |inprog|**[0.0227](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/gemini/msturing-1B_power.png)** |
 |   5|[faiss_t3](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/faiss_t3/README.md)                                   |Facebook Research(*org*)                      |NVidia GPU               |final|**[0.1743](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/faiss_t3/msturing-1B_power.png)** |
 |   6|[-](-)                                   |-                      |-               |-|**-** |
-|   7|                                                      -|                             -|                      -|       -|           -|
-|   8|                                                      -|                             -|                      -|       -|           -|
-|   9|                                                      -|                             -|                      -|       -|           -|
-|  10|                                                      -|                             -|                      -|       -|           -|
 
 * The operational point for ranking is 0.90 recall@10. We will use the lowest power consumption for the search parameters that meet or exceed 0.90 recall@10.
 * Abbreviations used in chart:
@@ -383,10 +318,6 @@ Please note that all rankings are currently unofficial due to the following reas
 |   4|[gemini](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/gemini/README.md)                |GSI Technology(*org*)                      |LedaE APU               |inprog|**$286,578.81**   |$278,633.30|$7,945.51|$55,726.66 |5      |79,455.069 |       
 |   5|[faiss_t3](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/faiss_t3/README.md)                |Facebook Research(*org*)                      |NVidia GPU               |final|**$853,857.46**   |$792,788.40|$61,069.06|$22,021.90 |36      |610,690.611 |       
 |   6|[-](-)                |-                      |-               |-|**-**   |-|-|- |-      |- |       
-|   7|                                   -|                             -|                      -|       -|             -|       -|        -|       -|             -|         -|
-|   8|                                   -|                             -|                      -|       -|             -|       -|        -|       -|             -|         -|
-|   9|                                   -|                             -|                      -|       -|             -|       -|        -|       -|             -|         -|
-|  10|                                   -|                             -|                      -|       -|             -|       -|        -|       -|             -|         -|
 
 * The operational point for ranking is 0.90 recall@10. We will use the lowest power consumption/query for the search parameters that meet or exceed 0.90 recall@10.
 * The formula is based on:
@@ -412,10 +343,6 @@ Please note that all rankings are currently unofficial due to the following reas
 |   4|[gemini](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/gemini/README.md)                                   |GSI Technology(*org*)                      |LedaE APU               |inprog|**[0.0485](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/gemini/msspacev-1B_power.png)** |
 |   5|[faiss_t3](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/faiss_t3/README.md)                                   |Facebook Research(*org*)                      |NVidia GPU               |final|**[0.1520](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/faiss_t3/msspacev-1B_power.png)** |
 |   6|[-](-)                                   |-                      |-               |-|**-** |
-|   7|                                                      -|                             -|                      -|       -|        -|
-|   8|                                                      -|                             -|                      -|       -|        -|
-|   9|                                                      -|                             -|                      -|       -|        -|
-|  10|                                                      -|                             -|                      -|       -|        -|
 
 * The operational point for ranking is 2000 QPS. We will use the highest recall for the search parameters that meet or exceed 2000 QPS.
 * Abbreviations used in chart:
@@ -433,10 +360,6 @@ Please note that all rankings are currently unofficial due to the following reas
 |   4|[gemini](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/gemini/README.md)                                   |GSI Technology(*org*)                      |LedaE APU               |inprog|**[8,587.024](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/gemini/msspacev-1B_throughput.png)** |
 |   5|[diskann](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/diskann-bare-metal/README.md)                                   |Microsoft Research(*org*)                      |Dell PowerEdge               |inprog|**[6,503.212](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/diskann-bare-metal/msspacev-1B_throughput.png)** |
 |   6|[faiss_t3](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/faiss_t3/README.md)                                   |Facebook Research(*org*)                      |NVidia GPU               |final|**[3,265.367](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/faiss_t3/msspacev-1B_throughput.png)** |
-|   7|                                                      -|                             -|                      -|       -|           -|    
-|   8|                                                      -|                             -|                      -|       -|           -|    
-|   9|                                                      -|                             -|                      -|       -|           -|   
-|  10|                                                      -|                             -|                      -|       -|           -|    
 
 * The operational point for ranking is 0.9 recall@10. We will use the highest throughput for the search parameters that meet or exceed 0.9 recall@10.
 * Abbreviations used in chart:
@@ -454,10 +377,6 @@ Please note that all rankings are currently unofficial due to the following reas
 |   4|[gemini](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/gemini/README.md)                                   |GSI Technology(*org*)                      |LedaE APU               |inprog|**[0.0485](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/gemini/msspacev-1B_power.png)** |
 |   5|[faiss_t3](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/faiss_t3/README.md)                                   |Facebook Research(*org*)                      |NVidia GPU               |final|**[0.1520](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/faiss_t3/msspacev-1B_power.png)** |
 |   6|[-](-)                                   |-                      |-               |-|**-** |
-|   7|                                                      -|                             -|                      -|       -|           -|
-|   8|                                                      -|                             -|                      -|       -|           -|
-|   9|                                                      -|                             -|                      -|       -|           -|
-|  10|                                                      -|                             -|                      -|       -|           -|
 
 * The operational point for ranking is 0.9 recall@10. We will use the lowest power consumption for the search parameters that meet or exceed 0.9 recall@10.
 * Abbreviations used in chart:
@@ -475,10 +394,6 @@ Please note that all rankings are currently unofficial due to the following reas
 |   4|[gemini](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/gemini/README.md)|GSI Technology(*org*)                      |LedaE APU               |inprog|**$685,704.76**   |$668,719.92|$16,984.84|$55,726.66 |12      |169,848.419 |
 |   5|[faiss_t3](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/faiss_t3/README.md)|Facebook Research(*org*)                      |NVidia GPU               |final|**$735,942.66**   |$682,678.90|$53,263.76|$22,021.90 |31      |532,637.584 |
 |   6|[-](-)|-                      |-               |-|**-**   |-|-|- |-      |- |
-|   7|                   -|                             -|                      -|       -|             -|       -|       -|        -|             -|         -|        
-|   8|                   -|                             -|                      -|       -|             -|       -|       -|        -|             -|         -|        
-|   9|                   -|                             -|                      -|       -|             -|       -|       -|        -|             -|         -|        
-|  10|                   -|                             -|                      -|       -|             -|       -|       -|        -|             -|         -|        
 
 * The operational point for ranking is 0.90 recall@10. We will use the lowest power consumption/query for the search parameters that meet or exceed 0.90 recall@10.
 * The formula is based on:
@@ -504,10 +419,6 @@ Please note that all rankings are currently unofficial due to the following reas
 |   4|[gemini](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/gemini/README.md)                                   |GSI Technology(*org*)                      |LedaE APU               |inprog|**[0.88585](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/gemini/text2image-1B_recall.png)**  |
 |   5|[faiss_t3](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/faiss_t3/README.md)                                   |Facebook Research(*org*)                      |NVidia GPU               |final|**[0.86028](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/faiss_t3/text2image-1B_recall.png)**  |
 |   6|[-](-)                                   |-                      |-               |-|**-**  |
-|   7|                                                      -|                             -|                      -|       -|            -|
-|   8|                                                      -|                             -|                      -|       -|            -|
-|   9|                                                      -|                             -|                      -|       -|            -|
-|  10|                                                      -|                             -|                      -|       -|            -|
 
 * The operational point for ranking is 2000 QPS. We will use the highest recall for the search parameters that meet or exceed 2000 QPS.
 * Abbreviations used in chart:
@@ -525,10 +436,6 @@ Please note that all rankings are currently unofficial due to the following reas
 |   4|[gemini](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/gemini/README.md)                                   |GSI Technology(*org*)                      |LedaE APU               |inprog|**[1,864.634](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/gemini/text2image-1B_throughput.png)** |
 |   5|[faiss_t3](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/faiss_t3/README.md)                                   |Facebook Research(*org*)                      |NVidia GPU               |final|**[1,788.657](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/faiss_t3/text2image-1B_throughput.png)** |
 |   6|[-](-)                                   |-                      |-               |-|**-** |
-|   7|                                                      -|                             -|                      -|       -|           -|    
-|   8|                                                      -|                             -|                      -|       -|           -|    
-|   9|                                                      -|                             -|                      -|       -|           -|    
-|  10|                                                      -|                             -|                      -|       -|           -|    
 
 * The operational point for ranking is 0.860 recall@10. We will use the highest throughput for the search parameters that meet or exceed 0.860 recall@10.
 * Abbreviations used in chart:
@@ -546,11 +453,6 @@ Please note that all rankings are currently unofficial due to the following reas
 |   4|[gemini](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/gemini/README.md)                                   |GSI Technology(*org*)                      |LedaE APU               |inprog|**[0.1759](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/gemini/text2image-1B_power.png)**|
 |   5|[-](-)                                   |-                      |-               |-|**-**|
 |   6|[-](-)                                   |-                      |-               |-|**-**|
-|   6|                                                      -|                             -|                      -|       -|        -|
-|   7|                                                      -|                             -|                      -|       -|        -|
-|   8|                                                      -|                             -|                      -|       -|        -|
-|   9|                                                      -|                             -|                      -|       -|        -|
-|  10|                                                      -|                             -|                      -|       -|        -|
 
 * The operational point for ranking is 0.86 recall@10. We will use the lowest power consumption for the search parameters that meet or exceed 0.86 recall@10.
 * Abbreviations used in chart:
@@ -568,10 +470,6 @@ Please note that all rankings are currently unofficial due to the following reas
 |   4|[gemini](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/gemini/README.md) |GSI Technology(*org*)                      |LedaE APU             |inprog|**$3,070,882.16**   |$3,009,239.64|$61,642.52|$55,726.66 |54      |616,425.231| 
 |   5|[-](-) |-                      |-             |-|**-**   |-|-|- |-      |-| 
 |   6|[-](-) |-                      |-             |-|**-**   |-|-|- |-      |-| 
-|   7|                    -|                             -|                    -|       -|             -|       -|       -|        -|             -|        -|       
-|   8|                    -|                             -|                    -|       -|             -|       -|       -|        -|             -|        -|       
-|   9|                    -|                             -|                    -|       -|             -|       -|       -|        -|             -|        -|       
-|  10|                    -|                             -|                    -|       -|             -|       -|       -|        -|             -|        -|       
 
 * The operational point for ranking is 0.86 recall@10. We will use the lowest power consumption/query for the search parameters that meet or exceed 0.86 recall@10.
 * The formula is based on:
@@ -597,10 +495,6 @@ Please note that all rankings are currently unofficial due to the following reas
 |   4|[-](-)                                   |-                      |-               |-|**-**  |
 |   5|[-](-)                                   |-                      |-               |-|**-**  |
 |   6|[-](-)                                   |-                      |-               |-|**-**  |
-|   7|                                                      -|                             -|                      -|       -|            -|
-|   8|                                                      -|                             -|                      -|       -|            -|
-|   9|                                                      -|                             -|                      -|       -|            -|
-|  10|                                                      -|                             -|                      -|       -|            -|
 
 * The operational point for ranking is 2000 QPS. We will use the highest recall for the search parameters that meet or exceed 2000 QPS.
 * Abbreviations used in chart:
@@ -618,10 +512,6 @@ Please note that all rankings are currently unofficial due to the following reas
 |   4|[-](-)                                   |-                      |-               |-|**-** |
 |   5|[-](-)                                   |-                      |-               |-|**-** |
 |   6|[-](-)                                   |-                      |-               |-|**-** |
-|   7|                                                      -|                             -|                      -|       -|           -|
-|   8|                                                      -|                             -|                      -|       -|           -|
-|   9|                                                      -|                             -|                      -|       -|           -|
-|  10|                                                      -|                             -|                      -|       -|           -|
 
 * The operational point for ranking is 0.9 recall@10. We will use the highest throughput for the search parameters that meet or exceed 0.9 average precision.
 * Abbreviations used in chart:
@@ -640,10 +530,6 @@ Please note that all rankings are currently unofficial due to the following reas
 |   4|[-](-)                                   |-                      |-               |-|**-**|
 |   5|[-](-)                                   |-                      |-               |-|**-**|
 |   6|[-](-)                                   |-                      |-               |-|**-**|
-|   7|                                                      -|                             -|                      -|       -|          -|
-|   8|                                                      -|                             -|                      -|       -|          -|
-|   9|                                                      -|                             -|                      -|       -|          -|
-|  10|                                                      -|                             -|                      -|       -|          -|
 
 * The operational point for ranking is 0.9 recall@10. We will use the lowest power consumption for the search parameters that meet or exceed 0.9 average precision.
 * Abbreviations used in chart:
@@ -659,12 +545,6 @@ Please note that all rankings are currently unofficial due to the following reas
 |   2|[gemini](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/gemini/README.md)|GSI Technology(*org*)                      |LedaE APU             |inprog|**$743,385.69**   |       -|       -|        -|             -|        -|       
 |   3|[-](-)|-                      |-             |-|**-**   |       -|       -|        -|             -|        -|       
 |   4|[-](-)|-                      |-             |-|**-**   |       -|       -|        -|             -|        -|       
-|   5|                   -|                             -|                    -|       -|             -|       -|       -|        -|             -|        -|       
-|   6|                   -|                             -|                    -|       -|             -|       -|       -|        -|             -|        -|       
-|   7|                   -|                             -|                    -|       -|             -|       -|       -|        -|             -|        -|       
-|   8|                   -|                             -|                    -|       -|             -|       -|       -|        -|             -|        -|       
-|   9|                   -|                             -|                    -|       -|             -|       -|       -|        -|             -|        -|       
-|  10|                   -|                             -|                    -|       -|             -|       -|       -|        -|             -|        -|       
 
 * The operational point for ranking is 0.9 recall@10. We will use the lowest power consumption/query for the search parameters that meet or exceed 0.9 recall@10.
 * The formula is based on:
