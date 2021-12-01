@@ -1,0 +1,20 @@
+Filesystem      Size  Used Avail Use% Mounted on
+udev           1008G     0 1008G   0% /dev
+tmpfs           202G   60M  202G   1% /run
+/dev/md0        1.8T   25G  1.7T   2% /
+tmpfs          1008G     0 1008G   0% /dev/shm
+tmpfs           5.0M     0  5.0M   0% /run/lock
+tmpfs          1008G     0 1008G   0% /sys/fs/cgroup
+/dev/nvme1n1p1  511M  7.9M  504M   2% /boot/efi
+/dev/md1         14T   11T  2.3T  83% /raid
+/dev/loop1       71M   71M     0 100% /snap/lxd/19647
+/dev/loop3       56M   56M     0 100% /snap/core18/2246
+/dev/loop4       33M   33M     0 100% /snap/snapd/13640
+/dev/loop5       62M   62M     0 100% /snap/core20/1169
+/dev/loop6       68M   68M     0 100% /snap/lxd/21835
+/dev/loop7       62M   62M     0 100% /snap/core20/1242
+/dev/loop8       56M   56M     0 100% /snap/core18/2253
+/dev/loop0       43M   43M     0 100% /snap/snapd/14066
+tmpfs           202G     0  202G   0% /run/user/1005
+tmpfs           202G     0  202G   0% /run/user/1000
+tmpfs           202G     0  202G   0% /run/user/1003
