@@ -25,6 +25,7 @@ SUBM_MAPPING            = \
         "results_dir":  "%s/faiss/results_faiss_stimes_all_dsets" % CACHE_RESULTS_TOPLEVEL,
         "export_fname": "public_w_cache_detect.csv",
         "cache_detect": True,
+        "anomaly_explain": "(https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/faiss_t3/ANOMALIES.md)",
         "system_cost":  22021.90,
         "md_prefix":    "BS",
         "status":       "final",
@@ -42,6 +43,7 @@ SUBM_MAPPING            = \
         "results_dir":  "%s/intel/results_intel_multigpu_all_stimes" % CACHE_RESULTS_TOPLEVEL,
         "export_fname": "public_w_cache_detect.csv",
         "cache_detect": True,
+        "anomaly_explain": "(https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/optanne_graphann/ANOMALIES.md)",
         "system_cost":  14664.20,
         "md_prefix":    "OPT1",
         "status":       "inprog",
@@ -90,6 +92,7 @@ SUBM_MAPPING            = \
         "results_dir":  "%s/nvidia/multigpu/results_nv_multi_stimes_all" % CACHE_RESULTS_TOPLEVEL,
         "export_fname": "public_w_cache_detect.csv", 
         "cache_detect": True,
+        "anomaly_explain": "(https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/cuanns_multigpu/ANOMALIES.md)",
         "system_cost":  150000,
         "md_prefix":    "NV",
         "status":       "inprog",
@@ -108,6 +111,7 @@ SUBM_MAPPING            = \
         "results_dir":  "%s/nvidia/ivfpq/results_nv_ivfpq_reduce_anomalies_config_stimes_all" % CACHE_RESULTS_TOPLEVEL,
         "export_fname": "public_w_cache_detect.csv",
         "cache_detect": True,
+        "anomaly_explain": "(https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/cuanns_ivfpq/ANOMALIES.md)",
         "system_cost":  150000,
         "md_prefix":    "NV2",
         "status":       "inprog",
@@ -322,7 +326,10 @@ def produce_rankings(subms):
             if SUBM_MAPPING[subm]['cache_detect']:
                 ac = sum( [ el[1]['cache'][0] for el in SUBM_MAPPING[subm]['evals'].items() if el[0]!="summary" ] )
                 tc = sum( [ el[1]['cache'][1] for el in SUBM_MAPPING[subm]['evals'].items() if el[0]!="summary" ] )
-                rdct[kee] = "%d/%d" % (ac, tc )
+                if ac>0:
+                    rdct[kee] = "[%d/%d]%s" % (ac, tc, SUBM_MAPPING[subm]['anomaly_explain'])
+                else:
+                    rdct[kee] = "%d/%d" % (ac, tc )
             else:
                 rdct[kee] = "NA"
 
