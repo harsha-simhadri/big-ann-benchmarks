@@ -404,7 +404,7 @@ class Evaluator():
             perc =  float(cachinfo.split()[2])
             if tf: ac = ac+1
             query_run_count = len( search_times[idx].split() )
-            tc = tc + query_run_count
+            tc = tc + 1 #query_run_count
         print("CACHING STATS", ac, tc )
  
         this_eval = { 

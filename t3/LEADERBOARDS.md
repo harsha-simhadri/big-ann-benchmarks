@@ -17,7 +17,7 @@ Please note that all rankings are currently unofficial due to the following reas
 |[$MSD_SB]($MSD_RD)  |$MSD_TM    |$MSD_HW   |$MSD_RR  |$MSD_QR  |$MSD_PR  |$MSD_CR |$MSD_S   |$MSD_AC  |$MSD_EV  |$MSD_AL  |$MSD_AN |
 |[$BS_SB]($BS_RD)    |$BS_TM     |$BS_HW    |$BS_RR   |$BS_QR   |$BS_PR   |$BS_CR  |$BS_S    |$BS_AC   |$BS_EV   |$BS_AL   |$BS_AN  |
 |[$GEM_SB]($GEM_RD)  |$GEM_TM    |$GEM_HW   |$GEM_RR  |$GEM_QR  |$GEM_PR  |$GEM_CR |$GEM_S   |$GEM_AC  |$GEM_EV  |$GEM_AL  |$GEM_AN |
-|[cuanns_ivfpq](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/cuanns_ivfpq/README.md)  |NVidia    |NVidia GPU   |[1](#recall-or-ap-rankings)  |[1](#throughput-rankings)  |[1](#power-rankings)  |[1](#cost-rankings) |inprog   |5/250  |George Williams  |[src](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/benchmark/algorithms/cuanns_ivfpq.py)  |[nb](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/cuanns_ivfpq/EvalPublic.ipynb) |
+|[cuanns_ivfpq](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/cuanns_ivfpq/README.md)  |NVidia    |NVidia GPU   |[1](#recall-or-ap-rankings)  |[1](#throughput-rankings)  |[1](#power-rankings)  |[1](#cost-rankings) |inprog   |5/50  |George Williams  |[src](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/benchmark/algorithms/cuanns_ivfpq.py)  |[nb](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/cuanns_ivfpq/EvalPublic.ipynb) |
 |[$NV_SB]($NV_RD)    |$NV_TM     |$NV_HW    |$NV_RR   |$NV_QR   |$NV_PR   |$NV_CR  |$NV_S    |$NV_AC   |$NV_EV   |$NV_AL   |$NV_AN  |
 |[$OPT1_SB]($OPT1_RD)|$OPT1_TM   |$OPT1_HW  |$OPT1_RR |$OPT1_QR |$OPT1_PR |$OPT1_CR|$OPT1_S  |$OPT1_AC |$OPT1_EV |$OPT1_AL |$OPT1_AN|
 
