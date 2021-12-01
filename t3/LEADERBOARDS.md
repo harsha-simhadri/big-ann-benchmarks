@@ -28,7 +28,7 @@ Please note that all rankings are currently unofficial due to the following reas
   * *NQ* = not qualified
   * *NA* = data is not yet available, or has not yet been processed
 
-* Anomalies are defined as queries that have been detected as possible query response caching.  We look for a 30% or more improvement of batch query latency between the first and last query of a query group (5).  Participants have been given a chance to explain why these anomalies are not a result of query response caching.
+* Anomalies are defined as queries that could potentially be the result of query response caching, a violation of the competition.  Our detection method looks for a 30% or more improvement in the batch query latency between the first and last query of a query group (5).  Participants have been given a chance to explain why detected anomalies (if any) are not a result of query response caching.
 
 ### Rankings Per Metric
 
