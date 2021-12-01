@@ -6,7 +6,7 @@ import pandas as pd
 from string import Template
 import t3eval
 
-RE_EXPORT               = False
+RE_EXPORT               = True
 ONLY_TEMPLATE_GEN       = False
 OFFICIAL                = False
 
@@ -101,9 +101,10 @@ SUBM_MAPPING            = \
     },
     "cuanns_ivfpq": {
         "team":         "NVidia",
-        # last - "results_dir":  "%s/nvidia/cuanns_ivfpq/results.updated_algos_ivfpq" % COMP_RESULTS_TOPLEVEL,
-        # last = "export_fname": "res.updated_algos_ivfpq.csv",
-        "results_dir":  "%s/nvidia/ivfpq/results_nv_ivfpq_merge_all_and_1" % CACHE_RESULTS_TOPLEVEL,
+        # lastlast - "results_dir":  "%s/nvidia/cuanns_ivfpq/results.updated_algos_ivfpq" % COMP_RESULTS_TOPLEVEL,
+        # lastlast = "export_fname": "res.updated_algos_ivfpq.csv",
+        # last "results_dir":  "%s/nvidia/ivfpq/results_nv_ivfpq_merge_all_and_1" % CACHE_RESULTS_TOPLEVEL,
+        "results_dir":  "%s/nvidia/ivfpq/results_nv_ivfpq_reduce_anomalies_config_stimes_all" % CACHE_RESULTS_TOPLEVEL,
         "export_fname": "public_w_cache_detect.csv",
         "cache_detect": True,
         "system_cost":  150000,
@@ -523,9 +524,10 @@ def produce_rankings(subms):
  
 if __name__ == "__main__":
 
-    subms = [  "faiss_t3", "optanne_graphann", "gemini", "diskann", "cuanns_multigpu", "cuanns_ivfpq" ]
-    # subms = [  "faiss_t3", "optanne_graphann", "gemini", "cuanns_multigpu", "cuanns_ivfpq" ]
-       
+    # subms = [  "faiss_t3", "optanne_graphann", "gemini", "diskann", "cuanns_multigpu", "cuanns_ivfpq" ]
+    #subms = [  "faiss_t3", "optanne_graphann", "gemini", "cuanns_multigpu", "cuanns_ivfpq" ]
+    subms = [ "cuanns_ivfpq" ]
+   
     if not ONLY_TEMPLATE_GEN:
         for subm in subms:
             process_subm(subm)

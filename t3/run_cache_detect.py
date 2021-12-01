@@ -6,7 +6,7 @@ import pandas as pd
 from string import Template
 import t3eval
 
-RE_EXPORT               = False
+RE_EXPORT               = True
 ONLY_TEMPLATE_GEN       = False
 TOTAL_SUBM              = 10
 RESULTS_TOPLEVEL        = "/Users/gwilliams/Projects/BigANN/cache_detect_results"
@@ -69,7 +69,8 @@ SUBM_MAPPING            = \
     },
     "cuanns_ivfpq": {
         "team":         "NVidia",
-        "results_dir":  "%s/nvidia/ivfpq/results_nv_ivfpq_merge_all_and_1" % RESULTS_TOPLEVEL,
+        #last - "results_dir":  "%s/nvidia/ivfpq/results_nv_ivfpq_merge_all_and_1" % RESULTS_TOPLEVEL,
+        "results_dir":  "%s/nvidia/ivfpq/results_nv_ivfpq_reduce_anomalies_config_stimes_all" % RESULTS_TOPLEVEL,
         "export_fname": "cache_detect.csv",
         "md_prefix":    "NV2",
         "status":       "inprog",
@@ -149,7 +150,7 @@ if __name__ == "__main__":
     subms = [  "faiss_t3", "optanne_graphann", "gemini", "cuanns_multigpu", "cuanns_ivfpq" ]
     #subms = [ "faiss_t3" ]
     #subms = [ "cuanns_multigpu" ]
-    #subms = [ "cuanns_ivfpq" ]
+    subms = [ "cuanns_ivfpq" ]
 
     # produce a master dataframe of all results 
     dfs = [] 
