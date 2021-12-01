@@ -6,10 +6,11 @@ import pandas as pd
 from string import Template
 import t3eval
 
-RE_EXPORT               = True
-ONLY_TEMPLATE_GEN       = False
-OFFICIAL                = False
+RE_EXPORT               = False
+PROCESS_CSV             = True
+LEADERBOARD_GEN         = True
 
+OFFICIAL                = False
 TOTAL_SUBM              = 10
 COMP_RESULTS_TOPLEVEL   = "/Users/gwilliams/Projects/BigANN/competition_results"
 CACHE_RESULTS_TOPLEVEL  = "/Users/gwilliams/Projects/BigANN/cache_detect_results"
@@ -146,8 +147,7 @@ def process_subm( subm ):
     print("EXP FILE", export_file)
     if not os.path.exists( export_file ):
         print("path does not exist: ", export_file )
-        do_export = True
-        #sys.exit(1)
+        sys.exit(1)
 
     # create export.csv from results directory as needed
     exported = False
@@ -316,6 +316,8 @@ def produce_rankings(subms):
             rdct[kee] = SUBM_MAPPING[subm]['algo']
             kee = "$" + SUBM_MAPPING[subm]['md_prefix']+"_AN"
             rdct[kee] = SUBM_MAPPING[subm]['analysis']
+            kee = "$" + SUBM_MAPPING[subm]['md_prefix']+"_AC"
+            rdct[kee] = "todo"
 
     def ranking_by_benchmark(orderings, rdct):
         '''replace benchmark rank by rank ordering'''
@@ -527,17 +529,20 @@ if __name__ == "__main__":
     # subms = [  "faiss_t3", "optanne_graphann", "gemini", "diskann", "cuanns_multigpu", "cuanns_ivfpq" ]
     #subms = [  "faiss_t3", "optanne_graphann", "gemini", "cuanns_multigpu", "cuanns_ivfpq" ]
     subms = [ "cuanns_ivfpq" ]
-   
-    if not ONLY_TEMPLATE_GEN:
+
+    # export and/or produce summary and evals json  
+    if RE_EXPORT or PROCESS_CSV: 
         for subm in subms:
             process_subm(subm)
     
-    # load the evals
+    # load the evals json
     for subm in subms:
         use_subm = SUBM_MAPPING[subm]["use_subm_dir"]  if "use_subm_dir" in SUBM_MAPPING[subm].keys() else subm
         jpath = "t3/eval_2021/%s/evals.json" % use_subm          
         with open(jpath) as json_file:
             SUBM_MAPPING[subm]["evals"] = json.load(json_file)
 
-    produce_rankings(subms)
+    if LEADERBOARD_GEN:
+        produce_rankings(subms)
+
  
