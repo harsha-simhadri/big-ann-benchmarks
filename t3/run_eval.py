@@ -316,13 +316,15 @@ def produce_rankings(subms):
             rdct[kee] = SUBM_MAPPING[subm]['algo']
             kee = "$" + SUBM_MAPPING[subm]['md_prefix']+"_AN"
             rdct[kee] = SUBM_MAPPING[subm]['analysis']
-    
+   
+            # anomaly 
             kee = "$" + SUBM_MAPPING[subm]['md_prefix']+"_AC"
-            #print("stuff", SUBM_MAPPING[subm]['evals'].keys() )
-            ac = sum( [ el[1]['cache'][0] for el in SUBM_MAPPING[subm]['evals'].items() if el[0]!="summary" ] )
-            #print("ac", ac) 
-            tc = sum( [ el[1]['cache'][1] for el in SUBM_MAPPING[subm]['evals'].items() if el[0]!="summary" ] )
-            rdct[kee] = "%d/%d" % (ac, tc )
+            if SUBM_MAPPING[subm]['cache_detect']:
+                ac = sum( [ el[1]['cache'][0] for el in SUBM_MAPPING[subm]['evals'].items() if el[0]!="summary" ] )
+                tc = sum( [ el[1]['cache'][1] for el in SUBM_MAPPING[subm]['evals'].items() if el[0]!="summary" ] )
+                rdct[kee] = "%d/%d" % (ac, tc )
+            else:
+                rdct[kee] = "NA"
 
     def ranking_by_benchmark(orderings, rdct):
         '''replace benchmark rank by rank ordering'''
@@ -531,9 +533,9 @@ def produce_rankings(subms):
  
 if __name__ == "__main__":
 
-    # subms = [  "faiss_t3", "optanne_graphann", "gemini", "diskann", "cuanns_multigpu", "cuanns_ivfpq" ]
-    #subms = [  "faiss_t3", "optanne_graphann", "gemini", "cuanns_multigpu", "cuanns_ivfpq" ]
-    subms = [ "cuanns_ivfpq" ]
+    subms = [  "faiss_t3", "optanne_graphann", "gemini", "diskann", "cuanns_multigpu", "cuanns_ivfpq" ]
+    # subms = [  "faiss_t3", "optanne_graphann", "gemini", "cuanns_multigpu", "cuanns_ivfpq" ]
+    #subms = [ "cuanns_ivfpq" ]
 
     # export and/or produce summary and evals json  
     if RE_EXPORT or PROCESS_CSV: 
