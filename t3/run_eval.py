@@ -6,21 +6,26 @@ import pandas as pd
 from string import Template
 import t3eval
 
-RE_EXPORT               = False
-ONLY_TEMPLATE_GEN       = False
+RE_EXPORT               = True
+PROCESS_CSV             = True
+LEADERBOARD_GEN         = True
 
 OFFICIAL                = False
-
 TOTAL_SUBM              = 10
 COMP_RESULTS_TOPLEVEL   = "/Users/gwilliams/Projects/BigANN/competition_results"
+CACHE_RESULTS_TOPLEVEL  = "/Users/gwilliams/Projects/BigANN/cache_detect_results"
 T3_EVAL_TOPLEVEL        = "t3/eval_2021"
 
 SUBM_MAPPING            = \
 {
     "faiss_t3": {
         "team":         "Facebook Research",
-        "results_dir":  "%s/faiss_t3/results.baseline_focused" % COMP_RESULTS_TOPLEVEL,
-        "export_fname": "public_focused.csv",
+        # last - "results_dir":  "%s/faiss_t3/results.baseline_focused" % COMP_RESULTS_TOPLEVEL,
+        # last - "export_fname": "public_focused.csv",
+        "results_dir":  "%s/faiss/results_faiss_stimes_all_dsets" % CACHE_RESULTS_TOPLEVEL,
+        "export_fname": "public_w_cache_detect.csv",
+        "cache_detect": True,
+        "anomaly_explain": "https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/faiss_t3/ANOMALIES.md",
         "system_cost":  22021.90,
         "md_prefix":    "BS",
         "status":       "final",
@@ -33,10 +38,13 @@ SUBM_MAPPING            = \
     },
     "optanne_graphann": {
         "team":         "Intel",
-        # last results dir - "results_dir":  "%s/optanne_graphann/results.with_power_capture" % COMP_RESULTS_TOPLEVEL,
-        "results_dir":  "%s/optanne_graphann/results.new_algos_yaml_with_power" % COMP_RESULTS_TOPLEVEL,
-        # last export - "export_fname": "public_with_power_capture.csv",
-        "export_fname": "public.new_algos_yaml_with_power.csv",
+        # last - "results_dir":  "%s/optanne_graphann/results.with_power_capture" % COMP_RESULTS_TOPLEVEL,
+        # last - "export_fname": "public_with_power_capture.csv",
+        # last-last "results_dir":  "%s/intel/results_intel_multigpu_all_stimes" % CACHE_RESULTS_TOPLEVEL,
+        "results_dir":  "%s/intel/results_updated_config_with_anomaly_mitigation" % CACHE_RESULTS_TOPLEVEL,
+        "export_fname": "public_w_cache_detect.csv",
+        "cache_detect": True,
+        "anomaly_explain": "https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/optanne_graphann/ANOMALIES.md",
         "system_cost":  14664.20,
         "md_prefix":    "OPT1",
         "status":       "inprog",
@@ -50,9 +58,8 @@ SUBM_MAPPING            = \
     "gemini": {
         "team":         "GSI Technology",
         "results_dir":  "%s/gemini/results_merge_new_ssnpp_text1image_to_use_gsl_release/merged" % COMP_RESULTS_TOPLEVEL,
-        #GW last results=  "results_dir":  "%s/gemini/results.using_gsl_release" % COMP_RESULTS_TOPLEVEL,
         "export_fname": "public_gsl_release_merged_latest_ssnpp_text2image.csv",
-        #GW last export name = "export_fname": "public_gsl_release.csv",
+        "cache_detect": False,
         "system_cost":  55726.66,
         "md_prefix":    "GEM",
         "status":       "inprog",
@@ -67,7 +74,8 @@ SUBM_MAPPING            = \
         "team":         "Microsoft Research",
         "use_subm_dir": "diskann-bare-metal",
         "results_dir":  "%s/diskann/results.ms_bare_metal" % COMP_RESULTS_TOPLEVEL,
-        "export_fname": "diskann-bare-metal-res-pruned.csv", #"res.csv"
+        "export_fname": "diskann-bare-metal-res-pruned.csv", 
+        "cache_detect": False,
         "system_cost":  0,
         "md_prefix":    "MSD",
         "status":       "inprog",
@@ -80,11 +88,15 @@ SUBM_MAPPING            = \
     },
     "cuanns_multigpu": {
         "team":         "NVidia",
-        "results_dir":  "%s/nvidia/cuanns_multigpu/results3.power_mon" % COMP_RESULTS_TOPLEVEL,
-        "export_fname": "results3.power_mon.csv", 
+        # last - "results_dir":  "%s/nvidia/cuanns_multigpu/results3.power_mon" % COMP_RESULTS_TOPLEVEL,
+        # last = "export_fname": "results3.power_mon.csv", 
+        "results_dir":  "%s/nvidia/multigpu/results_nv_multi_stimes_all" % CACHE_RESULTS_TOPLEVEL,
+        "export_fname": "public_w_cache_detect.csv", 
+        "cache_detect": True,
+        "anomaly_explain": "https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/cuanns_multigpu/ANOMALIES.md",
         "system_cost":  150000,
         "md_prefix":    "NV",
-        "status":       "inprog",
+        "status":       "final",
         "display_hw":   "NVidia GPU",
         "readme":       "https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/cuanns_multigpu/README.md",
         "org":          False,
@@ -94,13 +106,16 @@ SUBM_MAPPING            = \
     },
     "cuanns_ivfpq": {
         "team":         "NVidia",
-        # last results - "results_dir":  "%s/nvidia/cuanns_ivfpq/results.ivfpq.power_mon.w_text2image" % COMP_RESULTS_TOPLEVEL,
-        "results_dir":  "%s/nvidia/cuanns_ivfpq/results.updated_algos_ivfpq" % COMP_RESULTS_TOPLEVEL,
-        # last export - "export_fname": "res.ivfpq.power_mon.w_text2image.csv",
-        "export_fname": "res.updated_algos_ivfpq.csv",
+        # lastlast - "results_dir":  "%s/nvidia/cuanns_ivfpq/results.updated_algos_ivfpq" % COMP_RESULTS_TOPLEVEL,
+        # lastlast = "export_fname": "res.updated_algos_ivfpq.csv",
+        # last "results_dir":  "%s/nvidia/ivfpq/results_nv_ivfpq_merge_all_and_1" % CACHE_RESULTS_TOPLEVEL,
+        "results_dir":  "%s/nvidia/ivfpq/results_nv_ivfpq_reduce_anomalies_config_stimes_all" % CACHE_RESULTS_TOPLEVEL,
+        "export_fname": "public_w_cache_detect.csv",
+        "cache_detect": True,
+        "anomaly_explain": "https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/cuanns_ivfpq/ANOMALIES.md",
         "system_cost":  150000,
         "md_prefix":    "NV2",
-        "status":       "inprog",
+        "status":       "final",
         "display_hw":   "NVidia GPU",
         "readme":       "https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/cuanns_ivfpq/README.md",
         "org":          False,
@@ -137,8 +152,7 @@ def process_subm( subm ):
     print("EXP FILE", export_file)
     if not os.path.exists( export_file ):
         print("path does not exist: ", export_file )
-        do_export = True
-        #sys.exit(1)
+        sys.exit(1)
 
     # create export.csv from results directory as needed
     exported = False
@@ -156,7 +170,10 @@ def process_subm( subm ):
         print("result of link=", stream.read())
 
         # run the export command
-        export_cmd = "python data_export.py --recompute --sensors --output='%s'" % export_file
+        if SUBM_MAPPING[subm]["cache_detect"]:
+            export_cmd = "python data_export.py --recompute --sensors --search_times --detect_caching 0.3 --output='%s'" % export_file
+        else:
+            export_cmd = "python data_export.py --recompute --sensors --output='%s'" % export_file
         print("running export command->", export_cmd )
         stream = os.popen(export_cmd)
         print("result of export=", stream.read())
@@ -304,6 +321,18 @@ def produce_rankings(subms):
             rdct[kee] = SUBM_MAPPING[subm]['algo']
             kee = "$" + SUBM_MAPPING[subm]['md_prefix']+"_AN"
             rdct[kee] = SUBM_MAPPING[subm]['analysis']
+   
+            # anomaly 
+            kee = "$" + SUBM_MAPPING[subm]['md_prefix']+"_AC"
+            if SUBM_MAPPING[subm]['cache_detect']:
+                ac = sum( [ el[1]['cache'][0] for el in SUBM_MAPPING[subm]['evals'].items() if el[0]!="summary" ] )
+                tc = sum( [ el[1]['cache'][1] for el in SUBM_MAPPING[subm]['evals'].items() if el[0]!="summary" ] )
+                if ac>0:
+                    rdct[kee] = "[%d/%d](%s)" % (ac, tc, SUBM_MAPPING[subm]['anomaly_explain'])
+                else:
+                    rdct[kee] = "%d/%d" % (ac, tc )
+            else:
+                rdct[kee] = "*NA*"
 
     def ranking_by_benchmark(orderings, rdct):
         '''replace benchmark rank by rank ordering'''
@@ -513,21 +542,23 @@ def produce_rankings(subms):
 if __name__ == "__main__":
 
     subms = [  "faiss_t3", "optanne_graphann", "gemini", "diskann", "cuanns_multigpu", "cuanns_ivfpq" ]
-    #subms = [  "cuanns_multigpu" ]
-    #subms = [  "cuanns_ivfpq" ]
-    #subms = [  "gemini" ]
-    #subms = [ "optanne_graphann" ]
-       
-    if not ONLY_TEMPLATE_GEN:
+    # subms = [  "faiss_t3", "optanne_graphann", "gemini", "cuanns_multigpu", "cuanns_ivfpq" ]
+    #subms = [ "cuanns_ivfpq" ]
+    subms = [ "optanne_graphann" ]
+
+    # export and/or produce summary and evals json  
+    if RE_EXPORT or PROCESS_CSV: 
         for subm in subms:
             process_subm(subm)
     
-    # load the evals
+    # load the evals json
     for subm in subms:
         use_subm = SUBM_MAPPING[subm]["use_subm_dir"]  if "use_subm_dir" in SUBM_MAPPING[subm].keys() else subm
         jpath = "t3/eval_2021/%s/evals.json" % use_subm          
         with open(jpath) as json_file:
             SUBM_MAPPING[subm]["evals"] = json.load(json_file)
 
-    produce_rankings(subms)
+    if LEADERBOARD_GEN:
+        produce_rankings(subms)
+
  

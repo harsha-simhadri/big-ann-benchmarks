@@ -12,24 +12,23 @@ Please note that all rankings are currently unofficial due to the following reas
 
 ### Rankings By Submission Name (alphabetical)
 
-|Submission          |Team       |Hardware  |Status |Evaluator|Algo     |Runs    |[Recall Rank](#recall-or-ap-rankings)|[Thru-put Rank](#throughput-rankings)|[Power Rank](#power-rankings)|[Cost Rank](#cost-rankings)| 
-|--------------------|-----------|----------|-------|---------|---------|--------|---------|--------------|-----------------------------|---------------------------|
-|deepgram            |DeepGram   |NVidia GPU|final  |        -|        -|       -|     *NQ*|          *NQ*|                         *NQ*|                       *NQ*|
-|[$MSD_SB]($MSD_RD)  |$MSD_TM    |$MSD_HW   |inprog |$MSD_EV  |$MSD_AL  |$MSD_AN |$MSD_RR  |$MSD_QR       |$MSD_PR                      |$MSD_CR                    |
-|[$BS_SB]($BS_RD)    |$BS_TM     |$BS_HW    |$BS_S  |$BS_EV   |$BS_AL   |$BS_AN  |$BS_RR   |$BS_QR        |$BS_PR                       |$BS_CR                     |
-|[$GEM_SB]($GEM_RD)  |$GEM_TM    |$GEM_HW   |$GEM_S |$GEM_EV  |$GEM_AL  |$GEM_AN |$GEM_RR  |$GEM_QR       |$GEM_PR                      |$GEM_CR                    |
-|kanndi              |Silo.ai    |$GEM_HW   |inprog |        -|        -|       -|        -|             -|                            -|                          -|
-|[$NV2_SB]($NV2_RD)  |$NV2_TM    |$NV2_HW   |$NV2_S |$NV2_EV  |$NV2_AL  |$NV2_AN |$NV2_RR  |$NV2_QR       |$NV2_PR                      |$NV2_CR                    |
-|[$NV_SB]($NV_RD)    |$NV_TM     |$NV_HW    |$NV_S  |$NV_EV   |$NV_AL   |$NV_AN  |$NV_RR   |$NV_QR        |$NV_PR                       |$NV_CR                     |
-|[$OPT1_SB]($OPT1_RD)|$OPT1_TM   |$OPT1_HW  |$OPT1_S|$OPT1_EV |$OPT1_AL |$OPT1_AN|$OPT1_RR |$OPT1_QR      |$OPT1_PR                     |$OPT1_CR                   |
-|optanne_graphann_2  |$OPT1_TM   |$OPT1_HW  |inprog |        -|        -|       -|        -|             -|                            -|                          -|
-|vector_t3           |Vector Inst|NVidia GPU|final  |        -|        -|       -|     *NQ*|          *NQ*|                         *NQ*|                       *NQ*|
+|Submission          |Team       |Hardware  |[Recall Rank](#recall-or-ap-rankings)|[Thru-put Rank](#throughput-rankings)|[Power Rank](#power-rankings)|[Cost Rank](#cost-rankings)|Status |Anomalies|Evaluator|Algo     |Runs   |  
+|--------------------|-----------|----------|---------|---------|---------|--------|---------|---------|---------|---------|--------|
+|[$MSD_SB]($MSD_RD)  |$MSD_TM    |$MSD_HW   |$MSD_RR  |$MSD_QR  |$MSD_PR  |$MSD_CR |$MSD_S   |$MSD_AC  |$MSD_EV  |$MSD_AL  |$MSD_AN |
+|[$BS_SB]($BS_RD)    |$BS_TM     |$BS_HW    |$BS_RR   |$BS_QR   |$BS_PR   |$BS_CR  |$BS_S    |$BS_AC   |$BS_EV   |$BS_AL   |$BS_AN  |
+|[$GEM_SB]($GEM_RD)  |$GEM_TM    |$GEM_HW   |$GEM_RR  |$GEM_QR  |$GEM_PR  |$GEM_CR |$GEM_S   |$GEM_AC  |$GEM_EV  |$GEM_AL  |$GEM_AN |
+|[$NV2_SB]($NV2_RD)  |$NV2_TM    |$NV2_HW   |$NV2_RR  |$NV2_QR  |$NV2_PR  |$NV2_CR |$NV2_S   |$NV2_AC  |$NV2_EV  |$NV2_AL  |$NV2_AN |
+|[$NV_SB]($NV_RD)    |$NV_TM     |$NV_HW    |$NV_RR   |$NV_QR   |$NV_PR   |$NV_CR  |$NV_S    |$NV_AC   |$NV_EV   |$NV_AL   |$NV_AN  |
+|[$OPT1_SB]($OPT1_RD)|$OPT1_TM   |$OPT1_HW  |$OPT1_RR |$OPT1_QR |$OPT1_PR |$OPT1_CR|$OPT1_S  |$OPT1_AC |$OPT1_EV |$OPT1_AL |$OPT1_AN|
 
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
   * *inprog* = algorithm development still in progress
   * *NQ* = not qualified
+  * *NA* = data is not yet available, or has not yet been processed
+
+* Anomalies are defined as queries that could potentially be the result of query response caching, a violation of the competition.  Our detection method looks for a 30% or more improvement in the batch query latency between the first and last query of a query group (5).  Participants have been given a chance to explain why detected anomalies (if any) are not a result of query response caching.
 
 ### Rankings Per Metric
 
@@ -43,10 +42,6 @@ Please note that all rankings are currently unofficial due to the following reas
 |   4|[$RR4_SB]($RR4_RD)|$RR4_TM|$RR4_HW |$RR4_ST|**$RR4_SC**|$DPR4 |$BAR4 |$MTR4   |$MSR4  |$TIR4     |$FBR4  |
 |   5|[$RR5_SB]($RR5_RD)|$RR5_TM|$RR5_HW |$RR5_ST|**$RR5_SC**|$DPR5 |$BAR5 |$MTR5   |$MSR5  |$TIR5     |$FBR5  |
 |   6|[$RR6_SB]($RR6_RD)|$RR6_TM|$RR6_HW |$RR6_ST|**$RR6_SC**|$DPR6 |$BAR6 |$MTR6   |$MSR6  |$TIR6     |$FBR6  |
-|   7|                 -|      -|       -|      -|          -|     -|     -|       -|      -|         -|      -|
-|   8|                 -|      -|       -|      -|          -|     -|     -|       -|      -|         -|      -|
-|   9|                 -|      -|       -|      -|          -|     -|     -|       -|      -|         -|      -|
-|  10|                 -|      -|       -|      -|          -|     -|     -|       -|      -|         -|      -|
 
 * A submission must support at least 3 databases to qualify for this ranking.
 * The ranking is based on the score, which is the sum of benchmark improvements of qualifying databases (shown in specific database columns after the score column.)
@@ -65,10 +60,6 @@ Please note that all rankings are currently unofficial due to the following reas
 |   4|[$QR4_SB]($QR4_RD)|$QR4_TM|$QR4_HW |$QR4_ST|**$QR4_SC**|$DPQ4 |$BAQ4 |$MTQ4   |$MSQ4  |$TIQ4     |$FBQ4         | 
 |   5|[$QR5_SB]($QR5_RD)|$QR5_TM|$QR5_HW |$QR5_ST|**$QR5_SC**|$DPQ5 |$BAQ5 |$MTQ5   |$MSQ5  |$TIQ5     |$FBQ5         | 
 |   6|[$QR6_SB]($QR6_RD)|$QR6_TM|$QR6_HW |$QR6_ST|**$QR6_SC**|$DPQ6 |$BAQ6 |$MTQ6   |$MSQ6  |$TIQ6     |$FBQ6         | 
-|   7|                 -|      -|       -|      -|          -|     -|     -|       -|      -|         -|             -|
-|   8|                 -|      -|       -|      -|          -|     -|     -|       -|      -|         -|             -|
-|   9|                 -|      -|       -|      -|          -|     -|     -|       -|      -|         -|             -|
-|  10|                 -|      -|       -|      -|          -|     -|     -|       -|      -|         -|             -|
 
 * A submission must support at least 3 databases to qualify for this ranking.
 * The ranking is based on the score, which is the sum of benchmark improvements of qualifying databases (shown in specific database columns after the score column.)
@@ -87,10 +78,6 @@ Please note that all rankings are currently unofficial due to the following reas
 |   4|[$PR4_SB]($QR4_RD)|$PR4_TM|$PR4_HW |$PR4_ST|**$PR4_SC**|$DPP4 |$BAP4 |$MTP4   |$MSP4  |$TIP4|$FBP4| 
 |   5|[$PR5_SB]($QR5_RD)|$PR5_TM|$PR5_HW |$PR5_ST|**$PR5_SC**|$DPP5 |$BAP5 |$MTP5   |$MSP5  |$TIP5|$FBP5| 
 |   6|[$PR6_SB]($QR6_RD)|$PR6_TM|$PR6_HW |$PR6_ST|**$PR6_SC**|$DPP6 |$BAP6 |$MTP6   |$MSP6  |$TIP6|$FBP6| 
-|   7|                 -|      -|       -|      -|          -|     -|     -|       -|      -|    -|    -|
-|   8|                 -|      -|       -|      -|          -|     -|     -|       -|      -|    -|    -|
-|   9|                 -|      -|       -|      -|          -|     -|     -|       -|      -|    -|    -|
-|  10|                 -|      -|       -|      -|          -|     -|     -|       -|      -|    -|    -|
 
 * A submission must support at least 3 databases to qualify for this ranking.
 * The ranking is based on the score, which is the sum of benchmark improvements of qualifying databases (shown in specific database columns after the score column.)
@@ -109,10 +96,6 @@ Please note that all rankings are currently unofficial due to the following reas
 |   4|[$CR4_SB]($CR4_RD)|$CR4_TM|$CR4_HW |$CR4_ST|**$CR4_SC**|$DPC4 |$BAC4 |$MTC4   |$MSC4  |$TIC4     |$FBC4         |
 |   5|[$CR5_SB]($CR5_RD)|$CR5_TM|$CR5_HW |$CR5_ST|**$CR5_SC**|$DPC5 |$BAC5 |$MTC5   |$MSC5  |$TIC5     |$FBC5         |
 |   6|[$CR6_SB]($CR6_RD)|$CR6_TM|$CR6_HW |$CR6_ST|**$CR6_SC**|$DPC6 |$BAC6 |$MTC6   |$MSC6  |$TIC6     |$FBC6         |
-|   7|                 -|      -|       -|      -|          -|     -|     -|       -|      -|         -|             -|
-|   8|                 -|      -|       -|      -|          -|     -|     -|       -|      -|         -|             -|
-|   9|                 -|      -|       -|      -|          -|     -|     -|       -|      -|         -|             -|
-|  10|                 -|      -|       -|      -|          -|     -|     -|       -|      -|         -|             -|
 
 * A submission must support at least 3 databases to qualify for this ranking.
 * The ranking is based on the score, which is the sum of benchmark improvements of qualifying databases (shown in specific database columns after the score column.)
@@ -135,10 +118,6 @@ Please note that all rankings are currently unofficial due to the following reas
 |   4|[$DP4R_SB]($DP4R_RD)                                   |$DP4R_TM                      |$DP4R_HW               |$DP4R_ST|**$DP4R_V**|       
 |   5|[$DP5R_SB]($DP5R_RD)                                   |$DP5R_TM                      |$DP5R_HW               |$DP5R_ST|**$DP5R_V**|       
 |   6|[$DP6R_SB]($DP6R_RD)                                   |$DP6R_TM                      |$DP6R_HW               |$DP6R_ST|**$DP6R_V**|       
-|   7|                                                      -|                             -|                      -|       -|          -|       
-|   8|                                                      -|                             -|                      -|       -|          -|       
-|   9|                                                      -|                             -|                      -|       -|          -|       
-|  10|                                                      -|                             -|                      -|       -|          -|       
 
 * The operational point for ranking is 2000 QPS. We will use the highest recall for the search parameters that meet or exceed 2000 QPS.
 * Abbreviations used in chart:
@@ -156,10 +135,6 @@ Please note that all rankings are currently unofficial due to the following reas
 |   4|[$DP4Q_SB]($DP4Q_RD)                                   |$DP4Q_TM                      |$DP4Q_HW               |$DP4Q_ST|**$DP4Q_V**|
 |   5|[$DP5Q_SB]($DP5Q_RD)                                   |$DP5Q_TM                      |$DP5Q_HW               |$DP5Q_ST|**$DP5Q_V**|
 |   6|[$DP6Q_SB]($DP6Q_RD)                                   |$DP6Q_TM                      |$DP6Q_HW               |$DP6Q_ST|**$DP6Q_V**|
-|   7|                                                      -|                             -|                      -|       -|          -|    
-|   8|                                                      -|                             -|                      -|       -|          -|    
-|   9|                                                      -|                             -|                      -|       -|          -|    
-|  10|                                                      -|                             -|                      -|       -|          -|    
 
 * The operational point for ranking is 0.90 recall@10. We will use the highest throughput for the search parameters that meet or exceed 0.90 recall@10.
 * Abbreviations used in chart:
@@ -177,10 +152,6 @@ Please note that all rankings are currently unofficial due to the following reas
 |   4|[$DP4P_SB]($DP4P_RD)                                   |$DP4P_TM                      |$DP4P_HW               |$DP4P_ST|**$DP4P_V**|
 |   5|[$DP5P_SB]($DP5P_RD)                                   |$DP5P_TM                      |$DP5P_HW               |$DP5P_ST|**$DP5P_V**|
 |   6|[$DP6P_SB]($DP6P_RD)                                   |$DP6P_TM                      |$DP6P_HW               |$DP6P_ST|**$DP6P_V**|
-|   7|                                                      -|                             -|                      -|       -|          -|
-|   8|                                                      -|                             -|                      -|       -|          -|
-|   9|                                                      -|                             -|                      -|       -|          -|
-|  10|                                                      -|                             -|                      -|       -|          -|
 
 * The operational point for ranking is 0.90 recall@10. We will use the lowest power consumption for the search parameters that meet or exceed 0.90 recall@10.
 * Abbreviations used in chart:
@@ -198,11 +169,6 @@ Please note that all rankings are currently unofficial due to the following reas
 |   4|[$DP4C_SB]($DP4C_RD)|$DP4C_TM |$DP4C_HW               |$DP4C_ST|**$DP4C_V**  |$DP4C_CX|$DP4C_OX|$DP4C_UC |$DP4C_UN      |$DP4C_KWT|
 |   5|[$DP5C_SB]($DP5C_RD)|$DP5C_TM |$DP5C_HW               |$DP5C_ST|**$DP5C_V**  |$DP5C_CX|$DP5C_OX|$DP5C_UC |$DP5C_UN      |$DP5C_KWT|
 |   6|[$DP6C_SB]($DP6C_RD)|$DP6C_TM |$DP6C_HW               |$DP6C_ST|**$DP6C_V**  |$DP6C_CX|$DP6C_OX|$DP6C_UC |$DP6C_UN      |$DP6C_KWT|
-|   6|                   -|        -|                      -|       -|            -|        -|      -|        -|             -|        -|
-|   7|                   -|        -|                      -|       -|            -|        -|      -|        -|             -|        -|
-|   8|                   -|        -|                      -|       -|            -|        -|      -|        -|             -|        -|
-|   9|                   -|        -|                      -|       -|            -|        -|      -|        -|             -|        -|
-|  10|                   -|        -|                      -|       -|            -|        -|      -|        -|             -|        -|
 
 * The operational point for ranking is 0.90 recall@10. We will use the lowest power consumption/query for the search parameters that meet or exceed 0.90 recall@10.
 * The formula is based on:
@@ -228,10 +194,6 @@ Please note that all rankings are currently unofficial due to the following reas
 |   4|[$BA4R_SB]($BA4R_RD)                                   |$BA4R_TM                      |$BA4R_HW               |$BA4R_ST|**$BA4R_V**  |
 |   5|[$BA5R_SB]($BA5R_RD)                                   |$BA5R_TM                      |$BA5R_HW               |$BA5R_ST|**$BA5R_V**  |
 |   6|[$BA6R_SB]($BA6R_RD)                                   |$BA6R_TM                      |$BA6R_HW               |$BA6R_ST|**$BA6R_V**  |
-|   7|                                                      -|                             -|                      -|       -|            -|
-|   8|                                                      -|                             -|                      -|       -|            -|
-|   9|                                                      -|                             -|                      -|       -|            -|
-|  10|                                                      -|                             -|                      -|       -|            -|
 
 * The operational point for ranking is 2000 QPS. We will use the highest recall for the search parameters that meet or exceed 2000 QPS.
 * Abbreviations used in chart:
@@ -249,10 +211,6 @@ Please note that all rankings are currently unofficial due to the following reas
 |   4|[$BA4Q_SB]($BA4Q_RD)                                   |$BA4Q_TM                      |$BA4Q_HW               |$BA4Q_ST|**$BA4Q_V**  |
 |   5|[$BA5Q_SB]($BA5Q_RD)                                   |$BA5Q_TM                      |$BA5Q_HW               |$BA5Q_ST|**$BA5Q_V**  |
 |   6|[$BA6Q_SB]($BA6Q_RD)                                   |$BA6Q_TM                      |$BA6Q_HW               |$BA6Q_ST|**$BA6Q_V**  |
-|   7|                                                      -|                             -|                      -|       -|            -|
-|   8|                                                      -|                             -|                      -|       -|            -|
-|   9|                                                      -|                             -|                      -|       -|            -|
-|  10|                                                      -|                             -|                      -|       -|            -|
 
 * The operational point for ranking is 0.90 recall@10. We will use the highest throughput for the search parameters that meet or exceed 0.90 recall@10.
 * Abbreviations used in chart:
@@ -270,10 +228,6 @@ Please note that all rankings are currently unofficial due to the following reas
 |   4|[$BA4P_SB]($BA4P_RD)                                   |$BA4P_TM                      |$BA4P_HW               |$BA4P_ST|**$BA4P_V**|      
 |   5|[$BA5P_SB]($BA5P_RD)                                   |$BA5P_TM                      |$BA5P_HW               |$BA5P_ST|**$BA5P_V**|      
 |   6|[$BA6P_SB]($BA6P_RD)                                   |$BA6P_TM                      |$BA6P_HW               |$BA6P_ST|**$BA6P_V**|      
-|   7|                                                      -|                             -|                      -|       -|          -|
-|   8|                                                      -|                             -|                      -|       -|          -|
-|   9|                                                      -|                             -|                      -|       -|          -|
-|  10|                                                      -|                             -|                      -|       -|          -|
 
 * The operational point for ranking is 0.90 recall@10. We will use the lowest power consumption for the search parameters that meet or exceed 0.90 recall@10.
 * Abbreviations used in chart:
@@ -291,10 +245,6 @@ Please note that all rankings are currently unofficial due to the following reas
 |   4|[$BA4C_SB]($BA4C_RD)|$BA4C_TM                      |$BA4C_HW            |$BA4C_ST|**$BA4C_V**   |$BA4C_CX|$BA4C_OX|$BA4C_UC |$BA4C_UN      |$BA4C_KWT|  
 |   5|[$BA5C_SB]($BA5C_RD)|$BA5C_TM                      |$BA5C_HW            |$BA5C_ST|**$BA5C_V**   |$BA5C_CX|$BA5C_OX|$BA5C_UC |$BA5C_UN      |$BA5C_KWT|  
 |   6|[$BA6C_SB]($BA6C_RD)|$BA6C_TM                      |$BA6C_HW            |$BA6C_ST|**$BA6C_V**   |$BA6C_CX|$BA6C_OX|$BA6C_UC |$BA6C_UN      |$BA6C_KWT|  
-|   7|                   -|                             -|                   -|       -|             -|       -|       -|        -|             -|        -|
-|   8|                   -|                             -|                   -|       -|             -|       -|       -|        -|             -|        -|
-|   9|                   -|                             -|                   -|       -|             -|       -|       -|        -|             -|        -|
-|  10|                   -|                             -|                   -|       -|             -|       -|       -|        -|             -|        -|
 
 * The operational point for ranking is 0.90 recall@10. We will use the lowest power consumption/query for the search parameters that meet or exceed 0.90 recall@10.
 * The formula is based on:
@@ -320,10 +270,6 @@ Please note that all rankings are currently unofficial due to the following reas
 |   4|[$MT4R_SB]($MT4R_RD)                                   |$MT4R_TM                      |$MT4R_HW               |$MT4R_ST|**$MT4R_V**    |
 |   5|[$MT5R_SB]($MT5R_RD)                                   |$MT5R_TM                      |$MT5R_HW               |$MT5R_ST|**$MT5R_V**    |
 |   6|[$MT6R_SB]($MT6R_RD)                                   |$MT6R_TM                      |$MT6R_HW               |$MT6R_ST|**$MT6R_V**    |
-|   7|                                                      -|                             -|                      -|       -|              -|       
-|   8|                                                      -|                             -|                      -|       -|              -|       
-|   9|                                                      -|                             -|                      -|       -|              -|       
-|  10|                                                      -|                             -|                      -|       -|              -|       
 
 * The operational point for ranking is 2000 QPS. We will use the highest recall for the search parameters that meet or exceed 2000 QPS.
 * Abbreviations used in chart:
@@ -341,10 +287,6 @@ Please note that all rankings are currently unofficial due to the following reas
 |   4|[$MT4Q_SB]($MT4Q_RD)                                   |$MT4Q_TM                      |$MT4Q_HW               |$MT4Q_ST|**$MT4Q_V** |
 |   5|[$MT5Q_SB]($MT5Q_RD)                                   |$MT5Q_TM                      |$MT5Q_HW               |$MT5Q_ST|**$MT5Q_V** |
 |   6|[$MT6Q_SB]($MT6Q_RD)                                   |$MT6Q_TM                      |$MT6Q_HW               |$MT6Q_ST|**$MT6Q_V** |
-|   7|                                                      -|                             -|                      -|       -|           -|
-|   8|                                                      -|                             -|                      -|       -|           -|
-|   9|                                                      -|                             -|                      -|       -|           -|
-|  10|                                                      -|                             -|                      -|       -|           -|
 
 * The operational point for ranking is 0.90 recall@10. We will use the highest throughput for the search parameters that meet or exceed 0.90 recall@10.
 * Abbreviations used in chart:
@@ -362,10 +304,6 @@ Please note that all rankings are currently unofficial due to the following reas
 |   4|[$MT4P_SB]($MT4P_RD)                                   |$MT4P_TM                      |$MT4P_HW               |$MT4P_ST|**$MT4P_V** |
 |   5|[$MT5P_SB]($MT5P_RD)                                   |$MT5P_TM                      |$MT5P_HW               |$MT5P_ST|**$MT5P_V** |
 |   6|[$MT6P_SB]($MT6P_RD)                                   |$MT6P_TM                      |$MT6P_HW               |$MT6P_ST|**$MT6P_V** |
-|   7|                                                      -|                             -|                      -|       -|           -|
-|   8|                                                      -|                             -|                      -|       -|           -|
-|   9|                                                      -|                             -|                      -|       -|           -|
-|  10|                                                      -|                             -|                      -|       -|           -|
 
 * The operational point for ranking is 0.90 recall@10. We will use the lowest power consumption for the search parameters that meet or exceed 0.90 recall@10.
 * Abbreviations used in chart:
@@ -383,10 +321,6 @@ Please note that all rankings are currently unofficial due to the following reas
 |   4|[$MT4C_SB]($MT4C_RD)                |$MT4C_TM                      |$MT4C_HW               |$MT4C_ST|**$MT4C_V**   |$MT4C_CX|$MT4C_OX|$MT4C_UC |$MT4C_UN      |$MT4C_KWT |       
 |   5|[$MT5C_SB]($MT5C_RD)                |$MT5C_TM                      |$MT5C_HW               |$MT5C_ST|**$MT5C_V**   |$MT5C_CX|$MT5C_OX|$MT5C_UC |$MT5C_UN      |$MT5C_KWT |       
 |   6|[$MT6C_SB]($MT6C_RD)                |$MT6C_TM                      |$MT6C_HW               |$MT6C_ST|**$MT6C_V**   |$MT6C_CX|$MT6C_OX|$MT6C_UC |$MT6C_UN      |$MT6C_KWT |       
-|   7|                                   -|                             -|                      -|       -|             -|       -|        -|       -|             -|         -|
-|   8|                                   -|                             -|                      -|       -|             -|       -|        -|       -|             -|         -|
-|   9|                                   -|                             -|                      -|       -|             -|       -|        -|       -|             -|         -|
-|  10|                                   -|                             -|                      -|       -|             -|       -|        -|       -|             -|         -|
 
 * The operational point for ranking is 0.90 recall@10. We will use the lowest power consumption/query for the search parameters that meet or exceed 0.90 recall@10.
 * The formula is based on:
@@ -412,10 +346,6 @@ Please note that all rankings are currently unofficial due to the following reas
 |   4|[$MS4P_SB]($MS4P_RD)                                   |$MS4P_TM                      |$MS4P_HW               |$MS4P_ST|**$MS4P_V** |
 |   5|[$MS5P_SB]($MS5P_RD)                                   |$MS5P_TM                      |$MS5P_HW               |$MS5P_ST|**$MS5P_V** |
 |   6|[$MS6P_SB]($MS6P_RD)                                   |$MS6P_TM                      |$MS6P_HW               |$MS6P_ST|**$MS6P_V** |
-|   7|                                                      -|                             -|                      -|       -|        -|
-|   8|                                                      -|                             -|                      -|       -|        -|
-|   9|                                                      -|                             -|                      -|       -|        -|
-|  10|                                                      -|                             -|                      -|       -|        -|
 
 * The operational point for ranking is 2000 QPS. We will use the highest recall for the search parameters that meet or exceed 2000 QPS.
 * Abbreviations used in chart:
@@ -433,10 +363,6 @@ Please note that all rankings are currently unofficial due to the following reas
 |   4|[$MS4Q_SB]($MS4Q_RD)                                   |$MS4Q_TM                      |$MS4Q_HW               |$MS4Q_ST|**$MS4Q_V** |
 |   5|[$MS5Q_SB]($MS5Q_RD)                                   |$MS5Q_TM                      |$MS5Q_HW               |$MS5Q_ST|**$MS5Q_V** |
 |   6|[$MS6Q_SB]($MS6Q_RD)                                   |$MS6Q_TM                      |$MS6Q_HW               |$MS6Q_ST|**$MS6Q_V** |
-|   7|                                                      -|                             -|                      -|       -|           -|    
-|   8|                                                      -|                             -|                      -|       -|           -|    
-|   9|                                                      -|                             -|                      -|       -|           -|   
-|  10|                                                      -|                             -|                      -|       -|           -|    
 
 * The operational point for ranking is 0.9 recall@10. We will use the highest throughput for the search parameters that meet or exceed 0.9 recall@10.
 * Abbreviations used in chart:
@@ -454,10 +380,6 @@ Please note that all rankings are currently unofficial due to the following reas
 |   4|[$MS4P_SB]($MS4P_RD)                                   |$MS4P_TM                      |$MS4P_HW               |$MS4P_ST|**$MS4P_V** |
 |   5|[$MS5P_SB]($MS5P_RD)                                   |$MS5P_TM                      |$MS5P_HW               |$MS5P_ST|**$MS5P_V** |
 |   6|[$MS6P_SB]($MS6P_RD)                                   |$MS6P_TM                      |$MS6P_HW               |$MS6P_ST|**$MS6P_V** |
-|   7|                                                      -|                             -|                      -|       -|           -|
-|   8|                                                      -|                             -|                      -|       -|           -|
-|   9|                                                      -|                             -|                      -|       -|           -|
-|  10|                                                      -|                             -|                      -|       -|           -|
 
 * The operational point for ranking is 0.9 recall@10. We will use the lowest power consumption for the search parameters that meet or exceed 0.9 recall@10.
 * Abbreviations used in chart:
@@ -475,10 +397,6 @@ Please note that all rankings are currently unofficial due to the following reas
 |   4|[$MS4C_SB]($MS4C_RD)|$MS4C_TM                      |$MS4C_HW               |$MS4C_ST|**$MS4C_V**   |$MS4C_CX|$MS4C_OX|$MS4C_UC |$MS4C_UN      |$MS4C_KWT |
 |   5|[$MS5C_SB]($MS5C_RD)|$MS5C_TM                      |$MS5C_HW               |$MS5C_ST|**$MS5C_V**   |$MS5C_CX|$MS5C_OX|$MS5C_UC |$MS5C_UN      |$MS5C_KWT |
 |   6|[$MS6C_SB]($MS6C_RD)|$MS6C_TM                      |$MS6C_HW               |$MS6C_ST|**$MS6C_V**   |$MS6C_CX|$MS6C_OX|$MS6C_UC |$MS6C_UN      |$MS6C_KWT |
-|   7|                   -|                             -|                      -|       -|             -|       -|       -|        -|             -|         -|        
-|   8|                   -|                             -|                      -|       -|             -|       -|       -|        -|             -|         -|        
-|   9|                   -|                             -|                      -|       -|             -|       -|       -|        -|             -|         -|        
-|  10|                   -|                             -|                      -|       -|             -|       -|       -|        -|             -|         -|        
 
 * The operational point for ranking is 0.90 recall@10. We will use the lowest power consumption/query for the search parameters that meet or exceed 0.90 recall@10.
 * The formula is based on:
@@ -504,10 +422,6 @@ Please note that all rankings are currently unofficial due to the following reas
 |   4|[$TI4R_SB]($TI4R_RD)                                   |$TI4R_TM                      |$TI4R_HW               |$TI4R_ST|**$TI4R_V**  |
 |   5|[$TI5R_SB]($TI5R_RD)                                   |$TI5R_TM                      |$TI5R_HW               |$TI5R_ST|**$TI5R_V**  |
 |   6|[$TI6R_SB]($TI6R_RD)                                   |$TI6R_TM                      |$TI6R_HW               |$TI6R_ST|**$TI6R_V**  |
-|   7|                                                      -|                             -|                      -|       -|            -|
-|   8|                                                      -|                             -|                      -|       -|            -|
-|   9|                                                      -|                             -|                      -|       -|            -|
-|  10|                                                      -|                             -|                      -|       -|            -|
 
 * The operational point for ranking is 2000 QPS. We will use the highest recall for the search parameters that meet or exceed 2000 QPS.
 * Abbreviations used in chart:
@@ -525,10 +439,6 @@ Please note that all rankings are currently unofficial due to the following reas
 |   4|[$TI4Q_SB]($TI4Q_RD)                                   |$TI4Q_TM                      |$TI4Q_HW               |$TI4Q_ST|**$TI4Q_V** |
 |   5|[$TI5Q_SB]($TI5Q_RD)                                   |$TI5Q_TM                      |$TI5Q_HW               |$TI5Q_ST|**$TI5Q_V** |
 |   6|[$TI6Q_SB]($TI6Q_RD)                                   |$TI6Q_TM                      |$TI6Q_HW               |$TI6Q_ST|**$TI6Q_V** |
-|   7|                                                      -|                             -|                      -|       -|           -|    
-|   8|                                                      -|                             -|                      -|       -|           -|    
-|   9|                                                      -|                             -|                      -|       -|           -|    
-|  10|                                                      -|                             -|                      -|       -|           -|    
 
 * The operational point for ranking is 0.860 recall@10. We will use the highest throughput for the search parameters that meet or exceed 0.860 recall@10.
 * Abbreviations used in chart:
@@ -546,11 +456,6 @@ Please note that all rankings are currently unofficial due to the following reas
 |   4|[$TI4P_SB]($TI4P_RD)                                   |$TI4P_TM                      |$TI4P_HW               |$TI4P_ST|**$TI4P_V**|
 |   5|[$TI5P_SB]($TI5P_RD)                                   |$TI5P_TM                      |$TI5P_HW               |$TI5P_ST|**$TI5P_V**|
 |   6|[$TI6P_SB]($TI6P_RD)                                   |$TI6P_TM                      |$TI6P_HW               |$TI6P_ST|**$TI6P_V**|
-|   6|                                                      -|                             -|                      -|       -|        -|
-|   7|                                                      -|                             -|                      -|       -|        -|
-|   8|                                                      -|                             -|                      -|       -|        -|
-|   9|                                                      -|                             -|                      -|       -|        -|
-|  10|                                                      -|                             -|                      -|       -|        -|
 
 * The operational point for ranking is 0.86 recall@10. We will use the lowest power consumption for the search parameters that meet or exceed 0.86 recall@10.
 * Abbreviations used in chart:
@@ -568,10 +473,6 @@ Please note that all rankings are currently unofficial due to the following reas
 |   4|[$TI4C_SB]($TI4C_RD) |$TI4C_TM                      |$TI4C_HW             |$TI4C_ST|**$TI4C_V**   |$TI4C_CX|$TI4C_OX|$TI4C_UC |$TI4C_UN      |$TI4C_KWT| 
 |   5|[$TI5C_SB]($TI5C_RD) |$TI5C_TM                      |$TI5C_HW             |$TI5C_ST|**$TI5C_V**   |$TI5C_CX|$TI5C_OX|$TI5C_UC |$TI5C_UN      |$TI5C_KWT| 
 |   6|[$TI6C_SB]($TI6C_RD) |$TI6C_TM                      |$TI6C_HW             |$TI6C_ST|**$TI6C_V**   |$TI6C_CX|$TI6C_OX|$TI6C_UC |$TI6C_UN      |$TI6C_KWT| 
-|   7|                    -|                             -|                    -|       -|             -|       -|       -|        -|             -|        -|       
-|   8|                    -|                             -|                    -|       -|             -|       -|       -|        -|             -|        -|       
-|   9|                    -|                             -|                    -|       -|             -|       -|       -|        -|             -|        -|       
-|  10|                    -|                             -|                    -|       -|             -|       -|       -|        -|             -|        -|       
 
 * The operational point for ranking is 0.86 recall@10. We will use the lowest power consumption/query for the search parameters that meet or exceed 0.86 recall@10.
 * The formula is based on:
@@ -597,10 +498,6 @@ Please note that all rankings are currently unofficial due to the following reas
 |   4|[$FB4R_SB]($FB4R_RD)                                   |$FB4R_TM                      |$FB4R_HW               |$FB4R_ST|**$FB4R_V**  |
 |   5|[$FB5R_SB]($FB5R_RD)                                   |$FB5R_TM                      |$FB5R_HW               |$FB5R_ST|**$FB5R_V**  |
 |   6|[$FB6R_SB]($FB6R_RD)                                   |$FB6R_TM                      |$FB6R_HW               |$FB6R_ST|**$FB6R_V**  |
-|   7|                                                      -|                             -|                      -|       -|            -|
-|   8|                                                      -|                             -|                      -|       -|            -|
-|   9|                                                      -|                             -|                      -|       -|            -|
-|  10|                                                      -|                             -|                      -|       -|            -|
 
 * The operational point for ranking is 2000 QPS. We will use the highest recall for the search parameters that meet or exceed 2000 QPS.
 * Abbreviations used in chart:
@@ -618,10 +515,6 @@ Please note that all rankings are currently unofficial due to the following reas
 |   4|[$FB4Q_SB]($FB4Q_RD)                                   |$FB4Q_TM                      |$FB4Q_HW               |$FB4Q_ST|**$FB4Q_V** |
 |   5|[$FB5Q_SB]($FB5Q_RD)                                   |$FB5Q_TM                      |$FB5Q_HW               |$FB5Q_ST|**$FB5Q_V** |
 |   6|[$FB6Q_SB]($FB6Q_RD)                                   |$FB6Q_TM                      |$FB6Q_HW               |$FB6Q_ST|**$FB6Q_V** |
-|   7|                                                      -|                             -|                      -|       -|           -|
-|   8|                                                      -|                             -|                      -|       -|           -|
-|   9|                                                      -|                             -|                      -|       -|           -|
-|  10|                                                      -|                             -|                      -|       -|           -|
 
 * The operational point for ranking is 0.9 recall@10. We will use the highest throughput for the search parameters that meet or exceed 0.9 average precision.
 * Abbreviations used in chart:
@@ -640,10 +533,6 @@ Please note that all rankings are currently unofficial due to the following reas
 |   4|[$FB4P_SB]($FB4P_RD)                                   |$FB4P_TM                      |$FB4P_HW               |$FB4P_ST|**$FB4P_V**|
 |   5|[$FB5P_SB]($FB5P_RD)                                   |$FB5P_TM                      |$FB5P_HW               |$FB5P_ST|**$FB5P_V**|
 |   6|[$FB6P_SB]($FB6P_RD)                                   |$FB6P_TM                      |$FB6P_HW               |$FB6P_ST|**$FB6P_V**|
-|   7|                                                      -|                             -|                      -|       -|          -|
-|   8|                                                      -|                             -|                      -|       -|          -|
-|   9|                                                      -|                             -|                      -|       -|          -|
-|  10|                                                      -|                             -|                      -|       -|          -|
 
 * The operational point for ranking is 0.9 recall@10. We will use the lowest power consumption for the search parameters that meet or exceed 0.9 average precision.
 * Abbreviations used in chart:
@@ -659,12 +548,6 @@ Please note that all rankings are currently unofficial due to the following reas
 |   2|[$FB2C_SB]($FB2C_RD)|$FB2C_TM                      |$FB2C_HW             |$FB2C_ST|**$FB2C_V**   |       -|       -|        -|             -|        -|       
 |   3|[$FB3C_SB]($FB3C_RD)|$FB3C_TM                      |$FB3C_HW             |$FB3C_ST|**$FB3C_V**   |       -|       -|        -|             -|        -|       
 |   4|[$FB4C_SB]($FB4C_RD)|$FB4C_TM                      |$FB4C_HW             |$FB4C_ST|**$FB4C_V**   |       -|       -|        -|             -|        -|       
-|   5|                   -|                             -|                    -|       -|             -|       -|       -|        -|             -|        -|       
-|   6|                   -|                             -|                    -|       -|             -|       -|       -|        -|             -|        -|       
-|   7|                   -|                             -|                    -|       -|             -|       -|       -|        -|             -|        -|       
-|   8|                   -|                             -|                    -|       -|             -|       -|       -|        -|             -|        -|       
-|   9|                   -|                             -|                    -|       -|             -|       -|       -|        -|             -|        -|       
-|  10|                   -|                             -|                    -|       -|             -|       -|       -|        -|             -|        -|       
 
 * The operational point for ranking is 0.9 recall@10. We will use the lowest power consumption/query for the search parameters that meet or exceed 0.9 recall@10.
 * The formula is based on:

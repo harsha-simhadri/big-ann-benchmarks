@@ -1,6 +1,12 @@
 import sys
 import os
 
+def get_dmi(hw_dir_path):
+    '''get motherboard info'''
+    cmd = "dmidecode -t 2 >%s" % ( os.path.join(hw_dir_path, "dmidecode") )
+    print("running command=", cmd)
+    stream = os.popen(cmd)
+    print("result of cmd=", stream.read())
 
 def get_issue(hw_dir_path):
     '''get /etc/issue contents'''
@@ -46,7 +52,8 @@ if __name__ == "__main__":
 
     print("Creating directory->", hw_dir_path )
     os.mkdir( hw_dir_path )
-   
+  
+    get_dmi( hw_dir_path )
     get_issue( hw_dir_path )
     get_lshw( hw_dir_path )
     get_proc_meminfo( hw_dir_path )

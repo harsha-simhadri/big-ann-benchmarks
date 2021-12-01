@@ -385,6 +385,30 @@ class Evaluator():
             total_cost = capex + opex
 
             print("TOTAL", dataset, total_cost, capex, opex )
+
+        #
+        # process anomalies
+        #
+        if "caching" in rows:
+            search_times = rows["search_times"].tolist()
+            caching = rows["caching"].tolist()
+            print("SEARCH TIMES", search_times)
+            print("CACHING", caching)
+            # get anomaly counts
+            ac = 0
+            tc = 0
+            for idx, cachinfo in enumerate(caching):
+                tf = True if int(cachinfo.split()[0])==1 else False
+                th = float(cachinfo.split()[1])
+                perc =  float(cachinfo.split()[2])
+                if tf: ac = ac+1
+                query_run_count = len( search_times[idx].split() )
+                tc = tc + 1 #query_run_count
+            print("CACHING STATS", ac, tc )
+            cacheinfo = [ ac, tc ]
+        else:
+            cacheinfo = [ 0, 0 ]
+            
  
         this_eval = { 
             "qps": qps,
@@ -393,7 +417,8 @@ class Evaluator():
             "best_recall": best_recall,
             "best_qps": best_qps,
             "best_wspq": best_wspq,
-            "cost": [total_cost, capex, opex, self.system_cost, no_units, opex_kwh_per_query*opex_tot_queries] if len(wspq)>0 and total_cost!=0 else [0,0,0,0,0,0]
+            "cost": [total_cost, capex, opex, self.system_cost, no_units, opex_kwh_per_query*opex_tot_queries] if len(wspq)>0 and total_cost!=0 else [0,0,0,0,0,0],
+            "cache": cacheinfo
         }
         
         self.evals[dataset] = this_eval

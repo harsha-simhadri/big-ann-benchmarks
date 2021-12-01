@@ -22,7 +22,6 @@ from benchmark.t3.helper import t3_create_container
 
 def run_individual_query(algo, X, distance, count, run_count, search_type):
     best_search_time = float('inf')
-
     search_times = []
     for i in range(run_count):
         print('Run %d/%d...' % (i + 1, run_count))
@@ -132,6 +131,7 @@ function""" % (definition.module, definition.constructor, definition.arguments)
                 descriptor["index_size"] = index_size
                 descriptor["algo"] = definition.algorithm
                 descriptor["dataset"] = dataset
+                
                 if power_capture.enabled():
                     power_stats = power_capture.run(algo, X, distance, count,
                                                     run_count, search_type, descriptor)
@@ -221,6 +221,7 @@ def run_from_cmdline(args=None):
     definition = Definition(
         algorithm=args.algorithm,
         docker_tag=None,  # not needed
+        docker_volumes=[],
         module=args.module,
         constructor=args.constructor,
         arguments=algo_args,

@@ -1,0 +1,21 @@
+# dmidecode 3.2
+Getting SMBIOS data from sysfs.
+SMBIOS 3.3.0 present.
+# SMBIOS implementations newer than version 3.2.0 are not
+# fully supported by this version of dmidecode.
+
+Handle 0x0002, DMI type 2, 15 bytes
+Base Board Information
+	Manufacturer: Supermicro
+	Product Name: X12DPU-6
+	Version: 1.02
+	Serial Number: HM211S001748
+	Asset Tag: Base Board Asset Tag
+	Features:
+		Board is a hosting board
+		Board is replaceable
+	Location In Chassis: Part Component
+	Chassis Handle: 0x0003
+	Type: Motherboard
+	Contained Object Handles: 0
+
