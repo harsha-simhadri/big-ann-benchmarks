@@ -1,0 +1,20 @@
+# dmidecode 3.2
+Getting SMBIOS data from sysfs.
+SMBIOS 3.2.0 present.
+
+Handle 0x0002, DMI type 2, 15 bytes
+Base Board Information
+	Manufacturer: NVIDIA
+	Product Name: DGXA100
+	Version: 555.06901.0005
+	Serial Number: 55506901000514208C
+	Asset Tag: 00000000000000000000000000000000
+	Features:
+		Board is a hosting board
+		Board is removable
+		Board is replaceable
+	Location In Chassis: Default string
+	Chassis Handle: 0x0003
+	Type: Motherboard
+	Contained Object Handles: 0
+
