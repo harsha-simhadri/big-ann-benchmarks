@@ -331,7 +331,7 @@ def produce_rankings(subms):
                 else:
                     rdct[kee] = "%d/%d" % (ac, tc )
             else:
-                rdct[kee] = "NA"
+                rdct[kee] = "*NA*"
 
     def ranking_by_benchmark(orderings, rdct):
         '''replace benchmark rank by rank ordering'''
