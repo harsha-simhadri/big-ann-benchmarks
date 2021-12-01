@@ -6,7 +6,7 @@ import pandas as pd
 from string import Template
 import t3eval
 
-RE_EXPORT               = False
+RE_EXPORT               = True
 PROCESS_CSV             = True
 LEADERBOARD_GEN         = True
 
@@ -40,7 +40,8 @@ SUBM_MAPPING            = \
         "team":         "Intel",
         # last - "results_dir":  "%s/optanne_graphann/results.with_power_capture" % COMP_RESULTS_TOPLEVEL,
         # last - "export_fname": "public_with_power_capture.csv",
-        "results_dir":  "%s/intel/results_intel_multigpu_all_stimes" % CACHE_RESULTS_TOPLEVEL,
+        # last-last "results_dir":  "%s/intel/results_intel_multigpu_all_stimes" % CACHE_RESULTS_TOPLEVEL,
+        "results_dir":  "%s/intel/results_updated_config_with_anomaly_mitigation" % CACHE_RESULTS_TOPLEVEL,
         "export_fname": "public_w_cache_detect.csv",
         "cache_detect": True,
         "anomaly_explain": "https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/optanne_graphann/ANOMALIES.md",
@@ -543,6 +544,7 @@ if __name__ == "__main__":
     subms = [  "faiss_t3", "optanne_graphann", "gemini", "diskann", "cuanns_multigpu", "cuanns_ivfpq" ]
     # subms = [  "faiss_t3", "optanne_graphann", "gemini", "cuanns_multigpu", "cuanns_ivfpq" ]
     #subms = [ "cuanns_ivfpq" ]
+    subms = [ "optanne_graphann" ]
 
     # export and/or produce summary and evals json  
     if RE_EXPORT or PROCESS_CSV: 
