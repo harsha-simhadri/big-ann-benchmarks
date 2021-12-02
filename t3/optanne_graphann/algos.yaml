@@ -18,10 +18,10 @@ deep-1B:
                 {"search_window_size": 27},
                 {"search_window_size": 28},
                 {"search_window_size": 29},
+                {"search_window_size": 2192}, 
+                {"search_window_size": 2256}, 
+                {"search_window_size": 2288}, 
                 {"search_window_size": 2320}, 
-                {"search_window_size": 2336}, 
-                {"search_window_size": 2352}, 
-                {"search_window_size": 2368}, 
                 {"search_window_size": 2384} 
               ]
 
@@ -45,11 +45,11 @@ msspacev-1B:
                   {"search_window_size": 40},
                   {"search_window_size": 41},
                   {"search_window_size": 42},
-                  {"search_window_size": 2736},
+                  {"search_window_size": 2720},
                   {"search_window_size": 2768},
                   {"search_window_size": 2800},
                   {"search_window_size": 2832},
-                  {"search_window_size": 2884}
+                  {"search_window_size": 2880}
               ]
 
 msturing-1B:
@@ -72,10 +72,10 @@ msturing-1B:
                 {"search_window_size": 38},
                 {"search_window_size": 39},
                 {"search_window_size": 40},
+                {"search_window_size": 2400},
+                {"search_window_size": 2464},
+                {"search_window_size": 2496},
                 {"search_window_size": 2528},
-                {"search_window_size": 2544},
-                {"search_window_size": 2560},
-                {"search_window_size": 2576},
                 {"search_window_size": 2592}
               ]
 
@@ -100,11 +100,11 @@ bigann-1B:
                 {"search_window_size": 23},
                 {"search_window_size": 24},
                 {"search_window_size": 25},
+                {"search_window_size": 2944},
+                {"search_window_size": 3008},
                 {"search_window_size": 3040},
-                {"search_window_size": 3056},
                 {"search_window_size": 3072},
-                {"search_window_size": 3088},
-                {"search_window_size": 3104}
+                {"search_window_size": 3136}
               ]
 
 text2image-1B:
@@ -122,16 +122,16 @@ text2image-1B:
                }]
           query-args: |
               [
-                  {"search_window_size": 237},
-                  {"search_window_size": 242},
-                  {"search_window_size": 247},
-                  {"search_window_size": 252},
-                  {"search_window_size": 257},
-                  {"search_window_size": 1295},
-                  {"search_window_size": 1300},
-                  {"search_window_size": 1305},
-                  {"search_window_size": 1310},
-                  {"search_window_size": 1315}
+                  {"search_window_size": 150},
+                  {"search_window_size": 151},
+                  {"search_window_size": 152},
+                  {"search_window_size": 153},
+                  {"search_window_size": 154},
+                  {"search_window_size": 1280},
+                  {"search_window_size": 1344},
+                  {"search_window_size": 1376},
+                  {"search_window_size": 1408},
+                  {"search_window_size": 1472}
               ]
 
 
