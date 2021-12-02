@@ -47,8 +47,16 @@ if __name__ == "__main__":
         required=True)
     args = parser.parse_args()
 
-    # collect all the files
-    files = collect_files( args.path )
+    # get the input paths
+    f = open( args.path )
+    paths =  [ ln.strip() for ln in f.readlines() ]
+    f.close()
+    print("Input paths", paths)
+
+    # collect all the files for signature
+    files = []
+    for p in paths:
+        files = files + collect_files( args.path )
     if len(files)==0:
         print("No files for signatures.")
         sys.exit(1)
