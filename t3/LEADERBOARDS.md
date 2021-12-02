@@ -554,7 +554,7 @@ Please note that all rankings are currently unofficial due to the following reas
 |Rank|Submission          |Team                          |Hardware             |Status  |Cost          |capex   |opex    |unit cost|units@100K qps|KwH*4yrs |
 |----|--------------------|------------------------------|---------------------|--------|--------------|--------|--------|---------|--------------|---------|
 |   1|[faiss_t3](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/faiss_t3/README.md)|Facebook Research(*org*)                      |NVidia GPU             |final|**$428,074.79**   |$396,394.20|$31,680.59|$22,021.90 |18      |316,805.859|
-|   2|[gemini](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/gemini/README.md)|GSI Technology(*org*)                      |LedaE APU             |final|**$629,442.91**   |       -|       -|        -|             -|        -|       
+|   2|[gemini](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/gemini/README.md)|GSI Technology(*org*)                      |LedaE APU             |final|**$629,442.91**   |$612,993.26|$16,449.65|$55,726.66 |11      |164,496.451|
 |   3|[-](-)|-                      |-             |-|**-**   |       -|       -|        -|             -|        -|       
 |   4|[-](-)|-                      |-             |-|**-**   |       -|       -|        -|             -|        -|       
 

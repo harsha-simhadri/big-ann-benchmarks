@@ -499,7 +499,7 @@ def produce_rankings(subms):
                         kee = "$%s%d%s_KWT" % ( DBS[db], idx+1, dbmapping[benchmark])
                         kv = "{:,.3f}".format(item[2][5]) #kwt
                         rdct[kee]=kv
-                     
+                    
                 for i in range(idx+1, TOTAL_SUBM):
                     kee = "$%s%d%s_SB" % ( DBS[db], i+1, dbmapping[benchmark] ) 
                     rdct[kee]="-"
