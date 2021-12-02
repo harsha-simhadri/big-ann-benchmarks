@@ -275,6 +275,9 @@ class Evaluator():
             except:
                 traceback.print_exc()
 
+    def argsort(l):
+        return sorted(range(len(l)), key=l.__getitem__)
+
     def eval_dataset(self, dataset):
         '''Eval benchmarks for a dataset.'''
       
@@ -302,18 +305,28 @@ class Evaluator():
         if self.verbose: print("recall:", recall)
         parameters = rows["parameters"].tolist()
         if self.verbose: print("parameters", parameters)
+        search_times = [None]*len(parameters)
+        caching = [None]*len(parameters)
+        anomaly = [None]*len(parameters)
+        if "caching" in rows:
+            search_times = rows["search_times"].tolist()
+            caching = rows["caching"].tolist()
+            anomaly = [ True if el.strip()[0]=="1" else False for el in rows["caching"].tolist() ]
+            
+        # print("TOP CACHING", caching, anomaly)
+        critical_anomaly = []
 
         # get qualifying run parameters
         # min_qps = self.competition["min_qps"]
         min_qps = self.baseline["datasets"][dataset]["min-qps"] # The baseline informed min lives in baseline now
         if self.verbose: print("for recall, min_qps=", min_qps)
-        qualifiers = [ el for el in list(zip(qps, recall, parameters)) if el[0]>=min_qps ]
+        qualifiers = [ el for el in list(zip(qps, recall, parameters, anomaly)) if el[0]>=min_qps ]
         if len(qualifiers)>0:
             if self.verbose: print("qualifiers at min_qps=%f" % min_qps, qualifiers)
             best_recall = sorted(qualifiers,key=lambda x: x[1])[-1] # sort by highest recall and take it
         else:
             if self.verbose: print("WARNING: NO qualifiers meeting min_qps %f, trying without..." % min_qps)
-            qualifiers = [ el for el in list(zip(qps, recall, parameters)) ]
+            qualifiers = [ el for el in list(zip(qps, recall, parameters, anomaly)) ]
             if self.verbose: print("WARNING: NEW qualifiers no min_qps", qualifiers)
             best_recall = sorted(qualifiers, key=lambda x: x[1][-1]) # sort by highest recall and take it
         if self.verbose or self.print_best: print("Best recall at", best_recall, "via", qualifiers[-1])
@@ -324,10 +337,10 @@ class Evaluator():
         # min_recall = self.competition["min_recall"]
         min_recall = self.baseline["datasets"][dataset]["min-recall"] # The baseline informed min lives in baseline now
         if self.verbose: print("for throughput, min_recall=", min_recall)
-        qualifiers = [ el for el in list(zip(recall, qps, parameters)) if el[0]>=min_recall ]
+        qualifiers = [ el for el in list(zip(recall, qps, parameters, anomaly)) if el[0]>=min_recall ]
         if len(qualifiers)==0: 
             if self.verbose: print("WARNING: NO qualifiers meeting min_recall %f, trying without..." % min_recall)
-            qualifiers = [ el for el in list(zip(recall, qps, parameters)) ]
+            qualifiers = [ el for el in list(zip(recall, qps, parameters, anomaly)) ]
             if self.verbose: print("WARNING: NEW qualifiers no min_recall", qualifiers)
             best_qps = sorted(qualifiers,key=lambda x: x[0])[-1] # sort by highest recall and take that qps
         else:
@@ -341,14 +354,14 @@ class Evaluator():
         if "wspq" in rows.keys():
             wspq = rows["wspq"].tolist()
             if self.verbose: print("for power, min_qps=%f min_recall=%f " % (min_qps,min_recall))
-            qualifiers = [ el for el in list(zip(recall, qps, wspq, parameters )) if el[0]>=min_recall and el[1]>min_qps ]
+            qualifiers = [ el for el in list(zip(recall, qps, wspq, parameters, anomaly )) if el[0]>=min_recall and el[1]>min_qps ]
             if self.verbose: print("qualifiers at min_qps=%f and min_recall=%f" % (min_qps, min_recall), qualifiers)
             if len(qualifiers)==0:
                 if self.verbose: print("WARNING: NO qualifying power runs meeting both min_qps and min_recall...")
                 # fall back to min_recall threshold
-                qualifiers = [ el for el in list(zip(recall, qps, wspq, parameters)) if el[0]>=min_recall ]
+                qualifiers = [ el for el in list(zip(recall, qps, wspq, parameters, anomaly)) if el[0]>=min_recall ]
                 if len(qualifiers)==0:
-                    qualifiers = [ el for el in list(zip(recall, qps, wspq, parameters)) ]
+                    qualifiers = [ el for el in list(zip(recall, qps, wspq, parameters,anomaly)) ]
                     if self.verbose: print("WARNING: NEW qualifiers at min_recall=%f" % min_recall, qualifiers)
                     if len(qualifiers)==0:
                         print("No qualifying power runs meeting min_recall...")
@@ -386,7 +399,7 @@ class Evaluator():
 
             total_cost = capex + opex
 
-            print("TOTAL", dataset, total_cost, capex, opex )
+            #print("TOTAL", dataset, total_cost, capex, opex )
 
         #
         # process anomalies
@@ -394,8 +407,8 @@ class Evaluator():
         if "caching" in rows:
             search_times = rows["search_times"].tolist()
             caching = rows["caching"].tolist()
-            print("SEARCH TIMES", search_times)
-            print("CACHING", caching)
+            #print("SEARCH TIMES", search_times)
+            #print("CACHING", caching)
             # get anomaly counts
             ac = 0
             tc = 0
@@ -406,10 +419,18 @@ class Evaluator():
                 if tf: ac = ac+1
                 query_run_count = len( search_times[idx].split() )
                 tc = tc + 1 #query_run_count
-            print("CACHING STATS", ac, tc )
-            cacheinfo = [ ac, tc ]
+            # print("CACHING STATS", ac, tc )
+
+            # compute the number of "best" parameters that were "anomalous"
+            critical_ac = 0
+            if best_recall[3]: critical_ac += 1
+            if best_qps[3]: critical_ac += 1
+            if best_wspq[4]: critical_ac += 1
+
+            cacheinfo = [ ac, tc, critical_ac ]
+
         else:
-            cacheinfo = [ 0, 0 ]
+            cacheinfo = [ 0, 0, 0 ]
             
  
         this_eval = { 
@@ -422,6 +443,9 @@ class Evaluator():
             "cost": [total_cost, capex, opex, self.system_cost, no_units, opex_kwh_per_query*opex_tot_queries] if len(wspq)>0 and total_cost!=0 else [0,0,0,0,0,0],
             "cache": cacheinfo
         }
+
+        #print("EVAL", dataset, this_eval)
+        #print()
         
         self.evals[dataset] = this_eval
 
