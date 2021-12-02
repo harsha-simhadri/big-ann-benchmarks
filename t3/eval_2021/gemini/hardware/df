@@ -1,0 +1,20 @@
+Filesystem                       Size  Used Avail Use% Mounted on
+udev                             756G     0  756G   0% /dev
+tmpfs                            152G  3.3M  152G   1% /run
+/dev/sda2                        1.8T  1.1T  687G  61% /
+tmpfs                            756G  100K  756G   1% /dev/shm
+tmpfs                            5.0M     0  5.0M   0% /run/lock
+tmpfs                            756G     0  756G   0% /sys/fs/cgroup
+/dev/loop3                        32M   32M     0 100% /snap/terminalpp/10
+/dev/loop0                       100M  100M     0 100% /snap/core/11798
+/dev/loop1                       100M  100M     0 100% /snap/core/11993
+/dev/loop2                        56M   56M     0 100% /snap/core18/2253
+/dev/loop4                        56M   56M     0 100% /snap/core18/2246
+/dev/sda1                        511M  6.7M  505M   2% /boot/efi
+/dev/sdb1                        4.6T  4.0T  328G  93% /mnt/localdisk2
+/dev/sdc1                        7.3T  4.3T  2.7T  62% /mnt/localdisk3
+overlay                          1.8T  1.1T  687G  61% /var/lib/docker/overlay2/f74ddecd76461a466b1e6d96227d43829c09917a9f020a5f43c6b4cb1953b7d3/merged
+192.168.99.14:/99FS              9.3T  4.3T  5.0T  47% /mnt/nas1
+192.168.42.190:/office-nfs/data   46T   40T  3.4T  93% /efs/data
+tmpfs                            152G   16K  152G   1% /run/user/1002
+tmpfs                            152G     0  152G   0% /run/user/1001
