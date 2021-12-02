@@ -305,7 +305,7 @@ class Evaluator():
 
         # get qualifying run parameters
         # min_qps = self.competition["min_qps"]
-        min_qps = self.baseline["datasets"]["min-qps"] # The baseline informed min lives in baseline now
+        min_qps = self.baseline["datasets"][dataset]["min-qps"] # The baseline informed min lives in baseline now
         if self.verbose: print("for recall, min_qps=", min_qps)
         qualifiers = [ el for el in list(zip(qps, recall, parameters)) if el[0]>=min_qps ]
         if len(qualifiers)>0:
@@ -322,7 +322,7 @@ class Evaluator():
         # eval throughput benchmark
         #
         # min_recall = self.competition["min_recall"]
-        min_recall = self.baseline["datasets"]["min-recall"] # The baseline informed min lives in baseline now
+        min_recall = self.baseline["datasets"][dataset]["min-recall"] # The baseline informed min lives in baseline now
         if self.verbose: print("for throughput, min_recall=", min_recall)
         qualifiers = [ el for el in list(zip(recall, qps, parameters)) if el[0]>=min_recall ]
         if len(qualifiers)==0: 
