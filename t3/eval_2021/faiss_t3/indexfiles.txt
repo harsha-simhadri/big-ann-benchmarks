@@ -1,0 +1,6 @@
+/mnt/localdisk2/bigann/data/bigann-1B.IVF1048576,SQ8.faissindex
+/mnt/localdisk2/bigann/data/deep-1B.IVF1048576,SQ8.faissindex
+/mnt/localdisk2/bigann/data/msspacev-1B.IVF1048576,SQ8.faissindex
+/mnt/localdisk2/bigann/data/msturing-1B.IVF1048576,SQ8.faissindex
+/mnt/localdisk2/bigann/data/ssnpp-1B.IVF1048576,SQ8.faissindex
+/mnt/localdisk2/bigann/data/text2image-1B.IVF1048576,SQ8.faissindex

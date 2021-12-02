@@ -56,7 +56,7 @@ if __name__ == "__main__":
     # collect all the files for signature
     files = []
     for p in paths:
-        files = files + collect_files( args.path )
+        files = files + collect_files( p  )
     if len(files)==0:
         print("No files for signatures.")
         sys.exit(1)
