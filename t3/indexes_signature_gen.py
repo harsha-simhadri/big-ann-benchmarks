@@ -1,6 +1,7 @@
 import os
 import argparse
 import hashlib as hash
+import sys
 
 BLOCKSIZE = 65536
 
