@@ -1,6 +1,7 @@
 import os
 import argparse
 import hashlib as hash
+import sys
 
 BLOCKSIZE = 65536
 
@@ -43,12 +44,20 @@ if __name__ == "__main__":
         required=True)
     parser.add_argument(
         '--path',
-        help='Path to the input file or directory',
+        help='Path to the file which contains a file or directory on each line to process',
         required=True)
     args = parser.parse_args()
 
-    # collect all the files
-    files = collect_files( args.path )
+    # get the input paths
+    f = open( args.path )
+    paths =  [ ln.strip() for ln in f.readlines() ]
+    f.close()
+    print("Input paths", paths)
+
+    # collect all the files for signature
+    files = []
+    for p in paths:
+        files = files + collect_files( p  )
     if len(files)==0:
         print("No files for signatures.")
         sys.exit(1)
@@ -57,8 +66,8 @@ if __name__ == "__main__":
     # Compute the signatures for the file list
     print("Computing signatures for the files...")
     sigs = {}
-    for file in files:
-        #print("Getting signature for file")
+    for idx, file in enumerate(files):
+        print("Getting signature for file (%d/%d)" % (idx+1, len(files)), file)
         sig = get_signature( file )
         #print("file %s sig= %s" % (file, sig))
         sigs[file] = sig

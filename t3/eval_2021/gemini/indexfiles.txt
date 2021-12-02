@@ -1,0 +1,3 @@
+/mnt/localdisk3/challenge_1b_bu
+/home/george/Projects/BigANN/harsha/big-ann-benchmarks/t3/gsi/centroids_2m
+/home/george/Projects/BigANN/harsha/big-ann-benchmarks/t3/gsi/records_weights
