@@ -30,6 +30,8 @@ Please note that all rankings are currently unofficial due to the following reas
 
 * *Anomalies* are defined as queries that could potentially be the result of query response caching, a violation of the competition.  Our detection method looks for a 30% or more improvement in the batch query latency between the first and last query of a query group (5).  Participants have been given a chance to explain why detected anomalies (if any) are not a result of query response caching.
 
+* Nvidia has not yet approved the MSRP cost used for ranking, so participation in this benchmark is still pending.
+
 ### Rankings Per Metric
 
 #### Recall Or AP Rankings 
@@ -103,6 +105,8 @@ Please note that all rankings are currently unofficial due to the following reas
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
   * *inprog* = algorithm development still in progress
+
+* Nvidia has not yet approved the MSRP cost used for ranking, so participation in this benchmark is still pending.
 
 ### Rankings Per Database
 
