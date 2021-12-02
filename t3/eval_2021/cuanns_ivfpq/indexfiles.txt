@@ -1,1 +1,0 @@
-/raid/workspace/george/BigANN/big-ann-benchmarks/data/indices/t3/CuannsIvfpq

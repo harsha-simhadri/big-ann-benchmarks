@@ -1,5 +1,0 @@
-eccd996f1a0ca6e435d2d2019c0682085a2cebd94bc9e1c5df2c3c73cd68cca0,/raid/workspace/george/BigANN/big-ann-benchmarks/data/indices/t3/CuannsIvfpq/msturing-1B.cluster_250000.pq_64.5_bit
-1444594e23c12175ef13803d691d80c6fa8660894ca4115ba2cdf84ca331e892,/raid/workspace/george/BigANN/big-ann-benchmarks/data/indices/t3/CuannsIvfpq/msspacev-1B.cluster_500000.pq_64.5_bit
-4a35b59ac9f3d7dcae912e294218e36ed9b572e4b2dbc24ceb448550243ec9a1,/raid/workspace/george/BigANN/big-ann-benchmarks/data/indices/t3/CuannsIvfpq/text2image-1B.cluster_500000.pq_72.8_bit
-eaa3abdb714dd880e6d00f0a32e4b6ed78904f1292c54c779fcd2c66d7195890,/raid/workspace/george/BigANN/big-ann-benchmarks/data/indices/t3/CuannsIvfpq/bigann-1B.cluster_250000.pq_64.5_bit
-4fb4263be026fc38a01e8378dd4b88fe14016742ff5beed899a9772199cd5cea,/raid/workspace/george/BigANN/big-ann-benchmarks/data/indices/t3/CuannsIvfpq/deep-1B.cluster_250000.pq_64.5_bit
