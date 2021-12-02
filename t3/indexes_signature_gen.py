@@ -43,7 +43,7 @@ if __name__ == "__main__":
         required=True)
     parser.add_argument(
         '--path',
-        help='Path to the input file or directory',
+        help='Path to the file which contains a file or directory on each line to process',
         required=True)
     args = parser.parse_args()
 
