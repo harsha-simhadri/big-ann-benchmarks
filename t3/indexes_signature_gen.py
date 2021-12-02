@@ -65,8 +65,8 @@ if __name__ == "__main__":
     # Compute the signatures for the file list
     print("Computing signatures for the files...")
     sigs = {}
-    for file in files:
-        #print("Getting signature for file")
+    for idx, file in enumerate(files):
+        print("Getting signature for file (%d/%d)" % (idx+1, len(files)), file)
         sig = get_signature( file )
         #print("file %s sig= %s" % (file, sig))
         sigs[file] = sig
