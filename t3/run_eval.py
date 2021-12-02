@@ -244,7 +244,8 @@ def mklnkr( idx, benchmark, approved=True ):
                 "cost":"#cost-rankings" }
     lnk = "[%d](%s)" % ( idx, links[benchmark] )
     if not approved:
-        lnk = "\(" + lnk + "\)"
+        # lnk = "\(" + lnk + "\)"
+        lnk = lnk + "\*\*"
     return lnk 
 
 
@@ -475,7 +476,7 @@ def produce_rankings(subms):
                     fmt = bestformatmapping[benchmark]
                     kv = fmt.format(item[1]) if benchmark=="cost" else mklnka( item[1], fmt, item[0], db, benchmark )
                     if benchmark=="cost" and not SUBM_MAPPING[item[0]]["cost_approved"]:
-                        kv = "(" + fmt.format(item[1]) + ")"
+                        kv = fmt.format(item[1]) + "\*\*"
                     #print("TOT COST item", db, idx, item[0], benchmark, item[1])
                     rdct[kee]=kv
                     #$DP1C_CX|$DP1C_OX|$DP1C_UC |$DP1C_UN      |$DP1C_KWT|
