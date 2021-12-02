@@ -3,4 +3,3 @@
 /mnt/data/competition_indexes/msturing_index127-superflat.index
 /mnt/data/competition_indexes/bigann1b_index127-superflat.index
 /mnt/ropt0/text2image/text2image_baseline-superflat.index
-
