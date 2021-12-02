@@ -10,12 +10,16 @@ RE_EXPORT               = False
 PROCESS_CSV             = True
 LEADERBOARD_GEN         = True
 
+REJECT_ANOMALIES        = True
+NO_EXT_LINKS            = True
+
 OFFICIAL                = False
+
 TOTAL_SUBM              = 10
 COMP_RESULTS_TOPLEVEL   = "/Users/gwilliams/Projects/BigANN/competition_results"
 CACHE_RESULTS_TOPLEVEL  = "/Users/gwilliams/Projects/BigANN/cache_detect_results"
 T3_EVAL_TOPLEVEL        = "t3/eval_2021"
-REJECT_ANOMALIES        = False
+REJECT_ANOMALIES        = True
 
 SUBM_MAPPING            = \
 {
@@ -237,7 +241,10 @@ def mklnka( val, fmt, subm, db, benchmark ):
         if "use_subm_dir" in SUBM_MAPPING[subm].keys() else subm
     eval_img = os.path.join( "https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021", use_subm, "%s_%s.png" % (db, benchmark) )
     print("eval img", val, fmt, subm, db, benchmark, "-->", eval_img)
-    lnk = "[%s](%s)" % ( fmt.format(val), eval_img )
+    if NO_EXT_LINKS: 
+        lnk = fmt.format(val)
+    else:
+        lnk = "[%s](%s)" % ( fmt.format(val), eval_img )
     return lnk 
 
 def mklnkr( idx, benchmark, approved=True ):
@@ -247,7 +254,6 @@ def mklnkr( idx, benchmark, approved=True ):
                 "cost":"#cost-rankings" }
     lnk = "[%d](%s)" % ( idx, links[benchmark] )
     if not approved:
-        # lnk = "\(" + lnk + "\)"
         lnk = lnk + "\*\*"
     return lnk 
 
@@ -336,9 +342,15 @@ def produce_rankings(subms):
             kee = "$" + SUBM_MAPPING[subm]['md_prefix']+"_EV"
             rdct[kee] = SUBM_MAPPING[subm]['evaluator']
             kee = "$" + SUBM_MAPPING[subm]['md_prefix']+"_AL"
-            rdct[kee] = SUBM_MAPPING[subm]['algo']
+            if NO_EXT_LINKS:
+                rdct[kee] = "-"
+            else:
+                rdct[kee] = SUBM_MAPPING[subm]['algo']
             kee = "$" + SUBM_MAPPING[subm]['md_prefix']+"_AN"
-            rdct[kee] = SUBM_MAPPING[subm]['analysis']
+            if NO_EXT_LINKS:
+                rdct[kee] = "-"
+            else:
+                rdct[kee] = SUBM_MAPPING[subm]['analysis']
    
             # anomaly 
             kee = "$" + SUBM_MAPPING[subm]['md_prefix']+"_AC"
