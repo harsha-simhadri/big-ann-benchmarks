@@ -3,12 +3,12 @@
 
 From "sourabh.dongaonkar@intel.com":
 
-"We think that this is primarily because Julia is a just-in-time (JIT) compiled language.
+Our implementation does not include a query response caching mechanism of any kind.
 
-So the first time the search function is called, it triggers a compilation, and is slower.
+The anomalies, as defined, count the times the first query in the query set is slower than the last.
 
-We can fix this by triggering pre-compilation in the load step, which will be a couple of lines of code change.
+The reasons for this observation are:
 
-We will also be happy to have the code examined by the organizers if needed.
+- Julia is a "just-ahead-of-time" compiled language where the first call to a method triggers compilation of that method. Our heuristics for triggering the this compilation catch most of the required methods for our algorithm, but miss all of the function in the python binding library which still must be compiled when the first batch of queries is performed. Since overall execution time of the batch of queries is low, the relative overhead of this compilation is significant.
 
-Please let me know if you would like us to put in this fix."
+- Other overheads like initial allocations, and dynamic clock frequency ramp up would also tend to slow down the first query.
