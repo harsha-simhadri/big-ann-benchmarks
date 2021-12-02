@@ -27,6 +27,7 @@ SUBM_MAPPING            = \
         "cache_detect": True,
         "anomaly_explain": "https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/faiss_t3/ANOMALIES.md",
         "system_cost":  22021.90,
+        "cost_approved":True,
         "md_prefix":    "BS",
         "status":       "final",
         "display_hw":   "NVidia GPU",
@@ -47,6 +48,7 @@ SUBM_MAPPING            = \
         "cache_detect": True,
         "anomaly_explain": "https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/optanne_graphann/ANOMALIES.md",
         "system_cost":  14664.20,
+        "cost_approved":True,
         "md_prefix":    "OPT1",
         "status":       "final",
         "display_hw":   "Intel Optane",
@@ -64,6 +66,7 @@ SUBM_MAPPING            = \
         "export_fname": "public_w_cache_detect.csv",
         "cache_detect": True,
         "system_cost":  55726.66,
+        "cost_approved":True,
         "md_prefix":    "GEM",
         "status":       "final",
         "display_hw":   "LedaE APU",
@@ -80,6 +83,7 @@ SUBM_MAPPING            = \
         "export_fname": "diskann-bare-metal-res-pruned.csv", 
         "cache_detect": False,
         "system_cost":  0,
+        "cost_approved":True,
         "md_prefix":    "MSD",
         "status":       "final",
         "display_hw":   "Dell PowerEdge",
@@ -98,6 +102,7 @@ SUBM_MAPPING            = \
         "cache_detect": True,
         "anomaly_explain": "https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/cuanns_multigpu/ANOMALIES.md",
         "system_cost":  150000,
+        "cost_approved":False,
         "md_prefix":    "NV",
         "status":       "final",
         "display_hw":   "NVidia GPU",
@@ -118,6 +123,7 @@ SUBM_MAPPING            = \
         "cache_detect": True,
         "anomaly_explain": "https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/cuanns_ivfpq/ANOMALIES.md",
         "system_cost":  150000,
+        "cost_approved":False,
         "md_prefix":    "NV2",
         "status":       "final",
         "display_hw":   "NVidia GPU",
@@ -464,6 +470,8 @@ def produce_rankings(subms):
                     kee = "$%s%d%s_V" % ( DBS[db], idx+1, dbmapping[benchmark])
                     fmt = bestformatmapping[benchmark]
                     kv = fmt.format(item[1]) if benchmark=="cost" else mklnka( item[1], fmt, item[0], db, benchmark )
+                    if benchmark=="cost" and not SUBM_MAPPING[item[0]]["cost_approved"]:
+                        kv = "(" + fmt.format(item[1]) + ")"
                     #print("TOT COST item", db, idx, item[0], benchmark, item[1])
                     rdct[kee]=kv
                     #$DP1C_CX|$DP1C_OX|$DP1C_UC |$DP1C_UN      |$DP1C_KWT|
