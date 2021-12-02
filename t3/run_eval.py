@@ -541,7 +541,7 @@ def produce_rankings(subms):
  
 if __name__ == "__main__":
 
-    subms = [  "optanne_graphann", "gemini", "diskann", "cuanns_multigpu", "cuanns_ivfpq" ]
+    subms = [  "faiss_t3", "optanne_graphann", "gemini", "diskann", "cuanns_multigpu", "cuanns_ivfpq" ]
     #subms = [  "faiss_t3", "optanne_graphann", "gemini", "cuanns_multigpu", "cuanns_ivfpq" ]
     #subms = [ "cuanns_ivfpq" ]
     #subms = [ "optanne_graphann" ]
@@ -549,7 +549,8 @@ if __name__ == "__main__":
     # export and/or produce summary and evals json  
     if RE_EXPORT or PROCESS_CSV: 
         for subm in subms:
-            process_subm(subm)
+            if SUBM_MAPPING["baseline"] != subm: # baseline is set
+                process_subm(subm)
     
     # load the evals json
     for subm in subms:
