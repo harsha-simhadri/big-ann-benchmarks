@@ -374,6 +374,8 @@ def produce_rankings(subms):
                 sc = rk[1]
                 kee = "$%s%d_SC" % ( mapping[benchmark], idx+1)
                 rdct[kee] = "baseline" if SUBM_MAPPING["baseline"]==subm else "%.3f" % sc if benchmark!="cost" else "${:,.2f}".format(sc)
+                if benchmark=="cost" and not SUBM_MAPPING[subm]["cost_approved"]: # deal with unapproved cost
+                    rdct[kee] = "baseline" if SUBM_MAPPING["baseline"]==subm else "%.3f\*\*" % sc
                 # readme
                 rd = SUBM_MAPPING[subm]["readme"]
                 kee = "$%s%d_RD" % ( mapping[benchmark], idx+1)
