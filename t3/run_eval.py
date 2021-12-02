@@ -6,7 +6,7 @@ import pandas as pd
 from string import Template
 import t3eval
 
-RE_EXPORT               = True
+RE_EXPORT               = False
 PROCESS_CSV             = True
 LEADERBOARD_GEN         = True
 
@@ -541,10 +541,10 @@ def produce_rankings(subms):
  
 if __name__ == "__main__":
 
-    subms = [  "faiss_t3", "optanne_graphann", "gemini", "diskann", "cuanns_multigpu", "cuanns_ivfpq" ]
-    # subms = [  "faiss_t3", "optanne_graphann", "gemini", "cuanns_multigpu", "cuanns_ivfpq" ]
+    subms = [  "optanne_graphann", "gemini", "diskann", "cuanns_multigpu", "cuanns_ivfpq" ]
+    #subms = [  "faiss_t3", "optanne_graphann", "gemini", "cuanns_multigpu", "cuanns_ivfpq" ]
     #subms = [ "cuanns_ivfpq" ]
-    subms = [ "optanne_graphann" ]
+    #subms = [ "optanne_graphann" ]
 
     # export and/or produce summary and evals json  
     if RE_EXPORT or PROCESS_CSV: 
