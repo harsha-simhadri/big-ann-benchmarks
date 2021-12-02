@@ -118,7 +118,6 @@ class Faiss(BaseANN):
         self.num_threads = self.index_params['num_threads']
         if self.num_threads == 0:
             self.num_threads = os.cpu_count()
-        print('num threads =', self.num_threads)
         self.gsl_ctx = Context(gdl_ctx_ids[:self.num_apuc], max_num_threads=self.num_threads)
         # GSL init end
 
@@ -232,8 +231,7 @@ class Faiss(BaseANN):
         self.centroids_fdb = self.gsl_ctx.create_fdb(fp_centroids, self.l2_norm)
 
         if self.is_sq:
-            self.records_encoding = L2Encoding(min_matrix=self.offset.reshape((1, -1)), diff_matrix=self.scaler.reshape((1, -1)), normalize=False)
-            # self.records_encoding = SQEncoding(min_matrix=self.offset.reshape((1, -1)), diff_matrix=self.scaler.reshape((1, -1)))
+            self.records_encoding = SQEncoding(min_matrix=self.offset.reshape((1, -1)), diff_matrix=self.scaler.reshape((1, -1)))
         else:
             self.records_encoding = create_encoding(records_encoding_file_path, self.l2_norm)
         
@@ -301,14 +299,12 @@ class Faiss(BaseANN):
             
         rerank_desc = RerankDesc(self.centroids_fdb, nprobe_refine, self.gsl_metric)
 
-        assert(self.num_apuc == 4)
-        # if num_apuc is less than 4 you need to decide what you want value to assign to parallelization_flag
-        parallelization_flag = gsl.GSL_CLSTR_HAMMING_CENTROID_FLAT_PARALLEL_SEARCH_FLAG if max_query_batch_size < self.max_num_queries else gsl.GSL_CLSTR_HAMMING_CENTROID_FLAT_SERIAL_SEARCH_FLAG
+        if 1:#self.hamming_threshold == -1:
+            parallelization_flag = gsl.GSL_CLSTR_HAMMING_CENTROID_FLAT_PARALLEL_SEARCH_FLAG if self.num_apuc == 4 else gsl.GSL_CLSTR_HAMMING_CENTROID_FLAT_DEFAULT_SEARCH_FLAG
+        else:   #TODO: remove this once hamming threshold supports parallelization
+            parallelization_flag = gsl.GSL_CLSTR_HAMMING_CENTROID_FLAT_SERIAL_SEARCH_FLAG
 
-        # sq_params = ClusterL2Params(offset= offset, scalar=scalar)
-
-        # sq_params = ClusterSQParams(offset=self.offset,  scalar=self.scaler) if self.is_sq else None
-        sq_params = ClusterL2Params(offset=self.offset,  scalar=self.scaler) if self.is_sq else None
+        sq_params = ClusterSQParams(offset=self.offset,  scalar=self.scaler) if self.is_sq else None
         desc = ClusterHammingDesc(self.max_num_queries,
                                   typical_num_queries,
                                   max_query_batch_size,
