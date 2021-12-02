@@ -10,8 +10,8 @@ RE_EXPORT               = False
 PROCESS_CSV             = True
 LEADERBOARD_GEN         = True
 
-REJECT_ANOMALIES        = True
-NO_EXT_LINKS            = True
+REJECT_ANOMALIES        = False
+NO_EXT_LINKS            = False
 
 OFFICIAL                = False
 
@@ -19,7 +19,6 @@ TOTAL_SUBM              = 10
 COMP_RESULTS_TOPLEVEL   = "/Users/gwilliams/Projects/BigANN/competition_results"
 CACHE_RESULTS_TOPLEVEL  = "/Users/gwilliams/Projects/BigANN/cache_detect_results"
 T3_EVAL_TOPLEVEL        = "t3/eval_2021"
-REJECT_ANOMALIES        = True
 
 SUBM_MAPPING            = \
 {
