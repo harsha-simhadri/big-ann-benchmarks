@@ -58,9 +58,11 @@ SUBM_MAPPING            = \
     },
     "gemini": {
         "team":         "GSI Technology",
-        "results_dir":  "%s/gemini/results_merge_new_ssnpp_text1image_to_use_gsl_release/merged" % COMP_RESULTS_TOPLEVEL,
-        "export_fname": "public_gsl_release_merged_latest_ssnpp_text2image.csv",
-        "cache_detect": False,
+        # last "results_dir":  "%s/gemini/results_merge_new_ssnpp_text1image_to_use_gsl_release/merged" % COMP_RESULTS_TOPLEVEL,
+        # last "export_fname": "public_gsl_release_merged_latest_ssnpp_text2image.csv",
+        "results_dir":  "%s/gsi/results_final_run" % CACHE_RESULTS_TOPLEVEL,
+        "export_fname": "public_w_cache_detect.csv",
+        "cache_detect": True,
         "system_cost":  55726.66,
         "md_prefix":    "GEM",
         "status":       "final",
@@ -72,7 +74,7 @@ SUBM_MAPPING            = \
         "analysis":     "[nb](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/gemini/EvalPublic.ipynb)"
     },
     "diskann": {
-        "team":         "Microsoft Research",
+        "team":         "Microsoft Research India",
         "use_subm_dir": "diskann-bare-metal",
         "results_dir":  "%s/diskann/results.ms_bare_metal" % COMP_RESULTS_TOPLEVEL,
         "export_fname": "diskann-bare-metal-res-pruned.csv", 
@@ -153,8 +155,8 @@ def process_subm( subm ):
     export_file = os.path.join( eval_subm_dir, SUBM_MAPPING[subm]["export_fname"] )
     print("EXP FILE", export_file)
     if not os.path.exists( export_file ):
-        print("path does not exist: ", export_file )
-        sys.exit(1)
+        print("export file path does not exist: ", export_file )
+        if not RE_EXPORT: sys.exit(1)
 
     # create export.csv from results directory as needed
     exported = False
@@ -547,6 +549,7 @@ if __name__ == "__main__":
     #subms = [  "faiss_t3", "optanne_graphann", "gemini", "cuanns_multigpu", "cuanns_ivfpq" ]
     #subms = [ "cuanns_ivfpq" ]
     #subms = [ "optanne_graphann" ]
+    #subms = [ "gemini" ]
 
     # export and/or produce summary and evals json  
     if RE_EXPORT or PROCESS_CSV: 
