@@ -110,7 +110,8 @@ SUBM_MAPPING            = \
         # lastlast - "results_dir":  "%s/nvidia/cuanns_ivfpq/results.updated_algos_ivfpq" % COMP_RESULTS_TOPLEVEL,
         # lastlast = "export_fname": "res.updated_algos_ivfpq.csv",
         # last "results_dir":  "%s/nvidia/ivfpq/results_nv_ivfpq_merge_all_and_1" % CACHE_RESULTS_TOPLEVEL,
-        "results_dir":  "%s/nvidia/ivfpq/results_nv_ivfpq_reduce_anomalies_config_stimes_all" % CACHE_RESULTS_TOPLEVEL,
+        # last "results_dir":  "%s/nvidia/ivfpq/results_nv_ivfpq_reduce_anomalies_config_stimes_all" % CACHE_RESULTS_TOPLEVEL,
+        "results_dir" : "%s/nvidia/ivfpq/results_nv_ivfpq_merge__reduce_anomalies_config_stimes_all__last_text2image_config" % CACHE_RESULTS_TOPLEVEL, 
         "export_fname": "public_w_cache_detect.csv",
         "cache_detect": True,
         "anomaly_explain": "https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/cuanns_ivfpq/ANOMALIES.md",
@@ -544,8 +545,8 @@ if __name__ == "__main__":
 
     subms = [  "faiss_t3", "optanne_graphann", "gemini", "diskann", "cuanns_multigpu", "cuanns_ivfpq" ]
     #subms = [  "faiss_t3", "optanne_graphann", "gemini", "cuanns_multigpu", "cuanns_ivfpq" ]
-    #subms = [ "cuanns_ivfpq" ]
-    subms = [ "optanne_graphann" ]
+    subms = [ "cuanns_ivfpq" ]
+    #subms = [ "optanne_graphann" ]
 
     # export and/or produce summary and evals json  
     if RE_EXPORT or PROCESS_CSV: 
