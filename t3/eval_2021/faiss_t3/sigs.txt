@@ -1,0 +1,6 @@
+30ccb6f8530f4b26488dc3c987dced5046e4bded2bfa04484647148329a34149,/mnt/localdisk2/bigann/data/bigann-1B.IVF1048576,SQ8.faissindex
+81c24385ffa72ee7ab12b3ab580af6376b23649390602ad3dcfc2c335c83c631,/mnt/localdisk2/bigann/data/deep-1B.IVF1048576,SQ8.faissindex
+67b8373aeaa8cd751b7562877d68743e5d1fecef278196a85625df496f389efa,/mnt/localdisk2/bigann/data/msspacev-1B.IVF1048576,SQ8.faissindex
+a4f9172322101e48aaa906bbbe12bf1ccbb519b4b35518826a3c12cdb4f8b5c6,/mnt/localdisk2/bigann/data/msturing-1B.IVF1048576,SQ8.faissindex
+2f1ce313408b58803bce1c3e8deeb48a763f5eeb2234807ac999426ae78e2ffc,/mnt/localdisk2/bigann/data/ssnpp-1B.IVF1048576,SQ8.faissindex
+95b74622797451974538f3e4593262972acc253f30aff7b5410045e13a9b1e72,/mnt/localdisk2/bigann/data/text2image-1B.IVF1048576,SQ8.faissindex
