@@ -237,12 +237,14 @@ def mklnka( val, fmt, subm, db, benchmark ):
     lnk = "[%s](%s)" % ( fmt.format(val), eval_img )
     return lnk 
 
-def mklnkr( idx, benchmark ):
+def mklnkr( idx, benchmark, approved=True ):
     links = {   "recall":"#recall-or-ap-rankings", 
                 "qps":"#throughput-rankings",
                 "power":"#power-rankings",
                 "cost":"#cost-rankings" }
     lnk = "[%d](%s)" % ( idx, links[benchmark] )
+    if not approved:
+        lnk = "\(" + lnk + "\)"
     return lnk 
 
 
@@ -317,6 +319,8 @@ def produce_rankings(subms):
                 kee = "$" + SUBM_MAPPING[subm]['md_prefix']+"_"+ mapping[1]
                 subm_order = [ el[0] for el in orderings[mapping[0]] ]
                 rdct[kee] = mklnkr( subm_order.index(subm)+1, mapping[0] ) if subm in subm_order else "*NQ*"
+                if mapping[0]=="cost" and not SUBM_MAPPING[subm]["cost_approved"]: # deal with unnapproved cost
+                    rdct[kee] = mklnkr( subm_order.index(subm)+1, mapping[0], False ) if subm in subm_order else "*NQ*"
             kee = "$" + SUBM_MAPPING[subm]['md_prefix']+"_HW"
             rdct[kee] = SUBM_MAPPING[subm]["display_hw"]
             kee = "$" + SUBM_MAPPING[subm]['md_prefix']+"_TM"
