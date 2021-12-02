@@ -15,6 +15,7 @@ TOTAL_SUBM              = 10
 COMP_RESULTS_TOPLEVEL   = "/Users/gwilliams/Projects/BigANN/competition_results"
 CACHE_RESULTS_TOPLEVEL  = "/Users/gwilliams/Projects/BigANN/cache_detect_results"
 T3_EVAL_TOPLEVEL        = "t3/eval_2021"
+REJECT_ANOMALIES        = False
 
 SUBM_MAPPING            = \
 {
@@ -210,7 +211,8 @@ def process_subm( subm ):
                                         pending = [],
                                         print_best=False )
         evaluator.eval_all(             save_summary=os.path.join(eval_subm_dir, "summary.json"),
-                                        save_evals=os.path.join(eval_subm_dir, "evals.json" ) )
+                                        save_evals=os.path.join(eval_subm_dir, "evals.json" ),
+                                        reject_anomalies=REJECT_ANOMALIES )
         evaluator.commit_baseline(      "t3/baseline2021.json")
         evaluator.show_summary(         savepath=os.path.join( eval_subm_dir, "summary.png" ))
     else:
@@ -225,7 +227,8 @@ def process_subm( subm ):
                                         pending = [],
                                         print_best=False )
         evaluator.eval_all(             save_summary=os.path.join(eval_subm_dir, "summary.json"),
-                                        save_evals=os.path.join(eval_subm_dir, "evals.json" ) )
+                                        save_evals=os.path.join(eval_subm_dir, "evals.json" ),
+                                        reject_anomalies=REJECT_ANOMALIES )
         evaluator.show_summary(         savepath=os.path.join( eval_subm_dir, "summary.png" ))
 
 def mklnka( val, fmt, subm, db, benchmark ):
@@ -542,6 +545,12 @@ def produce_rankings(subms):
     # replace offlabel status
     rdct["$OFFLABEL"] = "Official" if OFFICIAL else "Unofficial"
 
+    # replace 'reject anomaly' status
+    if REJECT_ANOMALIES:
+        rdct["$REJECT_ANOM"] = "After Rejecting Anomalies"
+    else:
+        rdct["$REJECT_ANOM"] = ""
+
     # load the leaderboard template
     f = open("t3/LEADERBOARDS.md.templ")
     lines = f.read()
@@ -552,11 +561,17 @@ def produce_rankings(subms):
     outp = lines
     for kee in rdct.keys():
         outp = outp.replace( kee, rdct[kee] )
-    f = open("t3/LEADERBOARDS.md","w")
+    out_file = "t3/LEADERBOARDS.md"
+    if REJECT_ANOMALIES: 
+        out_file = "t3/LEADERBOARDS_REJECT_ANOMALIES.md"
+    else:
+        out_file = "t3/LEADERBOARDS.md"
+    print("out_file", out_file)
+    f = open(out_file,"w")
     f.write(outp)
     f.flush()
     f.close()
-    print("Wrote new leaderboard README")
+    print("Wrote new leaderboard file->", out_file)
  
 if __name__ == "__main__":
 

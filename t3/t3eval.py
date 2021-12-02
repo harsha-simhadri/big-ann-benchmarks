@@ -77,12 +77,12 @@ class Evaluator():
 
         print("Loaded state from", summary_json, "and", evals_json)
 
-    def eval_all(self, compute_score=True, save_summary=None, save_evals=None ):
+    def eval_all(self, compute_score=True, save_summary=None, save_evals=None, reject_anomalies=False ):
         '''Evaluate all the competition datasets.'''
         
         self.evals = {}
         for dataset in self.competition["datasets"]:
-            self.eval_dataset(dataset)
+            self.eval_dataset(dataset, reject_anomalies)
 
         num_qual_datasets = len( list(self.evals.keys() ) )
         if num_qual_datasets< self.competition["min_qual_dsets"] and not self.is_baseline:
@@ -278,7 +278,7 @@ class Evaluator():
     def argsort(l):
         return sorted(range(len(l)), key=l.__getitem__)
 
-    def eval_dataset(self, dataset):
+    def eval_dataset(self, dataset, reject_anomalies=False):
         '''Eval benchmarks for a dataset.'''
       
         if not dataset in self.competition["datasets"]:
@@ -320,13 +320,21 @@ class Evaluator():
         # min_qps = self.competition["min_qps"]
         min_qps = self.baseline["datasets"][dataset]["min-qps"] # The baseline informed min lives in baseline now
         if self.verbose: print("for recall, min_qps=", min_qps)
-        qualifiers = [ el for el in list(zip(qps, recall, parameters, anomaly)) if el[0]>=min_qps ]
+        if reject_anomalies:
+            print("WARNING: REJECT ANOMALIES for best_recall...")
+            qualifiers = [ el for el in list(zip(qps, recall, parameters, anomaly)) if el[0]>=min_qps and not el[3] ]
+        else:
+            qualifiers = [ el for el in list(zip(qps, recall, parameters, anomaly)) if el[0]>=min_qps ]
         if len(qualifiers)>0:
             if self.verbose: print("qualifiers at min_qps=%f" % min_qps, qualifiers)
             best_recall = sorted(qualifiers,key=lambda x: x[1])[-1] # sort by highest recall and take it
         else:
             if self.verbose: print("WARNING: NO qualifiers meeting min_qps %f, trying without..." % min_qps)
-            qualifiers = [ el for el in list(zip(qps, recall, parameters, anomaly)) ]
+            if reject_anomalies:
+                print("WARNING: REJECT ANOMALIES for best_recall...")
+                qualifiers = [ el for el in list(zip(qps, recall, parameters, anomaly)) if not el[3] ]
+            else:
+                qualifiers = [ el for el in list(zip(qps, recall, parameters, anomaly)) ]
             if self.verbose: print("WARNING: NEW qualifiers no min_qps", qualifiers)
             best_recall = sorted(qualifiers, key=lambda x: x[1][-1]) # sort by highest recall and take it
         if self.verbose or self.print_best: print("Best recall at", best_recall, "via", qualifiers[-1])
@@ -337,10 +345,18 @@ class Evaluator():
         # min_recall = self.competition["min_recall"]
         min_recall = self.baseline["datasets"][dataset]["min-recall"] # The baseline informed min lives in baseline now
         if self.verbose: print("for throughput, min_recall=", min_recall)
-        qualifiers = [ el for el in list(zip(recall, qps, parameters, anomaly)) if el[0]>=min_recall ]
+        if reject_anomalies:
+            print("WARNING: REJECT ANOMALIES for best_qps...")
+            qualifiers = [ el for el in list(zip(recall, qps, parameters, anomaly)) if el[0]>=min_recall and not el[3] ]
+        else:
+            qualifiers = [ el for el in list(zip(recall, qps, parameters, anomaly)) if el[0]>=min_recall ]
         if len(qualifiers)==0: 
             if self.verbose: print("WARNING: NO qualifiers meeting min_recall %f, trying without..." % min_recall)
-            qualifiers = [ el for el in list(zip(recall, qps, parameters, anomaly)) ]
+            if reject_anomalies:
+                print("WARNING: REJECT ANOMALIES for best_qps...")
+                qualifiers = [ el for el in list(zip(recall, qps, parameters, anomaly)) if not el[3] ]
+            else:
+                qualifiers = [ el for el in list(zip(recall, qps, parameters, anomaly)) ]
             if self.verbose: print("WARNING: NEW qualifiers no min_recall", qualifiers)
             best_qps = sorted(qualifiers,key=lambda x: x[0])[-1] # sort by highest recall and take that qps
         else:
@@ -354,12 +370,20 @@ class Evaluator():
         if "wspq" in rows.keys():
             wspq = rows["wspq"].tolist()
             if self.verbose: print("for power, min_qps=%f min_recall=%f " % (min_qps,min_recall))
-            qualifiers = [ el for el in list(zip(recall, qps, wspq, parameters, anomaly )) if el[0]>=min_recall and el[1]>min_qps ]
+            if reject_anomalies:
+                print("WARNING: REJECT ANOMALIES for best_wspq...")
+                qualifiers = [ el for el in list(zip(recall, qps, wspq, parameters, anomaly )) if el[0]>=min_recall and el[1]>min_qps and not el[4] ]
+            else:
+                qualifiers = [ el for el in list(zip(recall, qps, wspq, parameters, anomaly )) if el[0]>=min_recall and el[1]>min_qps ]
             if self.verbose: print("qualifiers at min_qps=%f and min_recall=%f" % (min_qps, min_recall), qualifiers)
             if len(qualifiers)==0:
                 if self.verbose: print("WARNING: NO qualifying power runs meeting both min_qps and min_recall...")
                 # fall back to min_recall threshold
-                qualifiers = [ el for el in list(zip(recall, qps, wspq, parameters, anomaly)) if el[0]>=min_recall ]
+                if reject_anomalies:
+                    print("WARNING: REJECT ANOMALIES for best_wspq...")
+                    qualifiers = [ el for el in list(zip(recall, qps, wspq, parameters, anomaly)) if el[0]>=min_recall and not el[4]]
+                else:
+                    qualifiers = [ el for el in list(zip(recall, qps, wspq, parameters, anomaly)) if el[0]>=min_recall ]
                 if len(qualifiers)==0:
                     qualifiers = [ el for el in list(zip(recall, qps, wspq, parameters,anomaly)) ]
                     if self.verbose: print("WARNING: NEW qualifiers at min_recall=%f" % min_recall, qualifiers)
