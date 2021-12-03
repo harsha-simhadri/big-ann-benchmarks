@@ -266,35 +266,31 @@ Algorithms will be ranked on how much their recall surpasses the baselines at th
 #### Results for T1
 The table lists best Recall/AP obtained at at least 10,000 QPS by algorithms in pull requests submitted before Nov 2021. All non-empty cells are derived from an author-published indices that succesfully ran on the standardized hardware with author-provided query configurations. Recall for bigann-1B does not count ties. This result is on the public query set.
 
-```
- PR | Name      |bigann-1B  | deep-1B |	msspacev-1B |	msturing-1B |	ssnpp-1B  |	text2image-1B 
-----|-----------|-----------|---------|-------------|-------------|-----------|----------------
- 58	| team11		|           | 0.64955 |             |		0.712211  |           |               	
- 60	| puck-t1		|0.71468    |	0.72255 |				      |             |           |               
- 66	| ngt-t1		|					  |         |				      |             |           |               
- 69	| kst_ann_t1|	.71219	  | 0.71219	| 0.764542    |	0.756419		|           |               
- 71	| buddy-t1	|	0.62765		|         |				      |             |           |               
-----|-----------|-----------|---------|-------------|-------------|-----------|----------------		
-    | baseline  |	0.63451   | 0.65028 |	0.728861    | 0.703611    |	0.75378   |	0.069275
-----|-----------|-----------|---------|-------------|-------------|-----------|----------------
 
-```
+| PR | Name      |bigann-1B  | deep-1B |	msspacev-1B |	msturing-1B |	ssnpp-1B  |	text2image-1B  |
+|----|-----------|-----------|---------|-------------|-------------|-----------|-----------------|
+| 58	| team11		|           | 0.64955 |             |		0.712211  |           |                |
+| 60	| puck-t1		|0.71468    |	0.72255 |				      |             |           |                |
+| 66	| ngt-t1		|					  |         |				      |             |           |                |
+| 69	| kst_ann_t1|	.71219	  | 0.71219	| 0.764542    |	0.756419		|           |                |
+| 71  | buddy-t1	|	0.62765		|         |				      |             |           |                |
+|-----|-----------|-----------|---------|-------------|-------------|-----------|----------------|	
+|     | baseline  |	0.63451   | 0.65028 |	0.728861    | 0.703611    |	0.75378   |	0.069275       |
+|-----|-----------|-----------|---------|-------------|-------------|-----------|----------------|
 
 
 #### Results for T2
 The table lists best Recall/AP obtained at at least 1,500 QPS by algorithms in pull requests submitted before Nov 2021. All non-empty cells are derived from an author-published indices that succesfully ran on the standardized hardware with author-provided query configurations. Recall for bigann-1B does not count ties. This result is on the public query set.
 
 
-```
- PR | Name      |bigann-1B  | deep-1B |	msspacev-1B |	msturing-1B |	ssnpp-1B  |	text2image-1B 
-----|-----------|-----------|---------|-------------|-------------|-----------|----------------
- 62	| kota-t2	  |	0.950859	|         | 0.904001	  | 0.939817	  | 0.18212	  |              
- 66	| ngt-t2		|					  |         |				      |             |           |               					
- 70	| bbann	    |           |         |   0.7602		|             |   0.88573	| 0.487202      
-----|-----------|-----------|---------|-------------|-------------|-----------|----------------
-    | baseline |  0.94913	  | 0.93706 |	0.90095	    | 0.93564	    | 0.16274   |	0.48854      
-----|-----------|-----------|---------|-------------|-------------|-----------|----------------
-```
+| PR | Name      |bigann-1B  | deep-1B |	msspacev-1B |	msturing-1B |	ssnpp-1B  |	text2image-1B |
+|----|-----------|-----------|---------|-------------|-------------|-----------|----------------|
+| 62	| kota-t2	  |	0.950859	|         | 0.904001	  | 0.939817	  | 0.18212	  |               |
+| 66	| ngt-t2		|					  |         |				      |             |           |               |					
+| 70	| bbann	    |           |         |   0.7602		|             |   0.88573	| 0.487202      |
+|----|-----------|-----------|---------|-------------|-------------|-----------|----------------|
+|    | baseline |  0.94913	  | 0.93706 |	0.90095	    | 0.93564	    | 0.16274   |	0.48854       |
+|----|-----------|-----------|---------|-------------|-------------|-----------|----------------|
 
 ## For_Evaluators
 
