@@ -9,11 +9,11 @@ import t3eval
 #
 # variables that affect LB generation
 #
-RE_EXPORT               = True
+RE_EXPORT               = False
 PROCESS_CSV             = True
 LEADERBOARD_GEN         = True
 
-PUBLIC                  = False # Set to False for private leaderboard gen
+PUBLIC                  = True # Set to False for private leaderboard gen
 REJECT_ANOMALIES        = False
 NO_EXT_LINKS            = False # Set to True for alternative leaderboards, such as reject anomalies
 
@@ -33,8 +33,8 @@ SUBM_MAPPING            = \
         "team":         "Facebook Research",
         # last - "results_dir":  "%s/faiss_t3/results.baseline_focused" % COMP_RESULTS_TOPLEVEL,
         # last - "export_fname": "public_focused.csv",
-        "results_dir":  "%s/faiss/public/results_faiss_stimes_all_dsets" % CACHE_RESULTS_TOPLEVEL if PUBLIC else \
-            "%s/faiss/private/results_private_4_dsets" % CACHE_RESULTS_TOPLEVEL,
+        "results_dir":  "%s/faiss/public/results_faiss_stimes_all_dsets" % ( CACHE_RESULTS_TOPLEVEL if PUBLIC else \
+            "%s/faiss/private/results_merge__faiss_priv_2_dsets__private_4_dsets" % CACHE_RESULTS_TOPLEVEL ),
         "export_fname": "public_w_cache_detect.csv" if PUBLIC else \
             "private_w_cache_detect.csv",
         "cache_detect": True,
@@ -56,8 +56,10 @@ SUBM_MAPPING            = \
         # last - "export_fname": "public_with_power_capture.csv",
         # last-last "results_dir":  "%s/intel/results_intel_multigpu_all_stimes" % CACHE_RESULTS_TOPLEVEL,
         # last-last-last  "results_dir":  "%s/intel/results_updated_config_with_anomaly_mitigation" % CACHE_RESULTS_TOPLEVEL,
-        "results_dir":  "%s/intel/results_final_changes_to_3_dsets" % CACHE_RESULTS_TOPLEVEL,
-        "export_fname": "public_w_cache_detect.csv",
+        "results_dir":  "%s/intel/results_final_changes_to_3_dsets" % ( CACHE_RESULTS_TOPLEVEL if PUBLIC else \
+            "%s/intel/private/results_intel_priv_all" % CACHE_RESULTS_TOPLEVEL ), 
+        "export_fname": "public_w_cache_detect.csv" if PUBLIC else \
+            "private_w_cache_detect.csv",
         "cache_detect": True,
         "anomaly_explain": "https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/optanne_graphann/ANOMALIES.md",
         "system_cost":  14664.20,
@@ -110,8 +112,10 @@ SUBM_MAPPING            = \
         "team":         "NVidia",
         # last - "results_dir":  "%s/nvidia/cuanns_multigpu/results3.power_mon" % COMP_RESULTS_TOPLEVEL,
         # last = "export_fname": "results3.power_mon.csv", 
-        "results_dir":  "%s/nvidia/multigpu/results_nv_multi_stimes_all" % CACHE_RESULTS_TOPLEVEL,
-        "export_fname": "public_w_cache_detect.csv", 
+        "results_dir":  "%s/nvidia/multigpu/results_nv_multi_stimes_all" % ( CACHE_RESULTS_TOPLEVEL if PUBLIC else \
+            "%s" % CACHE_RESULTS_TOPLEVEL), 
+        "export_fname": "public_w_cache_detect.csv" if PUBLIC else \
+            "private_w_cache_detect.csv",
         "cache_detect": True,
         "anomaly_explain": "https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/cuanns_multigpu/ANOMALIES.md",
         "system_cost":  150000,
@@ -131,8 +135,10 @@ SUBM_MAPPING            = \
         # lastlast = "export_fname": "res.updated_algos_ivfpq.csv",
         # last "results_dir":  "%s/nvidia/ivfpq/results_nv_ivfpq_merge_all_and_1" % CACHE_RESULTS_TOPLEVEL,
         # last "results_dir":  "%s/nvidia/ivfpq/results_nv_ivfpq_reduce_anomalies_config_stimes_all" % CACHE_RESULTS_TOPLEVEL,
-        "results_dir" : "%s/nvidia/ivfpq/results_nv_ivfpq_merge__reduce_anomalies_config_stimes_all__last_text2image_config" % CACHE_RESULTS_TOPLEVEL, 
-        "export_fname": "public_w_cache_detect.csv",
+        "results_dir" : "%s/nvidia/ivfpq/results_nv_ivfpq_merge__reduce_anomalies_config_stimes_all__last_text2image_config" % ( CACHE_RESULTS_TOPLEVEL if PUBLIC else \
+            "%s/nvidia/ivfpq/private/results_nv_ivfpq_priv_all" % CACHE_RESULTS_TOPLEVEL ),
+        "export_fname": "public_w_cache_detect.csv" if PUBLIC else \
+            "private_w_cache_detect.csv",
         "cache_detect": True,
         "anomaly_explain": "https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/cuanns_ivfpq/ANOMALIES.md",
         "system_cost":  150000,
@@ -224,11 +230,11 @@ def process_subm( subm ):
                                         is_baseline=True,
                                         pending = [],
                                         print_best=False )
-        evaluator.eval_all(             save_summary=os.path.join(eval_subm_dir, "%s_summary.json" % "public" if PUBLIC else "private"),
-                                        save_evals=os.path.join(eval_subm_dir, "%s_evals.json" % "public" if PUBLIC else "private" ),
+        evaluator.eval_all(             save_summary=os.path.join(eval_subm_dir, "%s_summary.json" % ( "public" if PUBLIC else "private") ),
+                                        save_evals=os.path.join(eval_subm_dir, "%s_evals.json" % ( "public" if PUBLIC else "private" ) ),
                                         reject_anomalies=REJECT_ANOMALIES )
         evaluator.commit_baseline(      "t3/%s_baseline2021.json" % "public" if PUBLIC else "private" )
-        evaluator.show_summary(         savepath=os.path.join( eval_subm_dir, "%s_summary.png" % "public" if PUBLIC else "private" ))
+        evaluator.show_summary(         savepath=os.path.join( eval_subm_dir, "%s_summary.png" % ( "public" if PUBLIC else "private" )))
     else:
         # print("EVALUATOR", SUBM_MAPPING[subm])
         evaluator = t3eval.Evaluator(   subm, 
@@ -240,10 +246,10 @@ def process_subm( subm ):
                                         is_baseline=False,
                                         pending = [],
                                         print_best=False )
-        evaluator.eval_all(             save_summary=os.path.join(eval_subm_dir, "%s_summary.json" % "public" if PUBLIC else "private" ),
-                                        save_evals=os.path.join(eval_subm_dir, "%s_evals.json" % "public" if PUBLIC else "private" ),
+        evaluator.eval_all(             save_summary=os.path.join(eval_subm_dir, "%s_summary.json" % ( "public" if PUBLIC else "private" )),
+                                        save_evals=os.path.join(eval_subm_dir, "%s_evals.json" % ( "public" if PUBLIC else "private" )),
                                         reject_anomalies=REJECT_ANOMALIES )
-        evaluator.show_summary(         savepath=os.path.join( eval_subm_dir, "%s_summary.png" % "public" if PUBLIC else "private" ))
+        evaluator.show_summary(         savepath=os.path.join( eval_subm_dir, "%s_summary.png" % ( "public" if PUBLIC else "private" )))
 
 def mklnka( val, fmt, subm, db, benchmark ):
     if benchmark=="qps": benchmark="throughput"
@@ -289,12 +295,12 @@ def produce_rankings(subms):
                     print("path does not exist: ", eval_subm_dir )
                     sys.exit(1)
                 
-                summary_json = os.path.join(eval_subm_dir, "summary.json")
+                summary_json = os.path.join(eval_subm_dir, "%s_summary.json" % ( "public" if PUBLIC else "private" ))
                 if not os.path.exists( summary_json ):
                     print("path does not exist: ", summary_json )
                     sys.exit(1)
                 use_subm = SUBM_MAPPING[subm]["use_subm_dir"]  if "use_subm_dir" in SUBM_MAPPING[subm].keys() else subm
-                jpath = "t3/eval_2021/%s/summary.json" % use_subm
+                jpath = "t3/eval_2021/%s/%s_summary.json" % ( use_subm, "public" if PUBLIC else "private" )
                 with open(jpath) as json_file:
                     summary = json.load(json_file)
      
@@ -587,11 +593,10 @@ def produce_rankings(subms):
     outp = lines
     for kee in rdct.keys():
         outp = outp.replace( kee, rdct[kee] )
-    out_file = "t3/LEADERBOARDS_%s.md" % "PUBLIC" if PUBLIC else "PRIVATE"
     if REJECT_ANOMALIES: 
-        out_file = "t3/LEADERBOARDS_%s_REJECT_ANOMALIES.md" % "PUBLIC" if PUBLIC else "PRIVATE"
+        out_file = "t3/LEADERBOARDS_%s_REJECT_ANOMALIES.md" % ( "PUBLIC" if PUBLIC else "PRIVATE" )
     else:
-        out_file = "t3/LEADERBOARDS_%s.md" % "PUBLIC" if PUBLIC else "PRIVATE"
+        out_file = "t3/LEADERBOARDS_%s.md" % ("PUBLIC" if PUBLIC else "PRIVATE")
     print("out_file", out_file)
     f = open(out_file,"w")
     f.write(outp)

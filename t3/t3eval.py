@@ -51,6 +51,7 @@ class Evaluator():
             if verbose: print("Found unique datasets:", datasets)
             if len(datasets)< self.competition["min_qual_dsets"]:
                 raise Exception("Minimum number of datasets not met.")
+            print(self.df)
    
         self.algoname = algoname 
         self.system_cost = system_cost
@@ -89,7 +90,7 @@ class Evaluator():
 
         num_qual_datasets = len( list(self.evals.keys() ) )
         if self.is_baseline:
-            if num_qual_datasets != 6:
+            if num_qual_datasets != len(self.competition["datasets"]):
                 raise Exception("Baseline needs to support all the datasets.")
         else: # is_baseline = False
             if num_qual_datasets< self.competition["min_qual_dsets"] and not self.is_baseline:
