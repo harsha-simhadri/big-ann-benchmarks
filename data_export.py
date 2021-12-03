@@ -21,6 +21,10 @@ if __name__ == "__main__":
         '--recompute',
         action='store_true',
         help='Path to the output csv file')
+    parser.add_argument(
+        '--private-query',
+        help='Use the private queries and ground truth',
+        action='store_true')
     args = parser.parse_args()
 
     datasets = DATASETS.keys()
