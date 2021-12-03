@@ -58,7 +58,7 @@ def run_individual_query(algo, X, distance, count, run_count, search_type):
 def run(definition, dataset, count, run_count, rebuild,
         upload_index=False, download_index=False,
         blob_prefix="", sas_string="", private_query=False):
-    
+
     algo = instantiate_algorithm(definition)
     assert not definition.query_argument_groups \
            or hasattr(algo, "set_query_arguments"), """\
@@ -233,7 +233,8 @@ def run_from_cmdline(args=None):
         disabled=False
     )
     run(definition, args.dataset, args.count, args.runs, args.rebuild,
-        args.upload_index, args.download_index, args.blob_prefix, args.sas_string)
+        args.upload_index, args.download_index, args.blob_prefix, args.sas_string,
+        args.private_query)
 
 
 def run_docker(definition, dataset, count, runs, timeout, rebuild,

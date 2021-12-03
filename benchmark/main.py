@@ -34,6 +34,7 @@ def positive_int(s):
 
 
 def run_worker(args, queue):
+    print("RW", args)
     while not queue.empty():
         definition = queue.get()
         memory_margin = 500e6  # reserve some extra memory for misc stuff
