@@ -46,7 +46,8 @@ class Evaluator():
 
         # read the csv
         if csv:
-            self.df = pd.read_csv( csv )
+            print("CSV", csv)
+            self.df = pd.read_csv( csv, delimiter=',')
             datasets = self.df.dataset.unique()
             if verbose: print("Found unique datasets:", datasets)
             if len(datasets)< self.competition["min_qual_dsets"]:

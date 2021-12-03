@@ -33,8 +33,8 @@ SUBM_MAPPING            = \
         "team":         "Facebook Research",
         # last - "results_dir":  "%s/faiss_t3/results.baseline_focused" % COMP_RESULTS_TOPLEVEL,
         # last - "export_fname": "public_focused.csv",
-        "results_dir":  "%s/faiss/public/results_faiss_stimes_all_dsets" % ( CACHE_RESULTS_TOPLEVEL if PUBLIC else \
-            "%s/faiss/private/results_merge__faiss_priv_2_dsets__private_4_dsets" % CACHE_RESULTS_TOPLEVEL ),
+        "results_dir":  ( "%s/faiss/public/results_faiss_stimes_all_dsets" % CACHE_RESULTS_TOPLEVEL ) if PUBLIC else \
+            "%s/faiss/private/results_merge__faiss_priv_2_dsets__private_4_dsets" % CACHE_RESULTS_TOPLEVEL,
         "export_fname": "public_w_cache_detect.csv" if PUBLIC else \
             "private_w_cache_detect.csv",
         "cache_detect": True,
@@ -56,8 +56,8 @@ SUBM_MAPPING            = \
         # last - "export_fname": "public_with_power_capture.csv",
         # last-last "results_dir":  "%s/intel/results_intel_multigpu_all_stimes" % CACHE_RESULTS_TOPLEVEL,
         # last-last-last  "results_dir":  "%s/intel/results_updated_config_with_anomaly_mitigation" % CACHE_RESULTS_TOPLEVEL,
-        "results_dir":  "%s/intel/results_final_changes_to_3_dsets" % ( CACHE_RESULTS_TOPLEVEL if PUBLIC else \
-            "%s/intel/private/results_intel_priv_all" % CACHE_RESULTS_TOPLEVEL ), 
+        "results_dir":  ( "%s/intel/results_final_changes_to_3_dsets" %  CACHE_RESULTS_TOPLEVEL ) if PUBLIC else \
+            "%s/intel/private/results_intel_priv_all" % CACHE_RESULTS_TOPLEVEL, 
         "export_fname": "public_w_cache_detect.csv" if PUBLIC else \
             "private_w_cache_detect.csv",
         "cache_detect": True,
@@ -112,8 +112,8 @@ SUBM_MAPPING            = \
         "team":         "NVidia",
         # last - "results_dir":  "%s/nvidia/cuanns_multigpu/results3.power_mon" % COMP_RESULTS_TOPLEVEL,
         # last = "export_fname": "results3.power_mon.csv", 
-        "results_dir":  "%s/nvidia/multigpu/results_nv_multi_stimes_all" % ( CACHE_RESULTS_TOPLEVEL if PUBLIC else \
-            "%s" % CACHE_RESULTS_TOPLEVEL), 
+        "results_dir":  ( "%s/nvidia/multigpu/results_nv_multi_stimes_all" % CACHE_RESULTS_TOPLEVEL ) if PUBLIC else \
+            "%s" % CACHE_RESULTS_TOPLEVEL, 
         "export_fname": "public_w_cache_detect.csv" if PUBLIC else \
             "private_w_cache_detect.csv",
         "cache_detect": True,
@@ -135,8 +135,8 @@ SUBM_MAPPING            = \
         # lastlast = "export_fname": "res.updated_algos_ivfpq.csv",
         # last "results_dir":  "%s/nvidia/ivfpq/results_nv_ivfpq_merge_all_and_1" % CACHE_RESULTS_TOPLEVEL,
         # last "results_dir":  "%s/nvidia/ivfpq/results_nv_ivfpq_reduce_anomalies_config_stimes_all" % CACHE_RESULTS_TOPLEVEL,
-        "results_dir" : "%s/nvidia/ivfpq/results_nv_ivfpq_merge__reduce_anomalies_config_stimes_all__last_text2image_config" % ( CACHE_RESULTS_TOPLEVEL if PUBLIC else \
-            "%s/nvidia/ivfpq/private/results_nv_ivfpq_priv_all" % CACHE_RESULTS_TOPLEVEL ),
+        "results_dir" : ( "%s/nvidia/ivfpq/results_nv_ivfpq_merge__reduce_anomalies_config_stimes_all__last_text2image_config" %  CACHE_RESULTS_TOPLEVEL ) if PUBLIC else \
+            "%s/nvidia/ivfpq/private/results_nv_ivfpq_priv_all" % CACHE_RESULTS_TOPLEVEL,
         "export_fname": "public_w_cache_detect.csv" if PUBLIC else \
             "private_w_cache_detect.csv",
         "cache_detect": True,
@@ -200,7 +200,7 @@ def process_subm( subm ):
 
         # run the export command
         if SUBM_MAPPING[subm]["cache_detect"]:
-            export_cmd = "python data_export.py %s --recompute --sensors --search_times --detect_caching 0.3 --output='%s'" \
+            export_cmd = "python data_export.py %s --recompute --sensors --search_times --detect_caching 0.3 --output \"%s\"" \
                 % ( " " if PUBLIC else "--private-query", export_file )
         else:
             export_cmd = "python data_export.py --recompute --sensors --output='%s'" \
@@ -233,7 +233,7 @@ def process_subm( subm ):
         evaluator.eval_all(             save_summary=os.path.join(eval_subm_dir, "%s_summary.json" % ( "public" if PUBLIC else "private") ),
                                         save_evals=os.path.join(eval_subm_dir, "%s_evals.json" % ( "public" if PUBLIC else "private" ) ),
                                         reject_anomalies=REJECT_ANOMALIES )
-        evaluator.commit_baseline(      "t3/%s_baseline2021.json" % "public" if PUBLIC else "private" )
+        evaluator.commit_baseline(      "t3/%s_baseline2021.json" % ( "public" if PUBLIC else "private" ))
         evaluator.show_summary(         savepath=os.path.join( eval_subm_dir, "%s_summary.png" % ( "public" if PUBLIC else "private" )),
                                         public= True if PUBLIC else False )
     else:
@@ -241,7 +241,7 @@ def process_subm( subm ):
         evaluator = t3eval.Evaluator(   subm, 
                                         export_file,
                                         "t3/competition2021.json",
-                                        baseline_path="t3/%s_baseline2021.json" % "public" if PUBLIC else "private",
+                                        baseline_path="t3/%s_baseline2021.json" % ( "public" if PUBLIC else "private" ),
                                         system_cost= SUBM_MAPPING[subm]["system_cost"],
                                         verbose=False,
                                         is_baseline=False,
@@ -613,7 +613,7 @@ if __name__ == "__main__":
     #subms = [ "cuanns_ivfpq" ]
     #subms = [ "optanne_graphann" ]
     #subms = [ "gemini" ]
-    subms = [ "faiss_t3" ]
+    subms = [ "faiss_t3", "cuanns_ivfpq", "optanne_graphann" ]
 
     # export and/or produce summary and evals json  
     if RE_EXPORT or PROCESS_CSV: 
