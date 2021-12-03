@@ -6,11 +6,15 @@ import pandas as pd
 from string import Template
 import t3eval
 
-RE_EXPORT               = True
+RE_EXPORT               = False
 PROCESS_CSV             = True
 LEADERBOARD_GEN         = True
 
+REJECT_ANOMALIES        = False
+NO_EXT_LINKS            = False
+
 OFFICIAL                = False
+
 TOTAL_SUBM              = 10
 COMP_RESULTS_TOPLEVEL   = "/Users/gwilliams/Projects/BigANN/competition_results"
 CACHE_RESULTS_TOPLEVEL  = "/Users/gwilliams/Projects/BigANN/cache_detect_results"
@@ -27,6 +31,7 @@ SUBM_MAPPING            = \
         "cache_detect": True,
         "anomaly_explain": "https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/faiss_t3/ANOMALIES.md",
         "system_cost":  22021.90,
+        "cost_approved":True,
         "md_prefix":    "BS",
         "status":       "final",
         "display_hw":   "NVidia GPU",
@@ -47,8 +52,9 @@ SUBM_MAPPING            = \
         "cache_detect": True,
         "anomaly_explain": "https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/optanne_graphann/ANOMALIES.md",
         "system_cost":  14664.20,
+        "cost_approved":True,
         "md_prefix":    "OPT1",
-        "status":       "inprog",
+        "status":       "final",
         "display_hw":   "Intel Optane",
         "readme":       "https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/optanne_graphann/README.md",
         "org":          False,
@@ -58,12 +64,15 @@ SUBM_MAPPING            = \
     },
     "gemini": {
         "team":         "GSI Technology",
-        "results_dir":  "%s/gemini/results_merge_new_ssnpp_text1image_to_use_gsl_release/merged" % COMP_RESULTS_TOPLEVEL,
-        "export_fname": "public_gsl_release_merged_latest_ssnpp_text2image.csv",
-        "cache_detect": False,
+        # last "results_dir":  "%s/gemini/results_merge_new_ssnpp_text1image_to_use_gsl_release/merged" % COMP_RESULTS_TOPLEVEL,
+        # last "export_fname": "public_gsl_release_merged_latest_ssnpp_text2image.csv",
+        "results_dir":  "%s/gsi/results_final_run" % CACHE_RESULTS_TOPLEVEL,
+        "export_fname": "public_w_cache_detect.csv",
+        "cache_detect": True,
         "system_cost":  55726.66,
+        "cost_approved":True,
         "md_prefix":    "GEM",
-        "status":       "inprog",
+        "status":       "final",
         "display_hw":   "LedaE APU",
         "readme":       "https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/gemini/README.md",
         "org":          True,
@@ -72,14 +81,15 @@ SUBM_MAPPING            = \
         "analysis":     "[nb](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/gemini/EvalPublic.ipynb)"
     },
     "diskann": {
-        "team":         "Microsoft Research",
+        "team":         "Microsoft Research India",
         "use_subm_dir": "diskann-bare-metal",
         "results_dir":  "%s/diskann/results.ms_bare_metal" % COMP_RESULTS_TOPLEVEL,
         "export_fname": "diskann-bare-metal-res-pruned.csv", 
         "cache_detect": False,
         "system_cost":  0,
+        "cost_approved":True,
         "md_prefix":    "MSD",
-        "status":       "inprog",
+        "status":       "final",
         "display_hw":   "Dell PowerEdge",
         "readme":       "https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/diskann-bare-metal/README.md",
         "org":          True,
@@ -96,6 +106,7 @@ SUBM_MAPPING            = \
         "cache_detect": True,
         "anomaly_explain": "https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/cuanns_multigpu/ANOMALIES.md",
         "system_cost":  150000,
+        "cost_approved":False,
         "md_prefix":    "NV",
         "status":       "final",
         "display_hw":   "NVidia GPU",
@@ -110,11 +121,13 @@ SUBM_MAPPING            = \
         # lastlast - "results_dir":  "%s/nvidia/cuanns_ivfpq/results.updated_algos_ivfpq" % COMP_RESULTS_TOPLEVEL,
         # lastlast = "export_fname": "res.updated_algos_ivfpq.csv",
         # last "results_dir":  "%s/nvidia/ivfpq/results_nv_ivfpq_merge_all_and_1" % CACHE_RESULTS_TOPLEVEL,
-        "results_dir":  "%s/nvidia/ivfpq/results_nv_ivfpq_reduce_anomalies_config_stimes_all" % CACHE_RESULTS_TOPLEVEL,
+        # last "results_dir":  "%s/nvidia/ivfpq/results_nv_ivfpq_reduce_anomalies_config_stimes_all" % CACHE_RESULTS_TOPLEVEL,
+        "results_dir" : "%s/nvidia/ivfpq/results_nv_ivfpq_merge__reduce_anomalies_config_stimes_all__last_text2image_config" % CACHE_RESULTS_TOPLEVEL, 
         "export_fname": "public_w_cache_detect.csv",
         "cache_detect": True,
         "anomaly_explain": "https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/cuanns_ivfpq/ANOMALIES.md",
         "system_cost":  150000,
+        "cost_approved":False,
         "md_prefix":    "NV2",
         "status":       "final",
         "display_hw":   "NVidia GPU",
@@ -152,8 +165,8 @@ def process_subm( subm ):
     export_file = os.path.join( eval_subm_dir, SUBM_MAPPING[subm]["export_fname"] )
     print("EXP FILE", export_file)
     if not os.path.exists( export_file ):
-        print("path does not exist: ", export_file )
-        sys.exit(1)
+        print("export file path does not exist: ", export_file )
+        if not RE_EXPORT: sys.exit(1)
 
     # create export.csv from results directory as needed
     exported = False
@@ -201,7 +214,8 @@ def process_subm( subm ):
                                         pending = [],
                                         print_best=False )
         evaluator.eval_all(             save_summary=os.path.join(eval_subm_dir, "summary.json"),
-                                        save_evals=os.path.join(eval_subm_dir, "evals.json" ) )
+                                        save_evals=os.path.join(eval_subm_dir, "evals.json" ),
+                                        reject_anomalies=REJECT_ANOMALIES )
         evaluator.commit_baseline(      "t3/baseline2021.json")
         evaluator.show_summary(         savepath=os.path.join( eval_subm_dir, "summary.png" ))
     else:
@@ -216,7 +230,8 @@ def process_subm( subm ):
                                         pending = [],
                                         print_best=False )
         evaluator.eval_all(             save_summary=os.path.join(eval_subm_dir, "summary.json"),
-                                        save_evals=os.path.join(eval_subm_dir, "evals.json" ) )
+                                        save_evals=os.path.join(eval_subm_dir, "evals.json" ),
+                                        reject_anomalies=REJECT_ANOMALIES )
         evaluator.show_summary(         savepath=os.path.join( eval_subm_dir, "summary.png" ))
 
 def mklnka( val, fmt, subm, db, benchmark ):
@@ -225,15 +240,20 @@ def mklnka( val, fmt, subm, db, benchmark ):
         if "use_subm_dir" in SUBM_MAPPING[subm].keys() else subm
     eval_img = os.path.join( "https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021", use_subm, "%s_%s.png" % (db, benchmark) )
     print("eval img", val, fmt, subm, db, benchmark, "-->", eval_img)
-    lnk = "[%s](%s)" % ( fmt.format(val), eval_img )
+    if NO_EXT_LINKS: 
+        lnk = fmt.format(val)
+    else:
+        lnk = "[%s](%s)" % ( fmt.format(val), eval_img )
     return lnk 
 
-def mklnkr( idx, benchmark ):
+def mklnkr( idx, benchmark, approved=True ):
     links = {   "recall":"#recall-or-ap-rankings", 
                 "qps":"#throughput-rankings",
                 "power":"#power-rankings",
                 "cost":"#cost-rankings" }
     lnk = "[%d](%s)" % ( idx, links[benchmark] )
+    if not approved:
+        lnk = lnk + "\*\*"
     return lnk 
 
 
@@ -308,6 +328,8 @@ def produce_rankings(subms):
                 kee = "$" + SUBM_MAPPING[subm]['md_prefix']+"_"+ mapping[1]
                 subm_order = [ el[0] for el in orderings[mapping[0]] ]
                 rdct[kee] = mklnkr( subm_order.index(subm)+1, mapping[0] ) if subm in subm_order else "*NQ*"
+                if mapping[0]=="cost" and not SUBM_MAPPING[subm]["cost_approved"]: # deal with unnapproved cost
+                    rdct[kee] = mklnkr( subm_order.index(subm)+1, mapping[0], False ) if subm in subm_order else "*NQ*"
             kee = "$" + SUBM_MAPPING[subm]['md_prefix']+"_HW"
             rdct[kee] = SUBM_MAPPING[subm]["display_hw"]
             kee = "$" + SUBM_MAPPING[subm]['md_prefix']+"_TM"
@@ -319,9 +341,15 @@ def produce_rankings(subms):
             kee = "$" + SUBM_MAPPING[subm]['md_prefix']+"_EV"
             rdct[kee] = SUBM_MAPPING[subm]['evaluator']
             kee = "$" + SUBM_MAPPING[subm]['md_prefix']+"_AL"
-            rdct[kee] = SUBM_MAPPING[subm]['algo']
+            if NO_EXT_LINKS:
+                rdct[kee] = "-"
+            else:
+                rdct[kee] = SUBM_MAPPING[subm]['algo']
             kee = "$" + SUBM_MAPPING[subm]['md_prefix']+"_AN"
-            rdct[kee] = SUBM_MAPPING[subm]['analysis']
+            if NO_EXT_LINKS:
+                rdct[kee] = "-"
+            else:
+                rdct[kee] = SUBM_MAPPING[subm]['analysis']
    
             # anomaly 
             kee = "$" + SUBM_MAPPING[subm]['md_prefix']+"_AC"
@@ -359,7 +387,12 @@ def produce_rankings(subms):
                 # score
                 sc = rk[1]
                 kee = "$%s%d_SC" % ( mapping[benchmark], idx+1)
-                rdct[kee] = "baseline" if SUBM_MAPPING["baseline"]==subm else "%.3f" % sc if benchmark!="cost" else "${:,.2f}".format(sc)
+                rdct[kee] = "baseline" if SUBM_MAPPING["baseline"]==subm \
+                    else "%.0f" % sc if benchmark=="qps" \
+                    else "%.3f" % sc if benchmark!="cost" \
+                    else "${:,.2f}".format(sc)
+                if benchmark=="cost" and not SUBM_MAPPING[subm]["cost_approved"]: # deal with unapproved cost
+                    rdct[kee] = "baseline" if SUBM_MAPPING["baseline"]==subm else "${:,.2f}\*\*".format(sc)
                 # readme
                 rd = SUBM_MAPPING[subm]["readme"]
                 kee = "$%s%d_RD" % ( mapping[benchmark], idx+1)
@@ -369,7 +402,7 @@ def produce_rankings(subms):
                 dbmapping = { "recall":"R", "qps":"Q", "cost":"C", "power":"P" }
                 bestmapping = { "recall":"best_recall", "qps":"best_qps", "power":"best_wspq", "cost":"cost" }
                 bestidxmapping = { "recall":1, "qps":1, "power":2, "cost":0 }
-                bestformatmapping = { "recall": "{:,.5f}", "qps": "{:,.3f}", "power":"{:,.4f}", "cost":"${:,.2f}" }
+                bestformatmapping = { "recall": "{:,.5f}", "qps": "{:,.0f}", "power":"{:,.4f}", "cost":"${:,.2f}" }
                 DBS = { "deep-1B":"DP", "bigann-1B":"BA", "msturing-1B":"MT", "msspacev-1B":"MS", "text2image-1B":"TI", "ssnpp-1B":"FB" }
                 for db in DBS.keys():
                     kee = "$%s%s%d" % (DBS[db], dbmapping[benchmark], idx+1 )
@@ -413,7 +446,7 @@ def produce_rankings(subms):
                 dbmapping = { "recall":"R", "qps":"Q", "cost":"C", "power":"P" }
                 bestmapping = { "recall":"best_recall", "qps":"best_qps", "power":"best_wspq", "cost":"cost" }
                 bestidxmapping = { "recall":1, "qps":1, "power":2, "cost":0 }
-                bestformatmapping = { "recall": "{:,.5f}", "qps": "{:,.3f}", "power":"{:,.4f}", "cost":"${:,.2f}" }
+                bestformatmapping = { "recall": "{:,.5f}", "qps": "{:,.0f}", "power":"{:,.4f}", "cost":"${:,.2f}" }
                 DBS = { "deep-1B":"DP", "bigann-1B":"BA", "msturing-1B":"MT", "msspacev-1B":"MS", "text2image-1B":"TI", "ssnpp-1B":"FB" }
                 for db in DBS.keys():
                     kee = "$%s%s%d" % (DBS[db], dbmapping[benchmark], i+1 )
@@ -433,7 +466,7 @@ def produce_rankings(subms):
                     bestidxmapping = { "recall":1, "qps":1, "power":2, "cost":0 }
                     dbmapping = { "recall":"R", "qps":"Q", "cost":"C", "power":"P" }
                     bestmapping = { "recall":"best_recall", "qps":"best_qps", "power":"best_wspq", "cost":"cost" }
-                    bestformatmapping = { "recall": "{:,.5f}", "qps": "{:,.3f}", "power":"{:,.4f}", "cost":"${:,.2f}" }
+                    bestformatmapping = { "recall": "{:,.5f}", "qps": "{:,.0f}", "power":"{:,.4f}", "cost":"${:,.2f}" }
                     supported_dbs = SUBM_MAPPING[subm]["evals"].keys()
                     if db in supported_dbs:
                         best_val = SUBM_MAPPING[subm]["evals"][db][ bestmapping[benchmark] ]
@@ -461,6 +494,8 @@ def produce_rankings(subms):
                     kee = "$%s%d%s_V" % ( DBS[db], idx+1, dbmapping[benchmark])
                     fmt = bestformatmapping[benchmark]
                     kv = fmt.format(item[1]) if benchmark=="cost" else mklnka( item[1], fmt, item[0], db, benchmark )
+                    if benchmark=="cost" and not SUBM_MAPPING[item[0]]["cost_approved"]:
+                        kv = fmt.format(item[1]) + "\*\*"
                     #print("TOT COST item", db, idx, item[0], benchmark, item[1])
                     rdct[kee]=kv
                     #$DP1C_CX|$DP1C_OX|$DP1C_UC |$DP1C_UN      |$DP1C_KWT|
@@ -481,7 +516,7 @@ def produce_rankings(subms):
                         kee = "$%s%d%s_KWT" % ( DBS[db], idx+1, dbmapping[benchmark])
                         kv = "{:,.3f}".format(item[2][5]) #kwt
                         rdct[kee]=kv
-                     
+                    
                 for i in range(idx+1, TOTAL_SUBM):
                     kee = "$%s%d%s_SB" % ( DBS[db], i+1, dbmapping[benchmark] ) 
                     rdct[kee]="-"
@@ -524,6 +559,12 @@ def produce_rankings(subms):
     # replace offlabel status
     rdct["$OFFLABEL"] = "Official" if OFFICIAL else "Unofficial"
 
+    # replace 'reject anomaly' status
+    if REJECT_ANOMALIES:
+        rdct["$REJECT_ANOM"] = "After Rejecting Anomalies"
+    else:
+        rdct["$REJECT_ANOM"] = ""
+
     # load the leaderboard template
     f = open("t3/LEADERBOARDS.md.templ")
     lines = f.read()
@@ -534,18 +575,25 @@ def produce_rankings(subms):
     outp = lines
     for kee in rdct.keys():
         outp = outp.replace( kee, rdct[kee] )
-    f = open("t3/LEADERBOARDS.md","w")
+    out_file = "t3/LEADERBOARDS.md"
+    if REJECT_ANOMALIES: 
+        out_file = "t3/LEADERBOARDS_REJECT_ANOMALIES.md"
+    else:
+        out_file = "t3/LEADERBOARDS.md"
+    print("out_file", out_file)
+    f = open(out_file,"w")
     f.write(outp)
     f.flush()
     f.close()
-    print("Wrote new leaderboard README")
+    print("Wrote new leaderboard file->", out_file)
  
 if __name__ == "__main__":
 
     subms = [  "faiss_t3", "optanne_graphann", "gemini", "diskann", "cuanns_multigpu", "cuanns_ivfpq" ]
     #subms = [  "faiss_t3", "optanne_graphann", "gemini", "cuanns_multigpu", "cuanns_ivfpq" ]
     #subms = [ "cuanns_ivfpq" ]
-    subms = [ "optanne_graphann" ]
+    #subms = [ "optanne_graphann" ]
+    #subms = [ "gemini" ]
 
     # export and/or produce summary and evals json  
     if RE_EXPORT or PROCESS_CSV: 
