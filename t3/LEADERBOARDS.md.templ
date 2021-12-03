@@ -1,7 +1,6 @@
-# T3 Track Leaderboards ($OFFLABEL)
+# T3 Track Leaderboards $REJECT_ANOM ($OFFLABEL)
 
 Please note that all rankings are currently unofficial due to the following reasons:
-* We continue to take changes to algorithms and indexes until Dec 1, so scores and rankings are still subject to change.
 * All [open tasks and issues](TASKS_ISSUES_RESOLUTIONS.md) must be resolved.
 
 ## Final Rankings On Private Query Set
@@ -28,7 +27,9 @@ Please note that all rankings are currently unofficial due to the following reas
   * *NQ* = not qualified
   * *NA* = data is not yet available, or has not yet been processed
 
-* Anomalies are defined as queries that could potentially be the result of query response caching, a violation of the competition.  Our detection method looks for a 30% or more improvement in the batch query latency between the first and last query of a query group (5).  Participants have been given a chance to explain why detected anomalies (if any) are not a result of query response caching.
+* *Anomalies* are defined as queries that could potentially be the result of query response caching, a violation of the competition.  Our detection method looks for a 30% or more improvement in the batch query latency between the first and last query of a query group (5).  Participants have been given a chance to explain why detected anomalies (if any) are not a result of query response caching.  In general, our analysis did not uncover this symptom of systematic query response caching from any submission.  Also, if we throw out the anomalous data points, the [adjusted leaderboard rankings](LEADERBOARDS_REJECT_ANOMALIES.md) do not change even though some scores have changed slightly.
+
+* \*\*Nvidia has not yet approved the MSRP cost used for ranking, so participation in this benchmark is still pending.
 
 ### Rankings Per Metric
 
@@ -103,6 +104,8 @@ Please note that all rankings are currently unofficial due to the following reas
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
   * *inprog* = algorithm development still in progress
+
+* \*\*Nvidia has not yet approved the MSRP cost used for ranking, so participation in this benchmark is still pending.
 
 ### Rankings Per Database
 
@@ -181,6 +184,7 @@ Please note that all rankings are currently unofficial due to the following reas
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
   * *inprog* = algorithm development still in progress
+* \*\*Nvidia has not yet approved the MSRP cost used for ranking, so participation in this benchmark is still pending.
 
 #### BigANN
 
@@ -257,6 +261,7 @@ Please note that all rankings are currently unofficial due to the following reas
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
   * *inprog* = algorithm development still in progress
+* \*\*Nvidia has not yet approved the MSRP cost used for ranking, so participation in this benchmark is still pending.
 
 #### MSTuring
 
@@ -333,6 +338,7 @@ Please note that all rankings are currently unofficial due to the following reas
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
   * *inprog* = algorithm development still in progress
+* \*\*Nvidia has not yet approved the MSRP cost used for ranking, so participation in this benchmark is still pending.
 
 #### MSSpace
 
@@ -340,12 +346,12 @@ Please note that all rankings are currently unofficial due to the following reas
 
 |Rank|Submission                                             |Team                          |Hardware               |Status  |R@10     |
 |----|-------------------------------------------------------|------------------------------|-----------------------|--------|---------|
-|   1|[$MS1P_SB]($MS1P_RD)                                   |$MS1P_TM                      |$MS1P_HW               |$MS1P_ST|**$MS1P_V** |
-|   2|[$MS2P_SB]($MS2P_RD)                                   |$MS2P_TM                      |$MS2P_HW               |$MS2P_ST|**$MS2P_V** |
-|   3|[$MS3P_SB]($MS3P_RD)                                   |$MS3P_TM                      |$MS3P_HW               |$MS3P_ST|**$MS3P_V** |
-|   4|[$MS4P_SB]($MS4P_RD)                                   |$MS4P_TM                      |$MS4P_HW               |$MS4P_ST|**$MS4P_V** |
-|   5|[$MS5P_SB]($MS5P_RD)                                   |$MS5P_TM                      |$MS5P_HW               |$MS5P_ST|**$MS5P_V** |
-|   6|[$MS6P_SB]($MS6P_RD)                                   |$MS6P_TM                      |$MS6P_HW               |$MS6P_ST|**$MS6P_V** |
+|   1|[$MS1R_SB]($MS1R_RD)                                   |$MS1R_TM                      |$MS1R_HW               |$MS1R_ST|**$MS1R_V** |
+|   2|[$MS2R_SB]($MS2R_RD)                                   |$MS2R_TM                      |$MS2R_HW               |$MS2R_ST|**$MS2R_V** |
+|   3|[$MS3R_SB]($MS3R_RD)                                   |$MS3R_TM                      |$MS3R_HW               |$MS3R_ST|**$MS3R_V** |
+|   4|[$MS4R_SB]($MS4R_RD)                                   |$MS4R_TM                      |$MS4R_HW               |$MS4R_ST|**$MS4R_V** |
+|   5|[$MS5R_SB]($MS5R_RD)                                   |$MS5R_TM                      |$MS5R_HW               |$MS5R_ST|**$MS5R_V** |
+|   6|[$MS6R_SB]($MS6R_RD)                                   |$MS6R_TM                      |$MS6R_HW               |$MS6R_ST|**$MS6R_V** |
 
 * The operational point for ranking is 2000 QPS. We will use the highest recall for the search parameters that meet or exceed 2000 QPS.
 * Abbreviations used in chart:
@@ -409,6 +415,7 @@ Please note that all rankings are currently unofficial due to the following reas
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
   * *inprog* = algorithm development still in progress
+* \*\*Nvidia has not yet approved the MSRP cost used for ranking, so participation in this benchmark is still pending.
 
 #### Text2Image
 
@@ -485,6 +492,7 @@ Please note that all rankings are currently unofficial due to the following reas
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
   * *inprog* = algorithm development still in progress
+* \*\*Nvidia has not yet approved the MSRP cost used for ranking, so participation in this benchmark is still pending.
 
 #### FBSimSearchNet
 
@@ -545,7 +553,7 @@ Please note that all rankings are currently unofficial due to the following reas
 |Rank|Submission          |Team                          |Hardware             |Status  |Cost          |capex   |opex    |unit cost|units@100K qps|KwH*4yrs |
 |----|--------------------|------------------------------|---------------------|--------|--------------|--------|--------|---------|--------------|---------|
 |   1|[$FB1C_SB]($FB1C_RD)|$FB1C_TM                      |$FB1C_HW             |$FB1C_ST|**$FB1C_V**   |$FB1C_CX|$FB1C_OX|$FB1C_UC |$FB1C_UN      |$FB1C_KWT|
-|   2|[$FB2C_SB]($FB2C_RD)|$FB2C_TM                      |$FB2C_HW             |$FB2C_ST|**$FB2C_V**   |       -|       -|        -|             -|        -|       
+|   2|[$FB2C_SB]($FB2C_RD)|$FB2C_TM                      |$FB2C_HW             |$FB2C_ST|**$FB2C_V**   |$FB2C_CX|$FB2C_OX|$FB2C_UC |$FB2C_UN      |$FB2C_KWT|
 |   3|[$FB3C_SB]($FB3C_RD)|$FB3C_TM                      |$FB3C_HW             |$FB3C_ST|**$FB3C_V**   |       -|       -|        -|             -|        -|       
 |   4|[$FB4C_SB]($FB4C_RD)|$FB4C_TM                      |$FB4C_HW             |$FB4C_ST|**$FB4C_V**   |       -|       -|        -|             -|        -|       
 
@@ -560,4 +568,4 @@ Please note that all rankings are currently unofficial due to the following reas
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
   * *inprog* = algorithm development still in progress
-
+* \*\*Nvidia has not yet approved the MSRP cost used for ranking, so participation in this benchmark is still pending.

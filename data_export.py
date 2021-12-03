@@ -23,6 +23,10 @@ if __name__ == "__main__":
         action='store_true',
         help='Path to the output csv file')
     parser.add_argument(
+        '--private-query',
+        help='Use the private queries and ground truth',
+        action='store_true')
+    parser.add_argument(
         '--sensors',
         action='store_true',
         help='Export sensors data if available')
@@ -51,7 +55,7 @@ if __name__ == "__main__":
         dataset = DATASETS[dataset_name]()
         results = load_all_results(dataset_name)
         results = compute_metrics_all_runs(dataset, results, args.recompute, \
-                args.sensors, args.search_times)
+                args.sensors, args.search_times, args.private_query)
         cleaned = []
         for result in results:
             if 'k-nn' in result:
