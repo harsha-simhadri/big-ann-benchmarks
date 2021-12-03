@@ -57,8 +57,8 @@ def run_individual_query(algo, X, distance, count, run_count, search_type):
 
 def run(definition, dataset, count, run_count, rebuild,
         upload_index=False, download_index=False,
-        blob_prefix="", sas_string=""):
-    
+        blob_prefix="", sas_string="", private_query=False):
+
     algo = instantiate_algorithm(definition)
     assert not definition.query_argument_groups \
            or hasattr(algo, "set_query_arguments"), """\
@@ -70,7 +70,10 @@ function""" % (definition.module, definition.constructor, definition.arguments)
     
     ds = DATASETS[dataset]()
     #X_train = numpy.array(D['train'])
-    X =  ds.get_queries()
+    if not private_query:
+        X = ds.get_queries()
+    else:
+        X = ds.get_private_queries()
     distance = ds.distance()
     search_type = ds.search_type()
     print(f"Running {definition.algorithm} on {dataset}")
@@ -207,7 +210,10 @@ def run_from_cmdline(args=None):
     parser.add_argument(
         '--sas-string',
         help='SAS string to authenticate to Azure blob storage.')
-
+    parser.add_argument(
+        '--private-query',
+        help='Use the new set of private queries that were not released during the competition period.',
+        action="store_true")
     
     args = parser.parse_args(args)
     algo_args = json.loads(args.build)
@@ -229,13 +235,14 @@ def run_from_cmdline(args=None):
         disabled=False
     )
     run(definition, args.dataset, args.count, args.runs, args.rebuild,
-        args.upload_index, args.download_index, args.blob_prefix, args.sas_string)
+        args.upload_index, args.download_index, args.blob_prefix, args.sas_string,
+        args.private_query)
 
 
 def run_docker(definition, dataset, count, runs, timeout, rebuild,
         cpu_limit, mem_limit=None, t3=None, power_capture=None,
                upload_index=False, download_index=False,
-               blob_prefix="", sas_string=""):
+               blob_prefix="", sas_string="", private_query=False):
     cmd = ['--dataset', dataset,
            '--algorithm', definition.algorithm,
            '--module', definition.module,
@@ -254,6 +261,8 @@ def run_docker(definition, dataset, count, runs, timeout, rebuild,
         cmd.append("--download-index")
         cmd += ["--blob-prefix", blob_prefix]
         cmd += ["--sas-string", sas_string]
+    if private_query==True:
+        cmd.append("--private-query")
 
     cmd.append(json.dumps(definition.arguments))
     cmd += [json.dumps(qag) for qag in definition.query_argument_groups]
@@ -315,7 +324,7 @@ def run_docker(definition, dataset, count, runs, timeout, rebuild,
 def run_no_docker(definition, dataset, count, runs, timeout, rebuild,
                   cpu_limit, mem_limit=None, t3=False, power_capture=None,
                   upload_index=False, download_index=False,
-                  blob_prefix="", sas_string=""):
+                  blob_prefix="", sas_string="", private_query=False):
     cmd = ['--dataset', dataset,
            '--algorithm', definition.algorithm,
            '--module', definition.module,
@@ -334,6 +343,8 @@ def run_no_docker(definition, dataset, count, runs, timeout, rebuild,
         cmd.append("--download-index")
         cmd += ["--blob-prefix", blob_prefix]
         cmd += ["--sas-string", sas_string]
+    if private_query==True:
+        cmd.append("--private-query")
 
     cmd.append(json.dumps(definition.arguments))
     cmd += [json.dumps(qag) for qag in definition.query_argument_groups]
