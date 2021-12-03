@@ -209,9 +209,8 @@ def run_from_cmdline(args=None):
         help='SAS string to authenticate to Azure blob storage.')
     parser.add_argument(
         '--private-query',
-        help='Use the new set of private queries that were not released during the competition period.')
-    
-
+        help='Use the new set of private queries that were not released during the competition period.',
+        action="store_true")
     
     args = parser.parse_args(args)
     algo_args = json.loads(args.build)
@@ -257,7 +256,7 @@ def run_docker(definition, dataset, count, runs, timeout, rebuild,
         cmd.append("--download-index")
         cmd += ["--blob-prefix", blob_prefix]
         cmd += ["--sas-string", sas_string]
-    if private_query=True:
+    if private_query==True:
         cmd.append("--private-query")
 
     cmd.append(json.dumps(definition.arguments))
@@ -339,7 +338,7 @@ def run_no_docker(definition, dataset, count, runs, timeout, rebuild,
         cmd.append("--download-index")
         cmd += ["--blob-prefix", blob_prefix]
         cmd += ["--sas-string", sas_string]
-    if private_query=True:
+    if private_query==True:
         cmd.append("--private-query")
 
     cmd.append(json.dumps(definition.arguments))

@@ -148,7 +148,8 @@ def main():
     )
     parser.add_argument(
         '--private-query',
-        help='Use the new set of private queries that were not released during the competition period.'
+        help='Use the new set of private queries that were not released during the competition period.',
+        action='store_true'
     )
 
     

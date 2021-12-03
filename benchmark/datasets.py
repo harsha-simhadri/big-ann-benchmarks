@@ -245,7 +245,8 @@ class DatasetCompetitionFormat(Dataset):
             os.makedirs(self.basedir)
 
         # start with the small ones...
-        for fn in [self.qs_fn, self.gt_fn]:
+        #GW for fn in [self.qs_fn, self.gt_fn]:
+        for fn in [self.qs_fn, self.gt_fn, self.private_qs_url, self.private_gt_url]:
             if fn is None:
                 continue
             if fn.startswith("https://"):
@@ -335,6 +336,19 @@ class DatasetCompetitionFormat(Dataset):
         x = xbin_mmap(filename, dtype=self.dtype)
         assert x.shape == (self.private_nq, self.d)
         return sanitize(x)
+    
+    def get_private_groundtruth(self, k=None):
+        assert self.private_gt_fn is not None
+        fn = self.gt_fn.split("/")[-1]   # in case it's a URL
+        assert self.search_type() == "knn"
+
+        I, D = knn_result_read(os.path.join(self.basedir, fn))
+        assert I.shape[0] == self.nq
+        if k is not None:
+            assert k <= 100
+            I = I[:, :k]
+            D = D[:, :k]
+        return I, D
 
 subset_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/"
 

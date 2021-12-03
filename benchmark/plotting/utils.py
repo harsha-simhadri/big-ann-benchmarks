@@ -67,9 +67,12 @@ def compute_metrics(true_nn, res, metric_1, metric_2,
 
     return all_results
 
-def compute_metrics_all_runs(dataset, res, recompute=False, sensor_metrics=False):
+def compute_metrics_all_runs(dataset, res, recompute=False, sensor_metrics=False, private_query=False):
     try:
-        true_nn = dataset.get_groundtruth()
+        if private_query:
+            true_nn = dataset.get_private_groundtruth()
+        else:
+            true_nn = dataset.get_groundtruth()
     except:
         print(f"Groundtruth for {dataset} not found.")
         return
