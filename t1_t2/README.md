@@ -266,6 +266,7 @@ Algorithms will be ranked on how much their recall surpasses the baselines at th
 #### Results for T1
 The table lists best Recall/AP obtained at at least 10,000 QPS by algorithms in pull requests submitted before Nov 2021. All non-empty cells are derived from an author-published indices that succesfully ran on the standardized hardware with author-provided query configurations. Recall for bigann-1B does not count ties. This result is on the public query set.
 
+```
 -------------------------------------------------------------------------------------------------
 | PR  | Name      |bigann-1B  | deep-1B |	msspacev-1B |	msturing-1B |	ssnpp-1B  |	text2image-1B |
 |-----------------------------------------------------------------------------------------------|
@@ -277,13 +278,14 @@ The table lists best Recall/AP obtained at at least 10,000 QPS by algorithms in 
 |-----------------------------------------------------------------------------------------------|			
 |     | baseline  |	0.63451   | 0.65028 |	0.728861    | 0.703611    |	0.75378   |	0.069275      |
 |-----------------------------------------------------------------------------------------------}
-
+```
 
 
 #### Results for T2
 The table lists best Recall/AP obtained at at least 1,500 QPS by algorithms in pull requests submitted before Nov 2021. All non-empty cells are derived from an author-published indices that succesfully ran on the standardized hardware with author-provided query configurations. Recall for bigann-1B does not count ties. This result is on the public query set.
 
 
+```
 -------------------------------------------------------------------------------------------------
 | PR  | Name      |bigann-1B  | deep-1B |	msspacev-1B |	msturing-1B |	ssnpp-1B  |	text2image-1B |
 |-----------------------------------------------------------------------------------------------|
@@ -293,7 +295,7 @@ The table lists best Recall/AP obtained at at least 1,500 QPS by algorithms in p
 |-----------------------------------------------------------------------------------------------|
 |     | baseline |  0.94913	  | 0.93706 |	0.90095	    | 0.93564	    | 0.16274   |	0.48854       |
 |-----------------------------------------------------------------------------------------------|
-
+```
 
 ## For_Evaluators
 
