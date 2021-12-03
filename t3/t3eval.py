@@ -213,7 +213,7 @@ class Evaluator():
 
         print("Wrote new baseline json at %s" % save_path )
 
-    def show_summary(self, savepath=None):
+    def show_summary(self, savepath=None, public=True):
         '''Show the final benchmarks.'''
 
         if not self.evals:
@@ -229,7 +229,7 @@ class Evaluator():
         df = df.replace(np.nan,'')
         if self.verbose: print(df)
         
-        title = "BigANN Benchmarks Competition Summary For '%s'" % self.algoname
+        title = "BigANN Benchmarks Competition Summary For '%s' (%s)" % (self.algoname, "public" if public else "private" )
 
         # try to display a summary table when run in jupyter
         try:

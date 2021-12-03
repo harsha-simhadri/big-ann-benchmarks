@@ -13,7 +13,7 @@ RE_EXPORT               = False
 PROCESS_CSV             = True
 LEADERBOARD_GEN         = True
 
-PUBLIC                  = True # Set to False for private leaderboard gen
+PUBLIC                  = False # Set to False for private leaderboard gen
 REJECT_ANOMALIES        = False
 NO_EXT_LINKS            = False # Set to True for alternative leaderboards, such as reject anomalies
 
@@ -234,7 +234,8 @@ def process_subm( subm ):
                                         save_evals=os.path.join(eval_subm_dir, "%s_evals.json" % ( "public" if PUBLIC else "private" ) ),
                                         reject_anomalies=REJECT_ANOMALIES )
         evaluator.commit_baseline(      "t3/%s_baseline2021.json" % "public" if PUBLIC else "private" )
-        evaluator.show_summary(         savepath=os.path.join( eval_subm_dir, "%s_summary.png" % ( "public" if PUBLIC else "private" )))
+        evaluator.show_summary(         savepath=os.path.join( eval_subm_dir, "%s_summary.png" % ( "public" if PUBLIC else "private" )),
+                                        public= True if PUBLIC else False )
     else:
         # print("EVALUATOR", SUBM_MAPPING[subm])
         evaluator = t3eval.Evaluator(   subm, 
@@ -249,7 +250,8 @@ def process_subm( subm ):
         evaluator.eval_all(             save_summary=os.path.join(eval_subm_dir, "%s_summary.json" % ( "public" if PUBLIC else "private" )),
                                         save_evals=os.path.join(eval_subm_dir, "%s_evals.json" % ( "public" if PUBLIC else "private" )),
                                         reject_anomalies=REJECT_ANOMALIES )
-        evaluator.show_summary(         savepath=os.path.join( eval_subm_dir, "%s_summary.png" % ( "public" if PUBLIC else "private" )))
+        evaluator.show_summary(         savepath=os.path.join( eval_subm_dir, "%s_summary.png" % ( "public" if PUBLIC else "private" )),
+                                        public= True if PUBLIC else False )
 
 def mklnka( val, fmt, subm, db, benchmark ):
     if benchmark=="qps": benchmark="throughput"
@@ -622,7 +624,7 @@ if __name__ == "__main__":
     # load the evals json
     for subm in subms:
         use_subm = SUBM_MAPPING[subm]["use_subm_dir"]  if "use_subm_dir" in SUBM_MAPPING[subm].keys() else subm
-        jpath = "t3/eval_2021/%s/evals.json" % use_subm          
+        jpath = "t3/eval_2021/%s/%s_evals.json" % (use_subm, "public" if PUBLIC else "private" )
         with open(jpath) as json_file:
             SUBM_MAPPING[subm]["evals"] = json.load(json_file)
 
