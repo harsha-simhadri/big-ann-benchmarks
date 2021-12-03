@@ -82,12 +82,19 @@ class Evaluator():
         
         self.evals = {}
         for dataset in self.competition["datasets"]:
-            self.eval_dataset(dataset, reject_anomalies)
+            ret = self.eval_dataset(dataset, reject_anomalies)
+            if self.is_baseline and not ret:
+                raise Exception("Baseline needs to support all the datasets.")
+            
 
         num_qual_datasets = len( list(self.evals.keys() ) )
-        if num_qual_datasets< self.competition["min_qual_dsets"] and not self.is_baseline:
-            raise Exception("Submission does support enough datasets (%d/%d) to qualify." % 
-                (num_qual_datasets, len(self.competition["datasets"])))
+        if self.is_baseline:
+            if num_qual_datasets != 6:
+                raise Exception("Baseline needs to support all the datasets.")
+        else: # is_baseline = False
+            if num_qual_datasets< self.competition["min_qual_dsets"] and not self.is_baseline:
+                raise Exception("Submission does support enough datasets (%d/%d) to qualify." % 
+                    (num_qual_datasets, len(self.competition["datasets"])))
        
         if self.verbose: print("This submission has qualified for the competition.")
 
@@ -186,6 +193,7 @@ class Evaluator():
         for dataset in self.competition["datasets"]:
 
             s = self.summary[dataset]
+            print("S",dataset, s)
             baseline["datasets"][dataset] = {
                 "recall":       [ s[0] ],
                 "qps":          [ s[1] ],
@@ -288,9 +296,9 @@ class Evaluator():
         print("evaluating %s" % dataset)
 
         rows = self.df.loc[ self.df['dataset'] == dataset ] 
-        #if rows.shape[0]> self.competition["max_run_params"]:
-        #    print("Invalid number of run parameters at %d" % rows.shape[0])
-        #    return False
+        if rows.shape[0]> self.competition["max_run_params"]:
+            print("Invalid number of run parameters at %d" % rows.shape[0])
+            return False
 
         if len(rows)==0:
             if self.verbose: print("Warning: No data for %s present" % dataset)
@@ -312,13 +320,12 @@ class Evaluator():
             search_times = rows["search_times"].tolist()
             caching = rows["caching"].tolist()
             anomaly = [ True if el.strip()[0]=="1" else False for el in rows["caching"].tolist() ]
-            
-        # print("TOP CACHING", caching, anomaly)
-        critical_anomaly = []
 
         # get qualifying run parameters
-        # min_qps = self.competition["min_qps"]
-        min_qps = self.baseline["datasets"][dataset]["min-qps"] # The baseline informed min lives in baseline now
+        if self.is_baseline:
+            min_qps = self.competition["min_qps"]
+        else:
+            min_qps = self.baseline["datasets"][dataset]["min-qps"] # The baseline informed min lives in baseline now
         if self.verbose: print("for recall, min_qps=", min_qps)
         if reject_anomalies:
             print("WARNING: REJECT ANOMALIES for best_recall...")
@@ -342,8 +349,10 @@ class Evaluator():
         #
         # eval throughput benchmark
         #
-        # min_recall = self.competition["min_recall"]
-        min_recall = self.baseline["datasets"][dataset]["min-recall"] # The baseline informed min lives in baseline now
+        if self.is_baseline:
+            min_recall = self.competition["min_recall"]
+        else:
+            min_recall = self.baseline["datasets"][dataset]["min-recall"] # The baseline informed min lives in baseline now
         if self.verbose: print("for throughput, min_recall=", min_recall)
         if reject_anomalies:
             print("WARNING: REJECT ANOMALIES for best_qps...")

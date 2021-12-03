@@ -6,16 +6,23 @@ import pandas as pd
 from string import Template
 import t3eval
 
-RE_EXPORT               = False
+#
+# variables that affect LB generation
+#
+RE_EXPORT               = True
 PROCESS_CSV             = True
 LEADERBOARD_GEN         = True
 
+PUBLIC                  = False # Set to False for private leaderboard gen
 REJECT_ANOMALIES        = False
-NO_EXT_LINKS            = False
+NO_EXT_LINKS            = False # Set to True for alternative leaderboards, such as reject anomalies
 
 OFFICIAL                = False
 
-TOTAL_SUBM              = 10
+#
+# constants
+#
+TOTAL_SUBM              = 6
 COMP_RESULTS_TOPLEVEL   = "/Users/gwilliams/Projects/BigANN/competition_results"
 CACHE_RESULTS_TOPLEVEL  = "/Users/gwilliams/Projects/BigANN/cache_detect_results"
 T3_EVAL_TOPLEVEL        = "t3/eval_2021"
@@ -26,20 +33,22 @@ SUBM_MAPPING            = \
         "team":         "Facebook Research",
         # last - "results_dir":  "%s/faiss_t3/results.baseline_focused" % COMP_RESULTS_TOPLEVEL,
         # last - "export_fname": "public_focused.csv",
-        "results_dir":  "%s/faiss/results_faiss_stimes_all_dsets" % CACHE_RESULTS_TOPLEVEL,
-        "export_fname": "public_w_cache_detect.csv",
+        "results_dir":  "%s/faiss/public/results_faiss_stimes_all_dsets" % CACHE_RESULTS_TOPLEVEL if PUBLIC else \
+            "%s/faiss/private/results_private_4_dsets" % CACHE_RESULTS_TOPLEVEL,
+        "export_fname": "public_w_cache_detect.csv" if PUBLIC else \
+            "private_w_cache_detect.csv",
         "cache_detect": True,
         "anomaly_explain": "https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/faiss_t3/ANOMALIES.md",
         "system_cost":  22021.90,
         "cost_approved":True,
         "md_prefix":    "BS",
-        "status":       "final",
+        "status":       "final" if PUBLIC else "eval", 
         "display_hw":   "NVidia GPU",
         "readme":       "https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/faiss_t3/README.md",
         "org":          True,
         "evaluator":    "George Williams",
         "algo":         "[src](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/benchmark/algorithms/faiss_t3.py)",
-        "analysis":     "[nb](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/faiss_t3/EvalPublic.ipynb)"
+        "analysis":     "[nb](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/faiss_t3/EvalPublic.ipynb)" if PUBLIC else "NA"
     },
     "optanne_graphann": {
         "team":         "Intel",
@@ -185,9 +194,11 @@ def process_subm( subm ):
 
         # run the export command
         if SUBM_MAPPING[subm]["cache_detect"]:
-            export_cmd = "python data_export.py --recompute --sensors --search_times --detect_caching 0.3 --output='%s'" % export_file
+            export_cmd = "python data_export.py %s --recompute --sensors --search_times --detect_caching 0.3 --output='%s'" \
+                % ( " " if PUBLIC else "--private-query", export_file )
         else:
-            export_cmd = "python data_export.py --recompute --sensors --output='%s'" % export_file
+            export_cmd = "python data_export.py --recompute --sensors --output='%s'" \
+                % ( " " if PUBLIC else "--private-query", export_file )
         print("running export command->", export_cmd )
         stream = os.popen(export_cmd)
         print("result of export=", stream.read())
@@ -209,36 +220,37 @@ def process_subm( subm ):
                                         export_file,
                                         "t3/competition2021.json",
                                         system_cost= SUBM_MAPPING[subm]["system_cost"],
-                                        verbose=False,
+                                        verbose=True,
                                         is_baseline=True,
                                         pending = [],
                                         print_best=False )
-        evaluator.eval_all(             save_summary=os.path.join(eval_subm_dir, "summary.json"),
-                                        save_evals=os.path.join(eval_subm_dir, "evals.json" ),
+        evaluator.eval_all(             save_summary=os.path.join(eval_subm_dir, "%s_summary.json" % "public" if PUBLIC else "private"),
+                                        save_evals=os.path.join(eval_subm_dir, "%s_evals.json" % "public" if PUBLIC else "private" ),
                                         reject_anomalies=REJECT_ANOMALIES )
-        evaluator.commit_baseline(      "t3/baseline2021.json")
-        evaluator.show_summary(         savepath=os.path.join( eval_subm_dir, "summary.png" ))
+        evaluator.commit_baseline(      "t3/%s_baseline2021.json" % "public" if PUBLIC else "private" )
+        evaluator.show_summary(         savepath=os.path.join( eval_subm_dir, "%s_summary.png" % "public" if PUBLIC else "private" ))
     else:
-        print("EVALUATOR", SUBM_MAPPING[subm])
+        # print("EVALUATOR", SUBM_MAPPING[subm])
         evaluator = t3eval.Evaluator(   subm, 
                                         export_file,
                                         "t3/competition2021.json",
-                                        baseline_path="t3/baseline2021.json",
+                                        baseline_path="t3/%s_baseline2021.json" % "public" if PUBLIC else "private",
                                         system_cost= SUBM_MAPPING[subm]["system_cost"],
                                         verbose=False,
                                         is_baseline=False,
                                         pending = [],
                                         print_best=False )
-        evaluator.eval_all(             save_summary=os.path.join(eval_subm_dir, "summary.json"),
-                                        save_evals=os.path.join(eval_subm_dir, "evals.json" ),
+        evaluator.eval_all(             save_summary=os.path.join(eval_subm_dir, "%s_summary.json" % "public" if PUBLIC else "private" ),
+                                        save_evals=os.path.join(eval_subm_dir, "%s_evals.json" % "public" if PUBLIC else "private" ),
                                         reject_anomalies=REJECT_ANOMALIES )
-        evaluator.show_summary(         savepath=os.path.join( eval_subm_dir, "summary.png" ))
+        evaluator.show_summary(         savepath=os.path.join( eval_subm_dir, "%s_summary.png" % "public" if PUBLIC else "private" ))
 
 def mklnka( val, fmt, subm, db, benchmark ):
     if benchmark=="qps": benchmark="throughput"
     use_subm = SUBM_MAPPING[subm]["use_subm_dir"] \
         if "use_subm_dir" in SUBM_MAPPING[subm].keys() else subm
-    eval_img = os.path.join( "https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021", use_subm, "%s_%s.png" % (db, benchmark) )
+    eval_img = os.path.join( "https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021", \
+        use_subm, "%s_%s_%s.png" % ("public" if PUBLIC else "private", db, benchmark) )
     print("eval img", val, fmt, subm, db, benchmark, "-->", eval_img)
     if NO_EXT_LINKS: 
         lnk = fmt.format(val)
@@ -575,11 +587,11 @@ def produce_rankings(subms):
     outp = lines
     for kee in rdct.keys():
         outp = outp.replace( kee, rdct[kee] )
-    out_file = "t3/LEADERBOARDS.md"
+    out_file = "t3/LEADERBOARDS_%s.md" % "PUBLIC" if PUBLIC else "PRIVATE"
     if REJECT_ANOMALIES: 
-        out_file = "t3/LEADERBOARDS_REJECT_ANOMALIES.md"
+        out_file = "t3/LEADERBOARDS_%s_REJECT_ANOMALIES.md" % "PUBLIC" if PUBLIC else "PRIVATE"
     else:
-        out_file = "t3/LEADERBOARDS.md"
+        out_file = "t3/LEADERBOARDS_%s.md" % "PUBLIC" if PUBLIC else "PRIVATE"
     print("out_file", out_file)
     f = open(out_file,"w")
     f.write(outp)
@@ -594,12 +606,13 @@ if __name__ == "__main__":
     #subms = [ "cuanns_ivfpq" ]
     #subms = [ "optanne_graphann" ]
     #subms = [ "gemini" ]
+    subms = [ "faiss_t3" ]
 
     # export and/or produce summary and evals json  
     if RE_EXPORT or PROCESS_CSV: 
         for subm in subms:
-            if SUBM_MAPPING["baseline"] != subm: # baseline is set
-                process_subm(subm)
+            #GW if SUBM_MAPPING["baseline"] != subm: # baseline is set
+            process_subm(subm)
     
     # load the evals json
     for subm in subms:
