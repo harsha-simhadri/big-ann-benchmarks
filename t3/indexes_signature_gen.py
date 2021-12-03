@@ -28,12 +28,16 @@ def collect_files( path ):
 def get_signature( file ):
     '''produce a SHA256 hash of a (possible really large) file'''
     sha = hash.sha256()
-    with open(file, 'rb') as kali_file:
-        file_buffer = kali_file.read(BLOCKSIZE)
-        while len(file_buffer) > 0:
-            sha.update(file_buffer)
+    try:
+        with open(file, 'rb') as kali_file:
             file_buffer = kali_file.read(BLOCKSIZE)
-    return sha.hexdigest()
+            while len(file_buffer) > 0:
+                sha.update(file_buffer)
+                file_buffer = kali_file.read(BLOCKSIZE)
+        return sha.hexdigest()
+    except:
+        print("Problem with file", file)
+        return "-1"
 
 if __name__ == "__main__":
 
