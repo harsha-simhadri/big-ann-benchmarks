@@ -1,0 +1,227 @@
+random-xs:
+    faiss-t3:
+      docker-tag: billion-scale-benchmark-faiss_t3
+      module: benchmark.algorithms.faiss_t3
+      constructor: FaissT3
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          # the following args show all build arguments that can be provided to the t3 baseline.
+          args: |
+              [{"indexkey": "IVF5,SQ8",
+                "buildthreads": -1,
+                "by_residual": -1,
+                "add_bs": 100000,
+                "maxtrain": 0,
+                "clustering_niter": -1,
+                "add_splits": 1,
+                "no_precomputed_tables": true,
+                "searchthreads": -1,
+                "parallel_mode": 3,
+                "search_bs": 8192
+                }]
+          query-args: |
+              ["nprobe=1",
+               "nprobe=2",
+               "nprobe=4",
+               "nprobe=8",
+               "nprobe=16",
+               "nprobe=32",
+               "nprobe=64",
+               "nprobe=128",
+               "nprobe=256"]
+deep-1B:
+    faiss-t3: 
+      docker-tag: billion-scale-benchmark-faiss_t3
+      module: benchmark.algorithms.faiss_t3
+      constructor: FaissT3
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"indexkey": "IVF1048576,SQ8",
+                "url":"https://storage.googleapis.com/bigann/indexes/faiss/1.7.1/deep-1B.IVF1048576%2CSQ8.faissindex"}]
+          query-args: |
+              ["nprobe=1",
+               "nprobe=2",
+               "nprobe=4",
+               "nprobe=8",
+               "nprobe=16",
+               "nprobe=32",
+               "nprobe=64",
+               "nprobe=128",
+               "nprobe=256"]
+bigann-1B:
+    faiss-t3: 
+      docker-tag: billion-scale-benchmark-faiss_t3
+      module: benchmark.algorithms.faiss_t3
+      constructor: FaissT3
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"indexkey": "IVF1048576,SQ8",
+                "url":"https://storage.googleapis.com/bigann/indexes/faiss/1.7.1/bigann-1B.IVF1048576%2CSQ8.faissindex"}]
+          query-args: |
+              ["nprobe=1",
+               "nprobe=2",
+               "nprobe=4",
+               "nprobe=8",
+               "nprobe=16",
+               "nprobe=32",
+               "nprobe=64",
+               "nprobe=128",
+               "nprobe=256"]
+msspacev-1B:
+    faiss-t3: 
+      docker-tag: billion-scale-benchmark-faiss_t3
+      module: benchmark.algorithms.faiss_t3
+      constructor: FaissT3
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"indexkey": "IVF1048576,SQ8",
+                "url":"https://storage.googleapis.com/bigann/indexes/faiss/1.7.1/msspacev-1B.IVF1048576%2CSQ8.faissindex"}]
+          query-args: |
+              ["nprobe=1",
+               "nprobe=2",
+               "nprobe=4",
+               "nprobe=8",
+               "nprobe=16",
+               "nprobe=32",
+               "nprobe=64",
+               "nprobe=128",
+               "nprobe=256"]
+text2image-1B:
+    faiss-t3: 
+      docker-tag: billion-scale-benchmark-faiss_t3
+      module: benchmark.algorithms.faiss_t3
+      constructor: FaissT3
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"indexkey": "IVF1048576,SQ8",
+                "url":"https://storage.googleapis.com/bigann/indexes/faiss/1.7.1/text2image-1B.IVF1048576%2CSQ8.faissindex"}]
+          query-args: |
+              ["nprobe=1",
+               "nprobe=2",
+               "nprobe=4",
+               "nprobe=8",
+               "nprobe=16",
+               "nprobe=32",
+               "nprobe=64",
+               "nprobe=128",
+               "nprobe=256"]
+msturing-10M:
+    faiss-t3: 
+      docker-tag: billion-scale-benchmark-faiss_t3
+      module: benchmark.algorithms.faiss_t3
+      constructor: FaissT3
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"indexkey": "IVF1048576,SQ8",
+                "url":"https://storage.googleapis.com/bigann/indexes/faiss/1.7.1/msturing-10M.IVF1048576%2CSQ8.faissindex"}]
+          query-args: |
+              ["nprobe=1",
+               "nprobe=2",
+               "nprobe=4",
+               "nprobe=8",
+               "nprobe=16",
+               "nprobe=32",
+               "nprobe=64",
+               "nprobe=128",
+               "nprobe=256"]
+msturing-1B:
+    faiss-t3: 
+      docker-tag: billion-scale-benchmark-faiss_t3
+      module: benchmark.algorithms.faiss_t3
+      constructor: FaissT3
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"indexkey": "IVF1048576,SQ8",
+                "url":"https://storage.googleapis.com/bigann/indexes/faiss/1.7.1/msturing-1B.IVF1048576%2CSQ8.faissindex"}]
+          query-args: |
+              ["nprobe=1",
+               "nprobe=2",
+               "nprobe=4",
+               "nprobe=8",
+               "nprobe=16",
+               "nprobe=32",
+               "nprobe=64",
+               "nprobe=128",
+               "nprobe=256"]
+ssnpp-1M:
+    faiss-t3:
+      docker-tag: billion-scale-benchmark-faiss_t3
+      module: benchmark.algorithms.faiss_t3
+      constructor: FaissT3
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"indexkey": "OPQ32_128,IVF100_HNSW32,PQ32", 
+                "url":"https://storage.googleapis.com/bigann/indexes/faiss/1.7.1/ssnpp-1M.IVF1048576%2CSQ8.faissindex",
+                "parallel_mode": 2,
+                "add_splits": 0}]
+          query-args: |
+              ["nprobe=1",
+               "nprobe=2",
+               "nprobe=4",
+               "nprobe=8",
+               "nprobe=16",
+               "nprobe=32",
+               "nprobe=64",
+               "nprobe=128",
+               "nprobe=256"]
+ssnpp-10M:
+    faiss-t3:
+      docker-tag: billion-scale-benchmark-faiss_t3
+      module: benchmark.algorithms.faiss_t3
+      constructor: FaissT3
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"indexkey": "OPQ32_128,IVF1048576_HNSW32,PQ32", 
+                "url":"https://storage.googleapis.com/bigann/indexes/faiss/1.7.1/ssnpp-10M.OPQ32_128%2CIVF1048576_HNSW32%2CPQ32.faissindex",
+                "parallel_mode": 2,
+                "add_splits": 0}]
+          query-args: |
+              ["nprobe=1",
+               "nprobe=2",
+               "nprobe=4",
+               "nprobe=8",
+               "nprobe=16",
+               "nprobe=32",
+               "nprobe=64",
+               "nprobe=128",
+               "nprobe=256"]
+ssnpp-1B:
+    faiss-t3:
+      docker-tag: billion-scale-benchmark-faiss_t3
+      module: benchmark.algorithms.faiss_t3
+      constructor: FaissT3
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"indexkey": "IVF1048576,SQ8",
+                "url":"https://storage.googleapis.com/bigann/indexes/faiss/1.7.1/ssnpp-1B.IVF1048576%2CSQ8.faissindex",
+                "parallel_mode": 2,
+                "add_splits": 0}]
+          query-args: |
+              ["nprobe=1",
+               "nprobe=2",
+               "nprobe=4",
+               "nprobe=8",
+               "nprobe=16",
+               "nprobe=32",
+               "nprobe=64",
+               "nprobe=128",
+               "nprobe=256"]
