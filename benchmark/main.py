@@ -34,6 +34,7 @@ def positive_int(s):
 
 
 def run_worker(args, queue):
+    print("RW", args)
     while not queue.empty():
         definition = queue.get()
         memory_margin = 500e6  # reserve some extra memory for misc stuff
@@ -137,7 +138,7 @@ def main():
     parser.add_argument(
         '--download-index',
         help='Download index uploaded to Azure blob storage and run local queries.',
-        action='store_true')        
+        action='store_true')
     parser.add_argument(
         '--blob-prefix',
         help='Azure blob prefix to upload indices to and download indices from.'
@@ -148,10 +149,11 @@ def main():
     )
     parser.add_argument(
         '--private-query',
-        help='Use the new set of private queries that were not released during the competition period.'
+        help='Use the new set of private queries that were not released during the competition period.',
+        action='store_true'
     )
 
-    
+
     args = parser.parse_args()
     if args.timeout == -1:
         args.timeout = None

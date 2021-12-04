@@ -4,6 +4,8 @@ import itertools
 import numpy
 from benchmark.plotting.metrics import all_metrics as metrics
 from benchmark.sensors.power_capture import power_capture
+import traceback
+import sys
 
 def get_or_create_metrics(run):
     if 'metrics' not in run:
@@ -67,11 +69,17 @@ def compute_metrics(true_nn, res, metric_1, metric_2,
 
     return all_results
 
-def compute_metrics_all_runs(dataset, res, recompute=False, sensor_metrics=False):
+def compute_metrics_all_runs(dataset, res, recompute=False, 
+        sensor_metrics=False, search_times=False,
+        private_query=False):
     try:
-        true_nn = dataset.get_groundtruth()
+        if private_query:
+            true_nn = dataset.get_private_groundtruth()
+        else:
+            true_nn = dataset.get_groundtruth()
     except:
         print(f"Groundtruth for {dataset} not found.")
+        #traceback.print_exc()
         return
 
     search_type = dataset.search_type()
@@ -108,7 +116,9 @@ def compute_metrics_all_runs(dataset, res, recompute=False, sensor_metrics=False
             if search_type == "knn" and name == "ap" or\
                 search_type == "range" and name == "k-nn":
                 continue
-            if not sensor_metrics and name=="wspq": #don't process sensor_metrics by default
+            if not sensor_metrics and name=="wspq": #don't process power sensor_metrics by default
+                continue
+            if not search_times and name=="search_times": #don't process search_times by default
                 continue
             v = metric["function"](true_nn, run_nn, metrics_cache, properties)
             run_result[name] = v
