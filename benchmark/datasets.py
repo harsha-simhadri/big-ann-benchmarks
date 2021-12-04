@@ -247,7 +247,7 @@ class DatasetCompetitionFormat(Dataset):
     two versions of the file.
     """
 
-    def prepare(self, skip_data=False):
+    def prepare(self, skip_data=False, redownload=False):
         if not os.path.exists(self.basedir):
             os.makedirs(self.basedir)
 
@@ -261,26 +261,48 @@ class DatasetCompetitionFormat(Dataset):
             else:
                 sourceurl = os.path.join(self.base_url, fn)
                 outfile = os.path.join(self.basedir, fn)
-            if os.path.exists(outfile):
+            if os.path.exists(outfile) and not redownload:
                 print("file %s already exists" % outfile)
                 continue
             download(sourceurl, outfile)
+            if fn == self.qs_fn:
+                q = self.get_queries()
+                print("Downloaded to %s. shape=" % outfile,  q.shape)
+            elif fn == self.gt_fn:
+                if self.search_type()=="knn":    
+                    i,d = self.get_groundtruth()
+                    print("Downloaded to %s. shape=" % outfile, i.shape,d.shape)
+                else:
+                    g = self.get_groundtruth()
+                    print(type(g))
+                    print(len(g))
+                    print("Downloaded to %s. shape=" % outfile, g[0].shape)
 
         # private qs url
         if self.private_qs_url:
             outfile = os.path.join(self.basedir, self.private_qs_url.split("/")[-1])
-            if os.path.exists(outfile):
+            if os.path.exists(outfile) and not redownload:
                 print("file %s already exists" % outfile)
             else:
                 download(self.private_qs_url, outfile)
+                q = self.get_private_queries()
+                print("Downloaded to %s. shape=" % outfile, q.shape)
         
         # private gt url
         if self.private_gt_url:
             outfile = os.path.join(self.basedir, self.private_gt_url.split("/")[-1])
-            if os.path.exists(outfile):
+            if os.path.exists(outfile) and not redownload:
                 print("file %s already exists" % outfile)
             else:
                 download(self.private_gt_url, outfile)
+                if self.search_type()=="knn":
+                    i, d = self.get_private_groundtruth()
+                    print("Downloaded to %s. shape=" % outfile, i.shape, d.shape)
+                else:
+                    g = self.get_groundtruth()
+                    print(type(g))
+                    print(len(g))
+                    print("Downloaded to %s. shape=" % outfile, g[0].shape)
 
         if skip_data:
             return
@@ -307,6 +329,7 @@ class DatasetCompetitionFormat(Dataset):
             assert header[1] == self.d
             header[0] = self.nb
 
+
     def get_dataset_fn(self):
         fn = os.path.join(self.basedir, self.ds_fn)
         if os.path.exists(fn):
@@ -331,12 +354,12 @@ class DatasetCompetitionFormat(Dataset):
         return "knn"
 
     def get_groundtruth(self, k=None):
-        print("GG")
         assert self.gt_fn is not None
         fn = self.gt_fn.split("/")[-1]   # in case it's a URL
         assert self.search_type() == "knn"
 
         I, D = knn_result_read(os.path.join(self.basedir, fn))
+        #print("GG", I.shape, D.shape)
         assert I.shape[0] == self.nq
         if k is not None:
             assert k <= 100
@@ -351,6 +374,7 @@ class DatasetCompetitionFormat(Dataset):
     def get_queries(self):
         filename = os.path.join(self.basedir, self.qs_fn)
         x = xbin_mmap(filename, dtype=self.dtype)
+        #print("GQ", x.shape)
         assert x.shape == (self.nq, self.d)
         return sanitize(x)
 
@@ -359,6 +383,7 @@ class DatasetCompetitionFormat(Dataset):
         fn = self.private_qs_url.split("/")[-1]   # in case it's a URL
         filename = os.path.join(self.basedir, fn)
         x = xbin_mmap(filename, dtype=self.dtype, override_d=self.d)
+        #print("GPQ", x.shape)
         assert x.shape == (self.private_nq, self.d)
         return sanitize(x)
     
@@ -368,6 +393,7 @@ class DatasetCompetitionFormat(Dataset):
         assert self.search_type() == "knn"
 
         I, D = knn_result_read(os.path.join(self.basedir, fn))
+        #print("GPG", I.shape,D.shape)
         assert I.shape[0] == self.private_nq
         if k is not None:
             assert k <= 100
@@ -563,7 +589,8 @@ class MSSPACEV1B(DatasetCompetitionFormat):
 
         self.private_nq = 30000
         self.private_qs_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/spacev1b/private_query_30k.bin"
-        self.private_gt_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/spacev1b/public_query_gt100.bin"
+        #GW bug? self.private_gt_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/spacev1b/public_query_gt100.bin"
+        self.private_gt_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/spacev1b/private_query_gt100.bin"
 
     def distance(self):
         return "euclidean"

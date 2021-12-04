@@ -13,4 +13,4 @@ if __name__ == "__main__":
         help='skip downloading base vectors')
     args = parser.parse_args()
     ds = DATASETS[args.dataset]()
-    ds.prepare(True if args.skip_data else False)
+    ds.prepare(True if args.skip_data else False, redownload=True)
