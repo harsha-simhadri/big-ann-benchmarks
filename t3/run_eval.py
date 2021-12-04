@@ -10,11 +10,11 @@ import t3eval
 # variables that affect LB generation
 #
 RE_EXPORT               = False
-PROCESS_CSV             = True
+PROCESS_CSV             = False
 LEADERBOARD_GEN         = True
 
 PUBLIC                  = True # Set to False for private leaderboard gen
-REJECT_ANOMALIES        = True
+REJECT_ANOMALIES        = False
 
 OFFICIAL                = False
 
