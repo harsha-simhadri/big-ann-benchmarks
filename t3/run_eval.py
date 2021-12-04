@@ -13,7 +13,7 @@ RE_EXPORT               = False
 PROCESS_CSV             = True
 LEADERBOARD_GEN         = True
 
-PUBLIC                  = False # Set to False for private leaderboard gen
+PUBLIC                  = True # Set to False for private leaderboard gen
 REJECT_ANOMALIES        = False
 
 OFFICIAL                = False
