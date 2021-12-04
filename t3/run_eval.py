@@ -14,7 +14,7 @@ PROCESS_CSV             = True
 LEADERBOARD_GEN         = True
 
 PUBLIC                  = True # Set to False for private leaderboard gen
-REJECT_ANOMALIES        = False
+REJECT_ANOMALIES        = True
 
 #
 # constants
