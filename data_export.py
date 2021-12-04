@@ -23,6 +23,7 @@ if __name__ == "__main__":
         action='store_true',
         help='Path to the output csv file')
     parser.add_argument(
+
         '--private-query',
         help='Use the private queries and ground truth',
         action='store_true')
@@ -45,8 +46,6 @@ if __name__ == "__main__":
     if args.detect_caching!=None and not args.search_times:
         print("Error: --detect_caching requires the --search_times flag")
         sys.exit(1)
-
-    print(args)
 
     datasets = DATASETS.keys()
     dfs = []

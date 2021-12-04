@@ -72,6 +72,7 @@ def compute_metrics(true_nn, res, metric_1, metric_2,
 def compute_metrics_all_runs(dataset, res, recompute=False, 
         sensor_metrics=False, search_times=False,
         private_query=False):
+
     try:
         if private_query:
             true_nn = dataset.get_private_groundtruth()
