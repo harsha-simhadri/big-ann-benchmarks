@@ -15,7 +15,7 @@ Please consult the main [T3 track README](README.md) for more details about benc
 
 ## Public Dataset Leaderboard
 
-The leaderboard on the public dataset set is [here](LEADERBOARD_PUBLIC.md).
+The leaderboard on the public dataset set is [here](LEADERBOARDS_PUBLIC.md).
 
 Submissions are now *final* which means no more code, config, or index changes can be accepted.
 
