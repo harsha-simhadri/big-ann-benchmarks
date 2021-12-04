@@ -100,7 +100,7 @@ SUBM_MAPPING            = \
         "team":         "Microsoft Research India",
         "use_subm_dir": "diskann-bare-metal",
         "results_dir":  None,
-        "export_fname": "diskann-bare-metal-res-pruned.csv", 
+        "export_fname": "diskann-bare-metal-res-pruned.csv" if PUBLIC else False,
         "cache_detect": False,
         "not_part":     [ "power", "cost" ],
         "system_cost":  0,
@@ -118,10 +118,8 @@ SUBM_MAPPING            = \
         "team":         "NVidia",
         # last - "results_dir":  "%s/nvidia/cuanns_multigpu/results3.power_mon" % COMP_RESULTS_TOPLEVEL,
         # last = "export_fname": "results3.power_mon.csv", 
-        "results_dir":  ( "%s/nvidia/multigpu/public/results_nv_multi_stimes_all" % CACHE_RESULTS_TOPLEVEL ) if PUBLIC else \
-            "%s" % CACHE_RESULTS_TOPLEVEL, 
-        "export_fname": "public_w_cache_detect.csv" if PUBLIC else \
-            "private_w_cache_detect.csv",
+        "results_dir":  ( "%s/nvidia/multigpu/public/results_nv_multi_stimes_all" % CACHE_RESULTS_TOPLEVEL ) if PUBLIC else False,
+        "export_fname": "public_w_cache_detect.csv" if PUBLIC else False,
         "cache_detect": True,
         "not_part":     [ ],
         "anomaly_explain": "https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/cuanns_multigpu/ANOMALIES.md",
@@ -180,7 +178,7 @@ def process_subm( subm ):
     # check results dir is valid
     override_export = False
     results_dir = SUBM_MAPPING[subm]["results_dir"]
-    if results_dir == None:
+    if results_dir == None or results_dir==False:
         override_export = True
         if RE_EXPORT:
             print("WARNING: For %s, results dir missing so overriding export..." % subm)
@@ -188,13 +186,19 @@ def process_subm( subm ):
         print("results_dir path does not exist: ", results_dir )
         sys.exit(1)
   
-    # check there exists an data export file 
-    export_file = os.path.join( eval_subm_dir, SUBM_MAPPING[subm]["export_fname"] )
-    if not os.path.exists( export_file ):
-        print("export file path does not exist: ", export_file )
-        if not RE_EXPORT: sys.exit(1)
+    # check there exists an data export file
+    override_eval = False
+    if SUBM_MAPPING[subm]["export_fname"]==False:
+        print("No export_fname for", subm, "skipping any export")
+        override_export=True
+        override_eval = True
     else:
-        print("export file exists: ", export_file )
+        export_file = os.path.join( eval_subm_dir, SUBM_MAPPING[subm]["export_fname"] )
+        if not os.path.exists( export_file ):
+            print("export file path does not exist: ", export_file )
+            if not RE_EXPORT: sys.exit(1)
+        else:
+            print("export file exists: ", export_file )
 
     # create export.csv from results directory as needed
     exported = False
@@ -230,10 +234,13 @@ def process_subm( subm ):
             sys.exit(1)
         exported = True    
     else:
-        print("not running data export, export file located at %s" % export_file)
+        print("not running data export for", subm)
 
     # do eval
-    if SUBM_MAPPING["baseline"] == subm: # it's the baseline 
+    if override_eval:
+        print("Skipping eval for", subm)
+        return False
+    elif SUBM_MAPPING["baseline"] == subm: # it's the baseline 
         evaluator = t3eval.Evaluator(   subm, 
                                         export_file,
                                         "t3/competition2021.json",
@@ -250,6 +257,7 @@ def process_subm( subm ):
                                         skipdb=SKIP_DB)
         evaluator.show_summary(         savepath=os.path.join( eval_subm_dir, "%s_summary.png" % ( "public" if PUBLIC else "private" )),
                                         public= True if PUBLIC else False )
+        return True
     else:
         # print("EVALUATOR", SUBM_MAPPING[subm])
         evaluator = t3eval.Evaluator(   subm, 
@@ -267,6 +275,7 @@ def process_subm( subm ):
                                         skipdb=SKIP_DB)
         evaluator.show_summary(         savepath=os.path.join( eval_subm_dir, "%s_summary.png" % ( "public" if PUBLIC else "private" )),
                                         public= True if PUBLIC else False )
+        return True
 
 def mklnka( val, fmt, subm, db, benchmark ):
     if benchmark=="qps": benchmark="throughput"
@@ -274,7 +283,7 @@ def mklnka( val, fmt, subm, db, benchmark ):
         if "use_subm_dir" in SUBM_MAPPING[subm].keys() else subm
     eval_img = os.path.join( "https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021", \
         use_subm, ( "%s_%s.png" % ( db, benchmark) ) if PUBLIC else ( "private_%s_%s.png" % ( db, benchmark) ) )
-    print("eval img", val, fmt, subm, db, benchmark, "-->", eval_img)
+    #print("eval img", val, fmt, subm, db, benchmark, "-->", eval_img)
     if REJECT_ANOMALIES: 
         lnk = fmt.format(val)
     else:
@@ -302,7 +311,11 @@ def produce_rankings(subms):
 
         # get the data from summary csv
         for subm in subms:
-      
+    
+                if not SUBM_MAPPING[subm]["evals"]:
+                    print("WARNING: no evals found for", subm)
+                    continue                   
+  
                 subm_dir = SUBM_MAPPING[subm]["use_subm_dir"] \
                     if "use_subm_dir" in SUBM_MAPPING[subm].keys() else subm
                 eval_subm_dir = os.path.join( T3_EVAL_TOPLEVEL, subm_dir )
@@ -388,7 +401,7 @@ def produce_rankings(subms):
    
             # anomaly 
             kee = "$" + SUBM_MAPPING[subm]['md_prefix']+"_AC"
-            if SUBM_MAPPING[subm]['cache_detect']:
+            if SUBM_MAPPING[subm]['cache_detect'] and SUBM_MAPPING[subm]['evals']:
                 ac = sum( [ el[1]['cache'][0] for el in SUBM_MAPPING[subm]['evals'].items() if el[0]!="summary" ] )
                 tc = sum( [ el[1]['cache'][1] for el in SUBM_MAPPING[subm]['evals'].items() if el[0]!="summary" ] )
                 if ac>0:
@@ -505,7 +518,7 @@ def produce_rankings(subms):
                     dbmapping = { "recall":"R", "qps":"Q", "cost":"C", "power":"P" }
                     bestmapping = { "recall":"best_recall", "qps":"best_qps", "power":"best_wspq", "cost":"cost" }
                     bestformatmapping = { "recall": "{:,.5f}", "qps": "{:,.0f}", "power":"{:,.4f}", "cost":"${:,.2f}" }
-                    supported_dbs = SUBM_MAPPING[subm]["evals"].keys()
+                    supported_dbs = SUBM_MAPPING[subm]["evals"].keys() if SUBM_MAPPING[subm]['evals'] else []
                     if db in supported_dbs:
                         best_val = SUBM_MAPPING[subm]["evals"][db][ bestmapping[benchmark] ]
                         val = best_val[ bestidxmapping[benchmark] ] 
@@ -558,7 +571,7 @@ def produce_rankings(subms):
                     lastidx = idx
 
                 idx = lastidx
-                print("idx", idx)   
+                #print("idx", idx)   
                 for i in range(idx+1, TOTAL_SUBM):
                     kee = "$%s%d%s_SB" % ( DBS[db], i+1, dbmapping[benchmark] ) 
                     rdct[kee]="-"
@@ -643,21 +656,29 @@ if __name__ == "__main__":
         #subms = [ "optanne_graphann" ]
         #subms = [ "gemini" ]
     else: #PRIVATE
-        subms = [ "gemini", "faiss_t3", "cuanns_ivfpq", "optanne_graphann" ]
+        subms = [  "faiss_t3", "optanne_graphann", "gemini", "diskann", "cuanns_multigpu", "cuanns_ivfpq" ]
+        #subms = [ "gemini", "faiss_t3", "cuanns_ivfpq", "optanne_graphann" ]
         # subms = [ "gemini" ]
 
     # export and/or produce summary and evals json  
     if RE_EXPORT or PROCESS_CSV: 
         for subm in subms:
             #GW if SUBM_MAPPING["baseline"] != subm: # baseline is set
-            process_subm(subm)
+            ret = process_subm(subm)
+            if not ret:
+                print("WARNING: This submission is not participating in all benchmarks", subm)
+                SUBM_MAPPING[subm]["not_part"] = ["recall","qps","power","cost"]
     
     # load the evals json
     for subm in subms:
         use_subm = SUBM_MAPPING[subm]["use_subm_dir"]  if "use_subm_dir" in SUBM_MAPPING[subm].keys() else subm
         jpath = "t3/eval_2021/%s/%s_evals.json" % (use_subm, "public" if PUBLIC else "private" )
-        with open(jpath) as json_file:
-            SUBM_MAPPING[subm]["evals"] = json.load(json_file)
+        if os.path.exists(jpath):
+            with open(jpath) as json_file:
+                SUBM_MAPPING[subm]["evals"] = json.load(json_file)
+        else:
+            print("WARNING: No evals json for", subm)
+            SUBM_MAPPING[subm]["evals"] = False
 
     if LEADERBOARD_GEN:
         produce_rankings(subms)
