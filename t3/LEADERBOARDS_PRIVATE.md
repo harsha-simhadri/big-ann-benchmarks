@@ -17,7 +17,8 @@ Please note that all rankings and winners are unofficial until all [open tasks a
 
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
-  * *final* = final submission
+  * *eval* = final submissions are being evaluated.
+  * *final* = final submission and ranking.
   * *NQ* = not qualified
   * *NA* = data is not yet available, or has not yet been processed
 
@@ -42,7 +43,8 @@ Please note that all rankings and winners are unofficial until all [open tasks a
 * The ranking is based on the score, which is the sum of benchmark improvements of qualifying databases (shown in specific database columns after the score column.)
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
-  * *final* = final submission
+  * *eval* = final submissions are being evaluated.
+  * *final* = final submission and ranking.
 
 #### Throughput Rankings
 
@@ -59,7 +61,8 @@ Please note that all rankings and winners are unofficial until all [open tasks a
 * The ranking is based on the score, which is the sum of benchmark improvements of qualifying databases (shown in specific database columns after the score column.)
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
-  * *final* = final submission
+  * *eval* = final submissions are being evaluated.
+  * *final* = final submission and ranking.
 
 #### Power Rankings 
 
@@ -76,7 +79,8 @@ Please note that all rankings and winners are unofficial until all [open tasks a
 * The ranking is based on the score, which is the sum of benchmark improvements of qualifying databases (shown in specific database columns after the score column.)
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
-  * *final* = final submission
+  * *eval* = final submissions are being evaluated.
+  * *final* = final submission and ranking.
 
 #### Cost Rankings 
 
@@ -93,7 +97,8 @@ Please note that all rankings and winners are unofficial until all [open tasks a
 * The ranking is based on the score, which is the sum of benchmark improvements of qualifying databases (shown in specific database columns after the score column.)
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
-  * *final* = final submission
+  * *eval* = final submissions are being evaluated.
+  * *final* = final submission and ranking.
 
 * \*\*Nvidia has not yet approved the MSRP cost used for ranking, so participation in this benchmark is still pending.
 
@@ -115,7 +120,8 @@ Please note that all rankings and winners are unofficial until all [open tasks a
 * The operational point for ranking is 2000 QPS. We will use the highest recall for the search parameters that meet or exceed 2000 QPS.
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
-  * *final* = final submission
+  * *eval* = final submissions are being evaluated.
+  * *final* = final submission and ranking.
 
 ##### Deep1B Throughput Rankings 
 
@@ -131,7 +137,8 @@ Please note that all rankings and winners are unofficial until all [open tasks a
 * The operational point for ranking is 0.90 recall@10. We will use the highest throughput for the search parameters that meet or exceed 0.90 recall@10.
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
-  * *final* = final submission
+  * *eval* = final submissions are being evaluated.
+  * *final* = final submission and ranking.
 
 ##### Deep1B Power Rankings 
 
@@ -147,7 +154,8 @@ Please note that all rankings and winners are unofficial until all [open tasks a
 * The operational point for ranking is 0.90 recall@10. We will use the lowest power consumption for the search parameters that meet or exceed 0.90 recall@10.
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
-  * *final* = final submission
+  * *eval* = final submissions are being evaluated.
+  * *final* = final submission and ranking.
 
 ##### Deep1B Cost Rankings 
 
@@ -169,7 +177,8 @@ Please note that all rankings and winners are unofficial until all [open tasks a
   * Opex = (total queries over 4 years) * KwH/query * $0.10/KwH 
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
-  * *final* = final submission
+  * *eval* = final submissions are being evaluated.
+  * *final* = final submission and ranking.
 * \*\*Nvidia has not yet approved the MSRP cost used for ranking, so participation in this benchmark is still pending.
 
 #### BigANN
@@ -188,7 +197,8 @@ Please note that all rankings and winners are unofficial until all [open tasks a
 * The operational point for ranking is 2000 QPS. We will use the highest recall for the search parameters that meet or exceed 2000 QPS.
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
-  * *final* = final submission
+  * *eval* = final submissions are being evaluated.
+  * *final* = final submission and ranking.
 
 ##### BigANN Throughput Rankings
 
@@ -204,7 +214,8 @@ Please note that all rankings and winners are unofficial until all [open tasks a
 * The operational point for ranking is 0.90 recall@10. We will use the highest throughput for the search parameters that meet or exceed 0.90 recall@10.
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
-  * *final* = final submission
+  * *eval* = final submissions are being evaluated.
+  * *final* = final submission and ranking.
 
 ##### BigANN Power Rankings
 
@@ -220,7 +231,8 @@ Please note that all rankings and winners are unofficial until all [open tasks a
 * The operational point for ranking is 0.90 recall@10. We will use the lowest power consumption for the search parameters that meet or exceed 0.90 recall@10.
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
-  * *final* = final submission
+  * *eval* = final submissions are being evaluated.
+  * *final* = final submission and ranking.
 
 ##### BigANN Cost Rankings
 
@@ -242,7 +254,8 @@ Please note that all rankings and winners are unofficial until all [open tasks a
   * Opex = (total queries over 4 years) * KwH/query * $0.10/KwH
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
-  * *final* = final submission
+  * *eval* = final submissions are being evaluated.
+  * *final* = final submission and ranking.
 * \*\*Nvidia has not yet approved the MSRP cost used for ranking, so participation in this benchmark is still pending.
 
 #### MSTuring
@@ -261,7 +274,8 @@ Please note that all rankings and winners are unofficial until all [open tasks a
 * The operational point for ranking is 2000 QPS. We will use the highest recall for the search parameters that meet or exceed 2000 QPS.
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
-  * *final* = final submission
+  * *eval* = final submissions are being evaluated.
+  * *final* = final submission and ranking.
 
 ##### MSTuring Throughput Rankings
 
@@ -277,7 +291,8 @@ Please note that all rankings and winners are unofficial until all [open tasks a
 * The operational point for ranking is 0.90 recall@10. We will use the highest throughput for the search parameters that meet or exceed 0.90 recall@10.
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
-  * *final* = final submission
+  * *eval* = final submissions are being evaluated.
+  * *final* = final submission and ranking.
 
 ##### MSTuring Power Rankings
 
@@ -293,7 +308,8 @@ Please note that all rankings and winners are unofficial until all [open tasks a
 * The operational point for ranking is 0.90 recall@10. We will use the lowest power consumption for the search parameters that meet or exceed 0.90 recall@10.
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
-  * *final* = final submission
+  * *eval* = final submissions are being evaluated.
+  * *final* = final submission and ranking.
 
 ##### MSTuring Cost Rankings
 
@@ -315,7 +331,8 @@ Please note that all rankings and winners are unofficial until all [open tasks a
   * Opex = (total queries over 4 years) * KwH/query * $0.10/KwH
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
-  * *final* = final submission
+  * *eval* = final submissions are being evaluated.
+  * *final* = final submission and ranking.
 * \*\*Nvidia has not yet approved the MSRP cost used for ranking, so participation in this benchmark is still pending.
 
 #### MSSpace
@@ -334,7 +351,8 @@ Please note that all rankings and winners are unofficial until all [open tasks a
 * The operational point for ranking is 2000 QPS. We will use the highest recall for the search parameters that meet or exceed 2000 QPS.
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
-  * *final* = final submission
+  * *eval* = final submissions are being evaluated.
+  * *final* = final submission and ranking.
 
 ##### MSSpace Throughput Rankings
 
@@ -350,7 +368,8 @@ Please note that all rankings and winners are unofficial until all [open tasks a
 * The operational point for ranking is 0.9 recall@10. We will use the highest throughput for the search parameters that meet or exceed 0.9 recall@10.
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
-  * *final* = final submission
+  * *eval* = final submissions are being evaluated.
+  * *final* = final submission and ranking.
 
 ##### MSSpace Power Rankings
 
@@ -366,7 +385,8 @@ Please note that all rankings and winners are unofficial until all [open tasks a
 * The operational point for ranking is 0.9 recall@10. We will use the lowest power consumption for the search parameters that meet or exceed 0.9 recall@10.
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
-  * *final* = final submission
+  * *eval* = final submissions are being evaluated.
+  * *final* = final submission and ranking.
 
 ##### MSSpace Cost Rankings
 
@@ -388,7 +408,8 @@ Please note that all rankings and winners are unofficial until all [open tasks a
   * Opex = (total queries over 4 years) * KwH/query * $0.10/KwH
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
-  * *final* = final submission
+  * *eval* = final submissions are being evaluated.
+  * *final* = final submission and ranking.
 * \*\*Nvidia has not yet approved the MSRP cost used for ranking, so participation in this benchmark is still pending.
 
 #### Text2Image
@@ -407,7 +428,8 @@ Please note that all rankings and winners are unofficial until all [open tasks a
 * The operational point for ranking is 2000 QPS. We will use the highest recall for the search parameters that meet or exceed 2000 QPS.
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
-  * *final* = final submission
+  * *eval* = final submissions are being evaluated.
+  * *final* = final submission and ranking.
 
 ##### Text2Image Throughput Rankings
 
@@ -423,7 +445,8 @@ Please note that all rankings and winners are unofficial until all [open tasks a
 * The operational point for ranking is 0.860 recall@10. We will use the highest throughput for the search parameters that meet or exceed 0.860 recall@10.
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
-  * *final* = final submission
+  * *eval* = final submissions are being evaluated.
+  * *final* = final submission and ranking.
 
 ##### Text2Image Power Rankings
 
@@ -439,7 +462,8 @@ Please note that all rankings and winners are unofficial until all [open tasks a
 * The operational point for ranking is 0.86 recall@10. We will use the lowest power consumption for the search parameters that meet or exceed 0.86 recall@10.
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
-  * *final* = final submission
+  * *eval* = final submissions are being evaluated.
+  * *final* = final submission and ranking.
 
 ##### Text2Image Cost Rankings
 
@@ -461,7 +485,8 @@ Please note that all rankings and winners are unofficial until all [open tasks a
   * Opex = (total queries over 4 years) * KwH/query * $0.10/KwH
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
-  * *final* = final submission
+  * *eval* = final submissions are being evaluated.
+  * *final* = final submission and ranking.
 * \*\*Nvidia has not yet approved the MSRP cost used for ranking, so participation in this benchmark is still pending.
 
 #### FBSimSearchNet
@@ -480,7 +505,8 @@ Please note that all rankings and winners are unofficial until all [open tasks a
 * The operational point for ranking is 2000 QPS. We will use the highest recall for the search parameters that meet or exceed 2000 QPS.
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
-  * *final* = final submission
+  * *eval* = final submissions are being evaluated.
+  * *final* = final submission and ranking.
 
 ##### FBSimSearchNet Throughput Rankings
 
@@ -496,7 +522,8 @@ Please note that all rankings and winners are unofficial until all [open tasks a
 * The operational point for ranking is 0.9 recall@10. We will use the highest throughput for the search parameters that meet or exceed 0.9 average precision.
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
-  * *final* = final submission
+  * *eval* = final submissions are being evaluated.
+  * *final* = final submission and ranking.
 
 
 ##### FBSimSearchNet Power Rankings
@@ -513,7 +540,8 @@ Please note that all rankings and winners are unofficial until all [open tasks a
 * The operational point for ranking is 0.9 recall@10. We will use the lowest power consumption for the search parameters that meet or exceed 0.9 average precision.
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
-  * *final* = final submission
+  * *eval* = final submissions are being evaluated.
+  * *final* = final submission and ranking.
 
 ##### FBSimSearchNet Cost Rankings
 
@@ -533,5 +561,6 @@ Please note that all rankings and winners are unofficial until all [open tasks a
   * Opex = (total queries over 4 years) * KwH/query * $0.10/KwH
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
-  * *final* = final submission
+  * *eval* = final submissions are being evaluated.
+  * *final* = final submission and ranking.
 * \*\*Nvidia has not yet approved the MSRP cost used for ranking, so participation in this benchmark is still pending.
