@@ -14,9 +14,7 @@ PROCESS_CSV             = True
 LEADERBOARD_GEN         = True
 
 PUBLIC                  = True # Set to False for private leaderboard gen
-REJECT_ANOMALIES        = False
-
-OFFICIAL                = False
+REJECT_ANOMALIES        = True
 
 #
 # constants
@@ -261,7 +259,7 @@ def mklnka( val, fmt, subm, db, benchmark ):
     use_subm = SUBM_MAPPING[subm]["use_subm_dir"] \
         if "use_subm_dir" in SUBM_MAPPING[subm].keys() else subm
     eval_img = os.path.join( "https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021", \
-        use_subm, "%s_%s_%s.png" % ("public" if PUBLIC else "private", db, benchmark) )
+        use_subm, ( "%s_%s.png" % ( db, benchmark) ) if PUBLIC else ( "private_%s_%s.png" % ( db, benchmark) ) )
     #print("eval img", val, fmt, subm, db, benchmark, "-->", eval_img)
     if REJECT_ANOMALIES: 
         lnk = fmt.format(val)
@@ -583,7 +581,7 @@ def produce_rankings(subms):
     rdct["$LBTYPE"] = "Public" if PUBLIC else "Private"
 
     # replace offlabel status
-    rdct["$OFFLABEL"] = "Official" if OFFICIAL else "Unofficial"
+    # rdct["$OFFLABEL"] = "Official" if OFFICIAL else "Unofficial"
 
     # replace 'reject anomaly' status
     if REJECT_ANOMALIES:
