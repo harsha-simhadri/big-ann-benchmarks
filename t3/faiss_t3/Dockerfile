@@ -6,7 +6,7 @@ ARG PATH="/root/miniconda3/bin:${PATH}"
 
 # CONDA
 
-RUN apt-get update  && apt-get install -y wget # libopenblas-base libopenblas-dev libpython3-dev swig python3-dev libssl-dev wget git
+RUN apt-get update  && apt-get install -y wget build-essential git 
 
 RUN wget \
     https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
@@ -14,14 +14,12 @@ RUN wget \
     && bash Miniconda3-latest-Linux-x86_64.sh -b \
     && rm -f Miniconda3-latest-Linux-x86_64.sh \
     && conda --version \
-    && conda install -c pytorch faiss-gpu cudatoolkit=11.0
+    && conda install -c pytorch python=3.6.9 faiss-gpu cudatoolkit=11.0
 
 RUN conda --version && which conda && which python && which pip3
 
 # BIGANN
 
-RUN apt-get update
-RUN apt-get install -y python3-numpy python3-scipy python3-pip build-essential git
 RUN pip3 install -U pip
 
 WORKDIR /home/app
