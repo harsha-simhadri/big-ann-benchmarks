@@ -9,7 +9,7 @@ We rank participants based on 4 different but inter-related benchmarks:
 
 We maintain two sets of leaderboards that rank participants on all benchmarks:
 * [One based on a public query dataset](LEADERBOARDS_PUBLIC.md) in which participants had access during the competition.
-* One based on a private query dataet for final evaluation.
+* [One based on a private query dataet](LEADERBOARDS_PRIVATE.md) currently being evaluated.
 
 Please consult the main [T3 track README](README.md) for more details about benchmarks and ranking methodology.
 
@@ -22,9 +22,17 @@ We would like to congratulate all the winners of this part of the competition:
 * Yong Wong (NVidia)
 * Akira Naruse (NVidia))
 
-We are in the process of resolving the remaining issues and tasks.  Upon completion, we will make the winners announcements official.  Please revisit this page again soon for more updates.
+We are in the process of resolving the remaining issues and tasks.  
+
+Upon completion, we will make these winners and rankings official.  
+
+Please revisit this page again soon for more updates.
 
 ## Private Dataset Leaderboard Status
 
-All submissions are currently being evaluated using the private data sets.  Please revisit this page again soon for more updates.
+The status of the leaderboards and rankings on the private dataset lives [here](LEADERBOARDS_PRIVATE.md).
+
+All submissions are currently being evaluated using the private data sets so the scores (and rankings) will likely change as evaluation proceeds  
+
+Please revisit this page again soon for more updates.
 
