@@ -91,9 +91,16 @@ def ivecs_read(fname):
     d = a[0]
     return a.reshape(-1, d + 1)[:, 1:].copy()
 
-def xbin_mmap(fname, dtype, maxn=-1):
+def xbin_mmap(fname, dtype, maxn=-1, override_d=None):
     """ mmap the competition file format for a given type of items """
     n, d = map(int, np.fromfile(fname, dtype="uint32", count=2))
+
+    # HACK - to handle improper header in file for private deep-1B
+    if override_d and override_d != d:
+        print("Warning: xbin_mmap map returned d=%s, but overridig with %d" % (d, override_d))
+        d = override_d
+    # HACK
+
     assert os.stat(fname).st_size == 8 + n * d * np.dtype(dtype).itemsize
     if maxn > 0:
         n = min(n, maxn)
@@ -259,6 +266,22 @@ class DatasetCompetitionFormat(Dataset):
                 continue
             download(sourceurl, outfile)
 
+        # private qs url
+        if self.private_qs_url:
+            outfile = os.path.join(self.basedir, self.private_qs_url.split("/")[-1])
+            if os.path.exists(outfile):
+                print("file %s already exists" % outfile)
+            else:
+                download(self.private_qs_url, outfile)
+        
+        # private gt url
+        if self.private_gt_url:
+            outfile = os.path.join(self.basedir, self.private_gt_url.split("/")[-1])
+            if os.path.exists(outfile):
+                print("file %s already exists" % outfile)
+            else:
+                download(self.private_gt_url, outfile)
+
         if skip_data:
             return
 
@@ -308,6 +331,7 @@ class DatasetCompetitionFormat(Dataset):
         return "knn"
 
     def get_groundtruth(self, k=None):
+        print("GG")
         assert self.gt_fn is not None
         fn = self.gt_fn.split("/")[-1]   # in case it's a URL
         assert self.search_type() == "knn"
@@ -331,10 +355,25 @@ class DatasetCompetitionFormat(Dataset):
         return sanitize(x)
 
     def get_private_queries(self):
-        filename = os.path.join(self.basedir, self.private_qs_fn)
-        x = xbin_mmap(filename, dtype=self.dtype)
+        assert self.private_qs_url is not None
+        fn = self.private_qs_url.split("/")[-1]   # in case it's a URL
+        filename = os.path.join(self.basedir, fn)
+        x = xbin_mmap(filename, dtype=self.dtype, override_d=self.d)
         assert x.shape == (self.private_nq, self.d)
         return sanitize(x)
+    
+    def get_private_groundtruth(self, k=None):
+        assert self.private_gt_url is not None
+        fn = self.private_gt_url.split("/")[-1]   # in case it's a URL
+        assert self.search_type() == "knn"
+
+        I, D = knn_result_read(os.path.join(self.basedir, fn))
+        assert I.shape[0] == self.private_nq
+        if k is not None:
+            assert k <= 100
+            I = I[:, :k]
+            D = D[:, :k]
+        return I, D
 
 subset_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/"
 
@@ -366,7 +405,7 @@ class SSNPPDataset(DatasetCompetitionFormat):
         return "range"
 
     def default_count(self):
-        return 60000
+        return 96237
 
     def distance(self):
         return "euclidean"
@@ -375,6 +414,12 @@ class SSNPPDataset(DatasetCompetitionFormat):
         """ override the ground-truth function as this is the only range search dataset """
         assert self.gt_fn is not None
         fn = self.gt_fn.split("/")[-1]   # in case it's a URL
+        return range_result_read(os.path.join(self.basedir, fn))
+    
+    def get_private_groundtruth(self, k=None):
+        """ override the ground-truth function as this is the only range search dataset """
+        assert self.private_gt_url is not None
+        fn = self.private_gt_url.split("/")[-1]   # in case it's a URL
         return range_result_read(os.path.join(self.basedir, fn))
 
 class BigANNDataset(DatasetCompetitionFormat):
