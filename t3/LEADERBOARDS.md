@@ -13,18 +13,18 @@ We maintain two sets of leaderboards that rank participants on all benchmarks:
 
 Please consult the main [T3 track README](README.md) for more details about benchmarks and ranking methodology.
 
-## Public Dataset Leaderboard
+## Public Dataset Leaderboards And Winners
 
 The leaderboards and rankings on the public dataset set lives [here](LEADERBOARDS_PUBLIC.md).
 
-We would like to congratulate all the winners of this competition:
+We would like to congratulate all the winners of this part of the competition:
 * Sourabh Dongaonkar (Intel)
 * Yong Wong (NVidia)
 * Akira Naruse (NVidia))
 
 We are in the process of resolving the remaining issues and tasks.  Upon completion, we will make the winners announcements official.  Please revisit this page again soon for more updates.
 
-## Private Dataset Leaderboard
+## Private Dataset Leaderboard Status
 
 All submissions are currently being evaluated using the private data sets.  Please revisit this page again soon for more updates.
 
