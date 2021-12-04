@@ -576,7 +576,8 @@ def produce_rankings(subms):
 
                 idx = lastidx
                 #print("idx", idx)   
-                for i in range(idx, TOTAL_SUBM):
+                for i in range(idx+1, TOTAL_SUBM):
+                    print("clearing", db, i, benchmark )
                     kee = "$%s%d%s_SB" % ( DBS[db], i+1, dbmapping[benchmark] ) 
                     rdct[kee]="-"
                     kee = "$%s%d%s_TM" % ( DBS[db], i+1, dbmapping[benchmark] )
