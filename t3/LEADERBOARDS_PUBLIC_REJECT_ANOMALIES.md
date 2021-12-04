@@ -1,13 +1,8 @@
-# T3 Track Leaderboards After Rejecting Anomalies (Unofficial)
+# T3 Track Public Dataset Leaderboards After Rejecting Anomalies 
 
-Please note that all rankings are currently unofficial due to the following reasons:
-* All [open tasks and issues](TASKS_ISSUES_RESOLUTIONS.md) must be resolved.
+Please note that all rankings and winners are unofficial until all [open tasks and issues](TASKS_ISSUES_RESOLUTIONS.md) are resolved.
 
-## Final Rankings On Private Query Set
-
-*Not yet available*
- 
-## Rankings On Public Query Set
+## Rankings By Category
 
 ### Rankings By Submission Name (alphabetical)
 
@@ -23,7 +18,6 @@ Please note that all rankings are currently unofficial due to the following reas
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
-  * *inprog* = algorithm development still in progress
   * *NQ* = not qualified
   * *NA* = data is not yet available, or has not yet been processed
 
@@ -31,7 +25,7 @@ Please note that all rankings are currently unofficial due to the following reas
 
 * \*\*Nvidia has not yet approved the MSRP cost used for ranking, so participation in this benchmark is still pending.
 
-### Rankings Per Metric
+### Rankings Per Benchmark
 
 #### Recall Or AP Rankings 
 
@@ -49,7 +43,6 @@ Please note that all rankings are currently unofficial due to the following reas
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
-  * *inprog* = algorithm development still in progress
 
 #### Throughput Rankings
 
@@ -67,7 +60,6 @@ Please note that all rankings are currently unofficial due to the following reas
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
-  * *inprog* = algorithm development still in progress
 
 #### Power Rankings 
 
@@ -85,7 +77,6 @@ Please note that all rankings are currently unofficial due to the following reas
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
-  * *inprog* = algorithm development still in progress
 
 #### Cost Rankings 
 
@@ -103,7 +94,6 @@ Please note that all rankings are currently unofficial due to the following reas
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
-  * *inprog* = algorithm development still in progress
 
 * \*\*Nvidia has not yet approved the MSRP cost used for ranking, so participation in this benchmark is still pending.
 
@@ -126,7 +116,6 @@ Please note that all rankings are currently unofficial due to the following reas
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
-  * *inprog* = algorithm development still in progress
 
 ##### Deep1B Throughput Rankings 
 
@@ -143,7 +132,6 @@ Please note that all rankings are currently unofficial due to the following reas
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
-  * *inprog* = algorithm development still in progress
 
 ##### Deep1B Power Rankings 
 
@@ -160,7 +148,6 @@ Please note that all rankings are currently unofficial due to the following reas
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
-  * *inprog* = algorithm development still in progress
 
 ##### Deep1B Cost Rankings 
 
@@ -183,7 +170,6 @@ Please note that all rankings are currently unofficial due to the following reas
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
-  * *inprog* = algorithm development still in progress
 * \*\*Nvidia has not yet approved the MSRP cost used for ranking, so participation in this benchmark is still pending.
 
 #### BigANN
@@ -203,7 +189,6 @@ Please note that all rankings are currently unofficial due to the following reas
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
-  * *inprog* = algorithm development still in progress
 
 ##### BigANN Throughput Rankings
 
@@ -220,7 +205,6 @@ Please note that all rankings are currently unofficial due to the following reas
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
-  * *inprog* = algorithm development still in progress
 
 ##### BigANN Power Rankings
 
@@ -237,7 +221,6 @@ Please note that all rankings are currently unofficial due to the following reas
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
-  * *inprog* = algorithm development still in progress
 
 ##### BigANN Cost Rankings
 
@@ -260,7 +243,6 @@ Please note that all rankings are currently unofficial due to the following reas
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
-  * *inprog* = algorithm development still in progress
 * \*\*Nvidia has not yet approved the MSRP cost used for ranking, so participation in this benchmark is still pending.
 
 #### MSTuring
@@ -280,7 +262,6 @@ Please note that all rankings are currently unofficial due to the following reas
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
-  * *inprog* = algorithm development still in progress
 
 ##### MSTuring Throughput Rankings
 
@@ -297,7 +278,6 @@ Please note that all rankings are currently unofficial due to the following reas
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
-  * *inprog* = algorithm development still in progress
 
 ##### MSTuring Power Rankings
 
@@ -314,7 +294,6 @@ Please note that all rankings are currently unofficial due to the following reas
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
-  * *inprog* = algorithm development still in progress
 
 ##### MSTuring Cost Rankings
 
@@ -337,7 +316,6 @@ Please note that all rankings are currently unofficial due to the following reas
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
-  * *inprog* = algorithm development still in progress
 * \*\*Nvidia has not yet approved the MSRP cost used for ranking, so participation in this benchmark is still pending.
 
 #### MSSpace
@@ -357,7 +335,6 @@ Please note that all rankings are currently unofficial due to the following reas
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
-  * *inprog* = algorithm development still in progress
 
 ##### MSSpace Throughput Rankings
 
@@ -374,7 +351,6 @@ Please note that all rankings are currently unofficial due to the following reas
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
-  * *inprog* = algorithm development still in progress
 
 ##### MSSpace Power Rankings
 
@@ -391,7 +367,6 @@ Please note that all rankings are currently unofficial due to the following reas
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
-  * *inprog* = algorithm development still in progress
 
 ##### MSSpace Cost Rankings
 
@@ -414,7 +389,6 @@ Please note that all rankings are currently unofficial due to the following reas
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
-  * *inprog* = algorithm development still in progress
 * \*\*Nvidia has not yet approved the MSRP cost used for ranking, so participation in this benchmark is still pending.
 
 #### Text2Image
@@ -434,7 +408,6 @@ Please note that all rankings are currently unofficial due to the following reas
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
-  * *inprog* = algorithm development still in progress
 
 ##### Text2Image Throughput Rankings
 
@@ -451,7 +424,6 @@ Please note that all rankings are currently unofficial due to the following reas
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
-  * *inprog* = algorithm development still in progress
 
 ##### Text2Image Power Rankings
 
@@ -468,7 +440,6 @@ Please note that all rankings are currently unofficial due to the following reas
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
-  * *inprog* = algorithm development still in progress
 
 ##### Text2Image Cost Rankings
 
@@ -491,7 +462,6 @@ Please note that all rankings are currently unofficial due to the following reas
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
-  * *inprog* = algorithm development still in progress
 * \*\*Nvidia has not yet approved the MSRP cost used for ranking, so participation in this benchmark is still pending.
 
 #### FBSimSearchNet
@@ -511,7 +481,6 @@ Please note that all rankings are currently unofficial due to the following reas
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
-  * *inprog* = algorithm development still in progress
 
 ##### FBSimSearchNet Throughput Rankings
 
@@ -528,7 +497,6 @@ Please note that all rankings are currently unofficial due to the following reas
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
-  * *inprog* = algorithm development still in progress
 
 
 ##### FBSimSearchNet Power Rankings
@@ -546,7 +514,6 @@ Please note that all rankings are currently unofficial due to the following reas
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
-  * *inprog* = algorithm development still in progress
 
 ##### FBSimSearchNet Cost Rankings
 
@@ -567,5 +534,4 @@ Please note that all rankings are currently unofficial due to the following reas
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *final* = final submission
-  * *inprog* = algorithm development still in progress
 * \*\*Nvidia has not yet approved the MSRP cost used for ranking, so participation in this benchmark is still pending.
