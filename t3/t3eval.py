@@ -200,7 +200,7 @@ class Evaluator():
                 continue
 
             s = self.summary[dataset]
-            print("S",dataset, s)
+            #print("S",dataset, s)
             baseline["datasets"][dataset] = {
                 "recall":       [ s[0] ],
                 "qps":          [ s[1] ],

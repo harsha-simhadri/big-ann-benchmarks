@@ -7,12 +7,10 @@ Participants should send their questions and issues to the T3 organizer directly
 
 ## Tasks (open)
 
-* [T3 Organizer to Microsoft] Currently reported DiskANN CSV results is using an old version of recall computation (ie, not accounting for ties and it will likely affect msspacev-1B recall mostly).
-  * PENDING RESOLUTION: [Microsoft to T3 Organizer] Will re-base and send the CSV.
+* [T3 Organizer self-report] In the private set evaluation, there are issues with the msspace-v ground truth file preventing any submission evaluation and scoring on that dataset.
+* [T3 Organizer self-report] In the private set evaluation, there are issues with some submissions crashing on either/both deep-1B and msspacev-1b thus preventing any scoring on that dataset.
 * [Microsoft to T3 Organizer] Currently, DiskANN cannot qualify for power and cost benchmarks due to issue with running IPMICAP ( python ipmi in particular seems to be the issue. )
   * PENDING RESOLUTION: [T3 Organizer to Microsoft] We will work on local dcmi support in the IPMICAP server.
-* [GSI to T3 Organizer] New index for SSNPP and Text2Image requires re-evaluation for those datasets and updated scores.
-  * PENDING RESOLUTION: [T3 Organizer to GSI] We ran SSNPP to completion, but having issues with Text2Image.
 * [T3 Organizer to Microsoft] Need to retrieve "results" h5py files from MS DiskANN remote machine.
 
 ## Issues (open)
@@ -24,7 +22,7 @@ Participants should send their questions and issues to the T3 organizer directly
 * [T3 Organizer asks NVidia] Can't we use an MSRP from another company as proxy for system cost?
   * PENDING RESOLUTION: [T3 Organizer to NVidia] We will take the cheapest MSRP from third party seller for the leaderboard (but rankings are unofficial until approved.)
 * [T3 Organizer self-report] The "opex" power cost for an Nvidia submission seems impossibly low ($80).
-  * PENDING RESOLUTION: We need to measure quiescent power of a system and establish the min power consumption.
+  * PENDING RESOLUTION: We need to measure quiescent power of a system and establish the min power consumption and troubleshoot the DCMI power reporting on the NVidia system.
 
 ## Resolutions
 
@@ -41,5 +39,8 @@ Participants should send their questions and issues to the T3 organizer directly
 * [GSI to T3 Organizers] Have you discussed taking power also on the recall working point and not just on the throughput working point?
 [GSI asks T3 Organizers] Since some algorithms implement smart caching mechanisms to simulate real life scenarios and since the competition framework sends the same queries again and again 50 time for each dataset (5 runs x 10 query configurations) which is not a real life case. It is important that competition framework needs to verify the results, automatically (and if not possible manually) that no caching mechanism is used in between runs and in between query configurations. One way is to make sure that the throughput for the runs doesn’t differ much taking into account that there are 5 runs and 10 configurations with the same queries. Probably a better way is to send for different queries or somehow cool down the cache in between runs by sending random queries.
   * The eval framework now implements "possible query response cache" detection and the competition reports this as an anomaly and allows teams to explain why these happen.  It's too late in the competition to establish a policy to deal with these  "anomalies" such as 1) ask team to mitigate the effect 2) cool the cache with random queries 3) throw out the data.
-
+* [T3 Organizer to Microsoft] Currently reported DiskANN CSV results is using an old version of recall computation (ie, not accounting for ties and it will likely affect msspacev-1B recall mostly).
+  * This was resolved.  Microsoft exported a new csv with the proper recall.
+* [GSI to T3 Organizer] New index for SSNPP and Text2Image requires re-evaluation for those datasets and updated scores.
+  * This was done successfully on the public query set.
 

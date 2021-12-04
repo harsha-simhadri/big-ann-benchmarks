@@ -10,11 +10,11 @@ import t3eval
 # variables that affect LB generation
 #
 RE_EXPORT               = False
-PROCESS_CSV             = False
+PROCESS_CSV             = True
 LEADERBOARD_GEN         = True
 
 PUBLIC                  = False # Set to False for private leaderboard gen
-REJECT_ANOMALIES        = False
+REJECT_ANOMALIES        = True
 
 SKIP_DB                 = [ ] if PUBLIC else [ "msspacev-1B" ] # private GT for msspacev has error
 SENSORS                 = False
@@ -531,7 +531,7 @@ def produce_rankings(subms):
                 best_vals = sorted( best_vals, key=lambda x: x[1], reverse=True if benchmark in [ "recall", "qps" ] else False )
                 lastidx = -1
                 for idx, item in enumerate(best_vals):
-                    print("best idx", idx)
+                    #print("best idx", idx)
                     kee = "$%s%d%s_SB" % ( DBS[db], idx+1, dbmapping[benchmark] )
                     kv = item[0]
                     #print("KV", kee, kv )
@@ -578,7 +578,7 @@ def produce_rankings(subms):
                 idx = lastidx
                 #print("idx", idx)   
                 for i in range(idx+1, TOTAL_SUBM):
-                    print("clearing", db, i, benchmark )
+                    #print("clearing", db, i, benchmark )
                     kee = "$%s%d%s_SB" % ( DBS[db], i+1, dbmapping[benchmark] ) 
                     rdct[kee]="-"
                     kee = "$%s%d%s_TM" % ( DBS[db], i+1, dbmapping[benchmark] )
