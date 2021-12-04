@@ -395,7 +395,7 @@ def produce_rankings(subms):
                     if SUBM_MAPPING[subm]['anomaly_explain']:
                         rdct[kee] = "[%d/%d](%s)" % (ac, tc, SUBM_MAPPING[subm]['anomaly_explain'])
                     else:
-                        rdct[kee] = "%d/%d"
+                        rdct[kee] = "%d/%d" % (ac,tc)
                 else:
                     rdct[kee] = "%d/%d" % (ac, tc )
             else:
