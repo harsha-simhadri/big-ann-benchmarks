@@ -232,6 +232,10 @@ class IndexQuantizerOnGPU:
 
 
     def search(self, x, k):
+
+        if x.dtype!=np.float32: #GW- why do we need this now?
+            x = x.astype( np.float32 ) 
+
         bs = self.search_bs
         if self.vec_transform:
             x = self.vec_transform(x)
@@ -257,7 +261,7 @@ class IndexQuantizerOnGPU:
 
     def range_search(self, x, radius):
 
-        x = x.astype( np.float32 ) #GW
+        x = x.astype( np.float32 ) #GW - why do we need this now?
 
         bs = self.search_bs
         if self.vec_transform:
