@@ -34,6 +34,7 @@ def positive_int(s):
 
 
 def run_worker(args, queue):
+    print("RW", args)
     while not queue.empty():
         definition = queue.get()
         memory_margin = 500e6  # reserve some extra memory for misc stuff
@@ -46,14 +47,16 @@ def run_worker(args, queue):
                           args.runs, args.timeout, args.rebuild, cpu_limit, mem_limit,
                           args.t3, args.power_capture,
                           args.upload_index, args.download_index,
-                          args.blob_prefix, args.sas_string)
+                          args.blob_prefix, args.sas_string,
+                          args.private_query)
 
         else:
             run_docker(definition, args.dataset, args.count,
                        args.runs, args.timeout, args.rebuild, cpu_limit, mem_limit,
                        args.t3, args.power_capture,
                        args.upload_index, args.download_index,
-                       args.blob_prefix, args.sas_string)
+                       args.blob_prefix, args.sas_string,
+                       args.private_query)
 
 
 def main():
@@ -143,6 +146,11 @@ def main():
     parser.add_argument(
         '--sas-string',
         help='SAS string to authenticate to Azure blob storage.'
+    )
+    parser.add_argument(
+        '--private-query',
+        help='Use the new set of private queries that were not released during the competition period.',
+        action='store_true'
     )
 
     
