@@ -13,8 +13,11 @@ RE_EXPORT               = False
 PROCESS_CSV             = True
 LEADERBOARD_GEN         = True
 
-PUBLIC                  = True # Set to False for private leaderboard gen
-REJECT_ANOMALIES        = True
+PUBLIC                  = False # Set to False for private leaderboard gen
+REJECT_ANOMALIES        = False
+
+SKIP_DB                 = [ ] if PUBLIC else [ "msspacev-1B" ] # private GT for msspacev has error
+SENSORS                 = False
 
 #
 # constants
@@ -36,6 +39,7 @@ SUBM_MAPPING            = \
             "private_w_cache_detect.csv",
         "cache_detect": True,
         "anomaly_explain": "https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/faiss_t3/ANOMALIES.md",
+        "not_part":     [ ],
         "system_cost":  22021.90,
         "cost_approved":True,
         "md_prefix":    "BS",
@@ -59,6 +63,7 @@ SUBM_MAPPING            = \
             "private_w_cache_detect.csv",
         "cache_detect": True,
         "anomaly_explain": "https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/optanne_graphann/ANOMALIES.md",
+        "not_part":     [ ],
         "system_cost":  14664.20,
         "cost_approved":True,
         "md_prefix":    "OPT1",
@@ -74,9 +79,12 @@ SUBM_MAPPING            = \
         "team":         "GSI Technology",
         # last "results_dir":  "%s/gemini/results_merge_new_ssnpp_text1image_to_use_gsl_release/merged" % COMP_RESULTS_TOPLEVEL,
         # last "export_fname": "public_gsl_release_merged_latest_ssnpp_text2image.csv",
-        "results_dir":  "%s/gsi/results_final_run" % CACHE_RESULTS_TOPLEVEL,
-        "export_fname": "public_w_cache_detect.csv",
+        "results_dir":  ( "%s/gsi/results_final_run" % CACHE_RESULTS_TOPLEVEL ) if PUBLIC else \
+            ( "%s/gsi/results_gsi_priv_4_dsets" % CACHE_RESULTS_TOPLEVEL ),
+        "export_fname": "public_w_cache_detect.csv" if PUBLIC else "private_w_cache_detect.csv",
         "cache_detect": True,
+        "anomaly_explain": False,
+        "not_part":     ["power","cost" ],
         "system_cost":  55726.66,
         "cost_approved":True,
         "md_prefix":    "GEM",
@@ -94,6 +102,7 @@ SUBM_MAPPING            = \
         "results_dir":  None,
         "export_fname": "diskann-bare-metal-res-pruned.csv", 
         "cache_detect": False,
+        "not_part":     [ "power", "cost" ],
         "system_cost":  0,
         "cost_approved":True,
         "md_prefix":    "MSD",
@@ -114,6 +123,7 @@ SUBM_MAPPING            = \
         "export_fname": "public_w_cache_detect.csv" if PUBLIC else \
             "private_w_cache_detect.csv",
         "cache_detect": True,
+        "not_part":     [ ],
         "anomaly_explain": "https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/cuanns_multigpu/ANOMALIES.md",
         "system_cost":  150000,
         "cost_approved":False,
@@ -137,6 +147,7 @@ SUBM_MAPPING            = \
         "export_fname": "public_w_cache_detect.csv" if PUBLIC else \
             "private_w_cache_detect.csv",
         "cache_detect": True,
+        "not_part":     [ ],
         "anomaly_explain": "https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/cuanns_ivfpq/ANOMALIES.md",
         "system_cost":  150000,
         "cost_approved":False,
@@ -204,8 +215,8 @@ def process_subm( subm ):
 
         # run the export command
         if SUBM_MAPPING[subm]["cache_detect"]:
-            export_cmd = "python data_export.py %s --recompute --sensors --search_times --detect_caching 0.3 --output \"%s\"" \
-                % ( " " if PUBLIC else "--private-query", export_file )
+            export_cmd = "python data_export.py %s --recompute %s --search_times --detect_caching 0.3 --output \"%s\"" \
+                % ( " " if "power" in SUBM_MAPPING[subm]["not_part"] else "--sensors", " " if PUBLIC else "--private-query", export_file )
         else:
             export_cmd = "python data_export.py --recompute --sensors --output='%s'" \
                 % ( " " if PUBLIC else "--private-query", export_file )
@@ -233,8 +244,10 @@ def process_subm( subm ):
                                         print_best=False )
         evaluator.eval_all(             save_summary=os.path.join(eval_subm_dir, "%s_summary.json" % ( "public" if PUBLIC else "private") ),
                                         save_evals=os.path.join(eval_subm_dir, "%s_evals.json" % ( "public" if PUBLIC else "private" ) ),
-                                        reject_anomalies=REJECT_ANOMALIES )
-        evaluator.commit_baseline(      "t3/%s_baseline2021.json" % ( "public" if PUBLIC else "private" ))
+                                        reject_anomalies=REJECT_ANOMALIES,
+                                        skipdb=SKIP_DB)
+        evaluator.commit_baseline(      "t3/%s_baseline2021.json" % ( "public" if PUBLIC else "private" ),
+                                        skipdb=SKIP_DB)
         evaluator.show_summary(         savepath=os.path.join( eval_subm_dir, "%s_summary.png" % ( "public" if PUBLIC else "private" )),
                                         public= True if PUBLIC else False )
     else:
@@ -250,7 +263,8 @@ def process_subm( subm ):
                                         print_best=False )
         evaluator.eval_all(             save_summary=os.path.join(eval_subm_dir, "%s_summary.json" % ( "public" if PUBLIC else "private" )),
                                         save_evals=os.path.join(eval_subm_dir, "%s_evals.json" % ( "public" if PUBLIC else "private" )),
-                                        reject_anomalies=REJECT_ANOMALIES )
+                                        reject_anomalies=REJECT_ANOMALIES,
+                                        skipdb=SKIP_DB)
         evaluator.show_summary(         savepath=os.path.join( eval_subm_dir, "%s_summary.png" % ( "public" if PUBLIC else "private" )),
                                         public= True if PUBLIC else False )
 
@@ -378,7 +392,10 @@ def produce_rankings(subms):
                 ac = sum( [ el[1]['cache'][0] for el in SUBM_MAPPING[subm]['evals'].items() if el[0]!="summary" ] )
                 tc = sum( [ el[1]['cache'][1] for el in SUBM_MAPPING[subm]['evals'].items() if el[0]!="summary" ] )
                 if ac>0:
-                    rdct[kee] = "[%d/%d](%s)" % (ac, tc, SUBM_MAPPING[subm]['anomaly_explain'])
+                    if SUBM_MAPPING[subm]['anomaly_explain']:
+                        rdct[kee] = "[%d/%d](%s)" % (ac, tc, SUBM_MAPPING[subm]['anomaly_explain'])
+                    else:
+                        rdct[kee] = "%d/%d"
                 else:
                     rdct[kee] = "%d/%d" % (ac, tc )
             else:
@@ -495,6 +512,7 @@ def produce_rankings(subms):
                         vals = best_val
                         if val!=0: best_vals.append( (subm, val, vals) )
                 best_vals = sorted( best_vals, key=lambda x: x[1], reverse=True if benchmark in [ "recall", "qps" ] else False )
+                lastidx = 0
                 for idx, item in enumerate(best_vals):
                     kee = "$%s%d%s_SB" % ( DBS[db], idx+1, dbmapping[benchmark] )
                     kv = item[0]
@@ -537,7 +555,10 @@ def produce_rankings(subms):
                         kee = "$%s%d%s_KWT" % ( DBS[db], idx+1, dbmapping[benchmark])
                         kv = "{:,.3f}".format(item[2][5]) #kwt
                         rdct[kee]=kv
-                    
+                    lastidx = idx
+
+                idx = lastidx
+                print("idx", idx)   
                 for i in range(idx+1, TOTAL_SUBM):
                     kee = "$%s%d%s_SB" % ( DBS[db], i+1, dbmapping[benchmark] ) 
                     rdct[kee]="-"
@@ -622,7 +643,8 @@ if __name__ == "__main__":
         #subms = [ "optanne_graphann" ]
         #subms = [ "gemini" ]
     else: #PRIVATE
-        subms = [ "faiss_t3", "cuanns_ivfpq", "optanne_graphann" ]
+        subms = [ "gemini", "faiss_t3", "cuanns_ivfpq", "optanne_graphann" ]
+        # subms = [ "gemini" ]
 
     # export and/or produce summary and evals json  
     if RE_EXPORT or PROCESS_CSV: 

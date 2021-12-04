@@ -77,11 +77,14 @@ class Evaluator():
 
         print("Loaded state from", summary_json, "and", evals_json)
 
-    def eval_all(self, compute_score=True, save_summary=None, save_evals=None, reject_anomalies=False ):
+    def eval_all(self, compute_score=True, save_summary=None, save_evals=None, reject_anomalies=False, skipdb=[] ):
         '''Evaluate all the competition datasets.'''
         
         self.evals = {}
         for dataset in self.competition["datasets"]:
+            if dataset in skipdb:
+                print("WARNING: skipping this dataset", dataset)
+                continue
             ret = self.eval_dataset(dataset, reject_anomalies)
             if self.is_baseline and not ret:
                 raise Exception("Baseline needs to support all the datasets (%s missing)." % dataset)
@@ -89,7 +92,7 @@ class Evaluator():
 
         num_qual_datasets = len( list(self.evals.keys() ) )
         if self.is_baseline:
-            if num_qual_datasets != len(self.competition["datasets"]):
+            if num_qual_datasets != (len(self.competition["datasets"]) - len(skipdb)):
                 raise Exception("Baseline needs to support all the datasets.")
         else: # is_baseline = False
             if num_qual_datasets< self.competition["min_qual_dsets"] and not self.is_baseline:
@@ -175,7 +178,7 @@ class Evaluator():
 
         return True
 
-    def commit_baseline(self, save_path):
+    def commit_baseline(self, save_path, skipdb=[]):
         '''Commit this benchmark to a baseline config.'''
 
         if not self.is_baseline:
@@ -191,6 +194,10 @@ class Evaluator():
 
         # summary 0=recall, 1=qps, 2=power, 3=cost
         for dataset in self.competition["datasets"]:
+
+            if dataset in skipdb:
+                print("WARNING: skipping dataset", dataset)
+                continue
 
             s = self.summary[dataset]
             print("S",dataset, s)
@@ -402,7 +409,7 @@ class Evaluator():
             best_wspq = sorted(qualifiers,key=lambda x: x[2])[0]
         else:
             wspq = []
-            best_wspq = [0,0,0]
+            best_wspq = [0,0,0, 0,0]
         if self.verbose or self.print_best: print("Best power at", best_wspq, qualifiers[-1])
 
         #
