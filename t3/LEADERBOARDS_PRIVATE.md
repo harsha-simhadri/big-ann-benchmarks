@@ -1,4 +1,4 @@
-# T3 Track Public Dataset Leaderboards  (Unofficial)
+# T3 Track Private Dataset Leaderboards  (Unofficial)
 
 Please note that all rankings and winners are currently unofficial due to the following reasons:
 * All [open tasks and issues](TASKS_ISSUES_RESOLUTIONS.md) must be resolved.

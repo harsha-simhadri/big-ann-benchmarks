@@ -84,7 +84,7 @@ class Evaluator():
         for dataset in self.competition["datasets"]:
             ret = self.eval_dataset(dataset, reject_anomalies)
             if self.is_baseline and not ret:
-                raise Exception("Baseline needs to support all the datasets.")
+                raise Exception("Baseline needs to support all the datasets (%s missing)." % dataset)
             
 
         num_qual_datasets = len( list(self.evals.keys() ) )

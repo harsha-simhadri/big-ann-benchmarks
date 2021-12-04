@@ -10,10 +10,10 @@ import t3eval
 # variables that affect LB generation
 #
 RE_EXPORT               = False
-PROCESS_CSV             = False
+PROCESS_CSV             = True
 LEADERBOARD_GEN         = True
 
-PUBLIC                  = True # Set to False for private leaderboard gen
+PUBLIC                  = False # Set to False for private leaderboard gen
 REJECT_ANOMALIES        = False
 
 OFFICIAL                = False
@@ -578,6 +578,9 @@ def produce_rankings(subms):
     for subm in subms: # status info
         kee = "$" + SUBM_MAPPING[subm]['md_prefix']+"_S"
         rdct[kee] = SUBM_MAPPING[subm]['status']
+
+    # replace LB type
+    rdct["$LBTYPE"] = "Public" if PUBLIC else "Private"
 
     # replace offlabel status
     rdct["$OFFLABEL"] = "Official" if OFFICIAL else "Unofficial"
