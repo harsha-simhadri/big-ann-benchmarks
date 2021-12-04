@@ -15,14 +15,14 @@ Please consult the main [T3 track README](README.md) for more details about benc
 
 ## Public Dataset Leaderboard
 
-The leaderboards and rankings on the public dataset set is [here](LEADERBOARDS_PUBLIC.md).
+The leaderboards and rankings on the public dataset set lives [here](LEADERBOARDS_PUBLIC.md).
 
-The winners of this competition are:
+We would like to congratulate all the winners of this competition:
 * Sourabh Dongaonkar (Intel)
 * Yong Wong (NVidia)
 * Akira Naruse (NVidia))
 
-We are in the process of resolving the remaining issues and tasks.  Upon completion, we will make the winners official.  Please revisit this page again soon for more updates.
+We are in the process of resolving the remaining issues and tasks.  Upon completion, we will make the winners announcements official.  Please revisit this page again soon for more updates.
 
 ## Private Dataset Leaderboard
 
