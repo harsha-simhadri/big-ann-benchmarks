@@ -107,7 +107,7 @@ Please note that all rankings and winners are unofficial until all [open tasks a
 |----|-------------------------------------------------------|------------------------------|-----------------------|--------|-----------|
 |   1|[optanne_graphann](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/optanne_graphann/README.md)                                   |Intel                      |Intel Optane               |eval|**[0.99872](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/optanne_graphann/private_deep-1B_recall.png)**|       
 |   2|[cuanns_ivfpq](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/cuanns_ivfpq/README.md)                                   |NVidia                      |NVidia GPU               |eval|**[0.99544](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/cuanns_ivfpq/private_deep-1B_recall.png)**|       
-|   3|[faiss_t3](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/faiss_t3/README.md)                                   |Facebook Research(*org*)                      |NVidia GPU               |eval|**[0.94437](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/faiss_t3/private_deep-1B_recall.png)**|       
+|   3|[-](-)                                   |-                      |-               |-|**-**|       
 |   4|[-](-)                                   |-                      |-               |-|**-**|       
 |   5|[-](-)                                   |-                      |-               |-|**-**|       
 |   6|[-](-)                                   |-                      |-               |-|**-**|       
@@ -123,7 +123,7 @@ Please note that all rankings and winners are unofficial until all [open tasks a
 |----|-------------------------------------------------------|------------------------------|-----------------------|--------|-----------|
 |   1|[optanne_graphann](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/optanne_graphann/README.md)                                   |Intel                      |Intel Optane               |eval|**[210,326](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/optanne_graphann/private_deep-1B_throughput.png)**|
 |   2|[cuanns_ivfpq](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/cuanns_ivfpq/README.md)                                   |NVidia                      |NVidia GPU               |eval|**[95,386](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/cuanns_ivfpq/private_deep-1B_throughput.png)**|
-|   3|[faiss_t3](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/faiss_t3/README.md)                                   |Facebook Research(*org*)                      |NVidia GPU               |eval|**[5,035](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/faiss_t3/private_deep-1B_throughput.png)**|
+|   3|[-](-)                                   |-                      |-               |-|**-**|
 |   4|[-](-)                                   |-                      |-               |-|**-**|
 |   5|[-](-)                                   |-                      |-               |-|**-**|
 |   6|[-](-)                                   |-                      |-               |-|**-**|
@@ -139,7 +139,7 @@ Please note that all rankings and winners are unofficial until all [open tasks a
 |----|-------------------------------------------------------|------------------------------|-----------------------|--------|-----------|
 |   1|[cuanns_ivfpq](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/cuanns_ivfpq/README.md)                                   |NVidia                      |NVidia GPU               |eval|**[0.0021](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/cuanns_ivfpq/private_deep-1B_power.png)**|
 |   2|[optanne_graphann](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/optanne_graphann/README.md)                                   |Intel                      |Intel Optane               |eval|**[0.0036](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/optanne_graphann/private_deep-1B_power.png)**|
-|   3|[faiss_t3](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/faiss_t3/README.md)                                   |Facebook Research(*org*)                      |NVidia GPU               |eval|**[0.0923](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/faiss_t3/private_deep-1B_power.png)**|
+|   3|[-](-)                                   |-                      |-               |-|**-**|
 |   4|[-](-)                                   |-                      |-               |-|**-**|
 |   5|[-](-)                                   |-                      |-               |-|**-**|
 |   6|[-](-)                                   |-                      |-               |-|**-**|
@@ -155,7 +155,7 @@ Please note that all rankings and winners are unofficial until all [open tasks a
 |----|--------------------|---------|-----------------------|--------|-------------|--------|--------|---------|--------------|---------|
 |   1|[optanne_graphann](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/optanne_graphann/README.md)|Intel |Intel Optane               |eval|**$15,939.55**  |$14,664.20|$1,275.35|$14,664.20 |1      |12,753.499|
 |   2|[cuanns_ivfpq](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/cuanns_ivfpq/README.md)|NVidia |NVidia GPU               |eval|**$300,721.93\*\***  |$300,000.00|$721.93|$150,000.00 |2      |7,219.311|
-|   3|[faiss_t3](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/faiss_t3/README.md)|Facebook Research(*org*) |NVidia GPU               |eval|**$472,764.09**  |$440,438.00|$32,326.09|$22,021.90 |20      |323,260.873|
+|   3|[-](-)|- |-               |-|**-**  |-|-|- |-      |-|
 |   4|[-](-)|- |-               |-|**-**  |-|-|- |-      |-|
 |   5|[-](-)|- |-               |-|**-**  |-|-|- |-      |-|
 |   6|[-](-)|- |-               |-|**-**  |-|-|- |-      |-|
@@ -181,7 +181,7 @@ Please note that all rankings and winners are unofficial until all [open tasks a
 |   1|[optanne_graphann](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/optanne_graphann/README.md)                                   |Intel                      |Intel Optane               |eval|**[0.99977](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/optanne_graphann/private_bigann-1B_recall.png)**  |
 |   2|[cuanns_ivfpq](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/cuanns_ivfpq/README.md)                                   |NVidia                      |NVidia GPU               |eval|**[0.99882](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/cuanns_ivfpq/private_bigann-1B_recall.png)**  |
 |   3|[gemini](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/gemini/README.md)                                   |GSI Technology(*org*)                      |LedaE APU               |eval|**[0.99452](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/gemini/private_bigann-1B_recall.png)**  |
-|   4|[faiss_t3](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/faiss_t3/README.md)                                   |Facebook Research(*org*)                      |NVidia GPU               |eval|**[0.93604](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/faiss_t3/private_bigann-1B_recall.png)**  |
+|   4|[-](-)                                   |-                      |-               |-|**-**  |
 |   5|[-](-)                                   |-                      |-               |-|**-**  |
 |   6|[-](-)                                   |-                      |-               |-|**-**  |
 
@@ -197,7 +197,7 @@ Please note that all rankings and winners are unofficial until all [open tasks a
 |   1|[optanne_graphann](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/optanne_graphann/README.md)                                   |Intel                      |Intel Optane               |eval|**[346,886](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/optanne_graphann/private_bigann-1B_throughput.png)**  |
 |   2|[cuanns_ivfpq](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/cuanns_ivfpq/README.md)                                   |NVidia                      |NVidia GPU               |eval|**[86,004](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/cuanns_ivfpq/private_bigann-1B_throughput.png)**  |
 |   3|[gemini](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/gemini/README.md)                                   |GSI Technology(*org*)                      |LedaE APU               |eval|**[10,748](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/gemini/private_bigann-1B_throughput.png)**  |
-|   4|[faiss_t3](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/faiss_t3/README.md)                                   |Facebook Research(*org*)                      |NVidia GPU               |eval|**[3,279](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/faiss_t3/private_bigann-1B_throughput.png)**  |
+|   4|[-](-)                                   |-                      |-               |-|**-**  |
 |   5|[-](-)                                   |-                      |-               |-|**-**  |
 |   6|[-](-)                                   |-                      |-               |-|**-**  |
 
@@ -212,7 +212,7 @@ Please note that all rankings and winners are unofficial until all [open tasks a
 |----|-------------------------------------------------------|------------------------------|-----------------------|--------|-----------|
 |   1|[optanne_graphann](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/optanne_graphann/README.md)                                   |Intel                      |Intel Optane               |eval|**[0.0021](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/optanne_graphann/private_bigann-1B_power.png)**|       
 |   2|[cuanns_ivfpq](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/cuanns_ivfpq/README.md)                                   |NVidia                      |NVidia GPU               |eval|**[0.0023](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/cuanns_ivfpq/private_bigann-1B_power.png)**|       
-|   3|[faiss_t3](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/faiss_t3/README.md)                                   |Facebook Research(*org*)                      |NVidia GPU               |eval|**[0.1623](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/faiss_t3/private_bigann-1B_power.png)**|      
+|   3|[-](-)                                   |-                      |-               |-|**-**|      
 |   4|[-](-)                                   |-                      |-               |-|**-**|      
 |   5|[-](-)                                   |-                      |-               |-|**-**|      
 |   6|[-](-)                                   |-                      |-               |-|**-**|      
@@ -228,7 +228,7 @@ Please note that all rankings and winners are unofficial until all [open tasks a
 |----|--------------------|------------------------------|--------------------|--------|--------------|--------|--------|---------|--------------|---------|
 |   1|[optanne_graphann](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/optanne_graphann/README.md)|Intel                      |Intel Optane            |eval|**$15,388.38**   |$14,664.20|$724.18|$14,664.20 |1      |7,241.818|
 |   2|[cuanns_ivfpq](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/cuanns_ivfpq/README.md)|NVidia                      |NVidia GPU            |eval|**$300,793.63\*\***   |$300,000.00|$793.63|$150,000.00 |2      |7,936.286|      
-|   3|[faiss_t3](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/faiss_t3/README.md)|Facebook Research(*org*)                      |NVidia GPU            |eval|**$739,552.84**   |$682,678.90|$56,873.94|$22,021.90 |31      |568,739.415|  
+|   3|[-](-)|-                      |-            |-|**-**   |-|-|- |-      |-|  
 |   4|[-](-)|-                      |-            |-|**-**   |-|-|- |-      |-|  
 |   5|[-](-)|-                      |-            |-|**-**   |-|-|- |-      |-|  
 |   6|[-](-)|-                      |-            |-|**-**   |-|-|- |-      |-|  
@@ -254,7 +254,7 @@ Please note that all rankings and winners are unofficial until all [open tasks a
 |   1|[cuanns_ivfpq](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/cuanns_ivfpq/README.md)                                   |NVidia                      |NVidia GPU               |eval|**[0.99054](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/cuanns_ivfpq/private_msturing-1B_recall.png)**    |
 |   2|[gemini](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/gemini/README.md)                                   |GSI Technology(*org*)                      |LedaE APU               |eval|**[0.97719](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/gemini/private_msturing-1B_recall.png)**    |
 |   3|[faiss_t3](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/faiss_t3/README.md)                                   |Facebook Research(*org*)                      |NVidia GPU               |eval|**[0.91513](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/faiss_t3/private_msturing-1B_recall.png)**    |
-|   4|[optanne_graphann](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/optanne_graphann/README.md)                                   |Intel                      |Intel Optane               |eval|**[0.90255](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/optanne_graphann/private_msturing-1B_recall.png)**    |
+|   4|[-](-)                                   |-                      |-               |-|**-**    |
 |   5|[-](-)                                   |-                      |-               |-|**-**    |
 |   6|[-](-)                                   |-                      |-               |-|**-**    |
 
@@ -270,7 +270,7 @@ Please note that all rankings and winners are unofficial until all [open tasks a
 |   1|[optanne_graphann](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/optanne_graphann/README.md)                                   |Intel                      |Intel Optane               |eval|**[123,695](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/optanne_graphann/private_msturing-1B_throughput.png)** |
 |   2|[cuanns_ivfpq](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/cuanns_ivfpq/README.md)                                   |NVidia                      |NVidia GPU               |eval|**[103,361](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/cuanns_ivfpq/private_msturing-1B_throughput.png)** |
 |   3|[gemini](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/gemini/README.md)                                   |GSI Technology(*org*)                      |LedaE APU               |eval|**[14,536](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/gemini/private_msturing-1B_throughput.png)** |
-|   4|[faiss_t3](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/faiss_t3/README.md)                                   |Facebook Research(*org*)                      |NVidia GPU               |eval|**[2,630](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/faiss_t3/private_msturing-1B_throughput.png)** |
+|   4|[-](-)                                   |-                      |-               |-|**-** |
 |   5|[-](-)                                   |-                      |-               |-|**-** |
 |   6|[-](-)                                   |-                      |-               |-|**-** |
 
@@ -285,7 +285,7 @@ Please note that all rankings and winners are unofficial until all [open tasks a
 |----|-------------------------------------------------------|------------------------------|-----------------------|------|--------------|
 |   1|[cuanns_ivfpq](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/cuanns_ivfpq/README.md)                                   |NVidia                      |NVidia GPU               |eval|**[0.0020](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/cuanns_ivfpq/private_msturing-1B_power.png)** |
 |   2|[optanne_graphann](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/optanne_graphann/README.md)                                   |Intel                      |Intel Optane               |eval|**[0.0060](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/optanne_graphann/private_msturing-1B_power.png)** |
-|   3|[faiss_t3](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/faiss_t3/README.md)                                   |Facebook Research(*org*)                      |NVidia GPU               |eval|**[0.1874](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/faiss_t3/private_msturing-1B_power.png)** |
+|   3|[-](-)                                   |-                      |-               |-|**-** |
 |   4|[-](-)                                   |-                      |-               |-|**-** |
 |   5|[-](-)                                   |-                      |-               |-|**-** |
 |   6|[-](-)                                   |-                      |-               |-|**-** |
@@ -301,7 +301,7 @@ Please note that all rankings and winners are unofficial until all [open tasks a
 |----|------------------------------------|------------------------------|-----------------------|--------|--------------|--------|--------|---------|--------------|----------|
 |   1|[optanne_graphann](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/optanne_graphann/README.md)                |Intel                      |Intel Optane               |eval|**$16,776.08**   |$14,664.20|$2,111.88|$14,664.20 |1      |21,118.824 |
 |   2|[cuanns_ivfpq](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/cuanns_ivfpq/README.md)                |NVidia                      |NVidia GPU               |eval|**$150,691.36\*\***   |$150,000.00|$691.36|$150,000.00 |1      |6,913.596 |         
-|   3|[faiss_t3](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/faiss_t3/README.md)                |Facebook Research(*org*)                      |NVidia GPU               |eval|**$924,531.60**   |$858,854.10|$65,677.50|$22,021.90 |39      |656,775.000 |       
+|   3|[-](-)                |-                      |-               |-|**-**   |-|-|- |-      |- |       
 |   4|[-](-)                |-                      |-               |-|**-**   |-|-|- |-      |- |       
 |   5|[-](-)                |-                      |-               |-|**-**   |-|-|- |-      |- |       
 |   6|[-](-)                |-                      |-               |-|**-**   |-|-|- |-      |- |       
@@ -324,7 +324,7 @@ Please note that all rankings and winners are unofficial until all [open tasks a
 
 |Rank|Submission                                             |Team                          |Hardware               |Status  |R@10     |
 |----|-------------------------------------------------------|------------------------------|-----------------------|--------|---------|
-|   1|[$MS1R_SB]($MS1R_RD)                                   |$MS1R_TM                      |$MS1R_HW               |$MS1R_ST|**$MS1R_V** |
+|   1|[-](-)                                   |-                      |-               |-|**-** |
 |   2|[-](-)                                   |-                      |-               |-|**-** |
 |   3|[-](-)                                   |-                      |-               |-|**-** |
 |   4|[-](-)                                   |-                      |-               |-|**-** |
@@ -340,7 +340,7 @@ Please note that all rankings and winners are unofficial until all [open tasks a
 
 |Rank|Submission                                             |Team                          |Hardware               |Status  |Q/S         |
 |----|-------------------------------------------------------|------------------------------|-----------------------|--------|------------|
-|   1|[$MS1Q_SB]($MS1Q_RD)                                   |$MS1Q_TM                      |$MS1Q_HW               |$MS1Q_ST|**$MS1Q_V** |
+|   1|[-](-)                                   |-                      |-               |-|**-** |
 |   2|[-](-)                                   |-                      |-               |-|**-** |
 |   3|[-](-)                                   |-                      |-               |-|**-** |
 |   4|[-](-)                                   |-                      |-               |-|**-** |
@@ -356,7 +356,7 @@ Please note that all rankings and winners are unofficial until all [open tasks a
 
 |Rank|Submission                                             |Team                          |Hardware               |Status  |W*S/Q       |
 |----|-------------------------------------------------------|------------------------------|-----------------------|--------|------------|
-|   1|[$MS1P_SB]($MS1P_RD)                                   |$MS1P_TM                      |$MS1P_HW               |$MS1P_ST|**$MS1P_V** |
+|   1|[-](-)                                   |-                      |-               |-|**-** |
 |   2|[-](-)                                   |-                      |-               |-|**-** |
 |   3|[-](-)                                   |-                      |-               |-|**-** |
 |   4|[-](-)                                   |-                      |-               |-|**-** |
@@ -372,7 +372,7 @@ Please note that all rankings and winners are unofficial until all [open tasks a
 
 |Rank|Submission          |Team                          |Hardware               |Status  |Cost          |capex   |opex    |unit cost|units@100K qps|KwH*4yrs  |
 |----|--------------------|------------------------------|-----------------------|------- |--------------|--------|--------|---------|--------------|----------|
-|   1|[$MS1C_SB]($MS1C_RD)|$MS1C_TM                      |$MS1C_HW               |$MS1C_ST|**$MS1C_V**   |$MS1C_CX|$MS1C_OX|$MS1C_UC |$MS1C_UN      |$MS1C_KWT |
+|   1|[-](-)|-                      |-               |-|**-**   |-|-|- |-      |- |
 |   2|[-](-)|-                      |-               |-|**-**   |-|-|- |-      |- |
 |   3|[-](-)|-                      |-               |-|**-**   |-|-|- |-      |- |
 |   4|[-](-)|-                      |-               |-|**-**   |-|-|- |-      |- |
@@ -400,7 +400,7 @@ Please note that all rankings and winners are unofficial until all [open tasks a
 |   1|[cuanns_ivfpq](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/cuanns_ivfpq/README.md)                                   |NVidia                      |NVidia GPU               |eval|**[0.63732](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/cuanns_ivfpq/private_text2image-1B_recall.png)**  |
 |   2|[gemini](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/gemini/README.md)                                   |GSI Technology(*org*)                      |LedaE APU               |eval|**[0.61895](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/gemini/private_text2image-1B_recall.png)**  |
 |   3|[faiss_t3](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/faiss_t3/README.md)                                   |Facebook Research(*org*)                      |NVidia GPU               |eval|**[0.60105](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/faiss_t3/private_text2image-1B_recall.png)**  |
-|   4|[optanne_graphann](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/optanne_graphann/README.md)                                   |Intel                      |Intel Optane               |eval|**[0.58449](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/optanne_graphann/private_text2image-1B_recall.png)**  |
+|   4|[-](-)                                   |-                      |-               |-|**-**  |
 |   5|[-](-)                                   |-                      |-               |-|**-**  |
 |   6|[-](-)                                   |-                      |-               |-|**-**  |
 
@@ -416,7 +416,7 @@ Please note that all rankings and winners are unofficial until all [open tasks a
 |   1|[cuanns_ivfpq](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/cuanns_ivfpq/README.md)                                   |NVidia                      |NVidia GPU               |eval|**[20,894](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/cuanns_ivfpq/private_text2image-1B_throughput.png)** |
 |   2|[gemini](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/gemini/README.md)                                   |GSI Technology(*org*)                      |LedaE APU               |eval|**[2,150](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/gemini/private_text2image-1B_throughput.png)** |
 |   3|[faiss_t3](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/faiss_t3/README.md)                                   |Facebook Research(*org*)                      |NVidia GPU               |eval|**[1,948](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/faiss_t3/private_text2image-1B_throughput.png)** |
-|   4|[optanne_graphann](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/optanne_graphann/README.md)                                   |Intel                      |Intel Optane               |eval|**[1,921](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/optanne_graphann/private_text2image-1B_throughput.png)** |
+|   4|[-](-)                                   |-                      |-               |-|**-** |
 |   5|[-](-)                                   |-                      |-               |-|**-** |
 |   6|[-](-)                                   |-                      |-               |-|**-** |
 
@@ -431,7 +431,7 @@ Please note that all rankings and winners are unofficial until all [open tasks a
 |----|-------------------------------------------------------|------------------------------|-----------------------|--------|-----------|
 |   1|[cuanns_ivfpq](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/cuanns_ivfpq/README.md)                                   |NVidia                      |NVidia GPU               |eval|**[0.0083](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/cuanns_ivfpq/private_text2image-1B_power.png)**|
 |   2|[faiss_t3](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/faiss_t3/README.md)                                   |Facebook Research(*org*)                      |NVidia GPU               |eval|**[0.1091](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/faiss_t3/private_text2image-1B_power.png)**|
-|   3|[optanne_graphann](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/optanne_graphann/README.md)                                   |Intel                      |Intel Optane               |eval|**[0.3910](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/optanne_graphann/private_text2image-1B_power.png)**|
+|   3|[-](-)                                   |-                      |-               |-|**-**|
 |   4|[-](-)                                   |-                      |-               |-|**-**|
 |   5|[-](-)                                   |-                      |-               |-|**-**|
 |   6|[-](-)                                   |-                      |-               |-|**-**|
@@ -447,7 +447,7 @@ Please note that all rankings and winners are unofficial until all [open tasks a
 |----|---------------------|------------------------------|---------------------|--------|--------------|--------|--------|---------|--------------|---------|
 |   1|[cuanns_ivfpq](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/cuanns_ivfpq/README.md) |NVidia                      |NVidia GPU             |eval|**$752,925.15\*\***   |$750,000.00|$2,925.15|$150,000.00 |5      |29,251.505|
 |   2|[optanne_graphann](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/optanne_graphann/README.md) |Intel                      |Intel Optane             |eval|**$914,205.48**   |$777,202.60|$137,002.88|$14,664.20 |53      |1,370,028.787| 
-|   3|[faiss_t3](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/faiss_t3/README.md) |Facebook Research(*org*)                      |NVidia GPU             |eval|**$1,183,367.83**   |$1,145,138.80|$38,229.03|$22,021.90 |52      |382,290.263| 
+|   3|[-](-) |-                      |-             |-|**-**   |-|-|- |-      |-| 
 |   4|[-](-) |-                      |-             |-|**-**   |-|-|- |-      |-| 
 |   5|[-](-) |-                      |-             |-|**-**   |-|-|- |-      |-| 
 |   6|[-](-) |-                      |-             |-|**-**   |-|-|- |-      |-| 
@@ -471,7 +471,7 @@ Please note that all rankings and winners are unofficial until all [open tasks a
 |Rank|Submission                                             |Team                          |Hardware               |Status  |AP          |
 |----|-------------------------------------------------------|------------------------------|-----------------------|--------|-------------|
 |   1|[gemini](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/gemini/README.md)                                   |GSI Technology(*org*)                      |LedaE APU               |eval|**[0.99672](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/gemini/private_ssnpp-1B_recall.png)**  |
-|   2|[faiss_t3](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/faiss_t3/README.md)                                   |Facebook Research(*org*)                      |NVidia GPU               |eval|**[0.98567](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/faiss_t3/private_ssnpp-1B_recall.png)**  |
+|   2|[-](-)                                   |-                      |-               |-|**-**  |
 |   3|[-](-)                                   |-                      |-               |-|**-**  |
 |   4|[-](-)                                   |-                      |-               |-|**-**  |
 |   5|[-](-)                                   |-                      |-               |-|**-**  |
@@ -487,7 +487,7 @@ Please note that all rankings and winners are unofficial until all [open tasks a
 |Rank|Submission                                             |Team                          |Hardware               |Status  |Q/S         |
 |----|-------------------------------------------------------|------------------------------|-----------------------|--------|------------|
 |   1|[gemini](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/gemini/README.md)                                   |GSI Technology(*org*)                      |LedaE APU               |eval|**[9,436](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/gemini/private_ssnpp-1B_throughput.png)** |
-|   2|[faiss_t3](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/faiss_t3/README.md)                                   |Facebook Research(*org*)                      |NVidia GPU               |eval|**[6,256](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/faiss_t3/private_ssnpp-1B_throughput.png)** |
+|   2|[-](-)                                   |-                      |-               |-|**-** |
 |   3|[-](-)                                   |-                      |-               |-|**-** |
 |   4|[-](-)                                   |-                      |-               |-|**-** |
 |   5|[-](-)                                   |-                      |-               |-|**-** |
@@ -503,7 +503,7 @@ Please note that all rankings and winners are unofficial until all [open tasks a
 
 |Rank|Submission                                             |Team                          |Hardware               |Status  |W*S/Q      |
 |----|-------------------------------------------------------|------------------------------|-----------------------|--------|-----------|
-|   1|[faiss_t3](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/faiss_t3/README.md)                                   |Facebook Research(*org*)                      |NVidia GPU               |eval|**[0.0847](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/faiss_t3/private_ssnpp-1B_power.png)**|
+|   1|[-](-)                                   |-                      |-               |-|**-**|
 |   2|[-](-)                                   |-                      |-               |-|**-**|
 |   3|[-](-)                                   |-                      |-               |-|**-**|
 |   4|[-](-)                                   |-                      |-               |-|**-**|
@@ -519,7 +519,7 @@ Please note that all rankings and winners are unofficial until all [open tasks a
 
 |Rank|Submission          |Team                          |Hardware             |Status  |Cost          |capex   |opex    |unit cost|units@100K qps|KwH*4yrs |
 |----|--------------------|------------------------------|---------------------|--------|--------------|--------|--------|---------|--------------|---------|
-|   1|[faiss_t3](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/faiss_t3/README.md)|Facebook Research(*org*)                      |NVidia GPU             |eval|**$382,013.99**   |$352,350.40|$29,663.59|$22,021.90 |16      |296,635.913|
+|   1|[-](-)|-                      |-             |-|**-**   |-|-|- |-      |-|
 |   2|[-](-)|-                      |-             |-|**-**   |-|-|- |-      |-|
 |   3|[-](-)|-                      |-             |-|**-**   |       -|       -|        -|             -|        -|       
 |   4|[-](-)|-                      |-             |-|**-**   |       -|       -|        -|             -|        -|       
