@@ -10,7 +10,7 @@ import t3eval
 # variables that affect LB generation
 #
 RE_EXPORT               = False
-PROCESS_CSV             = True
+PROCESS_CSV             = False
 LEADERBOARD_GEN         = True
 
 PUBLIC                  = False # Set to False for private leaderboard gen
@@ -529,8 +529,9 @@ def produce_rankings(subms):
                         vals = best_val
                         if val!=0: best_vals.append( (subm, val, vals) )
                 best_vals = sorted( best_vals, key=lambda x: x[1], reverse=True if benchmark in [ "recall", "qps" ] else False )
-                lastidx = 0
+                lastidx = -1
                 for idx, item in enumerate(best_vals):
+                    print("best idx", idx)
                     kee = "$%s%d%s_SB" % ( DBS[db], idx+1, dbmapping[benchmark] )
                     kv = item[0]
                     #print("KV", kee, kv )
