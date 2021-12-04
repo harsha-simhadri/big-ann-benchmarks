@@ -46,13 +46,11 @@ class Evaluator():
 
         # read the csv
         if csv:
-            print("CSV", csv)
             self.df = pd.read_csv( csv, delimiter=',')
             datasets = self.df.dataset.unique()
             if verbose: print("Found unique datasets:", datasets)
             if len(datasets)< self.competition["min_qual_dsets"]:
                 raise Exception("Minimum number of datasets not met.")
-            print(self.df)
    
         self.algoname = algoname 
         self.system_cost = system_cost
@@ -300,7 +298,7 @@ class Evaluator():
         rows = self.df.loc[ self.df['dataset'] == dataset ] 
         if rows.shape[0]> self.competition["max_run_params"]:
             print("Invalid number of run parameters at %d" % rows.shape[0])
-            return False
+            #return False
 
         if len(rows)==0:
             if self.verbose: print("Warning: No data for %s present" % dataset)

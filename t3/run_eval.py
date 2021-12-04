@@ -9,13 +9,12 @@ import t3eval
 #
 # variables that affect LB generation
 #
-RE_EXPORT               = False
+RE_EXPORT               = True
 PROCESS_CSV             = True
 LEADERBOARD_GEN         = True
 
-PUBLIC                  = False # Set to False for private leaderboard gen
+PUBLIC                  = True # Set to False for private leaderboard gen
 REJECT_ANOMALIES        = False
-NO_EXT_LINKS            = False # Set to True for alternative leaderboards, such as reject anomalies
 
 OFFICIAL                = False
 
@@ -56,7 +55,7 @@ SUBM_MAPPING            = \
         # last - "export_fname": "public_with_power_capture.csv",
         # last-last "results_dir":  "%s/intel/results_intel_multigpu_all_stimes" % CACHE_RESULTS_TOPLEVEL,
         # last-last-last  "results_dir":  "%s/intel/results_updated_config_with_anomaly_mitigation" % CACHE_RESULTS_TOPLEVEL,
-        "results_dir":  ( "%s/intel/results_final_changes_to_3_dsets" %  CACHE_RESULTS_TOPLEVEL ) if PUBLIC else \
+        "results_dir":  ( "%s/intel/public/results_final_changes_to_3_dsets" %  CACHE_RESULTS_TOPLEVEL ) if PUBLIC else \
             "%s/intel/private/results_intel_priv_all" % CACHE_RESULTS_TOPLEVEL, 
         "export_fname": "public_w_cache_detect.csv" if PUBLIC else \
             "private_w_cache_detect.csv",
@@ -94,7 +93,7 @@ SUBM_MAPPING            = \
     "diskann": {
         "team":         "Microsoft Research India",
         "use_subm_dir": "diskann-bare-metal",
-        "results_dir":  "%s/diskann/results.ms_bare_metal" % COMP_RESULTS_TOPLEVEL,
+        "results_dir":  None,
         "export_fname": "diskann-bare-metal-res-pruned.csv", 
         "cache_detect": False,
         "system_cost":  0,
@@ -112,7 +111,7 @@ SUBM_MAPPING            = \
         "team":         "NVidia",
         # last - "results_dir":  "%s/nvidia/cuanns_multigpu/results3.power_mon" % COMP_RESULTS_TOPLEVEL,
         # last = "export_fname": "results3.power_mon.csv", 
-        "results_dir":  ( "%s/nvidia/multigpu/results_nv_multi_stimes_all" % CACHE_RESULTS_TOPLEVEL ) if PUBLIC else \
+        "results_dir":  ( "%s/nvidia/multigpu/public/results_nv_multi_stimes_all" % CACHE_RESULTS_TOPLEVEL ) if PUBLIC else \
             "%s" % CACHE_RESULTS_TOPLEVEL, 
         "export_fname": "public_w_cache_detect.csv" if PUBLIC else \
             "private_w_cache_detect.csv",
@@ -135,8 +134,8 @@ SUBM_MAPPING            = \
         # lastlast = "export_fname": "res.updated_algos_ivfpq.csv",
         # last "results_dir":  "%s/nvidia/ivfpq/results_nv_ivfpq_merge_all_and_1" % CACHE_RESULTS_TOPLEVEL,
         # last "results_dir":  "%s/nvidia/ivfpq/results_nv_ivfpq_reduce_anomalies_config_stimes_all" % CACHE_RESULTS_TOPLEVEL,
-        "results_dir" : ( "%s/nvidia/ivfpq/results_nv_ivfpq_merge__reduce_anomalies_config_stimes_all__last_text2image_config" %  CACHE_RESULTS_TOPLEVEL ) if PUBLIC else \
-            "%s/nvidia/ivfpq/private/results_nv_ivfpq_priv_all" % CACHE_RESULTS_TOPLEVEL,
+        "results_dir" : ( "%s/nvidia/ivfpq/public/results_nv_ivfpq_merge__reduce_anomalies_config_stimes_all__last_text2image_config" %  CACHE_RESULTS_TOPLEVEL ) \
+            if PUBLIC else  "%s/nvidia/ivfpq/private/results_nv_ivfpq_priv_all" % CACHE_RESULTS_TOPLEVEL,
         "export_fname": "public_w_cache_detect.csv" if PUBLIC else \
             "private_w_cache_detect.csv",
         "cache_detect": True,
@@ -170,22 +169,29 @@ def process_subm( subm ):
         sys.exit(1)
 
     # check results dir is valid
+    override_export = False
     results_dir = SUBM_MAPPING[subm]["results_dir"]
-    if not os.path.exists( eval_subm_dir ):
-        print("path does not exist: ", eval_subm_dir )
+    if results_dir == None:
+        override_export = True
+        if RE_EXPORT:
+            print("WARNING: For %s, results dir missing so overriding export..." % subm)
+    elif not os.path.exists( eval_subm_dir ):
+        print("results_dir path does not exist: ", results_dir )
         sys.exit(1)
   
-    # check there is a data export file 
-    do_export = False
+    # check there exists an data export file 
     export_file = os.path.join( eval_subm_dir, SUBM_MAPPING[subm]["export_fname"] )
-    print("EXP FILE", export_file)
     if not os.path.exists( export_file ):
         print("export file path does not exist: ", export_file )
         if not RE_EXPORT: sys.exit(1)
+    else:
+        print("export file exists: ", export_file )
 
     # create export.csv from results directory as needed
     exported = False
-    if do_export or RE_EXPORT:
+    if RE_EXPORT and not override_export:
+        print("Starting export of ",subm, "via", results_dir )
+
         # unlink top-level "results" dir
         print("unlinking ./results")
         stream = os.popen("unlink ./results")
@@ -217,16 +223,13 @@ def process_subm( subm ):
     else:
         print("not running data export, export file located at %s" % export_file)
 
-    # check there is a summary file
-    do_summarize = False
-
     # do eval
     if SUBM_MAPPING["baseline"] == subm: # it's the baseline 
         evaluator = t3eval.Evaluator(   subm, 
                                         export_file,
                                         "t3/competition2021.json",
                                         system_cost= SUBM_MAPPING[subm]["system_cost"],
-                                        verbose=True,
+                                        verbose=False,
                                         is_baseline=True,
                                         pending = [],
                                         print_best=False )
@@ -259,8 +262,8 @@ def mklnka( val, fmt, subm, db, benchmark ):
         if "use_subm_dir" in SUBM_MAPPING[subm].keys() else subm
     eval_img = os.path.join( "https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021", \
         use_subm, "%s_%s_%s.png" % ("public" if PUBLIC else "private", db, benchmark) )
-    print("eval img", val, fmt, subm, db, benchmark, "-->", eval_img)
-    if NO_EXT_LINKS: 
+    #print("eval img", val, fmt, subm, db, benchmark, "-->", eval_img)
+    if REJECT_ANOMALIES: 
         lnk = fmt.format(val)
     else:
         lnk = "[%s](%s)" % ( fmt.format(val), eval_img )
@@ -320,8 +323,8 @@ def produce_rankings(subms):
                 dfs.append(df)
 
         master = pd.concat( dfs, ignore_index=True)
-        print("MASTER DATAFRAME")
-        print(master)
+        #print("MASTER DATAFRAME")
+        #print(master)
         return master
 
     def retrieve_rankings(master):
@@ -361,12 +364,12 @@ def produce_rankings(subms):
             kee = "$" + SUBM_MAPPING[subm]['md_prefix']+"_EV"
             rdct[kee] = SUBM_MAPPING[subm]['evaluator']
             kee = "$" + SUBM_MAPPING[subm]['md_prefix']+"_AL"
-            if NO_EXT_LINKS:
+            if REJECT_ANOMALIES:
                 rdct[kee] = "-"
             else:
                 rdct[kee] = SUBM_MAPPING[subm]['algo']
             kee = "$" + SUBM_MAPPING[subm]['md_prefix']+"_AN"
-            if NO_EXT_LINKS:
+            if REJECT_ANOMALIES:
                 rdct[kee] = "-"
             else:
                 rdct[kee] = SUBM_MAPPING[subm]['analysis']
@@ -582,8 +585,11 @@ def produce_rankings(subms):
     # replace 'reject anomaly' status
     if REJECT_ANOMALIES:
         rdct["$REJECT_ANOM"] = "After Rejecting Anomalies"
+        rdct["$ADJUSTED"] = "adjusted leaderboard rankings (above)"
     else:
         rdct["$REJECT_ANOM"] = ""
+        rdct["$ADJUSTED"] = "[adjusted leaderboard rankings](LEADERBOARDS_%s_REJECT_ANOMALIES.md)" \
+            % ("PUBLIC" if PUBLIC else "PRIVATE")
 
     # load the leaderboard template
     f = open("t3/LEADERBOARDS.md.templ")
@@ -608,12 +614,14 @@ def produce_rankings(subms):
  
 if __name__ == "__main__":
 
-    subms = [  "faiss_t3", "optanne_graphann", "gemini", "diskann", "cuanns_multigpu", "cuanns_ivfpq" ]
-    #subms = [  "faiss_t3", "optanne_graphann", "gemini", "cuanns_multigpu", "cuanns_ivfpq" ]
-    #subms = [ "cuanns_ivfpq" ]
-    #subms = [ "optanne_graphann" ]
-    #subms = [ "gemini" ]
-    subms = [ "faiss_t3", "cuanns_ivfpq", "optanne_graphann" ]
+    if PUBLIC:
+        subms = [  "faiss_t3", "optanne_graphann", "gemini", "diskann", "cuanns_multigpu", "cuanns_ivfpq" ]
+        #subms = [  "faiss_t3", "optanne_graphann", "gemini", "cuanns_multigpu", "cuanns_ivfpq" ]
+        #subms = [ "cuanns_ivfpq" ]
+        #subms = [ "optanne_graphann" ]
+        #subms = [ "gemini" ]
+    else: #PRIVATE
+        subms = [ "faiss_t3", "cuanns_ivfpq", "optanne_graphann" ]
 
     # export and/or produce summary and evals json  
     if RE_EXPORT or PROCESS_CSV: 
