@@ -264,7 +264,7 @@ This leaderboard is based on the standard recall@10 vs throughput benchmark that
 Algorithms will be ranked on how much their recall surpasses the baselines at these QPS thresholds.   We will add up the recall improvements of each algorithm on all data sets it competes on. Participants are required to commit to at least 3 datasets, and ideally more. Algorithms that work on more datasets are at an advantage as they can benefit from additional scores. Any recall regression compared to the baseline on the datasets committed to will be subtracted from the final score.
 
 #### Results for T1
-The table lists best Recall/AP obtained at at least 10,000 QPS by algorithms in pull requests submitted before Nov 2021. All non-empty cells are derived from an author-published indices that succesfully ran on the standardized hardware with author-provided query configurations. Recall for bigann-1B does not count ties. This result is on the public query set.
+The table lists best Recall/AP obtained at at least 10,000 QPS by algorithms in pull requests submitted before Nov 2021. All non-empty cells are derived from author-published indices that succesfully ran on the standardized hardware with author-provided query configurations. Recall for bigann-1B does not count ties. This result is on the public query set.
 
 
 | PR | Name      |bigann-1B  | deep-1B |	msspacev-1B |	msturing-1B |	ssnpp-1B  |	text2image-1B  |
@@ -280,7 +280,7 @@ The table lists best Recall/AP obtained at at least 10,000 QPS by algorithms in 
 
 
 #### Results for T2
-The table lists best Recall/AP obtained at at least 1,500 QPS by algorithms in pull requests submitted before Nov 2021. All non-empty cells are derived from an author-published indices that succesfully ran on the standardized hardware with author-provided query configurations. Recall for bigann-1B does not count ties. This result is on the public query set.
+The table lists best Recall/AP obtained at at least 1,500 QPS by algorithms in pull requests submitted before Nov 2021. All non-empty cells are derived from author-published indices that succesfully ran on the standardized hardware with author-provided query configurations. Recall for bigann-1B does not count ties. This result is on the public query set.
 
 
 | PR | Name      |bigann-1B  | deep-1B |	msspacev-1B |	msturing-1B |	ssnpp-1B  |	text2image-1B |
