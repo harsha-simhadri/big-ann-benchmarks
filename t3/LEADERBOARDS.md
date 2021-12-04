@@ -9,7 +9,7 @@ We rank participants based on 4 different but inter-related benchmarks:
 
 We maintain two sets of leaderboards that rank participants on all benchmarks:
 * [One based on a public query dataset](LEADERBOARDS_PUBLIC.md) in which participants had access during the competition.
-* [One based on a private query dataet] currently being evaluated.
+* [One based on a private query dataet](LEADERBOARDS_PRIVATE.md) currently being evaluated.
 
 Please consult the main [T3 track README](README.md) for more details about benchmarks and ranking methodology.
 
