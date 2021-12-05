@@ -13,7 +13,7 @@ RE_EXPORT               = False
 PROCESS_CSV             = True
 LEADERBOARD_GEN         = True
 
-PUBLIC                  = True # Set to False for private leaderboard gen
+PUBLIC                  = False # Set to False for private leaderboard gen
 REJECT_ANOMALIES        = False
 
 SKIP_DB                 = [ ] if PUBLIC else [ "msspacev-1B" ] # private GT for msspacev has error
@@ -81,12 +81,14 @@ SUBM_MAPPING            = \
         "team":         "GSI Technology",
         # last "results_dir":  "%s/gemini/results_merge_new_ssnpp_text1image_to_use_gsl_release/merged" % COMP_RESULTS_TOPLEVEL,
         # last "export_fname": "public_gsl_release_merged_latest_ssnpp_text2image.csv",
+        #"results_dir":  ( "%s/gsi/results_final_run" % CACHE_RESULTS_TOPLEVEL ) if PUBLIC else \
+        #    ( "%s/gsi/results_gsi_priv_4_dsets" % CACHE_RESULTS_TOPLEVEL ),
         "results_dir":  ( "%s/gsi/results_final_run" % CACHE_RESULTS_TOPLEVEL ) if PUBLIC else \
-            ( "%s/gsi/results_gsi_priv_4_dsets" % CACHE_RESULTS_TOPLEVEL ),
+            ( "%s/gsi/results_gem_priv_4_dsets_w_power/" % CACHE_RESULTS_TOPLEVEL ),
         "export_fname": "public_w_cache_detect.csv" if PUBLIC else "private_w_cache_detect.csv",
         "cache_detect": True,
         "anomaly_explain": False,
-        "not_part":     ["power","cost" ],
+        "not_part":     [],
         "system_cost":  55726.66,
         "cost_approved":True,
         "md_prefix":    "GEM",
@@ -664,7 +666,7 @@ if __name__ == "__main__":
     else: #PRIVATE
         subms = [  "faiss_t3", "optanne_graphann", "gemini", "diskann", "cuanns_multigpu", "cuanns_ivfpq" ]
         #subms = [ "gemini", "faiss_t3", "cuanns_ivfpq", "optanne_graphann" ]
-        # subms = [ "gemini" ]
+        #subms = [ "gemini" ]
 
     # export and/or produce summary and evals json  
     if RE_EXPORT or PROCESS_CSV: 
