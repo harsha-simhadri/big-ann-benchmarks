@@ -56,7 +56,6 @@ SUBM_MAPPING            = \
         "team":         "Intel",
         # last - "results_dir":  "%s/optanne_graphann/results.with_power_capture" % COMP_RESULTS_TOPLEVEL,
         # last - "export_fname": "public_with_power_capture.csv",
-        # last-last "results_dir":  "%s/intel/results_intel_multigpu_all_stimes" % CACHE_RESULTS_TOPLEVEL,
         # last-last-last  "results_dir":  "%s/intel/results_updated_config_with_anomaly_mitigation" % CACHE_RESULTS_TOPLEVEL,
         "results_dir":  ( "%s/intel/public/results_final_changes_to_3_dsets" %  CACHE_RESULTS_TOPLEVEL ) if PUBLIC else \
             "%s/intel/private/results_intel_priv_all" % CACHE_RESULTS_TOPLEVEL, 
@@ -123,8 +122,9 @@ SUBM_MAPPING            = \
         "team":         "NVidia",
         # last - "results_dir":  "%s/nvidia/cuanns_multigpu/results3.power_mon" % COMP_RESULTS_TOPLEVEL,
         # last = "export_fname": "results3.power_mon.csv", 
-        "results_dir":  ( "%s/nvidia/multigpu/public/results_nv_multi_stimes_all" % CACHE_RESULTS_TOPLEVEL ) if PUBLIC else False,
-        "export_fname": "public_w_cache_detect.csv" if PUBLIC else False,
+        "results_dir":  ( "%s/nvidia/multigpu/public/results_nv_multi_stimes_all" % CACHE_RESULTS_TOPLEVEL ) if PUBLIC else \
+            ( "%s/nvidia/multigpu/private/results_nv_multi_priv_all_4" % CACHE_RESULTS_TOPLEVEL ),
+        "export_fname": "public_w_cache_detect.csv" if PUBLIC else "private_w_cache_detect.csv",
         "cache_detect": True,
         "not_part":     [ ],
         "anomaly_explain": "https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/cuanns_multigpu/ANOMALIES.md",
@@ -667,6 +667,7 @@ if __name__ == "__main__":
         subms = [  "faiss_t3", "optanne_graphann", "gemini", "diskann", "cuanns_multigpu", "cuanns_ivfpq" ]
         #subms = [ "gemini", "faiss_t3", "cuanns_ivfpq", "optanne_graphann" ]
         #subms = [ "gemini" ]
+        #subms = [ "cuanns_multigpu" ]
 
     # export and/or produce summary and evals json  
     if RE_EXPORT or PROCESS_CSV: 
