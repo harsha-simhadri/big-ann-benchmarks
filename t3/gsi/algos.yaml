@@ -160,18 +160,9 @@ text2image-1B:
                   
               query-args: |
                 [
-                "{'nprobe': 1000, 'nprobe_refine': 300, 'hamming_k': 50, 'max_query_batch_size':0}",
-                "{'nprobe': 1000, 'nprobe_refine': 350, 'hamming_k': 50, 'max_query_batch_size':0}",
-                "{'nprobe': 1200, 'nprobe_refine': 300, 'hamming_k': 50, 'max_query_batch_size':0}",
                 "{'nprobe': 1200, 'nprobe_refine': 350, 'hamming_k': 50, 'max_query_batch_size':0}",
-                "{'nprobe': 1500, 'nprobe_refine': 400, 'hamming_k': 50, 'max_query_batch_size':0}",
-                                
-                "{'nprobe': 2400, 'nprobe_refine': 700, 'hamming_k': 50,  'max_query_batch_size':3125}",
-                "{'nprobe': 2800, 'nprobe_refine': 850, 'hamming_k': 50,  'max_query_batch_size':3125}",
-                "{'nprobe': 3000, 'nprobe_refine': 800, 'hamming_k': 50,  'max_query_batch_size':3125}",
                 "{'nprobe': 3000, 'nprobe_refine': 850, 'hamming_k': 50,  'max_query_batch_size':3125}",
                 "{'nprobe': 3000, 'nprobe_refine': 900, 'hamming_k': 50,  'max_query_batch_size':3125}"
-
                 ]
 
 
