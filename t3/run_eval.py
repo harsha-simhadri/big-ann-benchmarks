@@ -47,7 +47,7 @@ SUBM_MAPPING            = \
         "display_hw":   "NVidia GPU",
         "readme":       "https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/faiss_t3/README.md",
         "org":          True,
-        "evaluator":    "George Williams",
+        "evaluator":    "[George Williams](https://github.com/sourcesync)",
         "algo":         "[src](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/benchmark/algorithms/faiss_t3.py)",
         "analysis":     "[nb](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/faiss_t3/EvalPublic.ipynb)" if PUBLIC else \
                             "[nb](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/faiss_t3/EvalPrivate.ipynb)" 
@@ -72,7 +72,7 @@ SUBM_MAPPING            = \
         "display_hw":   "Intel Optane",
         "readme":       "https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/optanne_graphann/README.md",
         "org":          False,
-        "evaluator":    "George Williams",
+        "evaluator":    "[George Williams](https://github.com/sourcesync)",
         "algo":         "[src](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/benchmark/algorithms/graphann.py)",
         "analysis":     "[nb](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/optanne_graphann/EvalPublic.ipynb)" if PUBLIC else \
                             "[nb](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/optanne_graphann/EvalPrivate.ipynb)"
@@ -94,7 +94,7 @@ SUBM_MAPPING            = \
         "display_hw":   "LedaE APU",
         "readme":       "https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/gemini/README.md",
         "org":          True,
-        "evaluator":    "George Williams",
+        "evaluator":    "[George Williams](https://github.com/sourcesync)",
         "algo":         "[src](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/benchmark/algorithms/gemini.py)",
         "analysis":     "[nb](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/gemini/EvalPublic.ipynb)" if PUBLIC else \
                             "[nb](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/gemini/EvalPrivate.ipynb)"
@@ -113,7 +113,7 @@ SUBM_MAPPING            = \
         "display_hw":   "Dell PowerEdge",
         "readme":       "https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/diskann-bare-metal/README.md",
         "org":          True,
-        "evaluator":    "Harsha Simhadri",
+        "evaluator":    "[Harsha Simhadri}(https://github.com/harsha-simhadri)",
         "algo":         "[src](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/benchmark/algorithms/diskann-t2.py)",
         "analysis":     "[nb](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/diskann-bare-metal/EvalPublic.ipynb)" if PUBLIC else "NA"
     },
@@ -133,7 +133,7 @@ SUBM_MAPPING            = \
         "display_hw":   "NVidia GPU",
         "readme":       "https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/cuanns_multigpu/README.md",
         "org":          False,
-        "evaluator":    "George Williams",
+        "evaluator":    "[George Williams](https://github.com/sourcesync)",
         "algo":         "[src](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/benchmark/algorithms/cuanns_multigpu.py)",
         "analysis":     "[nb](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/cuanns_multigpu/EvalPublic.ipynb)" if PUBLIC else "NA"
     },
@@ -157,7 +157,7 @@ SUBM_MAPPING            = \
         "display_hw":   "NVidia GPU",
         "readme":       "https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/cuanns_ivfpq/README.md",
         "org":          False,
-        "evaluator":    "George Williams",
+        "evaluator":    "[George Williams](https://github.com/sourcesync)",
         "algo":         "[src](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/benchmark/algorithms/cuanns_ivfpq.py)",
         "analysis":     "[nb](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/cuanns_ivfpq/EvalPublic.ipynb)" if PUBLIC else \
                             "[nb](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/cuanns_ivfpq/EvalPrivate.ipynb)"
