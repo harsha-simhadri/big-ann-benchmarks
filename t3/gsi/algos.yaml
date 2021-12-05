@@ -18,7 +18,7 @@ deep-1B:
                 , 'nbits':512
                 , 'nlist':2097152
                 , 'num_features':96
-                , 'max_num_queries':10000
+                , 'max_num_queries':30000
                 , 'num_apuc':4
                 , 'rerank_src_type':'F32'
                 , 'rerank_bf16':False
