@@ -31,7 +31,7 @@ Upon completion, we will make the rankings and winners official.
 
 Please revisit this page again soon for more updates.
 
-## Private Dataset Leaderboard Status
+## Private Dataset Leaderboards Status
 
 The status of the leaderboards and rankings on the private dataset lives [here](LEADERBOARDS_PRIVATE.md).
 
