@@ -10,7 +10,7 @@ deep-1B:
               [{"dim": 96,
                 "dtype": "float",
                 "dev_list": [0,1,2,3,4,5,6,7],
-                "max_batch_size": 10000
+                "max_batch_size": 30000
                 }]
           query-args: |
               [{ "iteration_num": 512, "searcher_k": 512 },
