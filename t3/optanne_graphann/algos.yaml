@@ -72,13 +72,12 @@ msturing-1B:
                 {"search_window_size": 38},
                 {"search_window_size": 39},
                 {"search_window_size": 40},
-                {"search_window_size": 2272},
-                {"search_window_size": 2336},
-                {"search_window_size": 2400},
-                {"search_window_size": 2464},
-                {"search_window_size": 2528}
+                {"search_window_size": 1888},
+                {"search_window_size": 1952},
+                {"search_window_size": 2016},
+                {"search_window_size": 2080},
+                {"search_window_size": 2144}
               ]
-
 
 bigann-1B:
     graphann:
@@ -122,16 +121,15 @@ text2image-1B:
                }]
           query-args: |
               [
-                {"search_window_size": 352},
-                {"search_window_size": 384},
-                {"search_window_size": 416},
-                {"search_window_size": 448},
-                {"search_window_size": 480},
-                {"search_window_size": 512},
-                {"search_window_size": 544},
-                {"search_window_size": 576},
-                {"search_window_size": 608},
-                {"search_window_size": 640}
+                {"search_window_size":  64},
+                {"search_window_size": 128},
+                {"search_window_size": 192},
+                {"search_window_size": 256},
+                {"search_window_size": 320},
+                {"search_window_size": 704},
+                {"search_window_size": 768},
+                {"search_window_size": 832},
+                {"search_window_size": 896},
+                {"search_window_size": 960}
               ]
-
 
