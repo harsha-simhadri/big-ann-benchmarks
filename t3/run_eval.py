@@ -82,8 +82,10 @@ SUBM_MAPPING            = \
         # last "export_fname": "public_gsl_release_merged_latest_ssnpp_text2image.csv",
         #"results_dir":  ( "%s/gsi/results_final_run" % CACHE_RESULTS_TOPLEVEL ) if PUBLIC else \
         #    ( "%s/gsi/results_gsi_priv_4_dsets" % CACHE_RESULTS_TOPLEVEL ),
+        # "results_dir":  ( "%s/gsi/results_final_run" % CACHE_RESULTS_TOPLEVEL ) if PUBLIC else \
+        #    ( "%s/gsi/results_gem_priv_4_dsets_w_power/" % CACHE_RESULTS_TOPLEVEL ),
         "results_dir":  ( "%s/gsi/results_final_run" % CACHE_RESULTS_TOPLEVEL ) if PUBLIC else \
-            ( "%s/gsi/results_gem_priv_4_dsets_w_power/" % CACHE_RESULTS_TOPLEVEL ),
+            ( "%s/gsi/results_gem_priv_merge__gem_priv_4_dsets_w_power__results_gem_priv_last_2_dsets/" % CACHE_RESULTS_TOPLEVEL ),
         "export_fname": "public_w_cache_detect.csv" if PUBLIC else "private_w_cache_detect.csv",
         "cache_detect": True,
         "anomaly_explain": False,
@@ -666,7 +668,7 @@ if __name__ == "__main__":
     else: #PRIVATE
         subms = [  "faiss_t3", "optanne_graphann", "gemini", "diskann", "cuanns_multigpu", "cuanns_ivfpq" ]
         #subms = [ "gemini", "faiss_t3", "cuanns_ivfpq", "optanne_graphann" ]
-        #subms = [ "gemini" ]
+        # subms = [ "gemini" ]
         #subms = [ "cuanns_multigpu" ]
 
     # export and/or produce summary and evals json  
