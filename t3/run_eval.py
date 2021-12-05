@@ -113,7 +113,7 @@ SUBM_MAPPING            = \
         "display_hw":   "Dell PowerEdge",
         "readme":       "https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/diskann-bare-metal/README.md",
         "org":          True,
-        "evaluator":    "[Harsha Simhadri}(https://github.com/harsha-simhadri)",
+        "evaluator":    "[Harsha Simhadri](https://github.com/harsha-simhadri)",
         "algo":         "[src](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/benchmark/algorithms/diskann-t2.py)",
         "analysis":     "[nb](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/diskann-bare-metal/EvalPublic.ipynb)" if PUBLIC else "NA"
     },
