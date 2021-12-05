@@ -35,7 +35,7 @@ Please revisit this page again soon for more updates.
 
 The status of the leaderboards and rankings on the private dataset lives [here](LEADERBOARDS_PRIVATE.md).
 
-All submissions are currently being evaluated using the private data sets so the scores (and rankings) will likely change as evaluation proceeds  
+All submissions are currently being evaluated using the private data sets so the scores (and rankings) could change as evaluation proceeds  
 
 Please revisit this page again soon for more updates.
 
