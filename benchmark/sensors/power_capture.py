@@ -221,8 +221,8 @@ if __name__ == "__main__":
     
     print("power capture unit tests")
 
-    ipmicap_ip = "192.168.99.112" # Set to your ipmicap's server ip
-    ipmicap_port = 3000 # Set to your ipmicap's server port
+    ipmicap_ip = "10.150.170.104" # Set to your ipmicap's server ip
+    ipmicap_port = 1235 # Set to your ipmicap's server port
     min_capture_time = -1
 
     #power_capture( ipmicap_ip, ipmicap_port, min_capture_time )
@@ -238,11 +238,12 @@ if __name__ == "__main__":
     cid=power_capture.start()
     print("cid=",cid)
 
+    time.sleep(3)
     print("stop")   
-    power_capture.stop()
+    ret = power_capture.stop(cid, all_stats=True)
 
-    stats = power_capture.get_stats([cid])
-    print("stats=",stats)
+    #stats = power_capture.get_stats([cid])
+    print("stats=",ret)
 
     print("all tests passed.")  
 
