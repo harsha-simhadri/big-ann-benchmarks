@@ -1,0 +1,5 @@
+Dec 5:
+* we re-ran both public and private query sets.
+* we used the same config...
+* ipmicap was run with the new support for gpu power sampling (--nvidia 8 )
+
