@@ -442,7 +442,7 @@ Please note that all rankings and winners are unofficial until all [open tasks a
 |   5|[-](-)                                   |-                      |-               |-|**-** |
 |   6|[-](-)                                   |-                      |-               |-|**-** |
 
-* The operational point for ranking is 0.860 recall@10. We will use the highest throughput for the search parameters that meet or exceed 0.860 recall@10.
+* The operational point for ranking is 0.601 recall@10. We will use the highest throughput for the search parameters that meet or exceed 0.601 recall@10.
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *eval* = final submissions are being evaluated.
@@ -459,7 +459,7 @@ Please note that all rankings and winners are unofficial until all [open tasks a
 |   5|[-](-)                                   |-                      |-               |-|**-**|
 |   6|[-](-)                                   |-                      |-               |-|**-**|
 
-* The operational point for ranking is 0.86 recall@10. We will use the lowest power consumption for the search parameters that meet or exceed 0.86 recall@10.
+* The operational point for ranking is 0.601 recall@10. We will use the lowest power consumption for the search parameters that meet or exceed 0.601 recall@10.
 * Abbreviations used in chart:
   * *org* = submitted by challenge organizer, so subject to competition restrictions
   * *eval* = final submissions are being evaluated.
@@ -476,7 +476,7 @@ Please note that all rankings and winners are unofficial until all [open tasks a
 |   5|[-](-) |-                      |-             |-|**-**   |-|-|- |-      |-| 
 |   6|[-](-) |-                      |-             |-|**-**   |-|-|- |-      |-| 
 
-* The operational point for ranking is 0.86 recall@10. We will use the lowest power consumption/query for the search parameters that meet or exceed 0.86 recall@10.
+* The operational point for ranking is 0.601 recall@10. We will use the lowest power consumption/query for the search parameters that meet or exceed 0.601 recall@10.
 * The formula is based on:
   * Take the algorithm's throughput submitted to leaderboard, use it to scale no. of systems needed to scale to 100K qps (using ceiling to round up any decimal.)
   * Capex = cost per system * scale no.

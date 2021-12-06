@@ -14,7 +14,7 @@ PROCESS_CSV             = True
 LEADERBOARD_GEN         = True
 
 PUBLIC                  = False # Set to False for private leaderboard gen
-REJECT_ANOMALIES        = False
+REJECT_ANOMALIES        = True
 
 SKIP_DB                 = [ ] if PUBLIC else [ "msspacev-1B" ] # private GT for msspacev has error
 SENSORS                 = False
@@ -647,6 +647,12 @@ def produce_rankings(subms):
         rdct["$REJECT_ANOM"] = ""
         rdct["$ADJUSTED"] = "[adjusted leaderboard rankings](LEADERBOARDS_%s_REJECT_ANOMALIES.md)" \
             % ("PUBLIC" if PUBLIC else "PRIVATE")
+
+    # replace TILOWRECALL
+    if PUBLIC:
+        rdct["$TILOWRECALL"] = "0.860"
+    else:
+        rdct["$TILOWRECALL"] = "0.601"
 
     # load the leaderboard template
     f = open("t3/LEADERBOARDS.md.templ")
