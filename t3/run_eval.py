@@ -6,16 +6,23 @@ import pandas as pd
 from string import Template
 import t3eval
 
+#
+# variables that affect LB generation
+#
 RE_EXPORT               = False
 PROCESS_CSV             = True
 LEADERBOARD_GEN         = True
 
+PUBLIC                  = False # Set to False for private leaderboard gen
 REJECT_ANOMALIES        = False
-NO_EXT_LINKS            = False
 
-OFFICIAL                = False
+SKIP_DB                 = [ ] if PUBLIC else [ "msspacev-1B" ] # private GT for msspacev has error
+SENSORS                 = False
 
-TOTAL_SUBM              = 10
+#
+# constants
+#
+TOTAL_SUBM              = 6
 COMP_RESULTS_TOPLEVEL   = "/Users/gwilliams/Projects/BigANN/competition_results"
 CACHE_RESULTS_TOPLEVEL  = "/Users/gwilliams/Projects/BigANN/cache_detect_results"
 T3_EVAL_TOPLEVEL        = "t3/eval_2021"
@@ -26,95 +33,119 @@ SUBM_MAPPING            = \
         "team":         "Facebook Research",
         # last - "results_dir":  "%s/faiss_t3/results.baseline_focused" % COMP_RESULTS_TOPLEVEL,
         # last - "export_fname": "public_focused.csv",
-        "results_dir":  "%s/faiss/results_faiss_stimes_all_dsets" % CACHE_RESULTS_TOPLEVEL,
-        "export_fname": "public_w_cache_detect.csv",
+        "results_dir":  ( "%s/faiss/public/results_faiss_stimes_all_dsets" % CACHE_RESULTS_TOPLEVEL ) if PUBLIC else \
+            "%s/faiss/private/results_merge__faiss_priv_2_dsets__private_4_dsets" % CACHE_RESULTS_TOPLEVEL,
+        "export_fname": "public_w_cache_detect.csv" if PUBLIC else \
+            "private_w_cache_detect.csv",
         "cache_detect": True,
         "anomaly_explain": "https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/faiss_t3/ANOMALIES.md",
+        "not_part":     [ ],
         "system_cost":  22021.90,
         "cost_approved":True,
         "md_prefix":    "BS",
-        "status":       "final",
+        "status":       "final" if PUBLIC else "eval", 
         "display_hw":   "NVidia GPU",
         "readme":       "https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/faiss_t3/README.md",
         "org":          True,
-        "evaluator":    "George Williams",
+        "evaluator":    "[George Williams](https://github.com/sourcesync)",
         "algo":         "[src](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/benchmark/algorithms/faiss_t3.py)",
-        "analysis":     "[nb](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/faiss_t3/EvalPublic.ipynb)"
+        "analysis":     "[nb](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/faiss_t3/EvalPublic.ipynb)" if PUBLIC else \
+                            "[nb](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/faiss_t3/EvalPrivate.ipynb)" 
     },
     "optanne_graphann": {
         "team":         "Intel",
         # last - "results_dir":  "%s/optanne_graphann/results.with_power_capture" % COMP_RESULTS_TOPLEVEL,
         # last - "export_fname": "public_with_power_capture.csv",
-        # last-last "results_dir":  "%s/intel/results_intel_multigpu_all_stimes" % CACHE_RESULTS_TOPLEVEL,
-        # last-last-last  "results_dir":  "%s/intel/results_updated_config_with_anomaly_mitigation" % CACHE_RESULTS_TOPLEVEL,
-        "results_dir":  "%s/intel/results_final_changes_to_3_dsets" % CACHE_RESULTS_TOPLEVEL,
-        "export_fname": "public_w_cache_detect.csv",
+        # last -  "results_dir":  "%s/intel/results_updated_config_with_anomaly_mitigation" % CACHE_RESULTS_TOPLEVEL,
+        # last - "results_dir":  ( "%s/intel/public/results_final_changes_to_3_dsets" %  CACHE_RESULTS_TOPLEVEL ) if PUBLIC else \
+        #    "%s/intel/private/results_intel_priv_all" % CACHE_RESULTS_TOPLEVEL, 
+        # last - "results_dir":  ( "%s/intel/public/results_final_changes_to_3_dsets" %  CACHE_RESULTS_TOPLEVEL ) if PUBLIC else \
+        #    "%s/intel/private/results_intel_priv_synced_config_all" % CACHE_RESULTS_TOPLEVEL, 
+        "results_dir":  ( "%s/intel/public/results_final_changes_to_3_dsets" %  CACHE_RESULTS_TOPLEVEL ) if PUBLIC else \
+            "%s/intel/private/results_intel_priv_merged_sync_1_2" % CACHE_RESULTS_TOPLEVEL, 
+        "export_fname": "public_w_cache_detect.csv" if PUBLIC else \
+            "private_w_cache_detect.csv",
         "cache_detect": True,
         "anomaly_explain": "https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/optanne_graphann/ANOMALIES.md",
+        "not_part":     [ ],
         "system_cost":  14664.20,
         "cost_approved":True,
         "md_prefix":    "OPT1",
-        "status":       "final",
+        "status":       "final" if PUBLIC else "eval", 
         "display_hw":   "Intel Optane",
         "readme":       "https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/optanne_graphann/README.md",
         "org":          False,
-        "evaluator":    "George Williams",
+        "evaluator":    "[George Williams](https://github.com/sourcesync)",
         "algo":         "[src](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/benchmark/algorithms/graphann.py)",
-        "analysis":     "[nb](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/optanne_graphann/EvalPublic.ipynb)"
+        "analysis":     "[nb](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/optanne_graphann/EvalPublic.ipynb)" if PUBLIC else \
+                            "[nb](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/optanne_graphann/EvalPrivate.ipynb)"
     },
     "gemini": {
         "team":         "GSI Technology",
         # last "results_dir":  "%s/gemini/results_merge_new_ssnpp_text1image_to_use_gsl_release/merged" % COMP_RESULTS_TOPLEVEL,
         # last "export_fname": "public_gsl_release_merged_latest_ssnpp_text2image.csv",
-        "results_dir":  "%s/gsi/results_final_run" % CACHE_RESULTS_TOPLEVEL,
-        "export_fname": "public_w_cache_detect.csv",
+        #"results_dir":  ( "%s/gsi/results_final_run" % CACHE_RESULTS_TOPLEVEL ) if PUBLIC else \
+        #    ( "%s/gsi/results_gsi_priv_4_dsets" % CACHE_RESULTS_TOPLEVEL ),
+        # "results_dir":  ( "%s/gsi/results_final_run" % CACHE_RESULTS_TOPLEVEL ) if PUBLIC else \
+        #    ( "%s/gsi/results_gem_priv_4_dsets_w_power/" % CACHE_RESULTS_TOPLEVEL ),
+        "results_dir":  ( "%s/gsi/results_final_run" % CACHE_RESULTS_TOPLEVEL ) if PUBLIC else \
+            ( "%s/gsi/results_gem_priv_merge__gem_priv_4_dsets_w_power__results_gem_priv_last_2_dsets/" % CACHE_RESULTS_TOPLEVEL ),
+        "export_fname": "public_w_cache_detect.csv" if PUBLIC else "private_w_cache_detect.csv",
         "cache_detect": True,
+        "anomaly_explain": False,
+        "not_part":     [],
         "system_cost":  55726.66,
         "cost_approved":True,
         "md_prefix":    "GEM",
-        "status":       "final",
+        "status":       "final" if PUBLIC else "eval", 
         "display_hw":   "LedaE APU",
         "readme":       "https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/gemini/README.md",
         "org":          True,
-        "evaluator":    "George Williams",
+        "evaluator":    "[George Williams](https://github.com/sourcesync)",
         "algo":         "[src](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/benchmark/algorithms/gemini.py)",
-        "analysis":     "[nb](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/gemini/EvalPublic.ipynb)"
+        "analysis":     "[nb](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/gemini/EvalPublic.ipynb)" if PUBLIC else \
+                            "[nb](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/gemini/EvalPrivate.ipynb)"
     },
     "diskann": {
         "team":         "Microsoft Research India",
         "use_subm_dir": "diskann-bare-metal",
-        "results_dir":  "%s/diskann/results.ms_bare_metal" % COMP_RESULTS_TOPLEVEL,
-        "export_fname": "diskann-bare-metal-res-pruned.csv", 
+        "results_dir":  None,
+        "export_fname": "diskann-bare-metal-res-pruned.csv" if PUBLIC else False,
         "cache_detect": False,
+        "not_part":     [ "power", "cost" ],
         "system_cost":  0,
         "cost_approved":True,
         "md_prefix":    "MSD",
-        "status":       "final",
+        "status":       "final" if PUBLIC else "eval", 
         "display_hw":   "Dell PowerEdge",
         "readme":       "https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/diskann-bare-metal/README.md",
         "org":          True,
-        "evaluator":    "Harsha Simhadri",
+        "evaluator":    "[Harsha Simhadri](https://github.com/harsha-simhadri)",
         "algo":         "[src](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/benchmark/algorithms/diskann-t2.py)",
-        "analysis":     "[nb](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/diskann-bare-metal/EvalPublic.ipynb)"
+        "analysis":     "[nb](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/diskann-bare-metal/EvalPublic.ipynb)" if PUBLIC else "NA"
     },
     "cuanns_multigpu": {
         "team":         "NVidia",
         # last - "results_dir":  "%s/nvidia/cuanns_multigpu/results3.power_mon" % COMP_RESULTS_TOPLEVEL,
         # last = "export_fname": "results3.power_mon.csv", 
-        "results_dir":  "%s/nvidia/multigpu/results_nv_multi_stimes_all" % CACHE_RESULTS_TOPLEVEL,
-        "export_fname": "public_w_cache_detect.csv", 
+        #"results_dir":  ( "%s/nvidia/multigpu/public/results_nv_multi_stimes_all" % CACHE_RESULTS_TOPLEVEL ) if PUBLIC else \
+        #    ( "%s/nvidia/multigpu/private/results_nv_multi_priv_all_4" % CACHE_RESULTS_TOPLEVEL ),
+        "results_dir":  ( "%s/nvidia/multigpu/public/results_nv_multi_stimes_all" % CACHE_RESULTS_TOPLEVEL ) if PUBLIC else \
+            ( "%s/nvidia/multigpu/private/results_nv_multi_priv_new_power_all" % CACHE_RESULTS_TOPLEVEL ),
+        "export_fname": "public_w_cache_detect.csv" if PUBLIC else "private_w_cache_detect.csv",
         "cache_detect": True,
+        "not_part":     [ ],
         "anomaly_explain": "https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/cuanns_multigpu/ANOMALIES.md",
         "system_cost":  150000,
         "cost_approved":False,
         "md_prefix":    "NV",
-        "status":       "final",
+        "status":       "final" if PUBLIC else "eval", 
         "display_hw":   "NVidia GPU",
         "readme":       "https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/cuanns_multigpu/README.md",
         "org":          False,
-        "evaluator":    "George Williams",
+        "evaluator":    "[George Williams](https://github.com/sourcesync)",
         "algo":         "[src](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/benchmark/algorithms/cuanns_multigpu.py)",
-        "analysis":     "[nb](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/cuanns_multigpu/EvalPublic.ipynb)"
+        "analysis":     "[nb](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/cuanns_multigpu/EvalPublic.ipynb)" if PUBLIC else "NA"
     },
     "cuanns_ivfpq": {
         "team":         "NVidia",
@@ -122,20 +153,24 @@ SUBM_MAPPING            = \
         # lastlast = "export_fname": "res.updated_algos_ivfpq.csv",
         # last "results_dir":  "%s/nvidia/ivfpq/results_nv_ivfpq_merge_all_and_1" % CACHE_RESULTS_TOPLEVEL,
         # last "results_dir":  "%s/nvidia/ivfpq/results_nv_ivfpq_reduce_anomalies_config_stimes_all" % CACHE_RESULTS_TOPLEVEL,
-        "results_dir" : "%s/nvidia/ivfpq/results_nv_ivfpq_merge__reduce_anomalies_config_stimes_all__last_text2image_config" % CACHE_RESULTS_TOPLEVEL, 
-        "export_fname": "public_w_cache_detect.csv",
+        "results_dir" : ( "%s/nvidia/ivfpq/public/results_nv_ivfpq_merge__reduce_anomalies_config_stimes_all__last_text2image_config" %  CACHE_RESULTS_TOPLEVEL ) \
+            if PUBLIC else  "%s/nvidia/ivfpq/private/results_nv_ivfpq_priv_all" % CACHE_RESULTS_TOPLEVEL,
+        "export_fname": "public_w_cache_detect.csv" if PUBLIC else \
+            "private_w_cache_detect.csv",
         "cache_detect": True,
+        "not_part":     [ ],
         "anomaly_explain": "https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/cuanns_ivfpq/ANOMALIES.md",
         "system_cost":  150000,
         "cost_approved":False,
         "md_prefix":    "NV2",
-        "status":       "final",
+        "status":       "final" if PUBLIC else "eval", 
         "display_hw":   "NVidia GPU",
         "readme":       "https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/cuanns_ivfpq/README.md",
         "org":          False,
-        "evaluator":    "George Williams",
+        "evaluator":    "[George Williams](https://github.com/sourcesync)",
         "algo":         "[src](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/benchmark/algorithms/cuanns_ivfpq.py)",
-        "analysis":     "[nb](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/cuanns_ivfpq/EvalPublic.ipynb)"
+        "analysis":     "[nb](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/cuanns_ivfpq/EvalPublic.ipynb)" if PUBLIC else \
+                            "[nb](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021/cuanns_ivfpq/EvalPrivate.ipynb)"
     },
     "baseline": "faiss_t3"
 }
@@ -155,22 +190,35 @@ def process_subm( subm ):
         sys.exit(1)
 
     # check results dir is valid
+    override_export = False
     results_dir = SUBM_MAPPING[subm]["results_dir"]
-    if not os.path.exists( eval_subm_dir ):
-        print("path does not exist: ", eval_subm_dir )
+    if results_dir == None or results_dir==False:
+        override_export = True
+        if RE_EXPORT:
+            print("WARNING: For %s, results dir missing so overriding export..." % subm)
+    elif not os.path.exists( eval_subm_dir ):
+        print("results_dir path does not exist: ", results_dir )
         sys.exit(1)
   
-    # check there is a data export file 
-    do_export = False
-    export_file = os.path.join( eval_subm_dir, SUBM_MAPPING[subm]["export_fname"] )
-    print("EXP FILE", export_file)
-    if not os.path.exists( export_file ):
-        print("export file path does not exist: ", export_file )
-        if not RE_EXPORT: sys.exit(1)
+    # check there exists an data export file
+    override_eval = False
+    if SUBM_MAPPING[subm]["export_fname"]==False:
+        print("No export_fname for", subm, "skipping any export")
+        override_export=True
+        override_eval = True
+    else:
+        export_file = os.path.join( eval_subm_dir, SUBM_MAPPING[subm]["export_fname"] )
+        if not os.path.exists( export_file ):
+            print("export file path does not exist: ", export_file )
+            if not RE_EXPORT: sys.exit(1)
+        else:
+            print("export file exists: ", export_file )
 
     # create export.csv from results directory as needed
     exported = False
-    if do_export or RE_EXPORT:
+    if RE_EXPORT and not override_export:
+        print("Starting export of ",subm, "via", results_dir )
+
         # unlink top-level "results" dir
         print("unlinking ./results")
         stream = os.popen("unlink ./results")
@@ -185,9 +233,11 @@ def process_subm( subm ):
 
         # run the export command
         if SUBM_MAPPING[subm]["cache_detect"]:
-            export_cmd = "python data_export.py --recompute --sensors --search_times --detect_caching 0.3 --output='%s'" % export_file
+            export_cmd = "python data_export.py %s --recompute %s --search_times --detect_caching 0.3 --output \"%s\"" \
+                % ( " " if "power" in SUBM_MAPPING[subm]["not_part"] else "--sensors", " " if PUBLIC else "--private-query", export_file )
         else:
-            export_cmd = "python data_export.py --recompute --sensors --output='%s'" % export_file
+            export_cmd = "python data_export.py --recompute --sensors --output='%s'" \
+                % ( " " if PUBLIC else "--private-query", export_file )
         print("running export command->", export_cmd )
         stream = os.popen(export_cmd)
         print("result of export=", stream.read())
@@ -198,13 +248,13 @@ def process_subm( subm ):
             sys.exit(1)
         exported = True    
     else:
-        print("not running data export, export file located at %s" % export_file)
-
-    # check there is a summary file
-    do_summarize = False
+        print("not running data export for", subm)
 
     # do eval
-    if SUBM_MAPPING["baseline"] == subm: # it's the baseline 
+    if override_eval:
+        print("Skipping eval for", subm)
+        return False
+    elif SUBM_MAPPING["baseline"] == subm: # it's the baseline 
         evaluator = t3eval.Evaluator(   subm, 
                                         export_file,
                                         "t3/competition2021.json",
@@ -213,34 +263,42 @@ def process_subm( subm ):
                                         is_baseline=True,
                                         pending = [],
                                         print_best=False )
-        evaluator.eval_all(             save_summary=os.path.join(eval_subm_dir, "summary.json"),
-                                        save_evals=os.path.join(eval_subm_dir, "evals.json" ),
-                                        reject_anomalies=REJECT_ANOMALIES )
-        evaluator.commit_baseline(      "t3/baseline2021.json")
-        evaluator.show_summary(         savepath=os.path.join( eval_subm_dir, "summary.png" ))
+        evaluator.eval_all(             save_summary=os.path.join(eval_subm_dir, "%s_summary.json" % ( "public" if PUBLIC else "private") ),
+                                        save_evals=os.path.join(eval_subm_dir, "%s_evals.json" % ( "public" if PUBLIC else "private" ) ),
+                                        reject_anomalies=REJECT_ANOMALIES,
+                                        skipdb=SKIP_DB)
+        evaluator.commit_baseline(      "t3/%s_baseline2021.json" % ( "public" if PUBLIC else "private" ),
+                                        skipdb=SKIP_DB)
+        evaluator.show_summary(         savepath=os.path.join( eval_subm_dir, "%s_summary.png" % ( "public" if PUBLIC else "private" )),
+                                        public= True if PUBLIC else False )
+        return True
     else:
-        print("EVALUATOR", SUBM_MAPPING[subm])
+        # print("EVALUATOR", SUBM_MAPPING[subm])
         evaluator = t3eval.Evaluator(   subm, 
                                         export_file,
                                         "t3/competition2021.json",
-                                        baseline_path="t3/baseline2021.json",
+                                        baseline_path="t3/%s_baseline2021.json" % ( "public" if PUBLIC else "private" ),
                                         system_cost= SUBM_MAPPING[subm]["system_cost"],
                                         verbose=False,
                                         is_baseline=False,
                                         pending = [],
                                         print_best=False )
-        evaluator.eval_all(             save_summary=os.path.join(eval_subm_dir, "summary.json"),
-                                        save_evals=os.path.join(eval_subm_dir, "evals.json" ),
-                                        reject_anomalies=REJECT_ANOMALIES )
-        evaluator.show_summary(         savepath=os.path.join( eval_subm_dir, "summary.png" ))
+        evaluator.eval_all(             save_summary=os.path.join(eval_subm_dir, "%s_summary.json" % ( "public" if PUBLIC else "private" )),
+                                        save_evals=os.path.join(eval_subm_dir, "%s_evals.json" % ( "public" if PUBLIC else "private" )),
+                                        reject_anomalies=REJECT_ANOMALIES,
+                                        skipdb=SKIP_DB)
+        evaluator.show_summary(         savepath=os.path.join( eval_subm_dir, "%s_summary.png" % ( "public" if PUBLIC else "private" )),
+                                        public= True if PUBLIC else False )
+        return True
 
 def mklnka( val, fmt, subm, db, benchmark ):
     if benchmark=="qps": benchmark="throughput"
     use_subm = SUBM_MAPPING[subm]["use_subm_dir"] \
         if "use_subm_dir" in SUBM_MAPPING[subm].keys() else subm
-    eval_img = os.path.join( "https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021", use_subm, "%s_%s.png" % (db, benchmark) )
-    print("eval img", val, fmt, subm, db, benchmark, "-->", eval_img)
-    if NO_EXT_LINKS: 
+    eval_img = os.path.join( "https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/eval_2021", \
+        use_subm, ( "%s_%s.png" % ( db, benchmark) ) if PUBLIC else ( "private_%s_%s.png" % ( db, benchmark) ) )
+    #print("eval img", val, fmt, subm, db, benchmark, "-->", eval_img)
+    if REJECT_ANOMALIES: 
         lnk = fmt.format(val)
     else:
         lnk = "[%s](%s)" % ( fmt.format(val), eval_img )
@@ -267,7 +325,11 @@ def produce_rankings(subms):
 
         # get the data from summary csv
         for subm in subms:
-      
+    
+                if not SUBM_MAPPING[subm]["evals"]:
+                    print("WARNING: no evals found for", subm)
+                    continue                   
+  
                 subm_dir = SUBM_MAPPING[subm]["use_subm_dir"] \
                     if "use_subm_dir" in SUBM_MAPPING[subm].keys() else subm
                 eval_subm_dir = os.path.join( T3_EVAL_TOPLEVEL, subm_dir )
@@ -277,12 +339,12 @@ def produce_rankings(subms):
                     print("path does not exist: ", eval_subm_dir )
                     sys.exit(1)
                 
-                summary_json = os.path.join(eval_subm_dir, "summary.json")
+                summary_json = os.path.join(eval_subm_dir, "%s_summary.json" % ( "public" if PUBLIC else "private" ))
                 if not os.path.exists( summary_json ):
                     print("path does not exist: ", summary_json )
                     sys.exit(1)
                 use_subm = SUBM_MAPPING[subm]["use_subm_dir"]  if "use_subm_dir" in SUBM_MAPPING[subm].keys() else subm
-                jpath = "t3/eval_2021/%s/summary.json" % use_subm
+                jpath = "t3/eval_2021/%s/%s_summary.json" % ( use_subm, "public" if PUBLIC else "private" )
                 with open(jpath) as json_file:
                     summary = json.load(json_file)
      
@@ -300,8 +362,8 @@ def produce_rankings(subms):
                 dfs.append(df)
 
         master = pd.concat( dfs, ignore_index=True)
-        print("MASTER DATAFRAME")
-        print(master)
+        #print("MASTER DATAFRAME")
+        #print(master)
         return master
 
     def retrieve_rankings(master):
@@ -341,23 +403,26 @@ def produce_rankings(subms):
             kee = "$" + SUBM_MAPPING[subm]['md_prefix']+"_EV"
             rdct[kee] = SUBM_MAPPING[subm]['evaluator']
             kee = "$" + SUBM_MAPPING[subm]['md_prefix']+"_AL"
-            if NO_EXT_LINKS:
+            if REJECT_ANOMALIES:
                 rdct[kee] = "-"
             else:
                 rdct[kee] = SUBM_MAPPING[subm]['algo']
             kee = "$" + SUBM_MAPPING[subm]['md_prefix']+"_AN"
-            if NO_EXT_LINKS:
+            if REJECT_ANOMALIES:
                 rdct[kee] = "-"
             else:
                 rdct[kee] = SUBM_MAPPING[subm]['analysis']
    
             # anomaly 
             kee = "$" + SUBM_MAPPING[subm]['md_prefix']+"_AC"
-            if SUBM_MAPPING[subm]['cache_detect']:
+            if SUBM_MAPPING[subm]['cache_detect'] and SUBM_MAPPING[subm]['evals']:
                 ac = sum( [ el[1]['cache'][0] for el in SUBM_MAPPING[subm]['evals'].items() if el[0]!="summary" ] )
                 tc = sum( [ el[1]['cache'][1] for el in SUBM_MAPPING[subm]['evals'].items() if el[0]!="summary" ] )
                 if ac>0:
-                    rdct[kee] = "[%d/%d](%s)" % (ac, tc, SUBM_MAPPING[subm]['anomaly_explain'])
+                    if SUBM_MAPPING[subm]['anomaly_explain']:
+                        rdct[kee] = "[%d/%d](%s)" % (ac, tc, SUBM_MAPPING[subm]['anomaly_explain'])
+                    else:
+                        rdct[kee] = "%d/%d" % (ac,tc)
                 else:
                     rdct[kee] = "%d/%d" % (ac, tc )
             else:
@@ -467,14 +532,16 @@ def produce_rankings(subms):
                     dbmapping = { "recall":"R", "qps":"Q", "cost":"C", "power":"P" }
                     bestmapping = { "recall":"best_recall", "qps":"best_qps", "power":"best_wspq", "cost":"cost" }
                     bestformatmapping = { "recall": "{:,.5f}", "qps": "{:,.0f}", "power":"{:,.4f}", "cost":"${:,.2f}" }
-                    supported_dbs = SUBM_MAPPING[subm]["evals"].keys()
+                    supported_dbs = SUBM_MAPPING[subm]["evals"].keys() if SUBM_MAPPING[subm]['evals'] else []
                     if db in supported_dbs:
                         best_val = SUBM_MAPPING[subm]["evals"][db][ bestmapping[benchmark] ]
                         val = best_val[ bestidxmapping[benchmark] ] 
                         vals = best_val
                         if val!=0: best_vals.append( (subm, val, vals) )
                 best_vals = sorted( best_vals, key=lambda x: x[1], reverse=True if benchmark in [ "recall", "qps" ] else False )
+                lastidx = -1
                 for idx, item in enumerate(best_vals):
+                    #print("best idx", idx)
                     kee = "$%s%d%s_SB" % ( DBS[db], idx+1, dbmapping[benchmark] )
                     kv = item[0]
                     #print("KV", kee, kv )
@@ -516,8 +583,12 @@ def produce_rankings(subms):
                         kee = "$%s%d%s_KWT" % ( DBS[db], idx+1, dbmapping[benchmark])
                         kv = "{:,.3f}".format(item[2][5]) #kwt
                         rdct[kee]=kv
-                    
+                    lastidx = idx
+
+                idx = lastidx
+                #print("idx", idx)   
                 for i in range(idx+1, TOTAL_SUBM):
+                    #print("clearing", db, i, benchmark )
                     kee = "$%s%d%s_SB" % ( DBS[db], i+1, dbmapping[benchmark] ) 
                     rdct[kee]="-"
                     kee = "$%s%d%s_TM" % ( DBS[db], i+1, dbmapping[benchmark] )
@@ -556,14 +627,20 @@ def produce_rankings(subms):
         kee = "$" + SUBM_MAPPING[subm]['md_prefix']+"_S"
         rdct[kee] = SUBM_MAPPING[subm]['status']
 
+    # replace LB type
+    rdct["$LBTYPE"] = "Public" if PUBLIC else "Private"
+
     # replace offlabel status
-    rdct["$OFFLABEL"] = "Official" if OFFICIAL else "Unofficial"
+    # rdct["$OFFLABEL"] = "Official" if OFFICIAL else "Unofficial"
 
     # replace 'reject anomaly' status
     if REJECT_ANOMALIES:
         rdct["$REJECT_ANOM"] = "After Rejecting Anomalies"
+        rdct["$ADJUSTED"] = "adjusted leaderboard rankings (above)"
     else:
         rdct["$REJECT_ANOM"] = ""
+        rdct["$ADJUSTED"] = "[adjusted leaderboard rankings](LEADERBOARDS_%s_REJECT_ANOMALIES.md)" \
+            % ("PUBLIC" if PUBLIC else "PRIVATE")
 
     # load the leaderboard template
     f = open("t3/LEADERBOARDS.md.templ")
@@ -575,11 +652,10 @@ def produce_rankings(subms):
     outp = lines
     for kee in rdct.keys():
         outp = outp.replace( kee, rdct[kee] )
-    out_file = "t3/LEADERBOARDS.md"
     if REJECT_ANOMALIES: 
-        out_file = "t3/LEADERBOARDS_REJECT_ANOMALIES.md"
+        out_file = "t3/LEADERBOARDS_%s_REJECT_ANOMALIES.md" % ( "PUBLIC" if PUBLIC else "PRIVATE" )
     else:
-        out_file = "t3/LEADERBOARDS.md"
+        out_file = "t3/LEADERBOARDS_%s.md" % ("PUBLIC" if PUBLIC else "PRIVATE")
     print("out_file", out_file)
     f = open(out_file,"w")
     f.write(outp)
@@ -589,24 +665,38 @@ def produce_rankings(subms):
  
 if __name__ == "__main__":
 
-    subms = [  "faiss_t3", "optanne_graphann", "gemini", "diskann", "cuanns_multigpu", "cuanns_ivfpq" ]
-    #subms = [  "faiss_t3", "optanne_graphann", "gemini", "cuanns_multigpu", "cuanns_ivfpq" ]
-    #subms = [ "cuanns_ivfpq" ]
-    #subms = [ "optanne_graphann" ]
-    #subms = [ "gemini" ]
+    if PUBLIC:
+        subms = [  "faiss_t3", "optanne_graphann", "gemini", "diskann", "cuanns_multigpu", "cuanns_ivfpq" ]
+        #subms = [  "faiss_t3", "optanne_graphann", "gemini", "cuanns_multigpu", "cuanns_ivfpq" ]
+        #subms = [ "cuanns_ivfpq" ]
+        #subms = [ "optanne_graphann" ]
+        #subms = [ "gemini" ]
+    else: #PRIVATE
+        subms = [  "faiss_t3", "optanne_graphann", "gemini", "diskann", "cuanns_multigpu", "cuanns_ivfpq" ]
+        #subms = [ "gemini", "faiss_t3", "cuanns_ivfpq", "optanne_graphann" ]
+        #subms = [ "gemini" ]
+        #subms = [ "cuanns_multigpu" ]
+        #subms = [ "optanne_graphann" ]
 
     # export and/or produce summary and evals json  
     if RE_EXPORT or PROCESS_CSV: 
         for subm in subms:
-            if SUBM_MAPPING["baseline"] != subm: # baseline is set
-                process_subm(subm)
+            #GW if SUBM_MAPPING["baseline"] != subm: # baseline is set
+            ret = process_subm(subm)
+            if not ret:
+                print("WARNING: This submission is not participating in all benchmarks", subm)
+                SUBM_MAPPING[subm]["not_part"] = ["recall","qps","power","cost"]
     
     # load the evals json
     for subm in subms:
         use_subm = SUBM_MAPPING[subm]["use_subm_dir"]  if "use_subm_dir" in SUBM_MAPPING[subm].keys() else subm
-        jpath = "t3/eval_2021/%s/evals.json" % use_subm          
-        with open(jpath) as json_file:
-            SUBM_MAPPING[subm]["evals"] = json.load(json_file)
+        jpath = "t3/eval_2021/%s/%s_evals.json" % (use_subm, "public" if PUBLIC else "private" )
+        if os.path.exists(jpath):
+            with open(jpath) as json_file:
+                SUBM_MAPPING[subm]["evals"] = json.load(json_file)
+        else:
+            print("WARNING: No evals json for", subm)
+            SUBM_MAPPING[subm]["evals"] = False
 
     if LEADERBOARD_GEN:
         produce_rankings(subms)
