@@ -144,10 +144,13 @@ def main_tests():
     #
     # dataset tests
     #
-    def test_GT_monotonicity( dset, increasing=True ):
-        print("TEST: %s, checking GT distances monotonicity" % dset)
+    def test_GT_monotonicity( dset, increasing=True, private=False ):
+        print("TEST: %s, checking GT distances monotonicity" % dset, "private=", private)
         dataset = DATASETS[dset]()
-        gt = dataset.get_groundtruth()
+        if private:
+            gt = dataset.get_private_groundtruth()
+        else:
+            gt = dataset.get_groundtruth()
         if ASSERT: assert len(gt)==2
         true_ids    = gt[0]
         true_dists  = gt[1]
@@ -178,6 +181,11 @@ def main_tests():
     test_GT_monotonicity( "msturing-1B" )
     test_GT_monotonicity( "msspacev-1B" )
     test_GT_monotonicity( "text2image-1B", increasing=False)
+    test_GT_monotonicity( "bigann-1B", private=True )
+    test_GT_monotonicity( "deep-1B", private=True )
+    test_GT_monotonicity( "msturing-1B", private=True )
+    test_GT_monotonicity( "msspacev-1B", private=True )
+    test_GT_monotonicity( "text2image-1B", increasing=False, private=True )
 
     #
     # test recall on actual datasets
