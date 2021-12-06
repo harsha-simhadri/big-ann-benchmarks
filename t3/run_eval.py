@@ -14,7 +14,7 @@ PROCESS_CSV             = True
 LEADERBOARD_GEN         = True
 
 PUBLIC                  = False # Set to False for private leaderboard gen
-REJECT_ANOMALIES        = False
+REJECT_ANOMALIES        = True
 
 SKIP_DB                 = [ ] if PUBLIC else [] # [ "msspacev-1B" ] # private GT for msspacev has error
 SENSORS                 = False
@@ -159,8 +159,8 @@ SUBM_MAPPING            = \
         #    if PUBLIC else  "%s/nvidia/ivfpq/private/results_nv_ivfpq_priv_all" % CACHE_RESULTS_TOPLEVEL,
         # last - "results_dir" : ( "%s/nvidia/ivfpq/public/results_nv_ivfpq_public_new_power_all" %  CACHE_RESULTS_TOPLEVEL ) \
         #    if PUBLIC else  "%s/nvidia/ivfpq/private/results_nv_ivfpq_priv_all" % CACHE_RESULTS_TOPLEVEL,
-        "results_dir" : ( "%s/nvidia/ivfpq/private/results_nv_ivfpq_priv_new_power_msspacev_error" %  CACHE_RESULTS_TOPLEVEL ) \
-            if PUBLIC else  "%s/nvidia/ivfpq/private/results_nv_ivfpq_priv_all" % CACHE_RESULTS_TOPLEVEL,
+        "results_dir" : ( "%s/nvidia/ivfpq/public/results_nv_ivfpq_public_new_power_all" %  CACHE_RESULTS_TOPLEVEL ) \
+            if PUBLIC else  "%s/nvidia/ivfpq/private/results_nv_ivfpq_priv_new_power_msspacev_error" % CACHE_RESULTS_TOPLEVEL,
         "export_fname": "public_w_cache_detect.csv" if PUBLIC else \
             "private_w_cache_detect.csv",
         "cache_detect": True,
@@ -682,6 +682,7 @@ if __name__ == "__main__":
         subms = [  "faiss_t3", "optanne_graphann", "gemini", "diskann", "cuanns_multigpu", "cuanns_ivfpq" ]
         #subms = [ "gemini", "faiss_t3", "cuanns_ivfpq", "optanne_graphann" ]
         #subms = [ "gemini" ]
+        #subms = [ "cuanns_ivfpq" ]
         #subms = [ "cuanns_multigpu" ]
         #subms = [ "optanne_graphann" ]
 
