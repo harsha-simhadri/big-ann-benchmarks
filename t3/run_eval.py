@@ -59,8 +59,10 @@ SUBM_MAPPING            = \
         # last -  "results_dir":  "%s/intel/results_updated_config_with_anomaly_mitigation" % CACHE_RESULTS_TOPLEVEL,
         # last - "results_dir":  ( "%s/intel/public/results_final_changes_to_3_dsets" %  CACHE_RESULTS_TOPLEVEL ) if PUBLIC else \
         #    "%s/intel/private/results_intel_priv_all" % CACHE_RESULTS_TOPLEVEL, 
+        # last - "results_dir":  ( "%s/intel/public/results_final_changes_to_3_dsets" %  CACHE_RESULTS_TOPLEVEL ) if PUBLIC else \
+        #    "%s/intel/private/results_intel_priv_synced_config_all" % CACHE_RESULTS_TOPLEVEL, 
         "results_dir":  ( "%s/intel/public/results_final_changes_to_3_dsets" %  CACHE_RESULTS_TOPLEVEL ) if PUBLIC else \
-            "%s/intel/private/results_intel_priv_synced_config_all" % CACHE_RESULTS_TOPLEVEL, 
+            "%s/intel/private/results_intel_priv_merged_sync_1_2" % CACHE_RESULTS_TOPLEVEL, 
         "export_fname": "public_w_cache_detect.csv" if PUBLIC else \
             "private_w_cache_detect.csv",
         "cache_detect": True,
@@ -674,6 +676,7 @@ if __name__ == "__main__":
         #subms = [ "gemini", "faiss_t3", "cuanns_ivfpq", "optanne_graphann" ]
         #subms = [ "gemini" ]
         #subms = [ "cuanns_multigpu" ]
+        #subms = [ "optanne_graphann" ]
 
     # export and/or produce summary and evals json  
     if RE_EXPORT or PROCESS_CSV: 
