@@ -144,7 +144,7 @@ def main_tests():
     #
     # dataset tests
     #
-    def test_GT_monotonicity( dset, increasing=True, private=False ):
+    def test_GT_monotonicity( dset, increasing=True, private=False, print_first=False):
         print("TEST: %s, checking GT distances monotonicity" % dset, "private=", private)
         dataset = DATASETS[dset]()
         if private:
@@ -159,9 +159,18 @@ def main_tests():
             assert true_ids.shape[1]>=GT_MIN_SIZE 
             assert true_dists.shape[1]>=GT_MIN_SIZE
         func = monotone_increasing if increasing else monotone_decreasing 
+
+        if print_first: 
+            print("print_first_array", true_dists[0])
+
         for i in range(true_dists.shape[0]):
             mtest = func(true_dists[i])
-            if ASSERT: assert mtest==True
+            if ASSERT: 
+                if not mtest: 
+                    print("the problem array=", true_dists[i], true_dists[i].shape, func)
+                    #for j in range(true_dists[i].shape[0]-1):
+                    #    print(j, true_dists[i,j], true_dists[i, j]<=true_dists[i,j+1])
+                assert mtest==True
         print()
     
     print("TEST: sanity check the monotone functions")
@@ -201,10 +210,13 @@ def main_tests():
         print(mtest)
         print()
 
-    def test_GT_as_query( dset, count ):
+    def test_GT_as_query( dset, count, private=False ):
         print("TEST: %s, using GT as query, k=10" % dset)
         dataset = DATASETS[dset]()
-        gt = dataset.get_groundtruth()
+        if private:
+            gt = dataset.get_private_groundtruth()
+        else:
+            gt = dataset.get_groundtruth()
         if ASSERT: assert len(gt)==2
         true_ids    = gt[0]
         true_dists  = gt[1]
@@ -221,6 +233,11 @@ def main_tests():
     test_GT_as_query( "text2image-1B", 10 )
     test_GT_as_query( "msturing-1B", 10 )
     test_GT_as_query( "msspacev-1B", 10 )
+    test_GT_as_query( "bigann-1B", 10, private=True )
+    test_GT_as_query( "deep-1B", 10, private=True )
+    test_GT_as_query( "text2image-1B", 10, private=True )
+    test_GT_as_query( "msturing-1B", 10, private=True )
+    test_GT_as_query( "msspacev-1B", 10, private=True )
 
     sys.exit(0)
 
