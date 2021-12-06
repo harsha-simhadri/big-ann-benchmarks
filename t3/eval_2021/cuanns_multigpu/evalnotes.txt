@@ -1,6 +1,6 @@
 Dec 5:
 * We re-ran both private and public queeries using the latest ipmicap which captures nvidia board power.
-* * 
+* * python ipmicap.py --ip 10.150.106.104 --username ann --password "bigann@2021Con" --dcmi-power --listen 1235 --sessions --path /home/gwilliams-gsitechnology-com/ipmicap/ --delay 0.3 --nvidia 8
 * Note that due to crashes on the private query, we allowed config changes on the private eval.
 * We used that same config on the re-eval of the public query set.
 
