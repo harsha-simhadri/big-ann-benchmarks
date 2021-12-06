@@ -16,7 +16,7 @@ LEADERBOARD_GEN         = True
 PUBLIC                  = False # Set to False for private leaderboard gen
 REJECT_ANOMALIES        = True
 
-SKIP_DB                 = [ ] if PUBLIC else [ "msspacev-1B" ] # private GT for msspacev has error
+SKIP_DB                 = [ ] if PUBLIC else [] #[ "msspacev-1B" ] # private GT for msspacev has error
 SENSORS                 = False
 
 #
@@ -159,8 +159,10 @@ SUBM_MAPPING            = \
         #    if PUBLIC else  "%s/nvidia/ivfpq/private/results_nv_ivfpq_priv_all" % CACHE_RESULTS_TOPLEVEL,
         # last - "results_dir" : ( "%s/nvidia/ivfpq/public/results_nv_ivfpq_public_new_power_all" %  CACHE_RESULTS_TOPLEVEL ) \
         #    if PUBLIC else  "%s/nvidia/ivfpq/private/results_nv_ivfpq_priv_all" % CACHE_RESULTS_TOPLEVEL,
+        #"results_dir" : ( "%s/nvidia/ivfpq/public/results_nv_ivfpq_public_new_power_all" %  CACHE_RESULTS_TOPLEVEL ) \
+        #    if PUBLIC else  "%s/nvidia/ivfpq/private/results_nv_ivfpq_priv_new_power_msspacev_error" % CACHE_RESULTS_TOPLEVEL,
         "results_dir" : ( "%s/nvidia/ivfpq/public/results_nv_ivfpq_public_new_power_all" %  CACHE_RESULTS_TOPLEVEL ) \
-            if PUBLIC else  "%s/nvidia/ivfpq/private/results_nv_ivfpq_priv_new_power_msspacev_error" % CACHE_RESULTS_TOPLEVEL,
+            if PUBLIC else  "%s/nvidia/ivfpq/private/results_nv_ivfpq_priv_new_power_merge__msspacev_error__just_msspacev" % CACHE_RESULTS_TOPLEVEL,
         "export_fname": "public_w_cache_detect.csv" if PUBLIC else \
             "private_w_cache_detect.csv",
         "cache_detect": True,
