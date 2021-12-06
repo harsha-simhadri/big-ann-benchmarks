@@ -31,11 +31,11 @@ if __name__ == "__main__":
         action='store_true',
         help='Export sensors data if available')
     parser.add_argument(
-        '--search_times',
+        '--search-times',
         action='store_true',
         help='Export search times data if available')
     parser.add_argument(
-        '--detect_caching',
+        '--detect-caching',
         type=float,
         default=None,
         metavar="THRESHOLD",

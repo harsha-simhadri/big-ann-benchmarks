@@ -91,14 +91,14 @@ def ivecs_read(fname):
     d = a[0]
     return a.reshape(-1, d + 1)[:, 1:].copy()
 
-def xbin_mmap(fname, dtype, maxn=-1, override_d=None):
+def xbin_mmap(fname, dtype, maxn=-1):
     """ mmap the competition file format for a given type of items """
     n, d = map(int, np.fromfile(fname, dtype="uint32", count=2))
 
     # HACK - to handle improper header in file for private deep-1B
-    if override_d and override_d != d:
-        print("Warning: xbin_mmap map returned d=%s, but overridig with %d" % (d, override_d))
-        d = override_d
+    # if override_d and override_d != d:
+    #    print("Warning: xbin_mmap map returned d=%s, but overridig with %d" % (d, override_d))
+    #    d = override_d
     # HACK
 
     assert os.stat(fname).st_size == 8 + n * d * np.dtype(dtype).itemsize
@@ -358,7 +358,8 @@ class DatasetCompetitionFormat(Dataset):
         assert self.private_qs_url is not None
         fn = self.private_qs_url.split("/")[-1]   # in case it's a URL
         filename = os.path.join(self.basedir, fn)
-        x = xbin_mmap(filename, dtype=self.dtype, override_d=self.d)
+        # HACK x = xbin_mmap(filename, dtype=self.dtype, override_d=self.d)
+        x = xbin_mmap(filename, dtype=self.dtype)
         assert x.shape == (self.private_nq, self.d)
         return sanitize(x)
     
