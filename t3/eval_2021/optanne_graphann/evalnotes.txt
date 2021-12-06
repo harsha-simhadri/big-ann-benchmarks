@@ -1,0 +1,8 @@
+
+Dec 5, 2021: 
+* see the prun.sh script for how we ran it on the private query sets
+* we allowed a config change because we were seeing crashes across the board for all submissions, due to different shapes of priv vs public sets
+* this means the config for the public and priv will be different
+* ipmi did not change during both public and private eval:
+* * sudo /home/tstbigann/.pyenv/shims/python ipmicap.py --dcmi-power --ip 192.168.0.100 --username ADMIN --password YEGAGYXJNM --listen 14118 --sessions
+
