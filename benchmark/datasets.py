@@ -357,7 +357,7 @@ class DatasetCompetitionFormat(Dataset):
         assert self.private_qs_url is not None
         fn = self.private_qs_url.split("/")[-1]   # in case it's a URL
         filename = os.path.join(self.basedir, fn)
-        x = xbin_mmap(filename, dtype=self.dtype, override_d=self.d)
+        x = xbin_mmap(filename, dtype=self.dtype)
         assert x.shape == (self.private_nq, self.d)
         return sanitize(x)
     
