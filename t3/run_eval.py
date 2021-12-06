@@ -13,8 +13,8 @@ RE_EXPORT               = False
 PROCESS_CSV             = True
 LEADERBOARD_GEN         = True
 
-PUBLIC                  = False # Set to False for private leaderboard gen
-REJECT_ANOMALIES        = False
+PUBLIC                  = True # Set to False for private leaderboard gen
+REJECT_ANOMALIES        = True
 
 SKIP_DB                 = [ ] if PUBLIC else [] # [ "msspacev-1B" ] # private GT for msspacev has error
 SENSORS                 = False
@@ -155,7 +155,9 @@ SUBM_MAPPING            = \
         # lastlast = "export_fname": "res.updated_algos_ivfpq.csv",
         # last "results_dir":  "%s/nvidia/ivfpq/results_nv_ivfpq_merge_all_and_1" % CACHE_RESULTS_TOPLEVEL,
         # last "results_dir":  "%s/nvidia/ivfpq/results_nv_ivfpq_reduce_anomalies_config_stimes_all" % CACHE_RESULTS_TOPLEVEL,
-        "results_dir" : ( "%s/nvidia/ivfpq/public/results_nv_ivfpq_merge__reduce_anomalies_config_stimes_all__last_text2image_config" %  CACHE_RESULTS_TOPLEVEL ) \
+        # last - "results_dir" : ( "%s/nvidia/ivfpq/public/results_nv_ivfpq_merge__reduce_anomalies_config_stimes_all__last_text2image_config" %  CACHE_RESULTS_TOPLEVEL ) \
+        #    if PUBLIC else  "%s/nvidia/ivfpq/private/results_nv_ivfpq_priv_all" % CACHE_RESULTS_TOPLEVEL,
+        "results_dir" : ( "%s/nvidia/ivfpq/public/results_nv_ivfpq_public_new_power_all" %  CACHE_RESULTS_TOPLEVEL ) \
             if PUBLIC else  "%s/nvidia/ivfpq/private/results_nv_ivfpq_priv_all" % CACHE_RESULTS_TOPLEVEL,
         "export_fname": "public_w_cache_detect.csv" if PUBLIC else \
             "private_w_cache_detect.csv",
