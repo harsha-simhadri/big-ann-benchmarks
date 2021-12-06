@@ -5,9 +5,9 @@ RUN apt-get install --no-install-recommends -y build-essential wget git python3-
 RUN pip3 install -U pip
 
 RUN mkdir /home/soft
-RUN cd /home/soft && wget -nv "https://drive.google.com/uc?export=download&id=1rx7tRb35JlSWG_FXeAWpOEWsFviJTIPl" -O pkg-libcuann-0.0.7a.tgz && tar xfz pkg-libcuann-0.0.7a.tgz
+RUN cd /home/soft && wget -nv "https://drive.google.com/uc?export=download&id=1IybRBhZPQzMqQ2HRX9KSL7woftO8WZdV" -O pkg-libcuann-0.0.7.tgz && tar xfz pkg-libcuann-0.0.7.tgz
 RUN pip3 install /home/soft/libcuann/python/dist/cuann-0.0.7-cp38-cp38-linux_x86_64.whl
-RUN rm /home/soft/pkg-libcuann-0.0.7a.tgz
+RUN rm /home/soft/pkg-libcuann-0.0.7.tgz
 RUN rm -rf /home/soft/libcuann/python
 
 WORKDIR /home/app
