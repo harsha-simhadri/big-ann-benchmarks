@@ -62,14 +62,13 @@ msspacev-1B:
           query-args: |
               [{"max_batch_size": 10000, "topk": 10, "refine_rate": 8, "num_probes": 3072},
                {"max_batch_size": 10000, "topk": 10, "refine_rate": 8, "num_probes": 4096},
-               {"max_batch_size": 10000, "topk": 10, "refine_rate": 2, "num_probes": 32},
-               {"max_batch_size": 10000, "topk": 10, "refine_rate": 2, "num_probes": 36},
-               {"max_batch_size": 10000, "topk": 10, "refine_rate": 2, "num_probes": 40},
-               {"max_batch_size": 10000, "topk": 10, "refine_rate": 2, "num_probes": 48},
-               {"max_batch_size": 10000, "topk": 10, "refine_rate": 2, "num_probes": 56},
-               {"max_batch_size": 10000, "topk": 10, "refine_rate": 2, "num_probes": 64},
+               {"max_batch_size": 10000, "topk": 10, "refine_rate": 2, "num_probes": 96},
                {"max_batch_size": 10000, "topk": 10, "refine_rate": 2, "num_probes": 80},
-               {"max_batch_size": 10000, "topk": 10, "refine_rate": 2, "num_probes": 96}]
+               {"max_batch_size": 10000, "topk": 10, "refine_rate": 2, "num_probes": 64},
+               {"max_batch_size": 10000, "topk": 10, "refine_rate": 2, "num_probes": 56},
+               {"max_batch_size": 10000, "topk": 10, "refine_rate": 2, "num_probes": 48},
+               {"max_batch_size": 10000, "topk": 10, "refine_rate": 2, "num_probes": 40},
+               {"max_batch_size": 10000, "topk": 10, "refine_rate": 2, "num_probes": 36}]
 msturing-1B:
     cuanns_ivfpq:
       docker-tag: billion-scale-benchmark-cuanns_ivfpq
