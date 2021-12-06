@@ -563,7 +563,7 @@ class MSSPACEV1B(DatasetCompetitionFormat):
 
         self.private_nq = 30000
         self.private_qs_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/spacev1b/private_query_30k.bin"
-        self.private_gt_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/spacev1b/public_query_gt100.bin"
+        self.private_gt_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/spacev1b/gt100_private_query_30k.bin"
 
     def distance(self):
         return "euclidean"
