@@ -13,10 +13,10 @@ RE_EXPORT               = False
 PROCESS_CSV             = True
 LEADERBOARD_GEN         = True
 
-PUBLIC                  = True # Set to False for private leaderboard gen
-REJECT_ANOMALIES        = True
+PUBLIC                  = False # Set to False for private leaderboard gen
+REJECT_ANOMALIES        = False
 
-SKIP_DB                 = [ ] if PUBLIC else [ "msspacev-1B" ] # private GT for msspacev has error
+SKIP_DB                 = [ ] if PUBLIC else [] # [ "msspacev-1B" ] # private GT for msspacev has error
 SENSORS                 = False
 
 #
