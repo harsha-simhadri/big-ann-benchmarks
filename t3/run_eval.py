@@ -14,9 +14,9 @@ PROCESS_CSV             = True
 LEADERBOARD_GEN         = True
 
 PUBLIC                  = False # Set to False for private leaderboard gen
-REJECT_ANOMALIES        = True
+REJECT_ANOMALIES        = False
 
-SKIP_DB                 = [ ] if PUBLIC else [] # [ "msspacev-1B" ] # private GT for msspacev has error
+SKIP_DB                 = [ ] if PUBLIC else [ "msspacev-1B" ] # private GT for msspacev has error
 SENSORS                 = False
 
 #
@@ -395,7 +395,7 @@ def produce_rankings(subms):
             for mapping in [ ["recall","RR"], [ "qps", "QR" ], [ "power", "PR" ], [ "cost", "CR" ] ]:
                 kee = "$" + SUBM_MAPPING[subm]['md_prefix']+"_"+ mapping[1]
                 subm_order = [ el[0] for el in orderings[mapping[0]] ]
-                rdct[kee] = mklnkr( subm_order.index(subm)+1, mapping[0] ) if subm in subm_order else "*NQ*"
+                rdct[kee] = mklnkr( subm_order.index(subm)+1, mapping[0] ) if subm in subm_order else "*NA*"
                 if mapping[0]=="cost" and not SUBM_MAPPING[subm]["cost_approved"]: # deal with unnapproved cost
                     rdct[kee] = mklnkr( subm_order.index(subm)+1, mapping[0], False ) if subm in subm_order else "*NQ*"
             kee = "$" + SUBM_MAPPING[subm]['md_prefix']+"_HW"
