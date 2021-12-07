@@ -44,11 +44,13 @@ def get_recall_values(true_nn, run_nn, count, count_ties=True):
     if not count_ties:
         true_ids = true_ids[:, :count]
         assert true_ids.shape == run_nn.shape
+    print("GRV", type(true_nn), true_ids.shape, true_dists.shape, len(run_nn))
     recalls = np.zeros(len(run_nn))
     queries_with_ties = 0
     # TODO probably not very efficient
     for i in range(len(run_nn)):
         if count_ties:
+            #print("items=", i, true_ids[i].shape, true_dists[i].shape, run_nn[i].shape)
             recalls[i], found_tie = compute_recall_with_distance_ties(true_ids[i], true_dists[i], run_nn[i], count)
             if found_tie: queries_with_ties += 1 
         else:
@@ -167,6 +169,11 @@ all_metrics = {
     "search_times": {
         "description": "List of consecutive search times for the same run parameter",
         "function": lambda true_nn, run_nn, metrics, run_attrs: run_attrs.get("search_times",[]), 
+        "worst": float("inf")
+    },
+    "power_consumption": {
+        "description": "List of consecutive power samples for the same run parameter",
+        "function": lambda true_nn, run_nn, metrics, run_attrs: run_attrs.get("power_consumption",[]), 
         "worst": float("inf")
     },
 

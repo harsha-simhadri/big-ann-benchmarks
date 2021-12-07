@@ -71,7 +71,7 @@ def compute_metrics(true_nn, res, metric_1, metric_2,
 
 def compute_metrics_all_runs(dataset, res, recompute=False, 
         sensor_metrics=False, search_times=False,
-        private_query=False):
+        private_query=False, power_samples=False):
     try:
         if private_query:
             true_nn = dataset.get_private_groundtruth()
@@ -84,6 +84,7 @@ def compute_metrics_all_runs(dataset, res, recompute=False,
 
     search_type = dataset.search_type()
     for i, (properties, run) in enumerate(res):
+        print("prop",properties.keys())
         algo = properties['algo']
         algo_name = properties['name']
         # cache distances to avoid access to hdf5 file
@@ -119,6 +120,8 @@ def compute_metrics_all_runs(dataset, res, recompute=False,
             if not sensor_metrics and name=="wspq": #don't process power sensor_metrics by default
                 continue
             if not search_times and name=="search_times": #don't process search_times by default
+                continue
+            if not search_times and name=="power_samples": #don't process power_samples by default
                 continue
             v = metric["function"](true_nn, run_nn, metrics_cache, properties)
             run_result[name] = v

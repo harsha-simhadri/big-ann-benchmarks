@@ -40,6 +40,10 @@ if __name__ == "__main__":
         default=None,
         metavar="THRESHOLD",
         help='Try to detect query response caching by analyzing search times.  Supply a threshold betwee 0 and 1, such as 0.3.')
+    parser.add_argument(
+        '--power-samples',
+        action='store_true',
+        help='Export specific power sampling data')
     args = parser.parse_args()
 
     if args.detect_caching!=None and not args.search_times:
@@ -55,9 +59,11 @@ if __name__ == "__main__":
         dataset = DATASETS[dataset_name]()
         results = load_all_results(dataset_name)
         results = compute_metrics_all_runs(dataset, results, args.recompute, \
-                args.sensors, args.search_times, args.private_query)
+                args.sensors, args.search_times, args.private_query, \
+                args.power_samples )
         cleaned = []
         for result in results:
+            print("res", result)
             if 'k-nn' in result:
                 result['recall/ap'] = result['k-nn']
                 del result['k-nn']
@@ -67,6 +73,9 @@ if __name__ == "__main__":
             if args.sensors:
                 if 'wspq' not in result:
                     print('Warning: wspq sensor data not available.')
+                elif args.power_samples:                
+                   print("getting samples")
+ 
             if args.search_times:
                 search_times = result['search_times']
                 if 'search_times' in result:

@@ -92,9 +92,10 @@ def ivecs_read(fname):
     return a.reshape(-1, d + 1)[:, 1:].copy()
 
 def xbin_mmap(fname, dtype, maxn=-1):
+#HACK def xbin_mmap(fname, dtype, maxn=-1, override_d=False):
     """ mmap the competition file format for a given type of items """
     n, d = map(int, np.fromfile(fname, dtype="uint32", count=2))
-
+    print("xbinmmap", n, d)
     # HACK - to handle improper header in file for private deep-1B
     # if override_d and override_d != d:
     #    print("Warning: xbin_mmap map returned d=%s, but overridig with %d" % (d, override_d))
@@ -331,7 +332,6 @@ class DatasetCompetitionFormat(Dataset):
         return "knn"
 
     def get_groundtruth(self, k=None):
-        print("GG")
         assert self.gt_fn is not None
         fn = self.gt_fn.split("/")[-1]   # in case it's a URL
         assert self.search_type() == "knn"
