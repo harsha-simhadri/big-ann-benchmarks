@@ -19,11 +19,18 @@ The leaderboards and rankings on the public dataset set lives [here](LEADERBOARD
 
 We would like to congratulate all the winners of this part of the competition, teams from Intel and NVidia:
 * Sourabh Dongaonkar (Intel Corporate)
+* Mark Hildebrand (Intel Corporate/UC Davis)
 * Mariano Tepper (Intel Labs)
+* Cecilia Aguerrebere (Intel Labs)
+* Ted Wilke (Intel Labs)
+* Jawad Khan (Intel Corporate)
+
 * Yong Wong (NVidia)
 * Akira Naruse (NVidia)
 * Jingrong Zhang (NVidia)
 * Mahesh Doijade (NVidia)
+* Hui Wang (Xiamen University)
+* Harry Chiang (National Tsing Hua University)
 
 We are in the process of resolving the remaining issues and tasks.  
 
