@@ -16,6 +16,7 @@ from benchmark.datasets import DATASETS, download_accelerated
 from puck import py_puck_api
 import os
 import numpy as np
+import time
 
 swig_ptr = py_puck_api.swig_ptr
 class Puck(BaseANN):
@@ -57,7 +58,8 @@ class Puck(BaseANN):
             print('Downloading index in background. This can take a while.')
             for component in index_components:
                 download_accelerated(self._index_params['url']+"_"+component, self.index_name(dataset)+"/"+component)
-
+		print ("dnowload ", component, " Suc.")
+		time.sleep(60)
         print("Loading index")
         index_tag = self.index_tag_name(dataset)
         cmd = " ln -s %s ./puck_index"%(self.index_name(dataset))
