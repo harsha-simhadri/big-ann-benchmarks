@@ -15,8 +15,9 @@ Participants should send their questions and issues to the T3 organizer directly
 
 ## Issues (open)
 
-* [T3 Organizer self-report] The "opex" power cost for an Nvidia submission seems impossibly low ($80).
-  * PENDING RESOLUTION: We need to measure quiescent power of a system and establish the min power consumption and troubleshoot the DCMI power reporting on the NVidia system.
+* [NVidia request] Please remove existing MSRP and remove from cost leaderboard.
+* [T3 Organizer self-report] Possible issue with private Text2Image ground truth.
+* [T3 Organizer self-report] There is a wide distribution of recall on the private MSSpaceV ground truth.
 
 ## Resolutions
 
@@ -43,4 +44,5 @@ Participants should send their questions and issues to the T3 organizer directly
   * We have provided the reason to Intel.  We werent sure how easy it would be to support this for all participants in this first competition.
 * [T3 Organizer asks NVidia] Can't we use an MSRP from another company as proxy for system cost?
   * We will take the cheapest MSRP from third party seller for the leaderboard (we found 150K).  We've footnoted this in the rankings.
-
+* [T3 Organizer self-report] The "opex" power cost for an Nvidia submission seems impossibly low ($80).
+  * We extended IPMICAP to capture gpu power directly via invoking "nvidia-smi" with appropriate flags
