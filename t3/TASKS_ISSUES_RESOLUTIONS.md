@@ -18,6 +18,7 @@ Participants should send their questions and issues to the T3 organizer directly
 * [NVidia request] Please remove existing MSRP and remove from cost leaderboard.
 * [T3 Organizer self-report] Possible issue with private Text2Image ground truth.
 * [T3 Organizer self-report] There is a wide distribution of recall on the private MSSpaceV ground truth.
+* [T3 Organizer self-report] Why does the baseline have different number of run parameters between public and private evaluations?
 
 ## Resolutions
 
