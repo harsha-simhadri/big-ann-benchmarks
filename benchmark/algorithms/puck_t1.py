@@ -57,7 +57,7 @@ class Puck(BaseANN):
             os.makedirs(index_dir, mode=0o777, exist_ok=True)
             print('Downloading index in background. This can take a while.')
             for component in index_components:
-                download_accelerated(self._index_params['url']+"_"+component, self.index_name(dataset)+"/"+component)
+                download_accelerated(self._index_params['url']+"_"+component, self.index_name(dataset)+"/"+component, quiet=True)
                 time.sleep(60)
         print("Loading index")
         index_tag = self.index_tag_name(dataset)
