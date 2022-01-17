@@ -267,16 +267,17 @@ Algorithms will be ranked on how much their recall surpasses the baselines at th
 The table lists best Recall/AP obtained at at least 10,000 QPS by algorithms in pull requests submitted before Nov 2021. All non-empty cells are derived from author-published indices that succesfully ran on the standardized hardware with author-provided query configurations. Recall for bigann-1B does not count ties. This result is on the public query set.
 
 
-| PR | Name      |bigann-1B  | deep-1B |	msspacev-1B |	msturing-1B |	ssnpp-1B  |	text2image-1B  |
-|----|-----------|-----------|---------|-------------|-------------|-----------|-----------------|
-| 58	| team11		|           | 0.64955 |             |		0.712211  |           |                |
-| 60	| puck-t1		|0.71468    |	0.72255 |				      |             |           |                |
+| PR  | Name      |bigann-1B  | deep-1B |	msspacev-1B |	msturing-1B |	ssnpp-1B  |	text2image-1B  |
+|-----|-----------|-----------|---------|-------------|-------------|-----------|----------------|
+| 58	| team11		|           | 0.64955 |             |	0.712211    |           |                |
+| 60	| puck-t1		| 0.71468   |	0.72255 |				      | 0.793812*   |           |   0.160987*    |
 | 66	| ngt-t1		|					  |         |				      |             |           |                |
-| 69	| kst_ann_t1|	.71219	  | 0.71219	| 0.764542    |	0.756419		|           |                |
+| 69	| kst_ann_t1|	0.71219	  | 0.71219	| 0.764542    |	0.756419    |           |                |
 | 71  | buddy-t1	|	0.62765		|         |				      |             |           |                |
 |-----|-----------|-----------|---------|-------------|-------------|-----------|----------------|	
 |     | baseline  |	0.63451   | 0.65028 |	0.728861    | 0.703611    |	0.75378   |	0.069275       |
 |-----|-----------|-----------|---------|-------------|-------------|-----------|----------------|
+* results for entries submitted after deadline.
 
 
 #### Results for T2
