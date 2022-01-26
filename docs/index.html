@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
     <html lang="en">
       <head>
@@ -5,7 +6,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-        <title>{{ title }}</title>
+        <title>Big ANN Benchmarks</title>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <!-- Include all compiled plugins (below), or include individual files as needed -->
@@ -70,12 +71,22 @@
               </div>
             </nav>
 
-            {% block content %} {% endblock %}
+                    <div class="container">
+            <h1>Billion-Scale Approximate Nearest Neighbor Search Challenge: <a href="https://neurips.cc/Conferences/2021/CompetitionTrack"> NeurIPS'21 competition track</a></h1>
 
-            <h2>
-              [Code, data, results on <a href="https://github.com/harsha-simhadri/big-ann-benchmarks">github</a>]
-              [<a href="https://medium.com/big-ann-benchmarks" target="_blank">Medium</a> channel]
-            </h2>
+            </p>
+            <div id="results">
+            <!--<h2>Benchmarking Results</h2>
+            <p>Results are split by distance measure and dataset. In the bottom, you can find an overview of an algorithm's performance on all datasets. Each dataset is annoted
+            by <em>(k = ...)</em>, the number of nearest neighbors an algorithm was supposed to return. The plot shown depicts <em>Recall</em> (the fraction
+            of true nearest neighbors found, on average over all queries) against <em>Queries per second</em>.  Clicking on a plot reveils detailled interactive plots, including
+            approximate recall, index size, and build time.</p> -->
+                                                                    
+            <strong>
+              Evaluation framework on <a href="https://github.com/harsha-simhadri/big-ann-benchmarks">github</a>. Subscribe to our
+              <a href="https://medium.com/big-ann-benchmarks" target="_blank">Medium</a> channel
+              for discussions and announcements.
+            </strong>
 
             
 
@@ -87,27 +98,27 @@
                 <strong>Track T3 <a href="https://github.com/harsha-simhadri/big-ann-benchmarks/tree/main/t3">leaderboard</a>.</strong>  
                 </p>
 
-                The <a href="https://neurips.cc/virtual/2021/competition/22443#collapse21991">NeurIPS session</a> for this competition is scheduled for Dec 8. 
-                NeurIPS registration is required for access to the session.<BR>
-                 <strong><a href="https://neurips.cc/virtual/2021/competition/22443#collapse-sl-21991">Overview Talk</a> and <a href="https://neurips.cc/virtual/2021/competition/22443#collapse48501">Break-out session</a> schedule (GMT)</strong>.
+                The <a href="https://neurips.cc/virtual/2021/competition/22443#collapse21991">NeurIPS session</a> for this competition took place on Dec 8. 
+                Find slides of the talks and videos below. <br>
                  <ul>
-                  <li> 11:05-11:25: Overview Talk (<a href="templates/slides/comp-overview.pptx">slides</a>)</li>
-                  <li> 12:00-12:45: Overview of results presented by organizers, followed by Q&A  </li>
+                  <li> 11:05-11:25: Overview Talk (<a href="./slides/comp-overview.pptx">slides</a>)</li>
+                  <li> 12:00-12:45: Overview of results presented by organizers, followed by Q&A (<a href="https://itu.dk/people/maau/big-ann-benchmarks-videos/session_1_overview.mp4">video</a>)  </li>
                   <ul>
-                    <li>Standard hardware tracks T1 and T2 results (<a href="templates/slides/T1_T2_results.pptx">slides</a>)</li>
-                    <li>Custom hardware track T3 results (<a href="templates/slides/T3-results.pptx">slides</a>)</li>
+                    <li>Standard hardware tracks T1 and T2 results (<a href="./slides/T1_T2_results.pptx">slides</a>)</li>
+                    <li>Custom hardware track T3 results (<a href="./slides/T3-results.pptx">slides</a>)</li>
                   </ul>
-                  <li> 12:45-13:20: Invited talk 1 by <a href="http://www.cs.columbia.edu/~andoni/">Prof. Alexandr Andoni</a>: Learning to Hash Robustly, with Guarantees (<a href="templates/slides/lsh_neurips21.pptx">slides</a>)</li>
-                  <li> 13:20-13:55: Invited talk 2 by <a href="https://www.cs.rice.edu/~as143/">Prof. Anshumali Shrivastava</a>:Iterative Repartitioning for Learning to Hash  and the Power of k-Choices (<a href="templates/slides/invited-talk-anshu.pptx">slides</a>)</li>
+                  <li> 12:45-13:20: Invited talk 1 by <a href="http://www.cs.columbia.edu/~andoni/">Prof. Alexandr Andoni</a>: Learning to Hash Robustly, with Guarantees (<a href="./slides/lsh_neurips21.pptx">slides</a>, <a href="https://itu.dk/people/maau/big-ann-benchmarks-videos/session_2_invited_talk_alex_andoni.mp4">video</a>)</li>
+                  <li> 13:20-13:55: Invited talk 2 by <a href="https://www.cs.rice.edu/~as143/">Prof. Anshumali Shrivastava</a>:Iterative Repartitioning for Learning to Hash  and the Power of k-Choices (<a href="./slides/invited-talk-anshu.pptx">slides</a>,<a href="https://itu.dk/people/maau/big-ann-benchmarks-videos/session_3_invited_talk_anshumali_shrivastava.mp4">video</a>)</li>
                   <li> 13:55-14:30: Talks from track winners.
                     <ul>
-                      <li>Track 1: <a href="https://github.com/harsha-simhadri/big-ann-benchmarks/pull/69">kst_ann_t1</a> Li Liu, Jin Yu, Guohao Dai, Wei Wu, Yu Qiao, Yu Wang, Lingzhi Liu, <i>Kuaishou Technology and Tsinghua University</i> </li>
-                      <li>Track 2: <a href="https://github.com/harsha-simhadri/big-ann-benchmarks/pull/70">BBANN</a>  Xiaomeng Yi, Xiaofan Luan, Weizhi Xu, Qianya Cheng, Jigao Luo, Xiangyu Wang, Jiquan Long, Xiao Yan, Zheng Bian, Jiarui Luo, Shengjun Li, Chengming Li, <i>Zilliz and Southern University of Science and Technology</i> (<a href="templates/slides/Track2_xiaomeng_yi.pdf">slides</a>)</li>
-                      <li>Track 3: <a href="https://github.com/harsha-simhadri/big-ann-benchmarks/pull/63">OptaNNe</a>  Sourabh Dongaonkar, Mark Hildebrand, Mariano Tepper, Cecilia Aguerrebere, Ted Willke, Jawad Khan, <i>Intel Corporation, Intel Labs and UC Davis</i> (<a href="templates/slides/optanne.pptx">slides</a>)</li>
+                      <li>Track 1: <a href="https://github.com/harsha-simhadri/big-ann-benchmarks/pull/69">kst_ann_t1</a> Li Liu, Jin Yu, Guohao Dai, Wei Wu, Yu Qiao, Yu Wang, Lingzhi Liu, <i>Kuaishou Technology and Tsinghua University</i> (<a href="./slides/t1-winner.pptx">slides</a>, <a href="https://itu.dk/people/maau/big-ann-benchmarks-videos/session_4_winner_t1.mp4">video</a>) </li>
+                      <li>Track 2: <a href="https://github.com/harsha-simhadri/big-ann-benchmarks/pull/70">BBANN</a>  Xiaomeng Yi, Xiaofan Luan, Weizhi Xu, Qianya Cheng, Jigao Luo, Xiangyu Wang, Jiquan Long, Xiao Yan, Zheng Bian, Jiarui Luo, Shengjun Li, Chengming Li, <i>Zilliz and Southern University of Science and Technology</i> (<a href="./slides/Track2_xiaomeng_yi.pdf">slides</a>, <a href="https://itu.dk/people/maau/big-ann-benchmarks-videos/session_4_winner_t2.mp4">video</a>)</li>
+                      <li>Track 3: <a href="https://github.com/harsha-simhadri/big-ann-benchmarks/pull/63">OptaNNe</a> Sourabh Dongaonkar, Mark Hildebrand, Mariano Tepper, Cecilia Aguerrebere, Ted Willke, Jawad Khan, <i>Intel Corporation, Intel Labs and UC Davis</i> (<a href="./slides/optanne.pptx">slides</a>, <a href="https://itu.dk/people/maau/big-ann-benchmarks-videos/session_4_winner_t3.mp4">video</a>) </li>
                     </ul>
                   </li>
-                  <li> 14:30-15:00: Open discussion on competition and future directions (<a href="https://github.com/harsha-simhadri/big-ann-benchmarks/issues/90">github thread</a>) </li>
+                  <li> 14:30-15:00: Open discussion on competition and future directions (<a href="https://github.com/harsha-simhadri/big-ann-benchmarks/issues/90">github thread</a>, <a href="https://itu.dk/people/maau/big-ann-benchmarks-videos/session_5_discussion.mp4">video</a>) </li>
                 </ul>
+                 <strong>Additional material:</strong><a href="https://neurips.cc/virtual/2021/competition/22443#collapse-sl-21991">Overview Talk</a>.
               </p>
 
             
@@ -356,11 +367,11 @@
                    <TD> <a href="https://creativecommons.org/share-your-work/public-domain/cc0/">CC0</a> </TD>
                 </TR>
                 <TR>
-                  <TD> Facebook SimSearchNet++* </TD>
+                  <TD> Facebook SimSearchNet++*  </TD>
                   <TD> uint8 </TD>
                   <TD> 256 </TD>
                   <TD> L2 </TD>
-                  <TD> Range </TD>
+                  <TD> Range (squared distance: 96237)</TD>
                   <TD> <a href="https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/FB_ssnpp_database.u8bin">1B points</a> </TD>
                   <TD> N/A </TD>
                   <TD> <a href="https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/FB_ssnpp_public_queries.u8bin">100k queries</a> </TD>
