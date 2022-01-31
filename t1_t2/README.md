@@ -266,6 +266,8 @@ Algorithms will be ranked on how much their recall surpasses the baselines at th
 #### Results for T1
 The table lists best Recall/AP obtained at at least 10,000 QPS by algorithms in pull requests submitted before Nov 2021. All non-empty cells are derived from author-published indices that succesfully ran on the standardized hardware with author-provided query configurations. Recall for bigann-1B does not count ties. This result is on the public query set.
 
+A complete set of runs can be found [here](results/T1/t1.csv)
+
 
 | PR  | Name      |bigann-1B  | deep-1B |	msspacev-1B |	msturing-1B |	ssnpp-1B  |	text2image-1B  |
 |-----|-----------|-----------|---------|-------------|-------------|-----------|----------------|
