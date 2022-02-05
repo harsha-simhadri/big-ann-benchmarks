@@ -1,0 +1,105 @@
+\documentclass[11pt, oneside]{article}
+
+\usepackage{geometry}
+\geometry{letterpaper}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{xcolor}
+\usepackage{amssymb}
+\usepackage{hyperref,cleveref}
+
+\newcommand{\templatedoc}[1]{{\color{gray}:#1}}
+
+% add other people here 
+
+\newcommand{\harsha}[1]{{\color{green!40!blue}[\textbf{Harsha}:#1]}}
+\newcommand{\martin}[1]{{\color{blue!20!red}[\textbf{Martin}:#1]}}
+\newcommand{\matthijs}[1]{{\color{blue}[\textbf{Matthijs}:#1]}}
+\newcommand{\georgew}[1]{{\color{orange}[\textbf{GeorgeW}:#1]}}
+\newcommand{\dmitry}[1]{{\color{blue!50!purple}[\textbf{Dmitry}:#1]}}
+
+\iffalse 
+
+\newcommand{\harsha}[1]{}
+\newcommand{\martin}[1]{}
+\newcommand{\matthijs}[1]{}
+
+\fi
+
+\newtheorem{definition}{Definition}
+\newcommand{\recall}[2]{${#1}$-recall$@{#2}$} 
+
+
+\title{
+\vspace{-40pt}
+  Billion-Scale Approximate Nearest Neighbor Search Challenge}
+\author{
+\hspace{-20pt}  \footnotesize{Harsha Vardhan Simhadri}   \\ \hspace{-20pt} \scriptsize{Microsoft Research India} \\ \hspace{-20pt} \scriptsize{\tt harshasi@microsoft.com} \and
+\hspace{-25pt}  \footnotesize{George Williams}] \\ \hspace{-25pt} \scriptsize{GSI Technology} \\ \hspace{-25pt} \scriptsize{\tt gwilliams@gsitechnology.com} \and
+\hspace{-25pt}  \footnotesize{Martin Aum\"uller} \\\hspace{-30pt} \scriptsize{IT University of Copenhagen} \\ \hspace{-25pt} \scriptsize{\tt maau@itu.dk}  \and
+\hspace{-20pt}  \footnotesize{Matthijs Douze} \\ \hspace{-15pt} \scriptsize{Facebook AI Research} \\ \hspace{-20pt} \scriptsize{\tt matthijs@fb.com} \and
+\hspace{-25pt}  \footnotesize{Artem Babenko} \\ \hspace{-40pt} \scriptsize{Yandex} \\ \hspace{-40pt} \scriptsize{\tt artem.babenko@phystech.edu} \and
+\hspace{-20pt}  \footnotesize{Dmitry Baranchuk} \\ \hspace{-20pt} \scriptsize{Yandex} \\ \hspace{-20pt} \scriptsize{\tt dbaranchuk@yandex-team.ru} \and
+\hspace{-20pt}  \footnotesize{Qi Chen} \\ \hspace{-20pt} \scriptsize{Microsoft Research Asia}\\ \hspace{-20pt} \scriptsize{\tt cheqi@microsoft.com} \and
+\hspace{-20pt}  \footnotesize{Lucas Hosseini} \\ \hspace{-20pt} \scriptsize{Facebook AI Research}\\ \hspace{-20pt} \scriptsize{\tt cheqi@microsoft.com} \and
+\hspace{-20pt}  \footnotesize{Ravishankar Krishnaswamy} \\ \hspace{-20pt} \scriptsize{MSR India, IIT Madras} \\ \hspace{-20pt} \scriptsize{\tt rakri@microsoft.com} \and
+  \footnotesize{Gopal Srinivasa} \\\scriptsize{Microsoft Research India} \\ \scriptsize{\tt gopalsr@microsoft.com} \and
+  \footnotesize{Suhas Jayaram Subramanya} \\\scriptsize{Carnegie Mellon University}\\ \scriptsize{\tt suhasj@cs.cmu.edu} \and
+  \footnotesize{Jingdong Wang} \\\scriptsize{Microsoft Research Asia}\\ \scriptsize{\tt jingdw@microsoft.com} 
+}
+%% \date{\today}
+
+\begin{document}
+\maketitle
+\vspace{-20pt}
+\begin{abstract}
+  Despite the broad range of algorithms for Approximate Nearest
+  Neighbor Search, most empirical evaluations of algorithms have
+  focused on smaller datasets (1 million points). However, deploying
+  recent advances in embedding based techniques for search,
+  recommendation and ranking at scale require ANNS indices at billion,
+  trillion or larger scale. Barring a few recent papers, there is
+  limited consensus on which algorithms are effective at this scale
+  vis-\`a-vis their hardware cost.
+
+  This \href{https://big-ann-benchmarks.com}{competition} compares
+  ANNS algorithms by hardware cost, accuracy and performance. We set
+  up an open source evaluation framework ~\cite{framework} and
+  leaderboards for both standardized and specialized hardware.  The
+  stadard hardware track T1 evaluates algorithms on an Azure VM with
+  limited DRAM -- which is often the bottleneck in serving
+  billion-scale indices, where the embedding data can be hundreds of
+  GigaBytes in size.  It uses FAISS~\cite{Faiss17} as the baseline.
+  The standard hardware track T2 additional allows inexpensive SSDs in
+  addition to the limited DRAM and uses DiskANN~\cite{DiskANN19} as
+  the baseline.  The specialized hardware track T3 allows any hardware
+  configuration.
+  
+  We created a corpus of six diverse billion-scale datasets, four
+  newly released for this competition, that span a variety of
+  modalities, data types, dimensions, deep learning models, distance
+  functions and sources.  The outcome of the competition was ranked
+  leaderboards of algorithms in each track based on recall at a query
+  throughput threshold. Additionally, for Track T3, separate
+  leaderboards were also created based on recall as well as
+  cost-normalized and power-normalized query throughput.
+
+  We summarize the competition framework and the leaderboards for the
+  three tracks.  The evaluation framework will stary alive and renewed
+  leaderboards will continue to be published periodically.
+  
+\end{abstract}
+
+
+\input{competition}
+\input{organization}
+\input{resources}
+\input{results}
+
+
+
+\bibliographystyle{plain}
+\bibliography{ref}
+
+
+\end{document}

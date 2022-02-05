@@ -1,0 +1,92 @@
+\documentclass[11pt, oneside]{article}
+
+\usepackage{geometry}
+\geometry{letterpaper}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{xcolor}
+\usepackage{amssymb}
+\usepackage{hyperref,cleveref}
+
+\newcommand{\templatedoc}[1]{{\color{gray}:#1}}
+
+% add other people here 
+
+\newcommand{\harsha}[1]{{\color{green!40!blue}[\textbf{Harsha}:#1]}}
+\newcommand{\martin}[1]{{\color{blue!20!red}[\textbf{Martin}:#1]}}
+\newcommand{\matthijs}[1]{{\color{blue}[\textbf{Matthijs}:#1]}}
+\newcommand{\georgew}[1]{{\color{orange}[\textbf{GeorgeW}:#1]}}
+\newcommand{\dmitry}[1]{{\color{blue!50!purple}[\textbf{Dmitry}:#1]}}
+
+\iffalse 
+
+\newcommand{\harsha}[1]{}
+\newcommand{\martin}[1]{}
+\newcommand{\matthijs}[1]{}
+
+\fi
+
+\newtheorem{definition}{Definition}
+\newcommand{\recall}[2]{${#1}$-recall$@{#2}$} 
+
+
+\title{
+\vspace{-40pt}
+  Billion-Scale Approximate Nearest Neighbor Search Challenge}
+\author{
+\hspace{-20pt}  \footnotesize{Harsha Vardhan Simhadri}  \thanks{Lead organizers. Harsha will coordinate standard hardware tracks T1, T2. George will coordinate specialized hardware track T3.} \\ \hspace{-20pt} \scriptsize{Microsoft Research India} \\ \hspace{-20pt} \scriptsize{\tt harshasi@microsoft.com} \and
+\hspace{-25pt}  \footnotesize{George Williams}\footnotemark[1] \\ \hspace{-25pt} \scriptsize{GSI Technology} \\ \hspace{-25pt} \scriptsize{\tt gwilliams@gsitechnology.com} \and
+\hspace{-25pt}  \footnotesize{Martin Aum\"uller}\thanks{Organizer names listed alphabetically by surname.} \\\hspace{-30pt} \scriptsize{IT University of Copenhagen} \\ \hspace{-25pt} \scriptsize{\tt maau@itu.dk}  \and
+\hspace{-25pt}  \footnotesize{Artem Babenko}\footnotemark[2] \\ \hspace{-40pt} \scriptsize{Yandex} \\ \hspace{-40pt} \scriptsize{\tt artem.babenko@phystech.edu} \and
+\hspace{-20pt}  \footnotesize{Dmitry Baranchuk}\footnotemark[2] \\ \hspace{-20pt} \scriptsize{Yandex} \\ \hspace{-20pt} \scriptsize{\tt dbaranchuk@yandex-team.ru} \and
+\hspace{-20pt}  \footnotesize{Qi Chen}\footnotemark[2] \\ \hspace{-20pt} \scriptsize{Microsoft Research Asia}\\ \hspace{-20pt} \scriptsize{\tt cheqi@microsoft.com} \and
+\hspace{-20pt}  \footnotesize{Matthijs Douze}\footnotemark[2] \\ \hspace{-15pt} \scriptsize{Facebook AI Research} \\ \hspace{-20pt} \scriptsize{\tt matthijs@fb.com} \and
+\hspace{-20pt}  \footnotesize{Ravishankar Krishnaswamy}\footnotemark[2] \\ \hspace{-20pt} \scriptsize{MSR India, IIT Madras} \\ \hspace{-20pt} \scriptsize{\tt rakri@microsoft.com} \and
+  \footnotesize{Gopal Srinivasa}\footnotemark[2] \\\scriptsize{Microsoft Research India} \\ \scriptsize{\tt gopalsr@microsoft.com} \and
+  \footnotesize{Suhas Jayaram Subramanya}\footnotemark[2] \\\scriptsize{Carnegie Mellon University}\\ \scriptsize{\tt suhasj@cs.cmu.edu} \and
+  \footnotesize{Jingdong Wang}\footnotemark[2] \\\scriptsize{Microsoft Research Asia}\\ \scriptsize{\tt jingdw@microsoft.com} 
+}
+%% \date{\today}
+
+\begin{document}
+\maketitle
+\vspace{-20pt}
+\begin{abstract}
+  Despite the broad range of algorithms for Approximate Nearest
+  Neighbor Search, most empirical evaluations of algorithms have
+  focused on smaller datasets (1 million points). However, deploying
+  recent advances in embedding based techniques for search,
+  recommendation and ranking at scale require ANNS indices at billion,
+  trillion or larger scale. Barring a few recent papers, there is
+  limited consensus on which algorithms are effective at this scale
+  vis-\`a-vis their hardware cost.  We propose to set up a leaderboard
+  of ANNS algorithms on representative billion scale datasets and
+  compare algorithms by hardware cost, accuracy and performance. We
+  will use two recent indexing algorithms DiskANN~\cite{DiskANN19} and
+  FAISS~\cite{Faiss17} as baselines.  We will solicit entries from
+  theorists and practitioners from across communities who have worked
+  on ANNS, encourage new approaches that minimize hardware costs, and
+  compare the relative merits of the algorithms objectively and
+  subjectively.  We will provide Azure cloud compute credit to make
+  the competition inclusive for participants without necessary
+  infrastructure. The anticipated impact is an understanding of the
+  ideas that apply at billion+ scale, bridging communities that work
+  on ANNS problems, and a platform for newer researchers to contribute
+  and develop this relatively new research area.
+\end{abstract}
+
+\subsection*{Keywords}
+Embeddings, Retrieval, Search, Approximate Nearest Neighbor Search, Billion scale.
+\subsection*{Competition type} Regular.
+
+\input{competition}
+\input{organization}
+\input{resources}
+
+
+
+\bibliographystyle{plain}
+\bibliography{ref}
+
+
+\end{document}
