@@ -1,4 +1,4 @@
-% !TEX root = proposal.tex
+% !TEX root = report.tex
 
 \section{Competition description}
 
@@ -15,18 +15,18 @@ query point $q$, efficiently retrieves the $k$ nearest neighbors of
 $q$ in the dataset $P$ according to the given distance function. In
 many modern-day applications of this problem, the dataset to be
 indexed and the queries are the output of a deep learning
-model\cite{deep1b-link,BERT}.  The ANNS problem is widely studied in
+model~\citep{deep1b-link,BERT}.  The ANNS problem is widely studied in
 the algorithms, computer systems, databases, data mining, information
 theory and machine learning research communities, and numerous classes
 of algorithms have been developed. See, e.g.,
-~\cite{CoverTree,babenko2014additive,Faiss17,Weber98,ECCV18,HNSW16,PQ11,Arya93,Indyk98,onng,scann,puffinn}
+~\citep{CoverTree,babenko2014additive,Faiss17,Weber98,ECCV18,HNSW16,PQ11,Arya93,Indyk98,onng,scann,puffinn}
 for some recent works, and also the survey
-articles~\cite{samet2006foundations, LSHSurvey08, LearningToHash18,
+articles~\citep{samet2006foundations, LSHSurvey08, LearningToHash18,
   GraphANNSSurvey21} comparing these techniques.
 
 However, most of the research has focused on small to medium scale
 datasets of millions of vectors. For instance, the active
-gold-standard benchmark site~\cite{Benchmark} that compares almost all
+gold-standard benchmark site~\citep{Benchmark} that compares almost all
 of the current-best ANNS algorithms \emph{uses datasets no more than a
   million points each}, and design choices in the benchmarking system
 makes it difficult to go beyond this scale.
@@ -452,6 +452,8 @@ We will use the average precision over recall values when clipping the result li
 
 
 \paragraph{Synthetic performance measure.}
+
+\matthijs{Outdated: eventually we chose to use the recall at a given QPS target}
 
 Participants will obtain several tradeoffs in the QPS-accuracy space,
 where accuracy is either the 10-recall@10 (for k-NN search) or the

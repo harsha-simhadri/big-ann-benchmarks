@@ -98,7 +98,7 @@
   \aff{6}  Carnegie Mellon University
 } 
  
-
+\editor{Editor's name}
 
 \iffalse 
 \title{
@@ -138,14 +138,15 @@
 
   This \href{https://big-ann-benchmarks.com}{competition} compares
   ANNS algorithms by hardware cost, accuracy and performance. We set
-  up an open source evaluation framework ~\cite{framework} and
+  up an open source evaluation framework\footnote{\url{https://github.com/harsha-simhadri/big-ann-benchmarks/}}%~\citep{framework} 
+  and
   leaderboards for both standardized and specialized hardware.  The
   stadard hardware track T1 evaluates algorithms on an Azure VM with
   limited DRAM -- which is often the bottleneck in serving
   billion-scale indices, where the embedding data can be hundreds of
-  GigaBytes in size.  It uses FAISS~\cite{Faiss17} as the baseline.
+  GigaBytes in size.  It uses FAISS~\citep{Faiss17} as the baseline.
   The standard hardware track T2 additional allows inexpensive SSDs in
-  addition to the limited DRAM and uses DiskANN~\cite{DiskANN19} as
+  addition to the limited DRAM and uses DiskANN~\citep{DiskANN19} as
   the baseline.  The specialized hardware track T3 allows any hardware
   configuration.
   
@@ -164,6 +165,13 @@
   
 \end{abstract}
 
+
+\begin{keywords}
+Approximate nearest neighbor search, large-scale search
+\end{keywords}
+
+
+\matthijs{Citations should be with citep by default, cite does not add parentheses. Reference URLs as footnotes, otherwise it looks ugly.} 
 
 \input{competition}
 \input{organization}
