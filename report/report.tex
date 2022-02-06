@@ -1,9 +1,33 @@
-\documentclass[11pt, oneside]{article}
+ %\documentclass[wcp,gray]{jmlr} % test grayscale version
+ %\documentclass[wcp]{jmlr}% former name JMLR W\&CP
+\documentclass[pmlr,x11names,,table]{jmlr}% new name PMLR (Proceedings of Machine Learning)
 
-\usepackage{geometry}
-\geometry{letterpaper}
-\usepackage{graphicx}
+ % The following packages will be automatically loaded:
+ % amsmath, amssymb, natbib, graphicx, url, algorithm2e
+
+ %\usepackage{rotating}% for sideways figures and tables
+\usepackage{longtable}% for long tables
+
+ % The booktabs package is used by this sample document
+ % (it provides \toprule, \midrule and \bottomrule).
+ % Remove the next line if you don't require it.
+\usepackage{booktabs}
+ % The siunitx package is used by this sample document
+ % to align numbers in a column by their decimal point.
+ % Remove the next line if you don't require it.
+\usepackage[load-configurations=version-1]{siunitx} % newer version
+ %\usepackage{siunitx}
+ \usepackage{floatrow}
+
+
+
+% \documentclass[11pt, oneside]{article}
+
+%\usepackage{geometry}
+%\geometry{letterpaper}
+
 \usepackage{subcaption}
+\usepackage{graphicx}
 \usepackage{color}
 \usepackage{xcolor}
 \usepackage{amssymb}
@@ -27,7 +51,7 @@
 
 \fi
 
-\newtheorem{definition}{Definition}
+% \newtheorem{definition}{Definition}
 \newcommand{\recall}[2]{${#1}$-recall$@{#2}$} 
 
 

@@ -1,5 +1,10 @@
+% !TEX root = report.tex
+
 \section{Results}
+\label{sec:results} 
+
 \subsection{Track 1}
+
 \begin{table}
   \caption{Leaderboard for Track T1. Recall achieved at 10000 QPS on Azure F32v2 VM with 32 vCPUs.}
   
@@ -19,33 +24,64 @@
 \end{table}
 
 
+\newcommand{\ToneResPlot}[2]{
+%\begin{subfigure}%{10cm}
+    \centering
+    (#1) #2 \\
+    \includegraphics[width=0.85\linewidth]{../t1_t2/results/T1/neurips21/#2.png}\\
+%      \caption{#1}
+%  \end{subfigure}
+}
+
 \begin{figure}[ht]
-  \begin{subfigure}{0.48\textwidth}
+\begin{minipage}{0.5\linewidth}
+  \ToneResPlot{a}{bigann-1B}
+  \ToneResPlot{b}{deep-1B}
+  \ToneResPlot{c}{msspacev-1B}
+\end{minipage}%
+\begin{minipage}{0.5\linewidth} 
+  \ToneResPlot{d}{msturing-1B}
+  \ToneResPlot{e}{ssnpp-1B}
+  \ToneResPlot{f}{text2image-1B}
+ \end{minipage}
+  \caption{QPS vs Recall plots for each dataset in Track T1.
+  \matthijs{Possible to get a vector version of the plots?}
+  }
+  
+\end{figure}
+
+
+
+\iffalse 
+
+\begin{figure}[ht]
+  \ToneResPlot{bigann-1B}
+  \begin{subfigure}{10cm}
     \centering
     \includegraphics[width=\linewidth]{../t1_t2/results/T1/neurips21/bigann-1B.png}
       \caption{bigann-1B}
   \end{subfigure}
-  \begin{subfigure}{0.48\textwidth}
+  \begin{subfigure}{10cm}
     \centering
     \includegraphics[width=\linewidth]{../t1_t2/results/T1/neurips21/deep-1B.png}
     \caption{deep-1B}
   \end{subfigure}
-  \begin{subfigure}{0.48\textwidth}
+  \begin{subfigure}{10cm}
     \centering
     \includegraphics[width=\linewidth]{../t1_t2/results/T1/neurips21/msspacev-1B.png}
       \caption{msspacev-1B}
   \end{subfigure}
-  \begin{subfigure}{0.48\textwidth}
+  \begin{subfigure}{10cm}
     \centering
     \includegraphics[width=\linewidth]{../t1_t2/results/T1/neurips21/msturing-1B.png}
     \caption{msturing-1B}
   \end{subfigure}
-  \begin{subfigure}{0.48\textwidth}
+  \begin{subfigure}{10cm}
     \centering
     \includegraphics[width=\linewidth]{../t1_t2/results/T1/neurips21/ssnpp-1B.png}
       \caption{ssnpp-1B}
   \end{subfigure}
-  \begin{subfigure}{0.48\textwidth}
+  \begin{subfigure}{10cm}
     \centering
     \includegraphics[width=\linewidth]{../t1_t2/results/T1/neurips21/text2image-1B.png}
     \caption{text2image-1B}
@@ -54,6 +90,8 @@
   \caption{QPS vs Recall plots for each dataset in Track T1.}
   
 \end{figure}
+
+\fi
 
 \subsection{Track 2}
 \begin{table}
@@ -73,7 +111,29 @@
   
 \end{table}
 
+\newcommand{\TtwoResPlot}[2]{
+    \centering
+    (#1) #2 \\
+    \includegraphics[width=0.85\linewidth]{../t1_t2/results/T2/neurips21/#2.png} \\
+}
 
+
+\begin{figure}[ht]
+\begin{minipage}{0.5\linewidth}
+  \TtwoResPlot{a}{bigann-1B}
+  \TtwoResPlot{b}{deep-1B}
+  \TtwoResPlot{c}{msspacev-1B}
+  \end{minipage}%
+\begin{minipage}{0.5\linewidth} 
+  \TtwoResPlot{d}{msturing-1B}
+  \TtwoResPlot{e}{ssnpp-1B}
+  \TtwoResPlot{f}{text2image-1B}
+\end{minipage}
+  \caption{QPS vs Recall plots for each dataset in Track T2::.}
+
+\end{figure}
+
+\iffalse 
 
 \begin{figure}[ht]
   \begin{subfigure}{0.48\textwidth}
@@ -110,5 +170,7 @@
   \caption{QPS vs Recall plots for each dataset in Track T2::.}
 
 \end{figure}
+
+\fi 
 
 \subsection{Track 3}
