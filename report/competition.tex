@@ -1,0 +1,547 @@
+% !TEX root = proposal.tex
+
+\section{Competition description}
+
+\subsection{Background and impact}
+
+\subsubsection{Background} 
+Approximate Nearest Neighbor Search or ANNS is a problem of
+fundamental importance to search, retrieval and recommendation.  In
+this problem, we are given a dataset $P$ of points along with a
+pairwise distance function, typically the $d$-dimensional Euclidean
+metric or cosine similarity with $d$ ranging from $50$ to $1000$. The
+goal is to design a data structure that, given a target $k$ and a
+query point $q$, efficiently retrieves the $k$ nearest neighbors of 
+$q$ in the dataset $P$ according to the given distance function. In
+many modern-day applications of this problem, the dataset to be
+indexed and the queries are the output of a deep learning
+model\cite{deep1b-link,BERT}.  The ANNS problem is widely studied in
+the algorithms, computer systems, databases, data mining, information
+theory and machine learning research communities, and numerous classes
+of algorithms have been developed. See, e.g.,
+~\cite{CoverTree,babenko2014additive,Faiss17,Weber98,ECCV18,HNSW16,PQ11,Arya93,Indyk98,onng,scann,puffinn}
+for some recent works, and also the survey
+articles~\cite{samet2006foundations, LSHSurvey08, LearningToHash18,
+  GraphANNSSurvey21} comparing these techniques.
+
+However, most of the research has focused on small to medium scale
+datasets of millions of vectors. For instance, the active
+gold-standard benchmark site~\cite{Benchmark} that compares almost all
+of the current-best ANNS algorithms \emph{uses datasets no more than a
+  million points each}, and design choices in the benchmarking system
+makes it difficult to go beyond this scale.
+
+\subsubsection{New Scenarios and Requirements}  \label{sec:scenarios}
+
+
+
+Traditional search techniques rely on structured data, literal matches
+and database queries.  However, numerous advances in machine learning
+have led to the popularity of embedding-based techniques for many
+tasks in natural language processing, computer vision and speech
+domains.  Here ANNS is typically used to search a large pool of
+data points for the most relevant candidates for a query. The pool that
+is queried is often extremely large, spanning \emph{billions or even
+  trillions of vectors}. A few such examples include:
+\begin{itemize}
+  \item Document Ranking: Retrieve the most appropriate document for a
+    user query from a large corpus~\cite{trec19dl}.
+  \item Question Answering: Highlight the sentence or paragraph from a
+    large knowledge store (e.g. Wikipedia) that best answers a
+    question.
+  \item Entity Linking: Match user query to a database of known entities~\cite{bennett2007netflix}.
+  \item Ads retrieval: Match user query to a database of Ad keywords~\cite{twinbert20}.
+  \item Image match: Find the best match to an image from a pool of
+    known images~\cite{douze2016polysemous,FBAI2020covidmisinfo}.
+  \item Text to Image search: Find the images that best match a given query.
+  \item Map match: Find the best match to a picture from satellite data.
+  \item Extreme Classification: Find appropriate labels from amongst a
+    billion for a data point (labels here can be text categories,
+    relevant pages, users,
+    etc.)~\cite{jain2019slice,nigam2019semantic, DeepXML21, GalaXC21}.
+  \item Link prediction using graph embeddings. 
+  \item Contrastive Sampling: find hard negatives for training models
+    using sparse data~\cite{conneau2017word, ance20}.
+  \item Molecule Similarity Search. Find structurally similar
+    molecules to a virtual query molecule in computational drug
+    discovery~\cite{pmlr-v119-ryali20a,Samanta2020.06.26.172908,C7SC02664A}.
+\end{itemize}
+
+\subsubsection{The Big-ANNS Challenge} 
+Implementing most existing state-of-art solutions for ANNS at this
+scale ends up being too expensive as the indices are very RAM
+intensive. Alternately, there are solutions such as SRS~\cite{Sun14}
+and HD-Index~\cite{Arora18} that can serve a billion-point index in a
+commodity machine, but these have high search latencies for achieving
+high search accuracy.
+
+Given the relevance of search at billion+ scale, we believe that
+it is timely to reconsider the ANNS algorithms and rigorously understand their \emph{performance
+vis-\`a-vis their hardware cost at this scale}. We therefore propose to
+set up a leaderboard of algorithms for a suite of representative
+datasets of about a billion points each from the above-mentioned scenarios.
+
+We will invite new algorithms and their implementation and measure
+them in three directions: accuracy of the results, search throughput,
+and hardware cost.  The winner of the challenge would be the entry
+that maximize accuracy and throughput with a cost bound.  We will
+elaborate on the precise metrics and competition details
+in~\Cref{metrics}.
+ 
+
+%% At a high level, the quality of the system is measured by the search
+%% latency achievable for a desired recall target, and the cost of
+%% running the system is the total hardware cost of the components used
+%% by the system.
+
+\subsection{Impact}
+
+Our ultimate goal from the Big-ANNS challenge is that we will uncover
+\emph{newer and more efficient ANNS systems} for billion-scale ANNS, a
+very important real-world problem cutting across application
+domains. Moreover, by not restricting the machine configuration to a
+fixed type, and by allowing different kinds of hardware configurations in \emph{separate tracks of the competition}
+(subject to the cost considerations), we hope that there might be new
+ideas proposed which can leverage novel configurations to provide
+cost-effective and high-quality indices. 
+Overall, we believe that the goal of permanently hosting and maintaining a leaderboard of the most cost-efficient billion-scale ANNS solutions  will not only advance the state-of-the-art for large-scale ANNS, it will also
+\emph{democratize the applicability of this problem}, given that it is
+prohibitively expensive for many end-users to deploy existing
+fast-and-accurate ANNS to large-scale indices they might have.
+Another lasting impact is that we plan for the Big-ANNS
+competition to be a \emph{permanent one-stop repository} of
+billion-scale datasets which we will carefully compile from the various
+real-world scenarios listed in~\Cref{sec:scenarios}. 
+Lastly, we believe that our Big-ANNS competition will serve as a standard evaluation framework for 
+ANNS algorithms on that scale, which will outlive the competition.
+In short, we can categorize the
+impact of the Big-ANNS challenge as follows:
+
+\begin{itemize}
+	\item A comparative understanding of algorithmic ideas and their
+	application at scale.
+	\item Development of new techniques for the problem and demonstration
+	of their value.
+	\item A compilation of datasets to enable future development of algorithms.
+  \item Introduction of a standard benchmarking approach.
+\end{itemize}
+
+We also believe that by unifying many of the interested parties in
+this problem (ranging from theory to possible applications), we will
+\emph{foster more cross-collaboration} and collectively advance the
+field at a more rapid pace.  
+
+Going forward, another possible extension
+of the challenge, which could be considered beyond this year's
+competition, is the case of serving ANNS queries over \emph{dynamic
+  datasets that change over time}. Maintaining dynamic indices in
+general is not as well understood as the indices for static datasets,
+again with the usual tradeoff between quality and the cost to maintain
+such a dynamic system.
+
+\subsubsection{Relevance to NeurIPS community}
+
+ANNS is a topic that is both actively developed and used in many publications each year.
+Recent research directions include:
+\begin{itemize}
+\item
+     hash-based methods like \cite{kulis2009learning}
+\item
+	 graph-based methods like \cite{WangL12, WangWZTGL12}, HNSW~\cite{HNSW16}, NSG~\cite{NSG17}, SPTAG~\cite{ChenW18}, ONNG~\cite{onng}
+\item 
+	hardware PQ implementations~\cite{Andre_2019}
+\item
+	better quantization methods~\cite{scann}
+\item 
+	learned distance metrics~\cite{sablayrolles2019spreading,baranchuk2019learning} and learned indices~\cite{DBLP:conf/iclr/DongIRW20}
+\item 
+ 	external-memory-based methods like Flash/RAM (DiskANN)~\cite{DiskANN19}, far-memory/RAM~\cite{hm-ann20} and specialized SRAM memory such as that you might find in 
+FPGA and custom in-memory processors~\cite{10.1007/978-3-030-27562-4_27,ZhangJialiang}.
+\item
+	GPU-based methods like~\cite{Faiss17,DBLP:conf/sigmod/WangSWR18,groh2019ggnn}
+\item using ANNS methods to speed-up ML training~\cite{DBLP:conf/mlsys/ChenMFGTS20, chen2021mongoose}
+
+\item search with non-metric distance~\cite{Shrivastava014} (Best paper award NeurIPS 2014)
+\end{itemize}
+
+Many of these
+works~\cite{kulis2009learning,Shrivastava014,DiskANN19,hm-ann20} are
+published in NeurIPS.  In addition, many practitioners in this
+community, especially from industry, use these algorithms regularly.
+
+
+
+\subsection{Novelty}
+At a high-level, the Big-ANNS competition is closely related to the
+benchmarking efforts on the website \url{ann-benchmarks.com}~\cite{Benchmark} in that it allows comparisons of
+recall vs latency properties of algorithms without a memory
+budget. However, the proposed competition is novel in several
+regards. It is the first evaluation on datasets spanning
+\emph{billions of vectors} from real-world scenarios, with existing
+benchmarks topping at around million vectors. Secondly, and equally
+importantly, it is the first comprehensive evaluation of the trade-off
+between quality of the ANNS system and its \emph{hardware cost}. The
+existing benchmark site allows any algorithm which can build and serve
+the index in a certain fixed SKU\footnote{Stock Keeping Units. Used here in reference to cloud virtual machines of a certain configuration}, and does not differentiate between
+algorithms which use the entire resource and those which use a tenth
+of the allotted SKU.
+
+Our competition also be the first effort to bring together most
+leading efforts for this problem from academia and industry which we
+hope will advance state-of-the-art significantly. Another novelty is
+that we also \emph{intend to actively welcome solutions} and proposals
+from more \emph{financially-constrained participants}, by providing
+compute credits for the required SKUs, provided the solutions meet
+certain qualifying criteria on medium-scale datasets. Lastly, as
+mentioned before, another novelty of this effort is to collect
+large-scale real-world datasets from various industrial labs where
+they play a crucial role in various application domains.
+
+
+
+\subsection{Data}
+The following datasets will be made available for download prior to
+start of the competition. The ground truth consists of the true
+nearest neighbors of the query set, which can be computed by anyone
+with sufficient hardware resources. Therefore, we plan to pre-compute and make it
+freely available.  This does not affect the competition since we
+measure how best an index can match the known ground truth with a
+finite resource budget for queries.
+
+% \matthijs{Maybe not useful to give the exact list of datasets for the proposal}
+% \martin{Agreed, but we should stress the impact of making these dataset available}
+% \harsha{Instructions ask us to comment on when data will be released and the terms. So it might be necessary to list them.}
+
+\begin{itemize}
+  \item Microsoft-Turing-ANNS is a new dataset being released by the
+    Microsoft Turing team for this competition. It consists of web
+    search queries encoded by the universal language AGI/Spacev5
+    model. This model is trained to capture generic intent
+    representation~\cite{AGIv4} and uses the Turing-NLG
+    architecture~\cite{Turing-NLG}. The query set also consists of web
+    search queries, and the goal is to match them to the closest
+    queries seen by the search engine in the past.
+  \item Microsoft-SPACEV1B is a new dataset being released by
+    Microsoft Bing for this competition. It consists of more than one
+    billion document vectors and 29K+ query vectors encoded by
+    Microsoft SpaceV Superior model. This model is trained to capture
+    generic intent representation for both documents and queries. The
+    goal is to match the query vector to the closest document vectors
+    in order to achieve top relevant documents for each query.
+  \item Facebook-simsearchnet is a new dataset being released by
+    Facebook for this competition. It is a dataset of image descriptors 
+    used for copyright enforcement, content moderation, etc.
+    Vectors should be compared with cosine distance.
+  \item Text-to-Image search from Yandex is a new cross-modal dataset,
+    where database and query vectors can potentially have different
+    distributions in a shared representation space. The database
+    consists of image embeddings produced by the Se-ResNext-101 model
+    \cite{hu2018squeeze} and queries are textual embeddings produced
+    by a variant of the DSSM model \cite{huang2013learning}. The
+    mapping to the shared representation space is learned via
+    minimizing a variant of the triplet loss using click-through data. The similarity measure for this dataset is inner product.
+  \item The BIGANN dataset ~\cite{SIFT1B} of SIFT descriptors applied
+    to 1 billion images. This is available at
+    \url{http://corpus-texmex.irisa.fr/} is already used as a
+    benchmark by existing algorithms. 
+  \item The DEEP1B dataset consisting of the outputs of a DNN for a
+    billion images on the web, introduced ~\cite{deep1b-link} and made
+    available
+    \href{https://github.com/arbabenko/GNOIMI/blob/master/downloadDeep1B.py}{here}. This
+    dataset is already used for benchmarking in the community.
+\end{itemize}
+
+The datasets will be provided from websites managed by the data creators. 
+The website will contain a brief description of the dataset and its (known) statistical properties.
+The file formats will be made as uniform as possible, taking into account the fact that some datasets are 
+in \texttt{float32} and some in \texttt{uint8}.
+For each dataset, we will provide: 
+\begin{itemize}
+\item 
+	a set of 1 billion database vectors to index,
+\item 
+	a set of query vectors for validation (at least 10000 of them), 
+\item 
+	a set of query vectors held out for the final evaluation (the same size),
+\item
+	ground truth consisting of the 100 nearest neighbors for each query in the validation set, including results at the reduced scales of 10M and 100M vectors.
+\end{itemize}
+
+% \matthijs{For deep1B and Sift1B the challenge will be to get additional queries. Perhaps they could be sampled from the training set, that is not used otherwise in the challenge}
+
+% \martin{We could also make noisy versions of some data points, or we make it explicit that the query points are part of the dataset. (Meaning that the nearest neighbor should always be ignored.)}
+%% If the competition uses an evaluation based on the analysis of data,
+%% please provide detailed information about the available data and
+%% their annotations, as well as permissions or licenses to use such data.
+
+%% If new data are collected or generated, provide details on the
+%% procedure, including permissions to collect such data obtained by an
+%% ethics committee, if human subjects are involved. In this case, it
+%% must be clear in the document that the data will be ready prior to the
+%% official launch of the competition.
+
+%% Please justify that: (1) you have access to large
+%% enough datasets to make the competition interesting and draw
+%% conclusive
+%%  results; (2) the data will be made freely available;(3) the ground truth has been kept confidential.
+
+\subsection{Tasks and application scenarios}
+
+The main task of the Big-ANNS challenge is to design a fast and
+accurate system which can build and serve a billion-vector index with
+minimal hardware cost.  Due to the proliferation of
+deep-learning-based embeddings, such a system would immediately fit
+into a variety of application domains, including but not limited to
+web search, email search, document search, image search; ranking and
+recommendation services for images, music, video, news, etc. Most
+current solutions are very expensive as they require storing the
+(uncompressed) data and index in-memory, which limits their scale. To
+test the applicability of the submitted solutions in these diverse
+use-cases, the competition will run evaluations on datasets scraped
+from these applications.
+
+
+One of the main determinants of the hardware cost of ANNS indices is
+the size of memory needed to host the indices and the data.  For one
+billion vectors, we consider that a single machine is sufficient to
+build and serve the index. The baseline algorithms we provide meet
+this bar.  Within this single-machine constraint, we will set up
+separate leaderboards for three different types of hardware,
+corresponding to tracks T1, T2, T3.
+
+\paragraph{Track T1}
+
+We will constrain the size of the RAM memory available for serving the
+index to 64GB per billion points. Note that in most cases, 64GB is
+insufficient to even host the dataset it self, as most interesting
+datasets are at least 100 dimensional and use either an {\tt int8} or
+a {\tt float32} representation of data so that the dataset is 100s of
+GB in size.  Serving this dataset with 64GB DRAM requires to compress
+the data and design the index to fit in 64GB RAM \`a la
+FAISS~\cite{Faiss17}
+
+\paragraph{Track T2}
+
+In the second set-up, the machine performing the search can rely, in addition to its 64GB RAM on a local 
+solid-state drive (SSD), as is done in~\cite{DiskANN19}. 
+We constrain the size of the SSD to be 1~TB. 
+% or 2TB?}\harsha{We have a cluster of machines with 1TB SSD. So let's go with that}
+
+
+\paragraph{Track T3}
+
+The third set-up is the most flexible. It allows the use of more exotic 
+hardware like dedicated co-processors. %% ~\matthijs{reference?}.  
+This may include GPUs that aren't readily available in the major public clouds, reconfigurable hardware like FPGAs, and other custom accelerators 
+available as add-on PCI boards~\cite{amdvid,applegpu,xilinxfpga,flexfpga}.  In general, we will not limit the type of hardware that can compete in T3, but 
+participants that wish to compete in T3 must first reach out to the coordinators to determine their eligibility.  Accepted T3 participants
+will either 1) send us their add-on PCI boards along with installation instructions 2) if that is not possible, we will give
+T3 participants the ability to run validation scripts and docker containers on their private hardware.  Every attempt will
+be made to ensure a fair competition among the T3 participants.  In addition to the performance benchmarks used in T1 and T2, we will declare
+winners for the following power and cost related benchmarks: \emph{(queries/second)/watt} metric and \emph{MSRP/watt}, where MSRP is the
+manufactured suggested retail price for the hardware.
+
+
+\subsection{Metrics}
+\label{metrics}
+
+
+The leaderboards will compare the algorithms by their Pareto-optimal
+curve of the recall vs throughput that they offer (using various
+configuration parameters), as well as the index build time, akin to
+the measurements in~\cite{Benchmark}.
+
+The evaluation for tracks T1 and T2 will be run by the organizers on
+normalized hardware.  T1: machine with 64GB RAM (memory shared by
+index with OS and standard libraries); T2: same machine with an
+additional 1 TB of SSD.  For T3, since the hardware is non standard,
+the participants are expected run the evaluation themselves using the
+evaluation scripts provided by the organizers.  Some T3 participants
+may wish to send us their custom accelerator hardware for the
+evaluation phase.  We will accommodate those requests on a case-by-case
+basis.
+
+% \matthijs{For the parts below, I am not sure we need to go into that much detail for the NeurIPS proposal. Maybe move to a new doc about the contest rules for participants that we have to provide as well.}
+% \martin{I agree.}
+
+
+
+%% \noindent{\bf Recall.}
+%% Depending on the use case, the requirement
+%% of the ANNS system might be to retrieve candidates which are in the
+%% vicinity of the true nearest neighbors, or we might require a stricter
+%% guarantee on retrieving most of the desired $k$ candidates. The
+%% in-memory setting that requires lossy data compression can only
+%% support the former.  Hence for the leaderboards, we use different ways
+%% of measuring recall: for the first category, we will measure
+%% \recall{1}{k} for $k=1, 10,100$, and for the second category we will
+%% measure a stronger notion of \recall{k}{k} for $k=1,10,100$. \matthijs{Not sure we need to distinguish them, I'm fine with recall k@k for both}
+
+
+
+
+\noindent{\bf Throughput.} We will measure the overall query
+throughput using all the threads available on the standardized machine.
+All queries are provided at once, and we measure the wall clock time
+between the ingestion of the vectors and when all the results are
+output. The resulting measure is the number of queries per second (QPS).
+
+
+%% \matthijs{There was some discussion about this. This is a scenario that is most comfortable for the API developers, because if we measure per-query latency, the parallelization becomes more tricky as we can't parallelize on queries anymore}
+
+%%  \martin{I would probably say that they can provide a single set of parameters for index building, and a collection of 10 or so different parameters for how to answers queries using the index.}
+
+The participants can provide one configuration for index building and
+up to around 10 (final number will be decided based on compute
+availability) different sets of search parameters per dataset that
+will be evaluated.  Each set of search parameters is intended to
+strike a different tradeoff in terms of accuracy vs. search time.  At
+evaluation time, the sets of search parameters will be evaluated in
+turn. The limited amount of hardware memory will disallow caching
+of data in out-of-core track T2.
+
+
+%% Between each set, the disk caches and RAM will be flushed by
+%% \matthijs{Maybe reading a lot of unrelated data} \martin{I think this
+%%   is only relevant on T2, and I would favor a hardware solution.}
+
+\noindent{\bf Build time.} We will measure the overall build time of
+the index using all the threads available on the standardized machine. 
+There will be a hard time limit on the time allowed to build an index on a standardized setup.
+
+
+\paragraph{Search accuracy.}
+
+We will measure two notions of search accuracy, defined as follows,
+depending on the dataset. For scenarios require $k$-NN search using
+the first notion of recall, we will measure 10-recall@10, with
+$k=k'=10$.
+
+\begin{definition}[{\bf \recall{k}{k'}}]
+  \label{def:recall}
+  For a query vector $q$ over dataset $P$, suppose that (a) $G
+  \subseteq P$ is the set of actual $k$ nearest neighbors in $P$, and
+  (b) $X \subseteq P$ is the output of a $k'$-ANNS query to an index
+  for $k' \geq k$ nearest neighbors. Then the \recall{k}{k'} for the
+  index for query $q$ is $\frac{|X \cap G|}{k}$. Recall for a set of
+  queries refers to the average recall over all queries.
+\end{definition}
+
+% \paragraph{Range search accuracy.}
+
+A range search returns a list of database items whose length is not fixed in advance (unlike k-NN search).
+We compute the ground truth range search results. 
+The range search accuracy measure is the precision and recall of the algorithm's results w.r.t. the ground truth results.
+We will use the average precision over recall values when clipping the result list with different values of the threshold.
+
+\begin{definition}[{\bf Range search average precision at $\epsilon$}]
+  \label{def:rangeaccuracy}
+  For a query vector $q$ over dataset $P$, suppose that (a) $G
+  \subseteq P$ is the set of actual nearest neighbors within range $\epsilon$ 
+  of the query in in $P$, and
+  (b) $X \subseteq P$ is the output of a ANNS range query to an index
+  for range $\epsilon'$. 
+  Then the precision in $p=\frac{|X \cap G|}{|X|}$ and recall is $r=\frac{|X \cap G|}{|G|}$. 
+  The accuracy measure that we use is the average precision while sweeping over $\epsilon'$ values.
+\end{definition}
+
+
+% \textcolor{blue}{Qi: Shall we add the resource usage into consideration? e.g. memory and disk usage. These capacity cost metrics are also very important when deploying the ANN related applications into real production environment. Maybe we should take the \#vectors/GB that the index can support into consideration?}
+
+% \matthijs{The setting is that the type of machine imposes the resource constraint, and given that constraint we measure the speed-accuracy tradeoff. }
+
+
+\paragraph{Synthetic performance measure.}
+
+Participants will obtain several tradeoffs in the QPS-accuracy space,
+where accuracy is either the 10-recall@10 (for k-NN search) or the
+average precision (for range search).  The challenge page will report
+these tradeoff plots, similar to the {\tt ann-benchmarks.com}
+page~\cite{Benchmark} or the Faiss benchmarks~\cite{FaissBenchmarks},
+for each evaluated dataset.
+
+However, for the leaderboard we need a single scalar metric to rank the participants. 
+For this we will use a synthetic QPS metric. 
+
+\begin{definition}[{\bf synthetic QPS metric.}]
+  \label{def:syntheticmetric}
+  Given a set of $n$ QPS-accuracy operating points $\Omega = \{(q_1, a_1), ..., (q_n, a_n), (q_\mathrm{exact}, 1)\}$, 
+  and a minimal accuracy threshold $A$,   the synthetic QPS measure is 
+  \[
+Q =  \max \{ q, \forall (q, a)\in \Omega \ \ \mathrm{st.}\ \  a\ge A \}
+  \]
+  where $q_\mathrm{exact}$ is the QPS of an exhaustive search on the reference machine.
+\end{definition}
+
+
+The rationale for including the exact-search metric is to be able to score algorithms that do not reach the required accuracy level even with their most expensive settings.
+Threshold $A$ will be calibrated based on the measured accuracy of our baseline methods. 
+It will be adjusted separately for the tracks T1, T2, T3, and possibly per dataset as well. 
+We expect $A$ to be lower for T1 than for T2 because T1 requires a stronger compression, and thus the maximal accuracy cannot be as high as for T2.
+
+
+The score over all datasets will be the geometric mean of the synthetic QPS measures of all databases:
+\begin{definition}[{\bf averaged QPS metric.}]
+  \label{def:averagedmetric}
+  Given a set of runs of a participant that obtained synthetic QPS metrics $\{Q_1,...,Q_n\}$ on the $n$ datasets, the average metric is 
+  \[
+  Q_\mathrm{avg} = \left( 
+\prod_{i=1..n} Q_i
+  \right)^{1/n} 
+  \]
+\end{definition}
+% 
+The reason for using a geometric mean is that the QPS scale is logarithmic rather than linear~\cite{Benchmark,FaissBenchmarks}.
+
+
+
+\subsection{Baselines, code, and material provided}
+
+We will use the following two baseline algorithms for the two
+leaderboards.  They are both open-sourced with MIT license and well
+tested in production.
+The developers of the two libraries will propose reasonable parameterizations for both.
+\begin{itemize}
+  \item FAISS for in-memory indices (T1). 
+    \url{https://github.com/facebookresearch/faiss}
+  \item DiskANN for out-of-core indices (T2).
+    \url{https://github.com/microsoft/DiskANN}
+\end{itemize}
+
+
+In addition to the data and corresponding ground-truth listed earlier,
+we will provide a 1\% and 10\% sample of the dataset (10M and
+100M points respectively) for participants to develop, debug and
+optimize their code with shorter turn-around times.
+
+We will also provide Azure compute credit to participants with
+suggestions on virtual machine SKUs that approximate the bare-metal
+hardware that will be used in the final evaluation.  Participants who
+want to work with alternative hardware configuration (for example a
+GPU) are allowed to use a SKU of their choice for (T3).
+
+Extending the techniques used in the evaluation framework~\cite{Benchmark}, 
+we will provide a standard benchmarking framework in which participants can 
+run their code.
+The framework will take care of downloading and preparing the datasets,
+running the experiments for a given implementation, 
+and evaluating the result of the experiment in terms of the metrics mentioned above.
+We will showcase the framework using the two baselines from above.
+
+
+%% Specify what are (will be) the baselines for the competition. Provide preliminary results, if available.
+
+%% Indicate
+%% whether there will be available code for the participants to get started with (``starting kit''). For certain competitions, material provided may include a hardware platform.
+
+\subsection{Tutorial and documentation}
+
+We think the problem is self-explanatory. We will provide links to
+papers and code to the algorithms that have already been developed for this
+problem. Furthermore, the evaluation framework will provide plenty 
+of examples to allow teams to start working on their competition entries.
+
+
+%% Provide a reference to a white paper you wrote describing the
+%% problem and/or explain what tutorial material you will provide.
+
