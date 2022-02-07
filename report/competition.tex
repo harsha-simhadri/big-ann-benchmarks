@@ -260,16 +260,10 @@ The website will contain a brief description of the dataset and its (known) stat
 The file formats will be made as uniform as possible, taking into account the fact that some datasets are 
 in \texttt{float32} and some in \texttt{uint8}.
 For each dataset, we will provide: 
-\begin{itemize}
-\item 
-	a set of 1 billion database vectors to index,
-\item 
-	a set of query vectors for validation (at least 10000 of them), 
-\item 
-	a set of query vectors held out for the final evaluation (the same size),
-\item
+	a set of 1 billion database vectors to index; 
+	a set of query vectors for validation (at least 10000 of them); 
+	a set of query vectors held out for the final evaluation (the same size);
 	ground truth consisting of the 100 nearest neighbors for each query in the validation set, including results at the reduced scales of 10M and 100M vectors.
-\end{itemize}
 
 % \matthijs{For deep1B and Sift1B the challenge will be to get additional queries. Perhaps they could be sampled from the training set, that is not used otherwise in the challenge}
 
@@ -488,7 +482,7 @@ for each evaluated dataset.
 However, for the leaderboard we need a single scalar metric to rank the participants. 
 For this we will use a synthetic accuracy metric. 
 For each track, we fix a given QPS target, and read from the Pareto-optimal curve what is the maximum accuracy we can get with at least that QPS. 
-
+%
 We then average these accuracy measurements over the six datasets. 
 The QPS targets are calibrated on the baseline methods described in the next section. 
 For Track 1: QPS=10,000, Track 2: QPS=1,500. Track 3: QPS=\matthijs{Did we have a QPS here?}.
@@ -532,34 +526,39 @@ The reason for using a geometric mean is that the QPS scale is logarithmic rathe
 
 We will use the following two baseline algorithms for the two
 leaderboards.  They are both open-sourced with MIT license and well
-tested in production.
+tested in production: FAISS for in-memory indices (T1) and DiskANN for out-of-core indices (T2). 
 The developers of the two libraries will propose reasonable parameterizations for both.
+\iffalse 
 \begin{itemize}
   \item FAISS for in-memory indices (T1). 
     \url{https://github.com/facebookresearch/faiss}
   \item DiskANN for out-of-core indices (T2).
     \url{https://github.com/microsoft/DiskANN}
 \end{itemize}
+\fi
 
-
+% redundant
+\iffalse 
 In addition to the data and corresponding ground-truth listed earlier,
 we will provide a 1\% and 10\% sample of the dataset (10M and
 100M points respectively) for participants to develop, debug and
 optimize their code with shorter turn-around times.
+\fi
 
-We will also provide Azure compute credit to participants with
+We also provide Azure compute credit to participants with
 suggestions on virtual machine SKUs that approximate the bare-metal
 hardware that will be used in the final evaluation.  Participants who
 want to work with alternative hardware configuration (for example a
 GPU) are allowed to use a SKU of their choice for (T3).
 
+
 Extending the techniques used in the evaluation framework~\cite{Benchmark}, 
-we will provide a standard benchmarking framework in which participants can 
+we provide a standard benchmarking framework in which participants can 
 run their code.
-The framework will take care of downloading and preparing the datasets,
+The framework takes care of downloading and preparing the datasets,
 running the experiments for a given implementation, 
 and evaluating the result of the experiment in terms of the metrics mentioned above.
-We will showcase the framework using the two baselines from above.
+We showcase the framework using the two baselines from above.
 
 
 %% Specify what are (will be) the baselines for the competition. Provide preliminary results, if available.
