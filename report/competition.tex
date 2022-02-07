@@ -95,6 +95,8 @@ in~\Cref{metrics}.
 
 \subsection{Impact}
 
+\matthijs{reduce or remove this section?}
+
 Our ultimate goal from the Big-ANNS challenge is that we will uncover
 \emph{newer and more efficient ANNS systems} for billion-scale ANNS, a
 very important real-world problem cutting across application
@@ -358,6 +360,9 @@ curve of the recall vs throughput that they offer (using various
 configuration parameters), as well as the index build time, akin to
 the measurements in~\cite{Benchmark}.
 
+
+% redundant with previous section
+\iffalse 
 The evaluation for tracks T1 and T2 will be run by the organizers on
 normalized hardware.  T1: machine with 64GB RAM (memory shared by
 index with OS and standard libraries); T2: same machine with an
@@ -367,6 +372,7 @@ evaluation scripts provided by the organizers.  Some T3 participants
 may wish to send us their custom accelerator hardware for the
 evaluation phase.  We will accommodate those requests on a case-by-case
 basis.
+\fi 
 
 % \matthijs{For the parts below, I am not sure we need to go into that much detail for the NeurIPS proposal. Maybe move to a new doc about the contest rules for participants that we have to provide as well.}
 % \martin{I agree.}
@@ -401,7 +407,8 @@ output. The resulting measure is the number of queries per second (QPS).
 The participants can provide one configuration for index building and
 up to around 10 (final number will be decided based on compute
 availability) different sets of search parameters per dataset that
-will be evaluated.  Each set of search parameters is intended to
+will be evaluated. \matthijs{Did we end up doing this?} 
+Each set of search parameters is intended to
 strike a different tradeoff in terms of accuracy vs. search time.  At
 evaluation time, the sets of search parameters will be evaluated in
 turn. The limited amount of hardware memory will disallow caching
@@ -415,14 +422,16 @@ of data in out-of-core track T2.
 \noindent{\bf Build time.} We will measure the overall build time of
 the index using all the threads available on the standardized machine. 
 There will be a hard time limit on the time allowed to build an index on a standardized setup.
-
+\matthijs{did we measure build time for the indexes or did the participants provide prebuilt indexes?}
 
 \paragraph{Search accuracy.}
 
 We will measure two notions of search accuracy, defined as follows,
 depending on the dataset. For scenarios require $k$-NN search using
-the first notion of recall, we will measure 10-recall@10, with
-$k=k'=10$.
+the first notion of recall, we will measure 10-recall@10, \ie 
+the number of correct 10-nearest neighbors found in the $k=10$ first results.
+
+\iffalse 
 
 \begin{definition}[{\bf \recall{k}{k'}}]
   \label{def:recall}
@@ -434,12 +443,17 @@ $k=k'=10$.
   queries refers to the average recall over all queries.
 \end{definition}
 
+\fi
+
 % \paragraph{Range search accuracy.}
 
 A range search returns a list of database items whose length is not fixed in advance (unlike k-NN search).
 We compute the ground truth range search results. 
 The range search accuracy measure is the precision and recall of the algorithm's results w.r.t. the ground truth results.
 We will use the average precision over recall values when clipping the result list with different values of the threshold.
+
+
+\iffalse 
 
 \begin{definition}[{\bf Range search average precision at $\epsilon$}]
   \label{def:rangeaccuracy}
@@ -452,6 +466,7 @@ We will use the average precision over recall values when clipping the result li
   The accuracy measure that we use is the average precision while sweeping over $\epsilon'$ values.
 \end{definition}
 
+\fi
 
 % \textcolor{blue}{Qi: Shall we add the resource usage into consideration? e.g. memory and disk usage. These capacity cost metrics are also very important when deploying the ANN related applications into real production environment. Maybe we should take the \#vectors/GB that the index can support into consideration?}
 
@@ -460,17 +475,21 @@ We will use the average precision over recall values when clipping the result li
 
 \paragraph{Synthetic performance measure.}
 
-\matthijs{Outdated: eventually we chose to use the recall at a given QPS target}
+% \matthijs{Outdated: eventually we chose to use the recall at a given QPS target}
 
 Participants will obtain several tradeoffs in the QPS-accuracy space,
 where accuracy is either the 10-recall@10 (for k-NN search) or the
-average precision (for range search).  The challenge page will report
+average precision (for range search).  
+The challenge page will report
 these tradeoff plots, similar to the {\tt ann-benchmarks.com}
 page~\cite{Benchmark} or the Faiss benchmarks~\cite{FaissBenchmarks},
 for each evaluated dataset.
 
 However, for the leaderboard we need a single scalar metric to rank the participants. 
-For this we will use a synthetic QPS metric. 
+For this we will use a synthetic accuracy metric. 
+The synthetic accuracy metric is chosen 
+
+\iffalse 
 
 \begin{definition}[{\bf synthetic QPS metric.}]
   \label{def:syntheticmetric}
@@ -502,7 +521,7 @@ The score over all datasets will be the geometric mean of the synthetic QPS meas
 % 
 The reason for using a geometric mean is that the QPS scale is logarithmic rather than linear~\cite{Benchmark,FaissBenchmarks}.
 
-
+\fi 
 
 \subsection{Baselines, code, and material provided}
 
