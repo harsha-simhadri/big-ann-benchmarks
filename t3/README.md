@@ -75,7 +75,7 @@ A summary of the final leaderboard activity is shown in the chart below.  Becaus
 
 * \*\*Nvidia has not yet approved the MSRP cost used for ranking, so participation in this benchmark was not approved.
 
-There are more details about the benchmarks in this README, as well as detailed dataset performance of participants [here](LEADERBOARDS_PUBLIC.md).
+There are more details about the benchmarks and they are measured below, as well as detailed dataset performance of competition participants [here](LEADERBOARDS_PUBLIC.md).
 
 ## For_Participants
 
