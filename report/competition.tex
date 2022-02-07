@@ -28,9 +28,9 @@ of the current-best ANNS algorithms \emph{uses datasets no more than a
   million points each}, and design choices in the benchmarking system
 makes it difficult to go beyond this scale.
 
+\begin{comment}
+  
 \subsubsection{New Scenarios and Requirements}  \label{sec:scenarios}
-
-
 
 Traditional search techniques rely on structured data, literal matches
 and database queries.  However, numerous advances in machine learning
@@ -63,8 +63,10 @@ is queried is often extremely large, spanning \emph{billions or even
     molecules to a virtual query molecule in computational drug
     discovery~\cite{pmlr-v119-ryali20a,Samanta2020.06.26.172908,C7SC02664A}.
 \end{itemize}
+\end{comment}
 
-\subsubsection{The Big-ANNS Challenge} 
+
+\subsection{The Big-ANNS Challenge} 
 Implementing most existing state-of-art solutions for ANNS at this
 scale ends up being too expensive as the indices are very RAM
 intensive. Alternately, there are solutions such as SRS~\cite{Sun14}
@@ -136,6 +138,8 @@ general is not as well understood as the indices for static datasets,
 again with the usual tradeoff between quality and the cost to maintain
 such a dynamic system.
 
+\begin{comment}
+  
 \subsubsection{Relevance to NeurIPS community}
 
 ANNS is a topic that is both actively developed and used in many publications each year.
@@ -194,6 +198,7 @@ mentioned before, another novelty of this effort is to collect
 large-scale real-world datasets from various industrial labs where
 they play a crucial role in various application domains.
 
+\end{comment}
 
 
 \subsection{Data}
