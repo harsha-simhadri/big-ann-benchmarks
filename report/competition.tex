@@ -482,12 +482,17 @@ where accuracy is either the 10-recall@10 (for k-NN search) or the
 average precision (for range search).  
 The challenge page will report
 these tradeoff plots, similar to the {\tt ann-benchmarks.com}
-page~\cite{Benchmark} or the Faiss benchmarks~\cite{FaissBenchmarks},
+page~\cite{Benchmark} or the Faiss benchmarks~footnote{\url{https://github.com/facebookresearch/faiss/wiki/Indexing-1G-vectors}},
 for each evaluated dataset.
 
 However, for the leaderboard we need a single scalar metric to rank the participants. 
 For this we will use a synthetic accuracy metric. 
-The synthetic accuracy metric is chosen 
+For each track, we fix a given QPS target, and read from the Pareto-optimal curve what is the maximum accuracy we can get with at least that QPS. 
+
+We then average these accuracy measurements over the six datasets. 
+The QPS targets are calibrated on the baseline methods described in the next section. 
+For Track 1: QPS=10,000, Track 2: QPS=1,500. Track 3: QPS=\matthijs{Did we have a QPS here?}.
+
 
 \iffalse 
 
