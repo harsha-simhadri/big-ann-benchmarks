@@ -52,7 +52,7 @@ We would like to congratulate all the winners of this part of the competition, c
 * Jingrong Zhang (NVidia)
 * Mahesh Doijade (NVidia)
 
-A summary of the final leaderboard activity is shown in the chart below.  Because Intel and NVidia ranked 1st in individual benchmarks, they were declared co-winners.  Microsoft could not be declared a winner because of rules that precluded organizers from winning the challenge.  In future challenges, we may declare an overall winner based on a combination of individual benchmark performance. 
+A summary of the final leaderboard activity is shown in the chart below.  Because Intel and NVidia ranked 1st in individual benchmarks (Intel ranked 1st in *power* and *cost*, while NVidia ranked 1st in *throughput*), they were declared co-winners.  Microsoft ranked 1st in *recall* but could not be declared a winner because of rules that precluded organizers from winning the challenge.  In future challenges, we may declare an overall winner based on a combination of individual benchmark performance. 
 
 |Submission          |Team       |Hardware  |[Recall Rank](#recall-or-ap-rankings)|[Thru-put Rank](#throughput-rankings)|[Power Rank](#power-rankings)|[Cost Rank](#cost-rankings)|Status |Anomalies|Evaluator|Algo     |Runs   |
 |--------------------|-----------|----------|---------|---------|---------|--------|---------|---------|---------|---------|--------|
