@@ -3,6 +3,7 @@
 ## Table Of Contents
 
 - [Introduction](#introduction)  
+- [Results 2021](#results_2021)
 - [For Participants](#for_participants) 
   - [Getting Started](#getting_started) 
   - [Starting Your Development](#starting_your_development)
@@ -40,7 +41,7 @@ Competition evaluators will evaluate the participant's algorithm and hardware vi
 * Participants give organizers remote access to the hardware.
 * Participants run the evaluation benchmarks on their own, and send the results to the organizers.
 
-## Results 2021
+## Results_2021
 
 ### NeurIPS 2021 Winners 
 
