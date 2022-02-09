@@ -27,14 +27,14 @@ datasets of millions of vectors. For instance, the active
 gold-standard benchmark site~\citep{Benchmark} that compares almost
 all of the current-best ANNS algorithms \emph{uses datasets no more
   than a million points each}, and design choices in the benchmarking
-system makes it difficult to go beyond this scale.  Implementing most
+system make it difficult to go beyond this scale.  Implementing most
 existing state-of-art solutions for ANNS at this scale ends up being
 too expensive as the indices are very RAM intensive. Alternately,
 there are solutions such as SRS~\cite{Sun14} and
 HD-Index~\cite{Arora18} that can serve a billion-point index in a
 commodity machine, but these have high search latencies for achieving
 high search accuracy.  Given the increasing relevance of search at
-billion+ scale, this competition aims rigorously benchmark the
+billion+ scale, this competition aims to rigorously benchmark the
 \emph{performance of billion-scale ANNS algorithms vis-\`a-vis their
   hardware cost}.
 
@@ -43,97 +43,121 @@ billion+ scale, this competition aims rigorously benchmark the
 
 
 
-\subsection{Tasks and application scenarios}
+\subsection{Tasks, application scenarios, and hardware tracks}
 
 The main task of this challenge is to design a fast and accurate
 algorithm and/or system which can build and serve a billion-vector
-index with minimal hardware cost.  Specifically, this scale a good fit
+index with minimal hardware cost.  Specifically, this scale is a good fit
 for comparing algorithmic ideas on a single machine.  Due to the
 proliferation of deep-learning-based embeddings, such a system would
 immediately fit into a variety of application domains, including but
 not limited to web search, email search, document search, image
 search; ranking and recommendation services for images, music, video,
 news, etc.  To test the applicability of the submitted solutions in
-these diverse use-cases, the competition will run evaluations on
+these diverse use-cases, the competition run evaluations on
 datasets representing these applications.
 
 
-To provide a platform fot the development of algorithmic and systems innovation,
-the challenge provides both  standardized and the custom hardware tracks.
+To provide a platform for the development of algorithmic and systems innovation,
+the challenge introduces three different tracks: two standardized hardware tracks and 
+one custom hardware track.
 
-Since most current solutions are limited in scale as they require data
-and indices to be stored in expensive main memory, we limit and
-normalize the amount of DRAM available in standardized hardware track
+Most current solutions to ANNS are limited in scale as they require data
+and indices to be stored in expensive main memory. We limit and
+normalize the amount of DRAM available in the standardized hardware tracks
 to 64GB.  Algorithms in track T1 must navigate this constraint by
 efficiently compressing and indexing data much larger than the main
-memory.
+memory. This track thus provides a platform for algorithmic innovation 
+in efficient and accurate vector quantization methods.
 
-Additionally, we allow for a second standardized hardware (T2) where
-in an additional 1TB of inexpensive SSD is allowed to serve
+The second standardized hardware (T2) track incorporates 
+an additional 1TB of inexpensive SSD to serve
 indices. This track allows more accuracy, due to the allowance for
 storing uncompressed data (the SSD is larger than all datasets in the
 competition).  This track provides a platform for algorithmic
 innovation for out-of-core indexing. 
 
-In specialized/custom hardware track T3, we encourge the use of any
+In the specialized/custom hardware track T3, we encourge the use of any
 existing combination of hardware or even the development of custom
 hardware to solve this problem.  This aims to encourage systems
 innovation to push the cost and power-normalized performance.
 
+We summarize and provide more details on the individual tracks below.
+\martin{Also specify details of index building?}
 
-\paragraph{Track T1}
+
+\paragraph{Track T1.}
 
 The size of the DRAM available for serving the index is limited to
 64GB. Note that in most cases, 64GB is insufficient to even host a
 billion-point dataset, let alone the index, as most relevant datasets
 are at least 100 dimensional and use either an {\tt int8} or a {\tt
-  float32} representation of data so that the dataset is 100s of GB in
+  float32} representation of data. this means that the dataset is 100s of GB in
 size.  Serving this dataset with 64GB DRAM requires compression of the
 data and design the index to fit in 64GB RAM \`a la
-FAISS~\cite{Faiss17}
+FAISS~\cite{Faiss17}, which we use as our baseline.
 
-\paragraph{Track T2}
+\paragraph{Track T2.}
 
 In the second set-up, the machine performing the search can rely, in addition to its 64GB RAM on a local 
 solid-state drive (SSD), as is done in~\cite{DiskANN19}. 
-We constrain the size of the SSD to be 1~TB. 
+We constrain the size of the SSD to be 1~TB and use DiskANN~\cite{DiskANN19} as the baseline.
 % or 2TB?}\harsha{We have a cluster of machines with 1TB SSD. So let's go with that}
 
 
-\paragraph{Track T3}
+\paragraph{Track T3.}
 
 The third set-up is the most flexible. It allows the use of more exotic 
 hardware like dedicated co-processors. %% ~\matthijs{reference?}.  
 This may include GPUs that aren't readily available in the major public clouds, reconfigurable hardware like FPGAs, and other custom accelerators 
 available as add-on PCI boards%~\cite{amdvid,applegpu,xilinxfpga,flexfpga}
-\footnote{\url{https://www.amd.com/en/graphics/radeon-rx-graphics},
+\footnote{For examples, see~\url{https://www.amd.com/en/graphics/radeon-rx-graphics},
 \url{https://www.apple.com/shop/product/HM8Y2VC/A/blackmagic-egpu},
 \url{https://www.xilinx.com/},
 \url{https://flex-logix.com/}}.
-In general, we will not limit the type of hardware that can compete in T3, but 
+In general, the type of hardware that can compete in T3 is not limited, but 
 participants that wish to compete in T3 must first reach out to the coordinators to determine their eligibility.  Accepted T3 participants
 will either 1) send us their add-on PCI boards along with installation instructions 2) if that is not possible, we will give
-T3 participants the ability to run validation scripts and docker containers on their private hardware.  Every attempt will
-be made to ensure a fair competition among the T3 participants.  In addition to the performance benchmarks used in T1 and T2, we will declare
-winners for the following power and cost related benchmarks: \emph{(queries/second)/watt} metric and \emph{MSRP/watt}, where MSRP is the
-manufactured suggested retail price for the hardware.
+T3 participants the ability to run validation scripts and docker containers on their private hardware.  
+%Martin: Put this discussion to metrics
+%Every attempt will
+%be made to ensure a fair competition among the T3 participants.  In addition to the performance benchmarks used in T1 and T2, we will declare
+%winners for the following power and cost related benchmarks: \emph{(queries/second)/watt} metric and \emph{MSRP/watt}, where MSRP is the
+%manufactured suggested retail price for the hardware. 
+\martin{@George: Please add details how the process worked out in the end.}
 
+\paragraph{Query types.}
+We distinguish the following two query types on a dataset $S \subseteq \mathbb{R}^d$:
+\begin{itemize}
+  \item $k$-NN query: Given a query $q \in \mathbb{R}^d$ and an integer $k \geq 1$, return the $k$-nearest neighbors to the query point in $S$.  
+  \item Range search: Given a query $q \in \mathbb{R}^d$ and a distance threshold $R$, return all points in $S$ that are at distance at most $R$ from $q$.
+\end{itemize}
 
 \subsection{Data}
-The following datasets will be made available for download prior to
-start of the competition. The ground truth consists of the true
-nearest neighbors of the query set, which can be computed by anyone
-with sufficient hardware resources. Therefore, we plan to pre-compute and make it
-freely available.  This does not affect the competition since we
-measure how best an index can match the known ground truth with a
-finite resource budget for queries.
+The datasets in Table~\ref{table:datasets} were made available for download for the competition along with ground truth data.
+We summarize these datasets in the following.
+
+\begin{table}
+  \begin{tabular}{r c c c c c}
+    Dataset & Type & d & Dist. & Query Type & Reference \\\hline
+    \textsf{BIGANN} &	uint8	& 128	& L2	& k-NN & \cite{SIFT1B} \\
+    \textsf{Facebook SimSearchNet++} & uint8 & 256 & L2 & Range & [this paper]\\
+    \textsf{Microsoft Turing-ANNS} & float32 & 100 & L2 & k-NN & [this paper] \\
+    \textsf{Microsoft SPACEV} & int8 & 100 & L2 & k-NN & [this paper] \\
+    \textsf{Yandex DEEP} & float32 & 96 & L2 & k-NN & \cite{deep1b-link} \\
+    \textsf{Yandex Text-to-Image} & float32 & 200 & IP & k-NN & [this paper]
+  \end{tabular}
+  \caption{Summary of datasets.}
+  \label{table:datasets}
+\end{table}
+
 
 % \matthijs{Maybe not useful to give the exact list of datasets for the proposal}
 % \martin{Agreed, but we should stress the impact of making these dataset available}
 % \harsha{Instructions ask us to comment on when data will be released and the terms. So it might be necessary to list them.}
 
 \begin{itemize}
-  \item Microsoft-Turing-ANNS is a new dataset being released by the
+  \item \textsf{Microsoft Turing-ANNS} is a new dataset being released by the
     Microsoft Turing team for this competition. It consists of web
     search queries encoded by the universal language AGI/Spacev5
     model. This model is trained to capture generic intent
@@ -141,18 +165,18 @@ finite resource budget for queries.
     architecture~\cite{Turing-NLG}. The query set also consists of web
     search queries, and the goal is to match them to the closest
     queries seen by the search engine in the past.
-  \item Microsoft-SPACEV1B is a new dataset being released by
+  \item \textsf{Microsoft SPACEV1B} is a new dataset being released by
     Microsoft Bing for this competition. It consists of more than one
     billion document vectors and 29K+ query vectors encoded by
-    Microsoft SpaceV Superior model. This model is trained to capture
+    Microsoft SpaceV Superior model \martin{reference?}. This model is trained to capture
     generic intent representation for both documents and queries. The
     goal is to match the query vector to the closest document vectors
     in order to achieve top relevant documents for each query.
-  \item Facebook-simsearchnet is a new dataset being released by
-    Facebook for this competition. It is a dataset of image descriptors 
+  \item \textsf{Facebook SimSearchNet++} is a new dataset being released by
+    Facebook \martin{Meta?} for this competition. It is a dataset of image descriptors 
     used for copyright enforcement, content moderation, etc.
-    Vectors should be compared with cosine distance.
-  \item Text-to-Image search from Yandex is a new cross-modal dataset,
+    Vectors should be compared with cosine distance. \martin{@Matthijs: We did l2, right?}
+  \item \textsf{Yandex Text-to-Image} from Yandex is a new cross-modal dataset,
     where database and query vectors can potentially have different
     distributions in a shared representation space. The database
     consists of image embeddings produced by the Se-ResNext-101 model
@@ -160,26 +184,29 @@ finite resource budget for queries.
     by a variant of the DSSM model \cite{huang2013learning}. The
     mapping to the shared representation space is learned via
     minimizing a variant of the triplet loss using click-through data. The similarity measure for this dataset is inner product.
-  \item The BIGANN dataset ~\cite{SIFT1B} of SIFT descriptors applied
+  \item \textsf{BIGANN} contains SIFT descriptors applied
     to 1 billion images. This is available at
     \url{http://corpus-texmex.irisa.fr/} is already used as a
     benchmark by existing algorithms. 
-  \item The DEEP1B dataset consisting of the outputs of a DNN for a
-    billion images on the web, introduced ~\cite{deep1b-link} and made
+  \item \textsf{DEEP1B} consists of the outputs of a DNN for a
+    billion images on the web, introduced in~\cite{deep1b-link} and made
     available
     \href{https://github.com/arbabenko/GNOIMI/blob/master/downloadDeep1B.py}{here}. This
     dataset is already used for benchmarking in the community.
 \end{itemize}
 
-The datasets will be provided from websites managed by the data creators. 
-The website will contain a brief description of the dataset and its (known) statistical properties.
-The file formats will be made as uniform as possible, taking into account the fact that some datasets are 
-in \texttt{float32} and some in \texttt{uint8}.
-For each dataset, we will provide: 
-	a set of 1 billion database vectors to index; 
-	a set of query vectors for validation (at least 10000 of them); 
-	a set of query vectors held out for the final evaluation (the same size);
-	ground truth consisting of the 100 nearest neighbors for each query in the validation set, including results at the reduced scales of 10M and 100M vectors.
+The datasets are provided from websites managed by the data creators. 
+The webpage \url{https://big-ann-benchmarks.com/} collects these and summarizes their properties.
+File formats were made as uniform as possible, taking into account the fact that some datasets are 
+in \texttt{float32} and others are in \texttt{uint8}.
+For each dataset, we provide: 
+\begin{itemize} 
+  \item a set of 1 billion database vectors to index; 
+	\item a set of query vectors for validation (at least 10\,000 of them); 
+	\item a set of query vectors held out for the final evaluation (the same size);
+	\item ground truth consisting of the 100 nearest neighbors for each query in the validation set, including results at the reduced scales of 10M and 100M vectors.
+\end{itemize}
+The experimental framework manages working with (variants of) these datasets automatically.
 
 % \matthijs{For deep1B and Sift1B the challenge will be to get additional queries. Perhaps they could be sampled from the training set, that is not used otherwise in the challenge}
 
@@ -204,10 +231,9 @@ For each dataset, we will provide:
 \label{metrics}
 
 
-The leaderboards will compare the algorithms by their Pareto-optimal
+The leaderboards compared the algorithms by their Pareto-optimal
 curve of the recall vs throughput that they offer (using various
-configuration parameters), as well as the index build time, akin to
-the measurements in~\cite{Benchmark}.
+configuration parameters), akin to the measurements in~\cite{Benchmark}. 
 
 
 % redundant with previous section
@@ -242,7 +268,7 @@ basis.
 
 
 
-\noindent{\bf Throughput.} We will measure the overall query
+\noindent{\bf Throughput.} The overall query
 throughput using all the threads available on the standardized machine.
 All queries are provided at once, and we measure the wall clock time
 between the ingestion of the vectors and when all the results are
@@ -256,7 +282,9 @@ output. The resulting measure is the number of queries per second (QPS).
 The participants can provide one configuration for index building and
 up to around 10 (final number will be decided based on compute
 availability) different sets of search parameters per dataset that
-will be evaluated. \matthijs{Did we end up doing this?} 
+will be evaluated. 
+%\matthijs{Did we end up doing this?} 
+%Martin: Yes!
 Each set of search parameters is intended to
 strike a different tradeoff in terms of accuracy vs. search time.  At
 evaluation time, the sets of search parameters will be evaluated in
@@ -268,14 +296,14 @@ of data in out-of-core track T2.
 %% \matthijs{Maybe reading a lot of unrelated data} \martin{I think this
 %%   is only relevant on T2, and I would favor a hardware solution.}
 
-\noindent{\bf Build time.} We will measure the overall build time of
-the index using all the threads available on the standardized machine. 
-There will be a hard time limit on the time allowed to build an index on a standardized setup.
+\noindent{\bf Build time.} 
+A hard time limit of 4 days per dataset for the time allowed to build an index on a standardized setup was enforced during the competition.
 \matthijs{did we measure build time for the indexes or did the participants provide prebuilt indexes?}
+\martin{I changed this to only mention the time limit that we eventually enforced.}
 
 \paragraph{Search accuracy.}
 
-We will measure two notions of search accuracy, defined as follows,
+Two notions of search accuracy, defined as follows,
 depending on the dataset. For scenarios require $k$-NN search using
 the first notion of recall, we will measure 10-recall@10, \ie 
 the number of correct 10-nearest neighbors found in the $k=10$ first results.
