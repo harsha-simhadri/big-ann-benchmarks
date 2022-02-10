@@ -1,4 +1,4 @@
-algorithm,parameters,dataset,count,qps,distcomps,build,indexsize,queriessize,mean_ssd_ios,mean_latency,recall/ap
+algorithm,parameters,dataset,count,qps,distcomps,build,indexsize,queriessize,mean_ssd_ios,mean_latency,recall_ap
 puck-t1,"Puck(10,30,13000,200)",bigann-1B,10,13316.962974604672,0.0,1000000.0,59203172.0,4445.696223147869,0,0,0.67313
 puck-t1,"Puck(10,90,200000,1400)",bigann-1B,10,1968.0655013316325,0.0,1000000.0,59203172.0,30081.91137944441,0,0,0.8204100000000001
 puck-t1,"Puck(10,30,15000,100)",bigann-1B,10,12804.642308063349,0.0,1000000.0,59203172.0,4623.57093432579,0,0,0.6840900000000001

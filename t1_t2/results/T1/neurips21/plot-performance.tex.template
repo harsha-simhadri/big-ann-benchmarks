@@ -1,0 +1,75 @@
+    \begin{tikzpicture}[every mark/.append style={mark size=1.5pt}]
+%\selectcolormodel{gray}
+        \begin{groupplot}[group style = {group size = 2 by 2, group name = hamming, horizontal sep = 0.3cm, vertical sep=1.5em}, grid = both, grid style={line width=.1pt, draw=gray!30},
+    major grid style={line width=.2pt,draw=gray!50},height=8cm, width=.55\textwidth,
+              ymin = 10, ymax = 100000, xtick = {0, 0.25, 0.5, 0.75, 1}, max space between ticks=20]
+
+        \nextgroupplot[
+            %ylabel={QPS (1/s)},
+            %ylabel style ={overlay},
+            ymode = log,
+			xticklabels = {,,},
+            yticklabel style={/pgf/number format/fixed,
+                              /pgf/number format/precision=3},
+            ]
+       %%PROCESS test/bigann-1B_10_buddy-t1_recall_ap_qps Buddy-T1
+       %%PROCESS test/bigann-1B_10_faiss-t1_recall_ap_qps Baseline
+       %%PROCESS test/bigann-1B_10_kst_ann_t1_recall_ap_qps KST-T1
+       %%PROCESS test/bigann-1B_10_puck-t1_recall_ap_qps Puck-T1
+        \nextgroupplot[
+            %ylabel={QPS (1/s)},
+            ymode = log,
+			%width=\textwidth,
+	        %height=5cm,
+            yticklabel style={/pgf/number format/fixed,
+                              /pgf/number format/precision=3},
+            yticklabels = {,,},
+			xticklabels = {,,},
+            legend style = { at = { (.75, 1.2 ) }},
+            legend columns = 5
+            ]
+       %%PROCESS test/bigann-1B_10_buddy-t1_recall_ap_qps Buddy-T1
+       %%PROCESS test/bigann-1B_10_faiss-t1_recall_ap_qps Baseline
+       %%PROCESS test/bigann-1B_10_kst_ann_t1_recall_ap_qps KST-T1
+       %%PROCESS test/bigann-1B_10_puck-t1_recall_ap_qps Puck-T1
+            
+        \nextgroupplot[
+            xlabel={Recall},
+            ylabel={QPS (1/s)},
+            ylabel style = {overlay,
+                at = {(0.0, 1.2)},
+                anchor = center},
+            ymode = log,
+			%width=\textwidth,
+	        %height=5cm,
+            yticklabel style={/pgf/number format/fixed,
+                              /pgf/number format/precision=3},
+            %legend pos = {outer north east},
+            ]
+       %%PROCESS test/bigann-1B_10_buddy-t1_recall_ap_qps Buddy-T1
+       %%PROCESS test/bigann-1B_10_faiss-t1_recall_ap_qps Baseline
+       %%PROCESS test/bigann-1B_10_kst_ann_t1_recall_ap_qps KST-T1
+       %%PROCESS test/bigann-1B_10_puck-t1_recall_ap_qps Puck-T1
+            
+        \nextgroupplot[
+            xlabel={Recall},
+            %ylabel={QPS (1/s)},
+            ymode = log,
+			%width=\textwidth,
+	        %height=5cm,
+            yticklabel style={/pgf/number format/fixed,
+                              /pgf/number format/precision=3},
+            yticklabels = {,,},
+            %legend pos = {outer north east},
+            %legend style = { at = { (.93, 1.25 ) } },
+            %legend columns = 9
+            ]
+       %%PROCESS test/bigann-1B_10_buddy-t1_recall_ap_qps Buddy-T1
+       %%PROCESS test/bigann-1B_10_faiss-t1_recall_ap_qps Baseline
+       %%PROCESS test/bigann-1B_10_kst_ann_t1_recall_ap_qps KST-T1
+       %%PROCESS test/bigann-1B_10_puck-t1_recall_ap_qps Puck-T1
+    \end{groupplot}
+\end{tikzpicture}
+    \caption{Recall-QPS (1/s) tradeoff - up and to the right is better.
+    Top: \textsf{GLOVE}, bottom: \textsf{SIFT}; left: $10$-NN, right: $100$-NN.}
+    \label{plot:performance}
