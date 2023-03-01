@@ -117,7 +117,9 @@ def range_result_read(fname):
     return nres, I, D
 
 def knn_result_read(fname):
+    print("knn result read",fname)
     n, d = map(int, np.fromfile(fname, dtype="uint32", count=2))
+    print("knn result read", n, d)
     assert os.stat(fname).st_size == 8 + n * d * (4 + 4)
     f = open(fname, "rb")
     f.seek(4+4)
@@ -252,6 +254,7 @@ class DatasetCompetitionFormat(Dataset):
             os.makedirs(self.basedir)
 
         # start with the small ones...
+        print("public", self.qs_fn, self.gt_fn)
         for fn in [self.qs_fn, self.gt_fn]:
             if fn is None:
                 continue
@@ -270,7 +273,7 @@ class DatasetCompetitionFormat(Dataset):
         if self.private_qs_url:
             outfile = os.path.join(self.basedir, self.private_qs_url.split("/")[-1])
             if os.path.exists(outfile):
-                print("file %s already exists" % outfile)
+                print("private qs file %s already exists" % outfile)
             else:
                 download(self.private_qs_url, outfile)
         
@@ -278,7 +281,7 @@ class DatasetCompetitionFormat(Dataset):
         if self.private_gt_url:
             outfile = os.path.join(self.basedir, self.private_gt_url.split("/")[-1])
             if os.path.exists(outfile):
-                print("file %s already exists" % outfile)
+                print("private gt file %s already exists" % outfile)
             else:
                 download(self.private_gt_url, outfile)
 
@@ -331,11 +334,16 @@ class DatasetCompetitionFormat(Dataset):
         return "knn"
 
     def get_groundtruth(self, k=None):
+        print("get groundtruth", self.gt_fn)
         assert self.gt_fn is not None
         fn = self.gt_fn.split("/")[-1]   # in case it's a URL
+        print("FN",fn)
         assert self.search_type() == "knn"
 
+        print("local file", os.path.join(self.basedir, fn))
+
         I, D = knn_result_read(os.path.join(self.basedir, fn))
+        print("knn result read result", type(I), type(D), I.shape, D.shape)
         assert I.shape[0] == self.nq
         if k is not None:
             assert k <= 100
@@ -354,6 +362,7 @@ class DatasetCompetitionFormat(Dataset):
         return sanitize(x)
 
     def get_private_queries(self):
+        print("gpq", self.private_qs_url)
         assert self.private_qs_url is not None
         fn = self.private_qs_url.split("/")[-1]   # in case it's a URL
         filename = os.path.join(self.basedir, fn)
@@ -362,6 +371,7 @@ class DatasetCompetitionFormat(Dataset):
         return sanitize(x)
     
     def get_private_groundtruth(self, k=None):
+        print("gpg", self.private_gt_url)
         assert self.private_gt_url is not None
         fn = self.private_gt_url.split("/")[-1]   # in case it's a URL
         assert self.search_type() == "knn"
@@ -461,6 +471,7 @@ class Deep1BDataset(DatasetCompetitionFormat):
             "https://storage.yandexcloud.net/yandex-research/ann-datasets/deep_new_groundtruth.public.10K.bin" if self.nb_M == 1000 else
             subset_url + "GT_100M/deep-100M" if self.nb_M == 100 else
             subset_url + "GT_10M/deep-10M" if self.nb_M == 10 else
+            subset_url + "GT_1M/deep-1M" if self.nb_M == 1 else
             None
         )
         self.base_url = "https://storage.yandexcloud.net/yandex-research/ann-datasets/DEEP/"
@@ -708,6 +719,7 @@ DATASETS = {
     'deep-1B': lambda : Deep1BDataset(),
     'deep-100M': lambda : Deep1BDataset(100),
     'deep-10M': lambda : Deep1BDataset(10),
+    'deep-1M': lambda : Deep1BDataset(1),
 
     'ssnpp-1B': lambda : SSNPPDataset(1000),
     'ssnpp-10M': lambda : SSNPPDataset(10),
