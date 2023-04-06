@@ -36,6 +36,12 @@ jobs:
           - algorithm: httpann_example
             dataset: random-range-xs
             library: httpann_example
+          - algorithm: buddy-t1
+            dataset: random-xs
+            library: faissconda            
+          - algorithm: buddy-t1
+            dataset: random-range-xs
+            library: faissconda            
           - algorithm: kota-t2
             dataset: random-xs
             library: kota
