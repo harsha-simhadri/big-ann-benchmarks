@@ -36,6 +36,9 @@ jobs:
           - algorithm: httpann_example
             dataset: random-range-xs
             library: httpann_example
+          - algorithm: team11
+            dataset: random-range-xs
+            library: faissconda
       fail-fast: false
 
     steps:
