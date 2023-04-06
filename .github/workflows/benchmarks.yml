@@ -41,14 +41,14 @@ jobs:
     steps:
     - uses: actions/checkout@v2 # Pull the repository
 
-    - name: Set up Python 3.11
+    - name: Set up Python 3.10
       uses: actions/setup-python@v2
       with:
-        python-version: 3.11
+        python-version: 3.10
 
     - name: Install dependencies
       run: |
-        pip install -r requirements.txt
+        pip install -r requirements_py3.10.txt
         python install.py
       env:
         LIBRARY: ${{ matrix.library }}
