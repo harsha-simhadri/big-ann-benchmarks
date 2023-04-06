@@ -42,22 +42,16 @@ deep-1B:
               [{"indexkey": "IVF1048576,SQ8",
                 "url":"https://storage.googleapis.com/bigann/indexes/faiss/1.7.1/deep-1B.IVF1048576%2CSQ8.faissindex"}]
           query-args: |
-              ["nprobe=1",
-               "nprobe=2",
-               "nprobe=4",
-               "nprobe=8",
-               "nprobe=16",
-               "nprobe=32",
-               "nprobe=40",
-               "nprobe=50",
-               "nprobe=64",
+              ["nprobe=90",
+               "nprobe=100",
+               "nprobe=110",
+               "nprobe=120",
                "nprobe=128",
                "nprobe=140",
                "nprobe=160",
                "nprobe=180",
-               "nprobe=190",
                "nprobe=200",
-               "nprobe=256"]
+               "nprobe=220"]
 bigann-1B:
     faiss-t3: 
       docker-tag: billion-scale-benchmark-faiss_t3
@@ -70,15 +64,16 @@ bigann-1B:
               [{"indexkey": "IVF1048576,SQ8",
                 "url":"https://storage.googleapis.com/bigann/indexes/faiss/1.7.1/bigann-1B.IVF1048576%2CSQ8.faissindex"}]
           query-args: |
-              ["nprobe=1",
-               "nprobe=2",
-               "nprobe=4",
-               "nprobe=8",
-               "nprobe=16",
-               "nprobe=32",
-               "nprobe=64",
+              ["nprobe=90",
+               "nprobe=100",
+               "nprobe=110",
+               "nprobe=120",
                "nprobe=128",
-               "nprobe=256"]
+               "nprobe=140",
+               "nprobe=160",
+               "nprobe=180",
+               "nprobe=200",
+               "nprobe=220"]
 msspacev-1B:
     faiss-t3: 
       docker-tag: billion-scale-benchmark-faiss_t3
@@ -89,7 +84,7 @@ msspacev-1B:
         base:
           args: |
               [{"indexkey": "IVF1048576,SQ8",
-                "url":"https://storage.googleapis.com/bigann/indexes/faiss/1.7.1/msspacev-1B.IVF1048576%2CSQ8.faissindex"}}]
+                "url":"https://storage.googleapis.com/bigann/indexes/faiss/1.7.1/msspacev-1B.IVF1048576%2CSQ8.faissindex"}]
           query-args: |
               ["nprobe=1",
                "nprobe=2",
@@ -110,17 +105,18 @@ text2image-1B:
         base:
           args: |
               [{"indexkey": "IVF1048576,SQ8",
-                "url":"https://storage.googleapis.com/bigann/indexes/faiss/1.7.1/text2image-1B.IVF1048576%2CSQ8.faissindex"}}]
+                "url":"https://storage.googleapis.com/bigann/indexes/faiss/1.7.1/text2image-1B.IVF1048576%2CSQ8.faissindex"}]
           query-args: |
-              ["nprobe=1",
-               "nprobe=2",
-               "nprobe=4",
-               "nprobe=8",
-               "nprobe=16",
-               "nprobe=32",
-               "nprobe=64",
+              ["nprobe=90",
+               "nprobe=100",
+               "nprobe=110",
+               "nprobe=120",
                "nprobe=128",
-               "nprobe=256"]
+               "nprobe=140",
+               "nprobe=160",
+               "nprobe=180",
+               "nprobe=200",
+               "nprobe=220"]
 msturing-10M:
     faiss-t3: 
       docker-tag: billion-scale-benchmark-faiss_t3
@@ -154,15 +150,16 @@ msturing-1B:
               [{"indexkey": "IVF1048576,SQ8",
                 "url":"https://storage.googleapis.com/bigann/indexes/faiss/1.7.1/msturing-1B.IVF1048576%2CSQ8.faissindex"}]
           query-args: |
-              ["nprobe=1",
-               "nprobe=2",
-               "nprobe=4",
-               "nprobe=8",
-               "nprobe=16",
+              ["nprobe=28",
                "nprobe=32",
+               "nprobe=37",
+               "nprobe=42",
+               "nprobe=47",
+               "nprobe=52",
+               "nprobe=57",
+               "nprobe=62",
                "nprobe=64",
-               "nprobe=128",
-               "nprobe=256"]
+               "nprobe=70"]
 ssnpp-1M:
     faiss-t3:
       docker-tag: billion-scale-benchmark-faiss_t3

@@ -24,6 +24,12 @@ jobs:
           - algorithm: diskann-t2
             dataset: random-range-xs
             library: diskann
+          - algorithm: bbann
+            dataset: random-xs
+            library: bbann
+          - algorithm: bbann
+            dataset: random-range-xs
+            library: bbann
           - algorithm: httpann_example
             dataset: random-xs
             library: httpann_example
@@ -33,6 +39,21 @@ jobs:
           - algorithm : kst_ann_t1
             dataset: random-xs
             library: kst_ann_t1
+          - algorithm: buddy-t1
+            dataset: random-xs
+            library: faissconda            
+          - algorithm: buddy-t1
+            dataset: random-range-xs
+            library: faissconda            
+          - algorithm: kota-t2
+            dataset: random-xs
+            library: kota
+          - algorithm: kota-t2
+            dataset: random-range-xs
+            library: kota 
+          - algorithm: team11
+            dataset: random-range-xs
+            library: faissconda
       fail-fast: false
 
     steps:
