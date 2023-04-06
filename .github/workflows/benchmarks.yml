@@ -15,6 +15,9 @@ jobs:
           - algorithm: faiss-t1
             dataset: random-xs
             library: faissconda
+          - algorithm: puck-t1
+            dataset: random-xs
+            library: puck
           - algorithm: faiss-t1
             dataset: random-range-xs
             library: faissconda

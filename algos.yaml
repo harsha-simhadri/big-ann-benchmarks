@@ -228,6 +228,20 @@ random-xs:
           args:
             - [ 0.2, 0.8, 1.0 ]
           query-args: [ ]
+    puck-t1:
+      docker-tag: billion-scale-benchmark-puck
+      module: benchmark.algorithms.puck_t1
+      constructor: Puck
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"indexkey": "C10_F10_F5_FN20",
+                "url": "https://gips-test-bucket-0-gz.gz.bcebos.com/similar/random-xs.C10_F10_F5_FN20.puckindex"}]
+          query-args: |
+               [                  
+                 "10,20,2000,200",
+                 "10,30,3000,200"]
     ngt-t1:
       # ngt-t1: random-xs
       docker-tag: billion-scale-benchmark-ngt
@@ -263,6 +277,7 @@ random-xs:
               [{"hnswM":32, "hnswefC":200, "K1":2, "blockSize":4096, "identifier": "bbann"}]
           query-args: |
               [{"nProbe":5, "efSearch":100, "K1":2, "blockSize":4096, "identifier": "bbann"}]
+
 deep-10M:
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
@@ -409,6 +424,32 @@ deep-1B:
               "nprobe=128,quantizer_efSearch=512",
               "nprobe=256,quantizer_efSearch=64",
               "nprobe=256,quantizer_efSearch=128"]
+    puck-t1:
+      docker-tag: billion-scale-benchmark-puck
+      module: benchmark.algorithms.puck_t1
+      constructor: Puck
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"indexkey": "C10000_F5000_FN16_N32",
+                "url": "https://gips-test-bucket-0-gz.gz.bcebos.com/similar/deep-1B.puckindex"}]
+          query-args: |
+               [
+                  
+                 "10,20,12000,200",
+                 "10,30,13000,200",
+                 "10,30,14000,200",
+                 "10,30,15000,200",
+                 "10,40,19000,200",
+                 "10,30,20000,300",
+                 "10,30,21000,200",
+                 "10,40,30000,200",
+
+                 "10,90,140000,1100",
+                 "10,100,200000,3000"
+
+               ] 
     team11:
       docker-tag: billion-scale-benchmark-faissconda
       module: benchmark.algorithms.faiss_t1_plus
@@ -757,6 +798,28 @@ msturing-1B:
               "nprobe=128,quantizer_efSearch=512",
               "nprobe=256,quantizer_efSearch=256",
               "nprobe=256,quantizer_efSearch=512"]
+    puck-t1:
+      docker-tag: billion-scale-benchmark-puck
+      module: benchmark.algorithms.puck_t1
+      constructor: Puck
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"indexkey": "C8000_F5000_FN13_N34",
+                "url": "https://gips-test-bucket-0-gz.gz.bcebos.com/similar/msturing-1B.puckindex"}]
+          query-args: |
+               [
+                "10,40,19000,200",
+                "10,60,19000,200",
+                "10,80,19000,600",
+                "10,30,20000,200",
+                "10,50,20000,300",
+                "10,20,22000,300",
+                "10,60,23000,200",
+                "10,70,24000,300",
+                "10,70,25000,300",
+                "10,90,100000,900"]
     team11:
       docker-tag: billion-scale-benchmark-faissconda
       module: benchmark.algorithms.faiss_t1_plus
@@ -934,6 +997,30 @@ bigann-1B:
                 "nprobe=256,quantizer_efSearch=64",
                 "nprobe=256,quantizer_efSearch=128",
                 "nprobe=256,quantizer_efSearch=512"] 
+    puck-t1:
+      docker-tag: billion-scale-benchmark-puck
+      module: benchmark.algorithms.puck_t1
+      constructor: Puck
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"indexkey": "C10000_F5000_FN16_N32",
+                "url": "https://gips-test-bucket-0-gz.gz.bcebos.com/similar/bigann-1B.puckindex"
+                }]
+          query-args: |
+               [
+                 "10,30,11000,100", 
+                 "10,30,12000,100",
+                 "10,20,13000,200",
+                 "10,30,13000,200",
+                 "10,30,14000,200",
+                 "10,30,15000,100",
+                 "10,30,19000,200",
+                 "10,30,20000,300",
+                 "10,90,200000,1400",
+                 "10,100,230000,1300"
+               ] 
     buddy-t1:
       docker-tag: billion-scale-benchmark-faissconda
       module: benchmark.algorithms.buddy_t1
@@ -1195,6 +1282,32 @@ text2image-1B:
               "nprobe=128,quantizer_efSearch=512,ht=256",
               "nprobe=256,quantizer_efSearch=512,ht=120",
               "nprobe=256,quantizer_efSearch=512,ht=122"]
+    puck-t1:
+      docker-tag: billion-scale-benchmark-puck
+      module: benchmark.algorithms.puck_t1
+      constructor: Puck
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"indexkey": "C10000_F5000_FN13_N34",
+                "url": "https://gips-test-bucket-0-gz.gz.bcebos.com/similar/text2image-1B.puckindex"
+                }]
+          query-args: |
+               [
+                 "10,10,6000,500",
+                 "10,10,8000,500",
+                 "10,20,9000,700",
+                 "10,20,10000,1000",
+                 "10,30,11000,1000",
+                 "10,30,12000,800",
+                 "10,30,14000,600",
+                 "10,20,19000,700",
+                 "10,20,20000,1000",
+                 "10,20,20000,2000"
+               ] 
+
+    
     diskann-t2:
       docker-tag: billion-scale-benchmark-diskann
       module: benchmark.algorithms.diskann-t2
