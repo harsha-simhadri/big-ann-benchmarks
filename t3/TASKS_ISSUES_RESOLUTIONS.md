@@ -15,12 +15,6 @@ Participants should send their questions and issues to the T3 organizer directly
 
 ## Issues (open)
 
-* [Intel asks T3 Organizer] Why won't there be one winner for T3 that combines all individual benchmarks?
-  * PENDING RESOLUTION: [T3 Organizer to Intel] We have provided the reason.  Hopefully its a good enough explanation and we can soon remove this issue.
-* [Intel asks T3 Organizer] Why are power and cost rankings optional for a submission?
-  * PENDING RESOLUTION: [T3 Organizer to Intel] We have provided the reason.  Hopefully its a good enough explanation and we can soon remove this issue.
-* [T3 Organizer asks NVidia] Can't we use an MSRP from another company as proxy for system cost?
-  * PENDING RESOLUTION: [T3 Organizer to NVidia] We will take the cheapest MSRP from third party seller for the leaderboard (but rankings are unofficial until approved.)
 * [T3 Organizer self-report] The "opex" power cost for an Nvidia submission seems impossibly low ($80).
   * PENDING RESOLUTION: We need to measure quiescent power of a system and establish the min power consumption and troubleshoot the DCMI power reporting on the NVidia system.
 
@@ -43,4 +37,10 @@ Participants should send their questions and issues to the T3 organizer directly
   * This was resolved.  Microsoft exported a new csv with the proper recall.
 * [GSI to T3 Organizer] New index for SSNPP and Text2Image requires re-evaluation for those datasets and updated scores.
   * This was done successfully on the public query set.
+* [Intel asks T3 Organizer] Why won't there be one winner for T3 that combines all individual benchmarks?
+  * We have provided the reason to Intel.  We weren't sure how to combine them in this first competition - likely it will be combined in the future.
+* [Intel asks T3 Organizer] Why are power and cost rankings optional for a submission?
+  * We have provided the reason to Intel.  We werent sure how easy it would be to support this for all participants in this first competition.
+* [T3 Organizer asks NVidia] Can't we use an MSRP from another company as proxy for system cost?
+  * We will take the cheapest MSRP from third party seller for the leaderboard (we found 150K).  We've footnoted this in the rankings.
 

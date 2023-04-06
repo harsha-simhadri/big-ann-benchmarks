@@ -77,7 +77,19 @@ random-range-xs:
           args:
             - [ 0.2, 0.4, 1.0 ]
           query-args: []
+    bbann:
+      docker-tag: billion-scale-benchmark-bbann
+      module: benchmark.algorithms.bbann
+      constructor: BbANN
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+            [{"hnswM":32, "hnswefC":200, "K1":2, "blockSize":4096, "identifier": "bbann"}]
+          query-args: |
+            [{"rangeSearchProbeCount":20, "efSearch":100, "K1":2, "blockSize":4096, "radiusFactor":1.00, "identifier":"bbann"}]
 random-xs:
+
     kota-t2:
       docker-tag: billion-scale-benchmark-kota
       module: benchmark.algorithms.kota-t2
@@ -89,6 +101,32 @@ random-xs:
               [{"R":32, "L":32, "B":0.0001, "M":1}]
           query-args: |
               [{"Ls":10, "BW":4, "T":16}]
+
+    team11:
+      docker-tag: billion-scale-benchmark-faissconda
+      module: benchmark.algorithms.faiss_t1_plus
+      constructor: Faiss
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{
+                "indexkey": "OPQ64_128,IVF256_HNSW32,PQ64x4fsr"
+                }]
+          query-args: |
+              [
+              "nprobe=32,quantizer_efSearch=16",
+              "nprobe=32,quantizer_efSearch=32",
+              "nprobe=32,quantizer_efSearch=64",
+              "nprobe=32,quantizer_efSearch=128",
+              "nprobe=32,quantizer_efSearch=256",
+              "nprobe=64,quantizer_efSearch=16",
+              "nprobe=64,quantizer_efSearch=32",
+              "nprobe=64,quantizer_efSearch=64",
+              "nprobe=64,quantizer_efSearch=128"
+              ]
+
+
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
       module: benchmark.algorithms.faiss_t1
@@ -137,6 +175,17 @@ random-xs:
           args:
             - [ 0.2, 0.8, 1.0 ]
           query-args: [ ]
+    bbann: 
+      docker-tag: billion-scale-benchmark-bbann
+      module: benchmark.algorithms.bbann
+      constructor: BbANN
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"hnswM":32, "hnswefC":200, "K1":2, "blockSize":4096, "identifier": "bbann"}]
+          query-args: |
+              [{"nProbe":5, "efSearch":100, "K1":2, "blockSize":4096, "identifier": "bbann"}]
 deep-10M:
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
@@ -213,6 +262,28 @@ deep-1B:
               "nprobe=128,quantizer_efSearch=512",
               "nprobe=256,quantizer_efSearch=64",
               "nprobe=256,quantizer_efSearch=128"]
+    team11:
+      docker-tag: billion-scale-benchmark-faissconda
+      module: benchmark.algorithms.faiss_t1_plus
+      constructor: Faiss
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"indexkey": "OPQ128_256,IVF65536_HNSW32,PQ128x4fsr",
+                "url": "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/track1_baseline_faiss/deep-1B.IVF1M_2level_PQ64x4fsr.faissindex"
+                }]
+          query-args: |
+              [
+              "nprobe=32,quantizer_efSearch=16",
+              "nprobe=32,quantizer_efSearch=32",
+              "nprobe=32,quantizer_efSearch=64",
+              "nprobe=32,quantizer_efSearch=128",
+              "nprobe=32,quantizer_efSearch=256",
+              "nprobe=64,quantizer_efSearch=16",
+              "nprobe=64,quantizer_efSearch=32",
+              "nprobe=64,quantizer_efSearch=64",
+              "nprobe=64,quantizer_efSearch=128"]
     diskann-t2:
       docker-tag: billion-scale-benchmark-diskann
       module: benchmark.algorithms.diskann-t2
@@ -318,6 +389,30 @@ msspacev-1B:
               {"Ls":110, "BW":4, "T":16},
               {"Ls":120, "BW":4, "T":16},
               {"Ls":130, "BW":4, "T":16}]
+    bbann: 
+      docker-tag: billion-scale-benchmark-bbann
+      module: benchmark.algorithms.bbann
+      constructor: BbANN
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"hnswM":32, "hnswefC":500, "K1":128, "blockSize":4096, "sample":1, "identifier":"bbann",
+                "url": "https://zilliznfs.blob.core.windows.net/bbann/Upload_Candidate_SPACEV_M32_Sample1"
+                }]
+          query-args: |
+              [
+                {"nProbe": 50, "efSearch":250, "K1":128, "blockSize":4096, "identifier": "bbann"},
+                {"nProbe":140, "efSearch":280, "K1":128, "blockSize":4096, "identifier": "bbann"},
+                {"nProbe":140, "efSearch":420, "K1":128, "blockSize":4096, "identifier": "bbann"},
+                {"nProbe":150, "efSearch":300, "K1":128, "blockSize":4096, "identifier": "bbann"},
+                {"nProbe":150, "efSearch":450, "K1":128, "blockSize":4096, "identifier": "bbann"},
+                {"nProbe":160, "efSearch":320, "K1":128, "blockSize":4096, "identifier": "bbann"},
+                {"nProbe":160, "efSearch":480, "K1":128, "blockSize":4096, "identifier": "bbann"},
+                {"nProbe":170, "efSearch":340, "K1":128, "blockSize":4096, "identifier": "bbann"},
+                {"nProbe":170, "efSearch":510, "K1":128, "blockSize":4096, "identifier": "bbann"},
+                {"nProbe":180, "efSearch":360, "K1":128, "blockSize":4096, "identifier": "bbann"}
+              ]
 msturing-1B:
     kota-t2:
       docker-tag: billion-scale-benchmark-kota
@@ -377,6 +472,30 @@ msturing-1B:
               "nprobe=128,quantizer_efSearch=512",
               "nprobe=256,quantizer_efSearch=256",
               "nprobe=256,quantizer_efSearch=512"]
+    team11:
+      docker-tag: billion-scale-benchmark-faissconda
+      module: benchmark.algorithms.faiss_t1_plus
+      constructor: Faiss
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"indexkey": "OPQ128_256,IVF65536_HNSW32,PQ128x4fsr",
+                "url": "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/track1_baseline_faiss/msturing-1B.IVF1M_2level_PQ64x4fsr.faissindex",
+                "query_bs": 4096
+                }]
+          query-args: |  
+              [
+              "nprobe=16,quantizer_efSearch=128",
+              "nprobe=32,quantizer_efSearch=128",
+              "nprobe=32,quantizer_efSearch=256",
+              "nprobe=64,quantizer_efSearch=128",
+              "nprobe=64,quantizer_efSearch=256",
+              "nprobe=128,quantizer_efSearch=128",
+              "nprobe=64,quantizer_efSearch=512",
+              "nprobe=128,quantizer_efSearch=256",
+              "nprobe=128,quantizer_efSearch=512",
+              "nprobe=256,quantizer_efSearch=256"]
     diskann-t2:
       docker-tag: billion-scale-benchmark-diskann
       module: benchmark.algorithms.diskann-t2
@@ -462,6 +581,30 @@ bigann-1B:
                 "nprobe=256,quantizer_efSearch=64",
                 "nprobe=256,quantizer_efSearch=128",
                 "nprobe=256,quantizer_efSearch=512"] 
+    team11:
+      docker-tag: billion-scale-benchmark-faissconda
+      module: benchmark.algorithms.faiss_t1_plus
+      constructor: Faiss
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{
+                "indexkey": "OPQ128_256,IVF65536_HNSW32,PQ128x4fsr",
+                "url": "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/track1_baseline_faiss/bigann-1B.IVF1M_2level_PQ64x4fsr.faissindex"
+                }]
+          query-args: |
+               [
+               "nprobe=16,quantizer_efSearch=16",
+                "nprobe=16,quantizer_efSearch=32",
+                "nprobe=16,quantizer_efSearch=64",
+                "nprobe=32,quantizer_efSearch=8",
+                "nprobe=32,quantizer_efSearch=32",
+                "nprobe=32,quantizer_efSearch=64",
+                "nprobe=32,quantizer_efSearch=128",
+                "nprobe=64,quantizer_efSearch=16",
+                "nprobe=64,quantizer_efSearch=32",
+                "nprobe=64,quantizer_efSearch=64"]
     diskann-t2:
       docker-tag: billion-scale-benchmark-diskann
       module: benchmark.algorithms.diskann-t2
@@ -569,6 +712,30 @@ ssnpp-1B:
                {"Lmin":8, "Lmax":45000, "BW":4, "T":16},
                {"Lmin":12, "Lmax":45000, "BW":4, "T":16},
                {"Lmin":16, "Lmax":45000, "BW":4, "T":16}]
+    bbann: 
+      docker-tag: billion-scale-benchmark-bbann
+      module: benchmark.algorithms.bbann
+      constructor: BbANN
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"hnswM":32, "hnswefC":500, "K1":128, "blockSize":4096, "identifier":"bbann",
+                "url": "https://zilliznfs.blob.core.windows.net/bbann/Upload_Candidate_SSNPP"
+                }]
+          query-args: |
+            [
+              {"rangeSearchProbeCount":20, "efSearch":250, "K1":128, "blockSize":4096, "radiusFactor":0.95, "identifier":"bbann"},
+              {"rangeSearchProbeCount":20, "efSearch":230, "K1":128, "blockSize":4096, "radiusFactor":0.95, "identifier":"bbann"},            
+              {"rangeSearchProbeCount":20, "efSearch":210, "K1":128, "blockSize":4096, "radiusFactor":0.95, "identifier":"bbann"},
+              {"rangeSearchProbeCount":20, "efSearch":170, "K1":128, "blockSize":4096, "radiusFactor":0.95, "identifier":"bbann"},            
+              {"rangeSearchProbeCount":20, "efSearch":150, "K1":128, "blockSize":4096, "radiusFactor":0.95, "identifier":"bbann"},                       
+              {"rangeSearchProbeCount":15, "efSearch":230, "K1":128, "blockSize":4096, "radiusFactor":0.95, "identifier":"bbann"},
+              {"rangeSearchProbeCount":15, "efSearch":200, "K1":128, "blockSize":4096, "radiusFactor":0.95, "identifier":"bbann"},
+              {"rangeSearchProbeCount":15, "efSearch":200, "K1":128, "blockSize":4096, "radiusFactor":0.96, "identifier":"bbann"},            
+              {"rangeSearchProbeCount":25, "efSearch":200, "K1":128, "blockSize":4096, "radiusFactor":0.93, "identifier":"bbann"},
+              {"rangeSearchProbeCount":25, "efSearch":200, "K1":128, "blockSize":4096, "radiusFactor":0.94, "identifier":"bbann"}
+            ]
 text2image-1B:
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
@@ -625,6 +792,30 @@ text2image-1B:
               {"Ls":80, "BW":10, "T":16},
               {"Ls":90, "BW":10, "T":16},
               {"Ls":100, "BW":10, "T":16}]
+    bbann: 
+      docker-tag: billion-scale-benchmark-bbann
+      module: benchmark.algorithms.bbann
+      constructor: BbANN
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"hnswM":32, "hnswefC":500, "K1":200, "blockSize":8192, "vector_use_sq":true, "use_hnsw_sq": false, "identifier":"bbann",
+                "url": "https://zilliznfs.blob.core.windows.net/bbann/BBANN_Text2Image_M32_BPP2_SQSample1"
+                }]
+          query-args: |
+              [
+                {"nProbe":60, "efSearch":100,"K1":200, "blockSize":8192, "vector_use_sq":true, "use_hnsw_sq": false, "identifier":"bbann"},
+                {"nProbe":60, "efSearch":120,"K1":200, "blockSize":8192, "vector_use_sq":true, "use_hnsw_sq": false, "identifier":"bbann"},
+                {"nProbe":70, "efSearch":140,"K1":200, "blockSize":8192, "vector_use_sq":true, "use_hnsw_sq": false, "identifier":"bbann"},
+                {"nProbe":80, "efSearch":160,"K1":200, "blockSize":8192, "vector_use_sq":true, "use_hnsw_sq": false, "identifier":"bbann"},
+                {"nProbe":90, "efSearch":140,"K1":200, "blockSize":8192, "vector_use_sq":true, "use_hnsw_sq": false, "identifier":"bbann"},
+                {"nProbe":90, "efSearch":150,"K1":200, "blockSize":8192, "vector_use_sq":true, "use_hnsw_sq": false, "identifier":"bbann"},
+                {"nProbe":90, "efSearch":160,"K1":200, "blockSize":8192, "vector_use_sq":true, "use_hnsw_sq": false, "identifier":"bbann"},
+                {"nProbe":100,"efSearch":100,"K1":200, "blockSize":8192, "vector_use_sq":true, "use_hnsw_sq": false, "identifier":"bbann"},
+                {"nProbe":100,"efSearch":110,"K1":200, "blockSize":8192, "vector_use_sq":true, "use_hnsw_sq": false, "identifier":"bbann"},
+                {"nProbe":100,"efSearch":120,"K1":200, "blockSize":8192, "vector_use_sq":true, "use_hnsw_sq": false, "identifier":"bbann"} 
+              ]
 ssnpp-10M:
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
