@@ -94,6 +94,13 @@ def ivecs_read(fname):
 def xbin_mmap(fname, dtype, maxn=-1):
     """ mmap the competition file format for a given type of items """
     n, d = map(int, np.fromfile(fname, dtype="uint32", count=2))
+
+    # HACK - to handle improper header in file for private deep-1B
+    # if override_d and override_d != d:
+    #    print("Warning: xbin_mmap map returned d=%s, but overridig with %d" % (d, override_d))
+    #    d = override_d
+    # HACK
+
     assert os.stat(fname).st_size == 8 + n * d * np.dtype(dtype).itemsize
     if maxn > 0:
         n = min(n, maxn)
@@ -188,6 +195,11 @@ class Dataset():
         Return (nq, d) array containing the nq queries.
         """
         pass
+    def get_private_queries(self):
+        """
+        Return (private_nq, d) array containing the private_nq private queries.
+        """
+        pass
     def get_groundtruth(self, k=None):
         """
         Return (nq, k) array containing groundtruth indices
@@ -253,6 +265,22 @@ class DatasetCompetitionFormat(Dataset):
                 print("file %s already exists" % outfile)
                 continue
             download(sourceurl, outfile)
+
+        # private qs url
+        if self.private_qs_url:
+            outfile = os.path.join(self.basedir, self.private_qs_url.split("/")[-1])
+            if os.path.exists(outfile):
+                print("file %s already exists" % outfile)
+            else:
+                download(self.private_qs_url, outfile)
+        
+        # private gt url
+        if self.private_gt_url:
+            outfile = os.path.join(self.basedir, self.private_gt_url.split("/")[-1])
+            if os.path.exists(outfile):
+                print("file %s already exists" % outfile)
+            else:
+                download(self.private_gt_url, outfile)
 
         if skip_data:
             return
@@ -325,6 +353,27 @@ class DatasetCompetitionFormat(Dataset):
         assert x.shape == (self.nq, self.d)
         return sanitize(x)
 
+    def get_private_queries(self):
+        assert self.private_qs_url is not None
+        fn = self.private_qs_url.split("/")[-1]   # in case it's a URL
+        filename = os.path.join(self.basedir, fn)
+        x = xbin_mmap(filename, dtype=self.dtype)
+        assert x.shape == (self.private_nq, self.d)
+        return sanitize(x)
+    
+    def get_private_groundtruth(self, k=None):
+        assert self.private_gt_url is not None
+        fn = self.private_gt_url.split("/")[-1]   # in case it's a URL
+        assert self.search_type() == "knn"
+
+        I, D = knn_result_read(os.path.join(self.basedir, fn))
+        assert I.shape[0] == self.private_nq
+        if k is not None:
+            assert k <= 100
+            I = I[:, :k]
+            D = D[:, :k]
+        return I, D
+
 subset_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/"
 
 class SSNPPDataset(DatasetCompetitionFormat):
@@ -337,7 +386,6 @@ class SSNPPDataset(DatasetCompetitionFormat):
         self.dtype = "uint8"
         self.ds_fn = "FB_ssnpp_database.u8bin"
         self.qs_fn = "FB_ssnpp_public_queries.u8bin"
-
         self.gt_fn = (
             "FB_ssnpp_public_queries_1B_GT.rangeres" if self.nb_M == 1000 else
             subset_url + "GT_100M/ssnpp-100M" if self.nb_M == 100 else
@@ -348,11 +396,15 @@ class SSNPPDataset(DatasetCompetitionFormat):
         self.base_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/"
         self.basedir = os.path.join(BASEDIR, "FB_ssnpp")
 
+        self.private_nq = 100000   
+        self.private_qs_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/FB_ssnpp_heldout_queries_3307fba121460a56.u8bin"
+        self.private_gt_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/GT_1B_final_2bf4748c7817/FB_ssnpp.bin"
+
     def search_type(self):
         return "range"
 
     def default_count(self):
-        return 60000
+        return 96237
 
     def distance(self):
         return "euclidean"
@@ -361,6 +413,12 @@ class SSNPPDataset(DatasetCompetitionFormat):
         """ override the ground-truth function as this is the only range search dataset """
         assert self.gt_fn is not None
         fn = self.gt_fn.split("/")[-1]   # in case it's a URL
+        return range_result_read(os.path.join(self.basedir, fn))
+    
+    def get_private_groundtruth(self, k=None):
+        """ override the ground-truth function as this is the only range search dataset """
+        assert self.private_gt_url is not None
+        fn = self.private_gt_url.split("/")[-1]   # in case it's a URL
         return range_result_read(os.path.join(self.basedir, fn))
 
 class BigANNDataset(DatasetCompetitionFormat):
@@ -381,6 +439,11 @@ class BigANNDataset(DatasetCompetitionFormat):
         # self.gt_fn = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/bigann/public_query_gt100.bin" if self.nb == 10**9 else None
         self.base_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/bigann/"
         self.basedir = os.path.join(BASEDIR, "bigann")
+        
+        self.private_nq = 10000   
+        self.private_qs_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/bigann/query.private.799253207.10K.u8bin"
+        self.private_gt_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/GT_1B_final_2bf4748c7817/bigann-1B.bin"
+
 
     def distance(self):
         return "euclidean"
@@ -403,9 +466,15 @@ class Deep1BDataset(DatasetCompetitionFormat):
         self.base_url = "https://storage.yandexcloud.net/yandex-research/ann-datasets/DEEP/"
         self.basedir = os.path.join(BASEDIR, "deep1b")
 
+        self.private_nq = 30000   
+        self.private_qs_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/deep1b/query.heldout.30K.fbin"
+        self.private_gt_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/deep1b/gt100-heldout.30K.fbin"
+
+        self.private_nq_large = 1000000
+        self.private_qs_large_url = "https://storage.yandexcloud.net/yr-secret-share/ann-datasets-5ac0659e27/DEEP/query.private.1M.fbin"
+
     def distance(self):
         return "euclidean"
-
 
 
 
@@ -426,6 +495,13 @@ class Text2Image1B(DatasetCompetitionFormat):
         )
         self.base_url = "https://storage.yandexcloud.net/yandex-research/ann-datasets/T2I/"
         self.basedir = os.path.join(BASEDIR, "text2image1B")
+
+        self.private_nq = 30000   
+        self.private_qs_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/text2image1b/query.heldout.30K.fbin"
+        self.private_gt_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/text2image1b/gt100-heldout.30K.fbin"
+
+        self.private_nq_large = 1000000
+        self.private_qs_large_url = "https://storage.yandexcloud.net/yr-secret-share/ann-datasets-5ac0659e27/T2I/query.private.1M.fbin"
 
     def distance(self):
         return "ip"
@@ -454,6 +530,14 @@ class MSTuringANNS(DatasetCompetitionFormat):
         self.base_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/MSFT-TURING-ANNS/"
         self.basedir = os.path.join(BASEDIR, "MSTuringANNS")
 
+        self.private_nq = 10000
+        self.private_qs_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/MSFT-TURING-ANNS/testQuery10K.fbin"
+        self.private_gt_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/MSFT-TURING-ANNS/gt100-private10K-queries.bin"
+
+        self.private_nq_large = 99605
+        self.private_qs_large_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/MSFT-TURING-ANNS/testQuery99605.fbin"
+        self.private_gt_large_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/MSFT-TURING-ANNS/gt100-private99605-queries.bin"
+
     def distance(self):
         return "euclidean"
 
@@ -475,6 +559,10 @@ class MSSPACEV1B(DatasetCompetitionFormat):
         )
         self.base_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/spacev1b/"
         self.basedir = os.path.join(BASEDIR, "MSSPACEV1B")
+
+        self.private_nq = 30000
+        self.private_qs_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/spacev1b/private_query_30k.bin"
+        self.private_gt_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/spacev1b/gt100_private_query_30k.bin"
 
     def distance(self):
         return "euclidean"
