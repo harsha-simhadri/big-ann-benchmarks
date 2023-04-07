@@ -571,7 +571,6 @@ deep-1B:
                 {"search_window_size": 160}
               ]
 
->>>>>>> 7cd5540ffafefe956b751573f1314e723bba8f5c
 msspacev-1B:
     kst_ann_t1:
       docker-tag: billion-scale-benchmark-kst_ann_t1
