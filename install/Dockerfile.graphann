@@ -1,0 +1,60 @@
+FROM billion-scale-benchmark
+
+RUN apt-get update
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+    make \
+    build-essential \
+    libssl-dev \
+    zlib1g-dev \
+    libbz2-dev \
+    libreadline-dev \
+    libsqlite3-dev \
+    wget \
+    curl \
+    llvm \
+    libncurses5-dev \
+    xz-utils \
+    tk-dev \
+    libxml2-dev \
+    libxmlsec1-dev \
+    libffi-dev \
+    liblzma-dev \
+    curl \
+    numactl
+
+# Install pyenv for dynamically linked python
+ENV HOME="/home/app"
+RUN git clone --depth=1 https://github.com/pyenv/pyenv.git .pyenv
+ENV PYENV_ROOT="${HOME}/.pyenv"
+ENV PATH="${PYENV_ROOT}/shims:${PYENV_ROOT}/bin:${PATH}"
+
+ENV PYTHON_VERSION=3.6.15
+ENV PYTHON_CONFIGURE_OPTS="--enable-shared"
+RUN pyenv install ${PYTHON_VERSION}
+RUN pyenv global ${PYTHON_VERSION}
+
+# Now that we've made a new python version - we need to reinstall the python requirements
+RUN pip3 install -U pip
+RUN pip3 install -r requirements.txt
+
+# Install Julia
+ENV JULIA_VERSION=1.6.3
+RUN wget https://julialang-s3.julialang.org/bin/linux/x64/1.6/julia-${JULIA_VERSION}-linux-x86_64.tar.gz
+RUN tar -xvf julia-${JULIA_VERSION}-linux-x86_64.tar.gz
+ENV JULIA_ROOT="${HOME}/julia-${JULIA_VERSION}/bin"
+ENV PATH="${JULIA_ROOT}:${PATH}"
+
+# With julia installed - we can now install pyjulia
+RUN python3 -m pip install julia
+RUN python3 -c "import julia; julia.install()"
+
+# Install GraphANN
+# Either copy it from a local directory or clone it from github
+# COPY GraphANN .
+RUN git clone https://github.com/hildebrandmw/GraphANN.jl GraphANN
+
+ENV GRAPHANN_ROOT="${HOME}/GraphANN"
+ENV PYANN_ROOT="${GRAPHANN_ROOT}/contrib/PyANN"
+RUN julia --project=${PYANN_ROOT} -e "using Pkg; Pkg.instantiate()"
+
+ENTRYPOINT ["numactl", "--physcpubind=0-27", "--membind=0", "python3", "-u", "run_algorithm.py"]
