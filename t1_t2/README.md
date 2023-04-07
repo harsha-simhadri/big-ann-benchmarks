@@ -143,7 +143,7 @@ When you are ready to test on the competition datasets, use the create_dataset.p
 ```
 python create_dataset.py --dataset [sift-1B|bigann-1B|text2image-1B|msturing-1B|msspacev-1B|ssnpp-1B]
 ```
-To benchmark your algorithm, first create an algorithm configuration yaml in your teams directory called *algos.yaml.*  This file contains the index build parameters and query parameters that will get passed to your algorithm at run-time.  Please look at [algos.yaml](../algos.yaml).
+To benchmark your algorithm, first create an algorithm configuration yaml in your teams directory called *algos-2021.yaml.*  This file contains the index build parameters and query parameters that will get passed to your algorithm at run-time.  Please look at [algos-2021.yaml](../algos-2021.yaml).
 
 If your machine is capable of both building and searching an index, you can benchmark your algorithm using the run.py script. 
 ```
@@ -242,11 +242,11 @@ diskann-t2  bigann-1B       0.94913
 A submission is composed of a pull request to this repo with the following. 
 * Your algorithm's python class, inheriting from `BaseANN`, placed in the [benchmark/algorithms/](../benchmark/algorithms) directory.
 * A Dockerfile in `install/` describing how to retrieve, compile and set up requirements for your algorithm.
-* For each dataset you are participating in, add to [algos.yaml](../algos.yaml)
+* For each dataset you are participating in, add to [algos-2021.yaml](../algos-2021.yaml)
   * 1 index build configuration 
   * 10 search configuration
 * Add an entry to [CI test list](../.github/workflows/benchmarks.yml) for the random-xs dataset, and for the random-range-xs dataset if your algorithm supports range search. We can start working with larger datasets once these tests pass. 
-* An URL to download any prebuilt indices placed in `algos.yaml`. **This is optional, but strongly encourages.** This would help us evaluate faster, although we would build your index to verify the time limit. Please see `faiss_t1.py` and `diskann-t2.py` for examples. If you are unable to host the index on your own Azure blob storage, please let us know and we can arrange to have it copied to organizer's account.
+* An URL to download any prebuilt indices placed in `algos-2021.yaml`. **This is optional, but strongly encourages.** This would help us evaluate faster, although we would build your index to verify the time limit. Please see `faiss_t1.py` and `diskann-t2.py` for examples. If you are unable to host the index on your own Azure blob storage, please let us know and we can arrange to have it copied to organizer's account.
 
 We will run early PRs on organizer's machines to the extent possible and provide any feedback necessary.
 
