@@ -556,7 +556,6 @@ deep-1B:
                {"epsilon":0.16, "edge":100, "blob":500, "expansion":10.0},
                {"epsilon":0.16, "edge":100, "blob":500, "expansion":11.0},
                {"epsilon":0.16, "edge":100, "blob":500, "expansion":12.0}]
-=======
               [{"index_file":"/mnt/data/competition_indexes/deep-1B/deep1b_index127-superflat.index",
                 "vectors_file":"/mnt/data/competition_indexes/deep-1B/base.1B.fbin",
                 "vectors_location":"PMEM",
