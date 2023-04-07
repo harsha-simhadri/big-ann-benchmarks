@@ -15,6 +15,9 @@ jobs:
           - algorithm: faiss-t1
             dataset: random-xs
             library: faissconda
+          - algorithm: puck-t1
+            dataset: random-xs
+            library: puck
           - algorithm: faiss-t1
             dataset: random-range-xs
             library: faissconda
@@ -36,19 +39,43 @@ jobs:
           - algorithm: httpann_example
             dataset: random-range-xs
             library: httpann_example
+          - algorithm: ngt-t1
+            dataset: random-range-xs
+            library: ngt
+          - algorithm: ngt-t2
+            dataset: random-range-xs
+            library: ngt
+          - algorithm : kst_ann_t1
+            dataset: random-xs
+            library: kst_ann_t1
+          - algorithm: buddy-t1
+            dataset: random-xs
+            library: faissconda            
+          - algorithm: buddy-t1
+            dataset: random-range-xs
+            library: faissconda            
+          - algorithm: kota-t2
+            dataset: random-xs
+            library: kota
+          - algorithm: kota-t2
+            dataset: random-range-xs
+            library: kota 
+          - algorithm: team11
+            dataset: random-range-xs
+            library: faissconda
       fail-fast: false
 
     steps:
     - uses: actions/checkout@v2 # Pull the repository
 
-    - name: Set up Python 3.6
+    - name: Set up Python 3.10
       uses: actions/setup-python@v2
       with:
-        python-version: 3.6
+        python-version: '3.10'
 
     - name: Install dependencies
       run: |
-        pip install -r requirements.txt
+        pip install -r requirements_py3.10.txt
         python install.py
       env:
         LIBRARY: ${{ matrix.library }}

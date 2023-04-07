@@ -9,6 +9,17 @@ any:
           args: [[1024,2048,4096,8192]]
           query-args: [[1, 5, 10, 50, 100, 200]]
 random-range-xs:
+    kota-t2:
+      docker-tag: billion-scale-benchmark-kota
+      module: benchmark.algorithms.kota-t2
+      constructor: KoTa
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"R":32, "L":32, "B":0.0001, "M":1}]
+          query-args: |
+            [{"Lmin":3, "Lmax":100, "BW":4, "T":16}]
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
       module: benchmark.algorithms.faiss_t1
@@ -34,6 +45,31 @@ random-range-xs:
               "nprobe=2,quantizer_efSearch=8",
               "nprobe=4,quantizer_efSearch=4",
               "nprobe=2,quantizer_efSearch=16"]
+    buddy-t1:
+      docker-tag: billion-scale-benchmark-faissconda
+      module: benchmark.algorithms.buddy_t1
+      constructor: Buddy
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          # the following args show all build arguments that can be provided to the t1 baseline.
+          args: |
+              [{"indexkey": "OPQ32_128,IVF1024_HNSW32,PQ32",
+                "buildthreads": -1,
+                "by_residual": -1,
+                "add_bs": 100000000,
+                "two_level_clustering": true,
+                "quantizer_add_efSearch": 80,
+                "quantizer_efConstruction": 200,
+                "maxtrain": 100000000,
+                "clustering_niter": 25
+                }]
+          query-args: |
+              ["nprobe=1,quantizer_efSearch=4",
+              "nprobe=2,quantizer_efSearch=4",
+              "nprobe=2,quantizer_efSearch=8",
+              "nprobe=4,quantizer_efSearch=4",
+              "nprobe=2,quantizer_efSearch=16"]              
     diskann-t2:
       docker-tag: billion-scale-benchmark-diskann
       module: benchmark.algorithms.diskann-t2
@@ -78,6 +114,56 @@ random-range-xs:
           query-args: |
             [{"rangeSearchProbeCount":20, "efSearch":100, "K1":2, "blockSize":4096, "radiusFactor":1.00, "identifier":"bbann"}]
 random-xs:
+    kst_ann_t1:
+      docker-tag: billion-scale-benchmark-kst_ann_t1
+      module: benchmark.algorithms.opt_faiss
+      constructor: opt_faiss
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"indexkey": "OPQ32_64,IVF1024_HNSWlibFp32_32,PQ64x4fsr",
+                "scale": 1,
+                "bias": 0 
+                }]
+          query-args: |
+              ["nprobe=8,quantizer_efSearch=32",
+              "nprobe=16,quantizer_efSearch=64"]
+    kota-t2:
+      docker-tag: billion-scale-benchmark-kota
+      module: benchmark.algorithms.kota-t2
+      constructor: KoTa
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"R":32, "L":32, "B":0.0001, "M":1}]
+          query-args: |
+              [{"Ls":10, "BW":4, "T":16}]
+
+    team11:
+      docker-tag: billion-scale-benchmark-faissconda
+      module: benchmark.algorithms.faiss_t1_plus
+      constructor: Faiss
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{
+                "indexkey": "OPQ64_128,IVF256_HNSW32,PQ64x4fsr"
+                }]
+          query-args: |
+              [
+              "nprobe=32,quantizer_efSearch=16",
+              "nprobe=32,quantizer_efSearch=32",
+              "nprobe=32,quantizer_efSearch=64",
+              "nprobe=32,quantizer_efSearch=128",
+              "nprobe=32,quantizer_efSearch=256",
+              "nprobe=64,quantizer_efSearch=16",
+              "nprobe=64,quantizer_efSearch=32",
+              "nprobe=64,quantizer_efSearch=64",
+              "nprobe=64,quantizer_efSearch=128"
+              ]
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
       module: benchmark.algorithms.faiss_t1
@@ -94,6 +180,22 @@ random-xs:
               "nprobe=2,quantizer_efSearch=8",
               "nprobe=4,quantizer_efSearch=4",
               "nprobe=2,quantizer_efSearch=16"]
+    buddy-t1:
+      docker-tag: billion-scale-benchmark-faissconda
+      module: benchmark.algorithms.buddy_t1
+      constructor: Buddy
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"indexkey": "OPQ32_128,IVF1024_HNSW32,PQ32"
+                }]
+          query-args: |
+              ["nprobe=1,quantizer_efSearch=4",
+              "nprobe=2,quantizer_efSearch=4",
+              "nprobe=2,quantizer_efSearch=8",
+              "nprobe=4,quantizer_efSearch=4",
+              "nprobe=2,quantizer_efSearch=16"]              
     diskann-t2:
       docker-tag: billion-scale-benchmark-diskann
       module: benchmark.algorithms.diskann-t2
@@ -126,6 +228,44 @@ random-xs:
           args:
             - [ 0.2, 0.8, 1.0 ]
           query-args: [ ]
+    puck-t1:
+      docker-tag: billion-scale-benchmark-puck
+      module: benchmark.algorithms.puck_t1
+      constructor: Puck
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"indexkey": "C10_F10_F5_FN20",
+                "url": "https://gips-test-bucket-0-gz.gz.bcebos.com/similar/random-xs.C10_F10_F5_FN20.puckindex"}]
+          query-args: |
+               [                  
+                 "10,20,2000,200",
+                 "10,30,3000,200"]
+    ngt-t1:
+      # ngt-t1: random-xs
+      docker-tag: billion-scale-benchmark-ngt
+      module: benchmark.algorithms.ngt_t1
+      constructor: NGT
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"q": 10, "s": 600, "b": 10000, "rs": 1000, "ri": 100, "rx": 10}]
+          query-args: |
+              [{"epsilon":0.10, "edge":0, "blob":500}]
+    ngt-t2:
+      # ngt-t2: random-xs
+      docker-tag: billion-scale-benchmark-ngt
+      module: benchmark.algorithms.ngt_t1
+      constructor: NGT
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"q": 10, "s": 600, "b": 10000, "rs": 1000, "ri": 100, "rx": 10}]
+          query-args: |
+              [{"epsilon":0.10, "edge":0, "blob":500, "expansion":2.0}]
     bbann: 
       docker-tag: billion-scale-benchmark-bbann
       module: benchmark.algorithms.bbann
@@ -137,6 +277,7 @@ random-xs:
               [{"hnswM":32, "hnswefC":200, "K1":2, "blockSize":4096, "identifier": "bbann"}]
           query-args: |
               [{"nProbe":5, "efSearch":100, "K1":2, "blockSize":4096, "identifier": "bbann"}]
+
 deep-10M:
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
@@ -146,14 +287,59 @@ deep-10M:
       run-groups:
         base:
           args: |
-              [{"indexkey": "OPQ32_128,IVF65536_HNSW32,PQ32"
+              [{"indexkey": "OPQ32_128,IVF1048576_HNSW32,PQ32"              
                 }]
           query-args: |
               ["nprobe=1,quantizer_efSearch=4",
-              "nprobe=2,quantizer_efSearch=4",
-              "nprobe=2,quantizer_efSearch=8",
-              "nprobe=4,quantizer_efSearch=4",
-              "nprobe=2,quantizer_efSearch=16"]
+                "nprobe=2,quantizer_efSearch=4",
+                "nprobe=4,quantizer_efSearch=4",
+                "nprobe=4,quantizer_efSearch=8",
+                "nprobe=8,quantizer_efSearch=4",
+                "nprobe=8,quantizer_efSearch=8",
+                "nprobe=8,quantizer_efSearch=16",
+                "nprobe=8,quantizer_efSearch=32",
+                "nprobe=16,quantizer_efSearch=16",
+                "nprobe=16,quantizer_efSearch=32",
+                "nprobe=16,quantizer_efSearch=64",
+                "nprobe=32,quantizer_efSearch=8",
+                "nprobe=32,quantizer_efSearch=32",
+                "nprobe=32,quantizer_efSearch=64",
+                "nprobe=32,quantizer_efSearch=128",
+                "nprobe=64,quantizer_efSearch=16",
+                "nprobe=64,quantizer_efSearch=32",
+                "nprobe=64,quantizer_efSearch=64",
+                "nprobe=64,quantizer_efSearch=128",
+                "nprobe=64,quantizer_efSearch=256",
+                "nprobe=128,quantizer_efSearch=32",
+                "nprobe=128,quantizer_efSearch=64",
+                "nprobe=128,quantizer_efSearch=128",
+                "nprobe=128,quantizer_efSearch=256",
+                "nprobe=128,quantizer_efSearch=512",
+                "nprobe=256,quantizer_efSearch=64",
+                "nprobe=256,quantizer_efSearch=128",
+                "nprobe=256,quantizer_efSearch=512"]
+    buddy-t1:
+      docker-tag: billion-scale-benchmark-pqbuddy
+      module: benchmark.algorithms.buddy_t1
+      constructor: Buddy
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"indexkey": "OPQ32_128,IVF65536_HNSW32,PQ32",
+                "url": "https://bigannstorage.blob.core.windows.net/buddy-blob/deep-10M.buddy.multicollinearity.OPQ32_128,IVF65536_HNSW32,PQ32.faissindex"
+                }]
+          query-args: |
+              ["nprobe=256,quantizer_efSearch=64",
+                "nprobe=128,quantizer_efSearch=512",
+                "nprobe=128,quantizer_efSearch=256",
+                "nprobe=128,quantizer_efSearch=128",
+                "nprobe=128,quantizer_efSearch=64",
+                "nprobe=8,quantizer_efSearch=8",
+                "nprobe=8,quantizer_efSearch=4",
+                "nprobe=4,quantizer_efSearch=8",
+                "nprobe=8,quantizer_efSearch=16",
+                "nprobe=8,quantizer_efSearch=32"]
     diskann-t2:
       docker-tag: billion-scale-benchmark-diskann
       module: benchmark.algorithms.diskann-t2
@@ -166,6 +352,31 @@ deep-10M:
           query-args: |
               [{"Ls":50, "BW":4, "T":16}]
 deep-1B:
+    kst_ann_t1:
+      docker-tag: billion-scale-benchmark-kst_ann_t1
+      module: benchmark.algorithms.opt_faiss
+      constructor: opt_faiss
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"indexkey": "OPQ96_192,IVF1048576_HNSWlibInt8_32,PQ96x4fsr",
+                "url": "https://comp21storage.blob.core.windows.net/participants/deep-1B.IVF1M_PQ96.faissindex",
+                "query_bs": 4096,
+                "scale": 1134.489,
+                "bias": -4.0839
+                }]
+          query-args: |
+                ["nprobe=8,quantizer_efSearch=32",
+                "nprobe=16,quantizer_efSearch=64",
+                "nprobe=32,quantizer_efSearch=32",
+                "nprobe=32,quantizer_efSearch=64",
+                "nprobe=32,quantizer_efSearch=128",
+                "nprobe=48,quantizer_efSearch=64",
+                "nprobe=48,quantizer_efSearch=96",
+                "nprobe=48,quantizer_efSearch=128",
+                "nprobe=48,quantizer_efSearch=256",
+                "nprobe=64,quantizer_efSearch=64"]
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
       module: benchmark.algorithms.faiss_t1
@@ -213,6 +424,54 @@ deep-1B:
               "nprobe=128,quantizer_efSearch=512",
               "nprobe=256,quantizer_efSearch=64",
               "nprobe=256,quantizer_efSearch=128"]
+    puck-t1:
+      docker-tag: billion-scale-benchmark-puck
+      module: benchmark.algorithms.puck_t1
+      constructor: Puck
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"indexkey": "C10000_F5000_FN16_N32",
+                "url": "https://gips-test-bucket-0-gz.gz.bcebos.com/similar/deep-1B.puckindex"}]
+          query-args: |
+               [
+                  
+                 "10,20,12000,200",
+                 "10,30,13000,200",
+                 "10,30,14000,200",
+                 "10,30,15000,200",
+                 "10,40,19000,200",
+                 "10,30,20000,300",
+                 "10,30,21000,200",
+                 "10,40,30000,200",
+
+                 "10,90,140000,1100",
+                 "10,100,200000,3000"
+
+               ] 
+    team11:
+      docker-tag: billion-scale-benchmark-faissconda
+      module: benchmark.algorithms.faiss_t1_plus
+      constructor: Faiss
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"indexkey": "OPQ128_256,IVF65536_HNSW32,PQ128x4fsr",
+                "url": "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/track1_baseline_faiss/deep-1B.IVF1M_2level_PQ64x4fsr.faissindex"
+                }]
+          query-args: |
+              [
+              "nprobe=32,quantizer_efSearch=16",
+              "nprobe=32,quantizer_efSearch=32",
+              "nprobe=32,quantizer_efSearch=64",
+              "nprobe=32,quantizer_efSearch=128",
+              "nprobe=32,quantizer_efSearch=256",
+              "nprobe=64,quantizer_efSearch=16",
+              "nprobe=64,quantizer_efSearch=32",
+              "nprobe=64,quantizer_efSearch=64",
+              "nprobe=64,quantizer_efSearch=128"]
     diskann-t2:
       docker-tag: billion-scale-benchmark-diskann
       module: benchmark.algorithms.diskann-t2
@@ -235,7 +494,97 @@ deep-1B:
               {"Ls":70, "BW":4, "T":16},
               {"Ls":80, "BW":4, "T":16},
               {"Ls":100, "BW":4, "T":16}]
+    ngt-t1:
+      # ngt-t1: deep-1B
+      docker-tag: billion-scale-benchmark-ngt
+      module: benchmark.algorithms.ngt_t1
+      constructor: NGT
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"q": 1000000, "s": 100, "b": 1000000, "rs": 1000000, "ri": 600, "rx": 10,
+                "index": "https://ngtf-rlab.east.edge.storage-yahoo.jp/neurips21/indices/1128/Deep1BDataset-1000000000.tar"}]
+          query-args: |
+              [{"epsilon":0.10, "edge":600, "blob":200},
+               {"epsilon":0.15, "edge":600, "blob":200},
+               {"epsilon":0.20, "edge":600, "blob":200},
+               {"epsilon":0.24, "edge":600, "blob":200},
+               {"epsilon":0.26, "edge":600, "blob":200},
+               {"epsilon":0.28, "edge":600, "blob":200},
+               {"epsilon":0.30, "edge":600, "blob":200},
+               {"epsilon":0.32, "edge":600, "blob":200},
+               {"epsilon":0.35, "edge":600, "blob":200},
+               {"epsilon":0.40, "edge":600, "blob":200}]
+    ngt-t2:
+      # ngt-t2: deep-1B
+      docker-tag: billion-scale-benchmark-ngt
+      module: benchmark.algorithms.ngt_t2
+      constructor: NGT
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"q": 1000000, "s": 100, "b": 1000000, "rs": 1000000, "ri": 600, "rx": 10,
+                "index": "https://ngtf-rlab.east.edge.storage-yahoo.jp/neurips21/indices/1128/Deep1BDataset-1000000000.tar"}]
+          query-args: |
+              [{"epsilon":0.16, "edge":100, "blob":500, "expansion":4.0},
+               {"epsilon":0.16, "edge":100, "blob":500, "expansion":5.0},
+               {"epsilon":0.16, "edge":100, "blob":500, "expansion":6.0},
+               {"epsilon":0.16, "edge":100, "blob":500, "expansion":7.0},
+               {"epsilon":0.16, "edge":100, "blob":500, "expansion":8.0},
+               {"epsilon":0.16, "edge":100, "blob":500, "expansion":9.0},
+               {"epsilon":0.16, "edge":100, "blob":500, "expansion":10.0},
+               {"epsilon":0.16, "edge":100, "blob":500, "expansion":11.0},
+               {"epsilon":0.16, "edge":100, "blob":500, "expansion":12.0}]
 msspacev-1B:
+    kst_ann_t1:
+      docker-tag: billion-scale-benchmark-kst_ann_t1
+      module: benchmark.algorithms.opt_faiss
+      constructor: opt_faiss
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"indexkey": "OPQ96_192,IVF1048576_HNSWlibInt8_32,PQ96x4fsr",
+                "url": "https://comp21storage.blob.core.windows.net/participants/msspacev-1B.IVF1M_PQ96.faissindex",
+                "query_bs": 4096,
+                "scale": 2.44,
+                "bias": 0 
+                }]
+          query-args: |
+              ["nprobe=8,quantizer_efSearch=32",
+              "nprobe=16,quantizer_efSearch=64",
+              "nprobe=32,quantizer_efSearch=32",
+              "nprobe=32,quantizer_efSearch=64",
+              "nprobe=32,quantizer_efSearch=128",
+              "nprobe=48,quantizer_efSearch=64",
+              "nprobe=48,quantizer_efSearch=96",
+              "nprobe=48,quantizer_efSearch=128",
+              "nprobe=48,quantizer_efSearch=256",
+              "nprobe=64,quantizer_efSearch=64"]
+    kota-t2:
+      docker-tag: billion-scale-benchmark-kota
+      module: benchmark.algorithms.kota-t2
+      constructor: KoTa
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"R":100, "L":100, "B":47, "M":100,
+                "url": "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/diskann-T2-baseline-indices/msspacev-1B/R100_L100_B47_M100"
+                }]
+          query-args: |
+              [{"Ls":60, "BW":4, "T":16, "HE":3},
+              {"Ls":70, "BW":4, "T":16, "HE":3},
+              {"Ls":80, "BW":4, "T":16, "HE":3},
+              {"Ls":90, "BW":4, "T":16, "HE":3},
+              {"Ls":95, "BW":4, "T":16, "HE":3},
+              {"Ls":100, "BW":4, "T":16, "HE":3},
+              {"Ls":105, "BW":4, "T":16, "HE":3},
+              {"Ls":110, "BW":4, "T":16, "HE":3},
+              {"Ls":120, "BW":4, "T":16, "HE":3},
+              {"Ls":130, "BW":4, "T":16, "HE":3}]
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
       module: benchmark.algorithms.faiss_t1
@@ -296,6 +645,51 @@ msspacev-1B:
               {"Ls":110, "BW":4, "T":16},
               {"Ls":120, "BW":4, "T":16},
               {"Ls":130, "BW":4, "T":16}]
+    ngt-t1:
+      # ngt-t1: msspacev-1B
+      docker-tag: billion-scale-benchmark-ngt
+      module: benchmark.algorithms.ngt_t1
+      constructor: NGT
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"q": 400000, "s": 500, "b": 1000000, "rs": 1000000, "ri": 600, "rx": 10,
+                "index": "https://ngtf-rlab.east.edge.storage-yahoo.jp/neurips21/indices/1115/MSSPACEV1B-1000000000.tar"}]
+          query-args: |
+              [{"epsilon":0.10, "edge":0, "blob":500},
+               {"epsilon":0.15, "edge":0, "blob":500},
+               {"epsilon":0.18, "edge":0, "blob":500},
+               {"epsilon":0.20, "edge":0, "blob":500},
+               {"epsilon":0.22, "edge":0, "blob":500},
+               {"epsilon":0.24, "edge":0, "blob":500},
+               {"epsilon":0.26, "edge":0, "blob":500},
+               {"epsilon":0.30, "edge":0, "blob":500},
+               {"epsilon":0.32, "edge":0, "blob":500},
+               {"epsilon":0.34, "edge":0, "blob":500},
+               {"epsilon":0.36, "edge":0, "blob":500}]
+    ngt-t2:
+      # ngt-t2: msspacev-1B
+      docker-tag: billion-scale-benchmark-ngt
+      module: benchmark.algorithms.ngt_t2
+      constructor: NGT
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"q": 400000, "s": 500, "b": 1000000, "rs": 1000000, "ri": 600, "rx": 10,
+                "index": "https://ngtf-rlab.east.edge.storage-yahoo.jp/neurips21/indices/1115/MSSPACEV1B-1000000000.tar"}]
+          query-args: |
+              [{"epsilon":0.18, "edge":0, "blob":500, "expansion":2},
+               {"epsilon":0.18, "edge":0, "blob":500, "expansion":3},
+               {"epsilon":0.18, "edge":0, "blob":500, "expansion":4},
+               {"epsilon":0.18, "edge":0, "blob":500, "expansion":5},
+               {"epsilon":0.18, "edge":0, "blob":500, "expansion":6},
+               {"epsilon":0.18, "edge":0, "blob":500, "expansion":7},
+               {"epsilon":0.18, "edge":0, "blob":500, "expansion":8},
+               {"epsilon":0.18, "edge":0, "blob":500, "expansion":9},
+               {"epsilon":0.18, "edge":0, "blob":500, "expansion":10}]
+
     bbann: 
       docker-tag: billion-scale-benchmark-bbann
       module: benchmark.algorithms.bbann
@@ -321,6 +715,53 @@ msspacev-1B:
                 {"nProbe":180, "efSearch":360, "K1":128, "blockSize":4096, "identifier": "bbann"}
               ]
 msturing-1B:
+    kst_ann_t1:
+      docker-tag: billion-scale-benchmark-kst_ann_t1
+      module: benchmark.algorithms.opt_faiss
+      constructor: opt_faiss
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"indexkey": "OPQ96_192,IVF1048576_HNSWlibInt8_32,PQ96x4fsr",
+                 "url": "https://comp21storage.blob.core.windows.net/participants/msturing-1B.IVF1M_PQ96.faissindex",            
+                 "query_bs":4096,
+                 "scale": 281.5,
+                 "bias": 16.6
+                 }]
+          query-args: |
+              ["nprobe=8,quantizer_efSearch=32",
+              "nprobe=16,quantizer_efSearch=64",
+              "nprobe=32,quantizer_efSearch=32",
+              "nprobe=32,quantizer_efSearch=64",
+              "nprobe=32,quantizer_efSearch=128",
+              "nprobe=48,quantizer_efSearch=64",
+              "nprobe=48,quantizer_efSearch=96",
+              "nprobe=48,quantizer_efSearch=128",
+              "nprobe=48,quantizer_efSearch=256",
+              "nprobe=64,quantizer_efSearch=64"]
+    kota-t2:
+      docker-tag: billion-scale-benchmark-kota
+      module: benchmark.algorithms.kota-t2
+      constructor: KoTa
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"R":100, "L":100, "B":50, "M":80,
+                "url": "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/diskann-T2-baseline-indices/msturing-1B/R100_L100_B50_M80"
+                }]
+          query-args: |
+              [{"Ls":30, "BW":4, "T":16},
+              {"Ls":40, "BW":4, "T":16},
+              {"Ls":50, "BW":4, "T":16},
+              {"Ls":55, "BW":4, "T":16},
+              {"Ls":57, "BW":4, "T":16},
+              {"Ls":59, "BW":4, "T":16},
+              {"Ls":60, "BW":4, "T":16},
+              {"Ls":70, "BW":4, "T":16},
+              {"Ls":80, "BW":4, "T":16},
+              {"Ls":100, "BW":4, "T":16}]
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
       module: benchmark.algorithms.faiss_t1
@@ -357,6 +798,52 @@ msturing-1B:
               "nprobe=128,quantizer_efSearch=512",
               "nprobe=256,quantizer_efSearch=256",
               "nprobe=256,quantizer_efSearch=512"]
+    puck-t1:
+      docker-tag: billion-scale-benchmark-puck
+      module: benchmark.algorithms.puck_t1
+      constructor: Puck
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"indexkey": "C8000_F5000_FN13_N34",
+                "url": "https://gips-test-bucket-0-gz.gz.bcebos.com/similar/msturing-1B.puckindex"}]
+          query-args: |
+               [
+                "10,40,19000,200",
+                "10,60,19000,200",
+                "10,80,19000,600",
+                "10,30,20000,200",
+                "10,50,20000,300",
+                "10,20,22000,300",
+                "10,60,23000,200",
+                "10,70,24000,300",
+                "10,70,25000,300",
+                "10,90,100000,900"]
+    team11:
+      docker-tag: billion-scale-benchmark-faissconda
+      module: benchmark.algorithms.faiss_t1_plus
+      constructor: Faiss
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"indexkey": "OPQ128_256,IVF65536_HNSW32,PQ128x4fsr",
+                "url": "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/track1_baseline_faiss/msturing-1B.IVF1M_2level_PQ64x4fsr.faissindex",
+                "query_bs": 4096
+                }]
+          query-args: |  
+              [
+              "nprobe=16,quantizer_efSearch=128",
+              "nprobe=32,quantizer_efSearch=128",
+              "nprobe=32,quantizer_efSearch=256",
+              "nprobe=64,quantizer_efSearch=128",
+              "nprobe=64,quantizer_efSearch=256",
+              "nprobe=128,quantizer_efSearch=128",
+              "nprobe=64,quantizer_efSearch=512",
+              "nprobe=128,quantizer_efSearch=256",
+              "nprobe=128,quantizer_efSearch=512",
+              "nprobe=256,quantizer_efSearch=256"]
     diskann-t2:
       docker-tag: billion-scale-benchmark-diskann
       module: benchmark.algorithms.diskann-t2
@@ -379,7 +866,97 @@ msturing-1B:
               {"Ls":70, "BW":4, "T":16},
               {"Ls":80, "BW":4, "T":16},
               {"Ls":100, "BW":4, "T":16}]
+    ngt-t1:
+      # ngt-t1: msturing-1B:
+      docker-tag: billion-scale-benchmark-ngt
+      module: benchmark.algorithms.ngt_t1
+      constructor: NGT
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"q": 400000, "s": 200, "b": 1000000, "rs": 1000000, "ri": 600, "rx": 10,
+                "index": "https://ngtf-rlab.east.edge.storage-yahoo.jp/neurips21/indices/1112/MSTuringANNS-1000000000.tar"}]
+          query-args: |
+              [{"epsilon":0.10, "edge":0, "blob":500},
+               {"epsilon":0.12, "edge":0, "blob":500},
+               {"epsilon":0.14, "edge":0, "blob":500},
+               {"epsilon":0.16, "edge":0, "blob":500},
+               {"epsilon":0.18, "edge":0, "blob":500},
+               {"epsilon":0.20, "edge":0, "blob":500},
+               {"epsilon":0.22, "edge":0, "blob":500},
+               {"epsilon":0.24, "edge":0, "blob":500},
+               {"epsilon":0.26, "edge":0, "blob":500},
+               {"epsilon":0.30, "edge":0, "blob":500}]
+    ngt-t2:
+      # ngt-t2: msturing-1B:
+      docker-tag: billion-scale-benchmark-ngt
+      module: benchmark.algorithms.ngt_t2
+      constructor: NGT
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"q": 400000, "s": 200, "b": 1000000, "rs": 1000000, "ri": 600, "rx": 10,
+                "index": "https://ngtf-rlab.east.edge.storage-yahoo.jp/neurips21/indices/1112/MSTuringANNS-1000000000.tar"}]
+          query-args: |
+              [{"epsilon":0.20, "edge":0, "blob":500, "expansion":1.0},
+               {"epsilon":0.20, "edge":0, "blob":500, "expansion":1.2},
+               {"epsilon":0.20, "edge":0, "blob":500, "expansion":1.4},
+               {"epsilon":0.20, "edge":0, "blob":500, "expansion":1.6},
+               {"epsilon":0.20, "edge":0, "blob":500, "expansion":1.8},
+               {"epsilon":0.20, "edge":0, "blob":500, "expansion":2.0},
+               {"epsilon":0.20, "edge":0, "blob":500, "expansion":2.2},
+               {"epsilon":0.20, "edge":0, "blob":500, "expansion":2.4},
+               {"epsilon":0.20, "edge":0, "blob":500, "expansion":2.6}]
 bigann-1B:
+    kst_ann_t1:
+      docker-tag: billion-scale-benchmark-kst_ann_t1
+      module: benchmark.algorithms.opt_faiss
+      constructor: opt_faiss
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"indexkey": "OPQ96_192,IVF1048576_HNSWlibInt8_32,PQ96x4fsr",
+                 "url": "https://comp21storage.blob.core.windows.net/participants/bigann-1B.IVF1M_PQ96.faissindex",
+                 "query_bs":4096,
+                 "scale": 2.23,
+                 "bias": -10.794
+                 }]
+          query-args: |
+              ["nprobe=8,quantizer_efSearch=32",
+              "nprobe=16,quantizer_efSearch=64",
+              "nprobe=32,quantizer_efSearch=32",
+              "nprobe=32,quantizer_efSearch=64",
+              "nprobe=32,quantizer_efSearch=128",
+              "nprobe=48,quantizer_efSearch=64",
+              "nprobe=48,quantizer_efSearch=96",
+              "nprobe=48,quantizer_efSearch=128",
+              "nprobe=48,quantizer_efSearch=256",
+              "nprobe=64,quantizer_efSearch=64"]
+    kota-t2:
+      docker-tag: billion-scale-benchmark-kota
+      module: benchmark.algorithms.kota-t2
+      constructor: KoTa
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"R":100, "L":100, "B":50, "M":80,
+                "url": "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/diskann-T2-baseline-indices/bigann-1B/R100_L100_B50_M80"
+                }]
+          query-args: |
+              [{"Ls":30, "BW":4, "T":16},
+              {"Ls":40, "BW":4, "T":16},
+              {"Ls":50, "BW":4, "T":16},
+              {"Ls":55, "BW":4, "T":16},
+              {"Ls":60, "BW":4, "T":16},
+              {"Ls":62, "BW":4, "T":16},
+              {"Ls":65, "BW":4, "T":16},
+              {"Ls":70, "BW":4, "T":16},
+              {"Ls":80, "BW":4, "T":16},
+              {"Ls":100, "BW":4, "T":16}]   
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
       module: benchmark.algorithms.faiss_t1
@@ -420,6 +997,76 @@ bigann-1B:
                 "nprobe=256,quantizer_efSearch=64",
                 "nprobe=256,quantizer_efSearch=128",
                 "nprobe=256,quantizer_efSearch=512"] 
+    puck-t1:
+      docker-tag: billion-scale-benchmark-puck
+      module: benchmark.algorithms.puck_t1
+      constructor: Puck
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"indexkey": "C10000_F5000_FN16_N32",
+                "url": "https://gips-test-bucket-0-gz.gz.bcebos.com/similar/bigann-1B.puckindex"
+                }]
+          query-args: |
+               [
+                 "10,30,11000,100", 
+                 "10,30,12000,100",
+                 "10,20,13000,200",
+                 "10,30,13000,200",
+                 "10,30,14000,200",
+                 "10,30,15000,100",
+                 "10,30,19000,200",
+                 "10,30,20000,300",
+                 "10,90,200000,1400",
+                 "10,100,230000,1300"
+               ] 
+    buddy-t1:
+      docker-tag: billion-scale-benchmark-faissconda
+      module: benchmark.algorithms.buddy_t1
+      constructor: Buddy
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"indexkey": "OPQ64_128,IVF1048576_HNSW32,PQ64x4fsr",
+                "url": "https://bigannstorage.blob.core.windows.net/buddy-blob/bigann-1B.buddy.multicollinearity.OPQ64_128,IVF1048576_HNSW32,PQ64x4fsr.faissindex"
+                }]
+          query-args: |
+               ["nprobe=8,quantizer_efSearch=16",
+                "nprobe=4,quantizer_efSearch=8",
+                "nprobe=16,quantizer_efSearch=32",
+                "nprobe=16,quantizer_efSearch=16",
+                "nprobe=64,quantizer_efSearch=32",
+                "nprobe=64,quantizer_efSearch=64",
+                "nprobe=8,quantizer_efSearch=8",
+                "nprobe=64,quantizer_efSearch=128",
+                "nprobe=128,quantizer_efSearch=32",
+                "nprobe=128,quantizer_efSearch=64"]
+    team11:
+      docker-tag: billion-scale-benchmark-faissconda
+      module: benchmark.algorithms.faiss_t1_plus
+      constructor: Faiss
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{
+                "indexkey": "OPQ128_256,IVF65536_HNSW32,PQ128x4fsr",
+                "url": "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/track1_baseline_faiss/bigann-1B.IVF1M_2level_PQ64x4fsr.faissindex"
+                }]
+          query-args: |
+               [
+               "nprobe=16,quantizer_efSearch=16",
+                "nprobe=16,quantizer_efSearch=32",
+                "nprobe=16,quantizer_efSearch=64",
+                "nprobe=32,quantizer_efSearch=8",
+                "nprobe=32,quantizer_efSearch=32",
+                "nprobe=32,quantizer_efSearch=64",
+                "nprobe=32,quantizer_efSearch=128",
+                "nprobe=64,quantizer_efSearch=16",
+                "nprobe=64,quantizer_efSearch=32",
+                "nprobe=64,quantizer_efSearch=64"]
     diskann-t2:
       docker-tag: billion-scale-benchmark-diskann
       module: benchmark.algorithms.diskann-t2
@@ -442,7 +1089,79 @@ bigann-1B:
               {"Ls":70, "BW":4, "T":16},
               {"Ls":80, "BW":4, "T":16},
               {"Ls":100, "BW":4, "T":16}]
+    ngt-t1:
+      # ngt-t1: bigann-1B
+      docker-tag: billion-scale-benchmark-ngt
+      module: benchmark.algorithms.ngt_t1
+      constructor: NGT
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"q": 500000, "s": 500, "b": 1000000, "rs": 1000000, "ri": 600, "rx": 10,
+                "index": "https://ngtf-rlab.east.edge.storage-yahoo.jp/neurips21/indices/1119/BigANNDataset-1000000000.tar"}]
+          query-args: |
+              [{"epsilon":0.10, "edge":600, "blob":200},
+               {"epsilon":0.20, "edge":600, "blob":200},
+               {"epsilon":0.25, "edge":600, "blob":200},
+               {"epsilon":0.27, "edge":600, "blob":200},
+               {"epsilon":0.29, "edge":600, "blob":200},
+               {"epsilon":0.30, "edge":600, "blob":200},
+               {"epsilon":0.31, "edge":600, "blob":200},
+               {"epsilon":0.32, "edge":600, "blob":200},
+               {"epsilon":0.33, "edge":600, "blob":200},
+               {"epsilon":0.34, "edge":600, "blob":200},
+               {"epsilon":0.35, "edge":600, "blob":200},
+               {"epsilon":0.40, "edge":600, "blob":200},
+               {"epsilon":0.45, "edge":600, "blob":200},
+               {"epsilon":0.50, "edge":600, "blob":200}]
+    ngt-t2:
+      # ngt-t2: bigann-1B
+      docker-tag: billion-scale-benchmark-ngt
+      module: benchmark.algorithms.ngt_t2
+      constructor: NGT
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"q": 500000, "s": 500, "b": 1000000, "rs": 1000000, "ri": 600, "rx": 10,
+                "index": "https://ngtf-rlab.east.edge.storage-yahoo.jp/neurips21/indices/1119/BigANNDataset-1000000000.tar"}]
+          query-args: |
+              [{"epsilon":0.18, "edge":600, "blob":1000, "expansion":2},
+               {"epsilon":0.18, "edge":600, "blob":1000, "expansion":3},
+               {"epsilon":0.18, "edge":600, "blob":1000, "expansion":4},
+               {"epsilon":0.18, "edge":600, "blob":1000, "expansion":5},
+               {"epsilon":0.18, "edge":600, "blob":1000, "expansion":6},
+               {"epsilon":0.18, "edge":600, "blob":1000, "expansion":7},
+               {"epsilon":0.18, "edge":600, "blob":1000, "expansion":8},
+               {"epsilon":0.18, "edge":600, "blob":1000, "expansion":9},
+               {"epsilon":0.18, "edge":600, "blob":1000, "expansion":10},
+               {"epsilon":0.18, "edge":600, "blob":1000, "expansion":11},
+               {"epsilon":0.18, "edge":600, "blob":1000, "expansion":12},
+               {"epsilon":0.18, "edge":600, "blob":1000, "expansion":13}]
 ssnpp-1B:
+    kota-t2:
+      docker-tag: billion-scale-benchmark-kota
+      module: benchmark.algorithms.kota-t2
+      constructor: KoTa
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"R":100, "L":100, "B":60, "M":100, "C":500000, "CM":2,
+                "url": "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/diskann-T2-baseline-indices/fbssnpp-1B/R100_L100_B60_M100"
+                }]
+          query-args: |
+              [{"Lmin":9, "Lmax":10000, "BW":4, "T":16},
+               {"Lmin":14, "Lmax":10000, "BW":4, "T":16},
+               {"Lmin":9, "Lmax":20000, "BW":4, "T":16},
+               {"Lmin":14, "Lmax":20000, "BW":4, "T":16},
+               {"Lmin":19, "Lmax":20000, "BW":4, "T":16},
+               {"Lmin":39, "Lmax":20000, "BW":4, "T":16},
+               {"Lmin":7, "Lmax":30000, "BW":4, "T":16},
+               {"Lmin":14, "Lmax":30000, "BW":4, "T":16},
+               {"Lmin":29, "Lmax":30000, "BW":4, "T":16},
+               {"Lmin":58, "Lmax":30000, "BW":4, "T":16}]
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
       module: benchmark.algorithms.faiss_t1
@@ -542,7 +1261,7 @@ text2image-1B:
               "url": "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/track1_baseline_faiss/text2image-1B.IVF1M_2level_PQ32.faissindex"
                 }]
           # Trying all combinations of nprobe x efSearch
-          query-args: | 
+          query-args: |
               ["nprobe=1,quantizer_efSearch=4,ht=106",
               "nprobe=1,quantizer_efSearch=16,ht=114",
               "nprobe=1,quantizer_efSearch=16,ht=116",
@@ -563,6 +1282,32 @@ text2image-1B:
               "nprobe=128,quantizer_efSearch=512,ht=256",
               "nprobe=256,quantizer_efSearch=512,ht=120",
               "nprobe=256,quantizer_efSearch=512,ht=122"]
+    puck-t1:
+      docker-tag: billion-scale-benchmark-puck
+      module: benchmark.algorithms.puck_t1
+      constructor: Puck
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"indexkey": "C10000_F5000_FN13_N34",
+                "url": "https://gips-test-bucket-0-gz.gz.bcebos.com/similar/text2image-1B.puckindex"
+                }]
+          query-args: |
+               [
+                 "10,10,6000,500",
+                 "10,10,8000,500",
+                 "10,20,9000,700",
+                 "10,20,10000,1000",
+                 "10,30,11000,1000",
+                 "10,30,12000,800",
+                 "10,30,14000,600",
+                 "10,20,19000,700",
+                 "10,20,20000,1000",
+                 "10,20,20000,2000"
+               ] 
+
+    
     diskann-t2:
       docker-tag: billion-scale-benchmark-diskann
       module: benchmark.algorithms.diskann-t2
@@ -626,7 +1371,68 @@ ssnpp-10M:
               "nprobe=1,quantizer_efSearch=4,ht=104",
               "nprobe=1,quantizer_efSearch=4,ht=112"]
 bigann-10M:
-   diskann-t2:
+    faiss-t1:
+      docker-tag: billion-scale-benchmark-faissconda
+      module: benchmark.algorithms.faiss_t1
+      constructor: Faiss
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"indexkey": "OPQ32_128,IVF1048576_HNSW32,PQ32"              
+                }]
+          query-args: |
+              ["nprobe=1,quantizer_efSearch=4",
+                "nprobe=2,quantizer_efSearch=4",
+                "nprobe=4,quantizer_efSearch=4",
+                "nprobe=4,quantizer_efSearch=8",
+                "nprobe=8,quantizer_efSearch=4",
+                "nprobe=8,quantizer_efSearch=8",
+                "nprobe=8,quantizer_efSearch=16",
+                "nprobe=8,quantizer_efSearch=32",
+                "nprobe=16,quantizer_efSearch=16",
+                "nprobe=16,quantizer_efSearch=32",
+                "nprobe=16,quantizer_efSearch=64",
+                "nprobe=32,quantizer_efSearch=8",
+                "nprobe=32,quantizer_efSearch=32",
+                "nprobe=32,quantizer_efSearch=64",
+                "nprobe=32,quantizer_efSearch=128",
+                "nprobe=64,quantizer_efSearch=16",
+                "nprobe=64,quantizer_efSearch=32",
+                "nprobe=64,quantizer_efSearch=64",
+                "nprobe=64,quantizer_efSearch=128",
+                "nprobe=64,quantizer_efSearch=256",
+                "nprobe=128,quantizer_efSearch=32",
+                "nprobe=128,quantizer_efSearch=64",
+                "nprobe=128,quantizer_efSearch=128",
+                "nprobe=128,quantizer_efSearch=256",
+                "nprobe=128,quantizer_efSearch=512",
+                "nprobe=256,quantizer_efSearch=64",
+                "nprobe=256,quantizer_efSearch=128",
+                "nprobe=256,quantizer_efSearch=512"]
+    buddy-t1:
+      docker-tag: billion-scale-benchmark-pqbuddy
+      module: benchmark.algorithms.buddy_t1
+      constructor: Buddy
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"indexkey": "OPQ32_128,IVF65536_HNSW32,PQ32",
+                "url": "https://bigannstorage.blob.core.windows.net/buddy-blob/bigann-10M.buddy.multicollinearity.OPQ32_128,IVF65536_HNSW32,PQ32.faissindex"
+                }]
+          query-args: |
+              ["nprobe=256,quantizer_efSearch=64",
+                "nprobe=128,quantizer_efSearch=256",
+                "nprobe=128,quantizer_efSearch=512",
+                "nprobe=128,quantizer_efSearch=128",
+                "nprobe=128,quantizer_efSearch=64",
+                "nprobe=8,quantizer_efSearch=8",
+                "nprobe=8,quantizer_efSearch=4",
+                "nprobe=4,quantizer_efSearch=8",
+                "nprobe=8,quantizer_efSearch=16",
+                "nprobe=8,quantizer_efSearch=32"]
+    diskann-t2:
       docker-tag: billion-scale-benchmark-diskann
       module: benchmark.algorithms.diskann-t2
       constructor: Diskann
@@ -637,9 +1443,8 @@ bigann-10M:
               [{"R":100, "L":100, "B":0.3, "M":15}]
           query-args: |
               [{"Ls":50, "BW":4, "T":16}]
-
 msturing-1M:
-   diskann-t2:
+    diskann-t2:
       docker-tag: billion-scale-benchmark-diskann
       module: benchmark.algorithms.diskann-t2
       constructor: Diskann
@@ -684,5 +1489,168 @@ text2image-10M:
         base:
           args: |
               [{"R":50, "L":50, "B":0.3, "M":10, "PQ":200}]
+          query-args: |
+              [{"Ls":50, "BW":4, "T":16}]
+msspacev-10M:
+    faiss-t1:
+      docker-tag: billion-scale-benchmark-faissconda
+      module: benchmark.algorithms.faiss_t1
+      constructor: Faiss
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"indexkey": "OPQ32_128,IVF1048576_HNSW32,PQ32"              
+                }]
+          query-args: |
+              ["nprobe=1,quantizer_efSearch=4",
+                "nprobe=2,quantizer_efSearch=4",
+                "nprobe=4,quantizer_efSearch=4",
+                "nprobe=4,quantizer_efSearch=8",
+                "nprobe=8,quantizer_efSearch=4",
+                "nprobe=8,quantizer_efSearch=8",
+                "nprobe=8,quantizer_efSearch=16",
+                "nprobe=8,quantizer_efSearch=32",
+                "nprobe=16,quantizer_efSearch=16",
+                "nprobe=16,quantizer_efSearch=32",
+                "nprobe=16,quantizer_efSearch=64",
+                "nprobe=32,quantizer_efSearch=8",
+                "nprobe=32,quantizer_efSearch=32",
+                "nprobe=32,quantizer_efSearch=64",
+                "nprobe=32,quantizer_efSearch=128",
+                "nprobe=64,quantizer_efSearch=16",
+                "nprobe=64,quantizer_efSearch=32",
+                "nprobe=64,quantizer_efSearch=64",
+                "nprobe=64,quantizer_efSearch=128",
+                "nprobe=64,quantizer_efSearch=256",
+                "nprobe=128,quantizer_efSearch=32",
+                "nprobe=128,quantizer_efSearch=64",
+                "nprobe=128,quantizer_efSearch=128",
+                "nprobe=128,quantizer_efSearch=256",
+                "nprobe=128,quantizer_efSearch=512",
+                "nprobe=256,quantizer_efSearch=64",
+                "nprobe=256,quantizer_efSearch=128",
+                "nprobe=256,quantizer_efSearch=512"]
+    buddy-t1:
+      docker-tag: billion-scale-benchmark-pqbuddy
+      module: benchmark.algorithms.buddy_t1
+      constructor: Buddy
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"indexkey": "OPQ32_128,IVF65536_HNSW32,PQ32",
+                "url": "https://bigannstorage.blob.core.windows.net/buddy-blob/msspacev-10M.buddy.multicollinearity.OPQ32_128,IVF65536_HNSW32,PQ32.faissindex"
+                }]
+          query-args: |
+              ["nprobe=256,quantizer_efSearch=128",
+                "nprobe=128,quantizer_efSearch=128",
+                "nprobe=128,quantizer_efSearch=64",
+                "nprobe=64,quantizer_efSearch=128",
+                "nprobe=128,quantizer_efSearch=32",
+                "nprobe=64,quantizer_efSearch=64",
+                "nprobe=64,quantizer_efSearch=32",
+                "nprobe=32,quantizer_efSearch=128",
+                "nprobe=32,quantizer_efSearch=64",
+                "nprobe=32,quantizer_efSearch=32"]
+    diskann-t2:
+      docker-tag: billion-scale-benchmark-diskann
+      module: benchmark.algorithms.diskann-t2
+      constructor: Diskann
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"R":50, "L":50, "B":0.03, "M":1}]
+          query-args: |
+              [{"Ls":50, "BW":4, "T":16}]
+msturing-10M:
+    faiss-t1:
+      docker-tag: billion-scale-benchmark-faissconda
+      module: benchmark.algorithms.faiss_t1
+      constructor: Faiss
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"indexkey": "OPQ32_128,IVF1048576_HNSW32,PQ32"              
+                }]
+          query-args: |
+              ["nprobe=1,quantizer_efSearch=4",
+                "nprobe=2,quantizer_efSearch=4",
+                "nprobe=4,quantizer_efSearch=4",
+                "nprobe=4,quantizer_efSearch=8",
+                "nprobe=8,quantizer_efSearch=4",
+                "nprobe=8,quantizer_efSearch=8",
+                "nprobe=8,quantizer_efSearch=16",
+                "nprobe=8,quantizer_efSearch=32",
+                "nprobe=16,quantizer_efSearch=16",
+                "nprobe=16,quantizer_efSearch=32",
+                "nprobe=16,quantizer_efSearch=64",
+                "nprobe=32,quantizer_efSearch=8",
+                "nprobe=32,quantizer_efSearch=32",
+                "nprobe=32,quantizer_efSearch=64",
+                "nprobe=32,quantizer_efSearch=128",
+                "nprobe=64,quantizer_efSearch=16",
+                "nprobe=64,quantizer_efSearch=32",
+                "nprobe=64,quantizer_efSearch=64",
+                "nprobe=64,quantizer_efSearch=128",
+                "nprobe=64,quantizer_efSearch=256",
+                "nprobe=128,quantizer_efSearch=32",
+                "nprobe=128,quantizer_efSearch=64",
+                "nprobe=128,quantizer_efSearch=128",
+                "nprobe=128,quantizer_efSearch=256",
+                "nprobe=128,quantizer_efSearch=512",
+                "nprobe=256,quantizer_efSearch=64",
+                "nprobe=256,quantizer_efSearch=128",
+                "nprobe=256,quantizer_efSearch=512"]
+    buddy-t1:
+      docker-tag: billion-scale-benchmark-pqbuddy
+      module: benchmark.algorithms.buddy_t1
+      constructor: Buddy
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"indexkey": "OPQ32_128,IVF65536_HNSW32,PQ32"
+                }]
+          query-args: |
+              ["nprobe=1,quantizer_efSearch=4",
+                "nprobe=2,quantizer_efSearch=4",
+                "nprobe=4,quantizer_efSearch=4",
+                "nprobe=4,quantizer_efSearch=8",
+                "nprobe=8,quantizer_efSearch=4",
+                "nprobe=8,quantizer_efSearch=8",
+                "nprobe=8,quantizer_efSearch=16",
+                "nprobe=8,quantizer_efSearch=32",
+                "nprobe=16,quantizer_efSearch=16",
+                "nprobe=16,quantizer_efSearch=32",
+                "nprobe=16,quantizer_efSearch=64",
+                "nprobe=32,quantizer_efSearch=8",
+                "nprobe=32,quantizer_efSearch=32",
+                "nprobe=32,quantizer_efSearch=64",
+                "nprobe=32,quantizer_efSearch=128",
+                "nprobe=64,quantizer_efSearch=16",
+                "nprobe=64,quantizer_efSearch=32",
+                "nprobe=64,quantizer_efSearch=64",
+                "nprobe=64,quantizer_efSearch=128",
+                "nprobe=64,quantizer_efSearch=256",
+                "nprobe=128,quantizer_efSearch=32",
+                "nprobe=128,quantizer_efSearch=64",
+                "nprobe=128,quantizer_efSearch=128",
+                "nprobe=128,quantizer_efSearch=256",
+                "nprobe=128,quantizer_efSearch=512",
+                "nprobe=256,quantizer_efSearch=64",
+                "nprobe=256,quantizer_efSearch=128",
+                "nprobe=256,quantizer_efSearch=512"]  
+    diskann-t2:
+      docker-tag: billion-scale-benchmark-diskann
+      module: benchmark.algorithms.diskann-t2
+      constructor: Diskann
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"R":50, "L":50, "B":0.03, "M":1}]
           query-args: |
               [{"Ls":50, "BW":4, "T":16}]
