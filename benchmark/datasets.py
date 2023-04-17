@@ -509,8 +509,10 @@ class YFCC100MDataset(DatasetCompetitionFormat):
         self.dtype = "uint8"
         self.ds_fn = "base.10M.u8bin"
         self.qs_fn = "query.public.100K.u8bin"
+        self.qs_private_fn = "query.private.396157065643.100K.u8bin"
         self.ds_metadata_fn = "base.metadata.10M.spmat"
         self.qs_metadata_fn = "query.metadata.public.100K.spmat"
+        self.qs_private_metadata_fn = "query.metadata.private.396157065643.100K.spmat"
 
         # no subset as the database is pretty small.
         self.gt_fn = (
