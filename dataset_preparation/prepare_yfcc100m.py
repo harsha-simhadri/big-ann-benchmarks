@@ -9,9 +9,7 @@ from benchmark import datasets, dataset_io
 ds = datasets.YFCC100MDataset()
 print(ds)
 
-# todo = "query_vecs query_meta database_vecs database_meta"
-todo = "query_vecs query_meta"
-
+todo = "query_vecs query_meta database_vecs database_meta"
 
 # for now, we work with random descriptors
 

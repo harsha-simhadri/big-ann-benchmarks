@@ -13,6 +13,7 @@ from benchmark.dataset_io import usbin_write
 from benchmark.datasets import DATASETS
 
 def csr_get_row_indices(m, i):
+    """ get the non-0 column indices for row i in matrix m """
     return m.indices[m.indptr[i] : m.indptr[i + 1]]
 
 if __name__ == "__main__":
@@ -117,6 +118,7 @@ if __name__ == "__main__":
         list(pool.map(process_one_row, range(ds.nq)))
 
     print("Writing result to", args.o)
+
     usbin_write(I, D, args.o)
 
 
