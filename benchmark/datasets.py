@@ -507,18 +507,20 @@ class YFCC100MDataset(DatasetCompetitionFormat):
         self.d = 384
         self.nq = 100000
         self.dtype = "uint8"
-        self.ds_fn = "base.10M.u8bin"
-        self.qs_fn = "query.public.100K.u8bin"
-        self.qs_private_fn = "query.private.396157065643.100K.u8bin"
+        # for now it's dummy because we don't have the descriptors yet
+        self.ds_fn = "dummy.base.10M.u8bin"
+        self.qs_fn = "dummy.query.public.100K.u8bin"
+        self.qs_private_fn = "dummy.query.private.396157065643.100K.u8bin"
         self.ds_metadata_fn = "base.metadata.10M.spmat"
         self.qs_metadata_fn = "query.metadata.public.100K.spmat"
         self.qs_private_metadata_fn = "query.metadata.private.396157065643.100K.spmat"
 
         # no subset as the database is pretty small.
         self.gt_fn = (
-            "GT.public.1B.ibin" if self.nb_M == 10 else
+            "dummy.GT.public.1B.ibin" if self.nb_M == 10 else
             None
         )
+        # data is uploaded but download script not ready.
         self.base_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/yfcc100M/"
         self.basedir = os.path.join(BASEDIR, "yfcc100M")
 
