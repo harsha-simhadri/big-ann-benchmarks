@@ -4,12 +4,7 @@ import numpy as np
 import pickle
 from scipy.sparse import csr_matrix
 
-try:
-    from ..benchmark import datasets, dataset_io
-except ImportError:
-    import datasets, dataset_io
-
-
+from benchmark import datasets, dataset_io
 
 ds = datasets.YFCC100MDataset()
 print(ds)

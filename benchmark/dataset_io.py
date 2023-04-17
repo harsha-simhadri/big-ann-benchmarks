@@ -115,7 +115,6 @@ def u8bin_write(x, fname):
     assert x.dtype == "uint8"
     xbin_write(x, fname)
 
-
 def range_result_read(fname):
     """ read the range search result file format """
     f = open(fname, "rb")
@@ -175,6 +174,15 @@ def sanitize(x):
     """ make the simplest possible float32 array of the input"""
     return np.ascontiguousarray(x, dtype='float32')
 
+def usbin_write(ids, dist, fname):
+    ids = np.ascontiguousarray(ids, dtype="int32")
+    dist = np.ascontiguousarray(dist, dtype="float32")
+    assert ids.shape == dist.shape
+    f = open(fname, "wb")
+    n, d = dist.shape
+    np.array([n, d], dtype='uint32').tofile(f)
+    ids.tofile(f)
+    dist.tofile(f)
 
 #########################################################
 # Sparse I/O routines

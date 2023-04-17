@@ -10,7 +10,7 @@ import numpy as np
 
 from urllib.request import urlretrieve
 
-from dataset_io import (
+from .dataset_io import (
     xbin_mmap, download_accelerated, download, sanitize,
     knn_result_read, range_result_read, read_sparse_matrix
 )
@@ -62,7 +62,7 @@ class Dataset():
 
     def search_type(self):
         """
-        "knn" or "range"
+        "knn" or "range" or "knn_filtered"
         """
         pass
 
@@ -538,6 +538,8 @@ class YFCC100MDataset(DatasetCompetitionFormat):
     def distance(self):
         return "euclidean"
 
+    def search_type(self):
+        return "knn_filtered"
 
 
 class RandomDS(DatasetCompetitionFormat):
@@ -626,6 +628,8 @@ DATASETS = {
     'msspacev-10M': lambda : MSSPACEV1B(10),
     'msspacev-100M': lambda : MSSPACEV1B(100),
     'msspacev-1M': lambda : MSSPACEV1B(1),
+
+    'yfcc-10M': lambda: YFCC100MDataset(),
 
     'random-xs': lambda : RandomDS(10000, 1000, 20),
     'random-s': lambda : RandomDS(100000, 1000, 50),
