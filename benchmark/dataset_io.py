@@ -6,7 +6,7 @@ import os
 import time
 from urllib.request import urlopen
 import numpy as np
-
+from scipy.sparse import csr_matrix
 
 
 
@@ -105,6 +105,17 @@ def xbin_mmap(fname, dtype, maxn=-1):
         n = min(n, maxn)
     return np.memmap(fname, dtype=dtype, mode="r", offset=8, shape=(n, d))
 
+def xbin_write(x, fname):
+    f = open(fname, "wb")
+    n, d = x.shape
+    np.array([n, d], dtype='uint32').tofile(f)
+    x.tofile(f)
+
+def u8bin_write(x, fname):
+    assert x.dtype == "uint8"
+    xbin_write(x, fname)
+
+
 def range_result_read(fname):
     """ read the range search result file format """
     f = open(fname, "rb")
@@ -161,5 +172,54 @@ def read_ibin(filename, start_idx=0, chunk_size=None):
 
 
 def sanitize(x):
+    """ make the simplest possible float32 array of the input"""
     return np.ascontiguousarray(x, dtype='float32')
 
+
+#########################################################
+# Sparse I/O routines
+#########################################################
+
+def write_sparse_matrix(mat, fname):
+    """ write a CSR matrix in the spmat format """
+    with open(fname, "wb") as f:
+        sizes = np.array([mat.shape[0], mat.shape[1], mat.nnz], dtype='int64')
+        sizes.tofile(f)
+        indptr = mat.indptr.astype('int64')
+        indptr.tofile(f)
+        mat.indices.astype('int32').tofile(f)
+        mat.data.astype('float32').tofile(f)
+
+def read_sparse_matrix_fields(fname):
+    """ read the fields of a CSR matrix without instanciating it """
+    with open(fname, "rb") as f:
+        sizes = np.fromfile(f, dtype='int64', count=3)
+        nrow, ncol, nnz = sizes
+        indptr = np.fromfile(f, dtype='int64', count=nrow + 1)
+        assert nnz == indptr[-1]
+        indices = np.fromfile(f, dtype='int32', count=nnz)
+        assert np.all(indices >= 0) and np.all(indices < ncol)
+        data = np.fromfile(f, dtype='float32', count=nnz)
+        return data, indices, indptr, ncol
+
+def mmap_sparse_matrix_fields(fname):
+    """ mmap the fields of a CSR matrix without instanciating it """
+    with open(fname, "rb") as f:
+        sizes = np.fromfile(f, dtype='int64', count=3)
+        nrow, ncol, nnz = sizes
+    ofs = sizes.nbytes
+    indptr = np.memmap(fname, dtype='int64', mode='r', offset=ofs, shape=nrow + 1)
+    ofs += indptr.nbytes
+    indices = np.memmap(fname, dtype='int32', mode='r', offset=ofs, shape=nnz)
+    ofs += indices.nbytes
+    data = np.memmap(fname, dtype='float32', mode='r', offset=ofs, shape=nnz)
+    return data, indices, indptr, ncol
+
+def read_sparse_matrix(fname, do_mmap=False):
+    """ read a CSR matrix in spmat format, optionally mmapping it instead """
+    if not do_mmap:
+        data, indices, indptr, ncol = read_sparse_matrix_fields(fname)
+    else:
+        data, indices, indptr, ncol = mmap_sparse_matrix_fields(fname)
+
+    return csr_matrix((data, indices, indptr), shape=(len(indptr) - 1, ncol))

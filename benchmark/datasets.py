@@ -8,10 +8,12 @@ import time
 
 import numpy as np
 
-from urllib.request import urlopen
 from urllib.request import urlretrieve
 
-from dataset_io import xbin_mmap
+from dataset_io import (
+    xbin_mmap, download_accelerated, download, sanitize,
+    knn_result_read, range_result_read, read_sparse_matrix
+)
 
 
 BASEDIR = "data/"
@@ -71,6 +73,7 @@ class Dataset():
         pass
 
     def default_count(self):
+        """ number of neighbors to return """
         return 10
 
     def short_name(self):
@@ -496,30 +499,39 @@ class RandomRangeDS(DatasetCompetitionFormat):
         return f"RandomRange({self.nb})"
 
 class YFCC100MDataset(DatasetCompetitionFormat):
-    def __init__(self, nb_M=100):
+    """ the 2023 competition """
+
+    def __init__(self, nb_M=10):
         self.nb_M = nb_M
         self.nb = 10**6 * nb_M
-        self.d =
-        self.nq = 10000
+        self.d = 384
+        self.nq = 100000
         self.dtype = "uint8"
-        self.ds_fn = "base.1B.u8bin"
-        self.qs_fn = "query.public.10K.u8bin"
+        self.ds_fn = "base.10M.u8bin"
+        self.qs_fn = "query.public.100K.u8bin"
+        self.ds_metadata_fn = "base.10M.u8bin"
+        self.qs_metadata_fn = "query.public.100K.u8bin"
+
+        # no subset as the database is pretty small.
         self.gt_fn = (
-            "GT.public.1B.ibin" if self.nb_M == 1000 else
-            subset_url + "GT_100M/bigann-100M" if self.nb_M == 100 else
-            subset_url + "GT_10M/bigann-10M" if self.nb_M == 10 else
+            "GT.public.1B.ibin" if self.nb_M == 10 else
             None
         )
-        # self.gt_fn = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/bigann/public_query_gt100.bin" if self.nb == 10**9 else None
-        self.base_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/bigann/"
-        self.basedir = os.path.join(BASEDIR, "bigann")
+        self.base_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/yfcc100M/"
+        self.basedir = os.path.join(BASEDIR, "yfcc100M")
 
-        self.private_nq = 10000
-        self.private_qs_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/bigann/query.private.799253207.10K.u8bin"
-        self.private_gt_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/GT_1B_final_2bf4748c7817/bigann-1B.bin"
+        self.private_nq = 100000
+        self.private_qs_url = self.base_url + ""
+        self.private_gt_url = self.base_url + ""
 
-    def get_dataset_metadata()
+        self.metadata_base_url = self.base_url + ""
+        self.metadata_queries_url = self.base_url + ""
 
+    def get_dataset_metadata(self):
+        return read_sparse_matrix(os.path.join(self.basedir, self.ds_metadata_fn))
+
+    def get_queries_metadata(self):
+        return read_sparse_matrix(os.path.join(self.basedir, self.qs_metadata_fn))
 
     def distance(self):
         return "euclidean"
