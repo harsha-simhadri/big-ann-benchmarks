@@ -42,8 +42,13 @@ all_descriptors_valid = all_descriptors_valid < 200
 
 
 if "query_vecs" in todo:
-    query_array = np.load(metadata_dir + "query_array.npy")
+    voc_size = 200000 + 386
+    fname = metadata_dir + "query_array.npy"
+    print("load query metadata", fname)
+    query_array = np.load(fname)
     # format: 200k rows 4 columns with of word1, word2, frequency, query vector id
+    # word2 may be -1 for single-word queries
+    print("   size", query_array.shape)
 
     qids = query_array[:, 3]
     # filter out invalid ones
@@ -59,3 +64,27 @@ if "query_vecs" in todo:
     fname = os.path.join(ds.basedir, ds.qs_fn)
     print("write", fname)
     dataset_io.u8bin_write(descs, fname)
+
+    # build query term sparse matrix
+    is_2word = query_array[:, 1] >= 0
+    words_per_q = 1 + is_2word.astype(int)
+    nq = len(query_array)
+    indptr = np.zeros(nq + 1, dtype=int)
+    indptr[1:] = np.cumsum(words_per_q)
+    indices = query_array[:, :2].ravel()
+    indices = indices[indices >= 0]
+    nnz = indices.size
+    queries_sparse = csr_matrix(
+        (np.ones(nnz, dtype='float32'), indices, indptr),
+        shape = (nq, voc_size)
+    )
+
+    # write query metadata
+    fname = os.path.join(ds.basedir, ds.qs_metadata_fn)
+    print("write", fname)
+    dataset_io.write_sparse_matrix(queries_sparse[:100000], fname)
+
+
+
+
+
