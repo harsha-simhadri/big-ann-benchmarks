@@ -101,7 +101,7 @@ if __name__ == "__main__":
         '--definitions',
         metavar='FILE',
         help='load algorithm definitions from FILE',
-        default='algos.yaml')
+        default='algos-2021.yaml')
     parser.add_argument(
         '--limit',
         default=-1)
