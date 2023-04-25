@@ -46,6 +46,12 @@ and `ALGO` is the name of the algorithm. (Use `python run.py --list-algorithms`)
 
 The parameters used by the implementation to build and query the index can be found in `algos-2021.yaml`.
 
+# NeurIPS 2021 evaluation
+
+This describes the setup for running the benchmark according to the [NeurIPS 2021 Challenge](https://big-ann-benchmarks.com/).
+
+See [NeurIPS2021](neurips2021/) for more details. 
+
 ## Running the track 1 baseline
 After running the installation, we can evaluate the baseline as follows.
 
@@ -66,11 +72,6 @@ python data_export.py --output res.csv
 python3.8 eval/show_operating_points.py --algorithm faiss-t1 --threshold 10000
 ```
 
-## Including your algorithm and Evaluating the Results
-
-See [Track T1/T2](t1_t2/README.md) for more details on evaluation for Tracks T1 and T2.
-
-See [Track T3](t3/README.md) for more details on evaluation for Track T3.
 
 # Credits
 
