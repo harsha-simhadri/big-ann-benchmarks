@@ -113,9 +113,26 @@ random-range-xs:
             [{"hnswM":32, "hnswefC":200, "K1":2, "blockSize":4096, "identifier": "bbann"}]
           query-args: |
             [{"rangeSearchProbeCount":20, "efSearch":100, "K1":2, "blockSize":4096, "radiusFactor":1.00, "identifier":"bbann"}]
+random-s:
+    faiss-t1:
+      docker-tag: billion-scale-benchmark-faissconda
+      module: benchmark.algorithms.faiss_t1
+      constructor: Faiss
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"indexkey": "OPQ32_128,IVF1024_HNSW32,PQ32"
+                }]
+          query-args: |
+              ["nprobe=1,quantizer_efSearch=4",
+              "nprobe=2,quantizer_efSearch=4",
+              "nprobe=2,quantizer_efSearch=8",
+              "nprobe=4,quantizer_efSearch=4",
+              "nprobe=2,quantizer_efSearch=16"]
 random-xs:
     kst_ann_t1:
-      docker-tag: billion-scale-benchmark-kst_ann_t1
+      docker-tag: billion-scale-benchmark-faissconda
       module: benchmark.algorithms.opt_faiss
       constructor: opt_faiss
       base-args: ["@metric"]

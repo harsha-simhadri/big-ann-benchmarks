@@ -47,7 +47,7 @@ jobs:
             library: ngt
           - algorithm : kst_ann_t1
             dataset: random-xs
-            library: kst_ann_t1
+            library: faissconda 
           - algorithm: buddy-t1
             dataset: random-xs
             library: faissconda            
