@@ -55,7 +55,7 @@ jobs:
             dataset: random-range-xs
             library: kota 
           - algorithm: team11
-            dataset: random-range-xs
+            dataset: random-xs
             library: faissconda
       fail-fast: false
 
