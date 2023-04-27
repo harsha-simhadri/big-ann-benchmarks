@@ -117,6 +117,7 @@ if __name__ == "__main__":
         pool = ThreadPool(args.nt)
         list(pool.map(process_one_row, range(ds.nq)))
 
+    print()
     print("Writing result to", args.o)
 
     usbin_write(I, D, args.o)

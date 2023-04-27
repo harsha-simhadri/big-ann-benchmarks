@@ -504,20 +504,20 @@ class YFCC100MDataset(DatasetCompetitionFormat):
     def __init__(self, nb_M=10):
         self.nb_M = nb_M
         self.nb = 10**6 * nb_M
-        self.d = 384
+        self.d = 192
         self.nq = 100000
         self.dtype = "uint8"
         # for now it's dummy because we don't have the descriptors yet
-        self.ds_fn = "dummy.base.10M.u8bin"
-        self.qs_fn = "dummy.query.public.100K.u8bin"
-        self.qs_private_fn = "dummy.query.private.396157065643.100K.u8bin"
+        self.ds_fn = "dummy2.base.10M.u8bin"
+        self.qs_fn = "dummy2.query.public.100K.u8bin"
+        self.qs_private_fn = "dummy2.query.private.396157065643.100K.u8bin"
         self.ds_metadata_fn = "base.metadata.10M.spmat"
         self.qs_metadata_fn = "query.metadata.public.100K.spmat"
         self.qs_private_metadata_fn = "query.metadata.private.396157065643.100K.spmat"
 
         # no subset as the database is pretty small.
         self.gt_fn = (
-            "dummy.GT.public.1B.ibin" if self.nb_M == 10 else
+            "dummy2.GT.public.1B.ibin" if self.nb_M == 10 else
             None
         )
         # data is uploaded but download script not ready.
