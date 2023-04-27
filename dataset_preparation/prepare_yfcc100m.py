@@ -2,6 +2,7 @@
 import os
 import numpy as np
 import pickle
+import faiss
 from scipy.sparse import csr_matrix
 
 from benchmark import datasets, dataset_io
@@ -20,18 +21,32 @@ tmpdir = "/scratch/matthijs/tmp/"
 # data generated from external scripts
 metadata_dir = "/checkpoint/matthijs/billion-scale-ann-benchmarks/yfcc_metadata/"
 
-all_descriptors = np.memmap(
-    tmpdir + "random_yfcc100m_descriptors.384d.uint8", mode='r',
-    shape=(10**8, 384), dtype='uint8'
-)
+if False:
+    all_descriptors = np.memmap(
+        tmpdir + "random_yfcc100m_descriptors.384d.uint8", mode='r',
+        shape=(10**8, 384), dtype='uint8'
+    )
+    # simulate feature extraction failure: we have a flag for each descriptor about validity
+    all_descriptors_valid = np.fromfile(
+        tmpdir + "random_yfcc100m_descriptors.valid.uint8",
+        count=10**8, dtype='uint8'
+    )
+    # make boolean array
+    all_descriptors_valid = all_descriptors_valid < 230
+else:
+    # a bit less dummy descriptros, they come from https://github.com/facebookresearch/low-shot-with-diffusion
+    mat = np.memmap("/scratch/matthijs/concatenated_PCAR256.raw", dtype='float32', shape=(10**8, 256), mode='r')
+    bad_vec = mat[771]
+    PCA = faiss.PCAMatrix(256, 192, 0, True)
+    print("train PCA")
+    xt = mat[12*10**6:][:20000]
+    PCA.train(xt)
+    xt = PCA.apply(xt)
+    codec = faiss.ScalarQuantizer(192, faiss.ScalarQuantizer.QT_8bit_uniform)
+    codec.train(xt)
+    all_descriptors = mat
+    all_descriptors_valid = np.load("/scratch/matthijs/concatenated_valid.npy")
 
-# simulate feature extraction failure: we have a flag for each descriptor about validity
-all_descriptors_valid = np.fromfile(
-    tmpdir + "random_yfcc100m_descriptors.valid.uint8",
-    count=10**8, dtype='uint8'
-)
-# make boolean array
-all_descriptors_valid = all_descriptors_valid < 230
 print(f"valid descriptors: {all_descriptors_valid.sum()}/{all_descriptors_valid.size}")
 
 
@@ -56,7 +71,7 @@ if "query_vecs" in todo or "query_meta" in todo:
 
     if "query_vecs" in todo:
         # pick the descriptors
-        descs = all_descriptors[qids[subset]]
+        descs = codec.compute_codes(PCA.apply(all_descriptors[qids[subset]]))
 
         # write out
         fname = os.path.join(ds.basedir, ds.qs_fn)
@@ -107,7 +122,7 @@ if "database_vecs" in todo or "database_meta" in todo:
     print(f"selected {len(subset)} / {len(available)} vectors")
 
     if "database_vecs" in todo:
-        descs = all_descriptors[subset]
+        descs = codec.compute_codes(PCA.apply(all_descriptors[subset]))
 
         fname = os.path.join(ds.basedir, ds.ds_fn)
         print("write", fname)

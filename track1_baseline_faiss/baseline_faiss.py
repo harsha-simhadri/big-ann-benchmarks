@@ -112,7 +112,7 @@ def build_index(args, ds):
         # because otherwise the assignment is inaccurate
         quantizer = faiss.downcast_index(index_ivf.quantizer)
         if isinstance(quantizer, faiss.IndexRefine):
-            print("   update quantizer k_factor=", quantizer.k_factor, end=" -> ")
+            print("  update quantizer k_factor=", quantizer.k_factor, end=" -> ")
             quantizer.k_factor = 32 if index_ivf.nlist < 1e6 else 64
             print(quantizer.k_factor)
             base_index = faiss.downcast_index(quantizer.base_index)
@@ -222,7 +222,7 @@ def build_index(args, ds):
 
     t0 = time.time()
     if args.add_bs == -1:
-        index.add(sanitize(ds.get_database()))
+        index.add(ds.get_database())
     else:
         i0 = 0
         nsplit = args.add_splits
