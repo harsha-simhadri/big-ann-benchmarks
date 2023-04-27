@@ -39,12 +39,6 @@ jobs:
           - algorithm: httpann_example
             dataset: random-range-xs
             library: httpann_example
-          - algorithm: ngt-t1
-            dataset: random-range-xs
-            library: ngt
-          - algorithm: ngt-t2
-            dataset: random-range-xs
-            library: ngt
           - algorithm : kst_ann_t1
             dataset: random-xs
             library: faissconda 
