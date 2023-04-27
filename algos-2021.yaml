@@ -133,8 +133,8 @@ random-s:
 random-xs:
     kst_ann_t1:
       docker-tag: billion-scale-benchmark-faissconda
-      module: benchmark.algorithms.opt_faiss
-      constructor: opt_faiss
+      module: benchmark.algorithms.kst_t1
+      constructor: kst 
       base-args: ["@metric"]
       run-groups:
         base:
@@ -160,7 +160,7 @@ random-xs:
 
     team11:
       docker-tag: billion-scale-benchmark-faissconda
-      module: benchmark.algorithms.faiss_t1_plus
+      module: benchmark.algorithms.team11
       constructor: Faiss
       base-args: ["@metric"]
       run-groups:
@@ -347,8 +347,8 @@ deep-10M:
 deep-1B:
     kst_ann_t1:
       docker-tag: billion-scale-benchmark-kst_ann_t1
-      module: benchmark.algorithms.opt_faiss
-      constructor: opt_faiss
+      module: benchmark.algorithms.kst_t1
+      constructor: kst
       base-args: ["@metric"]
       run-groups:
         base:
@@ -445,7 +445,7 @@ deep-1B:
                ] 
     team11:
       docker-tag: billion-scale-benchmark-faissconda
-      module: benchmark.algorithms.faiss_t1_plus
+      module: benchmark.algorithms.team11
       constructor: Faiss
       base-args: ["@metric"]
       run-groups:
@@ -490,8 +490,8 @@ deep-1B:
 msspacev-1B:
     kst_ann_t1:
       docker-tag: billion-scale-benchmark-kst_ann_t1
-      module: benchmark.algorithms.opt_faiss
-      constructor: opt_faiss
+      module: benchmark.algorithms.kst_t1
+      constructor: kst 
       base-args: ["@metric"]
       run-groups:
         base:
@@ -622,8 +622,8 @@ msspacev-1B:
 msturing-1B:
     kst_ann_t1:
       docker-tag: billion-scale-benchmark-kst_ann_t1
-      module: benchmark.algorithms.opt_faiss
-      constructor: opt_faiss
+      module: benchmark.algorithms.kst_t1
+      constructor: kst 
       base-args: ["@metric"]
       run-groups:
         base:
@@ -727,7 +727,7 @@ msturing-1B:
                 "10,90,100000,900"]
     team11:
       docker-tag: billion-scale-benchmark-faissconda
-      module: benchmark.algorithms.faiss_t1_plus
+      module: benchmark.algorithms.team11
       constructor: Faiss
       base-args: ["@metric"]
       run-groups:
@@ -774,8 +774,8 @@ msturing-1B:
 bigann-1B:
     kst_ann_t1:
       docker-tag: billion-scale-benchmark-kst_ann_t1
-      module: benchmark.algorithms.opt_faiss
-      constructor: opt_faiss
+      module: benchmark.algorithms.kst_t1
+      constructor: kst 
       base-args: ["@metric"]
       run-groups:
         base:
@@ -907,7 +907,7 @@ bigann-1B:
                 "nprobe=128,quantizer_efSearch=64"]
     team11:
       docker-tag: billion-scale-benchmark-faissconda
-      module: benchmark.algorithms.faiss_t1_plus
+      module: benchmark.algorithms.team11
       constructor: Faiss
       base-args: ["@metric"]
       run-groups:
