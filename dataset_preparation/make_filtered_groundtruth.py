@@ -34,6 +34,8 @@ if __name__ == "__main__":
     aa('--k', default=100, type=int, help="number of nearest kNN neighbors to search")
     aa("--maxRAM", default=100, type=int, help="set max RSS in GB (avoid OOM crash)")
     aa('--nt', default=32, type=int, help="nb processes in thread pool")
+    aa('--unfiltered', default=False, action="store_true",
+        help="perform unfiltered queries")
 
     group = parser.add_argument_group('output options')
     aa('--o', default="/tmp/filtered_res", help="output file name")
@@ -62,7 +64,7 @@ if __name__ == "__main__":
         ds.prepare()
         print("dataset ready")
 
-    assert ds.search_type() == "knn_filtered"
+    assert ds.search_type() in ("knn_filtered", "knn")
     k = ds.default_count()
     D = np.zeros((ds.nq, k), dtype='float32')
     I = -np.ones((ds.nq, k), dtype='int32')
@@ -71,51 +73,59 @@ if __name__ == "__main__":
     xb = ds.get_dataset()
     print("  size", xb.shape)
     print("load query vectors")
-    xq = ds.get_dataset()
+    xq = ds.get_queries()
     print("  size", xq.shape)
 
-    print("load dataset + query metadata")
-    meta_b = ds.get_dataset_metadata()
-    meta_q = ds.get_queries_metadata()
-    print("  sizes", meta_b.shape, meta_q.shape)
-    print("transpose doc-word matrix to inverted file")
-    docs_per_word = meta_b.T.tocsr()
-
-    t0 = time.time()
-    print("database size", xb.shape)
-    totsz = [0, 0]
-    lock = threading.Lock()
-    last_t = [time.time()]
-    reporting_id = threading.get_ident()
-
-    def process_one_row(q):
-        qwords = csr_get_row_indices(meta_q, q)
-        assert qwords.size in (1, 2)
-        w1 = qwords[0]
-        docs = csr_get_row_indices(docs_per_word, w1)
-        if qwords.size == 2:
-            w2 = qwords[1]
-            docs = np.intersect1d(docs, csr_get_row_indices(docs_per_word, w2))
-        xb_subset = xb[docs]
-        totsz[0] += docs.size
-        totsz[1] += 1
-        Di, Ii = faiss.knn(xq[q : q + 1], xb_subset, k=k)
-        D[q, :] = Di.ravel()
-        I[q, :] = docs[Ii.ravel()]
-        with lock:
-            if time.time() - last_t[0] > 1:
-                print(
-                    f"[{time.time() - t0:.3f} s] {totsz[1]}/{ds.nq} ndis={totsz[0]}",
-                    end="\r", flush=True
-                )
-                last_t[0] = time.time()
-
-    if args.nt == 1:
-        map(process_one_row, range(ds.nq))
+    if args.unfiltered:
+        print("performing unfiltered queries")
+        res = faiss.StandardGpuResources()
+        bs = 1024
+        for i0 in range(0, ds.nq, bs):
+            print(i0, '/', ds.nq, end="\r", flush=True)
+            D[i0:i0+bs], I[i0:i0+bs] = faiss.knn_gpu(res, xq[i0:i0+bs], xb, k)
     else:
-        faiss.omp_set_num_threads(1)
-        pool = ThreadPool(args.nt)
-        list(pool.map(process_one_row, range(ds.nq)))
+        print("load dataset + query metadata")
+        meta_b = ds.get_dataset_metadata()
+        meta_q = ds.get_queries_metadata()
+        print("  sizes", meta_b.shape, meta_q.shape)
+        print("transpose doc-word matrix to inverted file")
+        docs_per_word = meta_b.T.tocsr()
+
+        t0 = time.time()
+        print("database size", xb.shape)
+        totsz = [0, 0]
+        lock = threading.Lock()
+        last_t = [time.time()]
+        reporting_id = threading.get_ident()
+
+        def process_one_row(q):
+            qwords = csr_get_row_indices(meta_q, q)
+            assert qwords.size in (1, 2)
+            w1 = qwords[0]
+            docs = csr_get_row_indices(docs_per_word, w1)
+            if qwords.size == 2:
+                w2 = qwords[1]
+                docs = np.intersect1d(docs, csr_get_row_indices(docs_per_word, w2))
+            xb_subset = xb[docs]
+            totsz[0] += docs.size
+            totsz[1] += 1
+            Di, Ii = faiss.knn(xq[q : q + 1], xb_subset, k=k)
+            D[q, :] = Di.ravel()
+            I[q, :] = docs[Ii.ravel()]
+            with lock:
+                if time.time() - last_t[0] > 1:
+                    print(
+                        f"[{time.time() - t0:.3f} s] {totsz[1]}/{ds.nq} ndis={totsz[0]}",
+                        end="\r", flush=True
+                    )
+                    last_t[0] = time.time()
+
+        if args.nt == 1:
+            map(process_one_row, range(ds.nq))
+        else:
+            faiss.omp_set_num_threads(1)
+            pool = ThreadPool(args.nt)
+            list(pool.map(process_one_row, range(ds.nq)))
 
     print()
     print("Writing result to", args.o)
