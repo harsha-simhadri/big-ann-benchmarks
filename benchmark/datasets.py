@@ -501,7 +501,9 @@ class RandomRangeDS(DatasetCompetitionFormat):
 class YFCC100MDataset(DatasetCompetitionFormat):
     """ the 2023 competition """
 
-    def __init__(self, nb_M=10):
+    def __init__(self, filtered=True):
+        self.filtered = filtered
+        nb_M = 10
         self.nb_M = nb_M
         self.nb = 10**6 * nb_M
         self.d = 192
@@ -515,12 +517,13 @@ class YFCC100MDataset(DatasetCompetitionFormat):
         self.qs_metadata_fn = "query.metadata.public.100K.spmat"
         self.qs_private_metadata_fn = "query.metadata.private.396157065643.100K.spmat"
 
-        # no subset as the database is pretty small.
-        self.gt_fn = (
-            "dummy2.GT.public.1B.ibin" if self.nb_M == 10 else
-            None
-        )
-        # data is uploaded but download script not ready.
+        if filtered:
+            # no subset as the database is pretty small.
+            self.gt_fn = "dummy2.GT.public.ibin"
+        else:
+            self.gt_fn = "dummy2.unfiltered.GT.public.ibin"
+
+            # data is uploaded but download script not ready.
         self.base_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/yfcc100M/"
         self.basedir = os.path.join(BASEDIR, "yfcc100M")
 
@@ -541,7 +544,10 @@ class YFCC100MDataset(DatasetCompetitionFormat):
         return "euclidean"
 
     def search_type(self):
-        return "knn_filtered"
+        if self.filtered:
+            return "knn_filtered"
+        else:
+            return "knn"
 
 
 class RandomDS(DatasetCompetitionFormat):
@@ -632,6 +638,7 @@ DATASETS = {
     'msspacev-1M': lambda : MSSPACEV1B(1),
 
     'yfcc-10M': lambda: YFCC100MDataset(),
+    'yfcc-10M-unfiltered': lambda: YFCC100MDataset(filtered=False),
 
     'random-xs': lambda : RandomDS(10000, 1000, 20),
     'random-s': lambda : RandomDS(100000, 1000, 50),
