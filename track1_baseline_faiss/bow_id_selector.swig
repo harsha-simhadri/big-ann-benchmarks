@@ -12,7 +12,7 @@ fields=( $( python -c 'import faiss, os; os.system("cat /proc/%d/maps" % os.getp
 LIBFAISS=${fields[5]}
 
 swig -c++ -python -I$FAISS_SRC bow_id_selector.swig && \
-   g++ -shared -fPIC bow_id_selector_wrap.cxx -o _bow_id_selector.so \
+   g++ -shared -O3 -g -fPIC bow_id_selector_wrap.cxx -o _bow_id_selector.so \
    -I $( python -c "import distutils.sysconfig ; print(distutils.sysconfig.get_python_inc())" ) \
    -I $FAISS_SRC \
    $LIBFAISS
@@ -124,6 +124,39 @@ struct IDSelectorBOW : faiss::IDSelector {
 
     ~IDSelectorBOW() override {}
 };
+
+
+size_t intersect_sorted(
+    size_t n1, const int32_t *a1,
+    size_t n2, const int32_t *a2,
+    int32_t *res)
+{
+    if (n1 == 0 || n2 == 0) {
+        return 0;
+    }
+    size_t i1 = 0, i2 = 0, i = 0;
+    for(;;) {
+        if (a1[i1] < a2[i2]) {
+            i1++;
+            if (i1 >= n1) {
+                return i;
+            }
+        } else if (a1[i1] > a2[i2]) {
+            i2++;
+            if (i2 >= n2) {
+                return i;
+            }
+        } else { // equal
+            res[i++] = a1[i1++];
+            i2++;
+            if (i1 >= n1 || i2 >= n2) {
+                return i;
+            }
+        }
+    }
+}
+
+
 
 %}
 
