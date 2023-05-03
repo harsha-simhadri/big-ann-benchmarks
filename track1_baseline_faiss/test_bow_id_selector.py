@@ -60,3 +60,19 @@ for i in range(500):
         assert not sel.is_member(int(j))
 
 
+def intersect_sorted(a1, a2):
+    n1, = a1.shape
+    n2, = a2.shape
+    res = np.empty(n1 + n2, dtype=a1.dtype)
+    nres = bow_id_selector.intersect_sorted(
+        n1, faiss.swig_ptr(a1),
+        n2, faiss.swig_ptr(a2),
+        faiss.swig_ptr(res)
+    )
+    return res[:nres]
+
+
+print(intersect_sorted(
+    np.array([1, 3, 6, 8, 10], dtype='int32'),
+    np.array([1, 5,8, 10], dtype='int32')
+))
