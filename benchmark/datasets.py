@@ -550,6 +550,178 @@ class YFCC100MDataset(DatasetCompetitionFormat):
             return "knn"
 
 
+class SparseDataset(DatasetCompetitionFormat):
+    """ the 2023 competition
+        Sparse vectors for sparse max inner product search
+        Data is based on MSMARCO passage retrieval data (text passages and queries),
+        embedded via the SPLADE model.
+
+        The class overrides several methods sincen the sparse format is different than other datasets.
+    """
+
+    def __init__(self, version="small"):
+
+        versions = {"small": (100000, "base_small.csr.gz", "base_small.dev.gt"),
+                    "1M": (1000000, "base_1M.csr.gz", "base_1M.dev.gt"),
+                    "full": (8841823, "base_full.csr.gz", "base_full.dev.gt")}
+
+        assert versions.keys().__contains__(
+            version), f'version="{version}" is invalid. Please choose one of {list(versions.keys())}.'
+
+        self.nb = versions[version][0]
+        self.nq = 6980
+        self.private_nq = 7000  # TBD
+
+        self.ds_fn = versions[version][1]
+        self.qs_fn = "queries_dev.csr.gz"
+        self.qs_private_fn = ""  # TBD
+
+        self.basedir = "https://storage.googleapis.com/ann-challenge-sparse-vectors/csr/"
+
+        self.gt_fn = versions[version][2]
+        self.private_gt = ""  # TBD
+
+
+
+        # add methods:
+
+        def prepare(self, skip_data=False):
+            # if not os.path.exists(self.basedir):
+            #     os.makedirs(self.basedir)
+            #
+            # # start with the small ones...
+            # for fn in [self.qs_fn, self.gt_fn]:
+            #     if fn is None:
+            #         continue
+            #     if fn.startswith("https://"):
+            #         sourceurl = fn
+            #         outfile = os.path.join(self.basedir, fn.split("/")[-1])
+            #     else:
+            #         sourceurl = os.path.join(self.base_url, fn)
+            #         outfile = os.path.join(self.basedir, fn)
+            #     if os.path.exists(outfile):
+            #         print("file %s already exists" % outfile)
+            #         continue
+            #     download(sourceurl, outfile)
+            #
+            # # private qs url
+            # if self.private_qs_url:
+            #     outfile = os.path.join(self.basedir, self.private_qs_url.split("/")[-1])
+            #     if os.path.exists(outfile):
+            #         print("file %s already exists" % outfile)
+            #     else:
+            #         download(self.private_qs_url, outfile)
+            #
+            # # private gt url
+            # if self.private_gt_url:
+            #     outfile = os.path.join(self.basedir, self.private_gt_url.split("/")[-1])
+            #     if os.path.exists(outfile):
+            #         print("file %s already exists" % outfile)
+            #     else:
+            #         download(self.private_gt_url, outfile)
+            #
+            # if skip_data:
+            #     return
+            #
+            # fn = self.ds_fn
+            # sourceurl = os.path.join(self.base_url, fn)
+            # outfile = os.path.join(self.basedir, fn)
+            # if os.path.exists(outfile):
+            #     print("file %s already exists" % outfile)
+            #     return
+            # if self.nb == 10 ** 9:
+            #     download_accelerated(sourceurl, outfile)
+            # else:
+            #     # download cropped version of file
+            #     file_size = 8 + self.d * self.nb * np.dtype(self.dtype).itemsize
+            #     outfile = outfile + '.crop_nb_%d' % self.nb
+            #     if os.path.exists(outfile):
+            #         print("file %s already exists" % outfile)
+            #         return
+            #     download(sourceurl, outfile, max_size=file_size)
+            #     # then overwrite the header...
+            #     header = np.memmap(outfile, shape=2, dtype='uint32', mode="r+")
+            #     assert header[0] == 10 ** 9
+            #     assert header[1] == self.d
+            #     header[0] = self.nb
+
+        def get_dataset_fn(self):
+            # fn = os.path.join(self.basedir, self.ds_fn)
+            # if os.path.exists(fn):
+            #     return fn
+            # if self.nb != 10 ** 9:
+            #     fn += '.crop_nb_%d' % self.nb
+            #     return fn
+            # else:
+            #     raise RuntimeError("file not found")
+
+        def get_dataset_iterator(self, bs=512, split=(1, 0)):
+            # nsplit, rank = split
+            # i0, i1 = self.nb * rank // nsplit, self.nb * (rank + 1) // nsplit
+            # filename = self.get_dataset_fn()
+            # x = xbin_mmap(filename, dtype=self.dtype, maxn=self.nb)
+            # assert x.shape == (self.nb, self.d)
+            # for j0 in range(i0, i1, bs):
+            #     j1 = min(j0 + bs, i1)
+            #     yield sanitize(x[j0:j1])
+
+
+        def get_groundtruth(self, k=None):
+            # assert self.gt_fn is not None
+            # fn = self.gt_fn.split("/")[-1]  # in case it's a URL
+            # assert self.search_type() == "knn"
+            #
+            # I, D = knn_result_read(os.path.join(self.basedir, fn))
+            # assert I.shape[0] == self.nq
+            # if k is not None:
+            #     assert k <= 100
+            #     I = I[:, :k]
+            #     D = D[:, :k]
+            # return I, D
+
+        def get_dataset(self):
+            # assert self.nb <= 10 ** 7, "dataset too large, use iterator"
+            # return sanitize(next(self.get_dataset_iterator(bs=self.nb)))
+
+        def get_queries(self):
+            # filename = os.path.join(self.basedir, self.qs_fn)
+            # x = xbin_mmap(filename, dtype=self.dtype)
+            # assert x.shape == (self.nq, self.d)
+            # return sanitize(x)
+
+        def get_private_queries(self):
+            # assert self.private_qs_url is not None
+            # fn = self.private_qs_url.split("/")[-1]  # in case it's a URL
+            # filename = os.path.join(self.basedir, fn)
+            # x = xbin_mmap(filename, dtype=self.dtype)
+            # assert x.shape == (self.private_nq, self.d)
+            # return sanitize(x)
+
+        def get_private_groundtruth(self, k=None):
+            # assert self.private_gt_url is not None
+            # fn = self.private_gt_url.split("/")[-1]  # in case it's a URL
+            # assert self.search_type() == "knn"
+            #
+            # I, D = knn_result_read(os.path.join(self.basedir, fn))
+            # assert I.shape[0] == self.private_nq
+            # if k is not None:
+            #     assert k <= 100
+            #     I = I[:, :k]
+            #     D = D[:, :k]
+            # return I, D
+
+
+
+
+
+    def distance(self):
+        return "ip"
+
+    def search_type(self):
+        return "knn"
+
+
+
 class RandomDS(DatasetCompetitionFormat):
     def __init__(self, nb, nq, d):
         self.nb = nb
