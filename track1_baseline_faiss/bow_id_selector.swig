@@ -95,6 +95,7 @@ struct IDSelectorBOW : faiss::IDSelector {
         this->w2 = w2;
     }
 
+    // binary search in the indices array
     bool find_sorted(TL l0, TL l1, int32_t w) const {
         while (l1 > l0 + 1) {
             TL lmed = (l0 + l1) / 2;
@@ -107,8 +108,7 @@ struct IDSelectorBOW : faiss::IDSelector {
         return indices[l0] == w;
     }
 
-
-    bool is_member(faiss::idx_t id) const final {
+    bool is_member(faiss::idx_t id) const {
         TL l0 = lims[id], l1 = lims[id + 1];
         if (l1 <= l0) {
             return false;
@@ -123,6 +123,35 @@ struct IDSelectorBOW : faiss::IDSelector {
     }
 
     ~IDSelectorBOW() override {}
+};
+
+
+struct IDSelectorBOWBin : IDSelectorBOW {
+    /** with additional binary filtering */
+    faiss::idx_t id_mask;
+
+    IDSelectorBOWBin(
+        size_t nb, const TL *lims, const int32_t *indices, faiss::idx_t id_mask):
+        IDSelectorBOW(nb, lims, indices), id_mask(id_mask) {}
+
+    faiss::idx_t q_mask = 0;
+
+    void set_query_words_mask(int32_t w1, int32_t w2, faiss::idx_t q_mask) {
+        set_query_words(w1, w2);
+        this->q_mask = q_mask;
+    }
+
+    bool is_member(faiss::idx_t id) const {
+        if ((id & id_mask) == 7037558) {
+            printf("id=%ld id_mask=%ld q_mask=%ld\n", id, id_mask, q_mask);
+        }
+        if (q_mask & ~id) {
+            return false;
+        }
+        return IDSelectorBOW::is_member(id & id_mask);
+    }
+
+    ~IDSelectorBOWBin() override {}
 };
 
 
