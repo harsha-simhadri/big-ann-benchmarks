@@ -1,26 +1,18 @@
 
-// -*- C++ -*-
 %module bow_id_selector
 
 /*
-To compile:
+To compile when Faiss is installed via conda:
 
-# checkout of faiss
-FAISS_SRC=$HOME/faiss_versions/faiss_latest_cmake
-
-fields=( $( python -c 'import faiss, os; os.system("cat /proc/%d/maps" % os.getpid())' | grep libfaiss_avx2.so | head -1  ) )
-LIBFAISS=${fields[5]}
-
-swig -c++ -python -I$FAISS_SRC bow_id_selector.swig && \
-   g++ -shared -O3 -g -fPIC bow_id_selector_wrap.cxx -o _bow_id_selector.so \
-   -I $( python -c "import distutils.sysconfig ; print(distutils.sysconfig.get_python_inc())" ) \
-   -I $FAISS_SRC \
-   $LIBFAISS
-
+swig -c++ -python -I$CONDA_PREFIX/include  bow_id_selector.swig &&  \
+g++ -shared -O3 -g -fPIC bow_id_selector_wrap.cxx -o _bow_id_selector.so  \
+  -I $( python -c "import distutils.sysconfig ; print(distutils.sysconfig.get_python_inc())" )  \
+  -I $CONDA_PREFIX/include $CONDA_PREFIX/lib/libfaiss_avx2.so
 
 */
 
 
+// Put C++ includes here
 %{
 
 #include <faiss/impl/FaissException.h>
@@ -28,32 +20,17 @@ swig -c++ -python -I$FAISS_SRC bow_id_selector.swig && \
 
 %}
 
-#pragma SWIG nowarn=321
-#pragma SWIG nowarn=403
-#pragma SWIG nowarn=325
-#pragma SWIG nowarn=389
-#pragma SWIG nowarn=341
-#pragma SWIG nowarn=512
+// to get uint32_t and friends
+%include <stdint.i>
 
-
-
-
-%include <std_string.i>
-
-typedef unsigned long size_t;
-typedef unsigned int uint32_t;
-typedef int int32_t;
-
-namespace faiss {
-using idx_t = long int;
-
-}
-
+// This means: assume what's declared in these .h files is provided
+// by the Faiss module.
 %import(module="faiss") "faiss/MetricType.h"
 %import(module="faiss") "faiss/impl/IDSelector.h"
 
+// functions to be parsed here
 
-// Python-specific: release GIL by default for all functions
+// This is important to release GIL and do Faiss exception handing
 %exception {
     Py_BEGIN_ALLOW_THREADS
     try {
@@ -76,7 +53,8 @@ using idx_t = long int;
 }
 
 
-
+// any class or function declared below will be made available
+// in the module.
 %inline %{
 
 struct IDSelectorBOW : faiss::IDSelector {
@@ -142,9 +120,6 @@ struct IDSelectorBOWBin : IDSelectorBOW {
     }
 
     bool is_member(faiss::idx_t id) const {
-        if ((id & id_mask) == 7037558) {
-            printf("id=%ld id_mask=%ld q_mask=%ld\n", id, id_mask, q_mask);
-        }
         if (q_mask & ~id) {
             return false;
         }
@@ -155,7 +130,7 @@ struct IDSelectorBOWBin : IDSelectorBOW {
 };
 
 
-size_t intersect_sorted(
+size_t intersect_sorted_c(
     size_t n1, const int32_t *a1,
     size_t n2, const int32_t *a2,
     int32_t *res)
@@ -185,13 +160,24 @@ size_t intersect_sorted(
     }
 }
 
-
-
 %}
 
 
 %pythoncode %{
-# a few additional Python functions
 
+import numpy as np
+
+# example additional function that converts the passed-in numpy arrays to
+# C++ pointers
+def intersect_sorted(a1, a2):
+    n1, = a1.shape
+    n2, = a2.shape
+    res = np.empty(n1 + n2, dtype=a1.dtype)
+    nres = intersect_sorted_c(
+        n1, faiss.swig_ptr(a1),
+        n2, faiss.swig_ptr(a2),
+        faiss.swig_ptr(res)
+    )
+    return res[:nres]
 
 %}
