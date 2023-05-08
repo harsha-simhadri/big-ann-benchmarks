@@ -557,17 +557,17 @@ def strip_gz(filename):
     return filename[:-3]
 
 
-def gunzip(filename):
-    if not filename.endswith('.gz'):
-        raise RuntimeError(f"expected a filename ending with '.gz'. Received: {filename}")
+def gunzip_if_needed(filename):
+    if filename.endswith('.gz'):
+        print('unzipping', filename, '...', end=" ")
+        with gzip.open(filename, 'rb') as f:
+            file_content = f.read()
 
-    with gzip.open(filename, 'rb') as f:
-        file_content = f.read()
+        with open(strip_gz(filename), 'wb') as f:
+            f.write(file_content)
 
-    with open(strip_gz(filename), 'wb') as f:
-        f.write(file_content)
-
-    os.remove(filename)
+        os.remove(filename)
+        print('done.')
 
 
 class SparseDataset(DatasetCompetitionFormat):
@@ -626,12 +626,10 @@ class SparseDataset(DatasetCompetitionFormat):
 
             if os.path.exists(outfile):
                 print("file %s already exists" % outfile)
+                gunzip_if_needed(outfile)
                 continue
             download(sourceurl, outfile)
-            if outfile.endswith('.gz'):
-                print('unzipping', outfile, '...', end=" ")
-                gunzip(outfile)
-                print('done.')
+            gunzip_if_needed(outfile)
         # # private qs url: todo
 
         if skip_data:
@@ -640,21 +638,18 @@ class SparseDataset(DatasetCompetitionFormat):
         fn = self.ds_fn
         sourceurl = os.path.join(self.base_url, fn)
         outfile = os.path.join(self.basedir, fn)
-        if os.path.exists(outfile):
-            print("file %s already exists" % outfile)
-            return
         if outfile.endswith('.gz'):
             # check if the unzipped file already exists
             unzipped_outfile = strip_gz(outfile)
             if os.path.exists(unzipped_outfile):
                 print("unzipped version of file %s already exists" % outfile)
                 return
+        if os.path.exists(outfile):
+            print("file %s already exists" % outfile)
+            gunzip_if_needed(outfile)
+            return
         download_accelerated(sourceurl, outfile)
-
-        if outfile.endswith('.gz'):
-            print('unzipping', outfile, '...', end =" ")
-            gunzip(outfile)
-            print('done.')
+        gunzip_if_needed(outfile)
 
     def get_dataset_fn(self):
         fn = strip_gz(os.path.join(self.basedir, self.ds_fn))
