@@ -593,7 +593,7 @@ class SparseDataset(DatasetCompetitionFormat):
         self.private_nq = 0  # TBD
 
         self.ds_fn = versions[version][1]
-        self.qs_fn = "queries_dev.csr.gz"
+        self.qs_fn = "queries.dev.csr.gz"
 
         self.qs_private_fn = ""  # TBD
 

@@ -12,7 +12,7 @@ and the values correspond to the different words in each document / paragraph th
 The embeddings are based on a deep learning model called SPLADE (specifically, it is the 
  SPLADE CoCondenser EnsembleDistil (`naver/splade-cocondenser-ensembledistil`)).
 
-The base dataset contains  .8M vectors with average sparsity (# of nonzeros): ~130. 
+The base dataset contains  .8M vectors with average sparsity (# of nonzeros): ~130. All nonzero values are positive. 
 
 The common query set (`dev.small`) contains 6980 queries, where the average number of nonzeros is ~49.
 
@@ -28,34 +28,20 @@ The dataset, along with smaller versions for development (with their ground trut
 
 | Name          | Description                | download link                                                                                | #rows     | ground truth                                                                              | 
 |:--------------|----------------------------|----------------------------------------------------------------------------------------------|-----------|-------------------------------------------------------------------------------------------|
-| `full`        | Full base dataset          | [5.5 GB](https://storage.googleapis.com/ann-challenge-sparse-vectors/csr/base_full.csr.gz)   | 8,841,823 | [link](https://storage.googleapis.com/ann-challenge-sparse-vectors/csr/base_full.dev.gt)  |
-| `1M`          | 1M slice of base dataset   | [636.3 MB](https://storage.googleapis.com/ann-challenge-sparse-vectors/csr/base_1M.csr.gz)   | 1,000,000 | [link](https://storage.googleapis.com/ann-challenge-sparse-vectors/csr/base_1M.dev.gt)    |
-| `small`       | 100k slice of base dataset | [64.3 MB](https://storage.googleapis.com/ann-challenge-sparse-vectors/csr/base_small.csr.gz) | 100,000   | [link](https://storage.googleapis.com/ann-challenge-sparse-vectors/csr/base_small.dev.gt) |
-| `queries.dev` | queries file               | [1.8 MB](https://storage.googleapis.com/ann-challenge-sparse-vectors/csr/queries_dev.csr.gz) | 6,980     | N/A                                                                                       |
-
-
-
-To add: 
-
-- images of histograms (nnz etc.)
-- results of runs of the baseline (possibly on the hidden query set as well)
-
+| `full`        | Full base dataset          | [5.5 GB](https://storage.googleapis.com/ann-challenge-sparse-vectors/csr/base_full.csr.gz)   | 8,841,823 | [545K](https://storage.googleapis.com/ann-challenge-sparse-vectors/csr/base_full.dev.gt)  |
+| `1M`          | 1M slice of base dataset   | [636.3 MB](https://storage.googleapis.com/ann-challenge-sparse-vectors/csr/base_1M.csr.gz)   | 1,000,000 | [545K](https://storage.googleapis.com/ann-challenge-sparse-vectors/csr/base_1M.dev.gt)    |
+| `small`       | 100k slice of base dataset | [64.3 MB](https://storage.googleapis.com/ann-challenge-sparse-vectors/csr/base_small.csr.gz) | 100,000   | [545K](https://storage.googleapis.com/ann-challenge-sparse-vectors/csr/base_small.dev.gt) |
+| `queries.dev` | queries file               | [1.8 MB](https://storage.googleapis.com/ann-challenge-sparse-vectors/csr/queries.dev.csr.gz) | 6,980     | N/A                                                                                       |
 
 ---
 
----
+TODO: 
 
----
-
----
-
-Sparsity histogram (#nonzeros)
-
-Values histogram (distribution of nonzero values)
+1. add results of baseline algorithm
+2. 
 
 Baseline algorithm
 As a baseline algorithm, we propose a basic (but efficient) exact algorithm called linscan. It is based on an inverted index, and can be made faster (and less precise) with an early stopping condition. We (pinecone) can contribute an open source implementation.
-
 
 Results of the baseline algorithm: 
 Llinscan-anytime. Both single-thread and multi-thread:

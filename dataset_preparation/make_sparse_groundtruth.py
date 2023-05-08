@@ -5,10 +5,6 @@ import numpy as np
 from scipy.sparse import csr_matrix, hstack
 from multiprocessing.pool import ThreadPool
 
-# TODO: add the dataset to Datasets
-# import benchmark. datasets
-# from benchmark.datasets import DATASETS
-
 from benchmark.dataset_io import usbin_write, read_sparse_matrix
 
 if __name__ == "__main__":
