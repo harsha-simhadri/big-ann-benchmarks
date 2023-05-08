@@ -39,16 +39,6 @@ def set_invlist_ids(invlists, l, ids):
         faiss.swig_ptr(ids), n * 8
     )
 
-def intersect_sorted(a1, a2):
-    n1, = a1.shape
-    n2, = a2.shape
-    res = np.empty(n1 + n2, dtype=a1.dtype)
-    nres = bow_id_selector.intersect_sorted(
-        n1, faiss.swig_ptr(a1),
-        n2, faiss.swig_ptr(a2),
-        faiss.swig_ptr(res)
-    )
-    return res[:nres]
 
 
 def csr_to_bitcodes(matrix, bitsig):
@@ -208,19 +198,8 @@ if __name__ == "__main__":
         for i in range(index_ivf.nlist):
             ids, _ = get_invlist(invlists, i)
             ids &= binsig.id_mask
-            if 7037558 in ids:
-                print("7037558 is in ", i, np.where(ids == 7037558))
-                #  7037558 is in  1489 (array([2805]),)
             set_invlist_ids(invlists, i, ids)
         binsig = None
-    else:
-        index_ivf = faiss.extract_index_ivf(index)
-        invlists = index_ivf.invlists
-        ids, _ = get_invlist(invlists, 1489)
-        print("USING", ids[2805], ids[2805] & binsig.id_mask, binsig.db_sig[7037558] | 7037558)
-        meta_q = ds.get_queries_metadata()
-        qwords = csr_get_row_indices(meta_q, 0)
-        pdb.set_trace()
 
     print("load query vectors")
     xq = ds.get_queries()
@@ -298,7 +277,7 @@ if __name__ == "__main__":
                             docs, csr_get_row_indices(docs_per_word, w2),
                             assume_unique=True)
                     else:
-                        docs = intersect_sorted(
+                        docs = bow_id_selector.intersect_sorted(
                             docs, csr_get_row_indices(docs_per_word, w2))
 
                 assert len(docs) >= k, pdb.set_trace()
@@ -340,8 +319,10 @@ if __name__ == "__main__":
                 if binsig is None:
                     I[q] = Ii
                 else:
-                    valid = Ii != -1
-                    I[q, valid] = Ii[valid] & binsig.id_mask
+                    # we'll just assume there are enough resutls
+                    # valid = Ii != -1
+                    # I[q, valid] = Ii[valid] & binsig.id_mask
+                    I[q] = Ii & binsig.id_mask
                 ii = 1
             t1 = time.time()
             cum_t[ii] += t1 - t0
@@ -359,8 +340,6 @@ if __name__ == "__main__":
         print()
         print(f"metadata first search: {cum_n[0]}, {cum_t[0]:.3f} s, {cum_t[0]/cum_n[0] * 1000:.3f} ms / q")
         print(f"IVF first search: {cum_n[1]}, {cum_t[1]:.3f} s, {cum_t[1]/cum_n[1] * 1000:.3f} ms / q")
-
-    print("row 0", I[0])
 
     if args.o:
         print("Writing result to", args.o)
