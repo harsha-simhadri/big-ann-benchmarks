@@ -1,6 +1,5 @@
 import argparse
 
-import faiss
 from tqdm import tqdm
 import time
 import numpy as np
@@ -78,7 +77,9 @@ if __name__ == "__main__":
 
     # compute recall:
 
-    recall = faiss.eval_intersection(I_gt, I) / k / ds.nq
+    # recall = faiss.eval_intersection(I_gt, I) / k / ds.nq
+    recall = np.mean([len(set(I_gt[i,:]).intersection(I[i,:]))/k for i in range(ds.nq)])
+
     print('recall:', recall)
     print()
     print(f'Results: {a}, {recall}, {nq / elapsed}')
