@@ -41,7 +41,7 @@ jobs:
             library: httpann_example
           - algorithm : kst_ann_t1
             dataset: random-xs
-            library: faissconda 
+            library: kst_ann_t1
           - algorithm: buddy-t1
             dataset: random-xs
             library: faissconda            
