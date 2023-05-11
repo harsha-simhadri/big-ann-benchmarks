@@ -62,6 +62,18 @@ class BaseANN(object):
         """Carry out a batch query for hybrid search."""
         raise NotImplementedError()
 
+    def delete(self, I):
+        """
+        Carry out a delete of dataset records using an array of indices I
+        """
+        raise NotImplementedError()
+    
+    def insert(self, X):
+        """
+        Carry out a batch insert of vector(s) and scalars
+        """
+        raise NotImplementedError()
+
     def get_results(self):
         """
         Helper method to convert query results of k-NN search.
