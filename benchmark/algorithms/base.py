@@ -47,11 +47,11 @@ class BaseANN(object):
         """
         raise NotImplementedError()
 
-    def query(self, X, k):
+    def query(self, X, k, meta_filter=[]):
         """Carry out a batch query for k-NN of query set X."""
         raise NotImplementedError()
 
-    def range_query(self, X, radius):
+    def range_query(self, X, radius, meta_filter=[]):
         """
         Carry out a batch query for range search with
         radius.
