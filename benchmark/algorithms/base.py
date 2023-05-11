@@ -71,6 +71,7 @@ class BaseANN(object):
     def insert(self, X):
         """
         Carry out a batch insert of vector(s) and scalars
+        TBD:  What should each element look like?
         """
         raise NotImplementedError()
 
