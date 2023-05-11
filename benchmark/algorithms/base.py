@@ -51,7 +51,7 @@ class BaseANN(object):
         """Carry out a batch query for k-NN of query set X."""
         raise NotImplementedError()
 
-    def range_query(self, X, radius, meta_filter=[]):
+    def range_query(self, X, radius):
         """
         Carry out a batch query for range search with
         radius.
