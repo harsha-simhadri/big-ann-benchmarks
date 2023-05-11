@@ -58,6 +58,10 @@ class BaseANN(object):
         """
         raise NotImplementedError()
 
+    def hybrid_query(self, dense_vector, sparse_vector, meta_filter=[]):
+        """Carry out a batch query for hybrid search."""
+        raise NotImplementedError()
+
     def get_results(self):
         """
         Helper method to convert query results of k-NN search.
