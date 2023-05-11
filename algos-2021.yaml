@@ -132,7 +132,7 @@ random-s:
               "nprobe=2,quantizer_efSearch=16"]
 random-xs:
     kst_ann_t1:
-      docker-tag: billion-scale-benchmark-kst-ann-t1
+      docker-tag: billion-scale-benchmark-kst_ann_t1
       module: benchmark.algorithms.kst_t1
       constructor: kst 
       base-args: ["@metric"]
