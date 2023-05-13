@@ -47,7 +47,7 @@ class BaseANN(object):
         """
         raise NotImplementedError()
 
-    def query(self, X, k, meta_filter=[]):
+    def query(self, X, k):
         """Carry out a batch query for k-NN of query set X."""
         raise NotImplementedError()
 
@@ -55,23 +55,6 @@ class BaseANN(object):
         """
         Carry out a batch query for range search with
         radius.
-        """
-        raise NotImplementedError()
-
-    def hybrid_query(self, dense_vector, sparse_vector, meta_filter=[]):
-        """Carry out a batch query for hybrid search."""
-        raise NotImplementedError()
-
-    def delete(self, I):
-        """
-        Carry out a delete of dataset records using an array of indices I
-        """
-        raise NotImplementedError()
-    
-    def insert(self, X):
-        """
-        Carry out a batch insert of vector(s) and scalars
-        TBD:  What should each element look like?
         """
         raise NotImplementedError()
 
