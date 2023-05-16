@@ -14,7 +14,8 @@ import psutil
 from benchmark.algorithms.definitions import (Definition,
                                                instantiate_algorithm)
 
-from benchmark.datasets import DATASETS, upload_accelerated, download_accelerated
+from benchmark.datasets import DATASETS
+from benchmark.dataset_io import upload_accelerated, download_accelerated
 from benchmark.results import store_results
 
 from benchmark.sensors.power_capture import power_capture
@@ -67,7 +68,7 @@ algorithm instantiated from it does not implement the set_query_arguments \
 function""" % (definition.module, definition.constructor, definition.arguments)
 
     assert not upload_index or not download_index
-    
+
     ds = DATASETS[dataset]()
     #X_train = numpy.array(D['train'])
     if not private_query:
@@ -78,13 +79,13 @@ function""" % (definition.module, definition.constructor, definition.arguments)
     search_type = ds.search_type()
     print(f"Running {definition.algorithm} on {dataset}")
     print(fr"Got {len(X)} queries")
-    
+
     try:
         # Try loading the index from the file
         memory_usage_before = algo.get_memory_usage()
         if download_index:
             local_dir, index_prefix, components = algo.index_files_to_store(dataset)
-            remote_location = blob_prefix + '/' + algo.track() + '/' + algo.__str__() + '/' + DATASETS[dataset]().short_name() + '/' 
+            remote_location = blob_prefix + '/' + algo.track() + '/' + algo.__str__() + '/' + DATASETS[dataset]().short_name() + '/'
             for component in components:
                 download_accelerated(remote_location + index_prefix + component,
                                      local_dir + '/' + index_prefix + component,
@@ -103,14 +104,14 @@ function""" % (definition.module, definition.constructor, definition.arguments)
         else:
             print("Loaded existing index")
 
-            
+
         index_size = algo.get_memory_usage() - memory_usage_before
         print('Index memory footprint: ', index_size)
 
         if upload_index:
             print("Starting index upload...")
             local_dir, index_prefix, components = algo.index_files_to_store(dataset)
-            remote_location = blob_prefix + '/' + algo.track() + '/' + algo.__str__() + '/' + DATASETS[dataset]().short_name() 
+            remote_location = blob_prefix + '/' + algo.track() + '/' + algo.__str__() + '/' + DATASETS[dataset]().short_name()
             for component in components:
                 upload_accelerated(local_dir, remote_location,
                                    index_prefix + component, sas_string)
@@ -137,7 +138,7 @@ function""" % (definition.module, definition.constructor, definition.arguments)
                 if power_capture.enabled():
                     power_stats = power_capture.run(algo, X, distance, count,
                                                     run_count, search_type, descriptor)
-                    
+
                 store_results(dataset, count, definition,
                               query_arguments, descriptor, results, search_type)
     finally:
@@ -213,7 +214,7 @@ def run_from_cmdline(args=None):
         '--private-query',
         help='Use the new set of private queries that were not released during the competition period.',
         action="store_true")
-    
+
     args = parser.parse_args(args)
     algo_args = json.loads(args.build)
     print(algo_args)
@@ -314,7 +315,7 @@ def run_docker(definition, dataset, count, runs, timeout, rebuild,
         traceback.print_exc()
     finally:
         container.remove(force=True)
-        
+
 
 def _handle_container_return_value(return_value, container, logger):
     base_msg = 'Child process for container %s' % (container.short_id)
@@ -322,7 +323,7 @@ def _handle_container_return_value(return_value, container, logger):
         error_msg = return_value['Error']
         exit_code = return_value['StatusCode']
         msg = base_msg + 'returned exit code %d with message %s' %(exit_code, error_msg)
-    else: 
+    else:
         exit_code = return_value
         msg = base_msg + 'returned exit code %d' % (exit_code)
 

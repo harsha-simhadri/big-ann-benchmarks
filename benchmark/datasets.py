@@ -8,161 +8,15 @@ import time
 
 import numpy as np
 
-from urllib.request import urlopen
 from urllib.request import urlretrieve
 
+from .dataset_io import (
+    xbin_mmap, download_accelerated, download, sanitize,
+    knn_result_read, range_result_read, read_sparse_matrix
+)
+
+
 BASEDIR = "data/"
-
-def download(src, dst=None, max_size=None):
-    """ download an URL, possibly cropped """
-    if os.path.exists(dst):
-        return
-    print('downloading %s -> %s...' % (src, dst))
-    if max_size is not None:
-        print("   stopping at %d bytes" % max_size)
-    t0 = time.time()
-    outf = open(dst, "wb")
-    inf = urlopen(src)
-    info = dict(inf.info())
-    content_size = int(info['Content-Length'])
-    bs = 1 << 20
-    totsz = 0
-    while True:
-        block = inf.read(bs)
-        elapsed = time.time() - t0
-        print(
-            "  [%.2f s] downloaded %.2f MiB / %.2f MiB at %.2f MiB/s   " % (
-                elapsed,
-                totsz / 2**20, content_size / 2**20,
-                totsz / 2**20 / elapsed),
-            flush=True, end="\r"
-        )
-        if not block:
-            break
-        if max_size is not None and totsz + len(block) >= max_size:
-            block = block[:max_size - totsz]
-            outf.write(block)
-            totsz += len(block)
-            break
-        outf.write(block)
-        totsz += len(block)
-    print()
-    print("download finished in %.2f s, total size %d bytes" % (
-        time.time() - t0, totsz
-    ))
-
-
-def download_accelerated(src, dst, quiet=False, sas_string=""):
-    """ dowload using an accelerator. Make sure the executable is in the path """
-    print('downloading %s -> %s...' % (src, dst))
-    if "windows.net" in src:
-        if sas_string == "":
-            cmd = f"azcopy copy {src} {dst}"
-        else:
-            cmd = f"azcopy copy '{src}?{sas_string}' '{dst}'"
-    else:
-        cmd = f"axel --alternate -n 10 {src} -o {dst}"
-        if quiet:
-            cmd += " -q"
-
-    print("running", cmd)
-    ret = os.system(cmd)
-    assert ret == 0
-
-def upload_accelerated(local_dir, blob_prefix, component, sas_string, quiet=False):
-    """ Upload index component to Azure blob using SAS string"""
-    src = os.path.join(local_dir, component)
-    dst = blob_prefix + '/' + component + '?' + sas_string
-    print('Uploading %s -> %s...' % (src, dst))
-    
-    cmd = f"azcopy copy '{src}' '{dst}'"
-    print("running", cmd)
-    ret = os.system(cmd)
-    assert ret == 0
-
-
-def bvecs_mmap(fname):
-    x = numpy.memmap(fname, dtype='uint8', mode='r')
-    d = x[:4].view('int32')[0]
-    return x.reshape(-1, d + 4)[:, 4:]
-
-def ivecs_read(fname):
-    a = numpy.fromfile(fname, dtype='int32')
-    d = a[0]
-    return a.reshape(-1, d + 1)[:, 1:].copy()
-
-def xbin_mmap(fname, dtype, maxn=-1):
-    """ mmap the competition file format for a given type of items """
-    n, d = map(int, np.fromfile(fname, dtype="uint32", count=2))
-
-    # HACK - to handle improper header in file for private deep-1B
-    # if override_d and override_d != d:
-    #    print("Warning: xbin_mmap map returned d=%s, but overridig with %d" % (d, override_d))
-    #    d = override_d
-    # HACK
-
-    assert os.stat(fname).st_size == 8 + n * d * np.dtype(dtype).itemsize
-    if maxn > 0:
-        n = min(n, maxn)
-    return np.memmap(fname, dtype=dtype, mode="r", offset=8, shape=(n, d))
-
-def range_result_read(fname):
-    """ read the range search result file format """
-    f = open(fname, "rb")
-    nq, total_res = np.fromfile(f, count=2, dtype="int32")
-    nres = np.fromfile(f, count=nq, dtype="int32")
-    assert nres.sum() == total_res
-    I = np.fromfile(f, count=total_res, dtype="int32")
-    D = np.fromfile(f, count=total_res, dtype="float32")
-    return nres, I, D
-
-def knn_result_read(fname):
-    n, d = map(int, np.fromfile(fname, dtype="uint32", count=2))
-    assert os.stat(fname).st_size == 8 + n * d * (4 + 4)
-    f = open(fname, "rb")
-    f.seek(4+4)
-    I = np.fromfile(f, dtype="int32", count=n * d).reshape(n, d)
-    D = np.fromfile(f, dtype="float32", count=n * d).reshape(n, d)
-    return I, D
-
-def read_fbin(filename, start_idx=0, chunk_size=None):
-    """ Read *.fbin file that contains float32 vectors
-    Args:
-        :param filename (str): path to *.fbin file
-        :param start_idx (int): start reading vectors from this index
-        :param chunk_size (int): number of vectors to read.
-                                 If None, read all vectors
-    Returns:
-        Array of float32 vectors (numpy.ndarray)
-    """
-    with open(filename, "rb") as f:
-        nvecs, dim = np.fromfile(f, count=2, dtype=np.int32)
-        nvecs = (nvecs - start_idx) if chunk_size is None else chunk_size
-        arr = np.fromfile(f, count=nvecs * dim, dtype=np.float32,
-                          offset=start_idx * 4 * dim)
-    return arr.reshape(nvecs, dim)
-
-
-def read_ibin(filename, start_idx=0, chunk_size=None):
-    """ Read *.ibin file that contains int32 vectors
-    Args:
-        :param filename (str): path to *.ibin file
-        :param start_idx (int): start reading vectors from this index
-        :param chunk_size (int): number of vectors to read.
-                                 If None, read all vectors
-    Returns:
-        Array of int32 vectors (numpy.ndarray)
-    """
-    with open(filename, "rb") as f:
-        nvecs, dim = np.fromfile(f, count=2, dtype=np.int32)
-        nvecs = (nvecs - start_idx) if chunk_size is None else chunk_size
-        arr = np.fromfile(f, count=nvecs * dim, dtype=np.int32,
-                          offset=start_idx * 4 * dim)
-    return arr.reshape(nvecs, dim)
-
-
-def sanitize(x):
-    return numpy.ascontiguousarray(x, dtype='float32')
 
 
 class Dataset():
@@ -208,7 +62,7 @@ class Dataset():
 
     def search_type(self):
         """
-        "knn" or "range"
+        "knn" or "range" or "knn_filtered"
         """
         pass
 
@@ -219,11 +73,12 @@ class Dataset():
         pass
 
     def default_count(self):
+        """ number of neighbors to return """
         return 10
 
     def short_name(self):
         return f"{self.__class__.__name__}-{self.nb}"
-    
+
     def __str__(self):
         return (
             f"Dataset {self.__class__.__name__} in dimension {self.d}, with distance {self.distance()}, "
@@ -273,7 +128,7 @@ class DatasetCompetitionFormat(Dataset):
                 print("file %s already exists" % outfile)
             else:
                 download(self.private_qs_url, outfile)
-        
+
         # private gt url
         if self.private_gt_url:
             outfile = os.path.join(self.basedir, self.private_gt_url.split("/")[-1])
@@ -333,7 +188,7 @@ class DatasetCompetitionFormat(Dataset):
     def get_groundtruth(self, k=None):
         assert self.gt_fn is not None
         fn = self.gt_fn.split("/")[-1]   # in case it's a URL
-        assert self.search_type() == "knn"
+        assert self.search_type() in ("knn", "knn_filtered")
 
         I, D = knn_result_read(os.path.join(self.basedir, fn))
         assert I.shape[0] == self.nq
@@ -360,7 +215,7 @@ class DatasetCompetitionFormat(Dataset):
         x = xbin_mmap(filename, dtype=self.dtype)
         assert x.shape == (self.private_nq, self.d)
         return sanitize(x)
-    
+
     def get_private_groundtruth(self, k=None):
         assert self.private_gt_url is not None
         fn = self.private_gt_url.split("/")[-1]   # in case it's a URL
@@ -396,7 +251,7 @@ class SSNPPDataset(DatasetCompetitionFormat):
         self.base_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/"
         self.basedir = os.path.join(BASEDIR, "FB_ssnpp")
 
-        self.private_nq = 100000   
+        self.private_nq = 100000
         self.private_qs_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/FB_ssnpp_heldout_queries_3307fba121460a56.u8bin"
         self.private_gt_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/GT_1B_final_2bf4748c7817/FB_ssnpp.bin"
 
@@ -404,6 +259,7 @@ class SSNPPDataset(DatasetCompetitionFormat):
         return "range"
 
     def default_count(self):
+        """ for range search, this returns the squared range search radius """
         return 96237
 
     def distance(self):
@@ -414,7 +270,7 @@ class SSNPPDataset(DatasetCompetitionFormat):
         assert self.gt_fn is not None
         fn = self.gt_fn.split("/")[-1]   # in case it's a URL
         return range_result_read(os.path.join(self.basedir, fn))
-    
+
     def get_private_groundtruth(self, k=None):
         """ override the ground-truth function as this is the only range search dataset """
         assert self.private_gt_url is not None
@@ -439,8 +295,8 @@ class BigANNDataset(DatasetCompetitionFormat):
         # self.gt_fn = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/bigann/public_query_gt100.bin" if self.nb == 10**9 else None
         self.base_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/bigann/"
         self.basedir = os.path.join(BASEDIR, "bigann")
-        
-        self.private_nq = 10000   
+
+        self.private_nq = 10000
         self.private_qs_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/bigann/query.private.799253207.10K.u8bin"
         self.private_gt_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/GT_1B_final_2bf4748c7817/bigann-1B.bin"
 
@@ -466,7 +322,7 @@ class Deep1BDataset(DatasetCompetitionFormat):
         self.base_url = "https://storage.yandexcloud.net/yandex-research/ann-datasets/DEEP/"
         self.basedir = os.path.join(BASEDIR, "deep1b")
 
-        self.private_nq = 30000   
+        self.private_nq = 30000
         self.private_qs_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/deep1b/query.heldout.30K.fbin"
         self.private_gt_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/deep1b/gt100-heldout.30K.fbin"
 
@@ -496,7 +352,7 @@ class Text2Image1B(DatasetCompetitionFormat):
         self.base_url = "https://storage.yandexcloud.net/yandex-research/ann-datasets/T2I/"
         self.basedir = os.path.join(BASEDIR, "text2image1B")
 
-        self.private_nq = 30000   
+        self.private_nq = 30000
         self.private_qs_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/text2image1b/query.heldout.30K.fbin"
         self.private_gt_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/text2image1b/gt100-heldout.30K.fbin"
 
@@ -642,6 +498,58 @@ class RandomRangeDS(DatasetCompetitionFormat):
     def __str__(self):
         return f"RandomRange({self.nb})"
 
+class YFCC100MDataset(DatasetCompetitionFormat):
+    """ the 2023 competition """
+
+    def __init__(self, filtered=True):
+        self.filtered = filtered
+        nb_M = 10
+        self.nb_M = nb_M
+        self.nb = 10**6 * nb_M
+        self.d = 192
+        self.nq = 100000
+        self.dtype = "uint8"
+        # for now it's dummy because we don't have the descriptors yet
+        self.ds_fn = "dummy2.base.10M.u8bin"
+        self.qs_fn = "dummy2.query.public.100K.u8bin"
+        self.qs_private_fn = "dummy2.query.private.396157065643.100K.u8bin"
+        self.ds_metadata_fn = "base.metadata.10M.spmat"
+        self.qs_metadata_fn = "query.metadata.public.100K.spmat"
+        self.qs_private_metadata_fn = "query.metadata.private.396157065643.100K.spmat"
+
+        if filtered:
+            # no subset as the database is pretty small.
+            self.gt_fn = "dummy2.GT.public.ibin"
+        else:
+            self.gt_fn = "dummy2.unfiltered.GT.public.ibin"
+
+            # data is uploaded but download script not ready.
+        self.base_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/yfcc100M/"
+        self.basedir = os.path.join(BASEDIR, "yfcc100M")
+
+        self.private_nq = 100000
+        self.private_qs_url = self.base_url + ""
+        self.private_gt_url = self.base_url + ""
+
+        self.metadata_base_url = self.base_url + ""
+        self.metadata_queries_url = self.base_url + ""
+
+    def get_dataset_metadata(self):
+        return read_sparse_matrix(os.path.join(self.basedir, self.ds_metadata_fn))
+
+    def get_queries_metadata(self):
+        return read_sparse_matrix(os.path.join(self.basedir, self.qs_metadata_fn))
+
+    def distance(self):
+        return "euclidean"
+
+    def search_type(self):
+        if self.filtered:
+            return "knn_filtered"
+        else:
+            return "knn"
+
+
 class RandomDS(DatasetCompetitionFormat):
     def __init__(self, nb, nq, d):
         self.nb = nb
@@ -728,6 +636,9 @@ DATASETS = {
     'msspacev-10M': lambda : MSSPACEV1B(10),
     'msspacev-100M': lambda : MSSPACEV1B(100),
     'msspacev-1M': lambda : MSSPACEV1B(1),
+
+    'yfcc-10M': lambda: YFCC100MDataset(),
+    'yfcc-10M-unfiltered': lambda: YFCC100MDataset(filtered=False),
 
     'random-xs': lambda : RandomDS(10000, 1000, 20),
     'random-s': lambda : RandomDS(100000, 1000, 50),
