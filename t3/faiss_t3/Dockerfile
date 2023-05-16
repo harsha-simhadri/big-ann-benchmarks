@@ -1,21 +1,27 @@
  
-FROM nvidia/cuda:11.0-devel-ubuntu18.04
+#FROM nvidia/cuda:11.0-devel-ubuntu18.04
+FROM nvidia/cuda:11.0.3-cudnn8-devel-ubuntu18.04
+
+# CONDA
 
 ENV PATH="/root/miniconda3/bin:${PATH}"
 ARG PATH="/root/miniconda3/bin:${PATH}"
 
-# CONDA
-
-RUN apt-get update  && apt-get install -y wget build-essential git 
-
-RUN wget \
-    https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
-    && mkdir /root/.conda \
-    && bash Miniconda3-latest-Linux-x86_64.sh -b \
-    && rm -f Miniconda3-latest-Linux-x86_64.sh \
-    && conda --version \
-    && conda install -c pytorch python=3.6.9 faiss-gpu cudatoolkit=11.0
-
+RUN apt-get update  
+RUN apt-get install -y wget 
+RUN apt-get install -y build-essential 
+RUN apt-get install -y git 
+RUN wget https://repo.anaconda.com/miniconda/Miniconda3-py38_23.1.0-1-Linux-x86_64.sh
+RUN bash Miniconda3-py38_23.1.0-1-Linux-x86_64.sh -b
+RUN rm -f Miniconda3-py38_23.1.0-1-Linux-x86_64.sh
+RUN conda --version 
+RUN conda create -n py38 python=3.8 -y
+RUN echo "source activate env" > ~/.bashrc
+RUN ls /opt/
+ENV PATH /opt/conda/envs/py38/bin:$PATH
+RUN conda config --set remote_read_timeout_secs 300
+RUN conda install -c pytorch faiss-gpu 
+#RUN conda install cudatoolkit=11.0
 RUN conda --version && which conda && which python && which pip3
 
 # BIGANN
