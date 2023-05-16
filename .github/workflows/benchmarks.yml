@@ -12,57 +12,79 @@ jobs:
           - algorithm: faiss-ivf
             library: faissconda
             dataset: random-xs
+            def: algos-2021.yaml
           - algorithm: faiss-t1
             dataset: random-xs
-            library: faissconda
+            library: faissconda            
+            def: algos-2021.yaml
           - algorithm: puck-t1
             dataset: random-xs
             library: puck
+            def: algos-2021.yaml
           - algorithm: faiss-t1
             dataset: random-range-xs
             library: faissconda
+            def: algos-2021.yaml
           - algorithm: diskann-t2
             dataset: random-xs
             library: diskann
+            def: algos-2021.yaml
           - algorithm: diskann-t2
             dataset: random-range-xs
             library: diskann
+            def: algos-2021.yaml
           - algorithm: bbann
             dataset: random-xs
             library: bbann
+            def: algos-2021.yaml
           - algorithm: bbann
             dataset: random-range-xs
             library: bbann
+            def: algos-2021.yaml
           - algorithm: httpann_example
             dataset: random-xs
             library: httpann_example
+            def: algos-2021.yaml
           - algorithm: httpann_example
             dataset: random-range-xs
             library: httpann_example
+            def: algos-2021.yaml
           - algorithm: ngt-t1
             dataset: random-range-xs
             library: ngt
+            def: algos-2021.yaml
           - algorithm: ngt-t2
             dataset: random-range-xs
             library: ngt
+            def: algos-2021.yaml
           - algorithm : kst_ann_t1
             dataset: random-xs
             library: kst_ann_t1
+            def: algos-2021.yaml
           - algorithm: buddy-t1
             dataset: random-xs
             library: faissconda            
+            def: algos-2021.yaml
           - algorithm: buddy-t1
             dataset: random-range-xs
             library: faissconda            
+            def: algos-2021.yaml
           - algorithm: kota-t2
             dataset: random-xs
             library: kota
+            def: algos-2021.yaml
           - algorithm: kota-t2
             dataset: random-range-xs
             library: kota 
+            def: algos-2021.yaml
           - algorithm: team11
             dataset: random-range-xs
             library: faissconda
+            def: algos-2021.yaml
+          - algorithm: linsparse
+            dataset: sparse-small
+            library: linsparse
+            def: algos-2023.yaml
       fail-fast: false
 
     steps:
@@ -84,11 +106,12 @@ jobs:
     - name: Run the benchmark
       run: |
         python create_dataset.py --dataset $DATASET
-        python run.py --algorithm $ALGORITHM --max-n-algorithms 2 --dataset $DATASET --timeout 600
+        python run.py --algorithm $ALGORITHM --max-n-algorithms 2 --dataset $DATASET --timeout 600 --definitions $DEF
         sudo chmod -R 777 results/
         python plot.py --dataset $DATASET --output plot.png
         python data_export.py --output test.csv
 
       env:
         ALGORITHM: ${{ matrix.algorithm}}
-        DATASET: ${{ matrix.dataset }} 
+        DATASET: ${{ matrix.dataset }}
+        DEF: ${{matrix.def}} 
