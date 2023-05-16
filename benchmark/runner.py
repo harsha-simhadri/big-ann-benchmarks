@@ -32,7 +32,7 @@ def run_individual_query(algo, X, distance, count, run_count, search_type):
             algo.query(X, count)
             total = (time.time() - start)
             results = algo.get_results()
-            assert len(results) == len(X)
+            assert results.shape[0] == X.shape[0]
         else:
             algo.range_query(X, count)
             total = (time.time() - start)
@@ -78,7 +78,7 @@ function""" % (definition.module, definition.constructor, definition.arguments)
     distance = ds.distance()
     search_type = ds.search_type()
     print(f"Running {definition.algorithm} on {dataset}")
-    print(fr"Got {len(X)} queries")
+    print(fr"Got {X.shape[0]} queries")
 
     try:
         # Try loading the index from the file
@@ -289,6 +289,8 @@ def run_docker(definition, dataset, count, runs, timeout, rebuild,
                     {'bind': '/home/app/data', 'mode': 'rw'},
                 os.path.abspath('results'):
                     {'bind': '/home/app/results', 'mode': 'rw'},
+                os.path.abspath('neurips-2023'):
+                    {'bind': '/home/app/neurips_2023', 'mode': 'ro'},
             },
             cpuset_cpus=cpu_limit,
             mem_limit=mem_limit,

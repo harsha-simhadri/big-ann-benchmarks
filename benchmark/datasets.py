@@ -1,7 +1,7 @@
+import gzip
 import math
 import numpy
 import os
-import gzip
 import random
 import sys
 import struct
@@ -13,7 +13,7 @@ from urllib.request import urlretrieve
 
 from .dataset_io import (
     xbin_mmap, download_accelerated, download, sanitize,
-    knn_result_read, range_result_read, read_sparse_matrix
+    knn_result_read, range_result_read, read_sparse_matrix,
 )
 
 
@@ -70,6 +70,12 @@ class Dataset():
     def distance(self):
         """
         "euclidean" or "ip" or "angular"
+        """
+        pass
+
+    def data_type(self):
+        """
+        "dense" or "sparse"
         """
         pass
 
@@ -185,6 +191,9 @@ class DatasetCompetitionFormat(Dataset):
 
     def search_type(self):
         return "knn"
+    
+    def data_type(self):
+        return "dense"
 
     def get_groundtruth(self, k=None):
         assert self.gt_fn is not None
@@ -551,19 +560,19 @@ class YFCC100MDataset(DatasetCompetitionFormat):
             return "knn"
 
 
-def strip_gz(filename):
+def _strip_gz(filename):
     if not filename.endswith('.gz'):
         raise RuntimeError(f"expected a filename ending with '.gz'. Received: {filename}")
     return filename[:-3]
 
 
-def gunzip_if_needed(filename):
+def _gunzip_if_needed(filename):
     if filename.endswith('.gz'):
         print('unzipping', filename, '...', end=" ")
         with gzip.open(filename, 'rb') as f:
             file_content = f.read()
 
-        with open(strip_gz(filename), 'wb') as f:
+        with open(_strip_gz(filename), 'wb') as f:
             f.write(file_content)
 
         os.remove(filename)
@@ -585,8 +594,7 @@ class SparseDataset(DatasetCompetitionFormat):
                     "1M": (1000000, "base_1M.csr.gz", "base_1M.dev.gt"),
                     "full": (8841823, "base_full.csr.gz", "base_full.dev.gt")}
 
-        assert versions.keys().__contains__(
-            version), f'version="{version}" is invalid. Please choose one of {list(versions.keys())}.'
+        assert version in versions, f'version="{version}" is invalid. Please choose one of {list(versions.keys())}.'
 
         self.nb = versions[version][0]
         self.nq = 6980
@@ -620,16 +628,16 @@ class SparseDataset(DatasetCompetitionFormat):
             outfile = os.path.join(self.basedir, fn)
             if outfile.endswith('.gz'):
                 # check if the unzipped file already exists
-                if os.path.exists(strip_gz(outfile)):
+                if os.path.exists(_strip_gz(outfile)):
                     print("unzipped version of file %s already exists" % outfile)
                     continue
 
             if os.path.exists(outfile):
                 print("file %s already exists" % outfile)
-                gunzip_if_needed(outfile)
+                _gunzip_if_needed(outfile)
                 continue
             download(sourceurl, outfile)
-            gunzip_if_needed(outfile)
+            _gunzip_if_needed(outfile)
         # # private qs url: todo
 
         if skip_data:
@@ -640,19 +648,19 @@ class SparseDataset(DatasetCompetitionFormat):
         outfile = os.path.join(self.basedir, fn)
         if outfile.endswith('.gz'):
             # check if the unzipped file already exists
-            unzipped_outfile = strip_gz(outfile)
+            unzipped_outfile = _strip_gz(outfile)
             if os.path.exists(unzipped_outfile):
                 print("unzipped version of file %s already exists" % outfile)
                 return
         if os.path.exists(outfile):
             print("file %s already exists" % outfile)
-            gunzip_if_needed(outfile)
+            _gunzip_if_needed(outfile)
             return
         download_accelerated(sourceurl, outfile)
-        gunzip_if_needed(outfile)
+        _gunzip_if_needed(outfile)
 
     def get_dataset_fn(self):
-        fn = strip_gz(os.path.join(self.basedir, self.ds_fn))
+        fn = _strip_gz(os.path.join(self.basedir, self.ds_fn))
         if os.path.exists(fn):
             return fn
         raise RuntimeError("file not found")
@@ -696,7 +704,7 @@ class SparseDataset(DatasetCompetitionFormat):
 
     def get_queries(self):
         filename = os.path.join(self.basedir, self.qs_fn)
-        x = read_sparse_matrix(strip_gz(filename), do_mmap=False)  # read the queries file. It is a small file, so no need to mmap
+        x = read_sparse_matrix(_strip_gz(filename), do_mmap=False)  # read the queries file. It is a small file, so no need to mmap
         assert x.shape[0] == self.nq
         return x
 
@@ -711,6 +719,9 @@ class SparseDataset(DatasetCompetitionFormat):
 
     def search_type(self):
         return "knn"
+    
+    def data_type(self):
+        return "sparse"
 
 
 class RandomDS(DatasetCompetitionFormat):
@@ -802,6 +813,10 @@ DATASETS = {
 
     'yfcc-10M': lambda: YFCC100MDataset(),
     'yfcc-10M-unfiltered': lambda: YFCC100MDataset(filtered=False),
+
+    'sparse-small': lambda: SparseDataset("small"),
+    'sparse-1M': lambda: SparseDataset("1M"),
+    'sparse-full': lambda: SparseDataset("full"), 
 
     'random-xs': lambda : RandomDS(10000, 1000, 20),
     'random-s': lambda : RandomDS(100000, 1000, 50),

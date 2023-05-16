@@ -2,10 +2,11 @@
 I/O functions for the fileformats used in the competition.
 """
 
+import numpy as np
 import os
 import time
+
 from urllib.request import urlopen
-import numpy as np
 from scipy.sparse import csr_matrix
 
 
