@@ -1,6 +1,7 @@
 import math
 import numpy
 import os
+import gzip
 import random
 import sys
 import struct
@@ -548,6 +549,168 @@ class YFCC100MDataset(DatasetCompetitionFormat):
             return "knn_filtered"
         else:
             return "knn"
+
+
+def strip_gz(filename):
+    if not filename.endswith('.gz'):
+        raise RuntimeError(f"expected a filename ending with '.gz'. Received: {filename}")
+    return filename[:-3]
+
+
+def gunzip_if_needed(filename):
+    if filename.endswith('.gz'):
+        print('unzipping', filename, '...', end=" ")
+        with gzip.open(filename, 'rb') as f:
+            file_content = f.read()
+
+        with open(strip_gz(filename), 'wb') as f:
+            f.write(file_content)
+
+        os.remove(filename)
+        print('done.')
+
+
+class SparseDataset(DatasetCompetitionFormat):
+    """ the 2023 competition
+        Sparse vectors for sparse max inner product search
+        Data is based on MSMARCO passage retrieval data (text passages and queries),
+        embedded via the SPLADE model.
+
+        The class overrides several methods since the sparse format is different than other datasets.
+    """
+
+    def __init__(self, version="small"):
+
+        versions = {"small": (100000, "base_small.csr.gz", "base_small.dev.gt"),
+                    "1M": (1000000, "base_1M.csr.gz", "base_1M.dev.gt"),
+                    "full": (8841823, "base_full.csr.gz", "base_full.dev.gt")}
+
+        assert versions.keys().__contains__(
+            version), f'version="{version}" is invalid. Please choose one of {list(versions.keys())}.'
+
+        self.nb = versions[version][0]
+        self.nq = 6980
+        self.private_nq = 0  # TBD
+
+        self.ds_fn = versions[version][1]
+        self.qs_fn = "queries.dev.csr.gz"
+
+        self.qs_private_fn = ""  # TBD
+
+        self.base_url = "https://storage.googleapis.com/ann-challenge-sparse-vectors/csr/"
+        self.basedir = os.path.join(BASEDIR, "sparse")
+
+        self.gt_fn = versions[version][2]
+        self.private_gt = ""  # TBD
+
+        self.d = np.nan # this is only for compatibility with printing the name of the class
+
+    def prepare(self, skip_data=False):
+        # downloads the datasets and unzips (if necessary).
+
+        if not os.path.exists(self.basedir):
+            os.makedirs(self.basedir)
+
+        # start with the small ones...
+        for fn in [self.qs_fn, self.gt_fn]:
+            if fn is None:
+                continue
+
+            sourceurl = os.path.join(self.base_url, fn)
+            outfile = os.path.join(self.basedir, fn)
+            if outfile.endswith('.gz'):
+                # check if the unzipped file already exists
+                if os.path.exists(strip_gz(outfile)):
+                    print("unzipped version of file %s already exists" % outfile)
+                    continue
+
+            if os.path.exists(outfile):
+                print("file %s already exists" % outfile)
+                gunzip_if_needed(outfile)
+                continue
+            download(sourceurl, outfile)
+            gunzip_if_needed(outfile)
+        # # private qs url: todo
+
+        if skip_data:
+            return
+
+        fn = self.ds_fn
+        sourceurl = os.path.join(self.base_url, fn)
+        outfile = os.path.join(self.basedir, fn)
+        if outfile.endswith('.gz'):
+            # check if the unzipped file already exists
+            unzipped_outfile = strip_gz(outfile)
+            if os.path.exists(unzipped_outfile):
+                print("unzipped version of file %s already exists" % outfile)
+                return
+        if os.path.exists(outfile):
+            print("file %s already exists" % outfile)
+            gunzip_if_needed(outfile)
+            return
+        download_accelerated(sourceurl, outfile)
+        gunzip_if_needed(outfile)
+
+    def get_dataset_fn(self):
+        fn = strip_gz(os.path.join(self.basedir, self.ds_fn))
+        if os.path.exists(fn):
+            return fn
+        raise RuntimeError("file not found")
+
+    def get_dataset_iterator(self, bs=512, split=(1, 0)):
+        assert split == (1,0), 'No sharding supported yet.'  # todo
+
+        filename = self.get_dataset_fn()
+
+        x = read_sparse_matrix(filename, do_mmap=True)
+        assert x.shape[0] == self.nb
+
+        for j0 in range(0, self.nb, bs):
+            j1 = min(j0 + bs, self.nb)
+            yield x[j0:j1, :]
+
+        # i0, i1 = self.nb * rank // nsplit, self.nb * (rank + 1) // nsplit
+        # x = xbin_mmap(filename, dtype=self.dtype, maxn=self.nb)
+        # assert x.shape == (self.nb, self.d)
+
+        # for j0 in range(i0, i1, bs):
+        #     j1 = min(j0 + bs, i1)
+        #     yield sanitize(x[j0:j1])
+
+
+    def get_groundtruth(self, k=None):
+        assert self.gt_fn is not None
+        assert self.search_type() == "knn"
+
+        I, D = knn_result_read(os.path.join(self.basedir, self.gt_fn))
+        assert I.shape[0] == self.nq
+        if k is not None:
+            assert k <= 10
+            I = I[:, :k]
+            D = D[:, :k]
+        return I, D
+
+    def get_dataset(self):
+        assert self.nb <= 10 ** 6, "dataset too large, use iterator"
+        return next(self.get_dataset_iterator(bs=self.nb))
+
+    def get_queries(self):
+        filename = os.path.join(self.basedir, self.qs_fn)
+        x = read_sparse_matrix(strip_gz(filename), do_mmap=False)  # read the queries file. It is a small file, so no need to mmap
+        assert x.shape[0] == self.nq
+        return x
+
+    def get_private_queries(self):
+        raise RuntimeError("not implemented yet")
+
+    def get_private_groundtruth(self, k=None):
+        raise RuntimeError("not implemented yet")
+
+    def distance(self):
+        return "ip"
+
+    def search_type(self):
+        return "knn"
 
 
 class RandomDS(DatasetCompetitionFormat):
