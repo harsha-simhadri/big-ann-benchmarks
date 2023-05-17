@@ -1,314 +1,231 @@
-from __future__ import absolute_import
+import pdb
+import pickle
 import numpy as np
-import sklearn.preprocessing
-import ctypes
+
+from multiprocessing.pool import ThreadPool
+
 import faiss
-import os
-import time
+
 from benchmark.algorithms.base import BaseANN
-from benchmark.datasets import DATASETS, download_accelerated
 
-def knn_search_batched(index, xq, k, bs):
-    D, I = [], []
-    for i0 in range(0, len(xq), bs):
-        Di, Ii = index.search(xq[i0:i0 + bs], k)
-        D.append(Di)
-        I.append(Ii)
-    return np.vstack(D), np.vstack(I)
+import bow_id_selector
 
-def unwind_index_ivf(index):
-    if isinstance(index, faiss.IndexPreTransform):
-        assert index.chain.size() == 1
-        vt = faiss.downcast_VectorTransform(index.chain.at(0))
-        index_ivf, vt2 = unwind_index_ivf(faiss.downcast_index(index.index))
-        assert vt2 is None
-        return index_ivf, vt
-    if hasattr(faiss, "IndexRefine") and isinstance(index, faiss.IndexRefine):
-        return unwind_index_ivf(faiss.downcast_index(index.base_index))
-    if isinstance(index, faiss.IndexIVF):
-        return index, None
+def csr_get_row_indices(m, i):
+    """ get the non-0 column indices for row i in matrix m """
+    return m.indices[m.indptr[i] : m.indptr[i + 1]]
+
+def make_bow_id_selector(mat, id_mask=0):
+    sp = faiss.swig_ptr
+    if id_mask == 0:
+        return bow_id_selector.IDSelectorBOW(mat.shape[0], sp(mat.indptr), sp(mat.indices))
     else:
-        return None, None
+        return bow_id_selector.IDSelectorBOWBin(
+            mat.shape[0], sp(mat.indptr), sp(mat.indices), id_mask
+        )
 
-def two_level_clustering(xt, nc1, nc2, clustering_niter=25, spherical=False):
-    d = xt.shape[1]
-
-    print(f"2-level clustering of {xt.shape} nb clusters = {nc1}*{nc2} = {nc1*nc2}")
-    print("perform coarse training")
-
-    km = faiss.Kmeans(
-        d, nc1, verbose=True, niter=clustering_niter,
-        max_points_per_centroid=2000,
-        spherical=spherical
+def set_invlist_ids(invlists, l, ids):
+    n, = ids.shape
+    ids = np.ascontiguousarray(ids, dtype='int64')
+    assert invlists.list_size(l) == n
+    faiss.memcpy(
+        invlists.get_ids(l),
+        faiss.swig_ptr(ids), n * 8
     )
-    km.train(xt)
-
-    print()
-
-    # coarse centroids
-    centroids1 = km.centroids
-
-    print("assigning the training set")
-    t0 = time.time()
-    _, assign1 = km.assign(xt)
-    bc = np.bincount(assign1, minlength=nc1)
-    print(f"done in {time.time() - t0:.2f} s. Sizes of clusters {min(bc)}-{max(bc)}")
-    o = assign1.argsort()
-    del km
-
-    # train sub-clusters
-    i0 = 0
-    c2 = []
-    t0 = time.time()
-    for c1 in range(nc1):
-        print(f"[{time.time() - t0:.2f} s] training sub-cluster {c1}/{nc1}\r", end="", flush=True)
-        i1 = i0 + bc[c1]
-        subset = o[i0:i1]
-        assert np.all(assign1[subset] == c1)
-        km = faiss.Kmeans(d, nc2, spherical=spherical)
-        xtsub = xt[subset]
-        km.train(xtsub)
-        c2.append(km.centroids)
-        i0 = i1
-    print(f"done in {time.time() - t0:.2f} s")
-    return np.vstack(c2)
 
 
-class Faiss(BaseANN):
-    def __init__(self, metric, index_params):
+
+def csr_to_bitcodes(matrix, bitsig):
+    """ Compute binary codes for the rows of the matrix: each binary code is
+    the OR of bitsig for non-0 entries of the row.
+    """
+    indptr = matrix.indptr
+    indices = matrix.indices
+    n = matrix.shape[0]
+    bit_codes = np.zeros(n, dtype='int64')
+    for i in range(n):
+        # print(bitsig[indices[indptr[i]:indptr[i + 1]]])
+        bit_codes[i] = np.bitwise_or.reduce(bitsig[indices[indptr[i]:indptr[i + 1]]])
+    return bit_codes
+
+
+class BinarySignatures:
+    """ binary signatures that encode vectors """
+
+    def __init__(self, meta_b, proba_1):
+        nvec, nword = meta_b.shape
+        # number of bits reserved for the vector ids
+        self.id_bits = int(np.ceil(np.log2(nvec)))
+        # number of bits for the binary signature
+        self.sig_bits = nbits = 63 - self.id_bits
+
+        # select binary signatures for the vocabulary
+        rs = np.random.RandomState(123)    # we rely on this to be reproducible!
+        bitsig = np.packbits(rs.rand(nword, nbits) < proba_1, axis=1)
+        bitsig = np.pad(bitsig, ((0, 0), (0, 8 - bitsig.shape[1]))).view("int64").ravel()
+        self.bitsig = bitsig
+
+        # signatures for all the metadata matrix
+        self.db_sig = csr_to_bitcodes(meta_b, bitsig) << self.id_bits
+
+        # mask to keep only the ids
+        self.id_mask = (1 << self.id_bits) - 1
+
+    def query_signature(self, w1, w2):
+        """ compute the query signature for 1 or 2 words """
+        sig = self.bitsig[w1]
+        if w2 != -1:
+            sig |= self.bitsig[w2]
+        return int(sig << self.id_bits)
+
+class FAISS(BaseANN):
+
+    def __init__(self,  metric, index_params):
         self._index_params = index_params
         self._metric = metric
-        self._query_bs = -1
-        self.indexkey = index_params.get("indexkey", "OPQ32_128,IVF65536_HNSW32,PQ32")
-
-        if 'query_bs' in index_params:
-            self._query_bs = index_params['query_bs']
-
-    def track(self):
-        return "T1"
-
-    def index_name(self, name):
-        return f"data/{name}.{self.indexkey}.faissindex"
+        self.indexkey = index_params.get("indexkey", "IVF32768,SQ8")
+        self.binarysig = index_params.get("binarysig", False)
+        self.binarysig_proba1 = index_params.get("binarysig_proba1", 0.1)
+    
 
     def fit(self, dataset):
-        index_params = self._index_params
-
-        ds = DATASETS[dataset]()
-        d = ds.d
-
-        # get build parameters
-        buildthreads = index_params.get("buildthreads", -1)
-        by_residual = index_params.get("by_residual", -1)
-        maxtrain = index_params.get("maxtrain", 0)
-        clustering_niter = index_params.get("clustering_niter", -1)
-        add_bs = index_params.get("add_bs", 100000)
-        add_splits = index_params.get("add_splits", 1)
-        efSearch = index_params.get("quantizer_add_efSearch", 80)
-        efConstruction = index_params.get("quantizer_efConstruction", 200)
-        use_two_level_clustering = index_params.get("two_level_clustering", True)
-        indexfile = self.index_name(dataset)
-
-        if buildthreads == -1:
-            print("Build-time number of threads:", faiss.omp_get_max_threads())
+        if dataset.search_type == "knn_filtered" and self.binarysig:
+            print("preparing binary signatures")
+            meta_b = dataset.get_dataset_metadata()
+            self.binsig = BinarySignatures(meta_b, self.binarysig_proba1)
+            #print("writing to", args.binarysig_file)
+            #pickle.dump(binsig, open(args.binarysig_file, "wb"), -1)
         else:
-            print("Set build-time number of threads:", buildthreads)
-            faiss.omp_set_num_threads(buildthreads)
+            self.binsig = None
 
-        metric_type = (
-                faiss.METRIC_L2 if ds.distance() == "euclidean" else
-                faiss.METRIC_INNER_PRODUCT if ds.distance() in ("ip", "angular") else
-                1/0
-        )
-        index = faiss.index_factory(d, self.indexkey, metric_type)
+        if dataset.search_type == "knn_filtered":
+            self.meta_b = dataset.get_dataset_metadata()
+            self.meta_b.sort_indices()
 
-        index_ivf, vec_transform = unwind_index_ivf(index)
-        if vec_transform is None:
-            vec_transform = lambda x: x
+        index = faiss.index_factory(dataset.d, self.indexkey)
+        xb = dataset.get_dataset()
+        print("train")
+        index.train(xb)
+        print("populate")
+        if self.binsig is None:
+            index.add(xb)
         else:
-            vec_transform = faiss.downcast_VectorTransform(vec_transform)
-
-        if by_residual != -1:
-            by_residual = by_residual == 1
-            print("setting by_residual = ", by_residual)
-            index_ivf.by_residual   # check if field exists
-            index_ivf.by_residual = by_residual
-
-        if index_ivf:
-            print("Update add-time parameters")
-            # adjust default parameters used at add time for quantizers
-            # because otherwise the assignment is inaccurate
-            quantizer = faiss.downcast_index(index_ivf.quantizer)
-            if isinstance(quantizer, faiss.IndexRefine):
-                print("   update quantizer k_factor=", quantizer.k_factor, end=" -> ")
-                quantizer.k_factor = 32 if index_ivf.nlist < 1e6 else 64
-                print(quantizer.k_factor)
-                base_index = faiss.downcast_index(quantizer.base_index)
-                if isinstance(base_index, faiss.IndexIVF):
-                    print("   update quantizer nprobe=", base_index.nprobe, end=" -> ")
-                    base_index.nprobe = (
-                        16 if base_index.nlist < 1e5 else
-                        32 if base_index.nlist < 4e6 else
-                        64)
-                    print(base_index.nprobe)
-            elif isinstance(quantizer, faiss.IndexHNSW):
-                print("   update quantizer efSearch=", quantizer.hnsw.efSearch, end=" -> ")
-                if index_params.get("quantizer_add_efSearch", 80) > 0:
-                    quantizer.hnsw.efSearch = efSearch
-                else:
-                    quantizer.hnsw.efSearch = 40 if index_ivf.nlist < 4e6 else 64
-                print(quantizer.hnsw.efSearch)
-                if efConstruction != -1:
-                    print("  update quantizer efConstruction=", quantizer.hnsw.efConstruction, end=" -> ")
-                    quantizer.hnsw.efConstruction = efConstruction
-                    print(quantizer.hnsw.efConstruction)
-
-
-        index.verbose = True
-        if index_ivf:
-            index_ivf.verbose = True
-            index_ivf.quantizer.verbose = True
-            index_ivf.cp.verbose = True
-
-
-        if maxtrain == 0:
-            if 'IMI' in self.indexkey:
-                maxtrain = int(256 * 2 ** (np.log2(index_ivf.nlist) / 2))
-            elif index_ivf:
-                maxtrain = 50 * index_ivf.nlist
-            else:
-                # just guess...
-                maxtrain = 256 * 100
-            maxtrain = max(maxtrain, 256 * 100)
-            print("setting maxtrain to %d" % maxtrain)
-
-        # train on dataset
-        print(f"getting first {maxtrain} dataset vectors for training")
-
-        xt2 = next(ds.get_dataset_iterator(bs=maxtrain))
-
-        print("train, size", xt2.shape)
-        assert np.all(np.isfinite(xt2))
-
-        t0 = time.time()
-
-        if (isinstance(vec_transform, faiss.OPQMatrix) and
-            isinstance(index_ivf, faiss.IndexIVFPQFastScan)):
-            print("  Forcing OPQ training PQ to PQ4")
-            ref_pq = index_ivf.pq
-            training_pq = faiss.ProductQuantizer(
-                ref_pq.d, ref_pq.M, ref_pq.nbits
-            )
-            vec_transform.pq
-            vec_transform.pq = training_pq
-
-        if clustering_niter >= 0:
-            print(("setting nb of clustering iterations to %d" %
-                    clustering_niter))
-            index_ivf.cp.niter = clustering_niter
-
-        train_index = None
-
-        if use_two_level_clustering:
-            sqrt_nlist = int(np.sqrt(index_ivf.nlist))
-            assert sqrt_nlist ** 2 == index_ivf.nlist
-
-            centroids_trainset = xt2
-            if isinstance(vec_transform, faiss.VectorTransform):
-                print("  training vector transform")
-                vec_transform.train(xt2)
-                print("  transform trainset")
-                centroids_trainset = vec_transform.apply_py(centroids_trainset)
-
-            centroids = two_level_clustering(
-                centroids_trainset, sqrt_nlist, sqrt_nlist,
-                spherical=(metric_type == faiss.METRIC_INNER_PRODUCT)
-            )
-
-            if not index_ivf.quantizer.is_trained:
-                print("  training quantizer")
-                index_ivf.quantizer.train(centroids)
-
-            print("  add centroids to quantizer")
-            index_ivf.quantizer.add(centroids)
-
-        index.train(xt2)
-        print("  Total train time %.3f s" % (time.time() - t0))
-
-        if train_index is not None:
-            del train_index
-            index_ivf.clustering_index = None
-            gc.collect()
-
-        print("adding")
-
-        t0 = time.time()
-        add_bs = index_params.get("add_bs", 10000000)
-        if add_bs == -1:
-            index.add(ds.get_database())
-        else:
-            i0 = 0
-            for xblock in ds.get_dataset_iterator(bs=add_bs):
-                i1 = i0 + len(xblock)
-                print("  adding %d:%d / %d [%.3f s, RSS %d kiB] " % (
-                    i0, i1, ds.nb, time.time() - t0,
-                    faiss.get_mem_usage_kb()))
-                index.add(xblock)
-                i0 = i1
-
-        print("  add in %.3f s" % (time.time() - t0))
-        print("storing", )
-        faiss.write_index(index, self.index_name(dataset))
+            ids = np.arange(dataset.nb) | self.binsig.db_sig
+            index.add_with_ids(xb, ids)
 
         self.index = index
-        self.ps = faiss.ParameterSpace()
-        self.ps.initialize(self.index)
+        self.nb = dataset.nb
+        self.xb = xb
+        #print("store", args.indexname)
+        #faiss.write_index(index, args.indexname)
+
 
     def load_index(self, dataset):
-        if not os.path.exists(self.index_name(dataset)):
-            if 'url' not in self._index_params:
-                return False
+        """
+        Load the index for dataset. Returns False if index
+        is not available, True otherwise.
 
-            print('Downloading index in background. This can take a while.')
-            download_accelerated(self._index_params['url'], self.index_name(dataset), quiet=True)
+        Checking the index usually involves the dataset name
+        and the index build paramters passed during construction.
+        """
+        return 
+        print("reading from", args.binarysig_file)
+        binsig = pickle.load(open(args.binarysig_file, "rb"))
+        raise NotImplementedError()
 
-        print("Loading index")
+    def index_files_to_store(self, dataset):
+        """
+        Specify a triplet with the local directory path of index files,
+        the common prefix name of index component(s) and a list of
+        index components that need to be uploaded to (after build)
+        or downloaded from (for search) cloud storage.
 
-        self.index = faiss.read_index(self.index_name(dataset))
+        For local directory path under docker environment, please use
+        a directory under
+        data/indices/track(T1 or T2)/algo.__str__()/DATASETS[dataset]().short_name()
+        """
+        raise NotImplementedError()
+    
+    def query(self, X, k):
+        nq = X.shape[0]
+        self.I = -np.ones((nq, k), dtype='int32')        
+        bs = 1024
+        for i0 in range(0, nq, bs):
+            _, self.I[i0:i0+bs] = self.index.search(X[i0:i0+bs], k)
 
-        self.ps = faiss.ParameterSpace()
-        self.ps.initialize(self.index)
+    
+    def filtered_query(self, X, filter, k):
+        nq = X.shape[0]
+        self.I = -np.ones((nq, k), dtype='int32')
+        meta_b = self.meta_b
+        meta_q = filter
+        docs_per_word = meta_b.T.tocsr()
+        ndoc_per_word = docs_per_word.indptr[1:] - docs_per_word.indptr[:-1]
+        freq_per_word = ndoc_per_word / self.nb
+        
+        def process_one_row(q):
+            faiss.omp_set_num_threads(1)
+            qwords = csr_get_row_indices(meta_q, q)
+            assert qwords.size in (1, 2)
+            w1 = qwords[0]
+            freq = freq_per_word[w1]
+            if qwords.size == 2:
+                w2 = qwords[1]
+                freq *= freq_per_word[w2]
+            else:
+                w2 = -1
+            if freq < self.metadata_threshold:
+                # metadata first
+                docs = csr_get_row_indices(docs_per_word, w1)
+                if w2 != -1:
+                    docs = bow_id_selector.intersect_sorted(
+                        docs, csr_get_row_indices(docs_per_word, w2))
 
-        return True
+                assert len(docs) >= k, pdb.set_trace()
+                xb_subset = self.xb[docs]
+                _, Ii = faiss.knn(X[q : q + 1], xb_subset, k=k)
+ 
+                self.I[q, :] = docs[Ii.ravel()]
+            else:
+                # IVF first, filtered search
+                sel = make_bow_id_selector(meta_b, self.binsig.id_mask if self.binsig else 0)
+                if self.binsig is None:
+                    sel.set_query_words(int(w1), int(w2))
+                else:
+                    sel.set_query_words_mask(
+                        int(w1), int(w2), self.binsig.query_signature(w1, w2))
+
+                params = faiss.SearchParametersIVF(sel=sel, nprobe=self.qas.get("nprobe", 1))
+
+                _, Ii = self.index.search(
+                    X[q:q+1], k, params=params
+                )
+                Ii = Ii.ravel()
+                if self.binsig is None:
+                    self.I[q] = Ii
+                else:
+                    # we'll just assume there are enough resutls
+                    # valid = Ii != -1
+                    # I[q, valid] = Ii[valid] & binsig.id_mask
+                    self.I[q] = Ii & self.binsig.id_mask
+
+
+        if self.nt <= 1:
+            for q in range(nq):
+                process_one_row(q)
+        else:
+            faiss.omp_set_num_threads(1)
+            pool = ThreadPool(self.nt)
+            list(pool.map(process_one_row, range(nq)))
+
+    def get_results(self):
+        return self.I
 
     def set_query_arguments(self, query_args):
         faiss.cvar.indexIVF_stats.reset()
         self.ps.set_index_parameters(self.index, query_args)
         self.qas = query_args
 
-
-    # shall we return something interesting here?
-    def get_additional(self):
-        return {"dist_comps": faiss.cvar.indexIVF_stats.ndis}
-
     def __str__(self):
-        return f'FaissIVFPQ({self.qas})'
+        return f'Faiss({self.indexkey, self.qas})'
 
-
-
-    def query(self, X, n):
-        if self._query_bs == -1:
-            self.res = self.index.search(X, n)
-        else:
-            self.res = knn_search_batched(self.index, X, n, self._query_bs)
-
-    def range_query(self, X, radius):
-        if self._query_bs != -1:
-            raise NotImplemented
-        self.res = self.index.range_search(X, radius)
-
-    def get_results(self):
-        D, I = self.res
-        return I
-
-    def get_range_results(self):
-        return self.res
+   
