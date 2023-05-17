@@ -541,15 +541,29 @@ class YFCC100MDataset(DatasetCompetitionFormat):
         self.private_qs_url = self.base_url + ""
         self.private_gt_url = self.base_url + ""
 
-        self.metadata_base_url = self.base_url + ""
-        self.metadata_queries_url = self.base_url + ""
+        self.metadata_base_url = self.base_url + self.ds_metadata_fn
+        self.metadata_queries_url = self.base_url + self.qs_metadata_fn
+        self.metadata_private_queries_url = ""
+
+    def prepare(self, skip_data=False):
+        super().prepare(skip_data)
+        for fn in (self.metadata_base_url, self.metadata_queries_url, self.metadata_private_queries_url):
+            if fn:
+                outfile = os.path.join(self.basedir, fn.split("/")[-1])
+                if os.path.exists(outfile):
+                    print("file %s already exists" % outfile)
+                else:
+                    download(fn, outfile)
 
     def get_dataset_metadata(self):
         return read_sparse_matrix(os.path.join(self.basedir, self.ds_metadata_fn))
 
     def get_queries_metadata(self):
         return read_sparse_matrix(os.path.join(self.basedir, self.qs_metadata_fn))
-
+    
+    def get_private_queries_metadata(self):
+        return read_sparse_matrix(os.path.join(self.basedir, self.qs_private_metadata_fn))
+    
     def distance(self):
         return "euclidean"
 

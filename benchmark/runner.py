@@ -21,15 +21,32 @@ from benchmark.results import store_results
 from benchmark.sensors.power_capture import power_capture
 from benchmark.t3.helper import t3_create_container
 
-def run_individual_query(algo, X, distance, count, run_count, search_type):
+def run_individual_query(algo, ds, distance, count, run_count, search_type, private_query):
     best_search_time = float('inf')
     search_times = []
+
+    if not private_query:
+        X = ds.get_queries()
+    else:
+        X = ds.get_private_queries()
+    
+    print(fr"Got {X.shape[0]} queries")
+
     for i in range(run_count):
         print('Run %d/%d...' % (i + 1, run_count))
 
         start = time.time()
         if search_type == "knn":
             algo.query(X, count)
+            total = (time.time() - start)
+            results = algo.get_results()
+            assert results.shape[0] == X.shape[0]
+        elif search_type == "knn_filtered":
+            if not private_query:
+                metadata = ds.get_queries_metadata()
+            else:
+                metadata = ds.get_private_queries_metadata()
+            algo.filtered_query(X, metadata, count)
             total = (time.time() - start)
             results = algo.get_results()
             assert results.shape[0] == X.shape[0]
@@ -71,14 +88,10 @@ function""" % (definition.module, definition.constructor, definition.arguments)
 
     ds = DATASETS[dataset]()
     #X_train = numpy.array(D['train'])
-    if not private_query:
-        X = ds.get_queries()
-    else:
-        X = ds.get_private_queries()
+
     distance = ds.distance()
     search_type = ds.search_type()
     print(f"Running {definition.algorithm} on {dataset}")
-    print(fr"Got {X.shape[0]} queries")
 
     try:
         # Try loading the index from the file
@@ -129,13 +142,17 @@ function""" % (definition.module, definition.constructor, definition.arguments)
                 if query_arguments:
                     algo.set_query_arguments(*query_arguments)
                 descriptor, results = run_individual_query(
-                    algo, X, distance, count, run_count, search_type)
+                    algo, ds, distance, count, run_count, search_type, private_query)
                 # A bit unclear how to set this correctly if we usually load from file
                 #descriptor["build_time"] = build_time
                 descriptor["index_size"] = index_size
                 descriptor["algo"] = definition.algorithm
                 descriptor["dataset"] = dataset
                 if power_capture.enabled():
+                    if not private_query:
+                        X = ds.get_queries()
+                    else:
+                        X = ds.get_private_queries()
                     power_stats = power_capture.run(algo, X, distance, count,
                                                     run_count, search_type, descriptor)
 

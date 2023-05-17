@@ -1,3 +1,30 @@
+any:
+    faiss-t1:
+      docker-tag: billion-scale-benchmark-faissconda
+      module: benchmark.algorithms.faiss_t1
+      constructor: Faiss
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          # the following args show all build arguments that can be provided to the t1 baseline.
+          args: |
+              [{"indexkey": "OPQ32_128,IVF1024_HNSW32,PQ32",
+                "buildthreads": -1,
+                "by_residual": -1,
+                "add_bs": 100000000,
+                "two_level_clustering": true,
+                "quantizer_add_efSearch": 80,
+                "quantizer_efConstruction": 200,
+                "maxtrain": 100000000,
+                "clustering_niter": 25
+                }]
+          query-args: |
+              ["nprobe=1,quantizer_efSearch=4",
+              "nprobe=2,quantizer_efSearch=4",
+              "nprobe=2,quantizer_efSearch=8",
+              "nprobe=4,quantizer_efSearch=4",
+              "nprobe=2,quantizer_efSearch=16"]           
+    
 random-xs:
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
