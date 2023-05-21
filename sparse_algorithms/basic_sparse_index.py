@@ -1,4 +1,5 @@
-from scipy.sparse import csr_matrix
+import scipy.sparse
+from scipy.sparse import csr_matrix, vstack
 import numpy as np
 
 # given a vector x, returns another vector with the minimal number of largest elements of x,
@@ -28,8 +29,14 @@ def largest_elements(x, a):
 #    - k (# of neighbors),
 #    - alpha (fraction of the sum of the vector to maintain. alpha=1 is exact search).
 class BasicSparseIndex(object):
-    def __init__(self, data_csr):
+    # build an index from the inout vectors. If none are supplied, default to an empty matrix.
+    def __init__(self, data_csr=csr_matrix((0, 0))):
         self.data_csc = data_csr.tocsc()
+
+
+    # append the incoming vector to the index (not very efficient)
+    def append(self, new_data_csr):
+        self.data_csc = vstack((self.data_csc, new_data_csr), format='csc')
 
     def query(self, q, k, alpha=1):  # single query, assumes q is a row vector
         if alpha == 1:

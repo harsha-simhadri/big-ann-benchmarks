@@ -34,18 +34,30 @@ if __name__ == "__main__":
 
     I_gt,D_gt = ds.get_groundtruth()
 
-    data = ds.get_dataset()
-    queries = ds.get_queries()
+    print('data:', ds.nb)
+    print('queries:', ds.nq)
 
-    print('data:', data.shape)
-    print('queries:', queries.shape)
+    queries = ds.get_queries()
 
     k = args.k
     a = args.alpha
     nq = queries.shape[0]
 
+    N_VEC_LIMIT = 500000
     # build index:
-    index = BasicSparseIndex(data)
+    if ds.nb <= N_VEC_LIMIT:
+        data = ds.get_dataset()
+        index = BasicSparseIndex(data)
+    else:
+        # build an empty index
+        index = BasicSparseIndex()
+        print("data too large, building the index incrementally:")
+        it = ds.get_dataset_iterator(N_VEC_LIMIT)
+        for data in tqdm(it, total=ds.nb/N_VEC_LIMIT):
+            index.append(data)
+
+    print(index.data_csc.shape)
+
 
     # prepare location for storing the results of the algorithm
     D = np.zeros((ds.nq, k), dtype='float32')
