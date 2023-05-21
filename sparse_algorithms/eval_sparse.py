@@ -1,4 +1,5 @@
 import argparse
+from linscan import LinscanIndex
 
 from tqdm import tqdm
 import time
@@ -43,20 +44,30 @@ if __name__ == "__main__":
     a = args.alpha
     nq = queries.shape[0]
 
-    N_VEC_LIMIT = 500000
-    # build index:
-    if ds.nb <= N_VEC_LIMIT:
-        data = ds.get_dataset()
-        index = BasicSparseIndex(data)
-    else:
-        # build an empty index
-        index = BasicSparseIndex()
-        print("data too large, building the index incrementally:")
-        it = ds.get_dataset_iterator(N_VEC_LIMIT)
-        for data in tqdm(it, total=ds.nb/N_VEC_LIMIT):
-            index.append(data)
+    index = LinscanIndex()
 
-    print(index.data_csc.shape)
+    N_VEC_LIMIT = 500000
+    it = ds.get_dataset_iterator(N_VEC_LIMIT)
+    for d in tqdm(it, total=ds.nb/N_VEC_LIMIT):
+        for i in range(d.shape[0]):
+            d1 = d.getrow(i)
+            index.insert(dict(zip(d1.indices, d1.data)))
+    index.print_stats()
+
+    # # build index:
+    # if ds.nb <= N_VEC_LIMIT:
+    #     data = ds.get_dataset()
+    #     index = (data)
+    # else:
+    #     # build an empty index
+    #     index = BasicSparseIndex()
+    #     print("data too large, building the index incrementally:")
+    #     it = ds.get_dataset_iterator(N_VEC_LIMIT)
+    #     for data in tqdm(it, total=ds.nb/N_VEC_LIMIT):
+    #         index.append(data)
+
+    # print(index.data_csc.shape)
+
 
 
     # prepare location for storing the results of the algorithm
@@ -64,9 +75,14 @@ if __name__ == "__main__":
     I = -np.ones((ds.nq, k), dtype='int32')
 
     def process_single_row(i):
-        res = index.query(q=queries.getrow(i), k=k, alpha=a)
-        I[i, :] = [rr[0] for rr in res]
-        D[i, :] = [rr[1] for rr in res]
+        # res = index.query(q=queries.getrow(i), k=k, alpha=a)
+
+        qc = queries.getrow(i)
+        q = dict(zip(qc.indices, qc.data))
+
+        res = index.retrieve(q,k)
+        I[i, :] = res # [rr[0] for rr in res]
+        D[i, :] = res #  [rr[1] for rr in res]
 
     start = time.time()
     # single thread
