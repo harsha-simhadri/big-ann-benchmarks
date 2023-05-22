@@ -20,7 +20,8 @@ if __name__ == "__main__":
 #     aa('--output_file', required=True, help="location of the results file")
 
     group = parser.add_argument_group('Computation options')
-    aa('--alpha', default=1, type=float, help="fraction of weight of the query to retain before search. Default: 1.0 (exact search)")
+    # aa('--alpha', default=1, type=float, help="fraction of weight of the query to retain before search. Default: 1.0 (exact search)")
+    aa('--budgets', default=1, type=str, help="list of budgets (comma separated) for computing the scores, in ms.")
     aa('--k', default=10, type=int, help="number of nearest kNN neighbors to search")
     aa('--nt', type=int, help="# of processes in thread pool. If omitted, then a single thread is used.")
 
@@ -41,7 +42,8 @@ if __name__ == "__main__":
     queries = ds.get_queries()
 
     k = args.k
-    a = args.alpha
+    budgets = [float(s) for s in args.budgets.split(',')]
+
     nq = queries.shape[0]
 
     index = LinscanIndex()
@@ -52,23 +54,7 @@ if __name__ == "__main__":
         for i in range(d.shape[0]):
             d1 = d.getrow(i)
             index.insert(dict(zip(d1.indices, d1.data)))
-    index.print_stats()
-
-    # # build index:
-    # if ds.nb <= N_VEC_LIMIT:
-    #     data = ds.get_dataset()
-    #     index = (data)
-    # else:
-    #     # build an empty index
-    #     index = BasicSparseIndex()
-    #     print("data too large, building the index incrementally:")
-    #     it = ds.get_dataset_iterator(N_VEC_LIMIT)
-    #     for data in tqdm(it, total=ds.nb/N_VEC_LIMIT):
-    #         index.append(data)
-
-    # print(index.data_csc.shape)
-
-
+    print(index)
 
     # prepare location for storing the results of the algorithm
     D = np.zeros((ds.nq, k), dtype='float32')
@@ -80,35 +66,38 @@ if __name__ == "__main__":
         qc = queries.getrow(i)
         q = dict(zip(qc.indices, qc.data))
 
-        res = index.retrieve(q,k)
+        res = index.retrieve(q, k, b)
         I[i, :] = res # [rr[0] for rr in res]
         D[i, :] = res #  [rr[1] for rr in res]
 
-    start = time.time()
-    # single thread
-    if args.nt is None:
-        print('evaluating', nq, 'queries (single thread):')
-        for i in tqdm(range(nq)):  # tqdm(range(nq))
-            process_single_row(i)
-    else:
-        print('evaluating', nq, 'queries (' + str(args.nt) + ' threads):')
-        with ThreadPool(processes=args.nt) as pool:
-            # Map the function to the array of items
-            #   res = pool.map(process_single_row, range(nq))
-            list(tqdm(pool.imap(process_single_row, range(nq)), total=nq))
 
-    end = time.time()
-    elapsed = end - start
-    print(f'Elapsed {elapsed}s for {nq} queries ({nq / elapsed} QPS) ')
+    results = []
+    for b in budgets:
+        start = time.time()
+        # single thread
+        if args.nt is None:
+            print('evaluating', nq, 'queries (single thread):')
+            for i in tqdm(range(nq)):
+                process_single_row(i)
+        else:
+            print('evaluating', nq, 'queries (' + str(args.nt) + ' threads):')
+            with ThreadPool(processes=args.nt) as pool:
+                # Map the function to the array of items
+                #   res = pool.map(process_single_row, range(nq))
+                list(tqdm(pool.imap(process_single_row, range(nq)), total=nq))
 
-    # res is now a list of the outputs of every query
+        end = time.time()
+        elapsed = end - start
+        print(f'Elapsed {elapsed}s for {nq} queries ({nq / elapsed} QPS) ')
 
-    # compute recall:
+        # res is now a list of the outputs of every query
 
-    # recall = faiss.eval_intersection(I_gt, I) / k / ds.nq
-    recall = np.mean([len(set(I_gt[i,:]).intersection(I[i,:]))/k for i in range(ds.nq)])
+        # compute recall:
+        recall = np.mean([len(set(I_gt[i,:]).intersection(I[i,:]))/k for i in range(ds.nq)])
 
-    print('recall:', recall)
-    print()
-    print(f'Results: {a}, {recall}, {nq / elapsed}')
+        print('recall:', recall)
+        results.append(f'Results: {b}, {recall}, {nq / elapsed}')
+    for r in results:
+        print(r)
+
 
