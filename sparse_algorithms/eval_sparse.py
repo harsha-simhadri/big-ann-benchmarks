@@ -46,7 +46,7 @@ if __name__ == "__main__":
 
     nq = queries.shape[0]
 
-    index = LinscanIndex()
+    index = LinscanIndex(args.nt)
 
     N_VEC_LIMIT = 500000
     it = ds.get_dataset_iterator(N_VEC_LIMIT)
@@ -56,47 +56,28 @@ if __name__ == "__main__":
             index.insert(dict(zip(d1.indices, d1.data)))
     print(index)
 
-    # prepare location for storing the results of the algorithm
-    D = np.zeros((ds.nq, k), dtype='float32')
-    I = -np.ones((ds.nq, k), dtype='int32')
-
-    def process_single_row(i):
-        # res = index.query(q=queries.getrow(i), k=k, alpha=a)
-
+    queries_vec = []
+    for i in range(nq):
         qc = queries.getrow(i)
         q = dict(zip(qc.indices, qc.data))
-
-        res = index.retrieve(q, k, b)
-        I[i, :] = res # [rr[0] for rr in res]
-        D[i, :] = res #  [rr[1] for rr in res]
-
+        queries_vec.append(q)
 
     results = []
     for b in budgets:
+        print('evaluating', nq, 'queries (' + str(args.nt) + ' threads):')
         start = time.time()
-        # single thread
-        if args.nt is None:
-            print('evaluating', nq, 'queries (single thread):')
-            for i in tqdm(range(nq)):
-                process_single_row(i)
-        else:
-            print('evaluating', nq, 'queries (' + str(args.nt) + ' threads):')
-            with ThreadPool(processes=args.nt) as pool:
-                # Map the function to the array of items
-                #   res = pool.map(process_single_row, range(nq))
-                list(tqdm(pool.imap(process_single_row, range(nq)), total=nq))
-
+        res = index.retrieve_parallel(queries_vec, k, b)
+        I = np.array(res)
         end = time.time()
         elapsed = end - start
         print(f'Elapsed {elapsed}s for {nq} queries ({nq / elapsed} QPS) ')
-
-        # res is now a list of the outputs of every query
 
         # compute recall:
         recall = np.mean([len(set(I_gt[i,:]).intersection(I[i,:]))/k for i in range(ds.nq)])
 
         print('recall:', recall)
         results.append(f'Results: {b}, {recall}, {nq / elapsed}')
+    print("Results: (budget[ms], recall, QPS)")
     for r in results:
         print(r)
 
