@@ -63,9 +63,9 @@ random-xs:
           query-args: |
               [{"Ls":10, "BW":4, "T":16}]
 sparse-small:
-    linsparse:
-      docker-tag: billion-scale-benchmark-linsparse
-      module: neurips_2023.sparse.linsparse #benchmark.algorithms.linsparse
+    linscan:
+      docker-tag: billion-scale-benchmark-linscan
+      module: neurips_2023.sparse.linscan 
       constructor: SparseIndex
       base-args: ["@metric"]
       run-groups:
