@@ -8,12 +8,14 @@ import struct
 import time
 
 import numpy as np
+from scipy.sparse import csr_matrix
 
 from urllib.request import urlretrieve
 
 from .dataset_io import (
     xbin_mmap, download_accelerated, download, sanitize,
     knn_result_read, range_result_read, read_sparse_matrix,
+    write_sparse_matrix,
 )
 
 
@@ -739,7 +741,7 @@ class SparseDataset(DatasetCompetitionFormat):
 
 
 class RandomDS(DatasetCompetitionFormat):
-    def __init__(self, nb, nq, d):
+    def __init__(self, nb, nq, d, basedir="random"):
         self.nb = nb
         self.nq = nq
         self.d = d
@@ -747,7 +749,7 @@ class RandomDS(DatasetCompetitionFormat):
         self.ds_fn = f"data_{self.nb}_{self.d}"
         self.qs_fn = f"queries_{self.nq}_{self.d}"
         self.gt_fn = f"gt_{self.nb}_{self.nq}_{self.d}"
-        self.basedir = os.path.join(BASEDIR, f"random{self.nb}")
+        self.basedir = os.path.join(BASEDIR, f"{basedir}{self.nb}")
         if not os.path.exists(self.basedir):
             os.makedirs(self.basedir)
 
@@ -794,6 +796,86 @@ class RandomDS(DatasetCompetitionFormat):
 
     def default_count(self):
         return 10
+    
+
+class RandomFilterDS(RandomDS):
+    def __init__(self, nb, nq, d):
+        super().__init__(nb, nq, d, "random-filter")
+        self.ds_metadata_fn = f"data_metadata_{self.nb}_{self.d}"
+        self.qs_metadata_fn = f"queries_metadata_{self.nb}_{self.d}"
+
+    def prepare(self, skip_data=False):
+        import sklearn.datasets
+        import sklearn.model_selection
+        from sklearn.neighbors import NearestNeighbors
+
+        print(f"Preparing datasets with {self.nb} random points, {self.nq} queries, and two filters.")
+
+        X, _ = sklearn.datasets.make_blobs(
+            n_samples=self.nb + self.nq, n_features=self.d,
+            centers=self.nq, random_state=1)
+
+        data, queries = sklearn.model_selection.train_test_split(
+            X, test_size=self.nq, random_state=1) 
+
+        filter1 = [1, 2]
+        filter2 = [3, 4]       
+
+        assert self.nb % 2 == 0
+
+        # simple filters, first half of the data matches second 
+        # half of the queries, and vice versa
+
+        data_filters = [filter1] * (self.nb // 2) + [filter2] * (self.nb // 2)
+        query_filters = [filter2] * (self.nq // 2) + [filter1] * (self.nq // 2)
+
+        assert len(data_filters) == data.shape[0]
+
+        with open(os.path.join(self.basedir, self.ds_fn), "wb") as f:
+            np.array([self.nb, self.d], dtype='uint32').tofile(f)
+            data.astype('float32').tofile(f)
+        with open(os.path.join(self.basedir, self.qs_fn), "wb") as f:
+            np.array([self.nq, self.d], dtype='uint32').tofile(f)
+            queries.astype('float32').tofile(f) 
+
+        data_metadata_sparse = csr_matrix(data_filters  )
+        query_metadata_sparse = csr_matrix(query_filters)
+
+        write_sparse_matrix(data_metadata_sparse, 
+                            os.path.join(self.basedir, self.ds_metadata_fn))
+        write_sparse_matrix(query_metadata_sparse, 
+                            os.path.join(self.basedir, self.qs_metadata_fn))
+
+        print("Computing groundtruth")
+
+        n_neighbors = 100
+
+        nbrs = NearestNeighbors(n_neighbors=n_neighbors, metric="euclidean", algorithm='brute').fit(data[:self.nb // 2])
+        DD, II = nbrs.kneighbors(queries[self.nq // 2:])
+
+        nbrs = NearestNeighbors(n_neighbors=n_neighbors, metric="euclidean", algorithm='brute').fit(data[self.nb // 2: ])
+        D, I = nbrs.kneighbors(queries[:self.nq // 2])
+
+        D = np.concatenate((D, DD))
+        I = np.concatenate((I + self.nb // 2, II))
+
+        with open(os.path.join(self.basedir, self.gt_fn), "wb") as f:
+            np.array([self.nq, n_neighbors], dtype='uint32').tofile(f)
+            I.astype('uint32').tofile(f)
+            D.astype('float32').tofile(f)
+
+    def get_dataset_metadata(self):
+        return read_sparse_matrix(os.path.join(self.basedir, self.ds_metadata_fn))
+
+    def get_queries_metadata(self):
+        return read_sparse_matrix(os.path.join(self.basedir, self.qs_metadata_fn))
+    
+    def search_type(self):
+        return "knn_filtered"
+
+    def __str__(self):
+        return f"RandomFilter({self.nb, self.nf})"
+
 
 
 DATASETS = {
@@ -837,4 +919,7 @@ DATASETS = {
 
     'random-range-xs': lambda : RandomRangeDS(10000, 1000, 20),
     'random-range-s': lambda : RandomRangeDS(100000, 1000, 50),
+
+    'random-filter-s': lambda : RandomFilterDS(100000, 1000, 50),
+
 }
