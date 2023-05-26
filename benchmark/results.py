@@ -42,7 +42,7 @@ def store_results(dataset, count, definition, query_arguments,
     f = h5py.File(fn, 'w')
     for k, v in attrs.items():
         f.attrs[k] = v
-    if search_type == "knn":
+    if search_type == "knn" or search_type == "knn_filtered":
         neighbors = f.create_dataset('neighbors', (len(results), count), 'i')
         for i, idxs in enumerate(results):
             neighbors[i] = idxs
