@@ -7,6 +7,7 @@ from multiprocessing.pool import ThreadPool
 import faiss
 
 from benchmark.algorithms.base import BaseANN
+from benchmark.datasets import DATASETS
 
 import bow_id_selector
 
@@ -82,39 +83,45 @@ class FAISS(BaseANN):
     def __init__(self,  metric, index_params):
         self._index_params = index_params
         self._metric = metric
+        print(index_params)
         self.indexkey = index_params.get("indexkey", "IVF32768,SQ8")
         self.binarysig = index_params.get("binarysig", False)
         self.binarysig_proba1 = index_params.get("binarysig_proba1", 0.1)
+        self.nt = 1
+        self.metadata_threshold = 1e-3
     
 
     def fit(self, dataset):
-        if dataset.search_type == "knn_filtered" and self.binarysig:
+        ds = DATASETS[dataset]()
+        if ds.search_type() == "knn_filtered" and self.binarysig:
             print("preparing binary signatures")
-            meta_b = dataset.get_dataset_metadata()
+            meta_b = ds.get_dataset_metadata()
             self.binsig = BinarySignatures(meta_b, self.binarysig_proba1)
             #print("writing to", args.binarysig_file)
             #pickle.dump(binsig, open(args.binarysig_file, "wb"), -1)
         else:
             self.binsig = None
 
-        if dataset.search_type == "knn_filtered":
-            self.meta_b = dataset.get_dataset_metadata()
+        if ds.search_type() == "knn_filtered":
+            self.meta_b = ds.get_dataset_metadata()
             self.meta_b.sort_indices()
 
-        index = faiss.index_factory(dataset.d, self.indexkey)
-        xb = dataset.get_dataset()
+        index = faiss.index_factory(ds.d, self.indexkey)
+        xb = ds.get_dataset()
         print("train")
         index.train(xb)
         print("populate")
         if self.binsig is None:
             index.add(xb)
         else:
-            ids = np.arange(dataset.nb) | self.binsig.db_sig
+            ids = np.arange(ds.nb) | self.binsig.db_sig
             index.add_with_ids(xb, ids)
 
         self.index = index
-        self.nb = dataset.nb
+        self.nb = ds.nb
         self.xb = xb
+        self.ps = faiss.ParameterSpace()
+        self.ps.initialize(self.index)
         #print("store", args.indexname)
         #faiss.write_index(index, args.indexname)
 
@@ -194,7 +201,7 @@ class FAISS(BaseANN):
                     sel.set_query_words_mask(
                         int(w1), int(w2), self.binsig.query_signature(w1, w2))
 
-                params = faiss.SearchParametersIVF(sel=sel, nprobe=self.qas.get("nprobe", 1))
+                params = faiss.SearchParametersIVF(sel=sel, nprobe=self.nprobe)
 
                 _, Ii = self.index.search(
                     X[q:q+1], k, params=params
@@ -213,7 +220,7 @@ class FAISS(BaseANN):
             for q in range(nq):
                 process_one_row(q)
         else:
-            faiss.omp_set_num_threads(1)
+            faiss.omp_set_num_threads(self.nt)
             pool = ThreadPool(self.nt)
             list(pool.map(process_one_row, range(nq)))
 
@@ -224,6 +231,7 @@ class FAISS(BaseANN):
         faiss.cvar.indexIVF_stats.reset()
         self.ps.set_index_parameters(self.index, query_args)
         self.qas = query_args
+        self.nprobe = int(query_args.split("=")[-1])
 
     def __str__(self):
         return f'Faiss({self.indexkey, self.qas})'
