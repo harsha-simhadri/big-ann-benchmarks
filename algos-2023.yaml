@@ -24,8 +24,36 @@ any:
               "nprobe=2,quantizer_efSearch=8",
               "nprobe=4,quantizer_efSearch=4",
               "nprobe=2,quantizer_efSearch=16"]           
-    
-random-xs:
+random-filter-s:
+    faiss:
+      docker-tag: billion-scale-benchmark-filterfaiss
+      module: neurips_2023.filter.faiss 
+      constructor: FAISS
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+            [{"indexkey": "IVF1024,SQ8"}]
+          query-args: |
+            ["nprobe=1",
+              "nprobe=2",
+              "nprobe=4",
+              "nprobe=64",
+              "nprobe=1024"]   
+random-s:
+    faiss:
+      docker-tag: billion-scale-benchmark-filterfaiss
+      module: neurips_2023.filter.faiss 
+      constructor: FAISS
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+            [{"indexkey": "IVF1024,SQ8"}]
+          query-args: |
+            ["nprobe=1",
+              "nprobe=2",
+              "nprobe=4"]
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
       module: benchmark.algorithms.faiss_t1
@@ -86,3 +114,28 @@ msturing-1M:
               [{"R":50, "L":50, "B":0.03, "M":1}]
           query-args: |
               [{"Ls":50, "BW":4, "T":16}]
+yfcc-10M-unfiltered:
+    faiss:
+      docker-tag: billion-scale-benchmark-filterfaiss
+      module: neurips_2023.filter.faiss 
+      constructor: FAISS
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+            [{}]
+          query-args: |
+            ["nprobe=1", "nprobe=4"]
+yfcc-10M:
+    faiss:
+      docker-tag: billion-scale-benchmark-filterfaiss
+      module: neurips_2023.filter.faiss 
+      constructor: FAISS
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+            [{}]
+          query-args: |
+            ["nprobe=1", "nprobe=4"]
+
