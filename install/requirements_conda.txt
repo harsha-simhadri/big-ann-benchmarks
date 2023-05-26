@@ -1,6 +1,6 @@
 ansicolors
 docker-py
-h5py
+h5py==3.8.0
 matplotlib
 numpy
 pyyaml
