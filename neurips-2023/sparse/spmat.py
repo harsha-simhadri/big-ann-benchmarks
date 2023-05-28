@@ -6,7 +6,7 @@ import numpy as np
 from multiprocessing.pool import ThreadPool
 
 from benchmark.algorithms.base import BaseANN
-from benchmark.datasets import DATASETS, download_accelerated
+from benchmark.datasets import DATASETS
 
 # given a vector x, returns another vector with the minimal number of largest elements of x,
 # s.t. their sum is at most a times the sum of the elements in x.
@@ -28,16 +28,16 @@ def largest_elements(x, a):
     return csr_matrix((new_data, new_ind, [0, n_elements]), shape=x.shape)
 
 
-# a basic sparse index.
+# a basic sparse index based on sparse matrix multiplication
 # methods:
 # 1. init: from a csr matrix of data.
-# 2. query a singe vector, with parameters:
+# 2. query:
 #    - k (# of neighbors),
-#    - alpha (fraction of the sum of the vector to maintain. alpha=1 is exact search).
+#    - alpha (fraction of the sum of the vector elements to maintain. alpha=1 is exact search).
 class SparseIndex(BaseANN):
     def __init__(self, metric, index_params):
         print(metric, index_params)
-        self.name = "linsparse"
+        self.name = "spmat"
     
     def fit(self, dataset):
         self.ds = DATASETS[dataset]()
