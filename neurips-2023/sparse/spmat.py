@@ -72,13 +72,12 @@ class SparseIndex(BaseANN):
         results.sort(reverse=True)
         return [(res.indices[b], a) for a, b in results]
 
-    def query(self, X, k):  # single query, assumes q is a row vector
+    def query(self, X, k):  # Carry out a batch query for k-NN of query set X.
+
         nq = X.shape[0]
         self.I = -np.ones((nq, k), dtype='int32')
         self.queries = X
 
-        with ThreadPool() as pool:
-            list(pool.imap(self._process_single_row, range(nq)))
 
     def get_results(self):
         return self.I

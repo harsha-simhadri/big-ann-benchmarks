@@ -1,0 +1,57 @@
+from __future__ import absolute_import
+
+import numpy as np
+
+from benchmark.algorithms.base import BaseANN
+from benchmark.datasets import DATASETS
+import linscan
+# todo: add Dockerfile with instructions for building the whl file from source
+# rename package to pylinscan
+# rename this file back to linscan
+
+
+
+# a python wrapper for the linscan algorithm, implemented in rust
+# algorithm details: https://arxiv.org/abs/2301.10622
+# todo: add link to code repository
+class Linscan(BaseANN):
+    def __init__(self, metric, index_params):
+        print(metric, index_params)
+        assert metric == "ip"
+        self.name = "linscan"
+        self._index = linscan.LinscanIndex()
+        self._budget = np.infty
+
+    def fit(self, dataset): # e.g. dataset = "sparse-small"
+
+        self.ds = DATASETS[dataset]()
+        assert self.ds.data_type() == "sparse"
+
+        N_VEC_LIMIT = 100000
+        it = self.ds.get_dataset_iterator(N_VEC_LIMIT)
+        for d in it:
+            for i in range(d.shape[0]):
+                d1 = d.getrow(i)
+                self._index.insert(dict(zip(d1.indices, d1.data)))
+
+    def load_index(self, dataset):
+        return None # todo
+
+    def set_query_arguments(self, query_args):
+        self._budget = query_args["budget"]
+
+    def query(self, X, k):  # single query, assumes q is a row vector
+        nq = X.shape[0]
+
+        # prepare the queries as a list of dicts
+        self.queries = []
+        for i in range(nq):
+            qc = X.getrow(i)
+            q = dict(zip(qc.indices, qc.data))
+            self.queries.append(q)
+
+        res = self._index.retrieve_parallel(self.queries, k, self._budget)
+        self.I = np.array(res, dtype='int32')
+
+    def get_results(self):
+        return self.I
