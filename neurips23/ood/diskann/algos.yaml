@@ -1,0 +1,22 @@
+text2image-10M:
+    diskann-ood: 
+      docker-tag: billion-scale-benchmark-faiss_t3
+      module: benchmark.algorithms.faiss_t3
+      constructor: FaissT3
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"indexkey": "IVF1048576,SQ8",
+                "url":"https://storage.googleapis.com/bigann/indexes/faiss/1.7.1/text2image-1B.IVF1048576%2CSQ8.faissindex"}]
+          query-args: |
+              ["nprobe=90",
+               "nprobe=100",
+               "nprobe=110",
+               "nprobe=120",
+               "nprobe=128",
+               "nprobe=140",
+               "nprobe=160",
+               "nprobe=180",
+               "nprobe=200",
+               "nprobe=220"]
