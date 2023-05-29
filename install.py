@@ -3,6 +3,7 @@ import os
 import argparse
 import subprocess
 from multiprocessing import Pool
+import neurips23.common
 
 
 def build(tag, args, dockerfile):
@@ -45,12 +46,9 @@ if __name__ == "__main__":
         help='build only the image from a Dockerfile path',
         default=None)
     parser.add_argument(
-        '--neurips23',
-        action='store_true',
-        help='enable for neurips23')
-    parser.add_argument(
         '--neurips23track',
-        choices=['filter','ood','streaming','sparse'],
+        choices=['filter','ood','streaming','sparse','none'],
+        default='none'
     )
     parser.add_argument(
         '--build-arg',
@@ -59,21 +57,19 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     print('Building base image...')
-    if args.neurips23:
-        neurips23_str = 'neurips23' 
-        track_prefix = neurips23_str + '-' + args.neurips23track
-        track_path = os.path.join(neurips23_str, args.neurips23track)
+    if args.neurips23track != 'none':
         subprocess.check_call(
             'docker build \
-            --rm -t neurips23 -f %s/Dockerfile .' % neurips23_str, shell=True)
+            --rm -t %s -f %s .' % (neurips23.common.docker_tag_base(), neurips23.common.dockerfile_path_base()), shell=True)
+        track = args.neurips23track
 
         if args.algorithm: # build a specific algorithm
-            algos = algo 
+            algos = [args.algorithm] 
         else: # build all algorithms in the track with Dockerfiles.
-            algos = filter(lambda entry : os.path.exists(os.path.join(track_path, entry, 'Dockerfile')),
-                            os.listdir(track_path))
-        tags = [track_prefix + '-' + algo for algo in algos]
-        dockerfiles = [os.path.join(track_path, algo, 'Dockerfile') for algo in algos]
+            algos = filter(lambda entry : os.path.exists(neurips23.common.dockerfile_path(track, entry)),
+                            os.listdir(neurips23.common.track_path(track)))
+        tags = [neurips23.common.docker_tag(track, algo) for algo in algos]
+        dockerfiles = [neurips23.common.dockerfile_path(track, algo) for algo in algos]
     else: # NeurIPS'21
         track_prefix = 'billion-scale-benchmark'
         subprocess.check_call(

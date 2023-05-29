@@ -242,9 +242,9 @@ def run_from_cmdline(args=None):
 def run_docker(definition, dataset, count, runs, timeout, rebuild,
                cpu_limit, mem_limit=None,
                t3=None, power_capture=None,
-               neurips23=None,  neurips23track="", 
                upload_index=False, download_index=False,
-               blob_prefix="", sas_string="", private_query=False):
+               blob_prefix="", sas_string="", private_query=False,
+               neurips23track=None):
     cmd = ['--dataset', dataset,
            '--algorithm', definition.algorithm,
            '--module', definition.module,
