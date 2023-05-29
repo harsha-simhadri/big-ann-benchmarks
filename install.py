@@ -16,6 +16,7 @@ def build(tag, args, dockerfile):
         command = 'docker build %s --rm -t %s -f' \
                    % (q, tag)
         command += ' %s .' % dockerfile
+        print(command)
         subprocess.check_call(command, shell=True)
         return {tag: 'success'}
     except subprocess.CalledProcessError:
@@ -73,21 +74,23 @@ if __name__ == "__main__":
                             os.listdir(track_path))
         tags = [track_prefix + '-' + algo for algo in algos]
         dockerfiles = [os.path.join(track_path, algo, 'Dockerfile') for algo in algos]
-    else:
+    else: # NeurIPS'21
         track_prefix = 'billion-scale-benchmark'
         subprocess.check_call(
             'docker build \
             --rm -t %s -f install/Dockerfile .' % track_prefix, shell=True)
         if args.dockerfile:
             tags = [track_prefix + '-' + os.path.basename(os.path.dirname(args.dockerfile))]
+            dockerfiles = args.dockerfile
         else:
             if args.algorithm:
-                tags = [track_prefix + '-' + args.algorithm]
+                algos = [args.algorithm]
             elif os.getenv('LIBRARY'):
-                tags = [track_prefix + '-' + os.getenv('LIBRARY')]
+                algos = [os.getenv('LIBRARY')]
             else:
-                tags = [track_prefix + '-' + fn.split('.')[-1] for fn in os.listdir('install') if fn.startswith('Dockerfile.') and not 'faissgpu' in fn]
-            dockerfiles = ['install/Dockerfile.' +  tag for tag in tags]
+                algos = [fn.split('.')[-1] for fn in os.listdir('install') if fn.startswith('Dockerfile.') and not 'faissgpu' in fn]
+            dockerfiles = ['install/Dockerfile.' +  algo for algo in algos]
+            tags = [track_prefix + '-' + algo for algo in algos]
 
     print('Building algorithm images... with (%d) processes' % args.proc)
 
