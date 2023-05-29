@@ -240,7 +240,9 @@ def run_from_cmdline(args=None):
 
 
 def run_docker(definition, dataset, count, runs, timeout, rebuild,
-        cpu_limit, mem_limit=None, t3=None, power_capture=None,
+               cpu_limit, mem_limit=None,
+               t3=None, power_capture=None,
+               neurips23=None,  neurips23track="", 
                upload_index=False, download_index=False,
                blob_prefix="", sas_string="", private_query=False):
     cmd = ['--dataset', dataset,
@@ -273,12 +275,16 @@ def run_docker(definition, dataset, count, runs, timeout, rebuild,
 
 
     container = None
-    if t3:
+    if neurips23:
+        if neurips23track=="ood":
+            neurips_create_container("ood", defintion, cmd, cpu_limit, mem_limit)
+        else:
+            sys.exit("Specify NeurIPS'23 track.")
+    elif t3: # T3 from NeurIPS'23
         container = t3_create_container(definition, cmd, cpu_limit, mem_limit )
         timeout = 3600*24*3 # 3 days
-        print("Setting container wait timeout to 3 days")
-
-    else:
+        print("Setting container wait timeout to 3 days")       
+    else: # T1/T2 from NeurIPS'21
         container = client.containers.run(
             definition.docker_tag,
             cmd,
