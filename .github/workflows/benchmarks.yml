@@ -49,14 +49,6 @@ jobs:
             dataset: random-range-xs
             library: httpann_example
             def: algos-2021.yaml
-          - algorithm: ngt-t1
-            dataset: random-range-xs
-            library: ngt
-            def: algos-2021.yaml
-          - algorithm: ngt-t2
-            dataset: random-range-xs
-            library: ngt
-            def: algos-2021.yaml
           - algorithm : kst_ann_t1
             dataset: random-xs
             library: kst_ann_t1
@@ -78,7 +70,7 @@ jobs:
             library: kota 
             def: algos-2021.yaml
           - algorithm: team11
-            dataset: random-range-xs
+            dataset: random-xs
             library: faissconda
             def: algos-2021.yaml
           - algorithm: linsparse
