@@ -111,7 +111,7 @@ class DatasetCompetitionFormat(Dataset):
     two versions of the file.
     """
 
-    def prepare(self, skip_data=False):
+    def prepare(self, skip_data=False, original_size=10**9):
         if not os.path.exists(self.basedir):
             os.makedirs(self.basedir)
 
@@ -167,7 +167,7 @@ class DatasetCompetitionFormat(Dataset):
             download(sourceurl, outfile, max_size=file_size)
             # then overwrite the header...
             header = np.memmap(outfile, shape=2, dtype='uint32', mode="r+")
-            assert header[0] == 10**9
+            assert header[0] == original_size
             assert header[1] == self.d
             header[0] = self.nb
 
@@ -548,7 +548,7 @@ class YFCC100MDataset(DatasetCompetitionFormat):
         self.metadata_private_queries_url = ""
 
     def prepare(self, skip_data=False):
-        super().prepare(skip_data)
+        super().prepare(skip_data, 10**7)
         for fn in (self.metadata_base_url, self.metadata_queries_url, self.metadata_private_queries_url):
             if fn:
                 outfile = os.path.join(self.basedir, fn.split("/")[-1])
