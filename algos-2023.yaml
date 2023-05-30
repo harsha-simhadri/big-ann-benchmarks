@@ -79,17 +79,17 @@ random-s:
               "nprobe=2,quantizer_efSearch=8",
               "nprobe=4,quantizer_efSearch=4",
               "nprobe=2,quantizer_efSearch=16"]           
-    diskann-t2:
-      docker-tag: billion-scale-benchmark-diskann
-      module: benchmark.algorithms.diskann-t2
-      constructor: Diskann
+    diskann_v0.5:
+      docker-tag: billion-scale-benchmark-diskann_v0.5
+      module: benchmark.algorithms.diskann-in-mem
+      constructor: DiskANNInMem
       base-args: ["@metric"]
       run-groups:
         base:
           args: |
-              [{"R":32, "L":32, "B":0.0001, "M":1}]
+              [{"R":32, "L":32}]
           query-args: |
-              [{"Ls":10, "BW":4, "T":16}]
+              [{"Ls":10, "T":16}]
 sparse-small:
     linscan:
       docker-tag: billion-scale-benchmark-linscan
