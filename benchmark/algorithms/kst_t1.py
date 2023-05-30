@@ -74,7 +74,7 @@ def two_level_clustering(xt, nc1, nc2, clustering_niter=25, spherical=False):
     return np.vstack(c2)
 
 
-class opt_faiss(BaseANN):
+class kst(BaseANN):
     def __init__(self, metric, index_params):
         self._index_params = index_params
         self._metric = metric

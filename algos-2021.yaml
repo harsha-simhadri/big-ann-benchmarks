@@ -113,11 +113,28 @@ random-range-xs:
             [{"hnswM":32, "hnswefC":200, "K1":2, "blockSize":4096, "identifier": "bbann"}]
           query-args: |
             [{"rangeSearchProbeCount":20, "efSearch":100, "K1":2, "blockSize":4096, "radiusFactor":1.00, "identifier":"bbann"}]
+random-s:
+    faiss-t1:
+      docker-tag: billion-scale-benchmark-faissconda
+      module: benchmark.algorithms.faiss_t1
+      constructor: Faiss
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"indexkey": "OPQ32_128,IVF1024_HNSW32,PQ32"
+                }]
+          query-args: |
+              ["nprobe=1,quantizer_efSearch=4",
+              "nprobe=2,quantizer_efSearch=4",
+              "nprobe=2,quantizer_efSearch=8",
+              "nprobe=4,quantizer_efSearch=4",
+              "nprobe=2,quantizer_efSearch=16"]
 random-xs:
     kst_ann_t1:
       docker-tag: billion-scale-benchmark-kst_ann_t1
-      module: benchmark.algorithms.opt_faiss
-      constructor: opt_faiss
+      module: benchmark.algorithms.kst_t1
+      constructor: kst 
       base-args: ["@metric"]
       run-groups:
         base:
@@ -143,7 +160,7 @@ random-xs:
 
     team11:
       docker-tag: billion-scale-benchmark-faissconda
-      module: benchmark.algorithms.faiss_t1_plus
+      module: benchmark.algorithms.team11
       constructor: Faiss
       base-args: ["@metric"]
       run-groups:
@@ -242,30 +259,6 @@ random-xs:
                [                  
                  "10,20,2000,200",
                  "10,30,3000,200"]
-    ngt-t1:
-      # ngt-t1: random-xs
-      docker-tag: billion-scale-benchmark-ngt
-      module: benchmark.algorithms.ngt_t1
-      constructor: NGT
-      base-args: ["@metric"]
-      run-groups:
-        base:
-          args: |
-              [{"q": 10, "s": 600, "b": 10000, "rs": 1000, "ri": 100, "rx": 10}]
-          query-args: |
-              [{"epsilon":0.10, "edge":0, "blob":500}]
-    ngt-t2:
-      # ngt-t2: random-xs
-      docker-tag: billion-scale-benchmark-ngt
-      module: benchmark.algorithms.ngt_t1
-      constructor: NGT
-      base-args: ["@metric"]
-      run-groups:
-        base:
-          args: |
-              [{"q": 10, "s": 600, "b": 10000, "rs": 1000, "ri": 100, "rx": 10}]
-          query-args: |
-              [{"epsilon":0.10, "edge":0, "blob":500, "expansion":2.0}]
     bbann: 
       docker-tag: billion-scale-benchmark-bbann
       module: benchmark.algorithms.bbann
@@ -354,8 +347,8 @@ deep-10M:
 deep-1B:
     kst_ann_t1:
       docker-tag: billion-scale-benchmark-kst_ann_t1
-      module: benchmark.algorithms.opt_faiss
-      constructor: opt_faiss
+      module: benchmark.algorithms.kst_t1
+      constructor: kst
       base-args: ["@metric"]
       run-groups:
         base:
@@ -452,7 +445,7 @@ deep-1B:
                ] 
     team11:
       docker-tag: billion-scale-benchmark-faissconda
-      module: benchmark.algorithms.faiss_t1_plus
+      module: benchmark.algorithms.team11
       constructor: Faiss
       base-args: ["@metric"]
       run-groups:
@@ -494,54 +487,11 @@ deep-1B:
               {"Ls":70, "BW":4, "T":16},
               {"Ls":80, "BW":4, "T":16},
               {"Ls":100, "BW":4, "T":16}]
-    ngt-t1:
-      # ngt-t1: deep-1B
-      docker-tag: billion-scale-benchmark-ngt
-      module: benchmark.algorithms.ngt_t1
-      constructor: NGT
-      base-args: ["@metric"]
-      run-groups:
-        base:
-          args: |
-              [{"q": 1000000, "s": 100, "b": 1000000, "rs": 1000000, "ri": 600, "rx": 10,
-                "index": "https://ngtf-rlab.east.edge.storage-yahoo.jp/neurips21/indices/1128/Deep1BDataset-1000000000.tar"}]
-          query-args: |
-              [{"epsilon":0.10, "edge":600, "blob":200},
-               {"epsilon":0.15, "edge":600, "blob":200},
-               {"epsilon":0.20, "edge":600, "blob":200},
-               {"epsilon":0.24, "edge":600, "blob":200},
-               {"epsilon":0.26, "edge":600, "blob":200},
-               {"epsilon":0.28, "edge":600, "blob":200},
-               {"epsilon":0.30, "edge":600, "blob":200},
-               {"epsilon":0.32, "edge":600, "blob":200},
-               {"epsilon":0.35, "edge":600, "blob":200},
-               {"epsilon":0.40, "edge":600, "blob":200}]
-    ngt-t2:
-      # ngt-t2: deep-1B
-      docker-tag: billion-scale-benchmark-ngt
-      module: benchmark.algorithms.ngt_t2
-      constructor: NGT
-      base-args: ["@metric"]
-      run-groups:
-        base:
-          args: |
-              [{"q": 1000000, "s": 100, "b": 1000000, "rs": 1000000, "ri": 600, "rx": 10,
-                "index": "https://ngtf-rlab.east.edge.storage-yahoo.jp/neurips21/indices/1128/Deep1BDataset-1000000000.tar"}]
-          query-args: |
-              [{"epsilon":0.16, "edge":100, "blob":500, "expansion":4.0},
-               {"epsilon":0.16, "edge":100, "blob":500, "expansion":5.0},
-               {"epsilon":0.16, "edge":100, "blob":500, "expansion":6.0},
-               {"epsilon":0.16, "edge":100, "blob":500, "expansion":7.0},
-               {"epsilon":0.16, "edge":100, "blob":500, "expansion":8.0},
-               {"epsilon":0.16, "edge":100, "blob":500, "expansion":9.0},
-               {"epsilon":0.16, "edge":100, "blob":500, "expansion":10.0},
-               {"epsilon":0.16, "edge":100, "blob":500, "expansion":11.0},
-               {"epsilon":0.16, "edge":100, "blob":500, "expansion":12.0}]
 msspacev-1B:
     kst_ann_t1:
       docker-tag: billion-scale-benchmark-kst_ann_t1
-      module: benchmark.algorithms.opt_faiss
-      constructor: opt_faiss
+      module: benchmark.algorithms.kst_t1
+      constructor: kst 
       base-args: ["@metric"]
       run-groups:
         base:
@@ -645,51 +595,6 @@ msspacev-1B:
               {"Ls":110, "BW":4, "T":16},
               {"Ls":120, "BW":4, "T":16},
               {"Ls":130, "BW":4, "T":16}]
-    ngt-t1:
-      # ngt-t1: msspacev-1B
-      docker-tag: billion-scale-benchmark-ngt
-      module: benchmark.algorithms.ngt_t1
-      constructor: NGT
-      base-args: ["@metric"]
-      run-groups:
-        base:
-          args: |
-              [{"q": 400000, "s": 500, "b": 1000000, "rs": 1000000, "ri": 600, "rx": 10,
-                "index": "https://ngtf-rlab.east.edge.storage-yahoo.jp/neurips21/indices/1115/MSSPACEV1B-1000000000.tar"}]
-          query-args: |
-              [{"epsilon":0.10, "edge":0, "blob":500},
-               {"epsilon":0.15, "edge":0, "blob":500},
-               {"epsilon":0.18, "edge":0, "blob":500},
-               {"epsilon":0.20, "edge":0, "blob":500},
-               {"epsilon":0.22, "edge":0, "blob":500},
-               {"epsilon":0.24, "edge":0, "blob":500},
-               {"epsilon":0.26, "edge":0, "blob":500},
-               {"epsilon":0.30, "edge":0, "blob":500},
-               {"epsilon":0.32, "edge":0, "blob":500},
-               {"epsilon":0.34, "edge":0, "blob":500},
-               {"epsilon":0.36, "edge":0, "blob":500}]
-    ngt-t2:
-      # ngt-t2: msspacev-1B
-      docker-tag: billion-scale-benchmark-ngt
-      module: benchmark.algorithms.ngt_t2
-      constructor: NGT
-      base-args: ["@metric"]
-      run-groups:
-        base:
-          args: |
-              [{"q": 400000, "s": 500, "b": 1000000, "rs": 1000000, "ri": 600, "rx": 10,
-                "index": "https://ngtf-rlab.east.edge.storage-yahoo.jp/neurips21/indices/1115/MSSPACEV1B-1000000000.tar"}]
-          query-args: |
-              [{"epsilon":0.18, "edge":0, "blob":500, "expansion":2},
-               {"epsilon":0.18, "edge":0, "blob":500, "expansion":3},
-               {"epsilon":0.18, "edge":0, "blob":500, "expansion":4},
-               {"epsilon":0.18, "edge":0, "blob":500, "expansion":5},
-               {"epsilon":0.18, "edge":0, "blob":500, "expansion":6},
-               {"epsilon":0.18, "edge":0, "blob":500, "expansion":7},
-               {"epsilon":0.18, "edge":0, "blob":500, "expansion":8},
-               {"epsilon":0.18, "edge":0, "blob":500, "expansion":9},
-               {"epsilon":0.18, "edge":0, "blob":500, "expansion":10}]
-
     bbann: 
       docker-tag: billion-scale-benchmark-bbann
       module: benchmark.algorithms.bbann
@@ -717,8 +622,8 @@ msspacev-1B:
 msturing-1B:
     kst_ann_t1:
       docker-tag: billion-scale-benchmark-kst_ann_t1
-      module: benchmark.algorithms.opt_faiss
-      constructor: opt_faiss
+      module: benchmark.algorithms.kst_t1
+      constructor: kst 
       base-args: ["@metric"]
       run-groups:
         base:
@@ -822,7 +727,7 @@ msturing-1B:
                 "10,90,100000,900"]
     team11:
       docker-tag: billion-scale-benchmark-faissconda
-      module: benchmark.algorithms.faiss_t1_plus
+      module: benchmark.algorithms.team11
       constructor: Faiss
       base-args: ["@metric"]
       run-groups:
@@ -866,54 +771,11 @@ msturing-1B:
               {"Ls":70, "BW":4, "T":16},
               {"Ls":80, "BW":4, "T":16},
               {"Ls":100, "BW":4, "T":16}]
-    ngt-t1:
-      # ngt-t1: msturing-1B:
-      docker-tag: billion-scale-benchmark-ngt
-      module: benchmark.algorithms.ngt_t1
-      constructor: NGT
-      base-args: ["@metric"]
-      run-groups:
-        base:
-          args: |
-              [{"q": 400000, "s": 200, "b": 1000000, "rs": 1000000, "ri": 600, "rx": 10,
-                "index": "https://ngtf-rlab.east.edge.storage-yahoo.jp/neurips21/indices/1112/MSTuringANNS-1000000000.tar"}]
-          query-args: |
-              [{"epsilon":0.10, "edge":0, "blob":500},
-               {"epsilon":0.12, "edge":0, "blob":500},
-               {"epsilon":0.14, "edge":0, "blob":500},
-               {"epsilon":0.16, "edge":0, "blob":500},
-               {"epsilon":0.18, "edge":0, "blob":500},
-               {"epsilon":0.20, "edge":0, "blob":500},
-               {"epsilon":0.22, "edge":0, "blob":500},
-               {"epsilon":0.24, "edge":0, "blob":500},
-               {"epsilon":0.26, "edge":0, "blob":500},
-               {"epsilon":0.30, "edge":0, "blob":500}]
-    ngt-t2:
-      # ngt-t2: msturing-1B:
-      docker-tag: billion-scale-benchmark-ngt
-      module: benchmark.algorithms.ngt_t2
-      constructor: NGT
-      base-args: ["@metric"]
-      run-groups:
-        base:
-          args: |
-              [{"q": 400000, "s": 200, "b": 1000000, "rs": 1000000, "ri": 600, "rx": 10,
-                "index": "https://ngtf-rlab.east.edge.storage-yahoo.jp/neurips21/indices/1112/MSTuringANNS-1000000000.tar"}]
-          query-args: |
-              [{"epsilon":0.20, "edge":0, "blob":500, "expansion":1.0},
-               {"epsilon":0.20, "edge":0, "blob":500, "expansion":1.2},
-               {"epsilon":0.20, "edge":0, "blob":500, "expansion":1.4},
-               {"epsilon":0.20, "edge":0, "blob":500, "expansion":1.6},
-               {"epsilon":0.20, "edge":0, "blob":500, "expansion":1.8},
-               {"epsilon":0.20, "edge":0, "blob":500, "expansion":2.0},
-               {"epsilon":0.20, "edge":0, "blob":500, "expansion":2.2},
-               {"epsilon":0.20, "edge":0, "blob":500, "expansion":2.4},
-               {"epsilon":0.20, "edge":0, "blob":500, "expansion":2.6}]
 bigann-1B:
     kst_ann_t1:
       docker-tag: billion-scale-benchmark-kst_ann_t1
-      module: benchmark.algorithms.opt_faiss
-      constructor: opt_faiss
+      module: benchmark.algorithms.kst_t1
+      constructor: kst 
       base-args: ["@metric"]
       run-groups:
         base:
@@ -1045,7 +907,7 @@ bigann-1B:
                 "nprobe=128,quantizer_efSearch=64"]
     team11:
       docker-tag: billion-scale-benchmark-faissconda
-      module: benchmark.algorithms.faiss_t1_plus
+      module: benchmark.algorithms.team11
       constructor: Faiss
       base-args: ["@metric"]
       run-groups:
@@ -1089,56 +951,6 @@ bigann-1B:
               {"Ls":70, "BW":4, "T":16},
               {"Ls":80, "BW":4, "T":16},
               {"Ls":100, "BW":4, "T":16}]
-    ngt-t1:
-      # ngt-t1: bigann-1B
-      docker-tag: billion-scale-benchmark-ngt
-      module: benchmark.algorithms.ngt_t1
-      constructor: NGT
-      base-args: ["@metric"]
-      run-groups:
-        base:
-          args: |
-              [{"q": 500000, "s": 500, "b": 1000000, "rs": 1000000, "ri": 600, "rx": 10,
-                "index": "https://ngtf-rlab.east.edge.storage-yahoo.jp/neurips21/indices/1119/BigANNDataset-1000000000.tar"}]
-          query-args: |
-              [{"epsilon":0.10, "edge":600, "blob":200},
-               {"epsilon":0.20, "edge":600, "blob":200},
-               {"epsilon":0.25, "edge":600, "blob":200},
-               {"epsilon":0.27, "edge":600, "blob":200},
-               {"epsilon":0.29, "edge":600, "blob":200},
-               {"epsilon":0.30, "edge":600, "blob":200},
-               {"epsilon":0.31, "edge":600, "blob":200},
-               {"epsilon":0.32, "edge":600, "blob":200},
-               {"epsilon":0.33, "edge":600, "blob":200},
-               {"epsilon":0.34, "edge":600, "blob":200},
-               {"epsilon":0.35, "edge":600, "blob":200},
-               {"epsilon":0.40, "edge":600, "blob":200},
-               {"epsilon":0.45, "edge":600, "blob":200},
-               {"epsilon":0.50, "edge":600, "blob":200}]
-    ngt-t2:
-      # ngt-t2: bigann-1B
-      docker-tag: billion-scale-benchmark-ngt
-      module: benchmark.algorithms.ngt_t2
-      constructor: NGT
-      base-args: ["@metric"]
-      run-groups:
-        base:
-          args: |
-              [{"q": 500000, "s": 500, "b": 1000000, "rs": 1000000, "ri": 600, "rx": 10,
-                "index": "https://ngtf-rlab.east.edge.storage-yahoo.jp/neurips21/indices/1119/BigANNDataset-1000000000.tar"}]
-          query-args: |
-              [{"epsilon":0.18, "edge":600, "blob":1000, "expansion":2},
-               {"epsilon":0.18, "edge":600, "blob":1000, "expansion":3},
-               {"epsilon":0.18, "edge":600, "blob":1000, "expansion":4},
-               {"epsilon":0.18, "edge":600, "blob":1000, "expansion":5},
-               {"epsilon":0.18, "edge":600, "blob":1000, "expansion":6},
-               {"epsilon":0.18, "edge":600, "blob":1000, "expansion":7},
-               {"epsilon":0.18, "edge":600, "blob":1000, "expansion":8},
-               {"epsilon":0.18, "edge":600, "blob":1000, "expansion":9},
-               {"epsilon":0.18, "edge":600, "blob":1000, "expansion":10},
-               {"epsilon":0.18, "edge":600, "blob":1000, "expansion":11},
-               {"epsilon":0.18, "edge":600, "blob":1000, "expansion":12},
-               {"epsilon":0.18, "edge":600, "blob":1000, "expansion":13}]
 ssnpp-1B:
     kota-t2:
       docker-tag: billion-scale-benchmark-kota
