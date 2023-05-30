@@ -51,9 +51,9 @@ random-s:
           args: |
             [{"indexkey": "IVF1024,SQ8"}]
           query-args: |
-            ["nprobe=1",
-              "nprobe=2",
-              "nprobe=4"]
+            [{"nprobe": 1},
+              {"nprobe":2},
+              {"nprobe":4"}]
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
       module: benchmark.algorithms.faiss_t1

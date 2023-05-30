@@ -85,6 +85,10 @@ jobs:
             dataset: sparse-small
             library: linsparse
             def: algos-2023.yaml
+          - algorithm: faiss
+            dataset: random-filter-s
+            library: filterfaiss
+            def: algos-2023.yaml
       fail-fast: false
 
     steps:
@@ -114,4 +118,4 @@ jobs:
       env:
         ALGORITHM: ${{ matrix.algorithm}}
         DATASET: ${{ matrix.dataset }}
-        DEF: ${{matrix.def}} 
+        DEF: ${{ matrix.def }} 
