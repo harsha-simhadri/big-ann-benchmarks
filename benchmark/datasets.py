@@ -838,8 +838,15 @@ class RandomFilterDS(RandomDS):
             np.array([self.nq, self.d], dtype='uint32').tofile(f)
             queries.astype('float32').tofile(f) 
 
-        data_metadata_sparse = csr_matrix(data_filters  )
-        query_metadata_sparse = csr_matrix(query_filters)
+        data_indices = np.array(data_filters).flatten()
+        data_indptr = [2 * i for i in range(self.nb)] + [2 * self.nb]
+        data_data = [1] * self.nb * 2
+        data_metadata_sparse = csr_matrix((data_data, data_indices, data_indptr))
+
+        query_indices = np.array(query_filters).flatten()
+        query_indptr = [2 * i for i in range(self.nq)] + [2 * self.nq]
+        query_data = [1] * self.nq * 2
+        query_metadata_sparse = csr_matrix((query_data, query_indices, query_indptr))
 
         write_sparse_matrix(data_metadata_sparse, 
                             os.path.join(self.basedir, self.ds_metadata_fn))

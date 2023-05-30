@@ -125,7 +125,7 @@ yfcc-10M-unfiltered:
           args: |
             [{}]
           query-args: |
-            ["nprobe=1", "nprobe=4"]
+            ["nprobe=1", "nprobe=4", "nprobe=32", "nprobe=64", "nprobe=128"]
 yfcc-10M:
     faiss:
       docker-tag: billion-scale-benchmark-filterfaiss
@@ -137,5 +137,5 @@ yfcc-10M:
           args: |
             [{}]
           query-args: |
-            ["nprobe=1", "nprobe=4"]
+            ["nprobe=1", "nprobe=4", "nprobe=32", "nprobe=64", "nprobe=128"]
 
