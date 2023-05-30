@@ -1,6 +1,7 @@
 import pdb
 import pickle
 import numpy as np
+import os
 
 from multiprocessing.pool import ThreadPool
 
@@ -8,6 +9,7 @@ import faiss
 
 from benchmark.algorithms.base import BaseANN
 from benchmark.datasets import DATASETS
+from benchmark.dataset_io import download_accelerated
 
 import bow_id_selector
 
@@ -85,10 +87,10 @@ class FAISS(BaseANN):
         self._metric = metric
         print(index_params)
         self.indexkey = index_params.get("indexkey", "IVF32768,SQ8")
-        self.binarysig = index_params.get("binarysig", False)
+        self.binarysig = index_params.get("binarysig", True)
         self.binarysig_proba1 = index_params.get("binarysig_proba1", 0.1)
-        self.nt = 1
-        self.metadata_threshold = 1e-3
+        self.metadata_threshold = index_params.get("metadata_threshold", 1e-3)
+        self.nt = index_params.get("threads", 1)
     
 
     def fit(self, dataset):
@@ -97,8 +99,8 @@ class FAISS(BaseANN):
             print("preparing binary signatures")
             meta_b = ds.get_dataset_metadata()
             self.binsig = BinarySignatures(meta_b, self.binarysig_proba1)
-            #print("writing to", args.binarysig_file)
-            #pickle.dump(binsig, open(args.binarysig_file, "wb"), -1)
+            print("writing to", self.binarysig_name(dataset))
+            pickle.dump(self.binsig, open(self.binarysig_name(dataset), "wb"), -1)
         else:
             self.binsig = None
 
@@ -122,8 +124,15 @@ class FAISS(BaseANN):
         self.xb = xb
         self.ps = faiss.ParameterSpace()
         self.ps.initialize(self.index)
-        #print("store", args.indexname)
-        #faiss.write_index(index, args.indexname)
+        print("store", self.index_name(dataset))
+        faiss.write_index(index, self.index_name(dataset))
+
+    
+    def index_name(self, name):
+        return f"data/{name}.{self.indexkey}.faissindex"
+    
+    def binarysig_name(self, name):
+        return f"data/{name}.{self.indexkey}.binarysig"
 
 
     def load_index(self, dataset):
@@ -134,10 +143,41 @@ class FAISS(BaseANN):
         Checking the index usually involves the dataset name
         and the index build paramters passed during construction.
         """
-        return 
-        print("reading from", args.binarysig_file)
-        binsig = pickle.load(open(args.binarysig_file, "rb"))
-        raise NotImplementedError()
+        if not os.path.exists(self.index_name(dataset)):
+            if 'url' not in self._index_params:
+                return False
+
+            print('Downloading index in background. This can take a while.')
+            download_accelerated(self._index_params['url'], self.index_name(dataset), quiet=True)
+
+        print("Loading index")
+
+        self.index = faiss.read_index(self.index_name(dataset))
+
+        self.ps = faiss.ParameterSpace()
+        self.ps.initialize(self.index)
+
+        ds = DATASETS[dataset]()
+
+        if ds.search_type() == "knn_filtered" and self.binarysig:
+            if not os.path.exists(self.binarysig_name(dataset)):
+                print("preparing binary signatures")
+                meta_b = ds.get_dataset_metadata()
+                self.binsig = BinarySignatures(meta_b, self.binarysig_proba1)
+            else:
+                print("loading binary signatures")
+                self.binsig = pickle.load(open(self.binarysig_name(dataset), "rb"))
+        else:
+            self.binsig = None
+
+        if ds.search_type() == "knn_filtered":
+            self.meta_b = ds.get_dataset_metadata()
+            self.meta_b.sort_indices()
+
+        self.nb = ds.nb
+        self.xb = ds.get_dataset()
+
+        return True        
 
     def index_files_to_store(self, dataset):
         """
@@ -161,6 +201,7 @@ class FAISS(BaseANN):
 
     
     def filtered_query(self, X, filter, k):
+        print('running filtered query')
         nq = X.shape[0]
         self.I = -np.ones((nq, k), dtype='int32')
         meta_b = self.meta_b
@@ -210,7 +251,7 @@ class FAISS(BaseANN):
                 if self.binsig is None:
                     self.I[q] = Ii
                 else:
-                    # we'll just assume there are enough resutls
+                    # we'll just assume there are enough results
                     # valid = Ii != -1
                     # I[q, valid] = Ii[valid] & binsig.id_mask
                     self.I[q] = Ii & self.binsig.id_mask
