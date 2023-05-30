@@ -123,9 +123,9 @@ yfcc-10M-unfiltered:
       run-groups:
         base:
           args: |
-            [{}]
+            [{"indexkey": "IVF16384,SQ8", "binarysig": true, "threads": 16}]
           query-args: |
-            ["nprobe=1", "nprobe=4", "nprobe=32", "nprobe=64", "nprobe=128"]
+            [{"nprobe": 1}, {"nprobe": 4}, {"nprobe": 16}, {"nprobe": 64}]
 yfcc-10M:
     faiss:
       docker-tag: billion-scale-benchmark-filterfaiss
@@ -135,7 +135,10 @@ yfcc-10M:
       run-groups:
         base:
           args: |
-            [{}]
+            [{"indexkey": "IVF16384,SQ8", 
+              "binarysig": true, 
+              "threads": 16
+            }]
           query-args: |
-            ["nprobe=1", "nprobe=4", "nprobe=32", "nprobe=64", "nprobe=128"]
+            [{"nprobe": 16, "mt_threshold":1e-3}, {"nprobe": 16, "mt_threshold":1e-5}, {"nprobe": 16, "mt_threshold":1e-1}, {"nprobe": 4}]
 

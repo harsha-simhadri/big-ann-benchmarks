@@ -89,7 +89,7 @@ class FAISS(BaseANN):
         self.indexkey = index_params.get("indexkey", "IVF32768,SQ8")
         self.binarysig = index_params.get("binarysig", True)
         self.binarysig_proba1 = index_params.get("binarysig_proba1", 0.1)
-        self.metadata_threshold = index_params.get("metadata_threshold", 1e-3)
+        self.metadata_threshold = 1e-3
         self.nt = index_params.get("threads", 1)
     
 
@@ -270,9 +270,16 @@ class FAISS(BaseANN):
 
     def set_query_arguments(self, query_args):
         faiss.cvar.indexIVF_stats.reset()
-        self.ps.set_index_parameters(self.index, query_args)
-        self.qas = query_args
-        self.nprobe = int(query_args.split("=")[-1])
+        if "nprobe" in query_args:
+            self.nprobe = query_args['nprobe']
+            self.ps.set_index_parameters(self.index, f"nprobe={query_args['nprobe']}")
+            self.qas = query_args
+        else:
+            self.nprobe = 1
+        if "mt_threshold" in query_args:
+            self.metadata_threshold = query_args['mt_threshold']
+        else:
+            self.metadata_threshold = 1e-3
 
     def __str__(self):
         return f'Faiss({self.indexkey, self.qas})'
