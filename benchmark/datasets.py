@@ -881,7 +881,7 @@ class RandomFilterDS(RandomDS):
         return "knn_filtered"
 
     def __str__(self):
-        return f"RandomFilter({self.nb, self.nf})"
+        return f"RandomFilter({self.nb})"
 
 
 
