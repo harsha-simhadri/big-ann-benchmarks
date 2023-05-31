@@ -35,11 +35,9 @@ random-filter-s:
           args: |
             [{"indexkey": "IVF1024,SQ8"}]
           query-args: |
-            ["nprobe=1",
-              "nprobe=2",
-              "nprobe=4",
-              "nprobe=64",
-              "nprobe=1024"]   
+            [{"nprobe": 1},
+              {"nprobe":2},
+              {"nprobe":4"}]   
 random-s:
     faiss:
       docker-tag: billion-scale-benchmark-filterfaiss
