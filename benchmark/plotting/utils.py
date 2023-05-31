@@ -88,7 +88,7 @@ def compute_metrics_all_runs(dataset, res, recompute=False,
         algo = properties['algo']
         algo_name = properties['name']
         # cache distances to avoid access to hdf5 file
-        if search_type == "knn":
+        if search_type == "knn" or search_type == "knn_filtered":
             run_nn = numpy.array(run['neighbors'])
         elif search_type == "range":
             run_nn = (numpy.array(run['lims']),
@@ -115,7 +115,8 @@ def compute_metrics_all_runs(dataset, res, recompute=False,
         }
         for name, metric in metrics.items():
             if search_type == "knn" and name == "ap" or\
-                search_type == "range" and name == "k-nn":
+                search_type == "range" and name == "k-nn" or\
+                search_type == "knn_filtered" and name == "ap":
                 continue
             if not sensor_metrics and name=="wspq": #don't process power sensor_metrics by default
                 continue
