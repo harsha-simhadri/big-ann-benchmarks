@@ -2,6 +2,7 @@ from __future__ import absolute_import
 from os import sep as pathsep
 import collections
 import importlib
+import glob
 import os
 import sys
 import traceback
@@ -99,6 +100,12 @@ def get_unique_algorithms(definition_file):
                 algos.add(algorithm)
     return list(sorted(algos))
 
+def get_all_definitions(path, dimension, dataset, distance_metric, count):
+    definitions = []
+    for l in glob.glob(os.path.join(path, "**/*.yaml"), recursive=True):
+        definitions.extend(get_definitions(l, dimension, 
+                dataset, distance_metric, count))
+    return definitions
 
 def get_definitions(definition_file, dimension, dataset,
         distance_metric="euclidean", count=10):

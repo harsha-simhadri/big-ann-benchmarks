@@ -13,14 +13,18 @@ import sys
 import traceback
 
 from benchmark.datasets import DATASETS
-from benchmark.algorithms.definitions import (get_definitions,
-                                                   list_algorithms,
-                                                   algorithm_status,
-                                                   InstantiationStatus)
+from benchmark.algorithms.definitions import (get_all_definitions, 
+                                              get_definitions,
+                                              list_algorithms,
+                                              algorithm_status,
+                                              InstantiationStatus)
 from benchmark.results import get_result_filename
 from benchmark.runner import run, run_docker, run_no_docker
 
 from benchmark.sensors.power_capture import power_capture
+
+import neurips23.common
+
 
 def positive_int(s):
     i = None
@@ -181,8 +185,13 @@ def main():
     distance = dataset.distance()
     if args.count == -1:
         args.count = dataset.default_count()
-    definitions = get_definitions(
-        args.definitions, dimension, args.dataset, distance, args.count)
+    if args.neurips23track == 'none':
+        definitions = get_definitions(
+            args.definitions, dimension, args.dataset, distance, args.count)
+    else:
+        definitions = get_all_definitions(
+            neurips23.common.track_path(args.neurips23track), 
+            dimension, args.dataset, distance, args.count)
 
     # Filter out, from the loaded definitions, all those query argument groups
     # that correspond to experiments that have already been run. (This might

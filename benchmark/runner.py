@@ -292,9 +292,9 @@ def run_docker(definition, dataset, count, runs, timeout, rebuild,
 
 
     container = None
-    if neurips23track!='none':
-        neurips23_create_container(neurips23track, defintion, cmd, cpu_limit, mem_limit)
-    elif t3: # T3 from NeurIPS'23
+    #if neurips23track!='none':
+    #    neurips23_create_container(neurips23track, defintion, cmd, cpu_limit, mem_limit)
+    if t3: # T3 from NeurIPS'23
         container = t3_create_container(definition, cmd, cpu_limit, mem_limit )
         timeout = 3600*24*3 # 3 days
         print("Setting container wait timeout to 3 days")       
@@ -309,8 +309,8 @@ def run_docker(definition, dataset, count, runs, timeout, rebuild,
                     {'bind': '/home/app/data', 'mode': 'rw'},
                 os.path.abspath('results'):
                     {'bind': '/home/app/results', 'mode': 'rw'},
-                os.path.abspath('neurips-2023'):
-                    {'bind': '/home/app/neurips_2023', 'mode': 'ro'},
+                os.path.abspath('neurips23'):
+                    {'bind': '/home/app/neurips23', 'mode': 'ro'},
             },
             cpuset_cpus=cpu_limit,
             mem_limit=mem_limit,

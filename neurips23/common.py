@@ -3,6 +3,9 @@ import os
 def docker_tag_base():
     return 'neurips23'
 
+def basedir():
+    return 'neurips23'
+
 def docker_tag(track, algo):
     return docker_tag_base() + '-' + track + '-' + algo
 
