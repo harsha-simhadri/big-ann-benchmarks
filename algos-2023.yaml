@@ -37,7 +37,7 @@ random-filter-s:
           query-args: |
             [{"nprobe": 1},
               {"nprobe":2},
-              {"nprobe":4"}]   
+              {"nprobe":4}]   
 random-s:
     faiss:
       docker-tag: billion-scale-benchmark-filterfaiss
@@ -51,7 +51,7 @@ random-s:
           query-args: |
             [{"nprobe": 1},
               {"nprobe":2},
-              {"nprobe":4"}]
+              {"nprobe":4}]
     faiss-t1:
       docker-tag: billion-scale-benchmark-faissconda
       module: benchmark.algorithms.faiss_t1
