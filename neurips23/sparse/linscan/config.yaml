@@ -1,0 +1,12 @@
+sparse-small:
+    linscan:
+      docker-tag: neurips23-sparse-linscan
+      module: neurips23.sparse.linscan.linscan 
+      constructor: SparseIndex
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+            [{}]
+          query-args: |
+            [{"alpha":0.5}]

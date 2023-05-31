@@ -1,0 +1,56 @@
+random-filter-s:
+    faiss:
+      docker-tag: neurips23-filter-faiss
+      module: neurips23.filter.faiss.faiss
+      constructor: FAISS
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+            [{"indexkey": "IVF1024,SQ8"}]
+          query-args: |
+            [{"nprobe": 1},
+              {"nprobe":2},
+              {"nprobe":4}]    
+random-s:
+    faiss:
+      docker-tag: neurips23-filter-faiss
+      module: neurips23.filter.faiss.faiss
+      constructor: FAISS
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+            [{"indexkey": "IVF1024,SQ8"}]
+          query-args: |
+            [{"nprobe": 1},
+              {"nprobe":2},
+              {"nprobe":4}]
+yfcc-10M-unfiltered:
+    faiss:
+      docker-tag: neurips23-filter-faiss
+      module: neurips23.filter.faiss.faiss
+      constructor: FAISS
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+            [{"indexkey": "IVF16384,SQ8", "binarysig": true, "threads": 16}]
+          query-args: |
+            [{"nprobe": 1}, {"nprobe": 4}, {"nprobe": 16}, {"nprobe": 64}]
+yfcc-10M:
+    faiss:
+      docker-tag: neurips23-filter-faiss
+      module: neurips23.filter.faiss.faiss
+      constructor: FAISS
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+            [{"indexkey": "IVF16384,SQ8", 
+              "binarysig": true, 
+              "threads": 16
+            }]
+          query-args: |
+            [{"nprobe": 16, "mt_threshold":1e-3}, {"nprobe": 16, "mt_threshold":1e-5}, {"nprobe": 16, "mt_threshold":1e-1}, {"nprobe": 4}]
+
