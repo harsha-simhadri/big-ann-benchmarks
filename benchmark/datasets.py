@@ -672,7 +672,7 @@ class SparseDataset(DatasetCompetitionFormat):
             print("file %s already exists" % outfile)
             _gunzip_if_needed(outfile)
             return
-        download_accelerated(sourceurl, outfile)
+        download(sourceurl, outfile)
         _gunzip_if_needed(outfile)
 
     def get_dataset_fn(self):

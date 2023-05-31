@@ -73,9 +73,9 @@ jobs:
             dataset: random-xs
             library: faissconda
             def: algos-2021.yaml
-          - algorithm: linsparse
+          - algorithm: linscan
             dataset: sparse-small
-            library: linsparse
+            library: linscan
             def: algos-2023.yaml
           - algorithm: faiss
             dataset: random-filter-s
