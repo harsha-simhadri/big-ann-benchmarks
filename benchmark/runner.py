@@ -80,9 +80,9 @@ def run(definition, dataset, count, run_count, rebuild,
     algo = instantiate_algorithm(definition)
     assert not definition.query_argument_groups \
            or hasattr(algo, "set_query_arguments"), """\
-error: query argument groups have been specified for %s.%s(%s), but the \
-algorithm instantiated from it does not implement the set_query_arguments \
-function""" % (definition.module, definition.constructor, definition.arguments)
+            error: query argument groups have been specified for %s.%s(%s), but the \
+            algorithm instantiated from it does not implement the set_query_arguments \
+            function""" % (definition.module, definition.constructor, definition.arguments)
 
     assert not upload_index or not download_index
 
@@ -167,7 +167,7 @@ def run_from_cmdline(args=None):
 
             NOTICE: You probably want to run.py rather than this script.
 
-''')
+    ''')
     parser.add_argument(
         '--dataset',
         choices=DATASETS.keys(),
@@ -257,9 +257,11 @@ def run_from_cmdline(args=None):
 
 
 def run_docker(definition, dataset, count, runs, timeout, rebuild,
-        cpu_limit, mem_limit=None, t3=None, power_capture=None,
+               cpu_limit, mem_limit=None,
+               t3=None, power_capture=None,
                upload_index=False, download_index=False,
-               blob_prefix="", sas_string="", private_query=False):
+               blob_prefix="", sas_string="", private_query=False,
+               neurips23track='none'):
     cmd = ['--dataset', dataset,
            '--algorithm', definition.algorithm,
            '--module', definition.module,
@@ -290,12 +292,13 @@ def run_docker(definition, dataset, count, runs, timeout, rebuild,
 
 
     container = None
-    if t3:
+    if neurips23track!='none':
+        neurips23_create_container(neurips23track, defintion, cmd, cpu_limit, mem_limit)
+    elif t3: # T3 from NeurIPS'23
         container = t3_create_container(definition, cmd, cpu_limit, mem_limit )
         timeout = 3600*24*3 # 3 days
-        print("Setting container wait timeout to 3 days")
-
-    else:
+        print("Setting container wait timeout to 3 days")       
+    else: # T1/T2 from NeurIPS'21
         container = client.containers.run(
             definition.docker_tag,
             cmd,

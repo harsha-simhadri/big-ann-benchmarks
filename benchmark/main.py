@@ -152,7 +152,11 @@ def main():
         help='Use the new set of private queries that were not released during the competition period.',
         action='store_true'
     )
-
+    parser.add_argument(
+        '--neurips23track',
+        choices=['filter', 'ood', 'sparse', 'streaming', 'none'],
+        default='none'
+    )
 
     args = parser.parse_args()
     if args.timeout == -1:
