@@ -101,7 +101,7 @@ sparse-small:
           args: |
             [{}]
           query-args: |
-            [{"alpha":0.5}]
+            [{"budget":1},{"budget":0.5},{"budget":0.3}]
 msturing-1M:
     diskann-t2:
       docker-tag: billion-scale-benchmark-diskann
