@@ -1,4 +1,8 @@
 import os
+import yaml
+
+from neurips23.filter.run import FilterRunner
+from neurips23.sparse.run import SparseRunner
 
 def docker_tag_base():
     return 'neurips23'
@@ -23,3 +27,10 @@ def yaml_path(track, algo):
 
 def get_definitions(track, algo):
     return yaml.load(yaml_path(track, algo))
+
+RUNNERS = {
+    "filter": FilterRunner,
+    "sparse": SparseRunner,
+}
+
+

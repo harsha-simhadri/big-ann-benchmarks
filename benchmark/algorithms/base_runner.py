@@ -1,7 +1,12 @@
-from benchmark.algorithms.base_runner import BaseRunner
+from __future__ import absolute_import
 import time
 
-class FilterRunner(BaseRunner):
+class BaseRunner():
+    def build(algo, dataset):
+        t0 = time.time()
+        algo.fit(dataset)
+        return time.time() - t0
+    
     def run_task(algo, ds, distance, count, run_count, search_type, private_query):
         best_search_time = float('inf')
         search_times = []
@@ -22,17 +27,12 @@ class FilterRunner(BaseRunner):
                 total = (time.time() - start)
                 results = algo.get_results()
                 assert results.shape[0] == X.shape[0]
-            elif search_type == "knn_filtered":
-                if not private_query:
-                    metadata = ds.get_queries_metadata()
-                else:
-                    metadata = ds.get_private_queries_metadata()
-                algo.filtered_query(X, metadata, count)
+            elif search_type == "range":
+                algo.range_query(X, count)
                 total = (time.time() - start)
-                results = algo.get_results()
-                assert results.shape[0] == X.shape[0]
+                results = algo.get_range_results()
             else:
-                raise NotImplementedError()
+                raise NotImplementedError(f"Search type {search_type} not available.")
 
             search_time = total
             best_search_time = min(best_search_time, search_time)

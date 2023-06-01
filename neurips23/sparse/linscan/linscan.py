@@ -5,7 +5,7 @@ import numpy as np
 
 from multiprocessing.pool import ThreadPool
 
-from benchmark.algorithms.base import BaseANN
+from neurips23.sparse.base import BaseSparseANN
 from benchmark.datasets import DATASETS, download_accelerated
 
 # given a vector x, returns another vector with the minimal number of largest elements of x,
@@ -34,7 +34,7 @@ def largest_elements(x, a):
 # 2. query a singe vector, with parameters:
 #    - k (# of neighbors),
 #    - alpha (fraction of the sum of the vector to maintain. alpha=1 is exact search).
-class SparseIndex(BaseANN):
+class SparseIndex(BaseSparseANN):
     def __init__(self, metric, index_params):
         print(metric, index_params)
         self.name = "linsparse"

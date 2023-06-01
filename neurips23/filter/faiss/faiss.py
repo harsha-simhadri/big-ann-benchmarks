@@ -7,7 +7,7 @@ from multiprocessing.pool import ThreadPool
 
 import faiss
 
-from benchmark.algorithms.base import BaseANN
+from neurips23.filter.base import BaseFilterANN
 from benchmark.datasets import DATASETS
 from benchmark.dataset_io import download_accelerated
 
@@ -80,7 +80,7 @@ class BinarySignatures:
             sig |= self.bitsig[w2]
         return int(sig << self.id_bits)
 
-class FAISS(BaseANN):
+class FAISS(BaseFilterANN):
 
     def __init__(self,  metric, index_params):
         self._index_params = index_params

@@ -52,7 +52,7 @@ def run_worker(args, queue):
                           args.t3, args.power_capture,
                           args.upload_index, args.download_index,
                           args.blob_prefix, args.sas_string,
-                          args.private_query)
+                          args.private_query, args.neurips23track)
 
         else:
             run_docker(definition, args.dataset, args.count,
@@ -60,7 +60,7 @@ def run_worker(args, queue):
                        args.t3, args.power_capture,
                        args.upload_index, args.download_index,
                        args.blob_prefix, args.sas_string,
-                       args.private_query)
+                       args.private_query, args.neurips23track)
 
 
 def main():
