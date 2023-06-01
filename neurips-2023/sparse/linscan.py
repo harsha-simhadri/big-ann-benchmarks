@@ -10,6 +10,8 @@ import pylinscan
 # algorithm details: https://arxiv.org/abs/2301.10622
 # code: https://github.com/pinecone-io/research-bigann-linscan
 
+# Build parameters: none
+# Query parameters: budget (in ms) for computing all the scores
 class Linscan(BaseANN):
     def __init__(self, metric, index_params):
         print(metric, index_params)

@@ -34,7 +34,7 @@ def largest_elements(x, a):
 # 2. query:
 #    - k (# of neighbors),
 #    - alpha (fraction of the sum of the vector elements to maintain. alpha=1 is exact search).
-class SparseIndex(BaseANN):
+class SparseMatMul(BaseANN):
     def __init__(self, metric, index_params):
         print(metric, index_params)
         self.name = "spmat"
