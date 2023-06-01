@@ -31,10 +31,9 @@ if __name__ == "__main__":
 
     I_gt,D_gt = ds.get_groundtruth()
 
-    data = ds.get_dataset()
     queries = ds.get_queries()
 
-    print('data:', data.shape)
+    print('# vectors in dataset:', ds.nb)
     print('queries:', queries.shape)
 
     k = args.k
