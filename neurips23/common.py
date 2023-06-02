@@ -3,6 +3,7 @@ import yaml
 
 from neurips23.filter.run import FilterRunner
 from neurips23.sparse.run import SparseRunner
+from neurips23.ood.run import OODRunner
 
 def docker_tag_base():
     return 'neurips23'
@@ -31,6 +32,7 @@ def get_definitions(track, algo):
 RUNNERS = {
     "filter": FilterRunner,
     "sparse": SparseRunner,
+    "ood": OODRunner,
 }
 
 

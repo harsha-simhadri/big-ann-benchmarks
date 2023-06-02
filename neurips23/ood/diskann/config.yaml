@@ -1,0 +1,24 @@
+random-s:
+    diskann: 
+      docker-tag: neurips-ood-diskann
+      module: neurips.ood.diskann.diskann-in-mem
+      constructor: DiskANNInMem
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"R":32, "L":50}]
+          query-args: |
+              ["Ls":50]
+text2image-10M:
+    diskann: 
+      docker-tag: neurips-ood-diskann
+      module: neurips.ood.diskann.diskann-in-mem
+      constructor: DiskANNInMem
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"R":32, "L":50}]
+          query-args: |
+              ["Ls":50]
