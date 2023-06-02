@@ -7,3 +7,6 @@ class BaseFilterANN(BaseANN):
         Query X[i] has asks for k-NN in the index that pass all filters in filter[i].
         """
         raise NotImplementedError()
+    
+    def track(self):
+        return "filter"

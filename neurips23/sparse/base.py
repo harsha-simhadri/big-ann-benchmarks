@@ -1,4 +1,5 @@
 from benchmark.algorithms.base import BaseANN
 
 class BaseSparseANN(BaseANN):
-    pass
+    def track(self):
+        return "sparse"

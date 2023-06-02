@@ -5,27 +5,24 @@ import time
 import numpy as np
 import diskannpy
 
-from benchmark.algorithms.base import BaseANN
+from neurips23.ood.base import BaseOODANN
 from benchmark.datasets import DATASETS, download_accelerated
 
-class DiskANNInMem(BaseOODANN):
+class diskann(BaseOODANN):
     def __init__(self, metric, index_params):
-        self.name = "DiskANNInMem"
+        self.name = "diskann"
         if (index_params.get("R")==None):
             print("Error: missing parameter R")
             return
         if (index_params.get("L")==None):
             print("Error: missing parameter L")
             return
-
+        print('hello')
         self._index_params = index_params
         self._metric = metric
 
         self.R = index_params.get("R")
         self.L = index_params.get("L")
-
-    def track(self):
-        return "T2"
 
     def index_name(self):
         return f"R{self.R}_L{self.L}"
@@ -88,7 +85,7 @@ class DiskANNInMem(BaseOODANN):
 
         
         print('Loading index..')
-        self..load_index(self.index_path, diskannpy.omp_get_max_threads(), num_nodes_to_cache, self.cache_mechanism)
+        self.load_index(self.index_path, diskannpy.omp_get_max_threads(), num_nodes_to_cache, self.cache_mechanism)
         self.index = diskannpy.StaticMemoryIndex(
             metric = metric,
             vector_dtype = ds.dtype,
@@ -97,7 +94,7 @@ class DiskANNInMem(BaseOODANN):
             num_threads = 64, #to allocate scratch space for up to 64 search threads
             initial_search_complexity = 100
         )
-        print(Index ready for search')
+        print('Index ready for search')
 
     def get_index_components(self, dataset):
         index_components = ['', '.data']
