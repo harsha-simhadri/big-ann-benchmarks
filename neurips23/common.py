@@ -24,7 +24,7 @@ def dockerfile_path(track, algo):
     return os.path.join(track_path(track), algo, 'Dockerfile')
 
 def yaml_path(track, algo):
-    return os.path.join(track_path(track), algo, 'algos.yaml')
+    return os.path.join(track_path(track), algo, 'config.yaml')
 
 def get_definitions(track, algo):
     return yaml.load(yaml_path(track, algo))
