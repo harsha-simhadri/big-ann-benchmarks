@@ -94,7 +94,7 @@ sparse-small:
     linscan:
       docker-tag: billion-scale-benchmark-linscan
       module: neurips_2023.sparse.linscan 
-      constructor: SparseIndex
+      constructor: Linscan
       base-args: ["@metric"]
       run-groups:
         base:

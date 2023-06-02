@@ -20,3 +20,5 @@ RUN pip install ./target/wheels/*.whl
 
 # verify that the build worked
 RUN python3 -c 'import pylinscan; print(pylinscan.LinscanIndex());'
+
+WORKDIR ..
