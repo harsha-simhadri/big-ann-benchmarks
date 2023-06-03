@@ -10,6 +10,5 @@ RUN git clone https://github.com/microsoft/DiskANN.git
 WORKDIR /home/app/DiskANN
 RUN pip3 install virtualenv build
 RUN python3 -m build
-RUN ls dist
 RUN pip install dist/diskannpy-0.5.0-cp310-cp310-linux_x86_64.whl
 WORKDIR /home/app
