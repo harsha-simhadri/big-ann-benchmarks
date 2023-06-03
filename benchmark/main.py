@@ -233,9 +233,6 @@ def main():
                 tag = tag.split(':')[0]
                 docker_tags.add(tag)
 
-        print(docker_tags)
-        print(args.docker_tag)
-
         if args.docker_tag:
             logger.info(f'running only {args.docker_tag}')
             definitions = [
