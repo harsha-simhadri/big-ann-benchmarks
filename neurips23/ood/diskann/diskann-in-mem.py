@@ -64,6 +64,7 @@ class diskann(BaseOODANN):
         d = ds.d
 
         buildthreads = self._index_params.get("buildthreads", -1)
+        print(buildthreads)
         if buildthreads == -1:
             buildthreads = 0
 
