@@ -17,7 +17,6 @@ class diskann(BaseOODANN):
         if (index_params.get("L")==None):
             print("Error: missing parameter L")
             return
-        print('hello')
         self._index_params = index_params
         self._metric = metric
 
@@ -38,7 +37,7 @@ class diskann(BaseOODANN):
         os.makedirs(index_dir, mode=0o777, exist_ok=True)
         return index_dir
 
-    def translate_dist_fn(metric):
+    def translate_dist_fn(self, metric):
         if metric == "euclidean":
             return "l2"
         elif metric == "ip":
@@ -58,23 +57,24 @@ class diskann(BaseOODANN):
         if buildthreads == -1:
             buildthreads = 0
 
-        metric = translate_dist_fn(ds.distance())
         index_dir = self.create_index_dir(ds)
         
         if  hasattr(self, 'index'):
             print('Index object exists already')
             return
 
+        print(ds.get_dataset_fn())
+
         start = time.time()
         diskannpy.build_memory_index(
             data = ds.get_dataset_fn(),
-            metric = metric,
+            distance_metric = self.translate_dist_fn(ds.distance()),
             vector_dtype = ds.dtype,
             index_directory = index_dir,
             index_prefix = self.index_name(),
-            complexity=L,
-            graph_degree=R,
-            num_thread = buildthreads,
+            complexity=self.L,
+            graph_degree=self.R,
+            num_threads = buildthreads,
             alpha=1.2,
             use_pq_build=False,
             num_pq_bytes=0, #irrelevant given use_pq_build=False
@@ -85,9 +85,8 @@ class diskann(BaseOODANN):
 
         
         print('Loading index..')
-        self.load_index(self.index_path, diskannpy.omp_get_max_threads(), num_nodes_to_cache, self.cache_mechanism)
         self.index = diskannpy.StaticMemoryIndex(
-            metric = metric,
+            distance_metric = self.translate_dist_fn(ds.distance()),
             vector_dtype = ds.dtype,
             index_directory = index_dir,
             index_prefix = self.index_name(),
@@ -115,7 +114,6 @@ class diskann(BaseOODANN):
         and the index build paramters passed during construction.
         """
         ds = DATASETS[dataset]()
-        metric = translate_dist_fn(ds.distance())        
 
         index_dir = self.create_index_dir(ds)        
         if not (os.path.exists(index_dir)) and 'url' not in self._index_params:
@@ -137,7 +135,7 @@ class diskann(BaseOODANN):
         print("Loading index")
 
         self.index = diskannpy.StaticMemoryIndex(
-            metric = metric,
+            distance_metric = self.translate_dist_fn(ds.distance()),
             vector_dtype = ds.dtype,
             index_directory = index_dir,
             index_prefix = self.index_name(),
