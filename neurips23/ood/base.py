@@ -1,5 +1,5 @@
 from benchmark.algorithms.base import BaseANN
 
-class BaseSparseANN(BaseANN):
+class BaseOODANN(BaseANN):
     def track(self):
-        return "sparse"
+        return "ood"

@@ -11,7 +11,6 @@ import json
 from enum import Enum
 from itertools import product
 
-
 Definition = collections.namedtuple(
     'Definition',
     ['algorithm', 'constructor', 'module', 'docker_tag', 'docker_volumes',
