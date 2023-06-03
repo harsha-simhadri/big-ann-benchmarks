@@ -38,12 +38,22 @@ class diskann(BaseOODANN):
         return index_dir
 
     def translate_dist_fn(self, metric):
-        if metric == "euclidean":
-            return "l2"
-        elif metric == "ip":
-            return "mips"
+        if metric == 'euclidean':
+            return 'l2'
+        elif metric == 'ip':
+            return 'mips'
         else:
             raise Exception('Invalid metric')
+        
+    def translate_dtype(self, dtype:str):
+        if dtype == 'uint8':
+            return np.uint8
+        elif dtype == 'int8':
+            return np.int8
+        elif dtype == 'float32':
+            return np.float32
+        else:
+            raise Exception('Invalid data type')
 
     def fit(self, dataset):
         """
@@ -69,7 +79,7 @@ class diskann(BaseOODANN):
         diskannpy.build_memory_index(
             data = ds.get_dataset_fn(),
             distance_metric = self.translate_dist_fn(ds.distance()),
-            vector_dtype = ds.dtype,
+            vector_dtype = self.translate_dtype(ds.dtype),
             index_directory = index_dir,
             index_prefix = self.index_name(),
             complexity=self.L,
@@ -87,7 +97,7 @@ class diskann(BaseOODANN):
         print('Loading index..')
         self.index = diskannpy.StaticMemoryIndex(
             distance_metric = self.translate_dist_fn(ds.distance()),
-            vector_dtype = ds.dtype,
+            vector_dtype = self.translate_dtype(ds.dtype),
             index_directory = index_dir,
             index_prefix = self.index_name(),
             num_threads = 64, #to allocate scratch space for up to 64 search threads
@@ -136,7 +146,7 @@ class diskann(BaseOODANN):
 
         self.index = diskannpy.StaticMemoryIndex(
             distance_metric = self.translate_dist_fn(ds.distance()),
-            vector_dtype = ds.dtype,
+            vector_dtype = self.translate_dtype(ds.dtype),
             index_directory = index_dir,
             index_prefix = self.index_name(),
             num_threads = 64, #to allocate scratch space for up to 64 search threads
@@ -154,7 +164,5 @@ class diskann(BaseOODANN):
 
     def set_query_arguments(self, query_args):
         self._query_args = query_args
-        self.Ls = 0 if query_args.get("Ls") == None else query_args.get("Ls")        
-        self.Lmin = 0 if query_args.get("Lmin") == None else query_args.get("Lmin")        
-        self.Lmax = 0 if query_args.get("Lmax") == None else query_args.get("Lmax")                        
+        self.Ls = 0 if query_args.get("Ls") == None else query_args.get("Ls")                             
         self.threads = self._query_args.get("T")
