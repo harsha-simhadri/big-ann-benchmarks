@@ -1,4 +1,4 @@
-FROM billion-scale-benchmark
+FROM neurips23
 
 RUN apt-get install -y curl
 
