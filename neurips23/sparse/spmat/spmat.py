@@ -38,7 +38,8 @@ class SparseMatMul(BaseANN):
     def __init__(self, metric, index_params):
         print(metric, index_params)
         self.name = "spmat"
-    
+        self.nt = index_params.get("threads", 1)
+
     def fit(self, dataset):
         self.ds = DATASETS[dataset]()
         self.data_csc = self.ds.get_dataset().tocsc()
@@ -78,6 +79,13 @@ class SparseMatMul(BaseANN):
         self.I = -np.ones((nq, k), dtype='int32')
         self.queries = X
 
+        if self.nt is None:
+            for i in range(nq):
+                self._process_single_row(i)
+        else:
+            with ThreadPool(processes=self.nt) as pool:
+                # Map the function to the array of items
+                list(pool.imap(self._process_single_row, range(nq)))
 
     def get_results(self):
         return self.I
