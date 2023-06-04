@@ -1,19 +1,19 @@
 random-xs:
     diskann: 
       docker-tag: neurips23-ood-diskann
-      module: neurips23.ood.diskann.diskann-in-mem
+      module: neurips23.ood.diskann.diskann-str
       constructor: diskann
       base-args: ["@metric"]
       run-groups:
         base:
           args: |
-            [{"R":32, "L":50}]
+            [{"R":32, "L":50, "buildthreads":32}]
           query-args: |
             [{"Ls":50, "T":8}]
 text2image-10M:
     diskann: 
       docker-tag: neurips23-ood-diskann
-      module: neurips23.ood.diskann.diskann-in-mem
+      module: neurips23.ood.diskann.diskann-str
       constructor: diskann
       base-args: ["@metric"]
       run-groups:
@@ -21,4 +21,7 @@ text2image-10M:
           args: |
             [{"R":64, "L":500, "buildthreads":32}]
           query-args: |
-            [{"Ls":50, "T":8}]
+            [{"Ls":30, "T":8},
+             {"Ls":50, "T":8},
+             {"Ls":70, "T":8},
+             {"Ls":100, "T":8}]

@@ -1,5 +1,5 @@
 from benchmark.algorithms.base import BaseANN
 
-class BaseOODANN(BaseANN):
+class BaseStreamingANN(BaseANN):
     def track(self):
         return "ood"
