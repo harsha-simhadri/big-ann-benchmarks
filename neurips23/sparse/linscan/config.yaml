@@ -9,7 +9,7 @@ sparse-small:
           args: |
             [{}]
           query-args: |
-            [{"budget":1},{"budget":0.5},{"budget":0.3},{"budget":0.2},{"budget":0.15},{"budget":0.1},{"budget":0.075},{"budget":0.05}]
+            [{"budget":1},{"budget":0.5},{"budget":0.4},{"budget":0.3},{"budget":0.25},{"budget":0.2},{"budget":0.15},{"budget":0.1},{"budget":0.075},{"budget":0.05}]
 sparse-1M:
     linscan:
       docker-tag: neurips23-sparse-linscan
