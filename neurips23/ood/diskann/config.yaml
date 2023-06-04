@@ -1,7 +1,7 @@
 random-xs:
     diskann: 
       docker-tag: neurips23-ood-diskann
-      module: neurips23.ood.diskann.diskann-str
+      module: neurips23.ood.diskann.diskann-in-mem
       constructor: diskann
       base-args: ["@metric"]
       run-groups:
@@ -13,7 +13,7 @@ random-xs:
 text2image-10M:
     diskann: 
       docker-tag: neurips23-ood-diskann
-      module: neurips23.ood.diskann.diskann-str
+      module: neurips23.ood.diskann.diskann-in-mem
       constructor: diskann
       base-args: ["@metric"]
       run-groups:
