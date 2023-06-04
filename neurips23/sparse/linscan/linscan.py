@@ -14,11 +14,11 @@ import pylinscan
 # Query parameters: budget (in ms) for computing all the scores
 class Linscan(BaseANN):
     def __init__(self, metric, index_params):
-        print(metric, index_params)
         assert metric == "ip"
         self.name = "linscan"
         self._index = pylinscan.LinscanIndex()
         self._budget = np.infty
+        print("Linscan index initialized: " + str(self._index))
 
     def fit(self, dataset): # e.g. dataset = "sparse-small"
 
@@ -31,6 +31,9 @@ class Linscan(BaseANN):
             for i in range(d.shape[0]):
                 d1 = d.getrow(i)
                 self._index.insert(dict(zip(d1.indices, d1.data)))
+
+        print("Index status: " + str(self._index))
+
 
     def load_index(self, dataset):
         return None
