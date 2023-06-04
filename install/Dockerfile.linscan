@@ -7,7 +7,6 @@ RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
 ENV PATH="/root/.cargo/bin:${PATH}"
 RUN git clone --single-branch --branch main https://github.com/pinecone-io/research-bigann-linscan
 WORKDIR research-bigann-linscan/
-RUN pip install tqdm
 
 # install maturin (build tool for rust-python)
 RUN pip install maturin
