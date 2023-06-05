@@ -7,7 +7,7 @@ class BaseRunner():
         algo.fit(dataset)
         return time.time() - t0
     
-    def run_task(algo, ds, distance, count, run_count, search_type, private_query):
+    def run_task(algo, ds, distance, count, run_count, search_type, private_query, runbook=None):
         best_search_time = float('inf')
         search_times = []
 

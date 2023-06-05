@@ -5,6 +5,7 @@ import os
 import threading
 import time
 import traceback
+import yaml
 
 import colors
 import docker
@@ -23,6 +24,7 @@ from benchmark.sensors.power_capture import power_capture
 from benchmark.t3.helper import t3_create_container
 
 from neurips23.common import RUNNERS
+from neurips23.streaming.load_runbook import load_runbook
 
 def run(definition, dataset, count, run_count, rebuild,
         upload_index=False, download_index=False,
@@ -46,6 +48,7 @@ def run(definition, dataset, count, run_count, rebuild,
     print(f"Running {definition.algorithm} on {dataset}")
 
     custom_runner = RUNNERS.get(neurips23track, BaseRunner)
+    runbook = None if neurips23track != 'streaming' else load_runbook(dataset, ds.nb, 'neurips23/streaming/runbook.yaml')
 
     try:
         # Try loading the index from the file
@@ -94,7 +97,7 @@ def run(definition, dataset, count, run_count, rebuild,
                 if query_arguments:
                     algo.set_query_arguments(*query_arguments)
                 descriptor, results = custom_runner.run_task(
-                    algo, ds, distance, count, run_count, search_type, private_query)
+                    algo, ds, distance, count, run_count, search_type, private_query, runbook)
                 # A bit unclear how to set this correctly if we usually load from file
                 #descriptor["build_time"] = build_time
                 descriptor["index_size"] = index_size

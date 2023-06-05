@@ -15,7 +15,7 @@ class BaseStreamingANN(BaseANN):
         '''
         raise NotImplementedError
         
-    def insert(self, X: np.array, ids: npt.NDArray[np.int32]) -> None:
+    def insert(self, X: np.array, ids: npt.NDArray[np.uint32]) -> None:
         '''
         Implement this for your algorithm
         X is num_vectos * num_dims matrix 
@@ -23,7 +23,7 @@ class BaseStreamingANN(BaseANN):
         '''
         raise NotImplementedError
     
-    def delete(self, ids: npt.NDArray[np.int32]) -> None:
+    def delete(self, ids: npt.NDArray[np.uint32]) -> None:
         '''
         Implement this for your algorithm
         delete the vectors labelled with ids.
