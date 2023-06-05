@@ -10,7 +10,7 @@ import traceback
 def get_result_filename(dataset=None, count=None, definition=None,
                         query_arguments=None, neurips23track=None):
     d = ['results']
-    if neurips23track:
+    if neurips23track and neurips23track != 'none':
         d.append('neurips23')
         d.append(neurips23track)
     if dataset:
@@ -59,11 +59,11 @@ def store_results(dataset, count, definition, query_arguments,
     f.close()
 
 
-def load_all_results(dataset=None, count=None):
+def load_all_results(dataset=None, count=None, neurips23track=None):
     """
     A generator for all result files.
     """
-    for root, _, files in os.walk(get_result_filename(dataset, count)):
+    for root, _, files in os.walk(get_result_filename(dataset, count, neurips23track=neurips23track)):
         for fn in files:
             if os.path.splitext(fn)[-1] != '.hdf5':
                 continue
