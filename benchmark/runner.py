@@ -109,7 +109,8 @@ def run(definition, dataset, count, run_count, rebuild,
                                                     run_count, search_type, descriptor)
 
                 store_results(dataset, count, definition,
-                              query_arguments, descriptor, results, search_type)
+                              query_arguments, descriptor,
+                              results, search_type, neurips23track)
     finally:
         algo.done()
 
