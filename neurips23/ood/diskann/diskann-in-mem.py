@@ -160,10 +160,10 @@ class diskann(BaseOODANN):
         """Carry out a batch query for k-NN of query set X."""
         nq, dim = (np.shape(X))
         self.res, self.query_dists = self.index.batch_search(
-            X, k, self.Ls, self.threads)
+            X, k, self.Ls, self.search_threads)
      
 
     def set_query_arguments(self, query_args):
         self._query_args = query_args
         self.Ls = 0 if query_args.get("Ls") == None else query_args.get("Ls")                             
-        self.threads = self._query_args.get("T")
+        self.search_threads = self._query_args.get("T")

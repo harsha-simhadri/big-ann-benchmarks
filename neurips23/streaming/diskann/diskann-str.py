@@ -21,10 +21,8 @@ class diskann(BaseStreamingANN):
 
         self.R = index_params.get("R")
         self.L = index_params.get("L")
-        self.Ls = index_params.get("Ls")
         self.insert_threads = index_params.get("insert_threads")
         self.consolidate_threads = index_params.get("consolidate_threads")
-        self.search_threads = index_params.get("search_threads")
 
     def index_name(self):
         return f"R{self.R}_L{self.L}"
@@ -62,11 +60,12 @@ class diskann(BaseStreamingANN):
         self.index = diskannpy.DynamicMemoryIndex(
             distance_metric = self.translate_dist_fn(self._metric),
             vector_dtype = self.translate_dtype(dtype),
-            index_prefix = self.index_name(),
+            max_vectors = max_pts,
+            dimensions = ndim,
             graph_degree = self.R,
             complexity=self.L,
             num_threads = self.insert_threads, #to allocate scratch space for up to 64 search threads
-            initial_search_complexity = self.Ls
+            initial_search_complexity = 100
         )
         print('Index class constructed and ready for update/search')
     
@@ -83,4 +82,6 @@ class diskann(BaseStreamingANN):
             X, k, self.Ls, self.search_threads)
 
     def set_query_arguments(self, query_args):
-        raise NotImplementedError
+        self._query_args = query_args
+        self.Ls = 0 if query_args.get("Ls") == None else query_args.get("Ls")                             
+        self.search_threads = self._query_args.get("T")

@@ -1,5 +1,6 @@
 from benchmark.algorithms.base_runner import BaseRunner
-from benchmark.datasets import DATASETS, download_accelerated
+from benchmark.datasets import DATASETS
+import numpy as np
 import time
 
 class StreamingRunner(BaseRunner):
@@ -11,7 +12,7 @@ class StreamingRunner(BaseRunner):
         ds = DATASETS[dataset]()
         max_pts = ds.nb
         ndims = ds.d
-        algo.setup(ds.distance(), ds.dtype, max_pts, ndims)
+        algo.setup(ds.dtype, max_pts, ndims)
         print('Algorithm set up')
         return time.time() - t0
     
@@ -19,8 +20,11 @@ class StreamingRunner(BaseRunner):
         best_search_time = float('inf')
         search_times = []
 
+        data = ds.get_dataset()
+        ids = np.arange(1, ds.nb+1, dtype=np.uint32)
+
         # Runbook
-        algo.insert(ds.X, range(0, ds.nb))
+        algo.insert(data, ids)
 
         if not private_query:
             X = ds.get_queries()

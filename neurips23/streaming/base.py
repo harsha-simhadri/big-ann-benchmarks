@@ -1,4 +1,5 @@
 import numpy as np
+import numpy.typing as npt
 from benchmark.algorithms.base import BaseANN
 
 class BaseStreamingANN(BaseANN):
@@ -14,7 +15,7 @@ class BaseStreamingANN(BaseANN):
         '''
         raise NotImplementedError
         
-    def insert(self, X: np.array, ids: np.array) -> None:
+    def insert(self, X: np.array, ids: npt.NDArray[np.int32]) -> None:
         '''
         Implement this for your algorithm
         X is num_vectos * num_dims matrix 
@@ -22,7 +23,7 @@ class BaseStreamingANN(BaseANN):
         '''
         raise NotImplementedError
     
-    def delete(self, ids: np.array) -> None:
+    def delete(self, ids: npt.NDArray[np.int32]) -> None:
         '''
         Implement this for your algorithm
         delete the vectors labelled with ids.
@@ -38,9 +39,9 @@ class BaseStreamingANN(BaseANN):
     
     def load_index(self, dataset):
         """
-        Does not apply to streaming indices
+        Do not override
         """
-        raise NotImplementedError
+        return False
     
     def get_index_components(self, dataset):
         """
