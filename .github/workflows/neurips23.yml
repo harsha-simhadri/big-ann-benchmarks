@@ -41,7 +41,7 @@ jobs:
         python create_dataset.py --dataset $DATASET
         python run.py --algorithm $ALGO --max-n-algorithms 2 --neurips23track $TRACK --dataset $DATASET --timeout 600
         sudo chmod -R 777 results/
-        python plot.py --dataset $DATASET --neurips23track $TRACK --output plot.png
+        python plot.py --dataset $DATASET --output plot.png
         python data_export.py --output test.csv
 
       env:
