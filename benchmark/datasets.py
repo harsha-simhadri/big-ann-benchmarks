@@ -471,7 +471,6 @@ class RandomRangeDS(DatasetCompetitionFormat):
             np.array([self.nq, self.d], dtype='uint32').tofile(f)
             queries.astype('float32').tofile(f)
 
-        print("Computing groundtruth")
 
         nbrs = NearestNeighbors(n_neighbors=100, metric="euclidean", algorithm='brute').fit(data)
         D, I = nbrs.kneighbors(queries)
@@ -776,8 +775,6 @@ class RandomDS(DatasetCompetitionFormat):
             np.array([self.nq, self.d], dtype='uint32').tofile(f)
             queries.astype('float32').tofile(f)
 
-        print("Computing groundtruth")
-
         nbrs = NearestNeighbors(n_neighbors=100, metric="euclidean", algorithm='brute').fit(data)
         D, I = nbrs.kneighbors(queries)
         with open(os.path.join(self.basedir, self.gt_fn), "wb") as f:
@@ -853,14 +850,13 @@ class RandomFilterDS(RandomDS):
         write_sparse_matrix(query_metadata_sparse, 
                             os.path.join(self.basedir, self.qs_metadata_fn))
 
-        print("Computing groundtruth")
-
         n_neighbors = 100
 
-        nbrs = NearestNeighbors(n_neighbors=n_neighbors, metric="euclidean", algorithm='brute').fit(data[:self.nb // 2])
+        # TODO: The following can cause memfaults, so should be converted to a batch method to brute-force locate ground-truth
+        nbrs = NearestNeighbors(n_neighbors=n_neighbors, metric="euclidean", algorithm='brute').fit(data[:self.nb // 6])
         DD, II = nbrs.kneighbors(queries[self.nq // 2:])
 
-        nbrs = NearestNeighbors(n_neighbors=n_neighbors, metric="euclidean", algorithm='brute').fit(data[self.nb // 2: ])
+        nbrs = NearestNeighbors(n_neighbors=n_neighbors, metric="euclidean", algorithm='kd_tree').fit(data[self.nb // 2: ])
         D, I = nbrs.kneighbors(queries[:self.nq // 2])
 
         D = np.concatenate((D, DD))
@@ -870,6 +866,8 @@ class RandomFilterDS(RandomDS):
             np.array([self.nq, n_neighbors], dtype='uint32').tofile(f)
             I.astype('uint32').tofile(f)
             D.astype('float32').tofile(f)
+
+
 
     def get_dataset_metadata(self):
         return read_sparse_matrix(os.path.join(self.basedir, self.ds_metadata_fn))

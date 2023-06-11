@@ -247,8 +247,8 @@ def run_docker(definition, dataset, count, runs, timeout, rebuild,
 
     client = docker.from_env()
     if mem_limit is None:
-        mem_limit = psutil.virtual_memory().available
-
+        mem_limit = 1000000000 #GW psutil.virtual_memory().available
+    print("mem limit", mem_limit)
 
     container = None
     if t3: # T3 from NeurIPS'23
@@ -287,6 +287,7 @@ def run_docker(definition, dataset, count, runs, timeout, rebuild,
 
     try:
         return_value = container.wait(timeout=timeout)
+        print("ret", return_value)
         _handle_container_return_value(return_value, container, logger)
     except:
         logger.error('Container.wait for container %s failed with exception' % container.short_id)
@@ -299,7 +300,7 @@ def run_docker(definition, dataset, count, runs, timeout, rebuild,
 def _handle_container_return_value(return_value, container, logger):
     base_msg = 'Child process for container %s' % (container.short_id)
     if type(return_value) is dict: # The return value from container.wait changes from int to dict in docker 3.0.0
-        error_msg = return_value['Error']
+        error_msg = return_value['Error'] if 'Error' in return_value else ""
         exit_code = return_value['StatusCode']
         msg = base_msg + 'returned exit code %d with message %s' %(exit_code, error_msg)
     else:
