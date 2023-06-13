@@ -75,6 +75,7 @@ class diskann(BaseStreamingANN):
     def delete(self, ids):
         for id in ids:
             self.index.mark_deleted(id)
+        self.index.consolidate_delete()
 
     def query(self, X, k):
         """Carry out a batch query for k-NN of query set X."""
