@@ -81,6 +81,7 @@ class diskann(BaseStreamingANN):
         nq, dim = (np.shape(X))
         self.res, self.query_dists = self.index.batch_search(
             X, k, self.Ls, self.search_threads)
+        self.res = self.res-1
 
     def set_query_arguments(self, query_args):
         self._query_args = query_args

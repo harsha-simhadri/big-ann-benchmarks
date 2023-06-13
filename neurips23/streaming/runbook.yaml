@@ -3,11 +3,3 @@ random-xs:
     operation: "insert"
     start: 1
     end: 10000
-  2:
-    operation: "delete"
-    start: 1
-    end: 5000
-  3:
-    operation: "insert"
-    start: 1
-    end: 5000
