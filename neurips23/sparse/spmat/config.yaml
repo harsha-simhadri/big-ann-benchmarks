@@ -1,0 +1,12 @@
+sparse-small:
+    spmat:
+      docker-tag: neurips23-sparse-spmat
+      module: neurips23.sparse.spmat.spmat
+      constructor: SparseMatMul
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+            [{"threads": 8}]
+          query-args: |
+            [{"alpha":0.5}, {"alpha":0.6}, {"alpha":0.7}, {"alpha":0.8}, {"alpha":0.9}, {"alpha":0.92}, {"alpha":0.94}, {"alpha":0.96}, {"alpha":0.98}, {"alpha":1.0}]
