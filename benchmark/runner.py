@@ -247,8 +247,8 @@ def run_docker(definition, dataset, count, runs, timeout, rebuild,
 
     client = docker.from_env()
     if mem_limit is None:
-        mem_limit = 1000000000 #GW psutil.virtual_memory().available
-    print("mem limit", mem_limit)
+        mem_limit = psutil.virtual_memory().available
+
 
     container = None
     if t3: # T3 from NeurIPS'23
@@ -287,7 +287,6 @@ def run_docker(definition, dataset, count, runs, timeout, rebuild,
 
     try:
         return_value = container.wait(timeout=timeout)
-        print("ret", return_value)
         _handle_container_return_value(return_value, container, logger)
     except:
         logger.error('Container.wait for container %s failed with exception' % container.short_id)
