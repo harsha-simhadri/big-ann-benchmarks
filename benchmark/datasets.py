@@ -585,7 +585,7 @@ def _strip_gz(filename):
 
 def _gunzip_if_needed(filename):
     if filename.endswith('.gz'):
-        print('unzipping', filename, '...', end=" ")
+        print('unzipping', filename, '...', end=" ", flush=True)
 
         with gzip.open(filename, 'rb') as f_in, open(_strip_gz(filename), 'wb') as f_out:
             shutil.copyfileobj(f_in, f_out)
