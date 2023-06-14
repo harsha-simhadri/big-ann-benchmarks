@@ -1,4 +1,5 @@
 import gzip
+import shutil
 import math
 import numpy
 import os
@@ -585,11 +586,9 @@ def _strip_gz(filename):
 def _gunzip_if_needed(filename):
     if filename.endswith('.gz'):
         print('unzipping', filename, '...', end=" ")
-        with gzip.open(filename, 'rb') as f:
-            file_content = f.read()
 
-        with open(_strip_gz(filename), 'wb') as f:
-            f.write(file_content)
+        with gzip.open(filename, 'rb') as f_in, open(_strip_gz(filename), 'wb') as f_out:
+            shutil.copyfileobj(f_in, f_out)
 
         os.remove(filename)
         print('done.')
