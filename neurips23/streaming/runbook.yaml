@@ -12,7 +12,8 @@ random-xs:
     start: 1
     end: 5000
 msturing-10M:
-  operation: "insert"
+  1: 
+    operation: "insert"
     start: 1
     end: 10000000
   2:
@@ -24,7 +25,8 @@ msturing-10M:
     start: 1
     end: 5000000
 msspacev-10M:
-  operation: "insert"
+  1: 
+    operation: "insert"
     start: 1
     end: 10000000
   2:
