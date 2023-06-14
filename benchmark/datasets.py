@@ -502,7 +502,7 @@ class RandomRangeDS(DatasetCompetitionFormat):
 class YFCC100MDataset(DatasetCompetitionFormat):
     """ the 2023 competition """
 
-    def __init__(self, filtered=True):
+    def __init__(self, filtered=True, dummy=False):
         self.filtered = filtered
         nb_M = 10
         self.nb_M = nb_M
@@ -510,19 +510,34 @@ class YFCC100MDataset(DatasetCompetitionFormat):
         self.d = 192
         self.nq = 100000
         self.dtype = "uint8"
-        # for now it's dummy because we don't have the descriptors yet
-        self.ds_fn = "dummy2.base.10M.u8bin"
-        self.qs_fn = "dummy2.query.public.100K.u8bin"
-        self.qs_private_fn = "dummy2.query.private.396157065643.100K.u8bin"
-        self.ds_metadata_fn = "base.metadata.10M.spmat"
-        self.qs_metadata_fn = "query.metadata.public.100K.spmat"
-        self.qs_private_metadata_fn = "query.metadata.private.396157065643.100K.spmat"
+        private_key = 12345
+        if dummy:
+            # for now it's dummy because we don't have the descriptors yet
+            self.ds_fn = "dummy2.base.10M.u8bin"
+            self.qs_fn = "dummy2.query.public.100K.u8bin"
+            self.qs_private_fn = "dummy2.query.private.%d.100K.u8bin" % private_key
+            self.ds_metadata_fn = "dummy2.base.metadata.10M.spmat"
+            self.qs_metadata_fn = "dummy2.query.metadata.public.100K.spmat"
+            self.qs_private_metadata_fn = "dummy2.query.metadata.private.%d.100K.spmat" % private_key
+            if filtered:
+                # no subset as the database is pretty small.
+                self.gt_fn = "dummy2.GT.public.ibin"
+            else:
+                self.gt_fn = "dummy2.unfiltered.GT.public.ibin"
 
-        if filtered:
-            # no subset as the database is pretty small.
-            self.gt_fn = "dummy2.GT.public.ibin"
         else:
-            self.gt_fn = "dummy2.unfiltered.GT.public.ibin"
+            # with Zilliz' CLIP descriptors
+            self.ds_fn = "base.10M.u8bin"
+            self.qs_fn = "query.public.100K.u8bin"
+            self.qs_private_fn = "query.private.%d.100K.u8bin" % private_key
+            self.ds_metadata_fn = "base.metadata.10M.spmat"
+            self.qs_metadata_fn = "query.metadata.public.100K.spmat"
+            self.qs_private_metadata_fn = "query.metadata.private.%d.100K.spmat" % private_key
+            if filtered:
+                # no subset as the database is pretty small.
+                self.gt_fn = "GT.public.ibin"
+            else:
+                self.gt_fn = "unfiltered.GT.public.ibin"
 
             # data is uploaded but download script not ready.
         self.base_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/yfcc100M/"
@@ -802,6 +817,8 @@ DATASETS = {
 
     'yfcc-10M': lambda: YFCC100MDataset(),
     'yfcc-10M-unfiltered': lambda: YFCC100MDataset(filtered=False),
+    'yfcc-10M-dummy': lambda: YFCC100MDataset(dummy=True),
+    'yfcc-10M-dummy-unfiltered': lambda: YFCC100MDataset(filtered=False, dummy=True),
 
     'random-xs': lambda : RandomDS(10000, 1000, 20),
     'random-s': lambda : RandomDS(100000, 1000, 50),
