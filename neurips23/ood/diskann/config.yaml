@@ -7,7 +7,7 @@ random-xs:
       run-groups:
         base:
           args: |
-            [{"R":32, "L":50}]
+            [{"R":32, "L":50, "buildthreads":32}]
           query-args: |
             [{"Ls":50, "T":8}]
 text2image-10M:
@@ -24,6 +24,4 @@ text2image-10M:
             [{"Ls":30, "T":8},
              {"Ls":50, "T":8},
              {"Ls":70, "T":8},
-             {"Ls":100, "T":8},
-             {"Ls":150, "T":8}
-             {"Ls":200, "T":8}]
+             {"Ls":100, "T":8}]

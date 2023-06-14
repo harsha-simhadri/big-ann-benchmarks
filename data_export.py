@@ -50,45 +50,49 @@ if __name__ == "__main__":
     datasets = DATASETS.keys()
     dfs = []
 
+    neurips23tracks = ['filter', 'ood', 'sparse', 'streaming', 'none']
+
     is_first = True
-    for dataset_name in datasets:
-        print("Looking at dataset", dataset_name)
-        dataset = DATASETS[dataset_name]()
-        results = load_all_results(dataset_name)
-        results = compute_metrics_all_runs(dataset, results, args.recompute, \
-                args.sensors, args.search_times, args.private_query)
-        cleaned = []
-        for result in results:
-            if 'k-nn' in result:
-                result['recall/ap'] = result['k-nn']
-                del result['k-nn']
-            if 'ap' in result:
-                result['recall/ap'] = result['ap']
-                del result['ap']
-            if args.sensors:
-                if 'wspq' not in result:
-                    print('Warning: wspq sensor data not available.')
-            if args.search_times:
-                search_times = result['search_times']
-                if 'search_times' in result:
-                    # create a space separated list suitable as column for a csv
-                    result['search_times'] = \
-                        " ".join( [str(el) for el in search_times ] )
+    for track in neurips23tracks:
+        for dataset_name in datasets:
+            print("Looking at dataset", dataset_name)
+            dataset = DATASETS[dataset_name]()
+            results = load_all_results(dataset_name, neurips23track=track)
+            results = compute_metrics_all_runs(dataset, results, args.recompute, \
+                    args.sensors, args.search_times, args.private_query)
+            cleaned = []
+            for result in results:
+                result['track'] = track
+                if 'k-nn' in result:
+                    result['recall/ap'] = result['k-nn']
+                    del result['k-nn']
+                if 'ap' in result:
+                    result['recall/ap'] = result['ap']
+                    del result['ap']
+                if args.sensors:
+                    if 'wspq' not in result:
+                        print('Warning: wspq sensor data not available.')
+                if args.search_times:
+                    search_times = result['search_times']
+                    if 'search_times' in result:
+                        # create a space separated list suitable as column for a csv
+                        result['search_times'] = \
+                            " ".join( [str(el) for el in search_times ] )
 
-                    if args.detect_caching != None:  
-                        print("%s: Checking for response caching for these search times->" % dataset_name, search_times) 
-                        percent_improvement = (search_times[0]-search_times[-1])/search_times[0]
-                        caching = percent_improvement > args.detect_caching
-                        result['caching'] = "%d %f %f" % ( 1 if caching else 0, args.detect_caching, percent_improvement )
-                        if caching:
-                            print("Possible caching discovered: %.3f > %.3f" % ( percent_improvement, args.detect_caching) )
-                        else:
-                            print("No response caching detected.")
+                        if args.detect_caching != None:
+                            print("%s: Checking for response caching for these search times->" % dataset_name, search_times)
+                            percent_improvement = (search_times[0]-search_times[-1])/search_times[0]
+                            caching = percent_improvement > args.detect_caching
+                            result['caching'] = "%d %f %f" % ( 1 if caching else 0, args.detect_caching, percent_improvement )
+                            if caching:
+                                print("Possible caching discovered: %.3f > %.3f" % ( percent_improvement, args.detect_caching) )
+                            else:
+                                print("No response caching detected.")
 
-                else:
-                    print("Warning: 'search_times' not available.")
-            cleaned.append(result)
-        dfs.append(pd.DataFrame(cleaned))
+                    else:
+                        print("Warning: 'search_times' not available.")
+                cleaned.append(result)
+            dfs.append(pd.DataFrame(cleaned))
     if len(dfs) > 0:
         data = pd.concat(dfs)
         data.to_csv(args.output, index=False)
