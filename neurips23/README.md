@@ -41,7 +41,7 @@ The baselines were run on the following setup: ....
 |------|----------|---------| --- |
 |Sparse| Linear Scan | ? |  `python3 run.py --dataset sparse --algorithm linscan --neurips23track sparse` |
 |Filter| faiss | ? | `python3 run.py --dataset yfcc-10M --algorithm faiss --neurips23track filter` |
-|Streaming| DiskANN | ? |  ? |
+|Streaming| DiskANN | ? |  `python3 run.py --dataset msspacev-10M --algorithm diskann --neurips23track streaming` |
 |OOD| DiskANN | 4882 | `python3 run.py --dataset text2image-10M --algorithm diskann --neurips23track ood` | 
 
 
