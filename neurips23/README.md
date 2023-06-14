@@ -35,7 +35,7 @@ The Practical Vector Search challenge at NeurIPS 2023 has four different tasks:
 
 ## Baselines
 
-The baselines were run on an Azure Standard D8lds v5 (8 vcpus, 16 GiB memory) machine.
+The baselines were run on an Azure Standard D8lds v5 (8 vcpus, 16 GiB memory) machine. The CPU model is Intel(R) Xeon(R) Platinum 8370C CPU @ 2.80GHz.
 
 | Task | Baseline | Highest Throughput above 90% recall | Command |
 |------|----------|---------| --- |
