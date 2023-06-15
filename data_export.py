@@ -95,5 +95,6 @@ if __name__ == "__main__":
             dfs.append(pd.DataFrame(cleaned))
     if len(dfs) > 0:
         data = pd.concat(dfs)
+        data = data.sort_values(by=["algorithm", "dataset", "recall/ap"])        
         data.to_csv(args.output, index=False)
 
