@@ -96,8 +96,12 @@ def run(definition, dataset, count, run_count, rebuild,
                       (pos, len(query_argument_groups)))
                 if query_arguments:
                     algo.set_query_arguments(*query_arguments)
-                descriptor, results = custom_runner.run_task(
-                    algo, ds, distance, count, run_count, search_type, private_query, runbook)
+                if neurips23track == 'streaming':
+                    descriptor, results = custom_runner.run_task(
+                        algo, ds, distance, count, run_count, search_type, private_query, runbook)
+                else:
+                    descriptor, results = custom_runner.run_task(
+                        algo, ds, distance, count, run_count, search_type, private_query)
                 # A bit unclear how to set this correctly if we usually load from file
                 #descriptor["build_time"] = build_time
                 descriptor["index_size"] = index_size
