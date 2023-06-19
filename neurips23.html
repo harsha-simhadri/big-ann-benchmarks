@@ -43,9 +43,6 @@
                     <li class="active"><a href="neurips23.html#tracks">Tracks</a></li>
                   </ul>
                   <ul class="nav navbar-nav">
-                    <li class="active"><a href="neurips23.html#metrics">Metrics</a></li>
-                  </ul>
-                  <ul class="nav navbar-nav">
                     <li class="active"><a href="neurips23.html#participate">Participate</a></li>
                   </ul>
                   <ul class="nav navbar-nav">
@@ -62,7 +59,7 @@
             <h2>Practical Vector Search Challenge: <a href="https://neurips.cc/Conferences/2023/CompetitionTrack"> NeurIPS'23 competition track</a></h2>
 
             <p>
-            This competition is to encourage the development of indexing data structures and search algorithms
+            This challenge is to encourage the development of indexing data structures and search algorithms
              for different practical variants of the Approximate Nearest Neighbor (ANN) or Vector search problem.
              that are increasingly relevant as vector search becomes commonplace.
             Specifically, we propose datasets and baselines the sparse, filtered, out-of-distribution and streaming variants of ANNS.
@@ -75,98 +72,126 @@
             </div>
 
             <div id="tracks">
-              <h2>Tracks: Datasets, Metrics and Baselines</h2>
-              <p></p>
-              
-                         
+                <h2>Tracks: Datasets, Metrics and Baselines</h2>
+                <p>
+                The challenge consists of 4 tracks with separate leaderboards and participants can choose to submit entries to one or more tracks
+                <UL>
+                    <LI> 
+                        Filtered Search: This task will use a random 10M slice of the YFCC 100M dataset transformed with CLIP embeddings.
+                        In addition, we associate with each image a "bag" of tags: 
+                        words extracted from the description, the camera model, the year the picture was taken and the country. 
+                        The tags are from a vocabulary of 200386 possible tags. 
+                        The 100,000 queries consist of one image embedding and one or two tags that must appear in the database elements to be considered.
+                    </LI>
 
-              <TABLE>
+                    <LI>
+                        Out-Of-Distribution:  This task will use the Yandex Text-to-Image 10M, cross-modal dataset where the database and 
+                        query index have different distributions in the shared vector space.
+                        The base set is a 10M subset of the Yandex visual search database of 200-dimensional image embeddings 
+                        which are produced with the Se-ResNext-101 model. 
+                        The query embeddings correspond to the user-specified textual search queries.
+                        The text embeddings are extracted with a variant of the DSSM model.
+                    </LI>
+
+                    <LI>
+                        Sparse:  This task is based on the common MSMARCO passage retrieval dataset,
+                         which has 8,841,823 text passages, encoded into sparse vectors using the SPLADE model. 
+                         The vectors have a large dimension (less than 100,000), but each vector in the base dataset
+                          has an average of approximately 120 nonzero elements. 
+                          The query set comprises of 6,980 text queries, embedded by the same SPLADE model. 
+                          The average number of nonzero elements in the query set is approximately 49 (since text queries are generally shorter).
+                          Given a sparse query vector, the index should return the top-k results according to the maximal inner product between the vectors.
+                    </LI>
+
+                    <LI>
+                        Streaming Search: This task uses 10M slice of the MS Turing data set released in the previous challenge. 
+                        The index starts with zero points and must implement the "runbook" provided --
+                         a sequence of insertion operations, deletion operations, and search commands (roughly 4:2:1 ratio) --
+                          within a time bound. 
+                          In the final run, we will  use a different runbook, and possibly a different data set, 
+                          to avoid participants over-fitting to this dataset.
+                    </LI>
+                </UL>
+                </p>
+              
+                <TABLE>
                 <TR>
                   <TD> Track </TD>
                   <TD> Dataset </TD>
                   <TD> Datatype </TD>
                   <TD> Dimensions </TD>
-                  <TD> Distance </TD>
-                  <TD> Range/k-NN </TD>
-                  <TD> Base data </TD>
-                  <TD> Sample data</TD>
-                  <TD> Query data </TD>
-                  <TD> Ground truth </TD>
+                  <TD> Baseline algo </TD>
+                  <TD> QPS @ 90% recall</TD>
                   <TD> Release terms </TD>
                 </TR>
 
-               <TR>
-                <TD> Microsoft Turing-ANNS* </TD>
-                <TD> float32 </TD>
-                <TD> 100 </TD>
-                <TD> L2 </TD>
-                <TD> k-NN </TD>
-                <TD> <a href="https://comp21storage.blob.core.windows.net/publiccontainer/comp21/MSFT-TURING-ANNS/base1b.fbin"> 1B points</a></TD>
-                <TD> N/A </TD>
-                <TD> <a href="https://comp21storage.blob.core.windows.net/publiccontainer/comp21/MSFT-TURING-ANNS/query100K.fbin">100K queries</a> </TD>
-                <TD> <a href="https://comp21storage.blob.core.windows.net/publiccontainer/comp21/MSFT-TURING-ANNS/query_gt100.bin">link</a> </TD>
-                <TD> <a href="MSFT-Turing-ANNS-terms.txt" target="_blank">link to terms</a> </TD>
-              </TR>
-              <TR>
-                <TD> Microsoft SPACEV* </TD>
-                <TD> int8 </TD>
-                <TD> 100 </TD>
-                <TD> L2 </TD>
-                <TD> k-NN </TD>
-                <TD> <a href="https://comp21storage.blob.core.windows.net/publiccontainer/comp21/spacev1b/spacev1b_base.i8bin">1B points</a></TD>
-                <TD> <a href="https://comp21storage.blob.core.windows.net/publiccontainer/comp21/spacev1b/spacev100m_base.i8bin">100M base points</a> </TD>
-                <TD> <a href="https://comp21storage.blob.core.windows.net/publiccontainer/comp21/spacev1b/query.i8bin">29.3K queries</a> </TD>
-                <TD> <a href="https://comp21storage.blob.core.windows.net/publiccontainer/comp21/spacev1b/public_query_gt100.bin">link</a> </TD>
-                <TD> <a href="https://github.com/microsoft/SPTAG/blob/master/datasets/SPACEV1B/LICENSE" target="_blank">O-UDA</a> </TD>
-              </TR>
-              <TR>
-                <TD> Yandex Text-to-Image* </TD>
-                <TD> float32 </TD>
-                <TD> 200 </TD>
-                <TD> inner-product </TD>
-                <TD> k-NN </TD>
-                <TD> <a href="https://storage.yandexcloud.net/yandex-research/ann-datasets/T2I/base.1B.fbin">1B points</a> </TD>
-                <TD> <a href="https://storage.yandexcloud.net/yandex-research/ann-datasets/T2I/query.learn.50M.fbin ">50M queries</a> </TD>
-                <TD> <a href="https://storage.yandexcloud.net/yandex-research/ann-datasets/T2I/query.public.100K.fbin">100K queries</a> </TD>
-                <TD> <a href="https://storage.yandexcloud.net/yandex-research/ann-datasets/t2i_new_groundtruth.public.100K.bin">link</a> </TD>
-                <TD> <a href="https://creativecommons.org/licenses/by/4.0/deed.en">CC BY 4.0</a> </TD>
-              </TR>
-             </TABLE>
+                <TR>
+                    <TD>Filtered</TD>
+                    <TD>YFCC-10M + CLIP</TD>
+                    <TD>768?</TD>
+                    <TD>float?</TD>
+                    <TD>filter-FAISS</TD>
+                    <TD>?</TD>
+                    <TD>?</TD>
+                </TR>
+
+                <TR>
+                    <TD>OOD</TD>
+                    <TD>Text2Image-10M</TD>
+                    <TD>200</TD>
+                    <TD>float32</TD>
+                    <TD>diskann</TD>
+                    <TD>4882</TD>
+                    <TD><a href="https://creativecommons.org/licenses/by/4.0/deed.en">CC BY 4.0</a></TD>
+                </TR>
+
+                <TR>
+                    <TD>Sparse</TD>
+                    <TD>MS MARCO bag of words</TD>
+                    <TD>~100K</TD>
+                    <TD>bag of words</TD>
+                    <TD>Linear Scan</TD>
+                    <TD>100</TD>
+                    <TD>?</TD>
+                </TR>
+
+                <TR>
+                    <TD>Streaming</TD>
+                    <TD>MS-SpaceV-10M</TD>
+                    <TD>100</TD>
+                    <TD>int8</TD>
+                    <TD>diskann</TD>
+                    <TD>N/A</TD>
+                    <TD>?</TD>
+                </TR>
+            </TABLE>
+
              * new datasets <BR>
-              We recommend using <a href="https://github.com/axel-download-accelerator/axel" target="_blank">Axel</a> for downloading BIGANN, Facebook-SSN++, Yandex DEEP1B and T2I datasets.<BR>
+              We recommend using <a href="https://github.com/axel-download-accelerator/axel" target="_blank">Axel</a> for downloading non-Microsoft datasets.<BR>
               We recommend using <a href="https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10" target="_blank">AzCopy</a> for downloading Microsoft datasets.
             </div>
 
-            <div id="metrics">
-            <h2>Metrics and Baselines</h2>
-            
-            </div>  
-
-            <BR> 
-              Baseline DiskANN indices for T2 can be downloaded using "azcopy copy 'https://comp21storage.blob.core.windows.net/publiccontainer/comp21/diskann-T2-baseline-indices' 'local_folder' --recursive". 
-               Note that this would take some time as the indices are large. All indices were built using R and L parameters set to 100.
-               Search for T2 used 16 threads and beamwidth 4. The Ls parameter was varied to tune recall vs QPS.<BR>
-               <strong>Update:</strong> T2 baseline results have been modified after measuring via pybind11 interface on docker. There was a 30-40% QPS loss using this interface
-               as compared to direct measurements of C++ code from commandline. As a result, the QPS target has now been lowered, and the recall is reported at this threshold.
-            
-            
+           
             <div id="participate">
-              <h2>Call for Participation and Timeline</h2>
-
-              <p>
-              <h4>Timeline (subject to change)</h4>
-              <ul>
+                <h2>Participation</h2>
+                <p>
+                To get started, please see the <a href="https://github.com/harsha-simhadri/big-ann-benchmarks/neurips23/README.md">README</a> file.<BR>
+                To participate, please express interest through the <a href="">CMT portal</a> and follow the instructions in the readme to submit a Pull Request.<BR>
+                To request cloud compute credits ($1000), please share a short write up on ideas you plan to develop in your CMT entry. <BR>
+                For questions, please use the github issues or the <a href="??">slack channel</a>.
+                    
+                <h4>Timeline (subject to change)</h4>
+                <ul>
                   <li>June: Baseline results, testing infrastructure, CFP and final ranking metrics released.</li>
-                  <li>July 11th: Participants in need of compute resources to submit an expression of interest.</li>
                   <li>Mid-July: Allocation of compute resources.</li>
-                  <li>July 30th: Final deadline for participants to submit an expression of interest through CMT.</li>
-                  <li>October 30th: End of competition period. Teams to release of code in a containerized form, and complete a pull request to the eval framework with code to run the algorithms.</li>
+                  <li>August 30th: Final deadline for participants to submit an expression of interest through CMT.</li>
+                  <li>October 30th: End of competition period. Teams to release code in a containerized form, and complete a pull request to the eval framework with code to run the algorithms.</li>
                   <li>Mid-November: Release of preliminary results on standardized machines. Review of code by organizers and participants. Participants can raise concerns about the evaluation.</li>
                   <li>Early December: Final results published, and competition results archived (the competition will go on if interest continues).</li>
                   <li>During NeurIPS, organizers will provide an overview of the competition and results. Organizers will also request the best entries
                     (including leaderboard toppers, or promising new approaches) to present an overview for further discussion.</li>
-              </ul>
-              </p>
+                </ul>
+                </p>
             </div>
 
             <div id="organizers">
