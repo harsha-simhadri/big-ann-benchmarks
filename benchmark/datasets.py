@@ -201,9 +201,11 @@ class DatasetCompetitionFormat(Dataset):
     def get_groundtruth(self, k=None):
         assert self.gt_fn is not None
         fn = self.gt_fn.split("/")[-1]   # in case it's a URL
+        print(fn)
         assert self.search_type() in ("knn", "knn_filtered")
 
         I, D = knn_result_read(os.path.join(self.basedir, fn))
+        print(self.basedir)
         assert I.shape[0] == self.nq
         if k is not None:
             assert k <= 100
@@ -394,6 +396,7 @@ class MSTuringANNS(DatasetCompetitionFormat):
             "query_gt100.bin" if self.nb_M == 1000 else
             subset_url + "GT_100M/msturing-100M" if self.nb_M == 100 else
             subset_url + "GT_10M/msturing-10M" if self.nb_M == 10 else
+            subset_url + "GT_1M/msturing-1M" if self.nb_M == 1 else
             None
         )
         self.base_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/MSFT-TURING-ANNS/"
@@ -734,6 +737,7 @@ class SparseDataset(DatasetCompetitionFormat):
 
     def get_queries(self):
         filename = os.path.join(self.basedir, self.qs_fn)
+        print(filename)
         x = read_sparse_matrix(_strip_gz(filename), do_mmap=False)  # read the queries file. It is a small file, so no need to mmap
         assert x.shape[0] == self.nq
         return x
@@ -919,13 +923,13 @@ DATASETS = {
     'text2image-100M': lambda : Text2Image1B(100),
 
     'msturing-1B': lambda : MSTuringANNS(1000),
-    'msturing-1M': lambda : MSTuringANNS(1),
-    'msturing-10M': lambda : MSTuringANNS(10),
     'msturing-100M': lambda : MSTuringANNS(100),
+    'msturing-10M': lambda : MSTuringANNS(10),
+    'msturing-1M': lambda : MSTuringANNS(1),
 
     'msspacev-1B': lambda : MSSPACEV1B(1000),
-    'msspacev-10M': lambda : MSSPACEV1B(10),
     'msspacev-100M': lambda : MSSPACEV1B(100),
+    'msspacev-10M': lambda : MSSPACEV1B(10),
     'msspacev-1M': lambda : MSSPACEV1B(1),
 
     'yfcc-10M': lambda: YFCC100MDataset(),

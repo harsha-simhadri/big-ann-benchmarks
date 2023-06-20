@@ -70,6 +70,7 @@ class diskann(BaseStreamingANN):
         print('Index class constructed and ready for update/search')
     
     def insert(self, X, ids):
+        print(X.dtype)
         self.index.batch_insert(X, ids)
 
     def delete(self, ids):
