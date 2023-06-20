@@ -134,6 +134,11 @@ if __name__ == "__main__":
         '--recompute',
         help='Clears the cache and recomputes the metrics',
         action='store_true')
+    parser.add_argument(
+        '--neurips23track',
+        choices=['filter', 'ood', 'sparse', 'streaming', 'none'],
+        default='none'
+    )
     args = parser.parse_args()
 
     if not args.output:
@@ -148,7 +153,7 @@ if __name__ == "__main__":
         args.x_axis = "ap"
     count = int(args.count)
     unique_algorithms = get_unique_algorithms()
-    results = load_all_results(args.dataset, count)
+    results = load_all_results(args.dataset, count, neurips23track=args.neurips23track)
     linestyles = create_linestyles(sorted(unique_algorithms))
     runs = compute_metrics(dataset.get_groundtruth(k=args.count),
                            results, args.x_axis, args.y_axis, args.recompute)

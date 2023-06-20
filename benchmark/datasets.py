@@ -1,19 +1,22 @@
+import gzip
+import shutil
 import math
 import numpy
 import os
-import gzip
 import random
 import sys
 import struct
 import time
 
 import numpy as np
+from scipy.sparse import csr_matrix
 
 from urllib.request import urlretrieve
 
 from .dataset_io import (
     xbin_mmap, download_accelerated, download, sanitize,
-    knn_result_read, range_result_read, read_sparse_matrix
+    knn_result_read, range_result_read, read_sparse_matrix,
+    write_sparse_matrix,
 )
 
 
@@ -73,6 +76,12 @@ class Dataset():
         """
         pass
 
+    def data_type(self):
+        """
+        "dense" or "sparse"
+        """
+        pass
+
     def default_count(self):
         """ number of neighbors to return """
         return 10
@@ -103,7 +112,7 @@ class DatasetCompetitionFormat(Dataset):
     two versions of the file.
     """
 
-    def prepare(self, skip_data=False):
+    def prepare(self, skip_data=False, original_size=10**9):
         if not os.path.exists(self.basedir):
             os.makedirs(self.basedir)
 
@@ -159,7 +168,7 @@ class DatasetCompetitionFormat(Dataset):
             download(sourceurl, outfile, max_size=file_size)
             # then overwrite the header...
             header = np.memmap(outfile, shape=2, dtype='uint32', mode="r+")
-            assert header[0] == 10**9
+            assert header[0] == original_size
             assert header[1] == self.d
             header[0] = self.nb
 
@@ -185,6 +194,9 @@ class DatasetCompetitionFormat(Dataset):
 
     def search_type(self):
         return "knn"
+    
+    def data_type(self):
+        return "dense"
 
     def get_groundtruth(self, k=None):
         assert self.gt_fn is not None
@@ -502,7 +514,7 @@ class RandomRangeDS(DatasetCompetitionFormat):
 class YFCC100MDataset(DatasetCompetitionFormat):
     """ the 2023 competition """
 
-    def __init__(self, filtered=True):
+    def __init__(self, filtered=True, dummy=False):
         self.filtered = filtered
         nb_M = 10
         self.nb_M = nb_M
@@ -510,19 +522,34 @@ class YFCC100MDataset(DatasetCompetitionFormat):
         self.d = 192
         self.nq = 100000
         self.dtype = "uint8"
-        # for now it's dummy because we don't have the descriptors yet
-        self.ds_fn = "dummy2.base.10M.u8bin"
-        self.qs_fn = "dummy2.query.public.100K.u8bin"
-        self.qs_private_fn = "dummy2.query.private.396157065643.100K.u8bin"
-        self.ds_metadata_fn = "base.metadata.10M.spmat"
-        self.qs_metadata_fn = "query.metadata.public.100K.spmat"
-        self.qs_private_metadata_fn = "query.metadata.private.396157065643.100K.spmat"
+        private_key = 12345
+        if dummy:
+            # for now it's dummy because we don't have the descriptors yet
+            self.ds_fn = "dummy2.base.10M.u8bin"
+            self.qs_fn = "dummy2.query.public.100K.u8bin"
+            self.qs_private_fn = "dummy2.query.private.%d.100K.u8bin" % private_key
+            self.ds_metadata_fn = "dummy2.base.metadata.10M.spmat"
+            self.qs_metadata_fn = "dummy2.query.metadata.public.100K.spmat"
+            self.qs_private_metadata_fn = "dummy2.query.metadata.private.%d.100K.spmat" % private_key
+            if filtered:
+                # no subset as the database is pretty small.
+                self.gt_fn = "dummy2.GT.public.ibin"
+            else:
+                self.gt_fn = "dummy2.unfiltered.GT.public.ibin"
 
-        if filtered:
-            # no subset as the database is pretty small.
-            self.gt_fn = "dummy2.GT.public.ibin"
         else:
-            self.gt_fn = "dummy2.unfiltered.GT.public.ibin"
+            # with Zilliz' CLIP descriptors
+            self.ds_fn = "base.10M.u8bin"
+            self.qs_fn = "query.public.100K.u8bin"
+            self.qs_private_fn = "query.private.%d.100K.u8bin" % private_key
+            self.ds_metadata_fn = "base.metadata.10M.spmat"
+            self.qs_metadata_fn = "query.metadata.public.100K.spmat"
+            self.qs_private_metadata_fn = "query.metadata.private.%d.100K.spmat" % private_key
+            if filtered:
+                # no subset as the database is pretty small.
+                self.gt_fn = "GT.public.ibin"
+            else:
+                self.gt_fn = "unfiltered.GT.public.ibin"
 
             # data is uploaded but download script not ready.
         self.base_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/yfcc100M/"
@@ -532,15 +559,29 @@ class YFCC100MDataset(DatasetCompetitionFormat):
         self.private_qs_url = self.base_url + ""
         self.private_gt_url = self.base_url + ""
 
-        self.metadata_base_url = self.base_url + ""
-        self.metadata_queries_url = self.base_url + ""
+        self.metadata_base_url = self.base_url + self.ds_metadata_fn
+        self.metadata_queries_url = self.base_url + self.qs_metadata_fn
+        self.metadata_private_queries_url = ""
+
+    def prepare(self, skip_data=False):
+        super().prepare(skip_data, 10**7)
+        for fn in (self.metadata_base_url, self.metadata_queries_url, self.metadata_private_queries_url):
+            if fn:
+                outfile = os.path.join(self.basedir, fn.split("/")[-1])
+                if os.path.exists(outfile):
+                    print("file %s already exists" % outfile)
+                else:
+                    download(fn, outfile)
 
     def get_dataset_metadata(self):
         return read_sparse_matrix(os.path.join(self.basedir, self.ds_metadata_fn))
 
     def get_queries_metadata(self):
         return read_sparse_matrix(os.path.join(self.basedir, self.qs_metadata_fn))
-
+    
+    def get_private_queries_metadata(self):
+        return read_sparse_matrix(os.path.join(self.basedir, self.qs_private_metadata_fn))
+    
     def distance(self):
         return "euclidean"
 
@@ -551,20 +592,18 @@ class YFCC100MDataset(DatasetCompetitionFormat):
             return "knn"
 
 
-def strip_gz(filename):
+def _strip_gz(filename):
     if not filename.endswith('.gz'):
         raise RuntimeError(f"expected a filename ending with '.gz'. Received: {filename}")
     return filename[:-3]
 
 
-def gunzip_if_needed(filename):
+def _gunzip_if_needed(filename):
     if filename.endswith('.gz'):
-        print('unzipping', filename, '...', end=" ")
-        with gzip.open(filename, 'rb') as f:
-            file_content = f.read()
+        print('unzipping', filename, '...', end=" ", flush=True)
 
-        with open(strip_gz(filename), 'wb') as f:
-            f.write(file_content)
+        with gzip.open(filename, 'rb') as f_in, open(_strip_gz(filename), 'wb') as f_out:
+            shutil.copyfileobj(f_in, f_out)
 
         os.remove(filename)
         print('done.')
@@ -585,8 +624,7 @@ class SparseDataset(DatasetCompetitionFormat):
                     "1M": (1000000, "base_1M.csr.gz", "base_1M.dev.gt"),
                     "full": (8841823, "base_full.csr.gz", "base_full.dev.gt")}
 
-        assert versions.keys().__contains__(
-            version), f'version="{version}" is invalid. Please choose one of {list(versions.keys())}.'
+        assert version in versions, f'version="{version}" is invalid. Please choose one of {list(versions.keys())}.'
 
         self.nb = versions[version][0]
         self.nq = 6980
@@ -620,16 +658,16 @@ class SparseDataset(DatasetCompetitionFormat):
             outfile = os.path.join(self.basedir, fn)
             if outfile.endswith('.gz'):
                 # check if the unzipped file already exists
-                if os.path.exists(strip_gz(outfile)):
+                if os.path.exists(_strip_gz(outfile)):
                     print("unzipped version of file %s already exists" % outfile)
                     continue
 
             if os.path.exists(outfile):
                 print("file %s already exists" % outfile)
-                gunzip_if_needed(outfile)
+                _gunzip_if_needed(outfile)
                 continue
             download(sourceurl, outfile)
-            gunzip_if_needed(outfile)
+            _gunzip_if_needed(outfile)
         # # private qs url: todo
 
         if skip_data:
@@ -640,19 +678,19 @@ class SparseDataset(DatasetCompetitionFormat):
         outfile = os.path.join(self.basedir, fn)
         if outfile.endswith('.gz'):
             # check if the unzipped file already exists
-            unzipped_outfile = strip_gz(outfile)
+            unzipped_outfile = _strip_gz(outfile)
             if os.path.exists(unzipped_outfile):
                 print("unzipped version of file %s already exists" % outfile)
                 return
         if os.path.exists(outfile):
             print("file %s already exists" % outfile)
-            gunzip_if_needed(outfile)
+            _gunzip_if_needed(outfile)
             return
-        download_accelerated(sourceurl, outfile)
-        gunzip_if_needed(outfile)
+        download(sourceurl, outfile)
+        _gunzip_if_needed(outfile)
 
     def get_dataset_fn(self):
-        fn = strip_gz(os.path.join(self.basedir, self.ds_fn))
+        fn = _strip_gz(os.path.join(self.basedir, self.ds_fn))
         if os.path.exists(fn):
             return fn
         raise RuntimeError("file not found")
@@ -696,7 +734,7 @@ class SparseDataset(DatasetCompetitionFormat):
 
     def get_queries(self):
         filename = os.path.join(self.basedir, self.qs_fn)
-        x = read_sparse_matrix(strip_gz(filename), do_mmap=False)  # read the queries file. It is a small file, so no need to mmap
+        x = read_sparse_matrix(_strip_gz(filename), do_mmap=False)  # read the queries file. It is a small file, so no need to mmap
         assert x.shape[0] == self.nq
         return x
 
@@ -711,10 +749,13 @@ class SparseDataset(DatasetCompetitionFormat):
 
     def search_type(self):
         return "knn"
+    
+    def data_type(self):
+        return "sparse"
 
 
 class RandomDS(DatasetCompetitionFormat):
-    def __init__(self, nb, nq, d):
+    def __init__(self, nb, nq, d, basedir="random"):
         self.nb = nb
         self.nq = nq
         self.d = d
@@ -722,7 +763,7 @@ class RandomDS(DatasetCompetitionFormat):
         self.ds_fn = f"data_{self.nb}_{self.d}"
         self.qs_fn = f"queries_{self.nq}_{self.d}"
         self.gt_fn = f"gt_{self.nb}_{self.nq}_{self.d}"
-        self.basedir = os.path.join(BASEDIR, f"random{self.nb}")
+        self.basedir = os.path.join(BASEDIR, f"{basedir}{self.nb}")
         if not os.path.exists(self.basedir):
             os.makedirs(self.basedir)
 
@@ -769,6 +810,93 @@ class RandomDS(DatasetCompetitionFormat):
 
     def default_count(self):
         return 10
+    
+
+class RandomFilterDS(RandomDS):
+    def __init__(self, nb, nq, d):
+        super().__init__(nb, nq, d, "random-filter")
+        self.ds_metadata_fn = f"data_metadata_{self.nb}_{self.d}"
+        self.qs_metadata_fn = f"queries_metadata_{self.nb}_{self.d}"
+
+    def prepare(self, skip_data=False):
+        import sklearn.datasets
+        import sklearn.model_selection
+        from sklearn.neighbors import NearestNeighbors
+
+        print(f"Preparing datasets with {self.nb} random points, {self.nq} queries, and two filters.")
+
+        X, _ = sklearn.datasets.make_blobs(
+            n_samples=self.nb + self.nq, n_features=self.d,
+            centers=self.nq, random_state=1)
+
+        data, queries = sklearn.model_selection.train_test_split(
+            X, test_size=self.nq, random_state=1) 
+
+        filter1 = [1, 2]
+        filter2 = [3, 4]       
+
+        assert self.nb % 2 == 0
+
+        # simple filters, first half of the data matches second 
+        # half of the queries, and vice versa
+
+        data_filters = [filter1] * (self.nb // 2) + [filter2] * (self.nb // 2)
+        query_filters = [filter2] * (self.nq // 2) + [filter1] * (self.nq // 2)
+
+        assert len(data_filters) == data.shape[0]
+
+        with open(os.path.join(self.basedir, self.ds_fn), "wb") as f:
+            np.array([self.nb, self.d], dtype='uint32').tofile(f)
+            data.astype('float32').tofile(f)
+        with open(os.path.join(self.basedir, self.qs_fn), "wb") as f:
+            np.array([self.nq, self.d], dtype='uint32').tofile(f)
+            queries.astype('float32').tofile(f) 
+
+        data_indices = np.array(data_filters).flatten()
+        data_indptr = [2 * i for i in range(self.nb)] + [2 * self.nb]
+        data_data = [1] * self.nb * 2
+        data_metadata_sparse = csr_matrix((data_data, data_indices, data_indptr))
+
+        query_indices = np.array(query_filters).flatten()
+        query_indptr = [2 * i for i in range(self.nq)] + [2 * self.nq]
+        query_data = [1] * self.nq * 2
+        query_metadata_sparse = csr_matrix((query_data, query_indices, query_indptr))
+
+        write_sparse_matrix(data_metadata_sparse, 
+                            os.path.join(self.basedir, self.ds_metadata_fn))
+        write_sparse_matrix(query_metadata_sparse, 
+                            os.path.join(self.basedir, self.qs_metadata_fn))
+
+        print("Computing groundtruth")
+
+        n_neighbors = 100
+
+        nbrs = NearestNeighbors(n_neighbors=n_neighbors, metric="euclidean", algorithm='brute').fit(data[:self.nb // 2])
+        DD, II = nbrs.kneighbors(queries[self.nq // 2:])
+
+        nbrs = NearestNeighbors(n_neighbors=n_neighbors, metric="euclidean", algorithm='brute').fit(data[self.nb // 2: ])
+        D, I = nbrs.kneighbors(queries[:self.nq // 2])
+
+        D = np.concatenate((D, DD))
+        I = np.concatenate((I + self.nb // 2, II))
+
+        with open(os.path.join(self.basedir, self.gt_fn), "wb") as f:
+            np.array([self.nq, n_neighbors], dtype='uint32').tofile(f)
+            I.astype('uint32').tofile(f)
+            D.astype('float32').tofile(f)
+
+    def get_dataset_metadata(self):
+        return read_sparse_matrix(os.path.join(self.basedir, self.ds_metadata_fn))
+
+    def get_queries_metadata(self):
+        return read_sparse_matrix(os.path.join(self.basedir, self.qs_metadata_fn))
+    
+    def search_type(self):
+        return "knn_filtered"
+
+    def __str__(self):
+        return f"RandomFilter({self.nb})"
+
 
 
 DATASETS = {
@@ -802,10 +930,19 @@ DATASETS = {
 
     'yfcc-10M': lambda: YFCC100MDataset(),
     'yfcc-10M-unfiltered': lambda: YFCC100MDataset(filtered=False),
+    'yfcc-10M-dummy': lambda: YFCC100MDataset(dummy=True),
+    'yfcc-10M-dummy-unfiltered': lambda: YFCC100MDataset(filtered=False, dummy=True),
+
+    'sparse-small': lambda: SparseDataset("small"),
+    'sparse-1M': lambda: SparseDataset("1M"),
+    'sparse-full': lambda: SparseDataset("full"), 
 
     'random-xs': lambda : RandomDS(10000, 1000, 20),
     'random-s': lambda : RandomDS(100000, 1000, 50),
 
     'random-range-xs': lambda : RandomRangeDS(10000, 1000, 20),
     'random-range-s': lambda : RandomRangeDS(100000, 1000, 50),
+
+    'random-filter-s': lambda : RandomFilterDS(100000, 1000, 50),
+
 }

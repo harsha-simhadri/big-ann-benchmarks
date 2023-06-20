@@ -5,6 +5,7 @@ import os
 import threading
 import time
 import traceback
+import yaml
 
 import colors
 import docker
@@ -13,6 +14,7 @@ import psutil
 
 from benchmark.algorithms.definitions import (Definition,
                                                instantiate_algorithm)
+from benchmark.algorithms.base_runner import BaseRunner
 
 from benchmark.datasets import DATASETS
 from benchmark.dataset_io import upload_accelerated, download_accelerated
@@ -21,64 +23,32 @@ from benchmark.results import store_results
 from benchmark.sensors.power_capture import power_capture
 from benchmark.t3.helper import t3_create_container
 
-def run_individual_query(algo, X, distance, count, run_count, search_type):
-    best_search_time = float('inf')
-    search_times = []
-    for i in range(run_count):
-        print('Run %d/%d...' % (i + 1, run_count))
-
-        start = time.time()
-        if search_type == "knn":
-            algo.query(X, count)
-            total = (time.time() - start)
-            results = algo.get_results()
-            assert len(results) == len(X)
-        else:
-            algo.range_query(X, count)
-            total = (time.time() - start)
-            results = algo.get_range_results()
-
-        search_time = total
-        best_search_time = min(best_search_time, search_time)
-        search_times.append( search_time )
-
-    attrs = {
-        "best_search_time": best_search_time,
-        "name": str(algo),
-        "run_count": run_count,
-        "distance": distance,
-        "type": search_type,
-        "count": int(count),
-        "search_times": search_times
-    }
-    additional = algo.get_additional()
-    for k in additional:
-        attrs[k] = additional[k]
-    return (attrs, results)
+from neurips23.common import RUNNERS
+from neurips23.streaming.load_runbook import load_runbook
 
 def run(definition, dataset, count, run_count, rebuild,
         upload_index=False, download_index=False,
-        blob_prefix="", sas_string="", private_query=False):
+        blob_prefix="", sas_string="", private_query=False,
+        neurips23track="none"):
 
     algo = instantiate_algorithm(definition)
     assert not definition.query_argument_groups \
            or hasattr(algo, "set_query_arguments"), """\
-error: query argument groups have been specified for %s.%s(%s), but the \
-algorithm instantiated from it does not implement the set_query_arguments \
-function""" % (definition.module, definition.constructor, definition.arguments)
+            error: query argument groups have been specified for %s.%s(%s), but the \
+            algorithm instantiated from it does not implement the set_query_arguments \
+            function""" % (definition.module, definition.constructor, definition.arguments)
 
     assert not upload_index or not download_index
 
     ds = DATASETS[dataset]()
     #X_train = numpy.array(D['train'])
-    if not private_query:
-        X = ds.get_queries()
-    else:
-        X = ds.get_private_queries()
+
     distance = ds.distance()
     search_type = ds.search_type()
     print(f"Running {definition.algorithm} on {dataset}")
-    print(fr"Got {len(X)} queries")
+
+    custom_runner = RUNNERS.get(neurips23track, BaseRunner)
+    runbook = None if neurips23track != 'streaming' else load_runbook(dataset, ds.nb, 'neurips23/streaming/runbook.yaml')
 
     try:
         # Try loading the index from the file
@@ -97,9 +67,7 @@ function""" % (definition.module, definition.constructor, definition.arguments)
                 print("Index load failed.")
         elif rebuild or not algo.load_index(dataset):
             # Build the index if it is not available
-            t0 = time.time()
-            algo.fit(dataset)
-            build_time = time.time() - t0
+            build_time = custom_runner.build(algo, dataset)
             print('Built index in', build_time)
         else:
             print("Loaded existing index")
@@ -128,19 +96,28 @@ function""" % (definition.module, definition.constructor, definition.arguments)
                       (pos, len(query_argument_groups)))
                 if query_arguments:
                     algo.set_query_arguments(*query_arguments)
-                descriptor, results = run_individual_query(
-                    algo, X, distance, count, run_count, search_type)
+                if neurips23track == 'streaming':
+                    descriptor, results = custom_runner.run_task(
+                        algo, ds, distance, count, run_count, search_type, private_query, runbook)
+                else:
+                    descriptor, results = custom_runner.run_task(
+                        algo, ds, distance, count, run_count, search_type, private_query)
                 # A bit unclear how to set this correctly if we usually load from file
                 #descriptor["build_time"] = build_time
                 descriptor["index_size"] = index_size
                 descriptor["algo"] = definition.algorithm
                 descriptor["dataset"] = dataset
                 if power_capture.enabled():
+                    if not private_query:
+                        X = ds.get_queries()
+                    else:
+                        X = ds.get_private_queries()
                     power_stats = power_capture.run(algo, X, distance, count,
                                                     run_count, search_type, descriptor)
 
                 store_results(dataset, count, definition,
-                              query_arguments, descriptor, results, search_type)
+                              query_arguments, descriptor,
+                              results, search_type, neurips23track)
     finally:
         algo.done()
 
@@ -150,7 +127,7 @@ def run_from_cmdline(args=None):
 
             NOTICE: You probably want to run.py rather than this script.
 
-''')
+    ''')
     parser.add_argument(
         '--dataset',
         choices=DATASETS.keys(),
@@ -214,6 +191,11 @@ def run_from_cmdline(args=None):
         '--private-query',
         help='Use the new set of private queries that were not released during the competition period.',
         action="store_true")
+    parser.add_argument(
+        '--neurips23track',
+        choices=['filter', 'ood', 'sparse', 'streaming', 'none'],
+        default='none'
+    )
 
     args = parser.parse_args(args)
     algo_args = json.loads(args.build)
@@ -236,13 +218,15 @@ def run_from_cmdline(args=None):
     )
     run(definition, args.dataset, args.count, args.runs, args.rebuild,
         args.upload_index, args.download_index, args.blob_prefix, args.sas_string,
-        args.private_query)
+        args.private_query, args.neurips23track)
 
 
 def run_docker(definition, dataset, count, runs, timeout, rebuild,
-        cpu_limit, mem_limit=None, t3=None, power_capture=None,
+               cpu_limit, mem_limit=None,
+               t3=None, power_capture=None,
                upload_index=False, download_index=False,
-               blob_prefix="", sas_string="", private_query=False):
+               blob_prefix="", sas_string="", private_query=False,
+               neurips23track='none'):
     cmd = ['--dataset', dataset,
            '--algorithm', definition.algorithm,
            '--module', definition.module,
@@ -264,6 +248,8 @@ def run_docker(definition, dataset, count, runs, timeout, rebuild,
     if private_query==True:
         cmd.append("--private-query")
 
+    cmd += ["--neurips23track", neurips23track]
+
     cmd.append(json.dumps(definition.arguments))
     cmd += [json.dumps(qag) for qag in definition.query_argument_groups]
 
@@ -273,12 +259,11 @@ def run_docker(definition, dataset, count, runs, timeout, rebuild,
 
 
     container = None
-    if t3:
+    if t3: # T3 from NeurIPS'23
         container = t3_create_container(definition, cmd, cpu_limit, mem_limit )
         timeout = 3600*24*3 # 3 days
-        print("Setting container wait timeout to 3 days")
-
-    else:
+        print("Setting container wait timeout to 3 days")       
+    else: # T1/T2 from NeurIPS'21
         container = client.containers.run(
             definition.docker_tag,
             cmd,
@@ -289,6 +274,8 @@ def run_docker(definition, dataset, count, runs, timeout, rebuild,
                     {'bind': '/home/app/data', 'mode': 'rw'},
                 os.path.abspath('results'):
                     {'bind': '/home/app/results', 'mode': 'rw'},
+                os.path.abspath('neurips23'):
+                    {'bind': '/home/app/neurips23', 'mode': 'ro'},
             },
             cpuset_cpus=cpu_limit,
             mem_limit=mem_limit,
@@ -320,7 +307,7 @@ def run_docker(definition, dataset, count, runs, timeout, rebuild,
 def _handle_container_return_value(return_value, container, logger):
     base_msg = 'Child process for container %s' % (container.short_id)
     if type(return_value) is dict: # The return value from container.wait changes from int to dict in docker 3.0.0
-        error_msg = return_value['Error']
+        error_msg = return_value['Error'] if 'Error' in return_value else ""
         exit_code = return_value['StatusCode']
         msg = base_msg + 'returned exit code %d with message %s' %(exit_code, error_msg)
     else:
@@ -335,7 +322,8 @@ def _handle_container_return_value(return_value, container, logger):
 def run_no_docker(definition, dataset, count, runs, timeout, rebuild,
                   cpu_limit, mem_limit=None, t3=False, power_capture=None,
                   upload_index=False, download_index=False,
-                  blob_prefix="", sas_string="", private_query=False):
+                  blob_prefix="", sas_string="", private_query=False,
+                  neurips23track='none'):
     cmd = ['--dataset', dataset,
            '--algorithm', definition.algorithm,
            '--module', definition.module,
@@ -356,6 +344,8 @@ def run_no_docker(definition, dataset, count, runs, timeout, rebuild,
         cmd += ["--sas-string", sas_string]
     if private_query==True:
         cmd.append("--private-query")
+    
+    cmd += ["--neurips23track", neurips23track]
 
     cmd.append(json.dumps(definition.arguments))
     cmd += [json.dumps(qag) for qag in definition.query_argument_groups]

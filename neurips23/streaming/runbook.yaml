@@ -1,0 +1,39 @@
+random-xs:
+  1: 
+    operation: "insert"
+    start: 1
+    end: 10000
+  2:
+    operation: "delete"
+    start: 1
+    end: 5000
+  3:
+    operation: "insert"
+    start: 1
+    end: 5000
+msturing-10M:
+  1: 
+    operation: "insert"
+    start: 1
+    end: 10000000
+  2:
+    operation: "delete"
+    start: 1
+    end: 5000000
+  3:
+    operation: "insert"
+    start: 1
+    end: 5000000
+msspacev-10M:
+  1: 
+    operation: "insert"
+    start: 1
+    end: 10000000
+  2:
+    operation: "delete"
+    start: 1
+    end: 5000000
+  3:
+    operation: "insert"
+    start: 1
+    end: 5000000

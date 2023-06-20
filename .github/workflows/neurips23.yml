@@ -1,0 +1,53 @@
+# Contributed by @GuilhemN in https://github.com/erikbern/ann-benchmarks/pull/233
+name: Billion-Scale ANN Benchmarks, NeurIPS 2023
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - algorithm: faiss
+            dataset: random-filter-s
+            track: filter
+          - algorithm: linscan
+            dataset: sparse-small
+            track: sparse
+          - algorithm: diskann
+            dataset: random-xs
+            track: streaming
+          - algorithm: diskann
+            dataset: random-xs
+            track: ood
+      fail-fast: false
+
+    steps:
+    - uses: actions/checkout@v2 # Pull the repository
+
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.10'
+
+    - name: Install dependencies
+      run: |
+        pip install -r requirements_py3.10.txt
+        python install.py --neurips23track $TRACK --algorithm $ALGO
+      env:
+        ALGO: ${{ matrix.algorithm }}
+        TRACK: ${{ matrix.track }}
+
+    - name: Run the benchmark
+      run: |
+        python create_dataset.py --dataset $DATASET
+        python run.py --algorithm $ALGO --max-n-algorithms 2 --neurips23track $TRACK --dataset $DATASET --timeout 600
+        sudo chmod -R 777 results/
+        python plot.py --dataset $DATASET --neurips23track $TRACK --output plot.png
+        python data_export.py --output test.csv
+
+      env:
+        ALGO: ${{ matrix.algorithm}}
+        DATASET: ${{ matrix.dataset }}
+        TRACK: ${{ matrix.track}}

@@ -161,6 +161,8 @@ if __name__ == "__main__":
     xb = ds.get_dataset()
     print("  size", xb.shape)
 
+    # print(faiss.MatrixStats(xb).comments)
+
     if args.binarysig:
         print("preparing binary signatures")
         if args.build:

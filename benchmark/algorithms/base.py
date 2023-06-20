@@ -58,6 +58,7 @@ class BaseANN(object):
         """
         raise NotImplementedError()
 
+
     def get_results(self):
         """
         Helper method to convert query results of k-NN search.

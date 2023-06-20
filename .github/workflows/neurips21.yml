@@ -1,5 +1,5 @@
 # Contributed by @GuilhemN in https://github.com/erikbern/ann-benchmarks/pull/233
-name: Billion-Scale ANN Benchmarks
+name: Billion-Scale ANN Benchmarks, NeurIPS 2021
 
 on: [push, pull_request]
 
@@ -14,7 +14,7 @@ jobs:
             dataset: random-xs
           - algorithm: faiss-t1
             dataset: random-xs
-            library: faissconda
+            library: faissconda            
           - algorithm: puck-t1
             dataset: random-xs
             library: puck
@@ -85,4 +85,4 @@ jobs:
 
       env:
         ALGORITHM: ${{ matrix.algorithm}}
-        DATASET: ${{ matrix.dataset }} 
+        DATASET: ${{ matrix.dataset }}
