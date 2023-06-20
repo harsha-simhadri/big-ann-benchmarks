@@ -172,8 +172,8 @@ def read_ibin(filename, start_idx=0, chunk_size=None):
 
 
 def sanitize(x):
-    """ make the simplest possible float32 array of the input"""
-    return np.ascontiguousarray(x, dtype='float32')
+    """ make the simplest possible array of the input"""
+    return np.ascontiguousarray(x)
 
 def usbin_write(ids, dist, fname):
     ids = np.ascontiguousarray(ids, dtype="int32")
