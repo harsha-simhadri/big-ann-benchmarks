@@ -24,6 +24,19 @@ msturing-10M:
     operation: "insert"
     start: 1
     end: 5000000
+msturing-1M:
+  1: 
+    operation: "insert"
+    start: 1
+    end: 1000000
+  2:
+    operation: "delete"
+    start: 1
+    end: 500000
+  3:
+    operation: "insert"
+    start: 1
+    end: 500000
 msspacev-10M:
   1: 
     operation: "insert"
@@ -37,3 +50,16 @@ msspacev-10M:
     operation: "insert"
     start: 1
     end: 5000000
+msspacev-1M:
+  1: 
+    operation: "insert"
+    start: 1
+    end: 1000000
+  2:
+    operation: "delete"
+    start: 1
+    end: 500000
+  3:
+    operation: "insert"
+    start: 1
+    end: 500000
