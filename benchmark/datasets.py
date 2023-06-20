@@ -215,7 +215,8 @@ class DatasetCompetitionFormat(Dataset):
 
     def get_dataset(self):
         assert self.nb <= 10**7, "dataset too large, use iterator"
-        return sanitize(next(self.get_dataset_iterator(bs=self.nb)))
+        slice = next(self.get_dataset_iterator(bs=self.nb))
+        return sanitize(slice)
 
     def get_queries(self):
         filename = os.path.join(self.basedir, self.qs_fn)
