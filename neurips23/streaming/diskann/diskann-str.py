@@ -24,7 +24,7 @@ class diskann(BaseStreamingANN):
         self.insert_threads = index_params.get("insert_threads")
         self.consolidate_threads = index_params.get("consolidate_threads")
 
-    def index_name(self):
+    def index_name(self): 
         return f"R{self.R}_L{self.L}"
         
     def create_index_dir(self, dataset):
@@ -89,3 +89,6 @@ class diskann(BaseStreamingANN):
         self._query_args = query_args
         self.Ls = 0 if query_args.get("Ls") == None else query_args.get("Ls")                             
         self.search_threads = self._query_args.get("T")
+
+    def __str__(self):
+        return f'diskann({self.index_name(), self._query_args})'
