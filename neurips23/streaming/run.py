@@ -45,6 +45,7 @@ class StreamingRunner(BaseRunner):
         
         print(fr"Got {X.shape[0]} queries")
 
+        run_count = 1
         for i in range(run_count):
             print('Run %d/%d...' % (i + 1, run_count))
 

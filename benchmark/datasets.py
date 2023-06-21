@@ -395,9 +395,9 @@ class MSTuringANNS(DatasetCompetitionFormat):
         self.qs_fn = "query100K.fbin"
         self.gt_fn = (
             "query_gt100.bin" if self.nb_M == 1000 else
-            subset_url + "GT_100M/msturing-100M" if self.nb_M == 100 else
-            subset_url + "GT_10M/msturing-10M" if self.nb_M == 10 else
-            subset_url + "GT_1M/msturing-1M" if self.nb_M == 1 else
+            "msturing-gt-100M" if self.nb_M == 100 else # back up subset_url + "GT_100M/msturing-100M"
+            "msturing-gt-10M" if self.nb_M == 10 else # back up subset_url + "GT_100M/msturing-10M"
+            "msturing-gt-1M" if self.nb_M == 1 else
             None
         )
         self.base_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/MSFT-TURING-ANNS/"
@@ -426,8 +426,9 @@ class MSSPACEV1B(DatasetCompetitionFormat):
         self.qs_fn = "query.i8bin"
         self.gt_fn = (
             "public_query_gt100.bin" if self.nb_M == 1000 else
-            subset_url + "GT_100M/msspacev-100M" if self.nb_M == 100 else
-            subset_url + "GT_10M/msspacev-10M" if self.nb_M == 10 else
+            "msspacev-gt-100M" if self.nb_M == 100 else # backup subset_url + "GT_100M/msspacev-100M"
+            "msspacev-gt-10M" if self.nb_M == 10 else # backup subset_url + "GT_10M/msspacev-10M"
+            "msspacev-gt-1M" if self.nb_M == 1 else
             None
         )
         self.base_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/spacev1b/"
