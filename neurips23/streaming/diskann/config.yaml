@@ -19,9 +19,9 @@ msspacev-1M:
       run-groups:
         base:
           args: |
-            [{"R":64, "L":50, "insert_threads":16, "consolidate_threads":16}]
+            [{"R":50, "L":50, "insert_threads":16, "consolidate_threads":16}]
           query-args: |
-            [{"Ls":300, "T":16}]
+            [{"Ls":100, "T":16}]
 msturing-1M:
     diskann: 
       docker-tag: neurips23-streaming-diskann
@@ -31,9 +31,9 @@ msturing-1M:
       run-groups:
         base:
           args: |
-            [{"R":64, "L":50, "insert_threads":16, "consolidate_threads":16}]
+            [{"R":50, "L":50, "insert_threads":16, "consolidate_threads":16}]
           query-args: |
-            [{"Ls":300, "T":16}]
+            [{"Ls":100, "T":16}]
 msspacev-10M:
     diskann: 
       docker-tag: neurips23-streaming-diskann
@@ -45,7 +45,7 @@ msspacev-10M:
           args: |
             [{"R":64, "L":50, "insert_threads":16, "consolidate_threads":16}]
           query-args: |
-            [{"Ls":300, "T":16}]
+            [{"Ls":100, "T":16}]
 msturing-10M:
     diskann: 
       docker-tag: neurips23-streaming-diskann
@@ -57,4 +57,4 @@ msturing-10M:
           args: |
             [{"R":64, "L":50, "insert_threads":16, "consolidate_threads":16}]
           query-args: |
-            [{"Ls":300, "T":16}]
+            [{"Ls":100, "T":16}]
