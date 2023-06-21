@@ -167,3 +167,6 @@ class diskann(BaseOODANN):
         self._query_args = query_args
         self.Ls = 0 if query_args.get("Ls") == None else query_args.get("Ls")                             
         self.search_threads = self._query_args.get("T")
+
+    def __str__(self):
+        return f'diskann({self.index_name(), self._query_args})'
