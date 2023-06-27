@@ -23,51 +23,45 @@ class StreamingRunner(BaseRunner):
     def run_task(algo, ds, distance, count, run_count, search_type, private_query, runbook):
         best_search_time = float('inf')
         search_times = []
+        all_results = []
 
         data = ds.get_dataset()
         ids = np.arange(1, ds.nb+1, dtype=np.uint32)
 
+        Q = ds.get_queries() if not private_query else ds.get_private_queries()
+        print(fr"Got {Q.shape[0]} queries")  
+
         # Load Runbook
-        for entry in runbook:
+        result_map = {}
+        num_searches = 0
+        for step, entry in enumerate(runbook):
             print(entry)
-            start = entry['start']
-            end = entry['end']
-            ids = np.arange(start, end+1, dtype=np.uint32)
-            if entry['operation'] == 'insert':
-                algo.insert(data[ids-1,:], ids)
-            if entry['operation'] == 'delete':
-                algo.delete(ids)
-
-        if not private_query:
-            X = ds.get_queries()
-        else:
-            X = ds.get_private_queries()
-        
-        print(fr"Got {X.shape[0]} queries")
-
-        run_count = 1
-        for i in range(run_count):
-            print('Run %d/%d...' % (i + 1, run_count))
-
             start = time.time()
-            if search_type == "knn":
-                algo.query(X, count)
-                total = (time.time() - start)
-                results = algo.get_results()
-                assert results.shape[0] == X.shape[0]
-            elif search_type == "range":
-                algo.range_query(X, count)
-                total = (time.time() - start)
-                results = algo.get_range_results()
-            else:
-                raise NotImplementedError(f"Search type {search_type} not available.")
-
-            search_time = total
-            best_search_time = min(best_search_time, search_time)
-            search_times.append( search_time )
+            match entry['operation']:
+                case 'insert':
+                    ids = np.arange(entry['start'], entry['end']+1, dtype=np.uint32)
+                    algo.insert(data[ids-1,:], ids)
+                case 'delete':
+                    ids = np.arange(entry['start'], entry['end']+1, dtype=np.uint32)
+                    algo.delete(ids)
+                case 'search':
+                    if search_type == 'knn':
+                        algo.query(Q, count)
+                        results = algo.get_results()
+                    elif search_type == 'range':
+                        algo.range_query(Q, count)
+                        results = algo.get_range_results()
+                    else:
+                        raise NotImplementedError(f"Search type {search_type} not available.")
+                    all_results.append(results)
+                    result_map[num_searches] = step + 1
+                    num_searches += 1
+                case _:
+                    raise NotImplementedError('Invalid runbook operation.')
+            step_time = (time.time() - start)
+            print(f"Step {step+1} took {step_time}s.")
 
         attrs = {
-            "best_search_time": best_search_time,
             "name": str(algo),
             "run_count": run_count,
             "distance": distance,
@@ -75,7 +69,11 @@ class StreamingRunner(BaseRunner):
             "count": int(count),
             "search_times": search_times
         }
+
+        for k, v in result_map.items():
+            attrs['step_' + str(k)] = v
+            
         additional = algo.get_additional()
         for k in additional:
             attrs[k] = additional[k]
-        return (attrs, results)
+        return (attrs, all_results)

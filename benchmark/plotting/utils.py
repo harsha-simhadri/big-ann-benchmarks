@@ -71,7 +71,7 @@ def compute_metrics(true_nn, res, metric_1, metric_2,
 
 def compute_metrics_all_runs(dataset, res, recompute=False, 
         sensor_metrics=False, search_times=False,
-        private_query=False):
+        private_query=False, neurips23track=None):
 
     try:
         if private_query:

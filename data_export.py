@@ -59,7 +59,7 @@ if __name__ == "__main__":
             dataset = DATASETS[dataset_name]()
             results = load_all_results(dataset_name, neurips23track=track)
             results = compute_metrics_all_runs(dataset, results, args.recompute, \
-                    args.sensors, args.search_times, args.private_query)
+                    args.sensors, args.search_times, args.private_query, neurips23tracks=None)
             cleaned = []
             for result in results:
                 result['track'] = track

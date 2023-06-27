@@ -9,11 +9,12 @@ def get_range_start_end(entry):
     return np.arange(entry['start']-1,  entry['end'], dtype=np.uint32)
 
 def get_next_set(ids: np.ndarray, entry):
-    range = get_range_start_end(entry)
     match entry['operation']:
         case 'insert':
+            range = get_range_start_end(entry)
             return np.union1d(ids, range)
         case 'delete':
+            range = get_range_start_end(entry)
             return np.setdiff1d(ids, range, assume_unique=True)
         case 'search':
             return ids
@@ -105,7 +106,8 @@ def main():
         else:
             ids = get_next_set(ids, entry)
         print(ids)
-        output_gt(ds, ids, step, common_cmd)
+        if (entry['operation'] == 'search'):
+            output_gt(ds, ids, step, common_cmd)
         step += 1
 
 if __name__ == '__main__':

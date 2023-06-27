@@ -35,7 +35,10 @@ class BaseRunner():
                 raise NotImplementedError(f"Search type {search_type} not available.")
 
             search_time = total
-            best_search_time = min(best_search_time, search_time)
+            if search_time < best_search_time:
+                best_search_time = search_time
+                best_results = results
+
             search_times.append( search_time )
 
         attrs = {
@@ -50,5 +53,5 @@ class BaseRunner():
         additional = algo.get_additional()
         for k in additional:
             attrs[k] = additional[k]
-        return (attrs, results)
+        return (attrs, best_results)
         
