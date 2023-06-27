@@ -28,9 +28,9 @@ class diskann(BaseStreamingANN):
         return f"R{self.R}_L{self.L}"
         
     def create_index_dir(self, dataset):
-        index_dir = os.path.join(os.getcwd(), "data", "indices")
+        index_dir = os.path.join(os.getcwd(), "data", "indices", "streaming")
         os.makedirs(index_dir, mode=0o777, exist_ok=True)
-        index_dir = os.path.join(index_dir, self.__str__())
+        index_dir = os.path.join(index_dir, 'diskann')
         os.makedirs(index_dir, mode=0o777, exist_ok=True)
         index_dir = os.path.join(index_dir, dataset.short_name())
         os.makedirs(index_dir, mode=0o777, exist_ok=True)
@@ -70,7 +70,6 @@ class diskann(BaseStreamingANN):
         print('Index class constructed and ready for update/search')
     
     def insert(self, X, ids):
-        print(X.dtype)
         self.index.batch_insert(X, ids)
 
     def delete(self, ids):
