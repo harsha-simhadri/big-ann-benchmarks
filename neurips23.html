@@ -101,9 +101,9 @@
                     <LI>
                         Sparse:  This task is based on the common MSMARCO passage retrieval dataset,
                          which has 8,841,823 text passages, encoded into sparse vectors using the SPLADE model. 
-                         The vectors have a large dimension (less than 100,000), but each vector in the base dataset
+                         The vectors have a large dimension (about 30,000), but each vector in the base dataset
                           has an average of approximately 120 nonzero elements. 
-                          The query set comprises of 6,980 text queries, embedded by the same SPLADE model. 
+                          The query set contains 6,980 text queries, embedded by the same SPLADE model.
                           The average number of nonzero elements in the query set is approximately 49 (since text queries are generally shorter).
                           Given a sparse query vector, the index should return the top-k results according to the maximal inner product between the vectors.
                     </LI>
@@ -152,12 +152,16 @@
 
                 <TR>
                     <TD>Sparse</TD>
-                    <TD>MS MARCO bag of words 8841823 vectors</TD>
-                    <TD>~100K</TD>
-                    <TD>bag of words</TD>
-                    <TD>Linear Scan</TD>
+                    <TD>MS MARCO / SPLADE </TD>
+                    <TD>~30K</TD>
+                    <TD>float32, sparse format</TD>
+                    <TD> <a href="https://arxiv.org/abs/2301.10622">Linscan</a></TD>
                     <TD>100</TD>
-                    <TD>?</TD>
+                        <TD>
+                            <a href="https://microsoft.github.io/msmarco/">MS-MARCO</a>: Free NC <br>
+                            <a href="https://huggingface.co/naver/splade-cocondenser-ensembledistil/tree/main">SPLADE</a>:
+                            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA</a>
+                        </TD>
                 </TR>
 
                 <TR>
@@ -179,7 +183,7 @@
             <div class="container" id="participate">
                 <h2>Participation</h2>
                 <p>
-                To get started, please see the <a href="https://github.com/harsha-simhadri/big-ann-benchmarks/neurips23/README.md">README</a> file.<BR>
+                To get started, please see the <a href="https://github.com/harsha-simhadri/big-ann-benchmarks/blob/main/neurips23/README.md">README</a> file.<BR>
                 To participate, please express interest through the <a href="https://cmt3.research.microsoft.com/BigAnnBenchmarks2023">CMT portal</a> and follow the instructions in the readme to submit a Pull Request.<BR>
                 To request cloud compute credits ($1000), please share a short write up on ideas you plan to develop in your CMT entry. <BR>
                 For questions, please use the <a href="https://github.com/harsha-simhadri/big-ann-benchmarks/issues">github issues</a> or the <a href="https://big-ann-benchmarks.slack.com/archives/C05BR1N85SQ">slack channel</a>.
@@ -205,8 +209,8 @@
                 <li><a href="http://www.itu.dk/people/maau/" target="_blank">Martin Aumüller, IT University of Copenhagen</a> </li>
                 <li><a href="https://research.yandex.com/people/610754" target="_blank">Dmitry Baranchuk, Yandex</a></li>
                 <li><a href="https://ai.facebook.com/people/matthijs-douze/" target="_blank">Matthijs Douze, Facebook AI Research</a></li>
-                <li><a href="" target="_blank">Amir Ingber, Pinecone</a></li>
-                <li><a href="" target="_blank">Edo Liberty, Pinecone</a></li>
+                <li><a href="https://www.linkedin.com/in/ingberamir/" target="_blank">Amir Ingber, Pinecone</a></li>
+                <li><a href="https://edoliberty.github.io/" target="_blank">Edo Liberty, Pinecone</a></li>
                 <li><a href="" target="_blank">Frank Liu, Zilliz</a></li>
                 <li><a href="https://medium.com/@georgewilliams" target="_blank">George Williams, GSI Technology</a> </li>
               </ul>
