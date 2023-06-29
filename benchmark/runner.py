@@ -29,7 +29,7 @@ from neurips23.streaming.load_runbook import load_runbook
 def run(definition, dataset, count, run_count, rebuild,
         upload_index=False, download_index=False,
         blob_prefix="", sas_string="", private_query=False,
-        neurips23track="none"):
+        neurips23track="none", runbook_path="neurips23/streaming/simple_runbook.yaml"):
 
     algo = instantiate_algorithm(definition)
     assert not definition.query_argument_groups \
@@ -48,7 +48,7 @@ def run(definition, dataset, count, run_count, rebuild,
     print(f"Running {definition.algorithm} on {dataset}")
 
     custom_runner = RUNNERS.get(neurips23track, BaseRunner)
-    runbook = None if neurips23track != 'streaming' else load_runbook(dataset, ds.nb, 'neurips23/streaming/runbook.yaml')
+    runbook = None if neurips23track != 'streaming' else load_runbook(dataset, ds.nb, runbook_path)
 
     try:
         # Try loading the index from the file
@@ -68,7 +68,7 @@ def run(definition, dataset, count, run_count, rebuild,
         elif rebuild or not algo.load_index(dataset):
             # Build the index if it is not available
             build_time = custom_runner.build(algo, dataset)
-            print('Built index in', build_time)
+            print('Built index in', build_time) 
         else:
             print("Loaded existing index")
 
@@ -98,7 +98,7 @@ def run(definition, dataset, count, run_count, rebuild,
                     algo.set_query_arguments(*query_arguments)
                 if neurips23track == 'streaming':
                     descriptor, results = custom_runner.run_task(
-                        algo, ds, distance, count, run_count, search_type, private_query, runbook)
+                        algo, ds, distance, 1, run_count, search_type, private_query, runbook)
                 else:
                     descriptor, results = custom_runner.run_task(
                         algo, ds, distance, count, run_count, search_type, private_query)
@@ -114,10 +114,9 @@ def run(definition, dataset, count, run_count, rebuild,
                         X = ds.get_private_queries()
                     power_stats = power_capture.run(algo, X, distance, count,
                                                     run_count, search_type, descriptor)
-
                 store_results(dataset, count, definition,
                               query_arguments, descriptor,
-                              results, search_type, neurips23track)
+                              results, search_type, neurips23track, runbook_path)
     finally:
         algo.done()
 

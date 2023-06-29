@@ -12,6 +12,43 @@ from benchmark.datasets import DATASETS
 from benchmark.plotting.utils  import compute_metrics_all_runs
 from benchmark.results import load_all_results, get_unique_algorithms
 
+
+def cleaned_run_metric(run_metrics):
+    cleaned = []
+    for run_metric in run_metrics:
+        run_metric['track'] = track
+        if 'k-nn' in run_metric:
+            run_metric['recall/ap'] = run_metric['k-nn']
+            del run_metric['k-nn']
+        if 'ap' in run_metric:
+            run_metric['recall/ap'] = run_metric['ap']
+            del run_metric['ap']
+        if args.sensors:
+            if 'wspq' not in run_metric:
+                print('Warning: wspq sensor data not available.')
+        if args.search_times:
+            search_times = run_metric['search_times'] 
+            if 'search_times' in run_metric:
+                # create a space separated list suitable as column for a csv
+                run_metric['search_times'] = \
+                    " ".join( [str(el) for el in search_times ] )
+
+            if args.detect_caching != None:
+                print("%s: Checking for response caching for these search times->" % dataset_name, search_times)
+                percent_improvement = (search_times[0]-search_times[-1])/search_times[0]
+                caching = percent_improvement > args.detect_caching
+                run_metric['caching'] = "%d %f %f" % ( 1 if caching else 0, args.detect_caching, percent_improvement )
+                if caching:
+                    print("Possible caching discovered: %.3f > %.3f" % ( percent_improvement, args.detect_caching) )
+                else:
+                    print("No response caching detected.")
+
+            else:
+                print("Warning: 'search_times' not available.")
+        cleaned.append(run_metric)
+    return cleaned
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -55,46 +92,21 @@ if __name__ == "__main__":
     is_first = True
     for track in neurips23tracks:
         for dataset_name in datasets:
-            print("Looking at dataset", dataset_name)
+            print(f"Looking at track:{track}, dataset:{dataset_name}")
             dataset = DATASETS[dataset_name]()
-            results = load_all_results(dataset_name, neurips23track=track)
-            results = compute_metrics_all_runs(dataset, results, args.recompute, \
-                    args.sensors, args.search_times, args.private_query, neurips23tracks=None)
-            cleaned = []
-            for result in results:
-                result['track'] = track
-                if 'k-nn' in result:
-                    result['recall/ap'] = result['k-nn']
-                    del result['k-nn']
-                if 'ap' in result:
-                    result['recall/ap'] = result['ap']
-                    del result['ap']
-                if args.sensors:
-                    if 'wspq' not in result:
-                        print('Warning: wspq sensor data not available.')
-                if args.search_times:
-                    search_times = result['search_times']
-                    if 'search_times' in result:
-                        # create a space separated list suitable as column for a csv
-                        result['search_times'] = \
-                            " ".join( [str(el) for el in search_times ] )
-
-                        if args.detect_caching != None:
-                            print("%s: Checking for response caching for these search times->" % dataset_name, search_times)
-                            percent_improvement = (search_times[0]-search_times[-1])/search_times[0]
-                            caching = percent_improvement > args.detect_caching
-                            result['caching'] = "%d %f %f" % ( 1 if caching else 0, args.detect_caching, percent_improvement )
-                            if caching:
-                                print("Possible caching discovered: %.3f > %.3f" % ( percent_improvement, args.detect_caching) )
-                            else:
-                                print("No response caching detected.")
-
-                    else:
-                        print("Warning: 'search_times' not available.")
-                cleaned.append(result)
-            dfs.append(pd.DataFrame(cleaned))
+            if track == 'streaming':
+                for runbook_path in ['neurips23/streaming/simple_runbook.yaml']:
+                    results = load_all_results(dataset_name, neurips23track=track, runbook_path=runbook_path)
+                    run_metrics = compute_metrics_all_runs(dataset, dataset_name, results, args.recompute, \
+                        args.sensors, args.search_times, args.private_query, \
+                        neurips23track=track, runbook_path=runbook_path)
+                    dfs.append(pd.DataFrame(cleaned_run_metric(run_metrics)))
+            else:
+                results = load_all_results(dataset_name, neurips23track=track)
+                run_metrics = compute_metrics_all_runs(dataset, dataset_name, results, args.recompute, \
+                        args.sensors, args.search_times, args.private_query, neurips23track=track)
+                dfs.append(pd.DataFrame(cleaned_run_metric(run_metrics)))
     if len(dfs) > 0:
         data = pd.concat(dfs)
         data = data.sort_values(by=["algorithm", "dataset", "recall/ap"])        
         data.to_csv(args.output, index=False)
-
