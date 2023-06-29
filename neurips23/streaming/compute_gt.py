@@ -20,12 +20,16 @@ def get_next_set(ids: np.ndarray, entry):
             return ids
         case _:       
             raise ValueError('Undefined entry in runbook')
+        
+def gt_dir(ds, runbook_path):
+    runbook_filename = os.path.split(runbook_path)[1]
+    return os.path.join(ds.basedir, str(ds.nb), runbook_filename)
 
-def output_gt(ds, ids, step, gt_cmdline):
+def output_gt(ds, ids, step, gt_cmdline, runbook_path):
     data = ds.get_dataset()
     data_slice = data[ids]
 
-    dir = os.path.join(ds.basedir, str(ds.nb))
+    dir = gt_dir(ds, runbook_path)
     prefix = os.path.join(dir, 'step') + str(step) 
     os.makedirs(dir, exist_ok=True)
 
@@ -46,7 +50,7 @@ def output_gt(ds, ids, step, gt_cmdline):
     gt_cmdline += ' --base_file ' + data_file 
     gt_cmdline += ' --gt_file ' + gt_file
     gt_cmdline += ' --tags_file ' + tags_file
-    print(gt_cmdline)
+    print("Executing cmdline: ", gt_cmdline)
     os.system(gt_cmdline)
     
 
@@ -107,7 +111,7 @@ def main():
             ids = get_next_set(ids, entry)
         print(ids)
         if (entry['operation'] == 'search'):
-            output_gt(ds, ids, step, common_cmd)
+            output_gt(ds, ids, step, common_cmd, args.runbook_file)
         step += 1
 
 if __name__ == '__main__':

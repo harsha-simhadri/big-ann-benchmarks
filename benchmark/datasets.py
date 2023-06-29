@@ -201,11 +201,9 @@ class DatasetCompetitionFormat(Dataset):
     def get_groundtruth(self, k=None):
         assert self.gt_fn is not None
         fn = self.gt_fn.split("/")[-1]   # in case it's a URL
-        print(fn)
         assert self.search_type() in ("knn", "knn_filtered")
 
         I, D = knn_result_read(os.path.join(self.basedir, fn))
-        print(self.basedir)
         assert I.shape[0] == self.nq
         if k is not None:
             assert k <= 100

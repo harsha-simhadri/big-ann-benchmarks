@@ -35,7 +35,6 @@ class StreamingRunner(BaseRunner):
         result_map = {}
         num_searches = 0
         for step, entry in enumerate(runbook):
-            print(entry)
             start = time.time()
             match entry['operation']:
                 case 'insert':
@@ -67,7 +66,8 @@ class StreamingRunner(BaseRunner):
             "distance": distance,
             "type": search_type,
             "count": int(count),
-            "search_times": search_times
+            "search_times": search_times,
+            "num_searches": num_searches
         }
 
         for k, v in result_map.items():

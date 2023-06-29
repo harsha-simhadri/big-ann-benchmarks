@@ -8,11 +8,16 @@ import traceback
 
 
 def get_result_filename(dataset=None, count=None, definition=None,
-                        query_arguments=None, neurips23track=None):
+                        query_arguments=None, neurips23track=None, runbook_path=None):
     d = ['results']
     if neurips23track and neurips23track != 'none':
         d.append('neurips23')
         d.append(neurips23track)
+        if neurips23track == 'streaming':
+            if runbook_path == None:
+                raise RuntimeError('Need runbook_path to store results')
+            else:
+                d.append(os.path.split(runbook_path)[1])
     if dataset:
         d.append(dataset)
     if count:
@@ -31,7 +36,6 @@ def get_result_filename(dataset=None, count=None, definition=None,
         if len(data) > 150:
             data = data[-149:]
         d.append(data)
-
     return os.path.join(*d)
 
 
@@ -49,9 +53,9 @@ def add_results_to_h5py(f, search_type, results, count, suffix = ''):
         raise NotImplementedError()
 
 def store_results(dataset, count, definition, query_arguments,
-        attrs, results, search_type, neurips23track=None):
+        attrs, results, search_type, neurips23track=None, runbook_path=None):
     fn = get_result_filename(
-        dataset, count, definition, query_arguments, neurips23track) + '.hdf5'
+        dataset, count, definition, query_arguments, neurips23track, runbook_path) + '.hdf5'
     head, tail = os.path.split(fn)
     if not os.path.isdir(head):
         os.makedirs(head)
@@ -68,11 +72,13 @@ def store_results(dataset, count, definition, query_arguments,
     f.close()
 
 
-def load_all_results(dataset=None, count=None, neurips23track=None):
+def load_all_results(dataset=None, count=None, neurips23track=None, runbook_path=None):
     """
     A generator for all result files.
     """
-    for root, _, files in os.walk(get_result_filename(dataset, count, neurips23track=neurips23track)):
+    for root, _, files in os.walk(get_result_filename(dataset, count, \
+                                                      neurips23track=neurips23track, \
+                                                    runbook_path=runbook_path)):
         for fn in files:
             if os.path.splitext(fn)[-1] != '.hdf5':
                 continue
