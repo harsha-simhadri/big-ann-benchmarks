@@ -85,23 +85,33 @@ To see a complete list of datasets, run the following:
 python create_dataset.py --help
 ```
 
-Build the docker container baselines:
+Build the docker container baselines for each track:
 ```
-#for Filter
-python install.py --algorithm faiss --neurips23track filter  
-#for Sparse
-python install.py --algorithm linscan --neurips23track sparse
-```
-Run a benchmark evaluation using the algorithm's definition file on the small test inputs
-```
-python run.py --algorithm faiss --neurips23track filter --dataset random-filter-s
-python run.py --algorithm linscan --neurips23track sparse --dataset sparse-small
+python install.py --neurips23track filter    --algorithm faiss  
+python install.py --neurips23track sparse    --algorithm linscan 
+python install.py --neurips23track ood       --algorithm diskann
+python install.py --neurips23track streaming --algorithm diskann
 ```
 
-For the competition dataset , run commands mentioned in the table above, for example:
+Test the benchmark and baseline using the algorithm's definition file on small test inputs
 ```
-python run.py --algorithm faiss --neurips23track filter --dataset yfcc-10M
-python run.py --algorithm linscan --neurips23track sparse --dataset sparse-full
+python run.py --neurips23track filter    --algorithm faiss   --dataset random-filter-s
+python run.py --neurips23track sparse    --algorithm linscan --dataset sparse-small
+python run.py --neurips23track ood       --algorithm diskann --dataset random-xs
+python run.py --neurips23track streaming --algorithm diskann --dataset random-xs
+```
+
+For the competition dataset, run commands mentioned in the table above, for example:
+```
+python run.py --neurips23track filter    --algorithm faiss   --dataset yfcc-10M
+python run.py --neurips23track sparse    --algorithm linscan --dataset sparse-full
+python run.py --neurips23track ood       --algorithm diskann --dataset text2image-10M
+python run.py --neurips23track streaming --algorithm diskann --dataset msspacev-10M
+```
+
+For streaming track, [clone and build DiskANN repo](https://github.com/Microsoft/DiskANN) and use the command line tool to compute ground truth at various search checkpoints. The `--gt_cmdline_tool` points to the directory with DiskANN commandline tools.
+```
+python neurips23/streaming/compute_gt.py --dataset msspacev-10M --runbook neurips23/streaming/simple_runbook.yaml --gt_cmdline_tool ~/DiskANN/build/apps/utils/compute_groundtruth
 ```
 
 To make the results available for post-processing, change permissions of the results folder
