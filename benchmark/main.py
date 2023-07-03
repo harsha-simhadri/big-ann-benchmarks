@@ -47,6 +47,7 @@ def run_worker(args, queue):
         cpu_limit = "0-%d" % (multiprocessing.cpu_count() - 1)
 
         if args.nodocker:
+            print("Launching without docker...")
             run_no_docker(definition, args.dataset, args.count,
                           args.runs, args.timeout, args.rebuild, cpu_limit, mem_limit,
                           args.t3, args.power_capture,
@@ -55,6 +56,7 @@ def run_worker(args, queue):
                           args.private_query, args.neurips23track)
 
         else:
+            print("Launching with docker...")
             run_docker(definition, args.dataset, args.count,
                        args.runs, args.timeout, args.rebuild, cpu_limit, mem_limit,
                        args.t3, args.power_capture,

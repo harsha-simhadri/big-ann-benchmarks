@@ -1,0 +1,43 @@
+FROM ubuntu:jammy
+
+RUN apt-get update && apt-get install -y python3-numpy python3-scipy python3-pip build-essential git axel wget
+
+RUN wget https://aka.ms/downloadazcopy-v10-linux && mv downloadazcopy-v10-linux azcopy.tgz && tar xzf azcopy.tgz --transform 's!^[^/]\+\($\|/\)!azcopy_folder\1!'
+RUN cp azcopy_folder/azcopy /usr/bin
+
+RUN pip3 install -U pip
+
+WORKDIR /home/app
+COPY requirements_py3.10.txt run_algorithm.py ./
+RUN pip3 install -r requirements_py3.10.txt
+
+ENTRYPOINT ["python3", "-u", "run_algorithm.py"]
+
+##
+
+RUN apt update && apt install -y wget swig
+RUN wget https://repo.anaconda.com/archive/Anaconda3-2023.03-0-Linux-x86_64.sh
+RUN bash Anaconda3-2023.03-0-Linux-x86_64.sh -b
+
+ENV PATH /root/anaconda3/bin:$PATH
+ENV CONDA_PREFIX /root/anaconda3/
+
+RUN conda install -c pytorch faiss-cpu
+COPY requirements_conda.txt ./
+
+# conda doesn't like some of our packages, use pip 
+RUN python3 -m pip install -r requirements_conda.txt 
+
+COPY bow_id_selector.swig ./
+
+RUN swig -c++ -python -I$CONDA_PREFIX/include -Ifaiss bow_id_selector.swig 
+RUN g++ -m64 -shared -O3 -g -fPIC bow_id_selector_wrap.cxx -o _bow_id_selector.so  \
+      -I $( python -c "import distutils.sysconfig ; print(distutils.sysconfig.get_python_inc())" )   \
+      -I $CONDA_PREFIX/include $CONDA_PREFIX/lib/libfaiss.so -Ifaiss
+      
+## AVX version - -I $CONDA_PREFIX/include $CONDA_PREFIX/lib/libfaiss_avx2.so -Ifaiss
+
+RUN python3 -c 'import faiss; print(faiss.IndexFlatL2); print(faiss.__version__)'
+
+
+

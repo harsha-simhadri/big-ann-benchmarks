@@ -366,8 +366,8 @@ class Text2Image1B(DatasetCompetitionFormat):
         self.basedir = os.path.join(BASEDIR, "text2image1B")
 
         self.private_nq = 30000
-        self.private_qs_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/text2image1b/query.heldout.30K.fbin"
-        self.private_gt_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/text2image1b/gt100-heldout.30K.fbin"
+        self.private_qs_url = "https://storage.yandexcloud.net/yandex-research/ann-datasets/T2I/query.heldout.30K.fbin"
+        self.private_gt_url = "https://storage.yandexcloud.net/yandex-research/ann-datasets/T2I/gt100-heldout.30K.fbin"
 
         self.private_nq_large = 1000000
         self.private_qs_large_url = "https://storage.yandexcloud.net/yr-secret-share/ann-datasets-5ac0659e27/T2I/query.private.1M.fbin"
@@ -871,7 +871,9 @@ class RandomFilterDS(RandomDS):
 
         n_neighbors = 100
 
-        nbrs = NearestNeighbors(n_neighbors=n_neighbors, metric="euclidean", algorithm='brute').fit(data[:self.nb // 2])
+        # TODO: This code might memfault.  The workaround right now is to decrease the size, but the real
+        # TODO: solution would be to use a batch version of computing ground truth.
+        nbrs = NearestNeighbors(n_neighbors=n_neighbors, metric="euclidean", algorithm='brute').fit(data[:self.nb // 6])
         DD, II = nbrs.kneighbors(queries[self.nq // 2:])
 
         nbrs = NearestNeighbors(n_neighbors=n_neighbors, metric="euclidean", algorithm='brute').fit(data[self.nb // 2: ])

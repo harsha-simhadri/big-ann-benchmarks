@@ -9,3 +9,4 @@ scipy==1.10.1
 scikit-learn
 jinja2==3.1.2
 pandas==2.0.0
+urllib3<=2
