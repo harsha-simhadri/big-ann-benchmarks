@@ -33,5 +33,5 @@ sparse-full:
           args: |
             [{}]
           query-args: |
-            [{"budget":5},{"budget":10},{"budget":20},{"budget":30},{"budget":40},{"budget":50},{"budget":60},{"budget":90},{"budget":150}]
+            [{"budget":5},{"budget":15},{"budget":35},{"budget":50},{"budget":52.5},{"budget":55},{"budget":57.5},{"budget":60},{"budget":90},{"budget":500}]
           

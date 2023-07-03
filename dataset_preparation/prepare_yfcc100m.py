@@ -2,8 +2,11 @@
 import os
 import numpy as np
 import pickle
+from multiprocessing.pool import ThreadPool
 import faiss
+
 from scipy.sparse import csr_matrix
+
 
 from benchmark import datasets, dataset_io
 
@@ -21,6 +24,45 @@ tmpdir = "/scratch/matthijs/tmp/"
 # data generated from external scripts
 metadata_dir = "/checkpoint/matthijs/billion-scale-ann-benchmarks/yfcc_metadata/"
 
+class ClipDescriptors:
+
+    def __init__(self):
+        self.local_basedir = "/scratch/matthijs/billion-scale-ann-benchmarks/yfcc100M/dense_decoded/"
+        self.basedir = "/checkpoint/matthijs/billion-scale-ann-benchmarks/yfcc100M/"
+        self.hdf5_map = np.load(self.basedir + "hdf5_ptr.npy")
+        self.mmaps = [None] * 4096
+        self.shape = (10**8, 192)
+        self.pool = ThreadPool(32)
+
+    def valid(self):
+        return self.hdf5_map >= 0
+
+    def get_mmap(self, i):
+        mm = self.mmaps[i]
+        if mm is not None:
+            return mm
+        # does not seem useful to add a lock
+        mm = np.load(f"{self.local_basedir}//features_{i:03x}.hdf5.tab.npy", mmap_mode="r")
+        self.mmaps[i] = mm
+        return mm
+
+    def __getitem__(self, items):
+        if type(items) == int:
+            items = [items]
+        subset = self.hdf5_map[items]
+        res = np.zeros((len(subset), 192), dtype='float32')
+        # for i, j in enumerate(subset):
+        def handle(i):
+            j = subset[i]
+            if j < 0:
+                return
+            res[i] = self.get_mmap(j >> 16)[j & 0xffff]
+
+        self.pool.map(handle, range(len(subset)))
+        return res
+
+print(ds.basedir)
+
 if False:
     all_descriptors = np.memmap(
         tmpdir + "random_yfcc100m_descriptors.384d.uint8", mode='r',
@@ -33,7 +75,7 @@ if False:
     )
     # make boolean array
     all_descriptors_valid = all_descriptors_valid < 230
-else:
+elif False:
     # a bit less dummy descriptros, they come from https://github.com/facebookresearch/low-shot-with-diffusion
     mat = np.memmap("/scratch/matthijs/concatenated_PCAR256.raw", dtype='float32', shape=(10**8, 256), mode='r')
     bad_vec = mat[771]
@@ -46,9 +88,22 @@ else:
     codec.train(xt)
     all_descriptors = mat
     all_descriptors_valid = np.load("/scratch/matthijs/concatenated_valid.npy")
+else: # the real CLIP descriptors from Zilliz
+    mat = ClipDescriptors()
+    print("train random rotation and quatizer")
+    rrot = faiss.RandomRotationMatrix(mat.shape[1], 192)
+    rrot.init(5)
+    all_descriptors_valid = mat.valid()
+    it0 = 12_000_000
+    xt = mat[it0:it0 + 30_000][all_descriptors_valid[it0:it0 + 30_000]]
+    print("train on", xt.shape)
+    xt = rrot.apply(xt)
+    codec = faiss.ScalarQuantizer(192, faiss.ScalarQuantizer.QT_8bit_uniform)
+    codec.train(xt)
+    all_descriptors = mat
+    PCA = rrot
 
 print(f"valid descriptors: {all_descriptors_valid.sum()}/{all_descriptors_valid.size}")
-
 
 fname = metadata_dir + "query_array.npy"
 print("load query metadata", fname)

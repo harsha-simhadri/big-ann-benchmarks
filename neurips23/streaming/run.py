@@ -1,15 +1,42 @@
-from __future__ import absolute_import
+import numpy as np
 import time
+import yaml
 
-class BaseRunner():
+from benchmark.algorithms.base_runner import BaseRunner
+from benchmark.datasets import DATASETS
+
+
+class StreamingRunner(BaseRunner):
     def build(algo, dataset):
+        '''
+        Return set up time
+        '''
         t0 = time.time()
-        algo.fit(dataset)
+        ds = DATASETS[dataset]()
+        max_pts = ds.nb
+        ndims = ds.d
+        algo.setup(ds.dtype, max_pts, ndims)
+        print('Algorithm set up')
         return time.time() - t0
-    
-    def run_task(algo, ds, distance, count, run_count, search_type, private_query, runbook=None):
+
+
+    def run_task(algo, ds, distance, count, run_count, search_type, private_query, runbook):
         best_search_time = float('inf')
         search_times = []
+
+        data = ds.get_dataset()
+        ids = np.arange(1, ds.nb+1, dtype=np.uint32)
+
+        # Load Runbook
+        for entry in runbook:
+            print(entry)
+            start = entry['start']
+            end = entry['end']
+            ids = np.arange(start, end+1, dtype=np.uint32)
+            if entry['operation'] == 'insert':
+                algo.insert(data[ids-1,:], ids)
+            if entry['operation'] == 'delete':
+                algo.delete(ids)
 
         if not private_query:
             X = ds.get_queries()
@@ -51,4 +78,3 @@ class BaseRunner():
         for k in additional:
             attrs[k] = additional[k]
         return (attrs, results)
-        

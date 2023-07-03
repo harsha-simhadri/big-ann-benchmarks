@@ -1,4 +1,5 @@
 import gzip
+import shutil
 import math
 import numpy
 import os
@@ -365,8 +366,8 @@ class Text2Image1B(DatasetCompetitionFormat):
         self.basedir = os.path.join(BASEDIR, "text2image1B")
 
         self.private_nq = 30000
-        self.private_qs_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/text2image1b/query.heldout.30K.fbin"
-        self.private_gt_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/text2image1b/gt100-heldout.30K.fbin"
+        self.private_qs_url = "https://storage.yandexcloud.net/yandex-research/ann-datasets/T2I/query.heldout.30K.fbin"
+        self.private_gt_url = "https://storage.yandexcloud.net/yandex-research/ann-datasets/T2I/gt100-heldout.30K.fbin"
 
         self.private_nq_large = 1000000
         self.private_qs_large_url = "https://storage.yandexcloud.net/yr-secret-share/ann-datasets-5ac0659e27/T2I/query.private.1M.fbin"
@@ -513,7 +514,7 @@ class RandomRangeDS(DatasetCompetitionFormat):
 class YFCC100MDataset(DatasetCompetitionFormat):
     """ the 2023 competition """
 
-    def __init__(self, filtered=True):
+    def __init__(self, filtered=True, dummy=False):
         self.filtered = filtered
         nb_M = 10
         self.nb_M = nb_M
@@ -521,19 +522,34 @@ class YFCC100MDataset(DatasetCompetitionFormat):
         self.d = 192
         self.nq = 100000
         self.dtype = "uint8"
-        # for now it's dummy because we don't have the descriptors yet
-        self.ds_fn = "dummy2.base.10M.u8bin"
-        self.qs_fn = "dummy2.query.public.100K.u8bin"
-        self.qs_private_fn = "dummy2.query.private.396157065643.100K.u8bin"
-        self.ds_metadata_fn = "base.metadata.10M.spmat"
-        self.qs_metadata_fn = "query.metadata.public.100K.spmat"
-        self.qs_private_metadata_fn = "query.metadata.private.396157065643.100K.spmat"
+        private_key = 12345
+        if dummy:
+            # for now it's dummy because we don't have the descriptors yet
+            self.ds_fn = "dummy2.base.10M.u8bin"
+            self.qs_fn = "dummy2.query.public.100K.u8bin"
+            self.qs_private_fn = "dummy2.query.private.%d.100K.u8bin" % private_key
+            self.ds_metadata_fn = "dummy2.base.metadata.10M.spmat"
+            self.qs_metadata_fn = "dummy2.query.metadata.public.100K.spmat"
+            self.qs_private_metadata_fn = "dummy2.query.metadata.private.%d.100K.spmat" % private_key
+            if filtered:
+                # no subset as the database is pretty small.
+                self.gt_fn = "dummy2.GT.public.ibin"
+            else:
+                self.gt_fn = "dummy2.unfiltered.GT.public.ibin"
 
-        if filtered:
-            # no subset as the database is pretty small.
-            self.gt_fn = "dummy2.GT.public.ibin"
         else:
-            self.gt_fn = "dummy2.unfiltered.GT.public.ibin"
+            # with Zilliz' CLIP descriptors
+            self.ds_fn = "base.10M.u8bin"
+            self.qs_fn = "query.public.100K.u8bin"
+            self.qs_private_fn = "query.private.%d.100K.u8bin" % private_key
+            self.ds_metadata_fn = "base.metadata.10M.spmat"
+            self.qs_metadata_fn = "query.metadata.public.100K.spmat"
+            self.qs_private_metadata_fn = "query.metadata.private.%d.100K.spmat" % private_key
+            if filtered:
+                # no subset as the database is pretty small.
+                self.gt_fn = "GT.public.ibin"
+            else:
+                self.gt_fn = "unfiltered.GT.public.ibin"
 
             # data is uploaded but download script not ready.
         self.base_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/yfcc100M/"
@@ -584,12 +600,10 @@ def _strip_gz(filename):
 
 def _gunzip_if_needed(filename):
     if filename.endswith('.gz'):
-        print('unzipping', filename, '...', end=" ")
-        with gzip.open(filename, 'rb') as f:
-            file_content = f.read()
+        print('unzipping', filename, '...', end=" ", flush=True)
 
-        with open(_strip_gz(filename), 'wb') as f:
-            f.write(file_content)
+        with gzip.open(filename, 'rb') as f_in, open(_strip_gz(filename), 'wb') as f_out:
+            shutil.copyfileobj(f_in, f_out)
 
         os.remove(filename)
         print('done.')
@@ -918,6 +932,8 @@ DATASETS = {
 
     'yfcc-10M': lambda: YFCC100MDataset(),
     'yfcc-10M-unfiltered': lambda: YFCC100MDataset(filtered=False),
+    'yfcc-10M-dummy': lambda: YFCC100MDataset(dummy=True),
+    'yfcc-10M-dummy-unfiltered': lambda: YFCC100MDataset(filtered=False, dummy=True),
 
     'sparse-small': lambda: SparseDataset("small"),
     'sparse-1M': lambda: SparseDataset("1M"),
