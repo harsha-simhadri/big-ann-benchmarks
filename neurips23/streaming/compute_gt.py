@@ -75,6 +75,10 @@ def main():
         '--gt_cmdline_tool',
         required=True
     )
+    parser.add_argument(
+        '--download',
+        action='store_true'
+    )
     args = parser.parse_args()
 
     ds = DATASETS[args.dataset]()

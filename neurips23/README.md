@@ -109,7 +109,11 @@ python run.py --neurips23track ood       --algorithm diskann --dataset text2imag
 python run.py --neurips23track streaming --algorithm diskann --dataset msspacev-10M
 ```
 
-For streaming track, [clone and build DiskANN repo](https://github.com/Microsoft/DiskANN) and use the command line tool to compute ground truth at various search checkpoints. The `--gt_cmdline_tool` points to the directory with DiskANN commandline tools.
+For streaming track, download the ground truth:
+```
+ python neurips23/streaming/download_gt.py --runbook_file neurips23/streaming/simple_runbook.yaml --dataset msspacev-10M 
+```
+Alternately, to compute ground truth for an arbitrary runbook, [clone and build DiskANN repo](https://github.com/Microsoft/DiskANN) and use the command line tool to compute ground truth at various search checkpoints. The `--gt_cmdline_tool` points to the directory with DiskANN commandline tools.
 ```
 python neurips23/streaming/compute_gt.py --dataset msspacev-10M --runbook neurips23/streaming/simple_runbook.yaml --gt_cmdline_tool ~/DiskANN/build/apps/utils/compute_groundtruth
 ```
