@@ -3,7 +3,7 @@ import os
 import numpy as np
 
 from benchmark.datasets import DATASETS
-from neurips23.streaming.load_runbook import load_runbook
+from benchmark.streaming.load_runbook import load_runbook
 
 def get_range_start_end(entry):
     return np.arange(entry['start']-1,  entry['end'], dtype=np.uint32)

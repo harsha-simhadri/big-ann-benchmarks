@@ -3,8 +3,8 @@ import os
 
 from benchmark.datasets import DATASETS
 from benchmark.dataset_io import download_accelerated
-from neurips23.streaming.load_runbook import load_runbook, get_gt_url
-from neurips23.streaming.compute_gt import gt_dir
+from benchmark.streaming.load_runbook import load_runbook, get_gt_url
+from benchmark.streaming.compute_gt import gt_dir
 
 
 def main():
