@@ -21,3 +21,8 @@ def load_runbook(dataset_name, max_pts, runbook_file):
             i += 1
             run_list.append(entry)
         return run_list
+
+def get_gt_url(dataset_name, runbook_file):
+    with open(runbook_file) as fd:
+        runbook = yaml.safe_load(fd)[dataset_name]
+        return runbook['gt_url']
