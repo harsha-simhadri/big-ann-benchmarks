@@ -9,8 +9,8 @@ import sys
 from benchmark.plotting.metrics import all_metrics as metrics
 from benchmark.sensors.power_capture import power_capture
 from benchmark.dataset_io import knn_result_read
-import neurips23.streaming.compute_gt
-from neurips23.streaming.load_runbook import load_runbook
+import benchmark.streaming.compute_gt
+from benchmark.streaming.load_runbook import load_runbook
 
 def get_or_create_metrics(run):
     if 'metrics' not in run:
@@ -83,7 +83,7 @@ def compute_metrics_all_runs(dataset, dataset_name, res, recompute=False,
             true_nn = dataset.get_private_groundtruth() if private_query else dataset.get_groundtruth()
         else:
             true_nn_across_steps = []
-            gt_dir =neurips23.streaming.compute_gt.gt_dir(dataset, runbook_path)
+            gt_dir = benchmark.streaming.compute_gt.gt_dir(dataset, runbook_path)
             runbook = load_runbook(dataset_name, dataset.nb, runbook_path)
             for step, entry in enumerate(runbook):
                 if entry['operation'] == 'search':
