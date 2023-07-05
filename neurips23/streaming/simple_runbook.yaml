@@ -17,6 +17,7 @@ random-xs:
     end: 5000
   6:
     operation: "search"
+  gt_url: "https://comp21storage.blob.core.windows.net/publiccontainer/comp23/str_gt/random10000/10000/simple_runbook.yaml"
 msturing-10M:
   1: 
     operation: "insert"
@@ -36,6 +37,7 @@ msturing-10M:
     end: 5000000
   6:
     operation: "search"
+  gt_url: "https://comp21storage.blob.core.windows.net/publiccontainer/comp23/str_gt/MSTuringANNS/10000000/simple_runbook.yaml"
 msturing-1M:
   1: 
     operation: "insert"
@@ -55,6 +57,7 @@ msturing-1M:
     end: 500000
   6:
     operation: "search"
+  gt_url: "https://comp21storage.blob.core.windows.net/publiccontainer/comp23/str_gt/MSTuringANNS/1000000/simple_runbook.yaml"
 msspacev-10M:
   1: 
     operation: "insert"
@@ -74,6 +77,7 @@ msspacev-10M:
     end: 5000000
   6:
     operation: "search"
+  gt_url: "https://comp21storage.blob.core.windows.net/publiccontainer/comp23/str_gt/MSSPACEV1B/10000000/simple_runbook.yaml"
 msspacev-1M:
   1: 
     operation: "insert"
@@ -93,3 +97,4 @@ msspacev-1M:
     end: 500000
   6:
     operation: "search"
+  gt_url: "https://comp21storage.blob.core.windows.net/publiccontainer/comp23/str_gt/MSSPACEV1B/1000000/simple_runbook.yaml"
