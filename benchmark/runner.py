@@ -24,7 +24,7 @@ from benchmark.sensors.power_capture import power_capture
 from benchmark.t3.helper import t3_create_container
 
 from neurips23.common import RUNNERS
-from neurips23.streaming.load_runbook import load_runbook
+from benchmark.streaming.load_runbook import load_runbook
 
 def run(definition, dataset, count, run_count, rebuild,
         upload_index=False, download_index=False,
