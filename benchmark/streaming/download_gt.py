@@ -2,7 +2,7 @@ import argparse
 import os
 
 from benchmark.datasets import DATASETS
-from benchmark.dataset_io import download_accelerated
+from benchmark.dataset_io import download
 from benchmark.streaming.load_runbook import load_runbook, get_gt_url
 from benchmark.streaming.compute_gt import gt_dir
 
@@ -31,9 +31,9 @@ def main():
     os.makedirs(download_dir, exist_ok=True)
     for step, entry in enumerate(runbook):
         if entry['operation'] == 'search':
-            step_url=gt_url + '/step' + str(step+1) + '.gt100'
-            download_accelerated(step_url, download_dir)
-
+            step_filename = 'step' + str(step+1) + '.gt100'
+            step_url = gt_url + '/' + step_filename
+            download(step_url, os.path.join(download_dir, step_filename))
 
 if __name__ == '__main__':
     main()
