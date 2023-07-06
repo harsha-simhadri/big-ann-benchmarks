@@ -256,13 +256,12 @@ def run_docker(definition, dataset, count, runs, timeout, rebuild,
     if mem_limit is None:
         mem_limit = psutil.virtual_memory().available
 
-
+    # ready the container object invoked later in this function
     container = None
     if t3: # T3 from NeurIPS'23
         container = t3_create_container(definition, cmd, cpu_limit, mem_limit )
-        timeout = 3600*24*3 # 3 days
-        print("Setting container wait timeout to 3 days")       
-    else: # T1/T2 from NeurIPS'21
+
+    else: # T1/T2 from NeurIPS'21 or NeurIPS'23
         container = client.containers.run(
             definition.docker_tag,
             cmd,
@@ -279,6 +278,19 @@ def run_docker(definition, dataset, count, runs, timeout, rebuild,
             cpuset_cpus=cpu_limit,
             mem_limit=mem_limit,
             detach=True)
+ 
+    # set/override container timeout based on competition flag
+    if neurips23track!='none':
+        timeout = 30*60 # 30 minutes
+        print("Setting container wait timeout to 30 minutes")       
+
+    elif not timeout: 
+        # default to 3 days (includes NeurIPS'21)
+        timeout = 3600*24*3 # 3 days
+        print("Setting container wait timeout to 3 days")       
+
+    else:
+        print("Requested container timeout is %d seconds" % timeout)
 
     logger = logging.getLogger(f"annb.{container.short_id}")
 
