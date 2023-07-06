@@ -94,67 +94,6 @@
                 <li><strong><a href="https://medium.com/big-ann-benchmarks" target="_blank">Medium</a> channel.</strong></li>
                 </ul>
 
-              
-
-            
-
-              <p>
-              <strong>Abstract for Invited talk: "Learning to Hash Robustly, with Guarantees"</strong> <BR>
-                  There is a gap between the high-dimensional nearest neighbor search
-                  (NNS) algorithms achieving the best worst-case guarantees and the
-                  top-performing ones in practice. The former are based on indexing via
-                  the randomized Locality Sensitive Hashing (LSH), and its
-                  derivatives. The latter "learn" the best indexing method in order to
-                  speed-up NNS, crucially adapting to the structure of the given 
-                  dataset. Alas, the latter also almost always come at the cost of 
-                  losing the guarantees of either correctness or robust performance on 
-                  adversarial queries (or apply to datasets with an assumed extra 
-                  structure/model).
-                  
-                  How can we bridge these two perspectives and bring the best of both
-                  worlds?  As a step in this direction, we will talk about an NNS algorithm
-                  that has worst-case guarantees essentially matching that of
-                  theoretical algorithms, while optimizing the hashing to the structure
-                  of the dataset (think instance-optimal algorithms) for performance on
-                  the minimum-performing query. We will discuss the algorithm's ability
-                  to optimize for a given dataset from both theoretical and practical
-                  perspective.
-              </p>
-
-              <p>
-              <strong>Abstract for Invited talk: "Iterative Repartitioning for Learning to Hash  and the Power of k-Choices"</strong> <BR>
-                Dense embedding models are commonly deployed in commercial
-                search engines, wherein all the vectors are pre-computed, and
-                near-neighbor search (NNS) is performed with the query vector to find
-                relevant documents. However, the bottleneck of indexing a large number
-                of dense vectors and performing an NNS hurts the query time and
-                accuracy of these models. In this talk, we argue that high-dimensional
-                and ultra-sparse embedding is a significantly superior alternative to
-                dense low-dimensional embedding for both query efficiency and
-                accuracy. Extreme sparsity eliminates the need for NNS by replacing
-                them with simple lookups, while its high dimensionality ensures that
-                the embeddings are informative even when sparse. However, learning
-                extremely high dimensional embeddings leads to blow-up in the model
-                size. To make the training feasible, we propose a partitioning
-                algorithm that learns such high-dimensional embeddings across multiple
-                GPUs without any communication. We theoretically prove that our way of
-                one-sided learning is equivalent to learning both query and label
-                embeddings. We call our novel system designed on sparse embeddings as
-                IRLI (pronounced `early'), which iteratively partitions the items by
-                learning the relevant buckets directly from the query-item relevance
-                data. Furthermore, IRLI employs a superior power-of-k-choices based
-                load balancing strategy. We mathematically show that IRLI retrieves
-                the correct item with high probability under very natural assumptions
-                and provides superior load balancing. IRLI surpasses the best
-                baseline's precision on multi-label classification while being 5x
-                faster on inference. For near-neighbor search tasks, the same method
-                outperforms the state-of-the-art Learned Hashing approach NeuralLSH by
-                requiring only ~ {1/6}^th of the candidates for the same recall. IRLI
-                is both data and model parallel, making it ideal for distributed GPU
-                implementation. We demonstrate this advantage by indexing 100 million
-                dense vectors and surpassing the popular FAISS library by >10%.
-              </p>
-              </div>
 
             <div id="why">
               <h2>Why this competition?</h2>
@@ -524,7 +463,63 @@
                   </li>
                   <li> 14:30-15:00: Open discussion on competition and future directions (<a href="https://github.com/harsha-simhadri/big-ann-benchmarks/issues/90">github thread</a>) </li>
                 </ul>
-              </p>
+              <p>
+                <strong>Abstract for Invited talk: "Learning to Hash Robustly, with Guarantees"</strong> <BR>
+                    There is a gap between the high-dimensional nearest neighbor search
+                    (NNS) algorithms achieving the best worst-case guarantees and the
+                    top-performing ones in practice. The former are based on indexing via
+                    the randomized Locality Sensitive Hashing (LSH), and its
+                    derivatives. The latter "learn" the best indexing method in order to
+                    speed-up NNS, crucially adapting to the structure of the given 
+                    dataset. Alas, the latter also almost always come at the cost of 
+                    losing the guarantees of either correctness or robust performance on 
+                    adversarial queries (or apply to datasets with an assumed extra 
+                    structure/model).
+                    
+                    How can we bridge these two perspectives and bring the best of both
+                    worlds?  As a step in this direction, we will talk about an NNS algorithm
+                    that has worst-case guarantees essentially matching that of
+                    theoretical algorithms, while optimizing the hashing to the structure
+                    of the dataset (think instance-optimal algorithms) for performance on
+                    the minimum-performing query. We will discuss the algorithm's ability
+                    to optimize for a given dataset from both theoretical and practical
+                    perspective.
+                </p>
+  
+                <p>
+                <strong>Abstract for Invited talk: "Iterative Repartitioning for Learning to Hash  and the Power of k-Choices"</strong> <BR>
+                  Dense embedding models are commonly deployed in commercial
+                  search engines, wherein all the vectors are pre-computed, and
+                  near-neighbor search (NNS) is performed with the query vector to find
+                  relevant documents. However, the bottleneck of indexing a large number
+                  of dense vectors and performing an NNS hurts the query time and
+                  accuracy of these models. In this talk, we argue that high-dimensional
+                  and ultra-sparse embedding is a significantly superior alternative to
+                  dense low-dimensional embedding for both query efficiency and
+                  accuracy. Extreme sparsity eliminates the need for NNS by replacing
+                  them with simple lookups, while its high dimensionality ensures that
+                  the embeddings are informative even when sparse. However, learning
+                  extremely high dimensional embeddings leads to blow-up in the model
+                  size. To make the training feasible, we propose a partitioning
+                  algorithm that learns such high-dimensional embeddings across multiple
+                  GPUs without any communication. We theoretically prove that our way of
+                  one-sided learning is equivalent to learning both query and label
+                  embeddings. We call our novel system designed on sparse embeddings as
+                  IRLI (pronounced `early'), which iteratively partitions the items by
+                  learning the relevant buckets directly from the query-item relevance
+                  data. Furthermore, IRLI employs a superior power-of-k-choices based
+                  load balancing strategy. We mathematically show that IRLI retrieves
+                  the correct item with high probability under very natural assumptions
+                  and provides superior load balancing. IRLI surpasses the best
+                  baseline's precision on multi-label classification while being 5x
+                  faster on inference. For near-neighbor search tasks, the same method
+                  outperforms the state-of-the-art Learned Hashing approach NeuralLSH by
+                  requiring only ~ {1/6}^th of the candidates for the same recall. IRLI
+                  is both data and model parallel, making it ideal for distributed GPU
+                  implementation. We demonstrate this advantage by indexing 100 million
+                  dense vectors and surpassing the popular FAISS library by >10%.
+                </p>
+                </div>
 
             <div id="organizers">
               <h2>Organizers and Dataset Contributors</h2>
