@@ -1,4 +1,4 @@
-# NeurIPS 2023 Challenge
+# Practical Vector Search: NeurIPS 2023 Competition
 
 ## Table Of Contents
 
