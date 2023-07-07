@@ -1,4 +1,4 @@
-# Billion-Scale ANN
+# Big ANN Benchmarks
 
 <http://big-ann-benchmarks.com/>
 
