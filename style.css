@@ -288,6 +288,7 @@ a:hover {
 
 /* Table */
 .table-container {
+  text-align: center;
   overflow-x: auto;
 }
 
