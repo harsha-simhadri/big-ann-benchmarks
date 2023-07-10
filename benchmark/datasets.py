@@ -439,6 +439,37 @@ class MSSPACEV1B(DatasetCompetitionFormat):
     def distance(self):
         return "euclidean"
 
+class RandomClusteredDS(DatasetCompetitionFormat):
+    def __init__(self, basedir="random-clustered"):
+        self.nb = 10000
+        self.nq = 1000
+        self.d = 20
+        self.dtype = 'float32'
+        self.ds_fn = f"clu-random.fbin"
+        self.qs_fn = f"queries_1000_20.fbin"
+        self.gt_fn = f"clu_random_gt100"
+
+        self.base_url="https://comp21storage.blob.core.windows.net/publiccontainer/comp23/clustered_data/random-xs-clustered/"
+
+        self.basedir = os.path.join(BASEDIR, f"{basedir}{self.nb}")
+        if not os.path.exists(self.basedir):
+            os.makedirs(self.basedir)
+
+        self.private_gt_url = None
+        self.private_qs_url = None
+
+    def search_type(self):
+        return "knn"
+
+    def distance(self):
+        return "euclidean"
+
+    def __str__(self):
+        return f"RandomClustered({self.nb})"
+
+    def default_count(self):
+        return 10
+
 class RandomRangeDS(DatasetCompetitionFormat):
     def __init__(self, nb, nq, d):
         self.nb = nb
@@ -802,18 +833,6 @@ class RandomDS(DatasetCompetitionFormat):
             np.array([self.nq, 100], dtype='uint32').tofile(f)
             I.astype('uint32').tofile(f)
             D.astype('float32').tofile(f)
-
-    def search_type(self):
-        return "knn"
-
-    def distance(self):
-        return "euclidean"
-
-    def __str__(self):
-        return f"Random({self.nb})"
-
-    def default_count(self):
-        return 10
     
 
 class RandomFilterDS(RandomDS):
@@ -943,6 +962,8 @@ DATASETS = {
 
     'random-xs': lambda : RandomDS(10000, 1000, 20),
     'random-s': lambda : RandomDS(100000, 1000, 50),
+
+    'random-clustered-xs': lambda: RandomClusteredDS(),
 
     'random-range-xs': lambda : RandomRangeDS(10000, 1000, 20),
     'random-range-s': lambda : RandomRangeDS(100000, 1000, 50),
