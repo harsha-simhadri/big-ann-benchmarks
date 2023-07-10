@@ -39,7 +39,7 @@ The baselines were run on an Azure Standard D8lds v5 (8 vcpus, 16 GiB memory) ma
 
 | Task | Baseline | Highest Throughput above 90% recall | Command |
 |------|----------|---------| --- |
-|Sparse| Linear Scan | 101 |  `python3 run.py --dataset sparse --algorithm linscan --neurips23track sparse` |
+|Sparse| Linear Scan | 101 |  `python3 run.py --dataset sparse-full --algorithm linscan --neurips23track sparse` |
 |Filter| faiss | 3200 | `python3 run.py --dataset yfcc-10M --algorithm faiss --neurips23track filter` |
 |Streaming| DiskANN | ? |  `python3 run.py --dataset msspacev-10M --algorithm diskann --neurips23track streaming` |
 |OOD| DiskANN | 4882 | `python3 run.py --dataset text2image-10M --algorithm diskann --neurips23track ood` | 
