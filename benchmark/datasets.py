@@ -838,6 +838,18 @@ class RandomDS(DatasetCompetitionFormat):
             np.array([self.nq, 100], dtype='uint32').tofile(f)
             I.astype('uint32').tofile(f)
             D.astype('float32').tofile(f)
+
+    def search_type(self):
+        return "knn"
+
+    def distance(self):
+        return "euclidean"
+
+    def __str__(self):
+        return f"Random({self.nb})"
+
+    def default_count(self):
+        return 10
     
 
 class RandomFilterDS(RandomDS):
