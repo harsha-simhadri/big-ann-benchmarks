@@ -30,7 +30,6 @@ def run(definition, dataset, count, run_count, rebuild,
         upload_index=False, download_index=False,
         blob_prefix="", sas_string="", private_query=False,
         neurips23track="none", runbook_path="neurips23/streaming/simple_runbook.yaml"):
-
     algo = instantiate_algorithm(definition)
     assert not definition.query_argument_groups \
            or hasattr(algo, "set_query_arguments"), """\
@@ -195,6 +194,11 @@ def run_from_cmdline(args=None):
         choices=['filter', 'ood', 'sparse', 'streaming', 'none'],
         default='none'
     )
+    parser.add_argument(
+        '--runbook_path',
+        help='runbook yaml path for neurips23 streaming track',
+        default='neurips23/streaming/simple_runbook.yaml'
+    )
 
     args = parser.parse_args(args)
     algo_args = json.loads(args.build)
@@ -217,7 +221,7 @@ def run_from_cmdline(args=None):
     )
     run(definition, args.dataset, args.count, args.runs, args.rebuild,
         args.upload_index, args.download_index, args.blob_prefix, args.sas_string,
-        args.private_query, args.neurips23track)
+        args.private_query, args.neurips23track, args.runbook_path)
 
 
 def run_docker(definition, dataset, count, runs, timeout, rebuild,
@@ -225,7 +229,7 @@ def run_docker(definition, dataset, count, runs, timeout, rebuild,
                t3=None, power_capture=None,
                upload_index=False, download_index=False,
                blob_prefix="", sas_string="", private_query=False,
-               neurips23track='none'):
+               neurips23track='none', runbook_path='neurips23/streaming/simple_runbook.yaml'):
     cmd = ['--dataset', dataset,
            '--algorithm', definition.algorithm,
            '--module', definition.module,
@@ -248,6 +252,8 @@ def run_docker(definition, dataset, count, runs, timeout, rebuild,
         cmd.append("--private-query")
 
     cmd += ["--neurips23track", neurips23track]
+    if neurips23track == 'streaming':
+        cmd += ["--runbook_path", runbook_path]
 
     cmd.append(json.dumps(definition.arguments))
     cmd += [json.dumps(qag) for qag in definition.query_argument_groups]
@@ -334,7 +340,7 @@ def run_no_docker(definition, dataset, count, runs, timeout, rebuild,
                   cpu_limit, mem_limit=None, t3=False, power_capture=None,
                   upload_index=False, download_index=False,
                   blob_prefix="", sas_string="", private_query=False,
-                  neurips23track='none'):
+                  neurips23track='none', runbook_path='neurips23/streaming/simple_runbook.yaml'):
     cmd = ['--dataset', dataset,
            '--algorithm', definition.algorithm,
            '--module', definition.module,
@@ -357,6 +363,8 @@ def run_no_docker(definition, dataset, count, runs, timeout, rebuild,
         cmd.append("--private-query")
     
     cmd += ["--neurips23track", neurips23track]
+    if neurips23track == 'streaming':
+        cmd += ["runbook_path", runbook_path]
 
     cmd.append(json.dumps(definition.arguments))
     cmd += [json.dumps(qag) for qag in definition.query_argument_groups]

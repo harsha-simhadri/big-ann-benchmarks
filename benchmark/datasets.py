@@ -88,7 +88,7 @@ class Dataset():
 
     def short_name(self):
         return f"{self.__class__.__name__}-{self.nb}"
-
+    
     def __str__(self):
         return (
             f"Dataset {self.__class__.__name__} in dimension {self.d}, with distance {self.distance()}, "
@@ -168,6 +168,8 @@ class DatasetCompetitionFormat(Dataset):
             download(sourceurl, outfile, max_size=file_size)
             # then overwrite the header...
             header = np.memmap(outfile, shape=2, dtype='uint32', mode="r+")
+            print (header)
+            print(original_size)
             assert header[0] == original_size
             assert header[1] == self.d
             header[0] = self.nb
@@ -469,6 +471,9 @@ class RandomClusteredDS(DatasetCompetitionFormat):
 
     def default_count(self):
         return 10
+    
+    def prepare(self, skip_data=False, original_size=10 ** 9):
+        return super().prepare(skip_data, self.nb)
 
 class RandomRangeDS(DatasetCompetitionFormat):
     def __init__(self, nb, nq, d):
