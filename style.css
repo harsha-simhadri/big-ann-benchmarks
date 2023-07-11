@@ -84,6 +84,8 @@ a:hover {
 /* Header/footer */
 .header {
   background-color: #fff;
+  position: sticky;
+  top: 0;
 }
 
 .footer {
@@ -112,7 +114,7 @@ a:hover {
   padding-top: var(--spacing-sm);
   padding-bottom: var(--spacing-sm);
   gap: var(--spacing-sm);
-  max-width: 56rem;
+  /* max-width: 56rem; */
 }
 
 .footer > .container {
@@ -125,6 +127,7 @@ a:hover {
 .footer .title {
   text-decoration: none;
   font-weight: 600;
+  white-space: nowrap;
 }
 
 /* Nav */
@@ -136,8 +139,11 @@ a:hover {
 .header nav > ul,
 .footer nav > ul {
   display: flex;
+  flex-wrap: wrap;
   list-style: none;
-  gap: 1.875rem;
+  justify-content: center;
+  row-gap: 1rem;
+  column-gap: 1.875rem;
 }
 
 /* External / logo links */
@@ -231,8 +237,14 @@ a:hover {
   gap: 0.9375rem;
 }
 
-.presented-by img {
+.presented-by .microsoft-logo,
+.presented-by .pinecone-logo {
   width: 7rem;
+  height: auto;
+}
+
+.presented-by .aws-logo {
+  width: 2.5rem;
   height: auto;
 }
 
@@ -295,6 +307,7 @@ a:hover {
 table {
   border-collapse: collapse;
   font-size: 1rem;
+  margin: 0 auto;
 }
 
 th,
@@ -436,10 +449,6 @@ th {
     display: block;
   }
 
-  .header .external-links {
-    display: flex;
-  }
-
   .tracks-list {
     margin: var(--spacing-lg) 0;
   }
@@ -462,9 +471,21 @@ th {
     line-height: 2.25rem;
   }
 
-  .presented-by img {
+  .presented-by .microsoft-logo,
+  .presented-by .pinecone-logo {
     width: 10rem;
     height: auto;
+  }
+
+  .presented-by .aws-logo {
+    width: 3.5rem;
+    height: auto;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  .header .external-links {
+    display: flex;
   }
 
   .footer > .container {
