@@ -14,9 +14,9 @@ def load_runbook(dataset_name, max_pts, runbook_file):
                     raise Exception('Start not speficied in runbook')
                 if 'end' not in entry:
                     raise Exception('End not specified in runbook')
-                if entry['start'] < 1 or entry['start'] > max_pts:
+                if entry['start'] < 0 or entry['start'] >= max_pts:
                     raise Exception('Start out of range in runbook')
-                if entry['end'] < 1 or entry['end'] > max_pts:
+                if entry['end'] < 0 or entry['end'] > max_pts:
                     raise Exception('End out of range in runbook')
             i += 1
             run_list.append(entry)
