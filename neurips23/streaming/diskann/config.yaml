@@ -10,7 +10,7 @@ random-xs:
             [{"R":32, "L":50, "insert_threads":16, "consolidate_threads":16}]
           query-args: |
             [{"Ls":50, "T":8}]
-random-clustered-xs:
+random-xs-clustered:
     diskann: 
       docker-tag: neurips23-streaming-diskann
       module: neurips23.streaming.diskann.diskann-str
