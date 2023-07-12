@@ -72,3 +72,15 @@ msturing-10M:
             [{"R":64, "L":50, "insert_threads":16, "consolidate_threads":16}]
           query-args: |
             [{"Ls":100, "T":16}]
+msturing-10M-clustered:
+    diskann: 
+      docker-tag: neurips23-streaming-diskann
+      module: neurips23.streaming.diskann.diskann-str
+      constructor: diskann
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+            [{"R":64, "L":50, "insert_threads":16, "consolidate_threads":16}]
+          query-args: |
+            [{"Ls":100, "T":16}]

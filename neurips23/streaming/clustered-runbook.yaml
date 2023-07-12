@@ -191,7 +191,7 @@ random-clustered-xs:
     end: 10000
   64:
     operation: "search"
-msturing-10M:
+msturing-10M-clustered:
   1:
     operation: "insert"
     start: 0
