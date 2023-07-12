@@ -1,129 +1,386 @@
 random-clustered-xs:
-  0:
-    operation: insert
+  1:
+    operation: "insert"
     start: 0
     end: 326
-  1:
-    operation: insert
+  2:
+    operation: "search"
+  3:
+    operation: "insert"
     start: 326
     end: 596
-  2:
-    operation: insert
+  4:
+    operation: "search"
+  5:
+    operation: "insert"
     start: 596
     end: 945
-  3:
-    operation: insert
+  6:
+    operation: "search"
+  7:
+    operation: "insert"
     start: 945
     end: 1323
-  4:
-    operation: insert
+  8:
+    operation: "search"
+  9:
+    operation: "insert"
     start: 1323
     end: 1623
-  5:
-    operation: insert
+  10:
+    operation: "search"
+  11:
+    operation: "insert"
     start: 1623
     end: 1986
-  6:
-    operation: insert
+  12:
+    operation: "search"
+  13:
+    operation: "insert"
     start: 1986
     end: 2199
-  7:
-    operation: insert
+  14:
+    operation: "search"
+  15:
+    operation: "insert"
     start: 2199
     end: 2576
-  8:
-    operation: insert
+  16:
+    operation: "search"
+  17:
+    operation: "insert"
     start: 2576
     end: 2921
-  9:
-    operation: insert
+  18:
+    operation: "search"  
+  19:
+    operation: "insert"
     start: 2921
     end: 3252
-  10:
-    operation: insert
+  20:
+    operation: "search"
+  21:
+    operation: "insert"
     start: 3252
     end: 3530
-  11:
-    operation: insert
+  22:
+    operation: "search"
+  23:
+    operation: "insert"
     start: 3530
     end: 3866
-  12:
-    operation: insert
+  24:
+    operation: "search"
+  25:
+    operation: "insert"
     start: 3866
     end: 4150
-  13:
-    operation: insert
+  26:
+    operation: "search"
+  27:
+    operation: "insert"
     start: 4150
     end: 4434
-  14:
-    operation: insert
+  28:
+    operation: "search"
+  29:
+    operation: "insert"
     start: 4434
     end: 4707
-  15:
-    operation: insert
+  30:
+    operation: "search"
+  31:
+    operation: "insert"
     start: 4707
     end: 5073
-  16:
-    operation: insert
+  32:
+    operation: "search"
+  33:
+    operation: "insert"
     start: 5073
     end: 5404
-  17:
-    operation: insert
+  34:
+    operation: "search"
+  35:
+    operation: "insert"
     start: 5404
     end: 5718
-  18:
-    operation: insert
+  36:
+    operation: "search"
+  37:
+    operation: "insert"
     start: 5718
     end: 6072
-  19:
-    operation: insert
+  38:
+    operation: "search"
+  39:
+    operation: "insert"
     start: 6072
     end: 6338
-  20:
-    operation: insert
+  40:
+    operation: "search"
+  41:
+    operation: "insert"
     start: 6338
     end: 6613
-  21:
-    operation: insert
+  42:
+    operation: "search"
+  43:
+    operation: "insert"
     start: 6613
     end: 6908
-  22:
-    operation: insert
+  44:
+    operation: "search"
+  45:
+    operation: "insert"
     start: 6908
     end: 7115
-  23:
-    operation: insert
+  46:
+    operation: "search"
+  47:
+    operation: "insert"
     start: 7115
     end: 7452
-  24:
-    operation: insert
+  48:
+    operation: "search"
+  49:
+    operation: "insert"
     start: 7452
     end: 7717
-  25:
-    operation: insert
+  50:
+    operation: "search"
+  51:
+    operation: "insert"
     start: 7717
     end: 8065
-  26:
-    operation: insert
+  52:
+    operation: "search"
+  53:
+    operation: "insert"
     start: 8065
     end: 8313
-  27:
-    operation: insert
+  54:
+    operation: "search"
+  55:
+    operation: "insert"
     start: 8313
     end: 8698
-  28:
-    operation: insert
+  56:
+    operation: "search"
+  57:
+    operation: "insert"
     start: 8698
     end: 9011
-  29:
-    operation: insert
+  58:
+    operation: "search"
+  59:
+    operation: "insert"
     start: 9011
     end: 9307
-  30:
-    operation: insert
+  60:
+    operation: "search"
+  61:
+    operation: "insert"
     start: 9307
     end: 9651
-  31:
-    operation: insert
+  62:
+    operation: "search"
+  63:
+    operation: "insert"
     start: 9651
     end: 10000
+  64:
+    operation: "search"
+msturing-10M:
+  1:
+    operation: "insert"
+    start: 0
+    end: 255771
+  2:
+    operation: "search"
+  3:
+    operation: "insert"
+    start: 255771
+    end: 491965
+  4:
+    operation: "search"
+  5:
+    operation: "insert"
+    start: 491965
+    end: 824781
+  6:
+    operation: "search"
+  7:
+    operation: "insert"
+    start: 824781
+    end: 1081209
+  8:
+    operation: "search"
+  9:
+    operation: "insert"
+    start: 1081209
+    end: 1568760
+  10:
+    operation: "search"
+  11:
+    operation: "insert"
+    start: 1568760
+    end: 1959174
+  12:
+    operation: "search"
+  13:
+    operation: "insert"
+    start: 1959174
+    end: 2404186
+  14:
+    operation: "search"
+  15:
+    operation: "insert"
+    start: 2404186
+    end: 2798660
+  16:
+    operation: "search"
+  17:
+    operation: "insert"
+    start: 2798660
+    end: 3082959
+  18:
+    operation: "search"
+  19:
+    operation: "insert"
+    start: 3082959
+    end: 3480554
+  20:
+    operation: "search"
+  21:
+    operation: "insert"
+    start: 3480554
+    end: 3910930
+  22:
+    operation: "search"
+  23:
+    operation: "insert"
+    start: 3910930
+    end: 4194870
+  24:
+    operation: "search"
+  25:
+    operation: "insert"
+    start: 4194870
+    end: 4652840
+  26:
+    operation: "search"
+  27:
+    operation: "insert"
+    start: 4652840
+    end: 4872616
+  28:
+    operation: "search"
+  29:
+    operation: "insert"
+    start: 4872616
+    end: 5184725
+  30:
+    operation: "search"
+  31:
+    operation: "insert"
+    start: 5184725
+    end: 5629098
+  32:
+    operation: "search"
+  33:
+    operation: "insert"
+    start: 5629098
+    end: 6023119
+  34:
+    operation: "search"
+  35:
+    operation: "insert"
+    start: 6023119
+    end: 6292969
+  36:
+    operation: "search"
+  37:
+    operation: "insert"
+    start: 6292969
+    end: 6508987
+  38:
+    operation: "search"
+  39:
+    operation: "insert"
+    start: 6508987
+    end: 6767675
+  40:
+    operation: "search"
+  41:
+    operation: "insert"
+    start: 6767675
+    end: 7000498
+  42:
+    operation: "search"
+  43:
+    operation: "insert"
+    start: 7000498
+    end: 7263856
+  44:
+    operation: "search"
+  45:
+    operation: "insert"
+    start: 7263856
+    end: 7485517
+  46:
+    operation: "search"
+  47:
+    operation: "insert"
+    start: 7485517
+    end: 7739934
+  48:
+    operation: "search"
+  49:
+    operation: "insert"
+    start: 7739934
+    end: 8055691
+  50:
+    operation: "search"
+  51:
+    operation: "insert"
+    start: 8055691
+    end: 8381008
+  52:
+    operation: "search"
+  53:
+    operation: "insert"
+    start: 8381008
+    end: 8750107
+  54:
+    operation: "search"
+  55:
+    operation: "insert"
+    start: 8750107
+    end: 8942969
+  56:
+    operation: "search"
+  57:
+    operation: "insert"
+    start: 8942969
+    end: 9223315
+  58:
+    operation: "search"
+  59:
+    operation: "insert"
+    start: 9223315
+    end: 9508781
+  60:
+    operation: "search"
+  61:
+    operation: "insert"
+    start: 9508781
+    end: 9722747
+  62:
+    operation: "search"
+  63:
+    operation: "insert"
+    start: 9722747
+    end: 10000000
+  64:
+    operation: "search"

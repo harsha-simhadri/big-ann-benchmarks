@@ -414,6 +414,24 @@ class MSTuringANNS(DatasetCompetitionFormat):
     def distance(self):
         return "euclidean"
 
+class MSTuringClustered10M(DatasetCompetitionFormat):
+    def __init__(self):
+        self.nb = 10**6 * 10
+        self.d = 100
+        self.nq = 100000
+        self.dtype = "float32"
+        self.ds_fn = "msturing-10M-clustered.fbin"
+        self.qs_fn = "testQuery10K.fbin"
+        self.gt_fn = "clu_msturing10M_gt100"
+        
+        self.base_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp23/clustered_data/msturing-10M-clustered/"
+        self.basedir = os.path.join(BASEDIR, "MSTuring-10M-clustered")
+
+        self.private_gt_url = None
+        self.private_qs_url = None
+
+    def distance(self):
+        return "euclidean"
 
 class MSSPACEV1B(DatasetCompetitionFormat):
     def __init__(self, nb_M=1000):
@@ -962,6 +980,8 @@ DATASETS = {
     'msturing-100M': lambda : MSTuringANNS(100),
     'msturing-10M': lambda : MSTuringANNS(10),
     'msturing-1M': lambda : MSTuringANNS(1),
+
+    'msturing-10M-clustered': lambda: MSTuringClustered10M(),
 
     'msspacev-1B': lambda : MSSPACEV1B(1000),
     'msspacev-100M': lambda : MSSPACEV1B(100),
