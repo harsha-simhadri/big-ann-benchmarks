@@ -70,11 +70,11 @@ class diskann(BaseStreamingANN):
         print('Index class constructed and ready for update/search')
     
     def insert(self, X, ids):
-        self.index.batch_insert(X, ids)
+        self.index.batch_insert(X, ids+1)
 
     def delete(self, ids):
         for id in ids:
-            self.index.mark_deleted(id)
+            self.index.mark_deleted(id+1)
         self.index.consolidate_delete()
 
     def query(self, X, k):

@@ -1,129 +1,129 @@
 random-clustered-xs:
   0:
     operation: insert
-    start: '0'
-    end: '326'
+    start: 0
+    end: 326
   1:
     operation: insert
-    start: '326'
-    end: '596'
+    start: 326
+    end: 596
   2:
     operation: insert
-    start: '596'
-    end: '945'
+    start: 596
+    end: 945
   3:
     operation: insert
-    start: '945'
-    end: '1323'
+    start: 945
+    end: 1323
   4:
     operation: insert
-    start: '1323'
-    end: '1623'
+    start: 1323
+    end: 1623
   5:
     operation: insert
-    start: '1623'
-    end: '1986'
+    start: 1623
+    end: 1986
   6:
     operation: insert
-    start: '1986'
-    end: '2199'
+    start: 1986
+    end: 2199
   7:
     operation: insert
-    start: '2199'
-    end: '2576'
+    start: 2199
+    end: 2576
   8:
     operation: insert
-    start: '2576'
-    end: '2921'
+    start: 2576
+    end: 2921
   9:
     operation: insert
-    start: '2921'
-    end: '3252'
+    start: 2921
+    end: 3252
   10:
     operation: insert
-    start: '3252'
-    end: '3530'
+    start: 3252
+    end: 3530
   11:
     operation: insert
-    start: '3530'
-    end: '3866'
+    start: 3530
+    end: 3866
   12:
     operation: insert
-    start: '3866'
-    end: '4150'
+    start: 3866
+    end: 4150
   13:
     operation: insert
-    start: '4150'
-    end: '4434'
+    start: 4150
+    end: 4434
   14:
     operation: insert
-    start: '4434'
-    end: '4707'
+    start: 4434
+    end: 4707
   15:
     operation: insert
-    start: '4707'
-    end: '5073'
+    start: 4707
+    end: 5073
   16:
     operation: insert
-    start: '5073'
-    end: '5404'
+    start: 5073
+    end: 5404
   17:
     operation: insert
-    start: '5404'
-    end: '5718'
+    start: 5404
+    end: 5718
   18:
     operation: insert
-    start: '5718'
-    end: '6072'
+    start: 5718
+    end: 6072
   19:
     operation: insert
-    start: '6072'
-    end: '6338'
+    start: 6072
+    end: 6338
   20:
     operation: insert
-    start: '6338'
-    end: '6613'
+    start: 6338
+    end: 6613
   21:
     operation: insert
-    start: '6613'
-    end: '6908'
+    start: 6613
+    end: 6908
   22:
     operation: insert
-    start: '6908'
-    end: '7115'
+    start: 6908
+    end: 7115
   23:
     operation: insert
-    start: '7115'
-    end: '7452'
+    start: 7115
+    end: 7452
   24:
     operation: insert
-    start: '7452'
-    end: '7717'
+    start: 7452
+    end: 7717
   25:
     operation: insert
-    start: '7717'
-    end: '8065'
+    start: 7717
+    end: 8065
   26:
     operation: insert
-    start: '8065'
-    end: '8313'
+    start: 8065
+    end: 8313
   27:
     operation: insert
-    start: '8313'
-    end: '8698'
+    start: 8313
+    end: 8698
   28:
     operation: insert
-    start: '8698'
-    end: '9011'
+    start: 8698
+    end: 9011
   29:
     operation: insert
-    start: '9011'
-    end: '9307'
+    start: 9011
+    end: 9307
   30:
     operation: insert
-    start: '9307'
-    end: '9651'
+    start: 9307
+    end: 9651
   31:
     operation: insert
-    start: '9651'
-    end: '10000'
+    start: 9651
+    end: 10000

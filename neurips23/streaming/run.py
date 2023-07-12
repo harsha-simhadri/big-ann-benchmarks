@@ -38,10 +38,10 @@ class StreamingRunner(BaseRunner):
             start = time.time()
             match entry['operation']:
                 case 'insert':
-                    ids = np.arange(entry['start'], entry['end']+1, dtype=np.uint32)
-                    algo.insert(data[ids-1,:], ids)
+                    ids = np.arange(entry['start'], entry['end'], dtype=np.uint32)
+                    algo.insert(data[ids,:], ids)
                 case 'delete':
-                    ids = np.arange(entry['start'], entry['end']+1, dtype=np.uint32)
+                    ids = np.arange(entry['start'], entry['end'], dtype=np.uint32)
                     algo.delete(ids)
                 case 'search':
                     if search_type == 'knn':
