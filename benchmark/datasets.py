@@ -418,7 +418,7 @@ class MSTuringClustered10M(DatasetCompetitionFormat):
     def __init__(self):
         self.nb = 10**6 * 10
         self.d = 100
-        self.nq = 100000
+        self.nq = 10000
         self.dtype = "float32"
         self.ds_fn = "msturing-10M-clustered.fbin"
         self.qs_fn = "testQuery10K.fbin"
