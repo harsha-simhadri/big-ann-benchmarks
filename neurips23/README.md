@@ -111,12 +111,15 @@ python run.py --neurips23track streaming --algorithm diskann --dataset msspacev-
 
 For streaming track, download the ground truth (needs azcopy in your binary path):
 ```
- python benchmark/streaming/download_gt.py --runbook_file neurips23/streaming/simple_runbook.yaml --dataset msspacev-10M 
+python benchmark/streaming/download_gt.py --runbook_file neurips23/streaming/simple_runbook.yaml --dataset msspacev-10M 
+python benchmark/streaming/download_gt.py --runbook_file neurips23/streaming/clustered_runbook.yaml --dataset msturing-10M-clustered 
 ```
 Alternately, to compute ground truth for an arbitrary runbook, [clone and build DiskANN repo](https://github.com/Microsoft/DiskANN) and use the command line tool to compute ground truth at various search checkpoints. The `--gt_cmdline_tool` points to the directory with DiskANN commandline tools.
 ```
 python benchmark/streaming/compute_gt.py --dataset msspacev-10M --runbook neurips23/streaming/simple_runbook.yaml --gt_cmdline_tool ~/DiskANN/build/apps/utils/compute_groundtruth
 ```
+For streaming track, consider also the examples in [clustered runbook](neurips23/streaming/clustered_runbook.yaml). The datasets here are [generated](neurips23/streaming/clustered_data_gen.py) by clustering the original dataset with k-means and packing points in the same cluster into contiguous indices. Then insertions are then performed one cluster at a time. This runbook tests if an indexing algorithm can adapt to data draft.
+
 
 To make the results available for post-processing, change permissions of the results folder
 
