@@ -6,7 +6,7 @@ from benchmark.datasets import DATASETS
 from benchmark.streaming.load_runbook import load_runbook
 
 def get_range_start_end(entry):
-    return np.arange(entry['start']-1,  entry['end'], dtype=np.uint32)
+    return np.arange(entry['start'],  entry['end'], dtype=np.uint32)
 
 def get_next_set(ids: np.ndarray, entry):
     match entry['operation']:
