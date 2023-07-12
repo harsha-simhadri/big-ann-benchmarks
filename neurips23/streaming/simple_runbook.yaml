@@ -1,19 +1,19 @@
 random-xs:
   1: 
     operation: "insert"
-    start: 1
+    start: 0
     end: 10000
   2:
     operation: "search"
   3:
     operation: "delete"
-    start: 1
+    start: 0
     end: 5000
   4:
     operation: "search"
   5:
     operation: "insert"
-    start: 1
+    start: 0
     end: 5000
   6:
     operation: "search"
@@ -21,19 +21,19 @@ random-xs:
 msturing-10M:
   1: 
     operation: "insert"
-    start: 1
+    start: 0
     end: 10000000
   2:
     operation: "search"
   3:
     operation: "delete"
-    start: 1
+    start: 0
     end: 5000000
   4:
     operation: "search"
   5:
     operation: "insert"
-    start: 1
+    start: 0
     end: 5000000
   6:
     operation: "search"
@@ -41,19 +41,19 @@ msturing-10M:
 msturing-1M:
   1: 
     operation: "insert"
-    start: 1
+    start: 0
     end: 1000000
   2:
     operation: "search"
   3:
     operation: "delete"
-    start: 1
+    start: 0
     end: 500000
   4:
     operation: "search"
   5:
     operation: "insert"
-    start: 1
+    start: 0
     end: 500000
   6:
     operation: "search"
@@ -61,19 +61,19 @@ msturing-1M:
 msspacev-10M:
   1: 
     operation: "insert"
-    start: 1
+    start: 0
     end: 10000000
   2:
     operation: "search"
   3:
     operation: "delete"
-    start: 1
+    start: 0
     end: 5000000
   4:
     operation: "search"
   5:
     operation: "insert"
-    start: 1
+    start: 0
     end: 5000000
   6:
     operation: "search"
@@ -81,19 +81,19 @@ msspacev-10M:
 msspacev-1M:
   1: 
     operation: "insert"
-    start: 1
+    start: 0
     end: 1000000
   2:
     operation: "search"
   3:
     operation: "delete"
-    start: 1
+    start: 0
     end: 500000
   4:
     operation: "search"
   5:
     operation: "insert"
-    start: 1
+    start: 0
     end: 500000
   6:
     operation: "search"
