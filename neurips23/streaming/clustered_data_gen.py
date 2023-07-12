@@ -76,8 +76,8 @@ def main():
         cluster_index_range = range(offsets[c], offsets[c + 1])
         cluster_indices = np.array(permutation[cluster_index_range], dtype=np.uintc)
         print(cluster_index_range)
-        entry = [{'operation': 'insert'}, {'start': str(offsets[c])}, {'end': str(offsets[c+1])}]
-        operation_list.append((c, entry))
+        entry = [{'operation': 'insert'}, {'start': int(offsets[c])}, {'end': int(offsets[c+1])}]
+        operation_list.append((c+1, entry))
 
     shape = np.shape(permuted_data)
     with open(args.output_data_file, 'wb') as df:
