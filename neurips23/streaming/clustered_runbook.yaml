@@ -1,4 +1,4 @@
-random-clustered-xs:
+random-xs-clustered:
   1:
     operation: "insert"
     start: 0

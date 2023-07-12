@@ -1000,7 +1000,7 @@ DATASETS = {
     'random-xs': lambda : RandomDS(10000, 1000, 20),
     'random-s': lambda : RandomDS(100000, 1000, 50),
 
-    'random-clustered-xs': lambda: RandomClusteredDS(),
+    'random-xs-clustered': lambda: RandomClusteredDS(),
 
     'random-range-xs': lambda : RandomRangeDS(10000, 1000, 20),
     'random-range-s': lambda : RandomRangeDS(100000, 1000, 50),
