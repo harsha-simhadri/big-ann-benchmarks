@@ -432,6 +432,9 @@ class MSTuringClustered10M(DatasetCompetitionFormat):
 
     def distance(self):
         return "euclidean"
+    
+    def prepare(self, skip_data=False, original_size=10 ** 9):
+        return super().prepare(skip_data, original_size = self.nb)
 
 class MSSPACEV1B(DatasetCompetitionFormat):
     def __init__(self, nb_M=1000):
@@ -491,7 +494,7 @@ class RandomClusteredDS(DatasetCompetitionFormat):
         return 10
     
     def prepare(self, skip_data=False, original_size=10 ** 9):
-        return super().prepare(skip_data, self.nb)
+        return super().prepare(skip_data, original_size = self.nb)
 
 class RandomRangeDS(DatasetCompetitionFormat):
     def __init__(self, nb, nq, d):
