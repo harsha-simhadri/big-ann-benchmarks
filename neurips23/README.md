@@ -118,11 +118,10 @@ Alternately, to compute ground truth for an arbitrary runbook, [clone and build 
 ```
 python benchmark/streaming/compute_gt.py --dataset msspacev-10M --runbook neurips23/streaming/simple_runbook.yaml --gt_cmdline_tool ~/DiskANN/build/apps/utils/compute_groundtruth
 ```
-For streaming track, consider also the examples in [clustered runbook](neurips23/streaming/clustered_runbook.yaml). The datasets here are [generated](neurips23/streaming/clustered_data_gen.py) by clustering the original dataset with k-means and packing points in the same cluster into contiguous indices. Then insertions are then performed one cluster at a time. This runbook tests if an indexing algorithm can adapt to data draft.
+Consider also the examples in runbooks [here]]neurips23/streaming/clustered_runbook.yaml) and [here](neurips23/streaming/delete_runbook.yaml). The datasets here are [generated](neurips23/streaming/clustered_data_gen.py) by clustering the original dataset with k-means and packing points in the same cluster into contiguous indices. Then insertions are then performed one cluster at a time. This runbook tests if an indexing algorithm can adapt to data draft.
 
 
 To make the results available for post-processing, change permissions of the results folder
-
 ```
 sudo chmod 777 -R results/
 ```
@@ -209,13 +208,9 @@ The plot.py script supports other benchmarks.  To see a complete list, run:
 python plot.py --help
 ```
 
-You can plot additional metrics, e.g. mean SSD IOs vs recall/AP for T2, using:
-```
-python plot.py --dataset deep-1B -x k-nn -y mean_ssd_ios 
-```
 ### Baseline results
 
-To get a table overview over the best recall achieved over a certain QPS threshold, run 
+To get a table overview over the best recall achieved over a certain QPS threshold, execute the datasets and algorithm pairs, and run 
 ```
 python data_export.py --output res.csv
 python eval/show_operating_points.py --algorithm $ALGO --threshold $THRESHOLD res.csv
@@ -228,7 +223,7 @@ A submission is composed of a pull request to this repo with the following.
 * A Dockerfile `neurips23/[task]/[team]/Dockerfile describing how to retrieve, compile and set up requirements for your algorithm.
 * A config file `neurips23/[task]/[team]/config.yml` that specifies 
   * 1 index build configuration 
-  * 10 search configuration
+  * up to 10 search configuration (2 for streaming track)
 * Add an entry to [CI test list](../.github/workflows/neurips23.yml) for test dataset of the specific task. We can start working with larger datasets once these tests pass. 
 <!--* An URL to download any prebuilt indices placed in `algos-2021.yaml`. **This is optional, but strongly encourages.** This would help us evaluate faster, although we would build your index to verify the time limit. Please see `faiss_t1.py` and `diskann-t2.py` for examples. If you are unable to host the index on your own Azure blob storage, please let us know and we can arrange to have it copied to organizer's account.-->
 
@@ -245,7 +240,7 @@ There are several ways to get help as you develop your algorithm using this fram
 This leaderboard is based on the standard recall@10 vs throughput benchmark that has become a standard benchmark when evaluating and comparing approximate nearest neighbor algorithms. The recall of the baselines at this QPS threshold is listed [above](#measuring_your_algorithm). 
 
 Algorithms will be ranked on how much their recall surpasses the baselines at these QPS thresholds.   We will add up the recall improvements of each algorithm on all tasks it competes on.  
-<!--are at an advantage as they can benefit from additional scores. Any recall regression compared to the baseline on the datasets committed to will be subtracted from the final score.-->
+
 
 ## Custom_Setup
 
