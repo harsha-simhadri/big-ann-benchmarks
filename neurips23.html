@@ -146,8 +146,8 @@
             <span>Streaming Search</span>: This task uses 10M slice of the MS Turing data
             set released in the previous challenge. The index starts with zero
             points and must implement the "runbook" provided -- a sequence of
-            insertion operations, deletion operations, and search commands
-            (roughly 4:4:1 ratio) -- within a time bound. In the final run, we
+            insertion, deletion, and search operations (roughly 4:4:1 ratio) --
+            within a time bound of about 30 minutes. In the final run, we
             will use a different runbook, and possibly a different data set,
             to avoid participants over-fitting to this dataset. More details to come.
           </li>
@@ -185,7 +185,7 @@
                 <td>Text2Image-10M</td>
                 <td>200</td>
                 <td>float32</td>
-                <td>diskann</td>
+                <td><a href="https://github.com/microsoft/DiskANN">diskann</a></td>
                 <td>4882</td>
                 <td>
                   <a href="https://creativecommons.org/licenses/by/4.0/deed.en">CC BY 4.0</a>
@@ -212,7 +212,7 @@
                 <td>MS-SpaceV-10M</td>
                 <td>100</td>
                 <td>int8</td>
-                <td>diskann</td>
+                <td><a href="https://arxiv.org/abs/2105.09613">fresh-diskann</a></td>
                 <td>TBA</td>
                 <td>
                   <a href="https://github.com/microsoft/SPTAG/blob/main/datasets/SPACEV1B/LICENSE">O-UDA</a>
@@ -281,9 +281,8 @@
               infrastructure, CFP and final ranking metrics released.
             </li>
             <li>
-              <span>End-July</span>: Deadline for requesting allocation of cloud
-              compute credits for development. We suggest applying earlier to 
-              get the credits sooner. 
+              <span>End-July</span>: Suggested deadline for requesting allocation of cloud
+              compute credits for development. Credits will be provided on ongoing basis. 
             </li>
             <li>
               <span>August 30th</span>: Final deadline for
