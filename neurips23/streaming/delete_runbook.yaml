@@ -259,178 +259,220 @@ msturing-10M-clustered:
     end: 824781
   6:
     operation: "search"
-  7:
-    operation: "insert"
-    start: 824781
-    end: 1081209
+  7: 
+    operation: "delete"
+    start: 100000
+    end: 200000
   8:
     operation: "search"
   9:
     operation: "insert"
-    start: 1081209
-    end: 1568760
+    start: 824781
+    end: 1081209
   10:
     operation: "search"
   11:
     operation: "insert"
-    start: 1568760
-    end: 1959174
+    start: 1081209
+    end: 1568760
   12:
     operation: "search"
   13:
     operation: "insert"
+    start: 1568760
+    end: 1959174
+  14: 
+    operation: "delete"
+    start: 1200000
+    end: 1400000
+  15:
+    operation: "search"
+  16:
+    operation: "insert"
     start: 1959174
     end: 2404186
-  14:
+  17:
     operation: "search"
-  15:
+  18: 
+    operation: "delete"
+    start: 600000
+    end: 700000
+  19:
     operation: "insert"
     start: 2404186
     end: 2798660
-  16:
-    operation: "search"
-  17:
-    operation: "insert"
-    start: 2798660
-    end: 3082959
-  18:
-    operation: "search"
-  19:
-    operation: "insert"
-    start: 3082959
-    end: 3480554
   20:
     operation: "search"
   21:
     operation: "insert"
-    start: 3480554
-    end: 3910930
+    start: 2798660
+    end: 3082959
   22:
     operation: "search"
   23:
     operation: "insert"
-    start: 3910930
-    end: 4194870
+    start: 3082959
+    end: 3480554
   24:
     operation: "search"
   25:
     operation: "insert"
-    start: 4194870
-    end: 4652840
+    start: 3480554
+    end: 3910930
   26:
     operation: "search"
   27:
     operation: "insert"
+    start: 3910930
+    end: 4194870
+  28: 
+    operation: "delete"
+    start: 2000000
+    end: 3000000
+  29:
+    operation: "search"
+  30:
+    operation: "insert"
+    start: 4194870
+    end: 4652840
+  31:
+    operation: "search"
+  32:
+    operation: "insert"
     start: 4652840
     end: 4872616
-  28:
-    operation: "search"
-  29:
-    operation: "insert"
-    start: 4872616
-    end: 5184725
-  30:
-    operation: "search"
-  31:
-    operation: "insert"
-    start: 5184725
-    end: 5629098
-  32:
-    operation: "search"
-  33:
-    operation: "insert"
-    start: 5629098
-    end: 6023119
+  33: 
+    operation: "delete"
+    start: 2100000
+    end: 2200000
   34:
     operation: "search"
   35:
     operation: "insert"
-    start: 6023119
-    end: 6292969
+    start: 4872616
+    end: 5184725
   36:
     operation: "search"
   37:
     operation: "insert"
+    start: 5184725
+    end: 5629098
+  38: 
+    operation: "delete"
+    start: 5000000
+    end: 5200000
+  39:
+    operation: "search"
+  40:
+    operation: "insert"
+    start: 5629098
+    end: 6023119
+  41:
+    operation: "search"
+  42:
+    operation: "insert"
+    start: 6023119
+    end: 6292969
+  43:
+    operation: "search"
+  44:
+    operation: "insert"
     start: 6292969
     end: 6508987
-  38:
+  45:
     operation: "search"
-  39:
+  46:
     operation: "insert"
     start: 6508987
     end: 6767675
-  40:
+  47:
     operation: "search"
-  41:
+  48:
     operation: "insert"
     start: 6767675
     end: 7000498
-  42:
-    operation: "search"
-  43:
-    operation: "insert"
-    start: 7000498
-    end: 7263856
-  44:
-    operation: "search"
-  45:
-    operation: "insert"
-    start: 7263856
-    end: 7485517
-  46:
-    operation: "search"
-  47:
-    operation: "insert"
-    start: 7485517
-    end: 7739934
-  48:
-    operation: "search"
-  49:
-    operation: "insert"
-    start: 7739934
-    end: 8055691
+  49: 
+    operation: "delete"
+    start: 2500000
+    end: 4500000
   50:
     operation: "search"
   51:
     operation: "insert"
-    start: 8055691
-    end: 8381008
+    start: 7000498
+    end: 7263856
   52:
     operation: "search"
   53:
     operation: "insert"
-    start: 8381008
-    end: 8750107
+    start: 7263856
+    end: 7485517
   54:
     operation: "search"
   55:
     operation: "insert"
-    start: 8750107
-    end: 8942969
+    start: 7485517
+    end: 7739934
   56:
     operation: "search"
   57:
     operation: "insert"
-    start: 8942969
-    end: 9223315
+    start: 7739934
+    end: 8055691
   58:
     operation: "search"
   59:
     operation: "insert"
+    start: 8055691
+    end: 8381008
+  60: 
+    operation: "delete"
+    start: 6500000
+    end: 8000000
+  61:
+    operation: "search"
+  62:
+    operation: "insert"
+    start: 8381008
+    end: 8750107
+  63:
+    operation: "search"
+  64:
+    operation: "insert"
+    start: 8750107
+    end: 8942969
+  65:
+    operation: "search"
+  66:
+    operation: "insert"
+    start: 8942969
+    end: 9223315
+  67:
+    operation: "search"
+  68:
+    operation: "insert"
     start: 9223315
     end: 9508781
-  60:
+  69: 
+    operation: "delete"
+    start: 8100000
+    end: 8200000
+  70:
     operation: "search"
-  61:
+  71:
     operation: "insert"
     start: 9508781
     end: 9722747
-  62:
+  72:
     operation: "search"
-  63:
+  73:
     operation: "insert"
     start: 9722747
     end: 10000000
-  64:
+  74: 
+    operation: "delete"
+    start: 8600000
+    end: 9200000
+  75:
     operation: "search"
   gt_url: "https://comp21storage.blob.core.windows.net/publiccontainer/comp23/clustered_data/msturing-10M-clustered/delete_runboook.yaml"
