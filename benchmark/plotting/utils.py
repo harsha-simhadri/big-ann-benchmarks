@@ -141,7 +141,7 @@ def compute_metrics_all_runs(dataset, dataset_name, res, recompute=False,
         run_result = {
             'algorithm': algo,
             'parameters': algo_name,
-            'dataset': dataset,
+            'dataset': dataset if neurips23track != 'streaming' else dataset + '(' + os.path.split(runbook_path)[-1] + ')',
             'count': properties['count'],
         }
         for name, metric in metrics.items():
