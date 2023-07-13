@@ -95,7 +95,7 @@ if __name__ == "__main__":
             print(f"Looking at track:{track}, dataset:{dataset_name}")
             dataset = DATASETS[dataset_name]()
             if track == 'streaming':
-                for runbook_path in ['neurips23/streaming/simple_runbook.yaml', 'neurips23/streaming/clustered_runbook.yaml']:
+                for runbook_path in ['neurips23/streaming/simple_runbook.yaml', 'neurips23/streaming/clustered_runbook.yaml', 'neurips23/streaming/delete_runbook.yaml']:
                     results = load_all_results(dataset_name, neurips23track=track, runbook_path=runbook_path)
                     run_metrics = compute_metrics_all_runs(dataset, dataset_name, results, args.recompute, \
                         args.sensors, args.search_times, args.private_query, \

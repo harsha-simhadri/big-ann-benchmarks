@@ -21,6 +21,10 @@ random-xs-clustered:
     operation: "insert"
     start: 945
     end: 1323
+  8:
+    operation: "delete"
+    start: 600
+    end: 700
   9:
     operation: "delete"
     start: 800 
