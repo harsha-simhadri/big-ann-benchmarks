@@ -23,7 +23,7 @@ The Practical Vector Search challenge at NeurIPS 2023 has four different tasks:
     The tags are from a vocabulary of 200386 possible tags. 
     The 100,000 queries consist of one image embedding and one or two tags that must appear in the database elements to be considered.
 
-**Task Streaming:** This task uses 10M slice of the MS Turing data set released in the previous challenge. The index starts with zero points and must implement the "runbook" provided - a sequence of insertion operations, deletion operations, and search commands (roughly 4:2:1 ratio) - within a time bound. In the final run, we will  use a different runbook, and possibly a different data set, to avoid participants over-fitting to this dataset.
+**Task Streaming:** This task uses 10M slice of the MS Turing data set released in the previous challenge. The index starts with zero points and must implement the "runbook" provided - a sequence of insertion operations, deletion operations, and search commands (roughly 4:4:1 ratio) - within a time bound of 30 minutes. In the final run, we will  use a different runbook, and possibly a different data set, to avoid participants over-fitting to this dataset.
 
 **Task Out-Of-Distribution:**  Yandex Text-to-Image 10M represents a cross-modal dataset where the database and query vectors have different distributions in the shared vector space.
     The base set is a 10M subset of the Yandex visual search database of 200-dimensional image embeddings which are produced with the Se-ResNext-101 model. 
