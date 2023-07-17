@@ -56,7 +56,7 @@ Participants must submit their algorithm via a pull request and (optionally) ind
 ### Requirements
 
 You will need the following installed on your machine:
-* Python ( we tested with Anaconda using an environment created for Python version 3.10 ) and Docker.
+* Python (we tested with Anaconda using an environment created for Python version 3.10) and Docker (we tested with 24.0.2).
 * Note that we tested everything on Ubuntu Linux 22.10 but other environments should be possible.
 
 ### Getting_Started
