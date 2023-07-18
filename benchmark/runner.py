@@ -298,6 +298,7 @@ def run_docker(definition, dataset, count, runs, timeout, rebuild,
     else:
         print("Requested container timeout is %d seconds" % timeout)
 
+    logging.config.fileConfig("logging.conf") 
     logger = logging.getLogger(f"annb.{container.short_id}")
 
     logger.info('Created container %s: CPU limit %s, mem limit %s, timeout %d, command %s' % \
