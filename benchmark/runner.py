@@ -47,9 +47,8 @@ def run(definition, dataset, count, run_count, rebuild,
     print(f"Running {definition.algorithm} on {dataset}")
 
     custom_runner = RUNNERS.get(neurips23track, BaseRunner)
-    max_pts, runbook = (None
-                        if neurips23track != 'streaming'
-                        else load_runbook(dataset, ds.nb, runbook_path))
+    if neurips23track == 'streaming':
+        max_pts, runbook = load_runbook(dataset, ds.nb, runbook_path)
 
     try:
         # Try loading the index from the file
