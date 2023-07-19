@@ -82,7 +82,7 @@ def main():
     args = parser.parse_args()
 
     ds = DATASETS[args.dataset]()
-    runbook = load_runbook(args.dataset, ds.nb, args.runbook_file)
+    max_pts, runbook = load_runbook(args.dataset, ds.nb, args.runbook_file)
     query_file = ds.qs_fn if args.private_query else ds.qs_fn
     
     common_cmd = args.gt_cmdline_tool + ' --dist_fn ' 

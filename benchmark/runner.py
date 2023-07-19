@@ -47,7 +47,9 @@ def run(definition, dataset, count, run_count, rebuild,
     print(f"Running {definition.algorithm} on {dataset}")
 
     custom_runner = RUNNERS.get(neurips23track, BaseRunner)
-    runbook = None if neurips23track != 'streaming' else load_runbook(dataset, ds.nb, runbook_path)
+    max_pts, runbook = (None
+                        if neurips23track != 'streaming'
+                        else load_runbook(dataset, ds.nb, runbook_path))
 
     try:
         # Try loading the index from the file
@@ -66,7 +68,9 @@ def run(definition, dataset, count, run_count, rebuild,
                 print("Index load failed.")
         elif rebuild or not algo.load_index(dataset):
             # Build the index if it is not available
-            build_time = custom_runner.build(algo, dataset)
+            build_time = (custom_runner.build 
+                          if neurips23track != 'streaming' 
+                          else custom_runner.build(algo, dataset, max_pts))
             print('Built index in', build_time) 
         else:
             print("Loaded existing index")
