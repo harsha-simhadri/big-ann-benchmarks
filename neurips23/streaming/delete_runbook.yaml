@@ -1,4 +1,5 @@
 random-xs-clustered:
+  max_pts: 6000
   1:
     operation: "insert"
     start: 0
@@ -241,6 +242,7 @@ random-xs-clustered:
     operation: "search"
   gt_url: "https://comp21storage.blob.core.windows.net/publiccontainer/comp23/clustered_data/random-xs-clustered/delete_runbook.yaml"
 msturing-10M-clustered:
+  max_pts: 6000000
   1:
     operation: "insert"
     start: 0
@@ -393,7 +395,7 @@ msturing-10M-clustered:
     end: 7000498
   49: 
     operation: "delete"
-    start: 2500000
+    start: 3000000
     end: 4500000
   50:
     operation: "search"

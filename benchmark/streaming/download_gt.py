@@ -24,7 +24,7 @@ def main():
 
     ds = DATASETS[args.dataset]()
     print(args.runbook_file)
-    runbook = load_runbook(args.dataset, ds.nb, args.runbook_file)
+    max_pts, runbook = load_runbook(args.dataset, ds.nb, args.runbook_file)
     gt_url = get_gt_url(args.dataset, args.runbook_file)
 
     download_dir = gt_dir(ds, args.runbook_file)

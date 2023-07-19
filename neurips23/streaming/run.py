@@ -7,13 +7,12 @@ from benchmark.datasets import DATASETS
 
 
 class StreamingRunner(BaseRunner):
-    def build(algo, dataset):
+    def build(algo, dataset, max_pts):
         '''
         Return set up time
         '''
         t0 = time.time()
         ds = DATASETS[dataset]()
-        max_pts = ds.nb
         ndims = ds.d
         algo.setup(ds.dtype, max_pts, ndims)
         print('Algorithm set up')

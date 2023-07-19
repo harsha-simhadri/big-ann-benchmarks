@@ -84,7 +84,7 @@ def compute_metrics_all_runs(dataset, dataset_name, res, recompute=False,
         else:
             true_nn_across_steps = []
             gt_dir = benchmark.streaming.compute_gt.gt_dir(dataset, runbook_path)
-            runbook = load_runbook(dataset_name, dataset.nb, runbook_path)
+            max_pts, runbook = load_runbook(dataset_name, dataset.nb, runbook_path)
             for step, entry in enumerate(runbook):
                 if entry['operation'] == 'search':
                     step_gt_path = os.path.join(gt_dir, 'step' + str(step+1) + '.gt100')
