@@ -195,6 +195,8 @@ random-xs-clustered:
   gt_url: "https://comp21storage.blob.core.windows.net/publiccontainer/comp23/clustered_data/random-xs-clustered/clustered_runboook.yaml"
 msturing-10M-clustered:
   max_pts: 10000000
+  # On Azure D8lds v5, runtime:  
+  # recall@10: 0.9247 for "R":64, "L":50, "insert_threads":16, "consolidate_threads":16 "Ls":100, "T":16
   1:
     operation: "insert"
     start: 0
