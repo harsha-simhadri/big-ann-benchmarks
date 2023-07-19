@@ -22,8 +22,7 @@ random-xs:
 msturing-10M:
   max_pts: 10000000
   # On Azure D8lds v5 with "R":50, "L":50, "insert_threads":16, "consolidate_threads":16
-  # ~3.5 mins run time "Ls":300, "search_threads":16, average recall@10: 0.958
-  # ~2 mins   run time "Ls":100, "search_threads":16, average recall@10: 0.906
+  # ~28 mins run time "Ls":100, "search_threads":16, average recall@10: 0.892
   1: 
     operation: "insert"
     start: 0
@@ -46,8 +45,8 @@ msturing-10M:
 msturing-1M:
   max_pts: 1000000
   # On Azure D8lds v5 with "R":50, "L":50, "insert_threads":16, "consolidate_threads":16
-  # ~3.5 mins run time "Ls":300, "search_threads":16, average recall:
-  # ~2 mins   run time "Ls":100, "search_threads":16, average recall:
+  # ~3.5 mins run time "Ls":300, "search_threads":16, average recall@10: 0.906
+  # ~2 mins   run time "Ls":100, "search_threads":16, average recall@10: 0.958
   1: 
     operation: "insert"
     start: 0
