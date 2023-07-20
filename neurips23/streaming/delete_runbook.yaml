@@ -347,8 +347,8 @@ msturing-10M-clustered:
     end: 4872616
   33: 
     operation: "delete"
-    start: 2100000
-    end: 2200000
+    start: 1800000
+    end: 1900000
   34:
     operation: "search"
   35:
