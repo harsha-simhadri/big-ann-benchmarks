@@ -41,7 +41,7 @@ The baselines were run on an Azure Standard D8lds v5 (8 vcpus, 16 GiB memory) ma
 |---------|-------------|-----------------------------|---------|
 |Sparse   | Linear Scan | 101                         |  `python3 run.py --dataset sparse-full --algorithm linscan --neurips23track sparse` |
 |Filter   | faiss       | 3200                        | `python3 run.py --dataset yfcc-10M --algorithm faiss --neurips23track filter` |
-|Streaming| DiskANN     | 0.942 (recall@10), 23 mins  |  `python3 run.py --dataset msturing-10M-clustered --algorithm diskann --neurips23track streaming --runbook_path neurips23/streaming/delete_runbook.yaml` |
+|Streaming| DiskANN     | 0.924 (recall@10), 23 mins  |  `python3 run.py --dataset msturing-10M-clustered --algorithm diskann --neurips23track streaming --runbook_path neurips23/streaming/delete_runbook.yaml` |
 |OOD      | DiskANN     | 4882                        | `python3 run.py --dataset text2image-10M --algorithm diskann --neurips23track ood` | 
 
 
