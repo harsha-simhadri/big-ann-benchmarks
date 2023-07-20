@@ -1,5 +1,5 @@
 random-xs-clustered:
-  max_pts: 6000
+  max_pts: 6400
   1:
     operation: "insert"
     start: 0
