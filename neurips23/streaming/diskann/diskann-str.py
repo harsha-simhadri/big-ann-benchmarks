@@ -3,6 +3,7 @@ import psutil
 import os
 import time
 import numpy as np
+
 import diskannpy
 
 from neurips23.streaming.base import BaseStreamingANN
@@ -67,15 +68,28 @@ class diskann(BaseStreamingANN):
             num_threads = self.insert_threads, #to allocate scratch space for up to 64 search threads
             initial_search_complexity = 100
         )
+        self.max_pts = max_pts
         print('Index class constructed and ready for update/search')
+        self.active_indices = set()
+        self.num_unprocessed_deletes = 0
     
     def insert(self, X, ids):
-        self.index.batch_insert(X, ids+1)
+        self.active_indices.update(ids+1)
+        print('#active pts', len(self.active_indices), '#unprocessed deletes', self.num_unprocessed_deletes)
+        if len(self.active_indices) + self.num_unprocessed_deletes >= self.max_pts:
+            self.index.consolidate_delete()
+            self.num_unprocessed_deletes = 0
+
+        retvals = self.index.batch_insert(X, ids+1)
+        if -1 in retvals:
+            print('insertion failed')
+            print('insertion return values', retvals)
 
     def delete(self, ids):
         for id in ids:
             self.index.mark_deleted(id+1)
-        self.index.consolidate_delete()
+        self.active_indices.difference_update(ids+1)
+        self.num_unprocessed_deletes += len(ids)
 
     def query(self, X, k):
         """Carry out a batch query for k-NN of query set X."""
