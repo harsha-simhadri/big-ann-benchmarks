@@ -147,9 +147,13 @@
             set released in the previous challenge. The index starts with zero
             points and must implement the "runbook" provided -- a sequence of
             insertion, deletion, and search operations (roughly 4:4:1 ratio) --
-            within a time bound of about 30 minutes. In the final run, we
+            within a time bound of 1 hour.  In the final run, we
             will use a different runbook, and possibly a different data set,
-            to avoid participants over-fitting to this dataset. More details to come.
+            to avoid participants over-fitting to this dataset. The intention
+            is for the algorithm to process the operations and maintain a compact 
+            index over the active points rather than index the entire anticipated 
+            set of points and use tombstones or flags to mark active elements.
+            More details to come.
           </li>
         </ul>
 
@@ -209,11 +213,11 @@
 
               <tr>
                 <td>Streaming</td>
-                <td>MS-SpaceV-10M</td>
+                <td>MSTuring-10M</td>
                 <td>100</td>
                 <td>int8</td>
                 <td><a href="https://arxiv.org/abs/2105.09613">fresh-diskann</a></td>
-                <td>TBA</td>
+                <td>0.924 recall@10</td>
                 <td>
                   <a href="https://github.com/microsoft/SPTAG/blob/main/datasets/SPACEV1B/LICENSE">O-UDA</a>
                 </td>
