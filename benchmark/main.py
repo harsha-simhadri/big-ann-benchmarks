@@ -184,7 +184,7 @@ def main():
     logger = logging.getLogger("annb")
 
     dataset = DATASETS[args.dataset]()
-    dataset.prepare(True) # prepare dataset, but skip potentially huge base vectors
+    dataset.prepare(args.neurips23track == 'none') # prepare dataset, but skip potentially huge base vectors
     dimension = dataset.d
     point_type = 'float'
     distance = dataset.distance()
