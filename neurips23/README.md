@@ -128,9 +128,10 @@ sudo chmod 777 -R results/
 
 To plot QPS vs recall, you can use `plot.py` as follows:
 ```
-python plot.py --dataset yfcc-10M 
+python plot.py --dataset yfcc-10M --neurips23track filter
 ```
 This will place a plot into the *results/* directory.
+Please note that you have to provide the correct competition track to the script.
 
 The following command will summarize all results files into a single csv file `res.csv` suitable for further processing. 
 
@@ -199,7 +200,7 @@ python run.py --algorithm diskann-t2 --dataset deep-1B --download-index --blob-p
 
 Now you can analyze the results using plot.py. Sudo might be required here. To avoid sudo, run `sudo chmod -R 777 results/` before invoking these scripts.
 ```
-python plot.py --dataset [DATASET]
+python plot.py --dataset [DATASET] --neurips23track [TRACK]
 ```
 This will place a plot of the algorithms performance into the toplevel [results](../results) directory.
 
