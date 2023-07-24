@@ -95,6 +95,86 @@
                 </ul>
 
 
+                <div id="schedule">
+                  <h3>Summary of NeurIPS'21 event</h3>
+                    The <a href="https://neurips.cc/virtual/2021/competition/22443#collapse21991">NeurIPS session</a> for this competition happend on Dec 8, 2021. See slides and recordings of the talks below.
+                     <strong><a href="https://neurips.cc/virtual/2021/competition/22443#collapse-sl-21991">Overview Talk</a> and <a href="https://neurips.cc/virtual/2021/competition/22443#collapse48501">Break-out session</a> schedule (GMT)</strong>.
+                     <ul>
+                      <li> 11:05-11:25: Overview Talk (<a href="templates/slides/comp-overview.pptx">slides</a>, <a href="https://youtu.be/jjWxVxKSn1c">video</a>)</li>
+                      <li> 12:00-12:45: Overview of results presented by organizers, followed by Q&A  </li>
+                      <ul>
+                        <li>Standard hardware tracks T1 and T2 results (<a href="templates/slides/T1_T2_results.pptx">slides</a>)</li>
+                        <li>Custom hardware track T3 results (<a href="templates/slides/T3-results.pptx">slides</a>)</li>
+                      </ul>
+                      <li> 12:45-13:20: Invited talk 1 by <a href="http://www.cs.columbia.edu/~andoni/">Prof. Alexandr Andoni</a>: Learning to Hash Robustly, with Guarantees (<a href="templates/slides/lsh_neurips21.pptx">slides</a>, <a href="https://youtu.be/WcOu2LF57HI">video</a>)</li>
+                      <li> 13:20-13:55: Invited talk 2 by <a href="https://www.cs.rice.edu/~as143/">Prof. Anshumali Shrivastava</a>:Iterative Repartitioning for Learning to Hash  and the Power of k-Choices (<a href="templates/slides/invited-talk-anshu.pptx">slides</a>, <a href="https://youtu.be/TOHByhrlOiw">video</a>)</li>
+                      <li> 13:55-14:30: Talks from track winners.
+                        <ul>
+                          <li>Track 1: <a href="https://github.com/harsha-simhadri/big-ann-benchmarks/pull/69">kst_ann_t1</a> Li Liu, Jin Yu, Guohao Dai, Wei Wu, Yu Qiao, Yu Wang, Lingzhi Liu, <i>Kuaishou Technology and Tsinghua University</i> (<a href="https://youtu.be/dc_PGe7l5f8">video</a>)</li>
+                          <li>Track 2: <a href="https://github.com/harsha-simhadri/big-ann-benchmarks/pull/70">BBANN</a>  Xiaomeng Yi, Xiaofan Luan, Weizhi Xu, Qianya Cheng, Jigao Luo, Xiangyu Wang, Jiquan Long, Xiao Yan, Zheng Bian, Jiarui Luo, Shengjun Li, Chengming Li, <i>Zilliz and Southern University of Science and Technology</i> (<a href="templates/slides/Track2_xiaomeng_yi.pdf">slides</a>, <a href="https://youtu.be/MJcFwG5OzKM">video</a>)</li>
+                          <li>Track 3: <a href="https://github.com/harsha-simhadri/big-ann-benchmarks/pull/63">OptaNNe</a>  Sourabh Dongaonkar, Mark Hildebrand, Mariano Tepper, Cecilia Aguerrebere, Ted Willke, Jawad Khan, <i>Intel Corporation, Intel Labs and UC Davis</i> (<a href="templates/slides/optanne.pptx">slides</a>, <a href="https://youtu.be/XgtKUsGhyG4">video</a>)</li>
+                        </ul>
+                      </li>
+                      <li> 14:30-15:00: Open discussion on competition and future directions (<a href="https://github.com/harsha-simhadri/big-ann-benchmarks/issues/90">github thread</a>, <a href="https://youtu.be/9I4GC1eGWCk">video</a>) </li>
+                    </ul>
+                  <p>
+                    <strong>Abstract for Invited talk: "Learning to Hash Robustly, with Guarantees"</strong> <BR>
+                        There is a gap between the high-dimensional nearest neighbor search
+                        (NNS) algorithms achieving the best worst-case guarantees and the
+                        top-performing ones in practice. The former are based on indexing via
+                        the randomized Locality Sensitive Hashing (LSH), and its
+                        derivatives. The latter "learn" the best indexing method in order to
+                        speed-up NNS, crucially adapting to the structure of the given 
+                        dataset. Alas, the latter also almost always come at the cost of 
+                        losing the guarantees of either correctness or robust performance on 
+                        adversarial queries (or apply to datasets with an assumed extra 
+                        structure/model).
+                        
+                        How can we bridge these two perspectives and bring the best of both
+                        worlds?  As a step in this direction, we will talk about an NNS algorithm
+                        that has worst-case guarantees essentially matching that of
+                        theoretical algorithms, while optimizing the hashing to the structure
+                        of the dataset (think instance-optimal algorithms) for performance on
+                        the minimum-performing query. We will discuss the algorithm's ability
+                        to optimize for a given dataset from both theoretical and practical
+                        perspective.
+                    </p>
+      
+                    <p>
+                    <strong>Abstract for Invited talk: "Iterative Repartitioning for Learning to Hash  and the Power of k-Choices"</strong> <BR>
+                      Dense embedding models are commonly deployed in commercial
+                      search engines, wherein all the vectors are pre-computed, and
+                      near-neighbor search (NNS) is performed with the query vector to find
+                      relevant documents. However, the bottleneck of indexing a large number
+                      of dense vectors and performing an NNS hurts the query time and
+                      accuracy of these models. In this talk, we argue that high-dimensional
+                      and ultra-sparse embedding is a significantly superior alternative to
+                      dense low-dimensional embedding for both query efficiency and
+                      accuracy. Extreme sparsity eliminates the need for NNS by replacing
+                      them with simple lookups, while its high dimensionality ensures that
+                      the embeddings are informative even when sparse. However, learning
+                      extremely high dimensional embeddings leads to blow-up in the model
+                      size. To make the training feasible, we propose a partitioning
+                      algorithm that learns such high-dimensional embeddings across multiple
+                      GPUs without any communication. We theoretically prove that our way of
+                      one-sided learning is equivalent to learning both query and label
+                      embeddings. We call our novel system designed on sparse embeddings as
+                      IRLI (pronounced `early'), which iteratively partitions the items by
+                      learning the relevant buckets directly from the query-item relevance
+                      data. Furthermore, IRLI employs a superior power-of-k-choices based
+                      load balancing strategy. We mathematically show that IRLI retrieves
+                      the correct item with high probability under very natural assumptions
+                      and provides superior load balancing. IRLI surpasses the best
+                      baseline's precision on multi-label classification while being 5x
+                      faster on inference. For near-neighbor search tasks, the same method
+                      outperforms the state-of-the-art Learned Hashing approach NeuralLSH by
+                      requiring only ~ {1/6}^th of the candidates for the same recall. IRLI
+                      is both data and model parallel, making it ideal for distributed GPU
+                      implementation. We demonstrate this advantage by indexing 100 million
+                      dense vectors and surpassing the popular FAISS library by >10%.
+                    </p>
+                    </div>
+
             <div id="why">
               <h2>Why this competition?</h2>
               In the past few years, we’ve seen a lot of new research and creative approaches for large-scale ANNS, including:
@@ -440,86 +520,7 @@
               </p>
             </div>
 
-            <div id="schedule">
-              <h3>NeurIPS'21 session schedule</h3>
-                The <a href="https://neurips.cc/virtual/2021/competition/22443#collapse21991">NeurIPS session</a> for this competition is scheduled for Dec 8. 
-                NeurIPS registration is required for access to the session.<BR>
-                 <strong><a href="https://neurips.cc/virtual/2021/competition/22443#collapse-sl-21991">Overview Talk</a> and <a href="https://neurips.cc/virtual/2021/competition/22443#collapse48501">Break-out session</a> schedule (GMT)</strong>.
-                 <ul>
-                  <li> 11:05-11:25: Overview Talk (<a href="templates/slides/comp-overview.pptx">slides</a>)</li>
-                  <li> 12:00-12:45: Overview of results presented by organizers, followed by Q&A  </li>
-                  <ul>
-                    <li>Standard hardware tracks T1 and T2 results (<a href="templates/slides/T1_T2_results.pptx">slides</a>)</li>
-                    <li>Custom hardware track T3 results (<a href="templates/slides/T3-results.pptx">slides</a>)</li>
-                  </ul>
-                  <li> 12:45-13:20: Invited talk 1 by <a href="http://www.cs.columbia.edu/~andoni/">Prof. Alexandr Andoni</a>: Learning to Hash Robustly, with Guarantees (<a href="templates/slides/lsh_neurips21.pptx">slides</a>)</li>
-                  <li> 13:20-13:55: Invited talk 2 by <a href="https://www.cs.rice.edu/~as143/">Prof. Anshumali Shrivastava</a>:Iterative Repartitioning for Learning to Hash  and the Power of k-Choices (<a href="templates/slides/invited-talk-anshu.pptx">slides</a>)</li>
-                  <li> 13:55-14:30: Talks from track winners.
-                    <ul>
-                      <li>Track 1: <a href="https://github.com/harsha-simhadri/big-ann-benchmarks/pull/69">kst_ann_t1</a> Li Liu, Jin Yu, Guohao Dai, Wei Wu, Yu Qiao, Yu Wang, Lingzhi Liu, <i>Kuaishou Technology and Tsinghua University</i> </li>
-                      <li>Track 2: <a href="https://github.com/harsha-simhadri/big-ann-benchmarks/pull/70">BBANN</a>  Xiaomeng Yi, Xiaofan Luan, Weizhi Xu, Qianya Cheng, Jigao Luo, Xiangyu Wang, Jiquan Long, Xiao Yan, Zheng Bian, Jiarui Luo, Shengjun Li, Chengming Li, <i>Zilliz and Southern University of Science and Technology</i> (<a href="templates/slides/Track2_xiaomeng_yi.pdf">slides</a>)</li>
-                      <li>Track 3: <a href="https://github.com/harsha-simhadri/big-ann-benchmarks/pull/63">OptaNNe</a>  Sourabh Dongaonkar, Mark Hildebrand, Mariano Tepper, Cecilia Aguerrebere, Ted Willke, Jawad Khan, <i>Intel Corporation, Intel Labs and UC Davis</i> (<a href="templates/slides/optanne.pptx">slides</a>)</li>
-                    </ul>
-                  </li>
-                  <li> 14:30-15:00: Open discussion on competition and future directions (<a href="https://github.com/harsha-simhadri/big-ann-benchmarks/issues/90">github thread</a>) </li>
-                </ul>
-              <p>
-                <strong>Abstract for Invited talk: "Learning to Hash Robustly, with Guarantees"</strong> <BR>
-                    There is a gap between the high-dimensional nearest neighbor search
-                    (NNS) algorithms achieving the best worst-case guarantees and the
-                    top-performing ones in practice. The former are based on indexing via
-                    the randomized Locality Sensitive Hashing (LSH), and its
-                    derivatives. The latter "learn" the best indexing method in order to
-                    speed-up NNS, crucially adapting to the structure of the given 
-                    dataset. Alas, the latter also almost always come at the cost of 
-                    losing the guarantees of either correctness or robust performance on 
-                    adversarial queries (or apply to datasets with an assumed extra 
-                    structure/model).
-                    
-                    How can we bridge these two perspectives and bring the best of both
-                    worlds?  As a step in this direction, we will talk about an NNS algorithm
-                    that has worst-case guarantees essentially matching that of
-                    theoretical algorithms, while optimizing the hashing to the structure
-                    of the dataset (think instance-optimal algorithms) for performance on
-                    the minimum-performing query. We will discuss the algorithm's ability
-                    to optimize for a given dataset from both theoretical and practical
-                    perspective.
-                </p>
-  
-                <p>
-                <strong>Abstract for Invited talk: "Iterative Repartitioning for Learning to Hash  and the Power of k-Choices"</strong> <BR>
-                  Dense embedding models are commonly deployed in commercial
-                  search engines, wherein all the vectors are pre-computed, and
-                  near-neighbor search (NNS) is performed with the query vector to find
-                  relevant documents. However, the bottleneck of indexing a large number
-                  of dense vectors and performing an NNS hurts the query time and
-                  accuracy of these models. In this talk, we argue that high-dimensional
-                  and ultra-sparse embedding is a significantly superior alternative to
-                  dense low-dimensional embedding for both query efficiency and
-                  accuracy. Extreme sparsity eliminates the need for NNS by replacing
-                  them with simple lookups, while its high dimensionality ensures that
-                  the embeddings are informative even when sparse. However, learning
-                  extremely high dimensional embeddings leads to blow-up in the model
-                  size. To make the training feasible, we propose a partitioning
-                  algorithm that learns such high-dimensional embeddings across multiple
-                  GPUs without any communication. We theoretically prove that our way of
-                  one-sided learning is equivalent to learning both query and label
-                  embeddings. We call our novel system designed on sparse embeddings as
-                  IRLI (pronounced `early'), which iteratively partitions the items by
-                  learning the relevant buckets directly from the query-item relevance
-                  data. Furthermore, IRLI employs a superior power-of-k-choices based
-                  load balancing strategy. We mathematically show that IRLI retrieves
-                  the correct item with high probability under very natural assumptions
-                  and provides superior load balancing. IRLI surpasses the best
-                  baseline's precision on multi-label classification while being 5x
-                  faster on inference. For near-neighbor search tasks, the same method
-                  outperforms the state-of-the-art Learned Hashing approach NeuralLSH by
-                  requiring only ~ {1/6}^th of the candidates for the same recall. IRLI
-                  is both data and model parallel, making it ideal for distributed GPU
-                  implementation. We demonstrate this advantage by indexing 100 million
-                  dense vectors and surpassing the popular FAISS library by >10%.
-                </p>
-                </div>
+            
 
             <div id="organizers">
               <h2>Organizers and Dataset Contributors</h2>
