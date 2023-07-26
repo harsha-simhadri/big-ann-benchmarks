@@ -12,7 +12,7 @@ COPY install/requirements_conda.txt ./
 # conda doesn't like some of our packages, use pip 
 RUN python3 -m pip install -r requirements_conda.txt 
 
-COPY track1_baseline_faiss/bow_id_selector.swig ./
+COPY neurips23/filter/faiss/bow_id_selector.swig ./
 
 RUN swig -c++ -python -I$CONDA_PREFIX/include -Ifaiss bow_id_selector.swig 
 RUN g++ -shared -O3 -g -fPIC bow_id_selector_wrap.cxx -o _bow_id_selector.so  \
