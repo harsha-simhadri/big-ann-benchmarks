@@ -67,7 +67,7 @@ def run(definition, dataset, count, run_count, rebuild,
                 print("Index load failed.")
         elif rebuild or not algo.load_index(dataset):
             # Build the index if it is not available
-            build_time = (custom_runner.build 
+            build_time = (custom_runner.build(algo,dataset)
                           if neurips23track != 'streaming' 
                           else custom_runner.build(algo, dataset, max_pts))
             print('Built index in', build_time) 
