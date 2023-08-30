@@ -32,6 +32,10 @@ The Practical Vector Search challenge at NeurIPS 2023 has four different tasks:
 
 **Task Sparse:**  This task is based on the common MSMARCO passage retrieval dataset, which has 8,841,823 text passages, encoded into sparse vectors using the SPLADE model. The vectors have a large dimension (less than 100,000), but each vector in the base dataset has an average of approximately 120 nonzero elements. The query set comprises of 6,980 text queries, embedded by the same SPLADE model. The average number of nonzero elements in the query set is approximately 49 (since text queries are generally shorter). Given a sparse query vector, the index should return the top-k results according to the maximal inner product between the vectors.
 
+## Build time limit
+
+For tasks "Filters", "Out-of-Distribution", and "Sparse", the index has to be build within 12 hours on the evaluation machine specified below. 
+
 
 ## Baselines
 
@@ -51,7 +55,7 @@ We will release data points and plots for recall vs QPS separately for the four 
 
 ## For_Participants
 
-Participants must submit their algorithm via a pull request and (optionally) index file(s) upload (one per participating dataset). 
+Participants must submit their implementation via a pull request.  Optionally, participants can provide uploaded index file(s) (one per participating dataset). 
 
 ### Requirements
 
@@ -226,7 +230,7 @@ A submission is composed of a pull request to this repo with the following.
   * 1 index build configuration 
   * up to 10 search configuration (2 for streaming track)
 * Add an entry to [CI test list](../.github/workflows/neurips23.yml) for test dataset of the specific task. We can start working with larger datasets once these tests pass. 
-<!--* An URL to download any prebuilt indices placed in `algos-2021.yaml`. **This is optional, but strongly encourages.** This would help us evaluate faster, although we would build your index to verify the time limit. Please see `faiss_t1.py` and `diskann-t2.py` for examples. If you are unable to host the index on your own Azure blob storage, please let us know and we can arrange to have it copied to organizer's account.-->
+* A URL to download any prebuilt indices placed in your `config.yml`. **This is optional, but strongly encouraged.** This would help us evaluate faster, although we will build your index to verify the time limit restrictions of 12 hours for building is satisfied. Please see [diskann OOD](https://github.com/harsha-simhadri/big-ann-benchmarks/blob/main/neurips23/ood/diskann/diskann-in-mem.py#L109-L157) for an example. If you are unable to host the index on your own Azure blob storage, please let us know and we can arrange to have it copied to organizer's account.
 
 We will run early PRs on organizer's machines to the extent possible and provide any feedback necessary.
 
