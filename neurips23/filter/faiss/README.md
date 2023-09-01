@@ -69,11 +69,28 @@ $$\neg s_i \wedge s_\mathrm{q} \neq 0 \Rightarrow \\{w_1, w_2\\} \not\subset W_i
 Of course, this is an implication, not an equivalence. 
 Therefore, it can only rule out database vectors. 
 However, the binary test is very cheap to perform (uses a few machine instructions on data that is already in machine registers), so it can be used as a pre-filter to apply the full membership test on candidates. 
+This is implemented in the `IDSelectorBOWBin` object. 
 
-The remaining 
-
+The remaining degree of freedom is how to choose the binary signatures, because this rule is always valid, but its filtering ability depends on the choice of the signatures $S$. 
+After a few tests (see [this notebook](https://gist.github.com/mdouze/75103e4cef436510ac9b834f9a77496f#file-eval_binary_signatures-ipynb) ) it seems that a random signature with 0.1 probability for 1s filters our 80% of negative tests. 
+Asjuting this to the frequency of the words did not seem to yield better results. 
 
 ## Choosing between the two implementations 
+
+The two implementations are complementary: the word-first implementation gives exact results, and has a strong filtering ability for rare words. 
+The `IndexIVFFlat` implementation gives approximate results and is more relevant for words that are more common, where a significant subset of vectors are indeed relevant. 
+
+Therefore, there should be a rule to choose between the two, and the relevant metric is the size of the subset of vectors to consider. 
+We can use statistics on the words, ie. $\mathrm{nocc}[j]$ is the number of times word $j$ appears in the dataset (this is just the column-wise sum of the $M_\mathrm{meta}$). 
+
+For a single query word $w_1$, the fraction of relevant indices is just $f = \mathrm{nocc}[w_1] / N$.
+For two query words, it is more complicated to compute but an estimate is given by $f = \mathrm{nocc}[w_1] \times \mathrm{nocc}[w_2] / N^2$ (this estimate assumes words are independent, which is incorrect). 
+
+Therefore, the rule that we use is based on a threshold $\tau$ (called `metadata_threshold` in the code) : 
+
+- if $f < \tau $ then use the word-first search
+
+- otherwise use the IVFFlat based index
 
 ## Code layout 
 
