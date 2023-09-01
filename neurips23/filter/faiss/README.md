@@ -88,7 +88,7 @@ For two query words, it is more complicated to compute but an estimate is given 
 
 Therefore, the rule that we use is based on a threshold $\tau$ (called `metadata_threshold` in the code) : 
 
-- if $f < \tau $ then use the word-first search
+- if $f < \tau$ then use the word-first search
 
 - otherwise use the IVFFlat based index
 
