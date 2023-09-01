@@ -45,10 +45,32 @@ For vector id $i$ it looks up the row $i$ of $M_\mathrm{meta}$ and peforms a bin
 If $w_2$ is also provided, it does the same for $w_2$. 
 The callback returns true only if all terms are present. 
 
-Note that this callback is relatively slow because (1) it requires to access the $M_\mathrm{meta}$ matrix which causes cache misses and (2) it performs the binary search. 
-Since the callback is called in the tightest inner loop of the search function, this has non negligible performance impact. 
-
 ### Binary filtering 
+
+The issue is that this callback is relatively slow because (1) it requires to access the $M_\mathrm{meta}$ matrix which causes cache misses and (2) it performs an iterative binary search. 
+Since the callback is called in the tightest inner loop of the search function, and since the IVF search tends to perform many vector comparisons, this has non negligible performance impact. 
+
+To speed up this test, we can use a nifty piece of bit manipulation. 
+The idea is that the vector ids are 63 bits long (64 bits integers but negative values are reserved, so we cannot use the sign bit). 
+However, since $N=10^7$ we use only $\lceil \log_2 N \rceil = 24$ bits of these, leaving 63-24 = 39 bits that are always 0. 
+
+Now, we associate to each word $j$ a 39-bit signature $S[j]$, and the to each set of words the binary `or` of these signatures. 
+The query is represented by $s_\mathrm{q} = S[w_1] \vee S[w_2]$. 
+Database entry $i$ with words $W_i$ is represented by $s_i = \vee_{w\in W_i} S[w]$. 
+
+Then we have the following implication: if $\\{w_1, w_2\\} \subset W_i$ then all 1 bits of $s_\mathrm{q}$ are also set to 1 in $s_i$. 
+
+$$\\{w_1, w_2\\} \subset W_i \Rightarrow \neg s_i \wedge s_\mathrm{q} = 0$$
+
+Which is equivalent to:
+
+$$\neg s_i \wedge s_\mathrm{q} \neq 0 \Rightarrow \\{w_1, w_2\\} \not\subset W_i $$
+
+Of course, this is an implication, not an equivalence. 
+Therefore, it can only rule out database vectors. 
+However, the binary test is very cheap to perform (uses a few machine instructions on data that is already in machine registers), so it can be used as a pre-filter to apply the full membership test on candidates. 
+
+The remaining 
 
 
 ## Choosing between the two implementations 
