@@ -94,3 +94,6 @@ Therefore, the rule that we use is based on a threshold $\tau$ (called `metadata
 
 ## Code layout 
 
+The code is in faiss.py, with performance critical parts implemented in C++ and wrapped with SWIG in `bow_id_selector.swig`. 
+SWIG directly exposes the C++ classes and functions in Python. 
+
