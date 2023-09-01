@@ -92,6 +92,9 @@ Therefore, the rule that we use is based on a threshold $\tau$ (called `metadata
 
 - otherwise use the IVFFlat based index
 
+Note that the optimal threshold also depends on the target accuracy (since the IVFFlat is not exact, when a higher accuracy is desired), see https://github.com/harsha-simhadri/big-ann-benchmarks/pull/105#issuecomment-1539842223 .
+
+
 ## Code layout 
 
 The code is in faiss.py, with performance critical parts implemented in C++ and wrapped with SWIG in `bow_id_selector.swig`. 
