@@ -30,12 +30,28 @@ The result is exact and the search is most efficient when the subset is small (i
 
 ## IndexIVFFlat structure 
 
+This is a Faiss [`IndexIVFFlat`](https://github.com/facebookresearch/faiss/wiki/The-index-factory#encodings) called `index`. 
 
-This is a Faiss `IndexIVFFlat` called `index`. 
+By default the index performs unfiltered search, ie. the nearest vectors to $q$ can be retrieved. 
+The accuracy of this search depends on the number of visited centroids of the `IndexIVFFlat` (parameter `nprobe`, the larger the more accurate and the slower). 
+
+One solution would be to over-fetch vectors and perform filtering post-hoc using the words in the result list.
+However, it is unclear /how much/ we should overfetch. 
+
+Therefore, another solution is to use the Faiss [filtering functionality](https://github.com/facebookresearch/faiss/wiki/Setting-search-parameters-for-one-query#searching-in-a-subset-of-elements), ie. provide a callback function that is called for each vector id to decide if it should be considered as a result or not. 
+
+The callback function is implemented in C++ in the class `IDSelectorBOW`. 
+For vector id $i$ it looks up the row $i$ of $M_\mathrm{meta}$ and peforms a binary search on $w_1$ to check of that word belongs to the words associated to vector $i$.
+If $w_2$ is also provided, it does the same for $w_2$. 
+The callback returns true only if all terms are present. 
+
+Note that this callback is relatively slow because (1) it requires to access the $M_\mathrm{meta}$ matrix which causes cache misses and (2) it performs the binary search. 
+Since the callback is called in the tightest inner loop of the search function, this has non negligible performance impact. 
 
 ### Binary filtering 
 
 
 ## Choosing between the two implementations 
 
+## Code layout 
 
