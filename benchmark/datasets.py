@@ -217,6 +217,12 @@ class DatasetCompetitionFormat(Dataset):
         slice = next(self.get_dataset_iterator(bs=self.nb))
         return sanitize(slice)
 
+    # def get_dataset_from_disk(self):
+    #     assert self.nb <= 10**7, "dataset too large, use iterator"
+    #     filename = self.get_dataset_fn()
+    #     x = xbin_mmap(filename, dtype=self.dtype, maxn=self.nb)
+    #     return x
+
     def get_queries(self):
         filename = os.path.join(self.basedir, self.qs_fn)
         x = xbin_mmap(filename, dtype=self.dtype)
@@ -956,6 +962,98 @@ class RandomFilterDS(RandomDS):
 
     def __str__(self):
         return f"RandomFilter({self.nb})"
+    
+
+class StreamingYFCC(DatasetCompetitionFormat):
+    def __init__(self):
+        self.nb = 82338168
+        self.d = 384
+        self.nq = 810000
+        self.dtype = "uint8"
+        self.ds_fn = "data.u8bin"
+        self.qs_fn = "query.u8bin"
+        self.gt_fn = "streaming-yfcc-gt100"
+
+        self.base_url = "https://storage.yandexcloud.net/yandex-research/neurips23-streaming-yfcc"
+        self.basedir = os.path.join(BASEDIR, "streaming-yfcc")
+
+        self.private_nq = 10000
+        self.private_qs_url = None
+        self.private_gt_url = None
+
+    def get_dataset(self):
+        filename = self.get_dataset_fn()
+        x = xbin_mmap(filename, dtype=self.dtype, maxn=self.nb)
+        return sanitize(x)
+    
+    def get_queries(self):
+        filename = os.path.join(self.basedir, self.qs_fn)
+        x = xbin_mmap(filename, dtype=self.dtype)
+        assert x.shape == (self.nq, self.d)
+        return sanitize(x)
+
+    def distance(self):
+        return "euclidean"
+    
+    def prepare(self, skip_data=False):
+        if not os.path.exists(self.basedir):
+            os.makedirs(self.basedir)
+
+        # start with the small ones...
+        for fn in [self.qs_fn, self.gt_fn]:
+            if fn is None:
+                continue
+            if fn.startswith("https://"):
+                sourceurl = fn
+                outfile = os.path.join(self.basedir, fn.split("/")[-1])
+            else:
+                sourceurl = os.path.join(self.base_url, fn)
+                outfile = os.path.join(self.basedir, fn)
+            if os.path.exists(outfile):
+                print("file %s already exists" % outfile)
+                continue
+            download(sourceurl, outfile)
+
+        # private qs url
+        if self.private_qs_url:
+            outfile = os.path.join(self.basedir, self.private_qs_url.split("/")[-1])
+            if os.path.exists(outfile):
+                print("file %s already exists" % outfile)
+            else:
+                download(self.private_qs_url, outfile)
+
+        # private gt url
+        if self.private_gt_url:
+            outfile = os.path.join(self.basedir, self.private_gt_url.split("/")[-1])
+            if os.path.exists(outfile):
+                print("file %s already exists" % outfile)
+            else:
+                download(self.private_gt_url, outfile)
+
+        if skip_data:
+            return
+
+        fn = self.ds_fn
+        sourceurl = os.path.join(self.base_url, fn)
+        outfile = os.path.join(self.basedir, fn)
+        if os.path.exists(outfile):
+            print("file %s already exists" % outfile)
+            return
+        download_accelerated(sourceurl, outfile)
+
+
+class StreamingSmallYFCC(StreamingYFCC):
+    def __init__(self):
+        self.nb = 54891283
+        self.d = 384
+        self.nq = 810000
+        self.dtype = "uint8"
+        self.ds_fn = "data.u8bin"
+        self.qs_fn = "query.u8bin"
+        self.gt_fn = "streaming-yfcc-gt100"
+
+        self.base_url = "https://storage.yandexcloud.net/yandex-research/neurips23-streaming-yfcc-small"
+        self.basedir = os.path.join(BASEDIR, "streaming-yfcc-small")
 
 
 
@@ -1009,4 +1107,6 @@ DATASETS = {
 
     'random-filter-s': lambda : RandomFilterDS(100000, 1000, 50),
 
+    'streaming-yfcc': lambda: StreamingYFCC(),
+    'streaming-yfcc-small': lambda: StreamingSmallYFCC()
 }

@@ -1,0 +1,978 @@
+streaming-yfcc:
+  1:
+    end: 516036
+    operation: insert
+    start: 0
+  2:
+    end: 1026509
+    operation: insert
+    start: 516036
+  3:
+    end: 1686762
+    operation: insert
+    start: 1026509
+  4:
+    end: 10000
+    operation: search
+    start: 0
+  5:
+    end: 516036
+    operation: delete
+    start: 0
+  6:
+    end: 2397420
+    operation: insert
+    start: 1686762
+  7:
+    end: 20000
+    operation: search
+    start: 10000
+  8:
+    end: 1026509
+    operation: delete
+    start: 516036
+  9:
+    end: 3185805
+    operation: insert
+    start: 2397420
+  10:
+    end: 30000
+    operation: search
+    start: 20000
+  11:
+    end: 1686762
+    operation: delete
+    start: 1026509
+  12:
+    end: 4037326
+    operation: insert
+    start: 3185805
+  13:
+    end: 40000
+    operation: search
+    start: 30000
+  14:
+    end: 2397420
+    operation: delete
+    start: 1686762
+  15:
+    end: 4998419
+    operation: insert
+    start: 4037326
+  16:
+    end: 50000
+    operation: search
+    start: 40000
+  17:
+    end: 3185805
+    operation: delete
+    start: 2397420
+  18:
+    end: 5937677
+    operation: insert
+    start: 4998419
+  19:
+    end: 60000
+    operation: search
+    start: 50000
+  20:
+    end: 4037326
+    operation: delete
+    start: 3185805
+  21:
+    end: 6819214
+    operation: insert
+    start: 5937677
+  22:
+    end: 70000
+    operation: search
+    start: 60000
+  23:
+    end: 4998419
+    operation: delete
+    start: 4037326
+  24:
+    end: 7600076
+    operation: insert
+    start: 6819214
+  25:
+    end: 80000
+    operation: search
+    start: 70000
+  26:
+    end: 5937677
+    operation: delete
+    start: 4998419
+  27:
+    end: 8269885
+    operation: insert
+    start: 7600076
+  28:
+    end: 90000
+    operation: search
+    start: 80000
+  29:
+    end: 6819214
+    operation: delete
+    start: 5937677
+  30:
+    end: 8993350
+    operation: insert
+    start: 8269885
+  31:
+    end: 100000
+    operation: search
+    start: 90000
+  32:
+    end: 7600076
+    operation: delete
+    start: 6819214
+  33:
+    end: 9647160
+    operation: insert
+    start: 8993350
+  34:
+    end: 110000
+    operation: search
+    start: 100000
+  35:
+    end: 8269885
+    operation: delete
+    start: 7600076
+  36:
+    end: 10325836
+    operation: insert
+    start: 9647160
+  37:
+    end: 120000
+    operation: search
+    start: 110000
+  38:
+    end: 8993350
+    operation: delete
+    start: 8269885
+  39:
+    end: 11181704
+    operation: insert
+    start: 10325836
+  40:
+    end: 130000
+    operation: search
+    start: 120000
+  41:
+    end: 9647160
+    operation: delete
+    start: 8993350
+  42:
+    end: 12040168
+    operation: insert
+    start: 11181704
+  43:
+    end: 140000
+    operation: search
+    start: 130000
+  44:
+    end: 10325836
+    operation: delete
+    start: 9647160
+  45:
+    end: 13122955
+    operation: insert
+    start: 12040168
+  46:
+    end: 150000
+    operation: search
+    start: 140000
+  47:
+    end: 11181704
+    operation: delete
+    start: 10325836
+  48:
+    end: 14150979
+    operation: insert
+    start: 13122955
+  49:
+    end: 160000
+    operation: search
+    start: 150000
+  50:
+    end: 12040168
+    operation: delete
+    start: 11181704
+  51:
+    end: 15276272
+    operation: insert
+    start: 14150979
+  52:
+    end: 170000
+    operation: search
+    start: 160000
+  53:
+    end: 13122955
+    operation: delete
+    start: 12040168
+  54:
+    end: 16464060
+    operation: insert
+    start: 15276272
+  55:
+    end: 180000
+    operation: search
+    start: 170000
+  56:
+    end: 14150979
+    operation: delete
+    start: 13122955
+  57:
+    end: 17399681
+    operation: insert
+    start: 16464060
+  58:
+    end: 190000
+    operation: search
+    start: 180000
+  59:
+    end: 15276272
+    operation: delete
+    start: 14150979
+  60:
+    end: 18386740
+    operation: insert
+    start: 17399681
+  61:
+    end: 200000
+    operation: search
+    start: 190000
+  62:
+    end: 16464060
+    operation: delete
+    start: 15276272
+  63:
+    end: 19228829
+    operation: insert
+    start: 18386740
+  64:
+    end: 210000
+    operation: search
+    start: 200000
+  65:
+    end: 17399681
+    operation: delete
+    start: 16464060
+  66:
+    end: 20056172
+    operation: insert
+    start: 19228829
+  67:
+    end: 220000
+    operation: search
+    start: 210000
+  68:
+    end: 18386740
+    operation: delete
+    start: 17399681
+  69:
+    end: 20890040
+    operation: insert
+    start: 20056172
+  70:
+    end: 230000
+    operation: search
+    start: 220000
+  71:
+    end: 19228829
+    operation: delete
+    start: 18386740
+  72:
+    end: 21643659
+    operation: insert
+    start: 20890040
+  73:
+    end: 240000
+    operation: search
+    start: 230000
+  74:
+    end: 20056172
+    operation: delete
+    start: 19228829
+  75:
+    end: 22582629
+    operation: insert
+    start: 21643659
+  76:
+    end: 250000
+    operation: search
+    start: 240000
+  77:
+    end: 20890040
+    operation: delete
+    start: 20056172
+  78:
+    end: 23629950
+    operation: insert
+    start: 22582629
+  79:
+    end: 260000
+    operation: search
+    start: 250000
+  80:
+    end: 21643659
+    operation: delete
+    start: 20890040
+  81:
+    end: 24833693
+    operation: insert
+    start: 23629950
+  82:
+    end: 270000
+    operation: search
+    start: 260000
+  83:
+    end: 22582629
+    operation: delete
+    start: 21643659
+  84:
+    end: 25980626
+    operation: insert
+    start: 24833693
+  85:
+    end: 280000
+    operation: search
+    start: 270000
+  86:
+    end: 23629950
+    operation: delete
+    start: 22582629
+  87:
+    end: 27258603
+    operation: insert
+    start: 25980626
+  88:
+    end: 290000
+    operation: search
+    start: 280000
+  89:
+    end: 24833693
+    operation: delete
+    start: 23629950
+  90:
+    end: 28532020
+    operation: insert
+    start: 27258603
+  91:
+    end: 300000
+    operation: search
+    start: 290000
+  92:
+    end: 25980626
+    operation: delete
+    start: 24833693
+  93:
+    end: 29601271
+    operation: insert
+    start: 28532020
+  94:
+    end: 310000
+    operation: search
+    start: 300000
+  95:
+    end: 27258603
+    operation: delete
+    start: 25980626
+  96:
+    end: 30641204
+    operation: insert
+    start: 29601271
+  97:
+    end: 320000
+    operation: search
+    start: 310000
+  98:
+    end: 28532020
+    operation: delete
+    start: 27258603
+  99:
+    end: 31461196
+    operation: insert
+    start: 30641204
+  100:
+    end: 330000
+    operation: search
+    start: 320000
+  101:
+    end: 29601271
+    operation: delete
+    start: 28532020
+  102:
+    end: 32291786
+    operation: insert
+    start: 31461196
+  103:
+    end: 340000
+    operation: search
+    start: 330000
+  104:
+    end: 30641204
+    operation: delete
+    start: 29601271
+  105:
+    end: 33107582
+    operation: insert
+    start: 32291786
+  106:
+    end: 350000
+    operation: search
+    start: 340000
+  107:
+    end: 31461196
+    operation: delete
+    start: 30641204
+  108:
+    end: 33878017
+    operation: insert
+    start: 33107582
+  109:
+    end: 360000
+    operation: search
+    start: 350000
+  110:
+    end: 32291786
+    operation: delete
+    start: 31461196
+  111:
+    end: 34810574
+    operation: insert
+    start: 33878017
+  112:
+    end: 370000
+    operation: search
+    start: 360000
+  113:
+    end: 33107582
+    operation: delete
+    start: 32291786
+  114:
+    end: 35842551
+    operation: insert
+    start: 34810574
+  115:
+    end: 380000
+    operation: search
+    start: 370000
+  116:
+    end: 33878017
+    operation: delete
+    start: 33107582
+  117:
+    end: 37024308
+    operation: insert
+    start: 35842551
+  118:
+    end: 390000
+    operation: search
+    start: 380000
+  119:
+    end: 34810574
+    operation: delete
+    start: 33878017
+  120:
+    end: 38211195
+    operation: insert
+    start: 37024308
+  121:
+    end: 400000
+    operation: search
+    start: 390000
+  122:
+    end: 35842551
+    operation: delete
+    start: 34810574
+  123:
+    end: 39558391
+    operation: insert
+    start: 38211195
+  124:
+    end: 410000
+    operation: search
+    start: 400000
+  125:
+    end: 37024308
+    operation: delete
+    start: 35842551
+  126:
+    end: 40832525
+    operation: insert
+    start: 39558391
+  127:
+    end: 420000
+    operation: search
+    start: 410000
+  128:
+    end: 38211195
+    operation: delete
+    start: 37024308
+  129:
+    end: 41961345
+    operation: insert
+    start: 40832525
+  130:
+    end: 430000
+    operation: search
+    start: 420000
+  131:
+    end: 39558391
+    operation: delete
+    start: 38211195
+  132:
+    end: 43176771
+    operation: insert
+    start: 41961345
+  133:
+    end: 440000
+    operation: search
+    start: 430000
+  134:
+    end: 40832525
+    operation: delete
+    start: 39558391
+  135:
+    end: 44100886
+    operation: insert
+    start: 43176771
+  136:
+    end: 450000
+    operation: search
+    start: 440000
+  137:
+    end: 41961345
+    operation: delete
+    start: 40832525
+  138:
+    end: 45003866
+    operation: insert
+    start: 44100886
+  139:
+    end: 460000
+    operation: search
+    start: 450000
+  140:
+    end: 43176771
+    operation: delete
+    start: 41961345
+  141:
+    end: 45862529
+    operation: insert
+    start: 45003866
+  142:
+    end: 470000
+    operation: search
+    start: 460000
+  143:
+    end: 44100886
+    operation: delete
+    start: 43176771
+  144:
+    end: 46707959
+    operation: insert
+    start: 45862529
+  145:
+    end: 480000
+    operation: search
+    start: 470000
+  146:
+    end: 45003866
+    operation: delete
+    start: 44100886
+  147:
+    end: 47737841
+    operation: insert
+    start: 46707959
+  148:
+    end: 490000
+    operation: search
+    start: 480000
+  149:
+    end: 45862529
+    operation: delete
+    start: 45003866
+  150:
+    end: 48977100
+    operation: insert
+    start: 47737841
+  151:
+    end: 500000
+    operation: search
+    start: 490000
+  152:
+    end: 46707959
+    operation: delete
+    start: 45862529
+  153:
+    end: 50248179
+    operation: insert
+    start: 48977100
+  154:
+    end: 510000
+    operation: search
+    start: 500000
+  155:
+    end: 47737841
+    operation: delete
+    start: 46707959
+  156:
+    end: 51514422
+    operation: insert
+    start: 50248179
+  157:
+    end: 520000
+    operation: search
+    start: 510000
+  158:
+    end: 48977100
+    operation: delete
+    start: 47737841
+  159:
+    end: 52903870
+    operation: insert
+    start: 51514422
+  160:
+    end: 530000
+    operation: search
+    start: 520000
+  161:
+    end: 50248179
+    operation: delete
+    start: 48977100
+  162:
+    end: 54089940
+    operation: insert
+    start: 52903870
+  163:
+    end: 540000
+    operation: search
+    start: 530000
+  164:
+    end: 51514422
+    operation: delete
+    start: 50248179
+  165:
+    end: 55240676
+    operation: insert
+    start: 54089940
+  166:
+    end: 550000
+    operation: search
+    start: 540000
+  167:
+    end: 52903870
+    operation: delete
+    start: 51514422
+  168:
+    end: 56462194
+    operation: insert
+    start: 55240676
+  169:
+    end: 560000
+    operation: search
+    start: 550000
+  170:
+    end: 54089940
+    operation: delete
+    start: 52903870
+  171:
+    end: 57370204
+    operation: insert
+    start: 56462194
+  172:
+    end: 570000
+    operation: search
+    start: 560000
+  173:
+    end: 55240676
+    operation: delete
+    start: 54089940
+  174:
+    end: 58218821
+    operation: insert
+    start: 57370204
+  175:
+    end: 580000
+    operation: search
+    start: 570000
+  176:
+    end: 56462194
+    operation: delete
+    start: 55240676
+  177:
+    end: 59018724
+    operation: insert
+    start: 58218821
+  178:
+    end: 590000
+    operation: search
+    start: 580000
+  179:
+    end: 57370204
+    operation: delete
+    start: 56462194
+  180:
+    end: 59858738
+    operation: insert
+    start: 59018724
+  181:
+    end: 600000
+    operation: search
+    start: 590000
+  182:
+    end: 58218821
+    operation: delete
+    start: 57370204
+  183:
+    end: 60884576
+    operation: insert
+    start: 59858738
+  184:
+    end: 610000
+    operation: search
+    start: 600000
+  185:
+    end: 59018724
+    operation: delete
+    start: 58218821
+  186:
+    end: 62033716
+    operation: insert
+    start: 60884576
+  187:
+    end: 620000
+    operation: search
+    start: 610000
+  188:
+    end: 59858738
+    operation: delete
+    start: 59018724
+  189:
+    end: 63286999
+    operation: insert
+    start: 62033716
+  190:
+    end: 630000
+    operation: search
+    start: 620000
+  191:
+    end: 60884576
+    operation: delete
+    start: 59858738
+  192:
+    end: 64510161
+    operation: insert
+    start: 63286999
+  193:
+    end: 640000
+    operation: search
+    start: 630000
+  194:
+    end: 62033716
+    operation: delete
+    start: 60884576
+  195:
+    end: 65817632
+    operation: insert
+    start: 64510161
+  196:
+    end: 650000
+    operation: search
+    start: 640000
+  197:
+    end: 63286999
+    operation: delete
+    start: 62033716
+  198:
+    end: 66984173
+    operation: insert
+    start: 65817632
+  199:
+    end: 660000
+    operation: search
+    start: 650000
+  200:
+    end: 64510161
+    operation: delete
+    start: 63286999
+  201:
+    end: 68134273
+    operation: insert
+    start: 66984173
+  202:
+    end: 670000
+    operation: search
+    start: 660000
+  203:
+    end: 65817632
+    operation: delete
+    start: 64510161
+  204:
+    end: 69206291
+    operation: insert
+    start: 68134273
+  205:
+    end: 680000
+    operation: search
+    start: 670000
+  206:
+    end: 66984173
+    operation: delete
+    start: 65817632
+  207:
+    end: 70083978
+    operation: insert
+    start: 69206291
+  208:
+    end: 690000
+    operation: search
+    start: 680000
+  209:
+    end: 68134273
+    operation: delete
+    start: 66984173
+  210:
+    end: 70956421
+    operation: insert
+    start: 70083978
+  211:
+    end: 700000
+    operation: search
+    start: 690000
+  212:
+    end: 69206291
+    operation: delete
+    start: 68134273
+  213:
+    end: 71716642
+    operation: insert
+    start: 70956421
+  214:
+    end: 710000
+    operation: search
+    start: 700000
+  215:
+    end: 70083978
+    operation: delete
+    start: 69206291
+  216:
+    end: 72498024
+    operation: insert
+    start: 71716642
+  217:
+    end: 720000
+    operation: search
+    start: 710000
+  218:
+    end: 70956421
+    operation: delete
+    start: 70083978
+  219:
+    end: 73477167
+    operation: insert
+    start: 72498024
+  220:
+    end: 730000
+    operation: search
+    start: 720000
+  221:
+    end: 71716642
+    operation: delete
+    start: 70956421
+  222:
+    end: 74475638
+    operation: insert
+    start: 73477167
+  223:
+    end: 740000
+    operation: search
+    start: 730000
+  224:
+    end: 72498024
+    operation: delete
+    start: 71716642
+  225:
+    end: 75667215
+    operation: insert
+    start: 74475638
+  226:
+    end: 750000
+    operation: search
+    start: 740000
+  227:
+    end: 73477167
+    operation: delete
+    start: 72498024
+  228:
+    end: 76949610
+    operation: insert
+    start: 75667215
+  229:
+    end: 760000
+    operation: search
+    start: 750000
+  230:
+    end: 74475638
+    operation: delete
+    start: 73477167
+  231:
+    end: 78160836
+    operation: insert
+    start: 76949610
+  232:
+    end: 770000
+    operation: search
+    start: 760000
+  233:
+    end: 75667215
+    operation: delete
+    start: 74475638
+  234:
+    end: 79366499
+    operation: insert
+    start: 78160836
+  235:
+    end: 780000
+    operation: search
+    start: 770000
+  236:
+    end: 76949610
+    operation: delete
+    start: 75667215
+  237:
+    end: 80459922
+    operation: insert
+    start: 79366499
+  238:
+    end: 790000
+    operation: search
+    start: 780000
+  239:
+    end: 78160836
+    operation: delete
+    start: 76949610
+  240:
+    end: 81469925
+    operation: insert
+    start: 80459922
+  241:
+    end: 800000
+    operation: search
+    start: 790000
+  242:
+    end: 79366499
+    operation: delete
+    start: 78160836
+  243:
+    end: 82338168
+    operation: insert
+    start: 81469925
+  244:
+    end: 810000
+    operation: search
+    start: 800000
+  max_pts: 3926770
