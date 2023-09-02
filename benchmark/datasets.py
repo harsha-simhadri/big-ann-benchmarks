@@ -1055,6 +1055,10 @@ class StreamingSmallYFCC(StreamingYFCC):
         self.base_url = "https://storage.yandexcloud.net/yandex-research/neurips23-streaming-yfcc-small"
         self.basedir = os.path.join(BASEDIR, "streaming-yfcc-small")
 
+        self.private_nq = 10000
+        self.private_qs_url = None
+        self.private_gt_url = None
+
 
 
 DATASETS = {
