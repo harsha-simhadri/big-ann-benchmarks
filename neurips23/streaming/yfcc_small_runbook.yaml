@@ -1,4 +1,4 @@
-streaming-yfcc:
+streaming-yfcc-small:
   1:
     end: 344014
     operation: insert
