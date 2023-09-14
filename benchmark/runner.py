@@ -368,7 +368,7 @@ def run_no_docker(definition, dataset, count, runs, timeout, rebuild,
     
     cmd += ["--neurips23track", neurips23track]
     if neurips23track == 'streaming':
-        cmd += ["runbook_path", runbook_path]
+        cmd += ["--runbook_path", runbook_path]
 
     cmd.append(json.dumps(definition.arguments))
     cmd += [json.dumps(qag) for qag in definition.query_argument_groups]
