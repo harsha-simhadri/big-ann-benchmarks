@@ -22,9 +22,10 @@ class vamana(BaseOODANN):
 
         self.R = int(index_params.get("R"))
         self.L = int(index_params.get("L"))
+        self.alpha = float(index_params.get("alpha", 1.0))
 
     def index_name(self):
-        return f"R{self.R}_L{self.L}"
+        return f"R{self.R}_L{self.L}_alpha{self.alpha}"
     
     def create_index_dir(self, dataset):
         index_dir = os.path.join(os.getcwd(), "data", "indices", "ood")
@@ -67,7 +68,7 @@ class vamana(BaseOODANN):
             start = time.time()
             # ds.ds_fn is the name of the dataset file but probably needs a prefix
             # choosing 1.2 for alpha but this is probably provided in index_params
-            pann.build_vamana_index(self._metric, self.translate_dtype(ds.dtype), ds.get_dataset_fn(), index_dir, self.R, self.L, 1.2)
+            pann.build_vamana_index(self._metric, self.translate_dtype(ds.dtype), ds.get_dataset_fn(), index_dir, self.R, self.L, self.alpha)
             end = time.time()
             print("Indexing time: ", end - start)
             print(f"Wrote index to {index_dir}")
@@ -78,15 +79,16 @@ class vamana(BaseOODANN):
     def query(self, X, k):
         nq, d = X.shape
         self.res, self.query_dists = self.index.batch_search(X, nq, k, self.Ls)
-        print(f"self.res shape: {self.res.shape}")
-        print(f"self.res[:5]: {self.res[:5]}")
-        print(f"self.query_dists shape: {self.query_dists.shape}")
-        print(f"self.query_dists[:5]: {self.query_dists[:5]}")
+        # print(f"self.res shape: {self.res.shape}")
+        # print(f"self.res[:5]: {self.res[:5]}")
+        # print(f"self.query_dists shape: {self.query_dists.shape}")
+        # print(f"self.query_dists[:5]: {self.query_dists[:5]}")
 
     def set_query_arguments(self, query_args):
         self._query_args = query_args
         self.Ls = 0 if query_args.get("Ls") is None else query_args.get("Ls")
         self.search_threads = self._query_args.get("T", 16)
+        os.environ["PARLAY_NUM_THREADS"] = str(self.search_threads)
 
     def load_index(self, dataset):
         ds = DATASETS[dataset]()
