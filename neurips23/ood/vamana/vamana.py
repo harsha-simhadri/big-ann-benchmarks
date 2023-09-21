@@ -17,11 +17,19 @@ class vamana(BaseOODANN):
         if (index_params.get("L")==None):
             print("Error: missing parameter L")
             return
+        # if (index_params.get("L")==None):
+        #     print("Error: missing parameter L")
+        #     return
+        # if (index_params.get("L")==None):
+        #     print("Error: missing parameter L")
+        #     return
         self._index_params = index_params
         self._metric = self.translate_dist_fn(metric)
 
         self.R = int(index_params.get("R"))
         self.L = int(index_params.get("L"))
+        # self.alpha = float(index_params.get("alpha"))
+        # self.L = bool(index_params.get("L"))
 
     def index_name(self):
         return f"R{self.R}_L{self.L}"
@@ -67,7 +75,7 @@ class vamana(BaseOODANN):
             start = time.time()
             # ds.ds_fn is the name of the dataset file but probably needs a prefix
             # choosing 1.2 for alpha but this is probably provided in index_params
-            pann.build_vamana_index(self._metric, self.translate_dtype(ds.dtype), ds.get_dataset_fn(), index_dir, self.R, self.L, 1.2)
+            pann.build_vamana_index(self._metric, self.translate_dtype(ds.dtype), ds.get_dataset_fn(), index_dir, self.R, self.L, 1.0, True)
             end = time.time()
             print("Indexing time: ", end - start)
             print(f"Wrote index to {index_dir}")
@@ -78,10 +86,10 @@ class vamana(BaseOODANN):
     def query(self, X, k):
         nq, d = X.shape
         self.res, self.query_dists = self.index.batch_search(X, nq, k, self.Ls)
-        print(f"self.res shape: {self.res.shape}")
-        print(f"self.res[:5]: {self.res[:5]}")
-        print(f"self.query_dists shape: {self.query_dists.shape}")
-        print(f"self.query_dists[:5]: {self.query_dists[:5]}")
+        # print(f"self.res shape: {self.res.shape}")
+        # print(f"self.res[:5]: {self.res[:5]}")
+        # print(f"self.query_dists shape: {self.query_dists.shape}")
+        # print(f"self.query_dists[:5]: {self.query_dists[:5]}")
 
     def set_query_arguments(self, query_args):
         self._query_args = query_args
