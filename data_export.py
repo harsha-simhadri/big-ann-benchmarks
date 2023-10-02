@@ -106,6 +106,7 @@ if __name__ == "__main__":
                 run_metrics = compute_metrics_all_runs(dataset, dataset_name, results, args.recompute, \
                         args.sensors, args.search_times, args.private_query, neurips23track=track)
                 dfs.append(pd.DataFrame(cleaned_run_metric(run_metrics)))
+    dfs = [e for e in dfs if len(e) > 0]
     if len(dfs) > 0:
         data = pd.concat(dfs)
         data = data.sort_values(by=["algorithm", "dataset", "recall/ap"])        
