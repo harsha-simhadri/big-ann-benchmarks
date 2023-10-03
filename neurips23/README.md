@@ -145,13 +145,13 @@ Please note that you have to provide the correct competition track to the script
 The following are plots generated on Azure Standard D8lds v5 (8 vCPUs and 16GB DRAM) VM.
 
 **Sparse track**
-![sparse-full](https://github.com/harsha-simhadri/big-ann-benchmarks/assets/5590673/2009131b-c5fb-4ae3-a3bd-4b647672caef = 300x)
+![sparse-full](https://github.com/harsha-simhadri/big-ann-benchmarks/assets/5590673/2009131b-c5fb-4ae3-a3bd-4b647672caef)
 
 **Filter track**
-![yfcc-10M](https://github.com/harsha-simhadri/big-ann-benchmarks/assets/5590673/09439f77-f1b1-49e4-a90d-05b5d6848375 = 300x)
+![yfcc-10M](https://github.com/harsha-simhadri/big-ann-benchmarks/assets/5590673/09439f77-f1b1-49e4-a90d-05b5d6848375)
 
 **OOD track**
-![text2image-10M](https://github.com/harsha-simhadri/big-ann-benchmarks/assets/5590673/79850d1f-be61-4c2b-81ea-3b7b80179d1c = 300x)
+![text2image-10M](https://github.com/harsha-simhadri/big-ann-benchmarks/assets/5590673/79850d1f-be61-4c2b-81ea-3b7b80179d1c)
 
 
 ### Starting_Your_Development
