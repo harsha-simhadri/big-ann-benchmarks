@@ -15,6 +15,7 @@ import time
 import operator
 import itertools
 import copy
+from multiprocessing import cpu_count
 
 _logger = ir_datasets.log.easy()
 
@@ -132,7 +133,8 @@ class PisaIndex():
     self.stops = stops
     self.scale = 100
     self.index_encoding = PISA_INDEX_DEFAULTS['index_encoding']
-  
+    self.n_cores = cpu_count()
+
   def generate_forward(self):
     _pisathon.generate_fwd(self.path+"/inv")
 
@@ -254,7 +256,7 @@ class PisaIndex():
         stemmer='',
         queries=inp,
         k=k,
-        threads=4,
+        threads=self.n_cores,
         stop_fname='',
         query_weighted=1,
         pretokenised=True,
