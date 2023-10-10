@@ -10,8 +10,38 @@ random-xs:
             [{"R":32, "L":50}]
           query-args: |
             [{"Ls":50, "T":8}]
+    vamana-test: 
+      docker-tag: neurips23-ood-vamana
+      module: neurips23.ood.vamana.vamana
+      constructor: vamana
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+            [{"R":32, "L":100}]
+          query-args: |
+            [{"Ls":50, "T":8}]
 text2image-10M:
     vamana: 
+      docker-tag: neurips23-ood-vamana
+      module: neurips23.ood.vamana.vamana
+      constructor: vamana
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+            [{"R":64, "L":500, "alpha":1.0}]
+          query-args: |
+            [{"Ls":30, "T":8},
+             {"Ls":50, "T":8},
+             {"Ls":70, "T":8},
+             {"Ls":100, "T":8},
+             {"Ls":113, "T":8},
+             {"Ls":125, "T":8},
+             {"Ls":150, "T":8},
+             {"Ls":175, "T":8},
+             {"Ls":200, "T":8}]
+    vamana-singlepass: 
       docker-tag: neurips23-ood-vamana
       module: neurips23.ood.vamana.vamana
       constructor: vamana
@@ -30,3 +60,4 @@ text2image-10M:
              {"Ls":150, "T":8},
              {"Ls":175, "T":8},
              {"Ls":200, "T":8}]
+

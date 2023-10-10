@@ -6,7 +6,8 @@ import numpy as np
 import wrapper as pann
 
 from neurips23.ood.base import BaseOODANN
-from benchmark.datasets import DATASETS, download_accelerated
+from benchmark.datasets import DATASETS, download_accelerated, BASEDIR
+from benchmark.dataset_io import download 
 
 class vamana(BaseOODANN):
     def __init__(self, metric, index_params):
@@ -17,12 +18,6 @@ class vamana(BaseOODANN):
         if (index_params.get("L")==None):
             print("Error: missing parameter L")
             return
-        # if (index_params.get("L")==None):
-        #     print("Error: missing parameter L")
-        #     return
-        # if (index_params.get("L")==None):
-        #     print("Error: missing parameter L")
-        #     return
         self._index_params = index_params
         self._metric = self.translate_dist_fn(metric)
 
@@ -38,7 +33,7 @@ class vamana(BaseOODANN):
     def index_name(self):
         return f"R{self.R}_L{self.L}_alpha{self.alpha}"
     
-    def create_index_dir(self, dataset):
+    def create_index_dir(self, dataset, secondary=False):
         index_dir = os.path.join(os.getcwd(), "data", "indices", "ood")
         os.makedirs(index_dir, mode=0o777, exist_ok=True)
         index_dir = os.path.join(index_dir, 'vamana')
@@ -47,7 +42,7 @@ class vamana(BaseOODANN):
         os.makedirs(index_dir, mode=0o777, exist_ok=True)
         index_dir = os.path.join(index_dir, self.index_name())
         os.makedirs(index_dir, mode=0o777, exist_ok=True)
-        return os.path.join(index_dir, self.index_name())
+        return index_dir
     
     def translate_dist_fn(self, metric):
         if metric == 'euclidean':
@@ -62,6 +57,9 @@ class vamana(BaseOODANN):
             return 'float'
         else:
             return dtype
+
+    def get_secondary_index_filename():
+        return "test"
         
     def fit(self, dataset):
         """
@@ -70,7 +68,17 @@ class vamana(BaseOODANN):
         ds = DATASETS[dataset]()
         d = ds.d
 
+        #download the additional sample points for the ood index
+        sample_points_path = "data/text2image1B/sample"
+        print(sample_points_path)
+        sample_qs_large_url = "https://storage.yandexcloud.net/yr-secret-share/ann-datasets-5ac0659e27/T2I/query.private.1M.fbin"
+        download(sample_qs_large_url, sample_points_path)
+        print("downloaded data")
+
+        
         index_dir = self.create_index_dir(ds)
+        secondary_index_dir = index_dir + ".secondary"
+        secondary_gt_dir = secondary_index_dir + ".gt"
 
         if hasattr(self, 'index'):
             print("Index already exists")
@@ -78,17 +86,23 @@ class vamana(BaseOODANN):
         else:
             start = time.time()
             # ds.ds_fn is the name of the dataset file but probably needs a prefix
+<<<<<<< HEAD
             # choosing 1.2 for alpha but this is probably provided in index_params
 <<<<<<< HEAD
             pann.build_vamana_index(self._metric, self.translate_dtype(ds.dtype), ds.get_dataset_fn(), index_dir, self.R, self.L, 1.0, True)
 =======
             pann.build_vamana_index(self._metric, self.translate_dtype(ds.dtype), ds.get_dataset_fn(), index_dir, self.R, self.L, self.alpha)
 >>>>>>> added default alpha
+=======
+            pann.build_vamana_index(self._metric, self.translate_dtype(ds.dtype), ds.get_dataset_fn(), sample_points_path, index_dir, secondary_index_dir, 
+                secondary_gt_dir, self.R, self.L, self.alpha, True)
+>>>>>>> committing to switch branches
             end = time.time()
             print("Indexing time: ", end - start)
             print(f"Wrote index to {index_dir}")
 
-        self.index = pann.load_vamana_index(self._metric, self.translate_dtype(ds.dtype), ds.get_dataset_fn(), index_dir, ds.nb, d)
+        self.index = pann.load_vamana_index(self._metric, self.translate_dtype(ds.dtype), ds.get_dataset_fn(), sample_points_path, index_dir, 
+            secondary_index_dir, secondary_gt_dir, ds.nb, d)
         print("Index loaded")
 
     def query(self, X, k):
@@ -109,6 +123,8 @@ class vamana(BaseOODANN):
         ds = DATASETS[dataset]()
         d = ds.d
         index_dir = self.create_index_dir(ds)
+        secondary_index_dir = self.create_index_dir(ds, True)
+        secondary_gt = os.path.join(secondary_index_dir, ".gt")
         try:
             self.index = pann.load_vamana_index(self._metric, self.translate_dtype(ds.dtype), ds.get_dataset_fn(), index_dir, ds.nb, d)
             print("Index loaded")
