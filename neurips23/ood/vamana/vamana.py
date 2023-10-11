@@ -73,7 +73,6 @@ class vamana(BaseOODANN):
         print(sample_points_path)
         sample_qs_large_url = "https://storage.yandexcloud.net/yr-secret-share/ann-datasets-5ac0659e27/T2I/query.private.1M.fbin"
         download(sample_qs_large_url, sample_points_path)
-        print("downloaded data")
 
         
         index_dir = self.create_index_dir(ds)
@@ -122,11 +121,22 @@ class vamana(BaseOODANN):
     def load_index(self, dataset):
         ds = DATASETS[dataset]()
         d = ds.d
+
+        #download the additional sample points for the ood index
+        sample_points_path = "data/text2image1B/sample"
+        print(sample_points_path)
+        sample_qs_large_url = "https://storage.yandexcloud.net/yr-secret-share/ann-datasets-5ac0659e27/T2I/query.private.1M.fbin"
+        download(sample_qs_large_url, sample_points_path)
+
         index_dir = self.create_index_dir(ds)
-        secondary_index_dir = self.create_index_dir(ds, True)
-        secondary_gt = os.path.join(secondary_index_dir, ".gt")
+        secondary_index_dir = index_dir + ".secondary"
+        secondary_gt_dir = secondary_index_dir + ".gt"
+        print(index_dir)
+        print(secondary_index_dir)
+        print(secondary_gt_dir)
         try:
-            self.index = pann.load_vamana_index(self._metric, self.translate_dtype(ds.dtype), ds.get_dataset_fn(), index_dir, ds.nb, d)
+            self.index = pann.load_vamana_index(self._metric, self.translate_dtype(ds.dtype), ds.get_dataset_fn(), sample_points_path, index_dir, 
+                secondary_index_dir, secondary_gt_dir, ds.nb, d)
             print("Index loaded")
             return True
         except:
