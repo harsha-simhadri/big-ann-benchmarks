@@ -33,7 +33,7 @@ class vamana(BaseOODANN):
     def index_name(self):
         return f"R{self.R}_L{self.L}_alpha{self.alpha}"
     
-    def create_index_dir(self, dataset, secondary=False):
+    def create_index_dir(self, dataset):
         index_dir = os.path.join(os.getcwd(), "data", "indices", "ood")
         os.makedirs(index_dir, mode=0o777, exist_ok=True)
         index_dir = os.path.join(index_dir, 'vamana')
@@ -42,7 +42,7 @@ class vamana(BaseOODANN):
         os.makedirs(index_dir, mode=0o777, exist_ok=True)
         index_dir = os.path.join(index_dir, self.index_name())
         os.makedirs(index_dir, mode=0o777, exist_ok=True)
-        return index_dir
+        return os.path.join(index_dir, self.index_name())
     
     def translate_dist_fn(self, metric):
         if metric == 'euclidean':
@@ -70,7 +70,6 @@ class vamana(BaseOODANN):
 
         #download the additional sample points for the ood index
         sample_points_path = "data/text2image1B/sample"
-        print(sample_points_path)
         sample_qs_large_url = "https://storage.yandexcloud.net/yr-secret-share/ann-datasets-5ac0659e27/T2I/query.private.1M.fbin"
         download(sample_qs_large_url, sample_points_path)
 
@@ -78,6 +77,8 @@ class vamana(BaseOODANN):
         index_dir = self.create_index_dir(ds)
         secondary_index_dir = index_dir + ".secondary"
         secondary_gt_dir = secondary_index_dir + ".gt"
+
+
 
         if hasattr(self, 'index'):
             print("Index already exists")
@@ -122,18 +123,13 @@ class vamana(BaseOODANN):
         ds = DATASETS[dataset]()
         d = ds.d
 
-        #download the additional sample points for the ood index
-        sample_points_path = "data/text2image1B/sample"
-        print(sample_points_path)
-        sample_qs_large_url = "https://storage.yandexcloud.net/yr-secret-share/ann-datasets-5ac0659e27/T2I/query.private.1M.fbin"
-        download(sample_qs_large_url, sample_points_path)
-
         index_dir = self.create_index_dir(ds)
         secondary_index_dir = index_dir + ".secondary"
         secondary_gt_dir = secondary_index_dir + ".gt"
-        print(index_dir)
-        print(secondary_index_dir)
-        print(secondary_gt_dir)
+        sample_points_path = "data/text2image1B/sample"
+
+        print("trying to load")
+
         try:
             self.index = pann.load_vamana_index(self._metric, self.translate_dtype(ds.dtype), ds.get_dataset_fn(), sample_points_path, index_dir, 
                 secondary_index_dir, secondary_gt_dir, ds.nb, d)
