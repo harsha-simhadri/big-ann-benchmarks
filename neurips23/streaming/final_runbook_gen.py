@@ -76,13 +76,16 @@ def create_runbook(
     max_pts = 0
     active_points_in_cluster = np.zeros(num_clusters)
 
-    num_rounds = 1
+    num_rounds = 5
+    sample = np.random.default_rng().dirichlet((100,15,10,5,3), num_clusters)
+    for c in range(num_clusters):
+        np.random.default_rng().shuffle(sample[c])
+    print(sample)
+
     for round in range(num_rounds):
         #insertions
         for c in range(num_clusters):
-            delta = ((int)((offsets[c+1]-offsets[c])/num_rounds)
-                     if round < num_rounds-1 
-                     else offsets[c+1]-ins_cursor_end[c])
+            delta = (int)((offsets[c+1]-offsets[c]) * sample[c,round])
             ins_cursor_end[c] = ins_cursor_start[c] + delta
             active_points += delta
             max_pts = max(max_pts, active_points)
@@ -99,7 +102,7 @@ def create_runbook(
 
         #deletions
         for c in range(num_clusters):
-            fraction = random.uniform(0,0.9)
+            fraction = random.uniform(0.5,0.9)
             delta = (int)(fraction*(ins_cursor_end[c]-del_cursor_start[c]))
             del_cursor_end[c] = del_cursor_start[c] + delta
             active_points -= delta
@@ -114,13 +117,6 @@ def create_runbook(
             num_operations += 1
             del_cursor_start[c] = del_cursor_end[c]
 
-        # #queries
-        # for c in range(num_clusters):
-        #     cluster_index_range = range(offsets[c], offsets[c + 1])
-        #     cluster_indices = np.array(permutation[cluster_index_range], dtype=np.uintc)
-        #     print(cluster_index_range)
-        #     entry = [{'operation': 'insert'}, {'start': int(offsets[c])}, {'end': int(offsets[c+1])}]
-        #     operation_list.append((c+1, entry))
 
     with open(output_yaml_file, 'w') as yf:
         operation_list.sort(key = lambda x: x[0])
