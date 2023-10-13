@@ -17,6 +17,7 @@ class StreamingRunner(BaseRunner):
         algo.setup(ds.dtype, max_pts, ndims)
         print('Algorithm set up')
         return time.time() - t0
+    
 
 
     def run_task(algo, ds, distance, count, run_count, search_type, private_query, runbook):
@@ -73,7 +74,7 @@ class StreamingRunner(BaseRunner):
 
         for k, v in result_map.items():
             attrs['step_' + str(k)] = v
-            
+
         additional = algo.get_additional()
         for k in additional:
             attrs[k] = additional[k]

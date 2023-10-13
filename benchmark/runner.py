@@ -116,9 +116,11 @@ def run(definition, dataset, count, run_count, rebuild,
                         X = ds.get_private_queries()
                     power_stats = power_capture.run(algo, X, distance, count,
                                                     run_count, search_type, descriptor)
+                print('start store results')
                 store_results(dataset, count, definition,
                               query_arguments, descriptor,
                               results, search_type, neurips23track, runbook_path)
+                print('end store results')
     finally:
         algo.done()
 

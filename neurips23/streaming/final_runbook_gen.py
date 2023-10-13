@@ -76,9 +76,7 @@ def create_runbook(
     max_pts = 0
     active_points_in_cluster = np.zeros(num_clusters)
 
-    num_rounds = 5
-    search_entry = [{'operation': str('search')}]
-
+    num_rounds = 1
     for round in range(num_rounds):
         #insertions
         for c in range(num_clusters):
@@ -95,7 +93,7 @@ def create_runbook(
             entry = [{'operation': 'insert'}, {'start': int(ins_cursor_start[c])}, {'end': int(ins_cursor_end[c])}]
             operation_list.append((num_operations, entry))
             num_operations += 1
-            operation_list.append((num_operations, search_entry))
+            operation_list.append((num_operations, [{'operation': str('search')}]))
             num_operations += 1
             ins_cursor_start[c] = ins_cursor_end[c]
 
@@ -112,7 +110,7 @@ def create_runbook(
             entry = [{'operation': 'delete'}, {'start': int(del_cursor_start[c])}, {'end': int(del_cursor_end[c])}]
             operation_list.append((num_operations, entry))
             num_operations += 1
-            operation_list.append((num_operations, search_entry))
+            operation_list.append((num_operations, [{'operation': 'search'}]))
             num_operations += 1
             del_cursor_start[c] = del_cursor_end[c]
 
