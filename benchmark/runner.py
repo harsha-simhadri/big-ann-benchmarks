@@ -100,7 +100,7 @@ def run(definition, dataset, count, run_count, rebuild,
                     algo.set_query_arguments(*query_arguments)
                 if neurips23track == 'streaming':
                     descriptor, results = custom_runner.run_task(
-                        algo, ds, distance, 1, run_count, search_type, private_query, runbook)
+                        algo, ds, distance, count, 1, search_type, private_query, runbook)
                 else:
                     descriptor, results = custom_runner.run_task(
                         algo, ds, distance, count, run_count, search_type, private_query)
