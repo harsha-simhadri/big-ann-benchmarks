@@ -265,7 +265,7 @@ def run_docker(definition, dataset, count, runs, timeout, rebuild,
 
     client = docker.from_env()
     if mem_limit is None:
-        mem_limit = psutil.virtual_memory().available
+        mem_limit = psutil.virtual_memory().available if neurips23track != 'streaming' else (8*1024*1024*1024)
 
     # ready the container object invoked later in this function
     container = None
