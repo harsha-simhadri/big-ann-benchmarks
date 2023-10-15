@@ -94,8 +94,8 @@ msturing-30M-clustered:
         base:
           args: |
             [{"R":32, "L":50, "insert_threads":16, "consolidate_threads":16},
+             {"R":32, "L":70, "insert_threads":16, "consolidate_threads":16},
              {"R":50, "L":50, "insert_threads":16, "consolidate_threads":16},
              {"R":50, "L":70, "insert_threads":16, "consolidate_threads":16}]
           query-args: |
-            [{"Ls":70, "T":16},
-             {"Ls":100, "T":16}]
+            [{"Ls":70, "T":16}]
