@@ -6,7 +6,6 @@ import os
 import re
 import traceback
 
-
 def get_result_filename(dataset=None, count=None, definition=None,
                         query_arguments=None, neurips23track=None, runbook_path=None):
     d = ['results']
@@ -41,9 +40,7 @@ def get_result_filename(dataset=None, count=None, definition=None,
 
 def add_results_to_h5py(f, search_type, results, count, suffix = ''):
     if search_type == "knn" or search_type == "knn_filtered":
-        neighbors = f.create_dataset('neighbors' + suffix, (len(results), count), 'i')
-        for i, idxs in enumerate(results):
-            neighbors[i] = idxs
+        neighbors = f.create_dataset('neighbors' + suffix, (len(results), count), 'i', data = results)
     elif search_type == "range":
         lims, D, I= results
         f.create_dataset('neighbors' + suffix, data=I)
