@@ -1,5 +1,5 @@
 sparse-small:
-    NLE-10:
+    nle:
       docker-tag: neurips23-sparse-nle
       module: neurips23.sparse.nle.nle 
       constructor: NLE
@@ -17,7 +17,7 @@ sparse-small:
             {"k1":4,"k2":40,"k3":10},
             {"k1":4,"k2":40,"k3":1000},
             {"k1":4,"k2":40,"k3":0.1},{"k1":4,"k2":40,"k3":50}]
-    NLE:
+    NLE-Full:
       docker-tag: neurips23-sparse-nle
       module: neurips23.sparse.nle.nle 
       constructor: NLE
@@ -54,7 +54,7 @@ sparse-small:
             {"k1":6,"k2":40,"k3":100},
             {"k1":6,"k2":40,"k3":1000}]
 sparse-1M:
-    NLE-10:
+    nle:
       docker-tag: neurips23-sparse-nle
       module: neurips23.sparse.nle.nle 
       constructor: NLE
@@ -72,7 +72,7 @@ sparse-1M:
             {"k1":4,"k2":40,"k3":10},
             {"k1":4,"k2":40,"k3":1000},
             {"k1":4,"k2":40,"k3":0.1},{"k1":4,"k2":40,"k3":50}]
-    NLE:
+    NLE-Full:
       docker-tag: neurips23-sparse-nle
       module: neurips23.sparse.nle.nle 
       constructor: NLE
@@ -109,7 +109,7 @@ sparse-1M:
             {"k1":6,"k2":40,"k3":100},
             {"k1":6,"k2":40,"k3":1000}]
 sparse-full:
-    NLE-10:
+    nle:
       docker-tag: neurips23-sparse-nle
       module: neurips23.sparse.nle.nle 
       constructor: NLE
@@ -127,7 +127,7 @@ sparse-full:
             {"k1":4,"k2":40,"k3":10},
             {"k1":4,"k2":40,"k3":1000},
             {"k1":4,"k2":40,"k3":0.1},{"k1":4,"k2":40,"k3":50}]
-    NLE:
+    NLE-Full:
       docker-tag: neurips23-sparse-nle
       module: neurips23.sparse.nle.nle 
       constructor: NLE

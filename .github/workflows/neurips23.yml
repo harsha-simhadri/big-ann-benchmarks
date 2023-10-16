@@ -15,6 +15,9 @@ jobs:
           - algorithm: linscan
             dataset: sparse-small
             track: sparse
+          - algorithm: nle
+            dataset: sparse-small
+            track: sparse
           - algorithm: diskann
             dataset: random-xs
             track: streaming
