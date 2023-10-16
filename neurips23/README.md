@@ -119,9 +119,9 @@ python run.py --neurips23track streaming --algorithm diskann --dataset msturing-
 
 For streaming track, runbook specifies the order of operations to be executed by the algorithms. To download the ground truth for every search operation: (needs azcopy tool in your binary path):
 ```
-python -m benchmark.streaming.download_gt --runbook_file neurips23/streaming/simple_runbook.yaml --dataset msspacev-10M 
-python -m benchmark.streaming.download_gt --runbook_file neurips23/streaming/delete_runbook.yaml --dataset msturing-10M-clustered 
-python -m benchmark.streaming.download_gt --runbook_file neurips23/streaming/final_runbook.yaml  --dataset msturing-30M-clustered 
+python -m benchmark.streaming.download_gt --runbook_file neurips23/streaming/simple_runbook.yaml --dataset msspacev-10M
+python -m benchmark.streaming.download_gt --runbook_file neurips23/streaming/delete_runbook.yaml --dataset msturing-10M-clustered
+python -m benchmark.streaming.download_gt --runbook_file neurips23/streaming/final_runbook.yaml  --dataset msturing-30M-clustered
 ```
 Alternately, to compute ground truth for an arbitrary runbook, [clone and build DiskANN repo](https://github.com/Microsoft/DiskANN) and use the command line tool to compute ground truth at various search checkpoints. The `--gt_cmdline_tool` points to the directory with DiskANN commandline tools.
 ```
