@@ -148,17 +148,16 @@
             maximal inner product between the vectors.
           </li>
           <li>
-            <span>Streaming Search</span>: This task uses 10M slice of the MS Turing data
+            <span>Streaming Search</span>: This task uses 30M slice of the MS Turing data
             set released in the previous challenge. The index starts with zero
             points and must implement the "runbook" provided -- a sequence of
             insertion, deletion, and search operations (roughly 4:4:1 ratio) --
-            within a time bound of 1 hour.  In the final run, we
-            will use a different runbook, and possibly a different data set,
-            to avoid participants over-fitting to this dataset. The intention
+            within a time bound of 1 hour and 8GB DRAM.  The intention
             is for the algorithm to process the operations and maintain a compact 
             index over the active points rather than index the entire anticipated 
             set of points and use tombstones or flags to mark active elements.
-            More details to come.
+            More details to come. The runbook is provided in `final_runbook.yaml`
+            which is generated with `final_runbook_gen.py`.
           </li>
         </ul>
 
@@ -218,11 +217,11 @@
 
               <tr>
                 <td>Streaming</td>
-                <td>MSTuring-10M</td>
+                <td>MSTuring-30M-clustered</td>
                 <td>100</td>
                 <td>float32</td>
                 <td><a href="https://arxiv.org/abs/2105.09613">fresh-diskann</a></td>
-                <td>0.924 recall@10</td>
+                <td>0.883 recall@10 (45mins)</td>
                 <td>
                   <a href="https://github.com/microsoft/SPTAG/blob/main/datasets/SPACEV1B/LICENSE">O-UDA</a>
                 </td>
