@@ -193,6 +193,13 @@ class DatasetCompetitionFormat(Dataset):
             j1 = min(j0 + bs, i1)
             yield sanitize(x[j0:j1])
 
+    def get_data_in_range(self, start, end):
+        assert start >= 0
+        assert end <= self.nb
+        filename = self.get_dataset_fn()
+        x = xbin_mmap(filename, dtype=self.dtype, maxn=self.nb)
+        return x[start:end]
+
     def search_type(self):
         return "knn"
     
@@ -425,6 +432,28 @@ class MSTuringClustered10M(DatasetCompetitionFormat):
         
         self.base_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp23/clustered_data/msturing-10M-clustered/"
         self.basedir = os.path.join(BASEDIR, "MSTuring-10M-clustered")
+
+        self.private_gt_url = None
+        self.private_qs_url = None
+
+    def distance(self):
+        return "euclidean"
+    
+    def prepare(self, skip_data=False, original_size=10 ** 9):
+        return super().prepare(skip_data, original_size = self.nb)
+    
+class MSTuringClustered30M(DatasetCompetitionFormat):
+    def __init__(self):
+        self.nb = 29998994
+        self.d = 100
+        self.nq = 10000
+        self.dtype = "float32"
+        self.ds_fn = "30M-clustered64.fbin"
+        self.qs_fn = "testQuery10K.fbin"
+        self.gt_fn = "clu_msturing30M_gt100"
+        
+        self.base_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp23/clustered_data/msturing-30M-clustered/"
+        self.basedir = os.path.join(BASEDIR, "MSTuring-30M-clustered")
 
         self.private_gt_url = None
         self.private_qs_url = None
@@ -984,6 +1013,7 @@ DATASETS = {
     'msturing-1M': lambda : MSTuringANNS(1),
 
     'msturing-10M-clustered': lambda: MSTuringClustered10M(),
+    'msturing-30M-clustered': lambda: MSTuringClustered30M(),
 
     'msspacev-1B': lambda : MSSPACEV1B(1000),
     'msspacev-100M': lambda : MSSPACEV1B(100),

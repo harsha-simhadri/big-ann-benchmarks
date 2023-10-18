@@ -100,7 +100,7 @@ def run(definition, dataset, count, run_count, rebuild,
                     algo.set_query_arguments(*query_arguments)
                 if neurips23track == 'streaming':
                     descriptor, results = custom_runner.run_task(
-                        algo, ds, distance, 1, run_count, search_type, private_query, runbook)
+                        algo, ds, distance, count, 1, search_type, private_query, runbook)
                 else:
                     descriptor, results = custom_runner.run_task(
                         algo, ds, distance, count, run_count, search_type, private_query)
@@ -116,9 +116,11 @@ def run(definition, dataset, count, run_count, rebuild,
                         X = ds.get_private_queries()
                     power_stats = power_capture.run(algo, X, distance, count,
                                                     run_count, search_type, descriptor)
+                print('start store results')
                 store_results(dataset, count, definition,
                               query_arguments, descriptor,
                               results, search_type, neurips23track, runbook_path)
+                print('end store results')
     finally:
         algo.done()
 
@@ -263,7 +265,7 @@ def run_docker(definition, dataset, count, runs, timeout, rebuild,
 
     client = docker.from_env()
     if mem_limit is None:
-        mem_limit = psutil.virtual_memory().available
+        mem_limit = psutil.virtual_memory().available if neurips23track != 'streaming' else (8*1024*1024*1024)
 
     # ready the container object invoked later in this function
     container = None

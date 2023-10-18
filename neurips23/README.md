@@ -23,7 +23,7 @@ The Practical Vector Search challenge at NeurIPS 2023 has four different tasks:
     The tags are from a vocabulary of 200386 possible tags. 
     The 100,000 queries consist of one image embedding and one or two tags that must appear in the database elements to be considered.
 
-**Task Streaming:** This task uses 10M slice of the MS Turing data set released in the previous challenge. The index starts with zero points and must implement the "runbook" provided - a sequence of insertion operations, deletion operations, and search commands (roughly 4:4:1 ratio) - within a time bound of 1 hour. In the final run, we will  use a different runbook, and possibly a different data set, to avoid participants over-fitting to this dataset. Entries will be ranked by average recall over queries at all check points. The intention is for the algorithm to  process the operations and maintain a compact index over the active points rather than index the entire anticipated set of points and use tombstones or flags to mark active elements.
+**Task Streaming:** This task uses 10M slice of the MS Turing data set released in the previous challenge. The index starts with zero points and must implement the "runbook" provided - a sequence of insertion operations, deletion operations, and search commands (roughly 4:4:1 ratio) - within a time bound of 1 hour and a DRAM limit of 8GB. Entries will be ranked by average recall over queries at all check points. The intention is for the algorithm to  process the operations and maintain a compact index over the active points rather than index the entire anticipated set of points and use tombstones or flags to mark active elements. ~~In the final run, we will  use a different runbook, and possibly a different data set, to avoid participants over-fitting to this dataset.~~ The final run will use `msturing-30M-clustered`, a 30M slice of the MSTuring dataset, and the `final_runbook.yaml` runbook. 
 
 **Task Out-Of-Distribution:**  Yandex Text-to-Image 10M represents a cross-modal dataset where the database and query vectors have different distributions in the shared vector space.
     The base set is a 10M subset of the Yandex visual search database of 200-dimensional image embeddings which are produced with the Se-ResNext-101 model. 
@@ -46,6 +46,7 @@ The baselines were run on an Azure Standard D8lds v5 (8 vcpus, 16 GiB memory) ma
 |Sparse   | Linear Scan | 101                         |  `python3 run.py --dataset sparse-full --algorithm linscan --neurips23track sparse` |
 |Filter   | faiss       | 3200                        | `python3 run.py --dataset yfcc-10M --algorithm faiss --neurips23track filter` |
 |Streaming| DiskANN     | 0.924 (recall@10), 23 mins  |  `python3 run.py --dataset msturing-10M-clustered --algorithm diskann --neurips23track streaming --runbook_path neurips23/streaming/delete_runbook.yaml` |
+|Streaming| DiskANN     | 0.883 (recall@10), 45 mins  |  `python3 run.py --dataset msturing-30M-clustered --algorithm diskann --neurips23track streaming --runbook_path neurips23/streaming/final_runbook.yaml` |
 |OOD      | DiskANN     | 4882                        | `python3 run.py --dataset text2image-10M --algorithm diskann --neurips23track ood` | 
 
 
@@ -110,13 +111,17 @@ For the competition dataset, run commands mentioned in the table above, for exam
 python run.py --neurips23track filter    --algorithm faiss   --dataset yfcc-10M
 python run.py --neurips23track sparse    --algorithm linscan --dataset sparse-full
 python run.py --neurips23track ood       --algorithm diskann --dataset text2image-10M
+# preliminary runbook for testing 
 python run.py --neurips23track streaming --algorithm diskann --dataset msturing-10M-clustered --runbook_path neurips23/streaming/delete_runbook.yaml
+#Final runbook for evaluation
+python run.py --neurips23track streaming --algorithm diskann --dataset msturing-30M-clustered --runbook_path neurips23/streaming/final_runbook.yaml
 ```
 
 For streaming track, runbook specifies the order of operations to be executed by the algorithms. To download the ground truth for every search operation: (needs azcopy tool in your binary path):
 ```
-python benchmark/streaming/download_gt.py --runbook_file neurips23/streaming/simple_runbook.yaml --dataset msspacev-10M 
-python benchmark/streaming/download_gt.py --runbook_file neurips23/streaming/delete_runbook.yaml --dataset msturing-10M-clustered 
+python -m benchmark.streaming.download_gt --runbook_file neurips23/streaming/simple_runbook.yaml --dataset msspacev-10M
+python -m benchmark.streaming.download_gt --runbook_file neurips23/streaming/delete_runbook.yaml --dataset msturing-10M-clustered
+python -m benchmark.streaming.download_gt --runbook_file neurips23/streaming/final_runbook.yaml  --dataset msturing-30M-clustered
 ```
 Alternately, to compute ground truth for an arbitrary runbook, [clone and build DiskANN repo](https://github.com/Microsoft/DiskANN) and use the command line tool to compute ground truth at various search checkpoints. The `--gt_cmdline_tool` points to the directory with DiskANN commandline tools.
 ```
