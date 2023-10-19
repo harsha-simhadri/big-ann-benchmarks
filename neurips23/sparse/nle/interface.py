@@ -151,7 +151,7 @@ class PisaIndex():
           scorer_name=scorer.value,
           stemmer='',
           k=k,
-          threads=4,
+          threads=self.n_cores,
           stop_fname='',
           query_weighted=1,
           pretokenised=True,
