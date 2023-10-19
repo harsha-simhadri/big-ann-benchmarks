@@ -260,8 +260,7 @@ There are several ways to get help as you develop your algorithm using this fram
 
 This leaderboard is based on the standard recall@10 vs throughput benchmark that has become a standard benchmark when evaluating and comparing approximate nearest neighbor algorithms. The recall of the baselines at this QPS threshold is listed [above](#measuring_your_algorithm). 
 
-Algorithms will be ranked on how much their recall surpasses the baselines at these QPS thresholds.   We will add up the recall improvements of each algorithm on all tasks it competes on.  
-
+For tasks "Filter", "Out-of-Distribution" and "Sparse" tracks, algorithms will be ranked on the QPS they achieve on the track dataset, as long as the recall@10 is at least 90%. For the Streaming track, algorithms will be ranked on recall@10, as long as each algorithm completes the runbook within the alloted 1 hour. 
 
 ## Custom_Setup
 
