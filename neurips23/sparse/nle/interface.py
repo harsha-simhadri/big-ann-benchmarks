@@ -133,7 +133,7 @@ class PisaIndex():
     self.stops = stops
     self.scale = 100
     self.index_encoding = PISA_INDEX_DEFAULTS['index_encoding']
-    self.n_cores = cpu_count()
+    self.n_cores = 8
 
   def generate_forward(self):
     _pisathon.generate_fwd(self.path+"/inv")
@@ -256,7 +256,7 @@ class PisaIndex():
         stemmer='',
         queries=inp,
         k=k,
-        threads=self.n_cores,
+        threads=8,
         stop_fname='',
         query_weighted=1,
         pretokenised=True,
