@@ -248,6 +248,11 @@ a:hover {
   height: auto;
 }
 
+.presented-by .zilliz-logo {
+  width: 6rem;
+  height: auto;
+}
+
 .hero .hero-text {
   color: var(--color-gray);
 }
