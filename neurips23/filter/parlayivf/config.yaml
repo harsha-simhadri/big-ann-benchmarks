@@ -1,0 +1,30 @@
+yfcc-10M:
+    parlayivf:
+      docker-tag: neurips23-filter-parlayivf
+      module: neurips23.filter.parlayivf.parlayivf
+      constructor: ParlayIVF
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+            [
+            {"cluster_size": 2500, 
+              "T": 16,
+              "cutoff": 30000
+            },
+            {"cluster_size": 1000, 
+              "T": 16,
+              "cutoff": 30000
+            }]
+          query-args: |
+            [{"target_points": 1000},
+             {"target_points": 2000},
+             {"target_points": 5000},
+             {"target_points": 10000},
+             {"target_points": 20000},
+             {"target_points": 50000},
+             {"target_points": 100000},
+             {"target_points": 200000},
+             {"target_points": 500000}]
+             
+             
