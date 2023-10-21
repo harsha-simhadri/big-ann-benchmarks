@@ -9,11 +9,11 @@ yfcc-10M:
           args: |
             [
             {"cluster_size": 2500, 
-              "T": 16,
+              "T": 8,
               "cutoff": 30000
             },
             {"cluster_size": 1000, 
-              "T": 16,
+              "T": 8,
               "cutoff": 30000
             }]
           query-args: |
