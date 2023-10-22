@@ -5,7 +5,7 @@ RUN apt-get install -y curl
 # install rust + build tools
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
 ENV PATH="/root/.cargo/bin:${PATH}"
-#RUN git clone --single-branch --branch main https://github.com/pinecone-io/research-bigann-linscan
+RUN git clone --single-branch --branch main https://github.com/MichaelIbrahim-GaTech/research-bigann-linscan.git
 WORKDIR research-bigann-linscan/
 
 # install maturin (build tool for rust-python)
