@@ -9,39 +9,33 @@ yfcc-10M:
           args: |
             [
             {"cluster_size": 2500, 
-              "T": 8,
-              "cutoff": 30000,
+              "T": 192,
+              "cutoff": 15000,
               "max_iter": 20
             },
             {"cluster_size": 1000, 
-              "T": 8,
-              "cutoff": 30000,
+              "T": 192,
+              "cutoff": 15000,
               "max_iter": 20
             }]
           query-args: |
             [{"target_points": 1000,
-              "tiny_cutoff": 0},
-             {"target_points": 1000,
-              "tiny_cutoff": 1000},
-             {"target_points": 1000,
-              "tiny_cutoff": 5000},
+              "tiny_cutoff": 0,
+              "sq_target_points": 100},
               {"target_points": 1000,
-              "tiny_cutoff": 10000},
+              "tiny_cutoff": 500,
+              "sq_target_points": 100},
+              {"target_points": 1000,
+              "tiny_cutoff": 1000,
+              "sq_target_points": 100},
               {"target_points": 10000,
-              "tiny_cutoff": 0},
-             {"target_points": 10000,
-              "tiny_cutoff": 1000},
-             {"target_points": 10000,
-              "tiny_cutoff": 5000},
+              "tiny_cutoff": 0,
+              "sq_target_points": 500},
               {"target_points": 10000,
-              "tiny_cutoff": 10000},
-              {"target_points": 100000,
-              "tiny_cutoff": 0},
-             {"target_points": 100000,
-              "tiny_cutoff": 1000},
-             {"target_points": 100000,
-              "tiny_cutoff": 5000},
-              {"target_points": 100000,
-              "tiny_cutoff": 10000}]
+              "tiny_cutoff": 500,
+              "sq_target_points": 500},
+              {"target_points": 10000,
+              "tiny_cutoff": 1000,
+              "sq_target_points": 500}]
              
              

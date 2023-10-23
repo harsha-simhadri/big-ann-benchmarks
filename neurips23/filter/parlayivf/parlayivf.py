@@ -62,11 +62,18 @@ class ParlayIVF(BaseFilterANN):
             self.index.set_target_points(self._target_points)
         else:
             self._target_points = 5000
+
         if 'tiny_cutoff' in query_args:
             self._tiny_cutoff = query_args['tiny_cutoff']
             self.index.set_tiny_cutoff(self._tiny_cutoff)
         else:
             self._tiny_cutoff = 1000
+
+        if 'sq_target_points' in query_args:
+            self._sq_target_points = query_args['sq_target_points']
+            self.index.set_sq_target_points(self._sq_target_points)
+        else:
+            self._sq_target_points = self._target_points
         
     
     def fit(self, dataset):
@@ -113,6 +120,8 @@ class ParlayIVF(BaseFilterANN):
         nq = X.shape[0]
         self.res, self.query_dists = self.index.batch_filter_search(X, filters, nq, k)
         print(f"Search took {time.time() - search_start} seconds")
+        self.index.print_stats() # should be commented out for production
+        self.index.reset()
 
     def get_results(self):
         # print(self.res.shape)
@@ -122,4 +131,4 @@ class ParlayIVF(BaseFilterANN):
         return self.res
     
     def __str__(self):
-        return f"ParlayIVF(metric={self._metric}, cluster_size={self._cluster_size}, cutoff={self._cutoff}, target_points={self._target_points}, tiny_cutoff={self._tiny_cutoff}, max_iter={self._max_iter})"
+        return f"ParlayIVF(metric={self._metric}, dtype={self.dtype}, T={os.environ['PARLAY_NUM_THREADS']}, cluster_size={self._cluster_size:,}, cutoff={self._cutoff:,}, target_points={self._target_points:,}, sq_target_points={self._sq_target_points:,} tiny_cutoff={self._tiny_cutoff:,}, max_iter={self._max_iter:,})"
