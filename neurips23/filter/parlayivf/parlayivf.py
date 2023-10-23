@@ -18,6 +18,7 @@ class ParlayIVF(BaseFilterANN):
 
         self._cluster_size = int(index_params['cluster_size'])
         self._cutoff = int(index_params['cutoff'])
+        self._max_iter = int(index_params['max_iter'])
 
         if 'T' in index_params:
             os.environ['PARLAY_NUM_THREADS'] = str(index_params['T'])
@@ -58,8 +59,14 @@ class ParlayIVF(BaseFilterANN):
         #     self._cutoff = 20_000
         if 'target_points' in query_args:
             self._target_points = query_args['target_points']
+            self.index.set_target_points(self._target_points)
         else:
             self._target_points = 5000
+        if 'tiny_cutoff' in query_args:
+            self._tiny_cutoff = query_args['tiny_cutoff']
+            self.index.set_tiny_cutoff(self._tiny_cutoff)
+        else:
+            self._tiny_cutoff = 1000
         
     
     def fit(self, dataset):
@@ -72,6 +79,9 @@ class ParlayIVF(BaseFilterANN):
             return
 
         self.index = wp.init_squared_ivf_index(self._metric, self.dtype)
+
+        self.index.set_max_iter(self._max_iter)
+
         print("Index initialized")
         self.index.fit_from_filename(ds.get_dataset_fn(), os.path.join(ds.basedir, ds.ds_metadata_fn), self._cutoff, self._cluster_size)
         # self.index.print_stats()
@@ -112,4 +122,4 @@ class ParlayIVF(BaseFilterANN):
         return self.res
     
     def __str__(self):
-        return f"ParlayIVF(metric={self._metric}, cluster_size={self._cluster_size}, cutoff={self._cutoff}, target_points={self._target_points})"
+        return f"ParlayIVF(metric={self._metric}, cluster_size={self._cluster_size}, cutoff={self._cutoff}, target_points={self._target_points}, tiny_cutoff={self._tiny_cutoff}, max_iter={self._max_iter})"
