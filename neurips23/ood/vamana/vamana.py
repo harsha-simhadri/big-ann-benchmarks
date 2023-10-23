@@ -131,11 +131,22 @@ class vamana(BaseOODANN):
         print("Trying to load...")
 
         try:
-            self.index = pann.load_vamana_index(self._metric, self.translate_dtype(ds.dtype), ds.get_dataset_fn(), 
-                                                self.compressed_vectors_path, self.sample_points_path, index_dir, 
-                                                self.secondary_index_dir, self.secondary_gt_dir, ds.nb, d)
-            print("Index loaded")
-            return True
-        except:
+            file_size = os.path.getsize(index_dir)
+            print(f"File Size in Bytes is {file_size}")
+        except FileNotFoundError:
+            file_size = 0
+            print("File not found.")
+
+        if file_size != 0:
+            try:
+                self.index = pann.load_vamana_index(self._metric, self.translate_dtype(ds.dtype), ds.get_dataset_fn(), 
+                                                    self.compressed_vectors_path, self.sample_points_path, index_dir, 
+                                                    self.secondary_index_dir, self.secondary_gt_dir, ds.nb, d)
+                print("Index loaded")
+                return True
+            except:
+                print("Index not found")
+                return False
+        else:
             print("Index not found")
             return False
