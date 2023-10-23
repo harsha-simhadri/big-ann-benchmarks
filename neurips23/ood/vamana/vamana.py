@@ -24,6 +24,9 @@ class vamana(BaseOODANN):
         self.R = int(index_params.get("R"))
         self.L = int(index_params.get("L"))
         self.alpha = float(index_params.get("alpha", 1.0))
+        self.two_pass = bool(index_params.get("two_pass", False))
+        self.use_query_data = bool(index_params.get("use_query_data", False))
+        self.compress_vectors = bool(index_params.get("compress", False))
 
     def index_name(self):
         return f"R{self.R}_L{self.L}_alpha{self.alpha}"
@@ -53,8 +56,28 @@ class vamana(BaseOODANN):
         else:
             return dtype
 
-    def get_secondary_index_filename():
-        return "test"
+    def prepare_sample_info(self, index_dir):
+        if(self.use_query_data):
+            #download the additional sample points for the ood index
+            self.sample_points_path = "data/text2image1B/query_sample_200000.fbin"
+            sample_qs_large_url = "https://storage.yandexcloud.net/yr-secret-share/ann-datasets-5ac0659e27/T2I/query.private.1M.fbin"
+            bytes_to_download = 8 + 200000*4*200
+            download(sample_qs_large_url, self.sample_points_path, bytes_to_download)
+            header = np.memmap(self.sample_points_path, shape=2, dtype='uint32', mode="r+")
+            header[0] = 200000
+
+            self.secondary_index_dir = index_dir + ".secondary"
+            self.secondary_gt_dir = self.secondary_index_dir + ".gt"
+        else:
+            self.sample_points_path = ""
+            self.secondary_index_dir = ""
+            self.secondary_gt_dir = ""
+
+    def prepare_compressed_info(self):
+        if(self.compress_vectors):
+            self.compressed_vectors_path = "data/text2image1B/compressed_10M.fbin"
+        else:
+            self.compressed_vectors_path = ""
         
     def fit(self, dataset):
         """
@@ -63,41 +86,31 @@ class vamana(BaseOODANN):
         ds = DATASETS[dataset]()
         d = ds.d
 
-        #download the additional sample points for the ood index
-        sample_points_path = "data/text2image1B/sample"
-        sample_qs_large_url = "https://storage.yandexcloud.net/yr-secret-share/ann-datasets-5ac0659e27/T2I/query.private.1M.fbin"
-        download(sample_qs_large_url, sample_points_path)
-
-        
         index_dir = self.create_index_dir(ds)
-        secondary_index_dir = index_dir + ".secondary"
-        secondary_gt_dir = secondary_index_dir + ".gt"
 
-
-
+        self.prepare_sample_info(index_dir)
+        self.prepare_compressed_info()
+        
         if hasattr(self, 'index'):
             print("Index already exists")
             return
         else:
             start = time.time()
             # ds.ds_fn is the name of the dataset file but probably needs a prefix
-            pann.build_vamana_index(self._metric, self.translate_dtype(ds.dtype), ds.get_dataset_fn(), sample_points_path, index_dir, secondary_index_dir, 
-                secondary_gt_dir, self.R, self.L, self.alpha, True)
+            pann.build_vamana_index(self._metric, self.translate_dtype(ds.dtype), ds.get_dataset_fn(), self.sample_points_path, 
+                self.compressed_vectors_path, index_dir, self.secondary_index_dir, self.secondary_gt_dir, self.R, self.L, self.alpha, 
+                self.two_pass)
             end = time.time()
             print("Indexing time: ", end - start)
             print(f"Wrote index to {index_dir}")
 
-        self.index = pann.load_vamana_index(self._metric, self.translate_dtype(ds.dtype), ds.get_dataset_fn(), sample_points_path, index_dir, 
-            secondary_index_dir, secondary_gt_dir, ds.nb, d)
+        self.index = pann.load_vamana_index(self._metric, self.translate_dtype(ds.dtype), ds.get_dataset_fn(), self.compressed_vectors_path, 
+            self.sample_points_path, index_dir, self.secondary_index_dir, self.secondary_gt_dir, ds.nb, d)
         print("Index loaded")
 
     def query(self, X, k):
         nq, d = X.shape
         self.res, self.query_dists = self.index.batch_search(X, nq, k, self.Ls)
-        # print(f"self.res shape: {self.res.shape}")
-        # print(f"self.res[:5]: {self.res[:5]}")
-        # print(f"self.query_dists shape: {self.query_dists.shape}")
-        # print(f"self.query_dists[:5]: {self.query_dists[:5]}")
 
     def set_query_arguments(self, query_args):
         self._query_args = query_args
@@ -110,15 +123,15 @@ class vamana(BaseOODANN):
         d = ds.d
 
         index_dir = self.create_index_dir(ds)
-        secondary_index_dir = index_dir + ".secondary"
-        secondary_gt_dir = secondary_index_dir + ".gt"
-        sample_points_path = "data/text2image1B/sample"
+        self.prepare_sample_info(index_dir)
+        self.prepare_compressed_info()
 
-        print("trying to load")
+        print("Trying to load...")
 
         try:
-            self.index = pann.load_vamana_index(self._metric, self.translate_dtype(ds.dtype), ds.get_dataset_fn(), sample_points_path, index_dir, 
-                secondary_index_dir, secondary_gt_dir, ds.nb, d)
+            self.index = pann.load_vamana_index(self._metric, self.translate_dtype(ds.dtype), ds.get_dataset_fn(), 
+                                                self.compressed_vectors_path, self.sample_points_path, index_dir, 
+                                                self.secondary_index_dir, self.secondary_gt_dir, ds.nb, d)
             print("Index loaded")
             return True
         except:
