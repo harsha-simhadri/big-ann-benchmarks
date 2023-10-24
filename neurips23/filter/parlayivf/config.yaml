@@ -26,12 +26,12 @@ yfcc-10M:
               "T": 8,
               "cutoff": 10000,
               "max_iter": 40
-            }
+            },
             {"cluster_size": 250, 
               "T": 8,
               "cutoff": 10000,
               "max_iter": 40
-            }
+            },
             {"cluster_size": 250, 
               "T": 8,
               "cutoff": 15000,
@@ -57,7 +57,7 @@ yfcc-10M:
               {"target_points": 20000,
               "tiny_cutoff": 1000,
               "sq_target_points": 4000
-              }
+              },
               {"target_points": 20000,
               "tiny_cutoff": 1000,
               "sq_target_points": 5000
@@ -65,7 +65,7 @@ yfcc-10M:
               {"target_points": 20000,
               "tiny_cutoff": 500,
               "sq_target_points": 4000
-              }
+              },
               {"target_points": 20000,
               "tiny_cutoff": 500,
               "sq_target_points": 5000
