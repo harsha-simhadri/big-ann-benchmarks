@@ -474,7 +474,7 @@ deep-1B:
         base:
           args: |
               [{"R":100, "L":100, "B":50, "M":110,
-                "url": "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/diskann-T2-baseline-indices/deep-1B/R100_L100_B50_M110"
+                "url": "https://comp21storage.z5.web.core.windows.net/comp21/diskann-T2-baseline-indices/deep-1B/R100_L100_B50_M110"
                 }]
           query-args: |
               [{"Ls":30, "BW":4, "T":16},
@@ -522,7 +522,7 @@ msspacev-1B:
         base:
           args: |
               [{"R":100, "L":100, "B":47, "M":100,
-                "url": "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/diskann-T2-baseline-indices/msspacev-1B/R100_L100_B47_M100"
+                "url": "https://comp21storage.z5.web.core.windows.net/comp21/diskann-T2-baseline-indices/msspacev-1B/R100_L100_B47_M100"
                 }]
           query-args: |
               [{"Ls":60, "BW":4, "T":16, "HE":3},
@@ -582,7 +582,7 @@ msspacev-1B:
         base:
           args: |
               [{"R":100, "L":100, "B":47, "M":100,
-                "url": "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/diskann-T2-baseline-indices/msspacev-1B/R100_L100_B47_M100"
+                "url": "https://comp21storage.z5.web.core.windows.net/comp21/diskann-T2-baseline-indices/msspacev-1B/R100_L100_B47_M100"
                 }]
           query-args: |
               [{"Ls":40, "BW":4, "T":16},
@@ -654,7 +654,7 @@ msturing-1B:
         base:
           args: |
               [{"R":100, "L":100, "B":50, "M":80,
-                "url": "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/diskann-T2-baseline-indices/msturing-1B/R100_L100_B50_M80"
+                "url": "https://comp21storage.z5.web.core.windows.net/comp21/diskann-T2-baseline-indices/msturing-1B/R100_L100_B50_M80"
                 }]
           query-args: |
               [{"Ls":30, "BW":4, "T":16},
@@ -758,7 +758,7 @@ msturing-1B:
         base:
           args: |
               [{"R":100, "L":100, "B":50, "M":80,
-                "url": "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/diskann-T2-baseline-indices/msturing-1B/R100_L100_B50_M80"
+                "url": "https://comp21storage.z5.web.core.windows.net/comp21/diskann-T2-baseline-indices/msturing-1B/R100_L100_B50_M80"
                 }]
           query-args: |
               [{"Ls":30, "BW":4, "T":16},
@@ -806,7 +806,7 @@ bigann-1B:
         base:
           args: |
               [{"R":100, "L":100, "B":50, "M":80,
-                "url": "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/diskann-T2-baseline-indices/bigann-1B/R100_L100_B50_M80"
+                "url": "https://comp21storage.z5.web.core.windows.net/comp21/diskann-T2-baseline-indices/bigann-1B/R100_L100_B50_M80"
                 }]
           query-args: |
               [{"Ls":30, "BW":4, "T":16},
@@ -938,7 +938,7 @@ bigann-1B:
         base:
           args: |
               [{"R":100, "L":100, "B":50, "M":80,
-                "url": "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/diskann-T2-baseline-indices/bigann-1B/R100_L100_B50_M80"
+                "url": "https://comp21storage.z5.web.core.windows.net/comp21/diskann-T2-baseline-indices/bigann-1B/R100_L100_B50_M80"
                 }]
           query-args: |
               [{"Ls":30, "BW":4, "T":16},
@@ -961,7 +961,7 @@ ssnpp-1B:
         base:
           args: |
               [{"R":100, "L":100, "B":60, "M":100, "C":500000, "CM":2,
-                "url": "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/diskann-T2-baseline-indices/fbssnpp-1B/R100_L100_B60_M100"
+                "url": "https://comp21storage.z5.web.core.windows.net/comp21/diskann-T2-baseline-indices/fbssnpp-1B/R100_L100_B60_M100"
                 }]
           query-args: |
               [{"Lmin":9, "Lmax":10000, "BW":4, "T":16},
@@ -1023,7 +1023,7 @@ ssnpp-1B:
         base:
           args: |
               [{"R":100, "L":100, "B":60, "M":100, "C":500000, "CM":2,
-                "url": "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/diskann-T2-baseline-indices/fbssnpp-1B/R100_L100_B60_M100"
+                "url": "https://comp21storage.z5.web.core.windows.net/comp21/diskann-T2-baseline-indices/fbssnpp-1B/R100_L100_B60_M100"
                 }]
           query-args: |
               [{"Lmin":8, "Lmax":10000, "BW":4, "T":16},
@@ -1129,7 +1129,7 @@ text2image-1B:
         base:
           args: |
               [{"R":100, "L":100, "B":60, "M":115, "PQ":200, "C":500000, "CM":2,
-                "url": "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/diskann-T2-baseline-indices/text2image-1B/R100_L100_B60_M115_PQ200"
+                "url": "https://comp21storage.z5.web.core.windows.net/comp21/diskann-T2-baseline-indices/text2image-1B/R100_L100_B60_M115_PQ200"
                 }]
           query-args: |
               [{"Ls":10, "BW":10, "T":16},
