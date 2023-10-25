@@ -452,7 +452,7 @@ class MSTuringClustered30M(DatasetCompetitionFormat):
         self.qs_fn = "testQuery10K.fbin"
         self.gt_fn = "clu_msturing30M_gt100"
         
-        self.base_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp23/clustered_data/msturing-30M-clustered/"
+        self.base_url = "https://comp21storage.z5.web.core.windows.net/comp23/clustered_data/msturing-30M-clustered/"
         self.basedir = os.path.join(BASEDIR, "MSTuring-30M-clustered")
 
         self.private_gt_url = None
