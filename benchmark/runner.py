@@ -290,7 +290,8 @@ def run_docker(definition, dataset, count, runs, timeout, rebuild,
  
     # set/override container timeout based on competition flag
     if neurips23track!='none':
-        timeout = 30*60 # 30 minutes
+        # timeout = 30*60 # 30 minutes
+        timeout = 3600*24*3 # 3 days
         print("Setting container wait timeout to 30 minutes")       
 
     elif not timeout: 

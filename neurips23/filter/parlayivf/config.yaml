@@ -8,32 +8,12 @@ yfcc-10M:
         base:
           args: |
             [{"cluster_size": 2500, 
-              "T": 8,
+              "T": 16,
               "cutoff": 15000,
               "max_iter": 40
             },
             {"cluster_size": 1000, 
-              "T": 8,
-              "cutoff": 15000,
-              "max_iter": 40
-            },
-            {"cluster_size": 500, 
-              "T": 8,
-              "cutoff": 15000,
-              "max_iter": 40
-            },
-            {"cluster_size": 500, 
-              "T": 8,
-              "cutoff": 10000,
-              "max_iter": 40
-            },
-            {"cluster_size": 250, 
-              "T": 8,
-              "cutoff": 10000,
-              "max_iter": 40
-            },
-            {"cluster_size": 250, 
-              "T": 8,
+              "T": 16,
               "cutoff": 15000,
               "max_iter": 40
             }]
@@ -41,30 +21,6 @@ yfcc-10M:
             [{"target_points": 10000,
               "tiny_cutoff": 1000,
               "sq_target_points": 1000
-              },
-              {"target_points": 10000,
-              "tiny_cutoff": 500,
-              "sq_target_points": 1000
-              },
-              {"target_points": 10000,
-              "tiny_cutoff": 1000,
-              "sq_target_points": 2000
-              },
-              {"target_points": 10000,
-              "tiny_cutoff": 1000,
-              "sq_target_points": 4000
-              },
-              {"target_points": 20000,
-              "tiny_cutoff": 1000,
-              "sq_target_points": 4000
-              },
-              {"target_points": 20000,
-              "tiny_cutoff": 1000,
-              "sq_target_points": 5000
-              },
-              {"target_points": 20000,
-              "tiny_cutoff": 500,
-              "sq_target_points": 4000
               },
               {"target_points": 20000,
               "tiny_cutoff": 500,
