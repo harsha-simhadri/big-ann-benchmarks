@@ -28,7 +28,6 @@ class vamana(BaseOODANN):
         self.use_query_data = bool(index_params.get("use_query_data", False))
         self.compress_vectors = bool(index_params.get("compress", False))
 
-
     def index_name(self):
         return f"R{self.R}_L{self.L}_alpha{self.alpha}"
     
@@ -101,7 +100,6 @@ class vamana(BaseOODANN):
             pann.build_vamana_index(self._metric, self.translate_dtype(ds.dtype), ds.get_dataset_fn(), self.sample_points_path, 
                 self.compressed_vectors_path, index_dir, self.secondary_index_dir, self.secondary_gt_dir, self.R, self.L, self.alpha, 
                 self.two_pass)
-
             end = time.time()
             print("Indexing time: ", end - start)
             print(f"Wrote index to {index_dir}")
