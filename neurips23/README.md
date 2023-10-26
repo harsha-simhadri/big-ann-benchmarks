@@ -178,7 +178,7 @@ where [task] is _sparse_, _streaming_, _filter_, or _ood_.
 
 This framework evaluates algorithms in Docker containers by default.  Your algorithm's Dockerfile should live in *neurips23/[task]/[your_team_name]/Dockerfile*.  Your Docker file should contain everything needed to install and run your algorithm on a system with the same hardware. 
 
-Please consult [this file](../filter/faiss/Dockerfile) as an example. 
+Please consult [this file](filter/faiss/Dockerfile) as an example. 
 
 To build your Docker container, run:
 ```
