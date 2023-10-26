@@ -44,6 +44,7 @@ def run(definition, dataset, count, run_count, rebuild,
 
     distance = ds.distance()
     search_type = ds.search_type()
+    build_time = -1 # default value used to indicate that the index was loaded from file
     print(f"Running {definition.algorithm} on {dataset}")
 
     custom_runner = RUNNERS.get(neurips23track, BaseRunner)
@@ -104,8 +105,8 @@ def run(definition, dataset, count, run_count, rebuild,
                 else:
                     descriptor, results = custom_runner.run_task(
                         algo, ds, distance, count, run_count, search_type, private_query)
-                # A bit unclear how to set this correctly if we usually load from file
-                #descriptor["build_time"] = build_time
+
+                descriptor["build_time"] = build_time
                 descriptor["index_size"] = index_size
                 descriptor["algo"] = definition.algorithm
                 descriptor["dataset"] = dataset
