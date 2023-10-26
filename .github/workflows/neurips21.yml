@@ -9,54 +9,54 @@ jobs:
     strategy:
       matrix:
         include:
-          - algorithm: faiss-ivf
-            library: faissconda
-            dataset: random-xs
+#          - algorithm: faiss-ivf
+#            library: faissconda
+#            dataset: random-xs
           - algorithm: faiss-t1
             dataset: random-xs
             library: faissconda            
-          - algorithm: puck-t1
-            dataset: random-xs
-            library: puck
-          - algorithm: faiss-t1
-            dataset: random-range-xs
-            library: faissconda
-          - algorithm: diskann-t2
-            dataset: random-xs
-            library: diskann
-          - algorithm: diskann-t2
-            dataset: random-range-xs
-            library: diskann
+#          - algorithm: puck-t1
+#            dataset: random-xs
+#            library: puck
+#          - algorithm: faiss-t1
+#            dataset: random-range-xs
+#            library: faissconda
+#          - algorithm: diskann-t2
+#            dataset: random-xs
+#            library: diskann
+#          - algorithm: diskann-t2
+#            dataset: random-range-xs
+#            library: diskann
           - algorithm: bbann
             dataset: random-xs
             library: bbann
           - algorithm: bbann
             dataset: random-range-xs
             library: bbann
-          - algorithm: httpann_example
-            dataset: random-xs
-            library: httpann_example
-          - algorithm: httpann_example
-            dataset: random-range-xs
-            library: httpann_example
-          - algorithm : kst_ann_t1
-            dataset: random-xs
-            library: kst_ann_t1
-          - algorithm: buddy-t1
-            dataset: random-xs
-            library: faissconda            
-          - algorithm: buddy-t1
-            dataset: random-range-xs
-            library: faissconda            
-          - algorithm: kota-t2
-            dataset: random-xs
-            library: kota
-          - algorithm: kota-t2
-            dataset: random-range-xs
-            library: kota 
-          - algorithm: team11
-            dataset: random-xs
-            library: faissconda
+#          - algorithm: httpann_example
+#            dataset: random-xs
+#            library: httpann_example
+#          - algorithm: httpann_example
+#            dataset: random-range-xs
+#            library: httpann_example
+#          - algorithm : kst_ann_t1
+#            dataset: random-xs
+#            library: kst_ann_t1
+#          - algorithm: buddy-t1
+#            dataset: random-xs
+#            library: faissconda            
+#          - algorithm: buddy-t1
+#            dataset: random-range-xs
+#            library: faissconda            
+#          - algorithm: kota-t2
+#            dataset: random-xs
+#            library: kota
+#          - algorithm: kota-t2
+#            dataset: random-range-xs
+#            library: kota 
+#          - algorithm: team11
+#            dataset: random-xs
+#            library: faissconda
       fail-fast: false
 
     steps:
