@@ -8,12 +8,12 @@ yfcc-10M:
         base:
           args: |
             [{"cluster_size": 2500, 
-              "T": 16,
-              "cutoff": 15000,
+              "T": 8,
+              "cutoff": 20000,
               "max_iter": 40
             },
             {"cluster_size": 1000, 
-              "T": 16,
+              "T": 8,
               "cutoff": 15000,
               "max_iter": 40
             }]

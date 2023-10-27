@@ -40,12 +40,8 @@ class ParlayIVF(BaseFilterANN):
         os.makedirs(index_dir, mode=0o777, exist_ok=True)
         index_dir = os.path.join(index_dir, dataset.short_name())
         os.makedirs(index_dir, mode=0o777, exist_ok=True)
-        index_dir = os.path.join(index_dir, self.index_name())
-        os.makedirs(index_dir, mode=0o777, exist_ok=True)
         return os.path.join(index_dir, self.index_name())
-        
-    def index_name(self):
-        return f'parlayivf_{self._metric}_{self._cluster_size}_{self._cutoff}_{self._target_points}'
+        # return os.path.join(index_dir, self.index_name())
 
     def set_query_arguments(self, query_args):
         self._query_args = query_args
@@ -90,13 +86,14 @@ class ParlayIVF(BaseFilterANN):
         self.index.set_max_iter(self._max_iter)
 
         print("Index initialized")
-        self.index.fit_from_filename(ds.get_dataset_fn(), os.path.join(ds.basedir, ds.ds_metadata_fn), self._cutoff, self._cluster_size)
+        self.index.fit_from_filename(ds.get_dataset_fn(), os.path.join(ds.basedir, ds.ds_metadata_fn), self._cutoff, self._cluster_size, str(self.create_index_dir(ds)))
         # self.index.print_stats()
         print(f"Index fit in {time.time() - start} seconds")
 
     def load_index(self, dataset):
-        """need to implement serialization, but build is currently plenty fast enough"""
-        return False
+        """this should in theory work"""
+        self.fit(dataset)
+        return True
     
     def filtered_query(self, X, filter, k):
         start = time.time()
@@ -132,3 +129,6 @@ class ParlayIVF(BaseFilterANN):
     
     def __str__(self):
         return f"ParlayIVF(metric={self._metric}, dtype={self.dtype}, T={os.environ['PARLAY_NUM_THREADS']}, cluster_size={self._cluster_size:,}, cutoff={self._cutoff:,}, target_points={self._target_points:,}, sq_target_points={self._sq_target_points:,} tiny_cutoff={self._tiny_cutoff:,}, max_iter={self._max_iter:,})"
+    
+    def index_name(self):
+        return f"parlayivf_{self._metric}_{self.dtype}"
