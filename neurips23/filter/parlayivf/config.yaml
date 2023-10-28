@@ -8,14 +8,19 @@ yfcc-10M:
         base:
           args: |
             [{"cluster_size": 2500, 
-              "T": 8,
-              "cutoff": 30000,
-              "max_iter": 40
-            },
-            {"cluster_size": 1000, 
-              "T": 8,
+              "T": 128,
               "cutoff": 50000,
-              "max_iter": 40
+              "max_iter": 40,
+              "weight_classes": [75000, 300000],
+              "build_params": [{"max_degree": 16,
+                                "limit": 500,
+                                "alpha": 1.175},
+                              {"max_degree": 32,
+                               "limit": 500,
+                               "alpha": 1.175},
+                              {"max_degree": 64,
+                               "limit": 500,
+                               "alpha": 1.175}]
             }]
           query-args: |
             [{"target_points": 10000,
@@ -24,5 +29,3 @@ yfcc-10M:
               {"target_points": 20000,
               "tiny_cutoff": 500
               }]
-             
-             

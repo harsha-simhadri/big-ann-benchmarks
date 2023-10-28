@@ -20,8 +20,11 @@ class ParlayIVF(BaseFilterANN):
         self._cutoff = int(index_params['cutoff'])
         self._max_iter = int(index_params['max_iter'])
 
+        self._weight_classes = tuple(index_params['weight_classes'])
+        self._build_params = tuple([wp.BuildParams(int(d['max_degree']), int(d['limit']), float(d['alpha'])) for d in index_params['build_params']]) # tuple of BuildParams objects
+
         if 'T' in index_params:
-            os.environ['PARLAY_NUM_THREADS'] = str(index_params['T'])
+            os.environ['PARLAY_NUM_THREADS'] = str(min(int(index_params['T']), os.cpu_count()))
 
         self.name = f'parlayivf_{self._metric}_{self._cluster_size}_{self._cutoff}'
 
@@ -84,9 +87,11 @@ class ParlayIVF(BaseFilterANN):
         self.index = wp.init_squared_ivf_index(self._metric, self.dtype)
 
         self.index.set_max_iter(self._max_iter)
+        for i, bp in enumerate(self._build_params):
+            self.index.set_build_params(bp, i)
 
         print("Index initialized")
-        self.index.fit_from_filename(ds.get_dataset_fn(), os.path.join(ds.basedir, ds.ds_metadata_fn), self._cutoff, self._cluster_size, str(self.create_index_dir(ds)))
+        self.index.fit_from_filename(ds.get_dataset_fn(), os.path.join(ds.basedir, ds.ds_metadata_fn), self._cutoff, self._cluster_size, str(self.create_index_dir(ds)), self._weight_classes)
         # self.index.print_stats()
         print(f"Index fit in {time.time() - start} seconds")
 
