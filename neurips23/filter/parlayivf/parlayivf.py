@@ -22,6 +22,7 @@ class ParlayIVF(BaseFilterANN):
 
         self._weight_classes = tuple(index_params['weight_classes'])
         self._build_params = tuple([wp.BuildParams(int(d['max_degree']), int(d['limit']), float(d['alpha'])) for d in index_params['build_params']]) # tuple of BuildParams objects
+        self._max_degree = tuple([int(d['max_degree']) for d in index_params['build_params']]) 
 
         if 'T' in index_params:
             os.environ['PARLAY_NUM_THREADS'] = str(min(int(index_params['T']), os.cpu_count()))
@@ -133,7 +134,7 @@ class ParlayIVF(BaseFilterANN):
         return self.res
     
     def __str__(self):
-        return f"ParlayIVF(metric={self._metric}, dtype={self.dtype}, T={os.environ['PARLAY_NUM_THREADS']}, cluster_size={self._cluster_size:,}, cutoff={self._cutoff:,}, target_points={self._target_points:,}, sq_target_points={self._sq_target_points:,} tiny_cutoff={self._tiny_cutoff:,}, max_iter={self._max_iter:,})"
+        return f"ParlayIVF(metric={self._metric}, dtype={self.dtype}, T={os.environ['PARLAY_NUM_THREADS']}, cluster_size={self._cluster_size:,}, cutoff={self._cutoff:,}, target_points={self._target_points:,}, tiny_cutoff={self._tiny_cutoff:,}, max_iter={self._max_iter:,}, weight_classes={self._weight_classes}, max_degrees={self._max_degree})"
     
     def index_name(self):
         return f"parlayivf_{self._metric}_{self.dtype}"
