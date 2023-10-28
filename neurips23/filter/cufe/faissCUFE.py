@@ -2,10 +2,11 @@ import pdb
 import pickle
 import numpy as np
 import os
+import random
 
 from multiprocessing.pool import ThreadPool
 
-import faiss
+import neurips23.filter.cufe.faissCUFE as faissCUFE
 
 from neurips23.filter.base import BaseFilterANN
 from benchmark.datasets import DATASETS
@@ -18,7 +19,7 @@ def csr_get_row_indices(m, i):
     return m.indices[m.indptr[i] : m.indptr[i + 1]]
 
 def make_bow_id_selector(mat, id_mask=0):
-    sp = faiss.swig_ptr
+    sp = faissCUFE.swig_ptr
     if id_mask == 0:
         return bow_id_selector.IDSelectorBOW(mat.shape[0], sp(mat.indptr), sp(mat.indices))
     else:
@@ -30,9 +31,9 @@ def set_invlist_ids(invlists, l, ids):
     n, = ids.shape
     ids = np.ascontiguousarray(ids, dtype='int64')
     assert invlists.list_size(l) == n
-    faiss.memcpy(
+    faissCUFE.memcpy(
         invlists.get_ids(l),
-        faiss.swig_ptr(ids), n * 8
+        faissCUFE.swig_ptr(ids), n * 8
     )
 
 
@@ -54,8 +55,8 @@ def csr_to_bitcodes(matrix, bitsig):
 class BinarySignatures:
     """ binary signatures that encode vectors """
 
-    def __init__(self, meta_b, proba_1):
-        nvec, nword = meta_b.shape
+    def __init__(self, metadata, proba_1):
+        nvec, nword = metadata.shape
         # number of bits reserved for the vector ids
         self.id_bits = int(np.ceil(np.log2(nvec)))
         # number of bits for the binary signature
@@ -63,12 +64,51 @@ class BinarySignatures:
 
         # select binary signatures for the vocabulary
         rs = np.random.RandomState(123)    # we rely on this to be reproducible!
-        bitsig = np.packbits(rs.rand(nword, nbits) < proba_1, axis=1)
+        
+        temp = np.full((nword, nbits), False, dtype=bool)
+        initial_step = 1024
+        random.seed(123)
+        step = initial_step
+        words = [i for i in range(nword)]
+        index = 0
+        count = 0
+        SetBits = np.zeros(nvec, dtype=int)
+        TempSetBits = np.zeros(nvec, dtype=int)
+        SetWords = set()
+        while index < nbits:
+            #print(index, step, np.sum(TempSetBits))
+            if count + step > metadata.shape[1]:
+                step = int(metadata.shape[1] - count)
+            if count % metadata.shape[1] == 0:
+                random.shuffle(words)
+                count = 0
+                step = initial_step
+            bits = metadata[:,words[count:count+step]].nonzero()[0]
+            TempSetBits[bits] = 1 
+            if np.sum(TempSetBits) < metadata.shape[0] / 2:
+                SetBits = np.copy(TempSetBits)
+                SetWords = SetWords.union(words[count:count+step])
+                count += step
+            else:
+                if step > 1:
+                    step = int(step/2) 
+                    TempSetBits = np.copy(SetBits)
+                else:
+                    for w in SetWords:
+                        temp[w, index] = True
+                    SetBits = np.zeros(metadata.shape[0], dtype=int)
+                    TempSetBits = np.zeros(metadata.shape[0], dtype=int)
+                    SetWords = set()
+                    index += 1
+                    step = initial_step
+        
+        bitsig = np.packbits(temp, axis=1)
+        #bitsig = np.packbits(rs.rand(nword, nbits) < proba_1, axis=1)
         bitsig = np.pad(bitsig, ((0, 0), (0, 8 - bitsig.shape[1]))).view("int64").ravel()
         self.bitsig = bitsig
 
         # signatures for all the metadata matrix
-        self.db_sig = csr_to_bitcodes(meta_b, bitsig) << self.id_bits
+        self.db_sig = csr_to_bitcodes(metadata, bitsig) << self.id_bits
 
         # mask to keep only the ids
         self.id_mask = (1 << self.id_bits) - 1
@@ -108,7 +148,7 @@ class FAISS(BaseFilterANN):
             self.meta_b = ds.get_dataset_metadata()
             self.meta_b.sort_indices()
 
-        index = faiss.index_factory(ds.d, self.indexkey)
+        index = faissCUFE.index_factory(ds.d, self.indexkey)
         xb = ds.get_dataset()
         print("train")
         index.train(xb)
@@ -122,10 +162,10 @@ class FAISS(BaseFilterANN):
         self.index = index
         self.nb = ds.nb
         self.xb = xb
-        self.ps = faiss.ParameterSpace()
+        self.ps = faissCUFE.ParameterSpace()
         self.ps.initialize(self.index)
         print("store", self.index_name(dataset))
-        faiss.write_index(index, self.index_name(dataset))
+        faissCUFE.write_index(index, self.index_name(dataset))
 
     
     def index_name(self, name):
@@ -152,9 +192,9 @@ class FAISS(BaseFilterANN):
 
         print("Loading index")
 
-        self.index = faiss.read_index(self.index_name(dataset))
+        self.index = faissCUFE.read_index(self.index_name(dataset))
 
-        self.ps = faiss.ParameterSpace()
+        self.ps = faissCUFE.ParameterSpace()
         self.ps.initialize(self.index)
 
         ds = DATASETS[dataset]()
@@ -211,7 +251,7 @@ class FAISS(BaseFilterANN):
         freq_per_word = ndoc_per_word / self.nb
         
         def process_one_row(q):
-            faiss.omp_set_num_threads(1)
+            faissCUFE.omp_set_num_threads(1)
             qwords = csr_get_row_indices(meta_q, q)
             assert qwords.size in (1, 2)
             w1 = qwords[0]
@@ -230,7 +270,7 @@ class FAISS(BaseFilterANN):
 
                 assert len(docs) >= k, pdb.set_trace()
                 xb_subset = self.xb[docs]
-                _, Ii = faiss.knn(X[q : q + 1], xb_subset, k=k)
+                _, Ii = faissCUFE.knn(X[q : q + 1], xb_subset, k=k)
  
                 self.I[q, :] = docs[Ii.ravel()]
             else:
@@ -242,7 +282,7 @@ class FAISS(BaseFilterANN):
                     sel.set_query_words_mask(
                         int(w1), int(w2), self.binsig.query_signature(w1, w2))
 
-                params = faiss.SearchParametersIVF(sel=sel, nprobe=self.nprobe)
+                params = faissCUFE.SearchParametersIVF(sel=sel, nprobe=self.nprobe)
 
                 _, Ii = self.index.search(
                     X[q:q+1], k, params=params
@@ -261,7 +301,7 @@ class FAISS(BaseFilterANN):
             for q in range(nq):
                 process_one_row(q)
         else:
-            faiss.omp_set_num_threads(self.nt)
+            faissCUFE.omp_set_num_threads(self.nt)
             pool = ThreadPool(self.nt)
             list(pool.map(process_one_row, range(nq)))
 
@@ -269,7 +309,7 @@ class FAISS(BaseFilterANN):
         return self.I
 
     def set_query_arguments(self, query_args):
-        faiss.cvar.indexIVF_stats.reset()
+        faissCUFE.cvar.indexIVF_stats.reset()
         if "nprobe" in query_args:
             self.nprobe = query_args['nprobe']
             self.ps.set_index_parameters(self.index, f"nprobe={query_args['nprobe']}")
@@ -283,5 +323,3 @@ class FAISS(BaseFilterANN):
 
     def __str__(self):
         return f'Faiss({self.indexkey, self.qas})'
-
-   

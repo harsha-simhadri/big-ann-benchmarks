@@ -172,7 +172,10 @@ import numpy as np
 def intersect_sorted(a1, a2):
     n1, = a1.shape
     n2, = a2.shape
-    res = np.empty(n1 + n2, dtype=a1.dtype)
+    if n1 < n2:
+        res = np.empty(n1, dtype=a1.dtype)
+    else:
+        res = np.empty(n2, dtype=a1.dtype)
     nres = intersect_sorted_c(
         n1, faiss.swig_ptr(a1),
         n2, faiss.swig_ptr(a2),
