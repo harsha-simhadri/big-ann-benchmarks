@@ -11,7 +11,7 @@ yfcc-10M:
               "T": 128,
               "cutoff": 50000,
               "max_iter": 40,
-              "weight_classes": [75000, 300000],
+              "weight_classes": [150000, 300000],
               "build_params": [{"max_degree": 16,
                                 "limit": 500,
                                 "alpha": 1.175},
