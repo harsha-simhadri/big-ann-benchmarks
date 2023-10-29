@@ -112,9 +112,9 @@ class EPSearcherKmeansHNSW:
     def set_ef(self, efSearch: int) -> None:
         self.index.set_ef(efSearch)
 
-class diskann(BaseOODANN):
+class epdiskann(BaseOODANN):
     def __init__(self, metric, index_params):
-        self.name = "diskann"
+        self.name = "epdiskann"
         if (index_params.get("R")==None):
             print("Error: missing parameter R")
             return
