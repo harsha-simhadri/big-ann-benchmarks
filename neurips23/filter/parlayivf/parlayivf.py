@@ -74,6 +74,22 @@ class ParlayIVF(BaseFilterANN):
             self.index.set_sq_target_points(self._sq_target_points)
         else:
             self._sq_target_points = self._target_points
+
+        if 'beam_widths' in query_args:
+            self._beam_widths = query_args['beam_widths']
+        else:
+            self._beam_widths = [100, 100, 100]
+
+        if 'search_limits' in query_args:
+            self._search_limits = query_args['search_limit']
+        else:
+            self._search_limits = list(self._weight_classes) + [3_000_000]
+            
+        self.set_beamsearch_params()
+
+    def set_beamsearch_params(self):
+        for i in range(3):
+            self.index.set_query_params(wp.QueryParams(10, self._beam_widths[i], 1.35, self._search_limits[i], self._max_degree[i]), i)
         
     
     def fit(self, dataset):
@@ -134,7 +150,7 @@ class ParlayIVF(BaseFilterANN):
         return self.res
     
     def __str__(self):
-        return f"ParlayIVF(metric={self._metric}, dtype={self.dtype}, T={os.environ['PARLAY_NUM_THREADS']}, cluster_size={self._cluster_size:,}, cutoff={self._cutoff:,}, target_points={self._target_points:,}, tiny_cutoff={self._tiny_cutoff:,}, max_iter={self._max_iter:,}, weight_classes={self._weight_classes}, max_degrees={self._max_degree})"
+        return f"ParlayIVF(metric={self._metric}, dtype={self.dtype}, T={os.environ['PARLAY_NUM_THREADS']}, cluster_size={self._cluster_size:,}, cutoff={self._cutoff:,}, target_points={self._target_points:,}, tiny_cutoff={self._tiny_cutoff:,}, max_iter={self._max_iter:,}, weight_classes={self._weight_classes}, max_degrees={self._max_degree}, beam_widths={self._beam_widths}, search_limits={self._search_limits})"
     
     def index_name(self):
         return f"parlayivf_{self._metric}_{self.dtype}"

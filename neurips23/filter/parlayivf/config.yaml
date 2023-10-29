@@ -21,17 +21,68 @@ yfcc-10M:
                               {"max_degree": 12,
                                "limit": 500,
                                "alpha": 1.175}]
+            },
+            {"cluster_size": 5000, 
+              "T": 8,
+              "cutoff": 20000,
+              "max_iter": 40,
+              "weight_classes": [150000, 400000],
+              "build_params": [{"max_degree": 8,
+                                "limit": 500,
+                                "alpha": 1.175},
+                              {"max_degree": 10,
+                               "limit": 500,
+                               "alpha": 1.175},
+                              {"max_degree": 12,
+                               "limit": 500,
+                               "alpha": 1.175}]
+            },
+            {"cluster_size": 5000, 
+              "T": 8,
+              "cutoff": 20000,
+              "max_iter": 40,
+              "weight_classes": [150000, 600000],
+              "build_params": [{"max_degree": 8,
+                                "limit": 500,
+                                "alpha": 1.175},
+                              {"max_degree": 10,
+                               "limit": 500,
+                               "alpha": 1.175},
+                              {"max_degree": 12,
+                               "limit": 500,
+                               "alpha": 1.175}]
             }]
           query-args: |
-            [{"target_points": 20000,
-              "tiny_cutoff": 1000
+            [{"target_points": 15000,
+              "tiny_cutoff": 1500,
+              "beam_widths": [80, 90, 100]
               },
               {"target_points": 15000,
-              "tiny_cutoff": 1500
+               "tiny_cutoff": 0,
+               "beam_widths": [80, 90, 100]
+               },
+               {"target_points": 15000,
+              "tiny_cutoff": 1500,
+              "beam_widths": [100, 100, 100]
               },
-              {"target_points": 30000,
-              "tiny_cutoff": 1500
+              {"target_points": 15000,
+               "tiny_cutoff": 0,
+               "beam_widths": [100, 100, 100]
               },
-              {"target_points": 20000,
-               "tiny_cutoff": 0
-               }]
+              {"target_points": 15000,
+               "tiny_cutoff": 1500,
+               "beam_widths": [90, 90, 90]
+              },
+              {"target_points": 15000,
+               "tiny_cutoff": 0,
+               "beam_widths": [90, 90, 90]
+              },
+              {"target_points": 15000,
+               "tiny_cutoff": 1500,
+               "beam_widths": [80, 80, 80]
+              },
+              {"target_points": 15000,
+               "tiny_cutoff": 0,
+               "beam_widths": [80, 80, 80]
+              }]
+                   
