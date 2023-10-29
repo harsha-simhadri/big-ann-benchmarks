@@ -12,6 +12,9 @@ jobs:
           - algorithm: faiss
             dataset: random-filter-s
             track: filter
+          - algorithm: wm_filter
+            dataset: random-filter-s
+            track: filter
           - algorithm: linscan
             dataset: sparse-small
             track: sparse
