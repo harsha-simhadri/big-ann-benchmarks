@@ -112,7 +112,7 @@ class NGT(BaseOODANN):
                 "-of",
                 "-D" + self._metric,
                 "-d" + str(dim),
-                "-E18",
+                "-E17",
                 "-S" + str(self._edge_size_for_search),
                 "-e" + str(self._epsilon),
                 "-P0",
