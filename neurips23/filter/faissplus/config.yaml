@@ -1,0 +1,66 @@
+random-filter-s:
+    faissplus:
+      docker-tag: neurips23-filter-faissplus
+      module: neurips23.filter.faiss.faiss
+      constructor: FAISS
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+            [{"indexkey": "IVF1024,SQ8"}]
+          query-args: |
+            [{"nprobe": 1},
+              {"nprobe":2},
+              {"nprobe":4}]    
+random-s:
+    faissplus:
+      docker-tag: neurips23-filter-faissplus
+      module: neurips23.filter.faiss.faiss
+      constructor: FAISS
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+            [{"indexkey": "IVF1024,SQ8"}]
+          query-args: |
+            [{"nprobe": 1},
+              {"nprobe":2},
+              {"nprobe":4}]
+yfcc-10M-unfiltered:
+    faissplus:
+      docker-tag: neurips23-filter-faissplus
+      module: neurips23.filter.faiss.faiss
+      constructor: FAISS
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+            [{"indexkey": "IVF16384,SQ8", "binarysig": true, "threads": 16}]
+          query-args: |
+            [{"nprobe": 1}, {"nprobe": 4}, {"nprobe": 16}, {"nprobe": 64}]
+yfcc-10M:
+    faissplus:
+      docker-tag: neurips23-filter-faissplus
+      module: neurips23.filter.faiss.faiss
+      constructor: FAISS
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+            [{"indexkey": "IVF11264,SQ8", 
+              "binarysig": true, 
+              "threads": 16
+            }]
+          query-args: |
+            [
+            {"nprobe": 34, "mt_threshold": 0.00031}, 
+            {"nprobe": 32, "mt_threshold": 0.0003}, 
+            {"nprobe": 32, "mt_threshold": 0.00031}, 
+            {"nprobe": 34, "mt_threshold": 0.0003}, 
+            {"nprobe": 34, "mt_threshold": 0.00035}, 
+            {"nprobe": 32, "mt_threshold": 0.00033}, 
+            {"nprobe": 30, "mt_threshold": 0.00033}, 
+            {"nprobe": 32, "mt_threshold": 0.00035},
+            {"nprobe": 34, "mt_threshold": 0.00033},
+            {"nprobe": 40, "mt_threshold": 0.0003}
+            ]
