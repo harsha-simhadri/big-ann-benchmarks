@@ -35,13 +35,13 @@ text2image-10M:
               "M":32,
               "efConstruction":200}]
           query-args: |
-            [{"Ls":70, "T":8, "efSearch": 32},
-             {"Ls":70, "T":8, "efSearch": 128},
-             {"Ls":80, "T":8, "efSearch": 32},
-             {"Ls":80, "T":8, "efSearch": 128},
-             {"Ls":85, "T":8, "efSearch": 32}, 
-             {"Ls":90, "T":8, "efSearch": 32}, 
-             {"Ls":95, "T":8, "efSearch": 32}, 
-             {"Ls":100, "T":8, "efSearch": 32}, 
-             {"Ls":105, "T":8, "efSearch": 32}, 
-             {"Ls":110, "T":8, "efSearch": 32}]
+            [{"Ls":70, "T":8, "efSearch":32},
+             {"Ls":70, "T":8, "efSearch":128},
+             {"Ls":80, "T":8, "efSearch":32},
+             {"Ls":80, "T":8, "efSearch":128},
+             {"Ls":85, "T":8, "efSearch":32}, 
+             {"Ls":90, "T":8, "efSearch":32}, 
+             {"Ls":95, "T":8, "efSearch":32}, 
+             {"Ls":100, "T":8, "efSearch":32}, 
+             {"Ls":105, "T":8, "efSearch":32}, 
+             {"Ls":110, "T":8, "efSearch":32}]
