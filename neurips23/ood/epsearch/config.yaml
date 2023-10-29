@@ -7,7 +7,14 @@ random-xs:
       run-groups:
         base:
           args: |
-            [{"R":32, "L":50, "buildthreads":8, "alpha":1.2}]
+            [{"R":64,
+              "L":500,
+              "alpha":1.2,
+              "n_ep_candidates":32,
+              "buildthreads":8,
+              "ep_train":"id",
+              "M":32,
+              "efConstruction":200}]
           query-args: |
             [{"Ls":50, "T":8}]
 text2image-10M:
