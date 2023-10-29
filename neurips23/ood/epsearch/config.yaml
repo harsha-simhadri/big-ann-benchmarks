@@ -29,7 +29,7 @@ text2image-10M:
             [{"R":60,
               "L":500,
               "alpha":1.0,
-              "n_ep_candidates":8,
+              "n_ep_candidates":16384,
               "buildthreads":8,
               "ep_train":"id",
               "M":32,
