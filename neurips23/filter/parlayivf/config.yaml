@@ -62,7 +62,7 @@ yfcc-10M:
               {"target_points": 15000,
                "tiny_cutoff": 0,
                "beam_widths": [80, 75, 80]
-              }
+              },
               {"target_points": 15000,
                "tiny_cutoff": 1500,
                "beam_widths": [80, 75, 75]
