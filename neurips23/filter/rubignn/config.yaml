@@ -1,0 +1,21 @@
+yfcc-10M:
+    rubignn:
+      docker-tag: neurips23-filter-rubignn
+      module: neurips23.filter.rubignn.rubignn
+      constructor: diskann
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+            [{"R": 16, "L": 80, "stitched_R":80}]
+          query-args: |
+            [{"L": 50}, 
+             {"L": 80},
+             {"L": 90},
+             {"L": 100},
+             {"L": 105},
+             {"L": 110},
+             {"L": 120},
+             {"L": 140},
+            ]
+
