@@ -42,6 +42,7 @@ jobs:
           - algorithm: cufe
             dataset: random-xs
             track: streaming
+
       fail-fast: false
 
     steps:

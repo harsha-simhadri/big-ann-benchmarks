@@ -16,6 +16,7 @@ from scipy.sparse import csr_matrix
 def download(src, dst=None, max_size=None):
     """ download an URL, possibly cropped """
     if os.path.exists(dst):
+        print("Already exists")
         return
     print('downloading %s -> %s...' % (src, dst))
     if max_size is not None:

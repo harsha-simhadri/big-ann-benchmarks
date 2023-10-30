@@ -1,0 +1,50 @@
+random-filter-s:
+  wm_filter:
+    docker-tag: neurips23-filter-wm_filter
+    module: neurips23.filter.wm_filter.wm_filter
+    constructor: FAISS
+    base-args: [ "@metric" ]
+    run-groups:
+      base:
+        args: |
+          [{"indexkey": "IVF1024,SQ8", 
+            "threads": 8,
+            "train_size": 2000000,
+            "type": "direct"
+          }]
+        query-args: |
+          [
+          {"nprobe": 80,  "max_codes": 100, "selector_probe_limit": 80},
+          {"nprobe": 100,  "max_codes": 500, "selector_probe_limit": 100},
+          {"nprobe": 120,  "max_codes": 1000, "selector_probe_limit": 120},
+          {"nprobe": 140,  "max_codes": 1800, "selector_probe_limit": 140},
+          {"nprobe": 160,  "max_codes": 500, "selector_probe_limit": 160}, 
+           {"nprobe": 70,  "max_codes": 1000, "selector_probe_limit": 70}
+          ]
+yfcc-10M:
+    wm_filter:
+      docker-tag: neurips23-filter-wm_filter
+      module: neurips23.filter.wm_filter.wm_filter
+      constructor: FAISS
+      base-args: [ "@metric" ]
+      run-groups:
+        base:
+          args: |
+            [{"indexkey": "IVF1024,SQ8", 
+              "threads": 8,
+              "train_size": 2000000,
+              "type": "direct"
+            }]
+          query-args: |
+            [
+            {"nprobe": 80,  "max_codes": 1800, "selector_probe_limit": 80},
+            {"nprobe": 100,  "max_codes": 1800, "selector_probe_limit": 100},
+            {"nprobe": 120,  "max_codes": 1800, "selector_probe_limit": 120},
+            {"nprobe": 140,  "max_codes": 1800, "selector_probe_limit": 140},
+            {"nprobe": 160,  "max_codes": 1800, "selector_probe_limit": 160}, 
+            {"nprobe": 70,  "max_codes": 2100, "selector_probe_limit": 70},
+            {"nprobe": 100,  "max_codes": 2100, "selector_probe_limit": 100},
+            {"nprobe": 130,  "max_codes": 2100, "selector_probe_limit": 130},
+            {"nprobe": 160,  "max_codes": 2100, "selector_probe_limit": 160},
+            {"nprobe": 200,  "max_codes": 2100, "selector_probe_limit": 200}
+            ]
