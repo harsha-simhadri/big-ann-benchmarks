@@ -7,7 +7,7 @@ import sys
 
 sys.path.append("/home/app/SUSTech-WHU-Sparse")
 import hnswsparse
-from neurips23.ood.base import BaseSparseANN
+from neurips23.sparse.base import BaseSparseANN
 from benchmark.datasets import DATASETS, download_accelerated
 
 
@@ -30,7 +30,7 @@ class HnswSparse(BaseSparseANN):
         """
         self.ds = DATASETS[dataset]()
         assert self.ds.data_type() == "sparse"
-        d = self.ds.d
+        d = self.ds.get_dataset()
         indptr = d.indptr
         indices = d.indices
         data = d.data
@@ -38,10 +38,11 @@ class HnswSparse(BaseSparseANN):
         nnz = d.nnz
         nrow = d.shape[0]
         # build index
-        index_n = self.index_name
-        self.index = hnswsparse.build_index(
+        index_n = self._index_n
+        hnswsparse.build_index(
             index_n, nrow, indptr, indices, data, self.M, self.ef
         )
+        self.index = hnswsparse.load_index(index_n)
         print("Index status: " + str(self.index))
 
     def load_index(self, dataset):

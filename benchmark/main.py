@@ -42,9 +42,10 @@ def run_worker(args, queue):
     while not queue.empty():
         definition = queue.get()
         memory_margin = 500e6  # reserve some extra memory for misc stuff
-        mem_limit = int((psutil.virtual_memory().available - memory_margin))
-        #mem_limit = 128e9 # 128gb for competition
-        cpu_limit = "0-%d" % (multiprocessing.cpu_count() - 1)
+        # mem_limit = int((psutil.virtual_memory().available - memory_margin))
+        mem_limit = 128000000 # 128gb for competition
+        # cpu_limit = "0-%d" % (multiprocessing.cpu_count() - 1)
+        cpu_limit = "0-3"
 
         if args.nodocker:
             run_no_docker(definition, args.dataset, args.count,
