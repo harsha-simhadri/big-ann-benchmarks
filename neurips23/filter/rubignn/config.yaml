@@ -2,7 +2,7 @@ yfcc-10M:
     rubignn:
       docker-tag: neurips23-filter-rubignn
       module: neurips23.filter.rubignn.rubignn
-      constructor: diskann
+      constructor: rubignn
       base-args: ["@metric"]
       run-groups:
         base:
