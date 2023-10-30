@@ -37,13 +37,15 @@ After build the container, it will execute these commands inside the container:
 
 1. `mkdir -p /home/app/results/neurips23/filter/yfcc-10M/10/rubignn`: generate output directory
 
-2. `cd /home/app/ru-bignn-23/build && ./apps/search_contest --index_path_prefix /home/app/index_file/yfcc_R16_L80_SR80_stitched_index_label --query_file /home/app/data/yfcc100M/query.public.100K.u8bin --L 50 80 90 100 110 120 130 --query_filters_file /home/app/data/yfcc100M/query.metadata.public.100K.spmat --result_path_prefix /home/app/results/neurips23/filter/yfcc-10M/10/rubignn/rubignn`: execute the searching, it contain these parameters: 
+2. `cd /home/app/ru-bignn-23/build && ./apps/search_contest --index_path_prefix /home/app/index_file/yfcc_R16_L80_SR80_stitched_index_label --query_file /home/app/data/yfcc100M/query.public.100K.u8bin --L 50 80 90 100 110 120 130 --query_filters_file /home/app/data/yfcc100M/query.metadata.public.100K.spmat --result_path_prefix /home/app/results/neurips23/filter/yfcc-10M/10/rubignn/rubignn --runs 5 `: execute the searching, it contain these parameters: 
 
         `--index_path_prefix` index files directory and prefix;
         `--query_file` is the path for querys;
         `--query_filters_file` is the path for query filters;
         `--result_path_prefix`: path to store the results;
-        `--L`: search parameters.
+        `--runs`: run every search multiple times to get best search result as `run.py`
+        `--search_list`(or `--L`): search parameters.
+
 
 3. `python3 ../contest-scripts/output_bin_to_hdf5.py /home/app/results/neurips23/filter/yfcc-10M/10/rubignn/rubignn_search_metadata.txt /home/app`: transfer the original bin result to hdf5 results.
 
