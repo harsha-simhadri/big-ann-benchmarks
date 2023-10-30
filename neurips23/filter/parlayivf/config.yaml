@@ -9,9 +9,9 @@ yfcc-10M:
           args: |
             [{"cluster_size": 2500, 
               "T": 8,
-              "cutoff": 20000,
+              "cutoff": 10000,
               "max_iter": 40,
-              "weight_classes": [50000, 300000],
+              "weight_classes": [80000, 400000],
               "build_params": [{"max_degree": 8,
                                 "limit": 500,
                                 "alpha": 1.175},
