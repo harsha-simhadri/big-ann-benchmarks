@@ -157,6 +157,7 @@ class mysteryann(BaseOODANN):
         print(ds.get_dataset_fn())
 
         start = time.time()
+        m = self.translate_dist_fn(str(ds.distance()))
         if ds.d == 200:
             m = self.translate_dist_fn(str(ds.distance()+'_build'))
         else:
