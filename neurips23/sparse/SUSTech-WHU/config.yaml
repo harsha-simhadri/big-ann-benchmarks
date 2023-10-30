@@ -9,7 +9,7 @@ sparse-small:
           args: |
             [{"M":16,"ef":200}]
           query-args: |
-            [{"ef:10"},{"ef":20},{"ef":32},{"ef":60},{"ef":70}]
+            [{"ef":10},{"ef":20},{"ef":32},{"ef":60},{"ef":70}]
 # sparse-1M:
 #     sustech-whu:
 #       docker-tag: neurips23-sparse-sustech-whu
