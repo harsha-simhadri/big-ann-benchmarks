@@ -27,7 +27,7 @@ import math
 import struct
 import sys
 print(sys.version)
-CPU_LIMIT = 16 #multiprocessing.cpu_count() 
+CPU_LIMIT = multiprocessing.cpu_count() 
 swig_ptr = py_puck_api.swig_ptr
 class Puck(BaseStreamingANN):
     def __init__(self, metric, index_params):
