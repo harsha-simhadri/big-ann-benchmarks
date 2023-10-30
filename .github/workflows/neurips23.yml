@@ -12,6 +12,9 @@ jobs:
           - algorithm: faiss
             dataset: random-filter-s
             track: filter
+          - algorithm: wm_filter
+            dataset: random-filter-s
+            track: filter
           - algorithm: linscan
             dataset: sparse-small
             track: sparse
@@ -27,6 +30,18 @@ jobs:
           - algorithm: cufe
             dataset: random-filter-s
             track: filter
+          - algorithm: vamana
+            dataset: random-xs
+            track: ood
+          - algorithm: sustech-ood
+            dataset: random-xs
+            track: ood
+          - algorithm: epsearch
+            dataset: random-xs
+            track: ood
+          - algorithm: mysteryann
+            dataset: random-xs
+            track: ood
       fail-fast: false
 
     steps:
