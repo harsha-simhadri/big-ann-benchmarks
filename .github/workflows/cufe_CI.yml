@@ -1,5 +1,5 @@
-# Contributed by @GuilhemN in https://github.com/erikbern/ann-benchmarks/pull/233
-name: Billion-Scale ANN Benchmarks, NeurIPS 2023
+# Contributed by team cufe
+name: cufe_CI
 
 on: [push, pull_request]
 
@@ -9,21 +9,9 @@ jobs:
     strategy:
       matrix:
         include:
-          - algorithm: faiss
-            dataset: random-filter-s
-            track: filter
-          - algorithm: linscan
-            dataset: sparse-small
-            track: sparse
-          - algorithm: nle
-            dataset: sparse-small
-            track: sparse
-          - algorithm: diskann
+          - algorithm: cufe
             dataset: random-xs
             track: streaming
-          - algorithm: diskann
-            dataset: random-xs
-            track: ood
       fail-fast: false
 
     steps:
@@ -45,7 +33,7 @@ jobs:
     - name: Run the benchmark
       run: |
         python create_dataset.py --dataset $DATASET
-        python run.py --algorithm $ALGO --max-n-algorithms 2 --neurips23track $TRACK --dataset $DATASET --timeout 600
+        python run.py --neurips23track $TRACK --algorithm $ALGO --dataset $DATASET --runbook_path neurips23/streaming/simple_runbook.yaml
         sudo chmod -R 777 results/
         if [ $TRACK != streaming ]
         then
