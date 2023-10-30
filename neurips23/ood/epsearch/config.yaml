@@ -25,9 +25,9 @@ text2image-10M:
              {"Ls":105, "T":8, "efSearch":32},
              {"Ls":110, "T":8, "efSearch":16}, 
              {"Ls":110, "T":8, "efSearch":32}, 
-             {"Ls":110, "T":8, "efSearch":64}, 
              {"Ls":115, "T":8, "efSearch":16}, 
              {"Ls":115, "T":8, "efSearch":32}, 
              {"Ls":120, "T":8, "efSearch":32}, 
+             {"Ls":125, "T":8, "efSearch":32}, 
              {"Ls":130, "T":8, "efSearch":32}, 
              {"Ls":140, "T":8, "efSearch":32}]
