@@ -29,7 +29,7 @@ RUN touch /etc/profile.d/intel.sh
 RUN echo ".  /opt/intel/oneapi/mkl/latest/env/vars.sh" >> /etc/profile.d/intel.sh
 RUN . /etc/profile.d/intel.sh
 
-ENV CMAKE_ARGS "-DMKLROOT=/opt/intel/oneapi/mkl/latest/ -DBLA_VENDOR=Intel10_64lp_seq -DBLA_STATIC=ON -DGIT_URL=https://github.baidu-int.com "
+ENV CMAKE_ARGS "-DMKLROOT=/opt/intel/oneapi/mkl/latest/ -DBLA_VENDOR=Intel10_64lp_seq -DBLA_STATIC=ON "
 RUN  git config --global http.sslVerify false
 
 RUN git clone -b filter https://github.com/baidu/puck.git
