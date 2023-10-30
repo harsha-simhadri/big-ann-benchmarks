@@ -7,7 +7,7 @@ random-filter-s:
       run-groups:
         base:
           args: |
-                [{ "index_type": 3, "C":100, "F":100, "FN":16, "N":0}]
+                [{ "index_type": 3, "C":100, "F":100, "FN":10, "N":0}]
           query-args: |
                 [ 
                     {"radius_rate":1.00 ,"search_coarse_count":30, "filter_topk":135},                   
@@ -26,7 +26,7 @@ random-s:
       run-groups:
         base:
           args: |
-                [{ "index_type": 1, "C":100, "F":100, "FN":16, "N":0}]
+                [{ "index_type": 1, "C":100, "F":100, "FN":10, "N":0}]
           query-args: |
                 [ 
                     {"radius_rate":1.00 ,"search_coarse_count":30, "filter_topk":135},                   
