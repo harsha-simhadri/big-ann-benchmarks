@@ -15,22 +15,24 @@ import pylinscancufe
 class Linscan(BaseANN):
     def __init__(self, metric, index_params):
         assert metric == "ip"
-        self.name = "linscan"
+        self.name = "cufe_linscan"
         self._index = pylinscancufe.LinscanIndex()
         self._budget = np.infty
+        self.scale = 32767/3.579759 # need to iterate over the dataset to get the maximum value 3.57959
         print("Linscan index initialized: " + str(self._index))
 
     def fit(self, dataset): # e.g. dataset = "sparse-small"
 
         self.ds = DATASETS[dataset]()
         assert self.ds.data_type() == "sparse"
+        
 
         N_VEC_LIMIT = 100000 # batch size
         it = self.ds.get_dataset_iterator(N_VEC_LIMIT)
         for d in it:
             for i in range(d.shape[0]):
                 d1 = d.getrow(i)
-                self._index.insert(dict(zip(d1.indices, d1.data)))
+                self._index.insert(dict(zip(d1.indices, np.round(d1.data*self.scale))))
 
         print("Index status: " + str(self._index))
 
@@ -43,14 +45,14 @@ class Linscan(BaseANN):
 
     def query(self, X, k):
         """Carry out a batch query for k-NN of query set X."""
-        threshold_mult = 0.4776719 # The mean of the training data is 0.4776719 and the median of the training data is 0.30324435
+        threshold_mult = np.round(0.4776719*self.scale) # The mean of the training data is 0.4776719 and the median of the training data is 0.30324435
         nq = X.shape[0]
 
         # prepare the queries as a list of dicts
         self.queries = []
         for i in range(nq):
             qc = X.getrow(i)
-            q = dict(zip(qc.indices, qc.data))
+            q = dict(zip(qc.indices, np.round(qc.data*self.scale)))
             self.queries.append(q)
 
         res = self._index.retrieve_parallel(self.queries, k, threshold_mult, self._budget)
