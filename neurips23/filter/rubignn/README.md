@@ -52,4 +52,3 @@ After build the container, it will execute these commands inside the container:
 Execute the build script: `docker_run_container_build.sh`.
 
 TODO: add test on small dataset
-TODO: add docker script to build index
