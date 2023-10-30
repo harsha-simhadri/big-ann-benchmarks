@@ -69,11 +69,11 @@ if __name__=="__main__":
   result_prefix=args[1]
   search_metadata=pd.read_csv(search_metadata_path,names=['result_bin_path','build_time','index_size','algo','dataset','best_search_time','name','query_argument','run_count','distance','type','count','search_times'])
   for _,row in search_metadata.iterrows():
-    fn = get_result_filename(row['dataset'], row['count'], "R16_L80_SR96_",row['algo'],  row['query_argument'], 'filter', None) + '.hdf5'
+    fn = get_result_filename(row['dataset'], row['count'], "R16_L80_SR80_",row['algo'],  row['query_argument'], 'filter', None) + '.hdf5'
     fn = os.path.join(result_prefix,fn)
     head, tail = os.path.split(fn)
     print(fn)
-    name_with_para = "rubignn(('R16_L80_SR96', {{'search_list': {} }}))".format(row['query_argument'])
+    name_with_para = "rubignn(('R16_L80_SR80', {{'search_list': {} }}))".format(row['query_argument'])
     attrs = {
         "best_search_time": row['best_search_time'],
         "name": name_with_para,
