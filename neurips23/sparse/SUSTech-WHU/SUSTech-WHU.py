@@ -42,6 +42,7 @@ class HnswSparse(BaseSparseANN):
         hnswsparse.build_index(
             index_n, nrow, indptr, indices, data, self.M, self.ef
         )
+        print("build success")
         self.index = hnswsparse.load_index(index_n)
         print("Index status: " + str(self.index))
 
@@ -79,27 +80,27 @@ class HnswSparse(BaseSparseANN):
     def __str__(self):
         return f"{self._query_args})"
 
-    def gen_probility_prune(filename):
-        with open(filename, "r") as f:
-            lines = f.readlines()
-            sum_score = 0
-            for line in lines:
-                x, y = map(int, line.split())
-                sum_score += y
-            probility = []
-            mean_score = sum_score / len(lines)
-            sum_score = 0
-            for line in lines:
-                x, y = map(int, line.split())
-                if y > mean_score:
-                    sum_score += y
-            for line in lines:
-                x, y = map(int, line.split())
-                if y > mean_score:
-                    probility.append((x, y / sum_score))
-        with open("probility.txt", "w") as f:
-            for p in probility:
-                f.write(str(p[0]) + " " + str(p[1]) + "\n")
+    # def gen_probility_prune(filename):
+    #     with open(filename, "r") as f:
+    #         lines = f.readlines()
+    #         sum_score = 0
+    #         for line in lines:
+    #             x, y = map(int, line.split())
+    #             sum_score += y
+    #         probility = []
+    #         mean_score = sum_score / len(lines)
+    #         sum_score = 0
+    #         for line in lines:
+    #             x, y = map(int, line.split())
+    #             if y > mean_score:
+    #                 sum_score += y
+    #         for line in lines:
+    #             x, y = map(int, line.split())
+    #             if y > mean_score:
+    #                 probility.append((x, y / sum_score))
+    #     with open("probility.txt", "w") as f:
+    #         for p in probility:
+    #             f.write(str(p[0]) + " " + str(p[1]) + "\n")
         # print(len(probility))
         # return probility
 
