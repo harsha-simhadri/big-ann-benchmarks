@@ -21,10 +21,11 @@ yfcc-10M:
                               {"max_degree": 12,
                                "limit": 500,
                                "alpha": 1.175}]
+              "bitvector_cutoff": 10000
             }]
           query-args: |
             [{"target_points": 15000,
-              "tiny_cutoff": 1500,
+              "tiny_cutoff": 5000,
               "beam_widths": [80, 90, 100]
               },
               {"target_points": 15000,
@@ -32,7 +33,7 @@ yfcc-10M:
                "beam_widths": [80, 90, 100]
                },
                {"target_points": 15000,
-              "tiny_cutoff": 1500,
+              "tiny_cutoff": 5000,
               "beam_widths": [100, 100, 100]
               },
               {"target_points": 15000,
@@ -40,7 +41,7 @@ yfcc-10M:
                "beam_widths": [100, 100, 100]
               },
               {"target_points": 15000,
-               "tiny_cutoff": 1500,
+               "tiny_cutoff": 5000,
                "beam_widths": [90, 90, 90]
               },
               {"target_points": 15000,
@@ -48,7 +49,7 @@ yfcc-10M:
                "beam_widths": [90, 90, 90]
               },
               {"target_points": 15000,
-               "tiny_cutoff": 1500,
+               "tiny_cutoff": 5000,
                "beam_widths": [80, 80, 80]
               },
               {"target_points": 15000,
@@ -56,7 +57,7 @@ yfcc-10M:
                "beam_widths": [80, 80, 80]
               },
               {"target_points": 15000,
-               "tiny_cutoff": 1500,
+               "tiny_cutoff": 5000,
                "beam_widths": [80, 75, 80]
               },
               {"target_points": 15000,
@@ -64,7 +65,7 @@ yfcc-10M:
                "beam_widths": [80, 75, 80]
               },
               {"target_points": 15000,
-               "tiny_cutoff": 1500,
+               "tiny_cutoff": 5000,
                "beam_widths": [80, 75, 75]
               },
               {"target_points": 15000,
