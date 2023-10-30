@@ -1,8 +1,8 @@
 sparse-small:
-    linscan:
-      docker-tag: neurips23-sparse-linscan
+    cufe:
+      docker-tag: neurips23-sparse-cufe
       module: neurips23.sparse.cufe.linscan 
-      constructor: Linscan
+      constructor: LinscanCUFE
       base-args: ["@metric"]
       run-groups:
         base:
@@ -11,10 +11,10 @@ sparse-small:
           query-args: |
             [{"budget":1},{"budget":0.5},{"budget":0.4},{"budget":0.3},{"budget":0.25},{"budget":0.2},{"budget":0.15},{"budget":0.1},{"budget":0.075},{"budget":0.05}]
 sparse-1M:
-    linscan:
-      docker-tag: neurips23-sparse-linscan
+    cufe:
+      docker-tag: neurips23-sparse-cufe
       module: neurips23.sparse.cufe.linscan
-      constructor: Linscan
+      constructor: LinscanCUFE
       base-args: ["@metric"]
       run-groups:
         base:
@@ -23,10 +23,10 @@ sparse-1M:
           query-args: |
             [{"budget":0.5},{"budget":1},{"budget":2},{"budget":4},{"budget":5},{"budget":6},{"budget":7},{"budget":8},{"budget":10}]
 sparse-full:
-    linscan:
-      docker-tag: neurips23-sparse-linscan
+    cufe:
+      docker-tag: neurips23-sparse-cufe
       module: neurips23.sparse.cufe.linscan
-      constructor: Linscan
+      constructor: LinscanCUFE
       base-args: ["@metric"]
       run-groups:
         base:

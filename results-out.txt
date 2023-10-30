@@ -1,0 +1,21 @@
+writing output to results/sparse-full.png
+Computing knn metrics
+  0:                                                                     cufe_linscan        0.896       74.347
+Computing knn metrics
+  1:                                                                     cufe_linscan        0.946       60.417
+Computing knn metrics
+  2:                                                                     cufe_linscan        0.884       77.660
+Computing knn metrics
+  3:                                                                     cufe_linscan        0.684      120.973
+Computing knn metrics
+  4:                                                                     cufe_linscan        0.830       92.788
+Computing knn metrics
+  5:                                                                     cufe_linscan        0.996       37.213
+Computing knn metrics
+  6:                                                                     cufe_linscan        0.901       72.845
+Computing knn metrics
+  7:                                                                     cufe_linscan        0.891       75.789
+Computing knn metrics
+  8:                                                                     cufe_linscan        0.879       79.467
+Computing knn metrics
+  9:                                                                     cufe_linscan        0.423      143.560

@@ -12,7 +12,7 @@ import pylinscancufe
 
 # Build parameters: none
 # Query parameters: budget (in ms) for computing all the scores
-class Linscan(BaseANN):
+class LinscanCUFE(BaseANN):
     def __init__(self, metric, index_params):
         assert metric == "ip"
         self.name = "cufe_linscan"
@@ -32,7 +32,7 @@ class Linscan(BaseANN):
         for d in it:
             for i in range(d.shape[0]):
                 d1 = d.getrow(i)
-                self._index.insert(dict(zip(d1.indices, np.round(d1.data*self.scale))))
+                self._index.insert(dict(zip(d1.indices, np.round(d1.data*self.scale).astype(int))))
 
         print("Index status: " + str(self._index))
 
@@ -45,14 +45,14 @@ class Linscan(BaseANN):
 
     def query(self, X, k):
         """Carry out a batch query for k-NN of query set X."""
-        threshold_mult = np.round(0.4776719*self.scale) # The mean of the training data is 0.4776719 and the median of the training data is 0.30324435
+        threshold_mult = int(np.round(0.4776719*self.scale)) # The mean of the training data is 0.4776719 and the median of the training data is 0.30324435
         nq = X.shape[0]
 
         # prepare the queries as a list of dicts
         self.queries = []
         for i in range(nq):
             qc = X.getrow(i)
-            q = dict(zip(qc.indices, np.round(qc.data*self.scale)))
+            q = dict(zip(qc.indices, np.round(qc.data*self.scale).astype(int)))
             self.queries.append(q)
 
         res = self._index.retrieve_parallel(self.queries, k, threshold_mult, self._budget)
