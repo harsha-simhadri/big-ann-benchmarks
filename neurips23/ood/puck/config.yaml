@@ -1,7 +1,7 @@
 random-xs:
     puck:
       docker-tag: neurips23-ood-puck
-      module: neurips23.ood.puck.puck_inmem
+      module: neurips23.ood.puck.puck
       constructor: Puck
       base-args: ["@metric"]
       run-groups:
@@ -18,7 +18,7 @@ random-xs:
 text2image-10M:
     puck:
       docker-tag: neurips23-ood-puck
-      module: neurips23.ood.puck.puck_inmem
+      module: neurips23.ood.puck.puck
       constructor: Puck
       base-args: ["@metric"]
       run-groups:
