@@ -19,9 +19,9 @@ random-xs:
              {"L_pq":89, "T":8},
              {"L_pq":92, "T":8}]
 text2image-10M:
-    mysteryann_order_sq8: 
-      docker-tag: neurips23-ood-mysteryann_order_sq8
-      module: neurips23.ood.mysteryann_order_sq8.mysteryann
+    mysteryann: 
+      docker-tag: neurips23-ood-mysteryann
+      module: neurips23.ood.mysteryann.mysteryann
       constructor: mysteryann
       base-args: ["@metric"]
       run-groups:
