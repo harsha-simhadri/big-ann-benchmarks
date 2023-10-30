@@ -6,7 +6,7 @@ random-xs:
       base-args: ["@metric"]
       run-groups:
         base:
-          args: [{"index_type":2, "C":1000, "F":1000,"tinker_neighborhood":16,"tinker_construction":200}]
+          args: [{"index_type":2, "C":1000, "F":1000,"tinker_neighborhood":10,"tinker_construction":200}]
           query-args: |
                 [
                   {"search_coarse_count":50, "tinker_search_range": 100},
