@@ -133,6 +133,8 @@ class Puck(BaseFilterANN):
         py_puck_api.update_gflag('train_points_count', "5000000")
         py_puck_api.update_gflag('pq_train_points_count', "500000")
         print(self.index_name(dataset)) 
+        if if ds.search_type() != "knn_filtered":
+            py_puck_api.update_gflag('index_type', "1")
         print("start to train")  
         self.index.build(ds.nb)
         self.load_index(dataset) 
