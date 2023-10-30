@@ -8,9 +8,7 @@ msturing-30M-clustered:
         base:
           args: |
                 [
-                    { "index_type": 1, "C":100, "F":100, "FN":8, "N":0},
-                    { "index_type": 1, "C":200, "F":200, "FN":8, "N":0},
-                    { "index_type": 1, "C":200, "F":500, "FN":8, "N":0}
+                    { "index_type": 1, "C":200, "F":200, "FN":8, "N":0}
                 ]
           query-args: |
                 [
