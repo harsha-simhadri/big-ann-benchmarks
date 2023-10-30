@@ -12,3 +12,4 @@ WORKDIR /home/app/ru-bignn-23
 RUN mkdir build
 RUN cmake -S . -B build  -DCMAKE_BUILD_TYPE=Release
 RUN cmake --build build -- -j
+WORKDIR /home/app
