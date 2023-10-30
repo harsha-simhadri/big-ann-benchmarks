@@ -94,21 +94,21 @@ if __name__ == "__main__":
         for dataset_name in datasets:
             print(f"Looking at track:{track}, dataset:{dataset_name}")
             dataset = DATASETS[dataset_name]()
+            runbook_paths = [None]
             if track == 'streaming':
-                for runbook_path in ['neurips23/streaming/simple_runbook.yaml', 
+                runbook_paths = ['neurips23/streaming/simple_runbook.yaml',
                                     'neurips23/streaming/clustered_runbook.yaml',
                                     'neurips23/streaming/delete_runbook.yaml',
-                                    'neurips23/streaming/final_runbook.yaml']:
-                    results = load_all_results(dataset_name, neurips23track=track, runbook_path=runbook_path)
-                    run_metrics = compute_metrics_all_runs(dataset, dataset_name, results, args.recompute, \
-                        args.sensors, args.search_times, args.private_query, \
-                        neurips23track=track, runbook_path=runbook_path)
-                    dfs.append(pd.DataFrame(cleaned_run_metric(run_metrics)))
-            else:
-                results = load_all_results(dataset_name, neurips23track=track)
-                run_metrics = compute_metrics_all_runs(dataset, dataset_name, results, args.recompute, \
-                        args.sensors, args.search_times, args.private_query, neurips23track=track)
-                dfs.append(pd.DataFrame(cleaned_run_metric(run_metrics)))
+                                    'neurips23/streaming/final_runbook.yaml']
+            for runbook_path in runbook_paths:
+                results = load_all_results(dataset_name, neurips23track=track, runbook_path=runbook_path)
+                results = compute_metrics_all_runs(dataset, dataset_name, results, args.recompute, \
+                    args.sensors, args.search_times, args.private_query, \
+                    neurips23track=track, runbook_path=runbook_path)
+                results = cleaned_run_metric(results)
+                if len(results) > 0:
+                    dfs.append(pd.DataFrame(results))
+
     dfs = [e for e in dfs if len(e) > 0]
     if len(dfs) > 0:
         data = pd.concat(dfs)
