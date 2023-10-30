@@ -31,3 +31,5 @@ azcopy copy 'https://rubignn.blob.core.windows.net/biganncontest-96/index_file_9
       run `docker_run_container_search.sh`. **Note: may need to modify the directory path(CONTEST_REPO_PATH and INDEX_FILE_PATH)**
 
 TODO: Transfer the result to hdf5 file
+
+TODO: ADD Test on small dataset
