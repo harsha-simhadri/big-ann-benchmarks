@@ -37,7 +37,6 @@ class Puck(BaseFilterANN):
         self.topk = 10
         self.n = 0
         self.build_memory_usage = -1
-        self.index_type = 1
         print("after init")
 
     def init_dataset_key(self, dataset):
@@ -73,10 +72,7 @@ class Puck(BaseFilterANN):
             index_dir = os.path.join(os.getcwd(), self.index_name(dataset))
             os.makedirs(index_dir, mode=0o777, exist_ok=True)
         
-        if if ds.search_type() != "knn_filtered":
-            self.index_type = 1
-            py_puck_api.update_gflag('index_type', "1")
-        if self.index_type == 3:
+        if ds.search_type() == "knn_filtered":
             meta_indices_file_name = self.index_name(dataset) + "/indices.dat"
             meta_indices_file = open(meta_indices_file_name, 'wb')
             meta_indptr_file_name = self.index_name(dataset) + "/indptr.dat"
@@ -127,7 +123,7 @@ class Puck(BaseFilterANN):
     
     def fit(self, dataset):
         print("start fit")
-        
+
         #self.check_feature(dataset)
         p = Process(target=self.check_feature, args=(dataset,))
         p.start()
@@ -174,7 +170,6 @@ class Puck(BaseFilterANN):
             py_puck_api.update_gflag('tinker_construction', "%d"%(self._index_params['tinker_construction']))
             self.indexkey += "_Construction%s"%(self._index_params['tinker_construction'])
         if "index_type" in self._index_params:
-            self.index_type = int(self._index_params['index_type'])
             py_puck_api.update_gflag('index_type', "%d"%(self._index_params['index_type']))
 
     def index_name(self, name):
