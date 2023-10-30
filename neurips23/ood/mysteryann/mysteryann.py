@@ -16,8 +16,8 @@ import time
 
 def download_train(src, dst=None, max_size=None):
     """ download an URL, possibly cropped """
-    if os.path.exists(dst):
-        return
+    # if os.path.exists(dst):
+    #     return
     print('downloading %s -> %s...' % (src, dst))
     if max_size is not None:
         print("   stopping at %d bytes" % max_size)
