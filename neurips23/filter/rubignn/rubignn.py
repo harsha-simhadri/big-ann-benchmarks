@@ -6,6 +6,7 @@ class BaseFilterANN(BaseANN):
         Carry out a batch query for k-NN of query set X with associated filter.
         Query X[i] has asks for k-NN in the index that pass all filters in filter[i].
         """
+        print("We have custom setup")
         raise NotImplementedError()
     
     def track(self):

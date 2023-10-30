@@ -15,6 +15,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt install -y git make cmake g++ libaio-dev 
 WORKDIR /home/app
 RUN git clone https://github.com/rutgers-db/ru-bignn-23.git --branch main
 WORKDIR /home/app/ru-bignn-23
+RUN python3 -m pip install -r requirements_py3.10.txt
 RUN mkdir build
 RUN cmake -S . -B build  -DCMAKE_BUILD_TYPE=Release
 RUN cmake --build build -- -j
