@@ -1,5 +1,5 @@
 random-xs:
-    puck:
+    puck-fizz:
       docker-tag: neurips23-ood-puck-fizz
       module: neurips23.ood.puck-fizz.puck
       constructor: Puck
