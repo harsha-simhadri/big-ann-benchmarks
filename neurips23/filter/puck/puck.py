@@ -37,6 +37,7 @@ class Puck(BaseFilterANN):
         self.topk = 10
         self.n = 0
         self.build_memory_usage = -1
+        self.index_type = 1
         print("after init")
 
     def init_dataset_key(self, dataset):
@@ -71,24 +72,28 @@ class Puck(BaseFilterANN):
         if not os.path.exists(self.index_name(dataset)):
             index_dir = os.path.join(os.getcwd(), self.index_name(dataset))
             os.makedirs(index_dir, mode=0o777, exist_ok=True)
-         
-        meta_indices_file_name = self.index_name(dataset) + "/indices.dat"
-        meta_indices_file = open(meta_indices_file_name, 'wb')
-        meta_indptr_file_name = self.index_name(dataset) + "/indptr.dat"
-        meta_indptr_file = open(meta_indptr_file_name, 'wb')
         
-        meta_to_write = ds.get_dataset_metadata()
-        buf = struct.pack('i', len(meta_to_write.indices))
-        meta_indices_file.write(buf)
-        buf = struct.pack('i' * len(meta_to_write.indices), *(meta_to_write.indices))
-        meta_indices_file.write(buf)
-        meta_indices_file.close() 
-        
-        buf = struct.pack('i', len(meta_to_write.indptr))
-        meta_indptr_file.write(buf)
-        buf = struct.pack('i' * len(meta_to_write.indptr), *(meta_to_write.indptr))
-        meta_indptr_file.write(buf)
-        meta_indptr_file.close() 
+        if if ds.search_type() != "knn_filtered":
+            self.index_type = 1
+            py_puck_api.update_gflag('index_type', "1")
+        if self.index_type == 3:
+            meta_indices_file_name = self.index_name(dataset) + "/indices.dat"
+            meta_indices_file = open(meta_indices_file_name, 'wb')
+            meta_indptr_file_name = self.index_name(dataset) + "/indptr.dat"
+            meta_indptr_file = open(meta_indptr_file_name, 'wb')
+            
+            meta_to_write = ds.get_dataset_metadata()
+            buf = struct.pack('i', len(meta_to_write.indices))
+            meta_indices_file.write(buf)
+            buf = struct.pack('i' * len(meta_to_write.indices), *(meta_to_write.indices))
+            meta_indices_file.write(buf)
+            meta_indices_file.close() 
+            
+            buf = struct.pack('i', len(meta_to_write.indptr))
+            meta_indptr_file.write(buf)
+            buf = struct.pack('i' * len(meta_to_write.indptr), *(meta_to_write.indptr))
+            meta_indptr_file.write(buf)
+            meta_indptr_file.close() 
         
         #训练用目录         
         if not os.path.exists('mid-data'):
@@ -122,6 +127,7 @@ class Puck(BaseFilterANN):
     
     def fit(self, dataset):
         print("start fit")
+        
         #self.check_feature(dataset)
         p = Process(target=self.check_feature, args=(dataset,))
         p.start()
@@ -133,8 +139,7 @@ class Puck(BaseFilterANN):
         py_puck_api.update_gflag('train_points_count', "5000000")
         py_puck_api.update_gflag('pq_train_points_count', "500000")
         print(self.index_name(dataset)) 
-        if if ds.search_type() != "knn_filtered":
-            py_puck_api.update_gflag('index_type', "1")
+
         print("start to train")  
         self.index.build(ds.nb)
         self.load_index(dataset) 
@@ -169,6 +174,7 @@ class Puck(BaseFilterANN):
             py_puck_api.update_gflag('tinker_construction', "%d"%(self._index_params['tinker_construction']))
             self.indexkey += "_Construction%s"%(self._index_params['tinker_construction'])
         if "index_type" in self._index_params:
+            self.index_type = int(self._index_params['index_type'])
             py_puck_api.update_gflag('index_type', "%d"%(self._index_params['index_type']))
 
     def index_name(self, name):
