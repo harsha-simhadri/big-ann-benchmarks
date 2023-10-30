@@ -87,9 +87,9 @@ class ParlayIVF(BaseFilterANN):
             
         self.set_beamsearch_params()
 
-    def set_beamsearch_params(self):
+    def set_beamsearch_params(self, k=10):
         for i in range(3):
-            self.index.set_query_params(wp.QueryParams(10, self._beam_widths[i], 1.35, self._search_limits[i], self._max_degree[i]), i)
+            self.index.set_query_params(wp.QueryParams(k, self._beam_widths[i], 1.35, self._search_limits[i], self._max_degree[i]), i)
         
     
     def fit(self, dataset):
@@ -120,9 +120,10 @@ class ParlayIVF(BaseFilterANN):
     def filtered_query(self, X, filter, k):
         start = time.time()
 
-        # it's possible the below construction takes as long as 10 seconds, which is probably too long
-        # filters = [wp.QueryFilter(*filter[i, :].nonzero()[1]) for i in range(filter.shape[0])]
+        if k != 10:
+            self.set_beamsearch_params(k)
 
+        # there's almost certainly a way to do this in less than 0.1s, which costs us ~200 QPS
         rows, cols = filter.nonzero()
         filter_dict = defaultdict(list)
 

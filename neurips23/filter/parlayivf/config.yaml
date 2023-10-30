@@ -20,7 +20,7 @@ yfcc-10M:
                                "alpha": 1.175},
                               {"max_degree": 12,
                                "limit": 500,
-                               "alpha": 1.175}]
+                               "alpha": 1.175}],
               "bitvector_cutoff": 10000
             }]
           query-args: |
