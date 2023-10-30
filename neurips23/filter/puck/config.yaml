@@ -1,0 +1,57 @@
+random-filter-s:
+    faiss:
+      docker-tag: neurips23-filter-faiss
+      module: neurips23.filter.faiss.faiss
+      constructor: FAISS
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+            [{"indexkey": "IVF1024,SQ8"}]
+          query-args: |
+            [{"nprobe": 1},
+              {"nprobe":2},
+              {"nprobe":4}]    
+random-s:
+    faiss:
+      docker-tag: neurips23-filter-faiss
+      module: neurips23.filter.faiss.faiss
+      constructor: FAISS
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+            [{"indexkey": "IVF1024,SQ8"}]
+          query-args: |
+            [{"nprobe": 1},
+              {"nprobe":2},
+              {"nprobe":4}]
+yfcc-10M-unfiltered:
+    faiss:
+      docker-tag: neurips23-filter-faiss
+      module: neurips23.filter.faiss.faiss
+      constructor: FAISS
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+            [{"indexkey": "IVF16384,SQ8", "binarysig": true, "threads": 16}]
+          query-args: |
+            [{"nprobe": 1}, {"nprobe": 4}, {"nprobe": 16}, {"nprobe": 64}]
+yfcc-10M:
+    puck:
+      docker-tag: neurips23-filter-puck
+      module: neurips23.filter.puck.puck
+      constructor: Puck
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+                [{ "index_type": 3, "C":1000, "F":1000, "FN":16, "N":0}]
+          query-args: |
+                [ 
+                    {"radius_rate":1.00 ,"search_coarse_count":30, "filter_topk":105},                   
+                    {"radius_rate":1.00 ,"search_coarse_count":30, "filter_topk":110},                   
+                    {"radius_rate":1.00 ,"search_coarse_count":30, "filter_topk":115},                   
+                    {"radius_rate":1.00 ,"search_coarse_count":30, "filter_topk":120 }                 
+                ]
