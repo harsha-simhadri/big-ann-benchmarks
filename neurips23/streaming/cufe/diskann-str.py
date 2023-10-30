@@ -10,7 +10,7 @@ from neurips23.streaming.base import BaseStreamingANN
 
 class diskannCUFE(BaseStreamingANN):
     def __init__(self, metric, index_params):
-        self.name = "diskann"
+        self.name = "diskannCUFE"
         if (index_params.get("R")==None):
             print("Error: missing parameter R")
             return

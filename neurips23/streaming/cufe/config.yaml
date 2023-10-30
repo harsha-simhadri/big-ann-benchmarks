@@ -1,6 +1,6 @@
 random-xs:
     cufe: 
-      docker-tag: neurips23-streaming-diskann-cufe
+      docker-tag: neurips23-streaming-cufe
       module: neurips23.streaming.cufe.diskann-str
       constructor: diskannCUFE
       base-args: ["@metric"]
@@ -12,7 +12,7 @@ random-xs:
             [{"Ls":50, "T":8}]
 random-xs-clustered:
     cufe: 
-      docker-tag: neurips23-streaming-diskann-cufe
+      docker-tag: neurips23-streaming-cufe
       module: neurips23.streaming.cufe.diskann-str
       constructor: diskannCUFE
       base-args: ["@metric"]
@@ -24,7 +24,7 @@ random-xs-clustered:
             [{"Ls":50, "T":8}]
 msspacev-1M:
     cufe: 
-      docker-tag: neurips23-streaming-diskann-cufe
+      docker-tag: neurips23-streaming-cufe
       module: neurips23.streaming.cufe.diskann-str
       constructor: diskannCUFE
       base-args: ["@metric"]
@@ -37,7 +37,7 @@ msspacev-1M:
              {"Ls":100, "T":16}]
 msturing-1M:
     cufe: 
-      docker-tag: neurips23-streaming-diskann-cufe
+      docker-tag: neurips23-streaming-cufe
       module: neurips23.streaming.cufe.diskann-str
       constructor: diskannCUFE
       base-args: ["@metric"]
@@ -50,7 +50,7 @@ msturing-1M:
              {"Ls":100, "T":16}]
 msspacev-10M:
     cufe: 
-      docker-tag: neurips23-streaming-diskann-cufe
+      docker-tag: neurips23-streaming-cufe
       module: neurips23.streaming.cufe.diskann-str
       constructor: diskannCUFE
       base-args: ["@metric"]
@@ -62,7 +62,7 @@ msspacev-10M:
             [{"Ls":100, "T":16}]
 msturing-10M:
     cufe: 
-      docker-tag: neurips23-streaming-diskann-cufe
+      docker-tag: neurips23-streaming-cufe
       module: neurips23.streaming.cufe.diskann-str
       constructor: diskannCUFE
       base-args: ["@metric"]
@@ -74,7 +74,7 @@ msturing-10M:
             [{"Ls":100, "T":16}]
 msturing-10M-clustered:
     cufe: 
-      docker-tag: neurips23-streaming-diskann-cufe
+      docker-tag: neurips23-streaming-cufe
       module: neurips23.streaming.cufe.diskann-str
       constructor: diskannCUFE
       base-args: ["@metric"]
@@ -86,7 +86,7 @@ msturing-10M-clustered:
             [{"Ls":100, "T":16}]
 msturing-30M-clustered:
     cufe: 
-      docker-tag: neurips23-streaming-diskann-cufe
+      docker-tag: neurips23-streaming-cufe
       module: neurips23.streaming.cufe.diskann-str
       constructor: diskannCUFE
       base-args: ["@metric"]
