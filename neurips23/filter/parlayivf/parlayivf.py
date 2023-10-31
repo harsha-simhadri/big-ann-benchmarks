@@ -41,6 +41,11 @@ class ParlayIVF(BaseFilterANN):
             return 'mips'
         else:
             raise Exception('Invalid metric')
+        
+    def translate_dtype(self, dtype):
+        if dtype == 'float32':
+            return 'float'
+        return dtype
 
     def create_index_dir(self, dataset):
         index_dir = os.path.join(os.getcwd(), "data", "indices", "filter")
@@ -100,7 +105,7 @@ class ParlayIVF(BaseFilterANN):
     def fit(self, dataset):
         start = time.time()
         ds = DATASETS[dataset]()
-        self.dtype = ds.dtype
+        self.dtype = self.translate_dtype(ds.dtype)
 
         if hasattr(self, 'index'):
             print("Index already exists, skipping fit")
