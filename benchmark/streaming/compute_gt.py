@@ -26,7 +26,7 @@ def gt_dir(ds, runbook_path):
     return os.path.join(ds.basedir, str(ds.nb), runbook_filename)
 
 def output_gt(ds, ids, step, gt_cmdline, runbook_path):
-    data = ds.get_dataset()
+    data = ds.get_data_in_range(0, ds.nb)
     data_slice = data[ids]
 
     dir = gt_dir(ds, runbook_path)
@@ -52,6 +52,9 @@ def output_gt(ds, ids, step, gt_cmdline, runbook_path):
     gt_cmdline += ' --tags_file ' + tags_file
     print("Executing cmdline: ", gt_cmdline)
     os.system(gt_cmdline)
+    print("Removing data file")
+    rm_cmdline = "rm " + data_file
+    os.system(rm_cmdline)
     
 
 def main():

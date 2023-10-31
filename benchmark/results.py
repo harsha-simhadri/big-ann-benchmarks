@@ -6,7 +6,6 @@ import os
 import re
 import traceback
 
-
 def get_result_filename(dataset=None, count=None, definition=None,
                         query_arguments=None, neurips23track=None, runbook_path=None):
     d = ['results']
@@ -41,9 +40,7 @@ def get_result_filename(dataset=None, count=None, definition=None,
 
 def add_results_to_h5py(f, search_type, results, count, suffix = ''):
     if search_type == "knn" or search_type == "knn_filtered":
-        neighbors = f.create_dataset('neighbors' + suffix, (len(results), count), 'i')
-        for i, idxs in enumerate(results):
-            neighbors[i] = idxs
+        neighbors = f.create_dataset('neighbors' + suffix, (len(results), count), 'i', data = results)
     elif search_type == "range":
         lims, D, I= results
         f.create_dataset('neighbors' + suffix, data=I)
@@ -59,7 +56,7 @@ def store_results(dataset, count, definition, query_arguments,
     head, tail = os.path.split(fn)
     if not os.path.isdir(head):
         os.makedirs(head)
-    f = h5py.File(fn, 'w')
+    f = h5py.File(name=fn, mode='w', libver='latest')
     for k, v in attrs.items():
         f.attrs[k] = v
 
@@ -83,7 +80,7 @@ def load_all_results(dataset=None, count=None, neurips23track=None, runbook_path
             if os.path.splitext(fn)[-1] != '.hdf5':
                 continue
             try:
-                f = h5py.File(os.path.join(root, fn), 'r+')
+                f = h5py.File(name=os.path.join(root, fn), mode='r+', libver='latest')
                 properties = dict(f.attrs)
                 yield properties, f
                 f.close()

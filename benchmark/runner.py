@@ -44,6 +44,7 @@ def run(definition, dataset, count, run_count, rebuild,
 
     distance = ds.distance()
     search_type = ds.search_type()
+    build_time = -1 # default value used to indicate that the index was loaded from file
     print(f"Running {definition.algorithm} on {dataset}")
 
     custom_runner = RUNNERS.get(neurips23track, BaseRunner)
@@ -100,12 +101,12 @@ def run(definition, dataset, count, run_count, rebuild,
                     algo.set_query_arguments(*query_arguments)
                 if neurips23track == 'streaming':
                     descriptor, results = custom_runner.run_task(
-                        algo, ds, distance, 1, run_count, search_type, private_query, runbook)
+                        algo, ds, distance, count, 1, search_type, private_query, runbook)
                 else:
                     descriptor, results = custom_runner.run_task(
                         algo, ds, distance, count, run_count, search_type, private_query)
-                # A bit unclear how to set this correctly if we usually load from file
-                #descriptor["build_time"] = build_time
+
+                descriptor["build_time"] = build_time
                 descriptor["index_size"] = index_size
                 descriptor["algo"] = definition.algorithm
                 descriptor["dataset"] = dataset
@@ -116,9 +117,11 @@ def run(definition, dataset, count, run_count, rebuild,
                         X = ds.get_private_queries()
                     power_stats = power_capture.run(algo, X, distance, count,
                                                     run_count, search_type, descriptor)
+                print('start store results')
                 store_results(dataset, count, definition,
                               query_arguments, descriptor,
                               results, search_type, neurips23track, runbook_path)
+                print('end store results')
     finally:
         algo.done()
 
@@ -263,7 +266,7 @@ def run_docker(definition, dataset, count, runs, timeout, rebuild,
 
     client = docker.from_env()
     if mem_limit is None:
-        mem_limit = psutil.virtual_memory().available
+        mem_limit = psutil.virtual_memory().available if neurips23track != 'streaming' else (8*1024*1024*1024)
 
     # ready the container object invoked later in this function
     container = None
@@ -290,9 +293,9 @@ def run_docker(definition, dataset, count, runs, timeout, rebuild,
  
     # set/override container timeout based on competition flag
     if neurips23track!='none':
-        # timeout = 30*60 # 30 minutes
-        timeout = 3600*24*3 # 3 days
-        print("Setting container wait timeout to 30 minutes")       
+        # 1 hour for streaming and 12 hours for other tracks
+        timeout = 60 * 60 if neurips23track == 'streaming' else 12 * 60 * 60
+        print("Setting container wait timeout to %d seconds" % timeout)       
 
     elif not timeout: 
         # default to 3 days (includes NeurIPS'21)
@@ -369,7 +372,7 @@ def run_no_docker(definition, dataset, count, runs, timeout, rebuild,
     
     cmd += ["--neurips23track", neurips23track]
     if neurips23track == 'streaming':
-        cmd += ["runbook_path", runbook_path]
+        cmd += ["--runbook_path", runbook_path]
 
     cmd.append(json.dumps(definition.arguments))
     cmd += [json.dumps(qag) for qag in definition.query_argument_groups]

@@ -23,7 +23,7 @@ The Practical Vector Search challenge at NeurIPS 2023 has four different tasks:
     The tags are from a vocabulary of 200386 possible tags. 
     The 100,000 queries consist of one image embedding and one or two tags that must appear in the database elements to be considered.
 
-**Task Streaming:** This task uses 10M slice of the MS Turing data set released in the previous challenge. The index starts with zero points and must implement the "runbook" provided - a sequence of insertion operations, deletion operations, and search commands (roughly 4:4:1 ratio) - within a time bound of 1 hour. In the final run, we will  use a different runbook, and possibly a different data set, to avoid participants over-fitting to this dataset. Entries will be ranked by average recall over queries at all check points. The intention is for the algorithm to  process the operations and maintain a compact index over the active points rather than index the entire anticipated set of points and use tombstones or flags to mark active elements.
+**Task Streaming:** This task uses 10M slice of the MS Turing data set released in the previous challenge. The index starts with zero points and must implement the "runbook" provided - a sequence of insertion operations, deletion operations, and search commands (roughly 4:4:1 ratio) - within a time bound of 1 hour and a DRAM limit of 8GB. Entries will be ranked by average recall over queries at all check points. The intention is for the algorithm to  process the operations and maintain a compact index over the active points rather than index the entire anticipated set of points and use tombstones or flags to mark active elements. ~~In the final run, we will  use a different runbook, and possibly a different data set, to avoid participants over-fitting to this dataset.~~ The final run will use `msturing-30M-clustered`, a 30M slice of the MSTuring dataset, and the `final_runbook.yaml` runbook generated with the `final_rubook_gen.py` script.
 
 **Task Out-Of-Distribution:**  Yandex Text-to-Image 10M represents a cross-modal dataset where the database and query vectors have different distributions in the shared vector space.
     The base set is a 10M subset of the Yandex visual search database of 200-dimensional image embeddings which are produced with the Se-ResNext-101 model. 
@@ -46,6 +46,7 @@ The baselines were run on an Azure Standard D8lds v5 (8 vcpus, 16 GiB memory) ma
 |Sparse   | Linear Scan | 101                         |  `python3 run.py --dataset sparse-full --algorithm linscan --neurips23track sparse` |
 |Filter   | faiss       | 3200                        | `python3 run.py --dataset yfcc-10M --algorithm faiss --neurips23track filter` |
 |Streaming| DiskANN     | 0.924 (recall@10), 23 mins  |  `python3 run.py --dataset msturing-10M-clustered --algorithm diskann --neurips23track streaming --runbook_path neurips23/streaming/delete_runbook.yaml` |
+|Streaming| DiskANN     | 0.883 (recall@10), 45 mins  |  `python3 run.py --dataset msturing-30M-clustered --algorithm diskann --neurips23track streaming --runbook_path neurips23/streaming/final_runbook.yaml` |
 |OOD      | DiskANN     | 4882                        | `python3 run.py --dataset text2image-10M --algorithm diskann --neurips23track ood` | 
 
 
@@ -110,13 +111,17 @@ For the competition dataset, run commands mentioned in the table above, for exam
 python run.py --neurips23track filter    --algorithm faiss   --dataset yfcc-10M
 python run.py --neurips23track sparse    --algorithm linscan --dataset sparse-full
 python run.py --neurips23track ood       --algorithm diskann --dataset text2image-10M
+# preliminary runbook for testing 
 python run.py --neurips23track streaming --algorithm diskann --dataset msturing-10M-clustered --runbook_path neurips23/streaming/delete_runbook.yaml
+#Final runbook for evaluation
+python run.py --neurips23track streaming --algorithm diskann --dataset msturing-30M-clustered --runbook_path neurips23/streaming/final_runbook.yaml
 ```
 
 For streaming track, runbook specifies the order of operations to be executed by the algorithms. To download the ground truth for every search operation: (needs azcopy tool in your binary path):
 ```
-python benchmark/streaming/download_gt.py --runbook_file neurips23/streaming/simple_runbook.yaml --dataset msspacev-10M 
-python benchmark/streaming/download_gt.py --runbook_file neurips23/streaming/delete_runbook.yaml --dataset msturing-10M-clustered 
+python -m benchmark.streaming.download_gt --runbook_file neurips23/streaming/simple_runbook.yaml --dataset msspacev-10M
+python -m benchmark.streaming.download_gt --runbook_file neurips23/streaming/delete_runbook.yaml --dataset msturing-10M-clustered
+python -m benchmark.streaming.download_gt --runbook_file neurips23/streaming/final_runbook.yaml  --dataset msturing-30M-clustered
 ```
 Alternately, to compute ground truth for an arbitrary runbook, [clone and build DiskANN repo](https://github.com/Microsoft/DiskANN) and use the command line tool to compute ground truth at various search checkpoints. The `--gt_cmdline_tool` points to the directory with DiskANN commandline tools.
 ```
@@ -130,18 +135,29 @@ To make the results available for post-processing, change permissions of the res
 sudo chmod 777 -R results/
 ```
 
+The following command will summarize all results files into a single csv file `res.csv` suitable for further processing. 
+
+```
+python data_export.py --out res.csv
+```
+
 To plot QPS vs recall, you can use `plot.py` as follows:
 ```
 python plot.py --dataset yfcc-10M --neurips23track filter
 ```
 This will place a plot into the *results/* directory.
 Please note that you have to provide the correct competition track to the script.
+The following are plots generated on Azure Standard D8lds v5 (8 vCPUs and 16GB DRAM) VM.
 
-The following command will summarize all results files into a single csv file `res.csv` suitable for further processing. 
+**Sparse track**
+![sparse-full](https://github.com/harsha-simhadri/big-ann-benchmarks/assets/5590673/2009131b-c5fb-4ae3-a3bd-4b647672caef)
 
-```
-python data_export.py --out res.csv
-```
+**Filter track**
+![yfcc-10M](https://github.com/harsha-simhadri/big-ann-benchmarks/assets/5590673/09439f77-f1b1-49e4-a90d-05b5d6848375)
+
+**OOD track**
+![text2image-10M](https://github.com/harsha-simhadri/big-ann-benchmarks/assets/5590673/79850d1f-be61-4c2b-81ea-3b7b80179d1c)
+
 
 ### Starting_Your_Development
 
@@ -162,7 +178,7 @@ where [task] is _sparse_, _streaming_, _filter_, or _ood_.
 
 This framework evaluates algorithms in Docker containers by default.  Your algorithm's Dockerfile should live in *neurips23/[task]/[your_team_name]/Dockerfile*.  Your Docker file should contain everything needed to install and run your algorithm on a system with the same hardware. 
 
-Please consult [this file](../filter/faiss/Dockerfile) as an example. 
+Please consult [this file](filter/faiss/Dockerfile) as an example. 
 
 To build your Docker container, run:
 ```
@@ -244,8 +260,7 @@ There are several ways to get help as you develop your algorithm using this fram
 
 This leaderboard is based on the standard recall@10 vs throughput benchmark that has become a standard benchmark when evaluating and comparing approximate nearest neighbor algorithms. The recall of the baselines at this QPS threshold is listed [above](#measuring_your_algorithm). 
 
-Algorithms will be ranked on how much their recall surpasses the baselines at these QPS thresholds.   We will add up the recall improvements of each algorithm on all tasks it competes on.  
-
+For tasks "Filter", "Out-of-Distribution" and "Sparse" tracks, algorithms will be ranked on the QPS they achieve on the track dataset, as long as the recall@10 is at least 90%. For the Streaming track, algorithms will be ranked on recall@10, as long as each algorithm completes the runbook within the alloted 1 hour. 
 
 ## Custom_Setup
 
