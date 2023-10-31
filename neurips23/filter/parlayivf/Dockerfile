@@ -8,7 +8,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt install -y git make cmake g++ libaio-dev 
 
 RUN echo "docker caching is so painful pt. 31"
 
-RUN git clone -b filter https://github.com/cmuparlay/ParlayANN.git && cd ParlayANN && git submodule update --init --recursive && cd python && pip install pybind11 && bash compile.sh 
+RUN git clone -b filter https://github.com/cmuparlay/ParlayANN.git && cd ParlayANN && git checkout b00ef8b && git submodule update --init --recursive && cd python && pip install pybind11 && bash compile.sh 
 # WORKDIR /home/app/ParlayANN
 # RUN git submodule update --init --recursive
 # WORKDIR /home/app/ParlayANN/python
