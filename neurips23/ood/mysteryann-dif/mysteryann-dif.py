@@ -247,4 +247,4 @@ class mysteryann(BaseOODANN):
         # self.res = np.zeros((self.ds.nq, self.topk), dtype=np.uint32, order='C')
 
     def __str__(self):
-        return f'mystery_order_sq8({self.index_name(), self._query_args})'
+        return f'mystery_dif({self.index_name(), self._query_args})'
