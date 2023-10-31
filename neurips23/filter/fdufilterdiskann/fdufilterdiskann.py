@@ -103,11 +103,11 @@ class fdufilterdiskann(BaseFilterANN):
         print('Index ready for search')
 
     def get_index_components(self, dataset):
-        index_components = ['_pts_to_hash.txt', '_new_to_raw.txt', '_labels_to_medoids.txt', '_labels_to_hash.txt', '_label.bin', '_csr_offset.bin', '_csr_data.bin', '.data']
-        ds = DATASETS[dataset]()
-        if ds.distance() == "ip":
-            index_components = index_components + []
-        return index_components
+        index_components = ['_pts_to_hash.txt', '_new_to_raw.txt', '_labels_to_medoids.txt', '_labels_to_hash.txt', '_label.bin', '_csr_offset.bin', '_csr_data.bin', '.data']
+        ds = DATASETS[dataset]()
+        if ds.distance() == "ip":
+            index_components = index_components + []
+        return index_components
 
     def index_files_to_store(self, dataset):
         return [self.create_index_dir(DATASETS[dataset]()), self.index_name(), self.get_index_components(dataset)]
