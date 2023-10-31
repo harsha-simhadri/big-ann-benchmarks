@@ -29,7 +29,7 @@ yfcc-10M:
               "beam_widths": [80, 90, 100]
               },
               {"target_points": 15000,
-               "tiny_cutoff": 15000,
+               "tiny_cutoff": 100000,
                "beam_widths": [80, 90, 100]
                },
                {"target_points": 15000,
@@ -37,7 +37,7 @@ yfcc-10M:
               "beam_widths": [100, 100, 100]
               },
               {"target_points": 15000,
-               "tiny_cutoff": 15000,
+               "tiny_cutoff": 100000,
                "beam_widths": [100, 100, 100]
               },
               {"target_points": 15000,
@@ -45,7 +45,7 @@ yfcc-10M:
                "beam_widths": [90, 90, 90]
               },
               {"target_points": 15000,
-               "tiny_cutoff": 15000,
+               "tiny_cutoff": 100000,
                "beam_widths": [90, 90, 90]
               },
               {"target_points": 15000,
@@ -53,7 +53,7 @@ yfcc-10M:
                "beam_widths": [80, 80, 80]
               },
               {"target_points": 15000,
-               "tiny_cutoff": 15000,
+               "tiny_cutoff": 100000,
                "beam_widths": [80, 80, 80]
               },
               {"target_points": 15000,
@@ -61,7 +61,7 @@ yfcc-10M:
                "beam_widths": [80, 75, 80]
               },
               {"target_points": 15000,
-               "tiny_cutoff": 15000,
+               "tiny_cutoff": 100000,
                "beam_widths": [80, 75, 80]
               },
               {"target_points": 15000,
@@ -69,7 +69,7 @@ yfcc-10M:
                "beam_widths": [80, 75, 75]
               },
               {"target_points": 15000,
-               "tiny_cutoff": 15000,
+               "tiny_cutoff": 100000,
                "beam_widths": [80, 75, 75]
               }]
                    
