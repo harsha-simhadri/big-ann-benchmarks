@@ -1,0 +1,35 @@
+random-filter-s:
+  fdufilterdiskann:
+   docker-tag: neurips23-filter-fdufilterdiskann
+   module: neurips23.filter.fdufilterdiskann.fdufilterdiskann
+   constructor: fdufilterdiskann
+   base-args: ["@metric"]
+   run-groups:
+    base:
+     args: |
+      [{"R":2, "L":10, "buildthreads":16, "alpha":1.2}]
+     query-args: |
+      [{"Ls":10, "T":1, "threshold_1":20000, "threshold_2":40000}]
+yfcc-10M:
+  fdufilterdiskann:
+   docker-tag: neurips23-filter-fdufilterdiskann
+   module: neurips23.filter.fdufilterdiskann.fdufilterdiskann
+   constructor: fdufilterdiskann
+   base-args: ["@metric"]
+   run-groups:
+    base:
+     args: |
+      [{"R":60, "L":80, "buildthreads":16, "alpha":1.0}]
+     query-args: |
+      [
+        {"Ls":10, "T":16, "threshold_1":20000, "threshold_2":30000},
+        {"Ls":10, "T":16, "threshold_1":30000, "threshold_2":40000},
+        {"Ls":10, "T":16, "threshold_1":20000, "threshold_2":40000},
+        {"Ls":10, "T":16, "threshold_1":20000, "threshold_2":40000},
+        {"Ls":10, "T":16, "threshold_1":20000, "threshold_2":40000},
+        {"Ls":10, "T":16, "threshold_1":20000, "threshold_2":40000},
+        {"Ls":10, "T":16, "threshold_1":20000, "threshold_2":40000},
+        {"Ls":20, "T":16, "threshold_1":20000, "threshold_2":40000},
+        {"Ls":10, "T":16, "threshold_1":20000, "threshold_2":40000},
+        {"Ls":15, "T":16, "threshold_1":20000, "threshold_2":40000}
+      ]
