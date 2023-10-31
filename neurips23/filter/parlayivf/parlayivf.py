@@ -43,7 +43,7 @@ class ParlayIVF(BaseFilterANN):
             raise Exception('Invalid metric')
         
     def translate_dtype(self, dtype):
-        if 'float32' in dtype:
+        if 'float32' in str(dtype):
             return 'float'
         return dtype
 
