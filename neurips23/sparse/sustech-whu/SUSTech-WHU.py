@@ -7,7 +7,7 @@ import sys
 
 sys.path.append("/home/app/SUSTech-WHU-Sparse")
 import hnswsparse
-from neurips23.ood.base import BaseSparseANN
+from neurips23.sparse.base import BaseSparseANN
 from benchmark.datasets import DATASETS, download_accelerated
 
 
@@ -30,18 +30,11 @@ class HnswSparse(BaseSparseANN):
         """
         self.ds = DATASETS[dataset]()
         assert self.ds.data_type() == "sparse"
-        d = self.ds.d
-        indptr = d.indptr
-        indices = d.indices
-        data = d.data
-        ncol = d.shape[1]
-        nnz = d.nnz
-        nrow = d.shape[0]
-        # build index
-        index_n = self.index_name
-        self.index = hnswsparse.build_index(
-            index_n, nrow, indptr, indices, data, self.M, self.ef
-        )
+        dataset_fn = self.ds.get_dataset_fn()
+        index_fn = f"{dataset}_M{self.M}_ef{self.ef}.hnsw"
+        print("index name: " + index_fn)
+        hnswsparse.build_index(index_fn, dataset_fn, self.M, self.ef)
+        self.index = hnswsparse.HnswSparse(index_fn, dataset_fn)
         print("Index status: " + str(self.index))
 
     def load_index(self, dataset):
@@ -52,11 +45,20 @@ class HnswSparse(BaseSparseANN):
         Checking the index usually involves the dataset name
         and the index build paramters passed during construction.
         """
-        return None
+        m = self.M
+        ef = self.ef
+        self.ds = DATASETS[dataset]()
+        index_fn = f"{dataset}_M{m}_ef{ef}.hnsw"
+        dataset_fn = self.ds.get_dataset_fn()
+        if not os.path.exists(index_fn):
+            return False
+        print("loading index")
+        self.index = hnswsparse.HnswSparse(index_fn, dataset_fn)
+        print("loading index success")
+        return True
 
     def query(self, X, k):
         """Carry out a batch query for k-NN of query set X."""
-        nq = X.shape[0]
         indptr = X.indptr
         indices = X.indices
         data = X.data
@@ -70,7 +72,6 @@ class HnswSparse(BaseSparseANN):
     def set_query_arguments(self, query_args):
         self._query_args = query_args
         self.ef = query_args.get("ef")
-        self.ef = query_args.get("k")
 
     def get_results(self):
         return self.I
@@ -78,29 +79,29 @@ class HnswSparse(BaseSparseANN):
     def __str__(self):
         return f"{self._query_args})"
 
-    def gen_probility_prune(filename):
-        with open(filename, "r") as f:
-            lines = f.readlines()
-            sum_score = 0
-            for line in lines:
-                x, y = map(int, line.split())
-                sum_score += y
-            probility = []
-            mean_score = sum_score / len(lines)
-            sum_score = 0
-            for line in lines:
-                x, y = map(int, line.split())
-                if y > mean_score:
-                    sum_score += y
-            for line in lines:
-                x, y = map(int, line.split())
-                if y > mean_score:
-                    probility.append((x, y / sum_score))
-        with open("probility.txt", "w") as f:
-            for p in probility:
-                f.write(str(p[0]) + " " + str(p[1]) + "\n")
-        # print(len(probility))
-        # return probility
+    # def gen_probility_prune(filename):
+    #     with open(filename, "r") as f:
+    #         lines = f.readlines()
+    #         sum_score = 0
+    #         for line in lines:
+    #             x, y = map(int, line.split())
+    #             sum_score += y
+    #         probility = []
+    #         mean_score = sum_score / len(lines)
+    #         sum_score = 0
+    #         for line in lines:
+    #             x, y = map(int, line.split())
+    #             if y > mean_score:
+    #                 sum_score += y
+    #         for line in lines:
+    #             x, y = map(int, line.split())
+    #             if y > mean_score:
+    #                 probility.append((x, y / sum_score))
+    #     with open("probility.txt", "w") as f:
+    #         for p in probility:
+    #             f.write(str(p[0]) + " " + str(p[1]) + "\n")
+    # print(len(probility))
+    # return probility
 
 
 # probility = gen_probility_prune("nonzero_and_gt.txt")
