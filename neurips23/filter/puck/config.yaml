@@ -67,10 +67,11 @@ yfcc-10M:
                 [{ "index_type": 3, "C":500, "F":500, "FN":16, "N":0}]
           query-args: |
                 [ 
-                    {"radius_rate":1.00 ,"search_coarse_count":30, "filter_topk":90},
-                    {"radius_rate":1.00 ,"search_coarse_count":30, "filter_topk":100},                            
-                    {"radius_rate":1.00 ,"search_coarse_count":30, "filter_topk":105},                   
-                    {"radius_rate":1.00 ,"search_coarse_count":30, "filter_topk":110},                   
-                    {"radius_rate":1.00 ,"search_coarse_count":30, "filter_topk":115},                   
-                    {"radius_rate":1.00 ,"search_coarse_count":30, "filter_topk":120 }                 
+                    {"radius_rate":1.00 ,"search_coarse_count":30, "filter_topk":70},
+                    {"radius_rate":1.00 ,"search_coarse_count":30, "filter_topk":75},
+                    {"radius_rate":1.00 ,"search_coarse_count":30, "filter_topk":80},                            
+                    {"radius_rate":1.00 ,"search_coarse_count":30, "filter_topk":85},                   
+                    {"radius_rate":1.00 ,"search_coarse_count":30, "filter_topk":90},                   
+                    {"radius_rate":1.00 ,"search_coarse_count":30, "filter_topk":100},                   
+                    {"radius_rate":1.00 ,"search_coarse_count":30, "filter_topk":110 }                 
                 ]
