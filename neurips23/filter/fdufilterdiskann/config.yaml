@@ -25,11 +25,11 @@ yfcc-10M:
         {"Ls":10, "T":16, "threshold_1":20000, "threshold_2":30000},
         {"Ls":10, "T":16, "threshold_1":30000, "threshold_2":40000},
         {"Ls":10, "T":16, "threshold_1":20000, "threshold_2":40000},
-        {"Ls":10, "T":16, "threshold_1":20000, "threshold_2":40000},
-        {"Ls":10, "T":16, "threshold_1":20000, "threshold_2":40000},
-        {"Ls":10, "T":16, "threshold_1":20000, "threshold_2":40000},
-        {"Ls":10, "T":16, "threshold_1":20000, "threshold_2":40000},
+        {"Ls":15, "T":16, "threshold_1":20000, "threshold_2":40000},
+        {"Ls":10, "T":16, "threshold_1":15000, "threshold_2":40000},
+        {"Ls":12, "T":16, "threshold_1":20000, "threshold_2":40000},
+        {"Ls":10, "T":16, "threshold_1":20000, "threshold_2":50000},
         {"Ls":20, "T":16, "threshold_1":20000, "threshold_2":40000},
-        {"Ls":10, "T":16, "threshold_1":20000, "threshold_2":40000},
-        {"Ls":15, "T":16, "threshold_1":20000, "threshold_2":40000}
+        {"Ls":100, "T":16, "threshold_1":20000, "threshold_2":40000},
+        {"Ls":50, "T":16, "threshold_1":20000, "threshold_2":40000}
       ]
