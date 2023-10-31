@@ -31,7 +31,7 @@ jobs:
             dataset: random-xs
             track: ood
           # Test fassplus entry
-          - algorithm: FduFilterDiskANN
+          - algorithm: fdufilterdiskann
             dataset: random-filter-s
             track: filter
       fail-fast: false
