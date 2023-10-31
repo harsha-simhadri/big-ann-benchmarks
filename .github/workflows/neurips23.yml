@@ -39,6 +39,9 @@ jobs:
           - algorithm: mysteryann
             dataset: random-xs
             track: ood
+          - algorithm: hwtl_sdu_anns_stream
+            dataset: random-xs
+            track: streaming
       fail-fast: false
 
     steps:

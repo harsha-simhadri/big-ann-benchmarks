@@ -1,0 +1,12 @@
+msturing-30M-clustered:
+    hwtl_sdu_anns_stream: 
+      docker-tag: neurips23-streaming-hwtl_sdu_anns_stream
+      module: neurips23.streaming.hwtl_sdu_anns_stream.hwtl_sdu_anns_stream
+      constructor: hwtl_sdu_anns_stream
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+            [{"R":65, "L":70, "insert_threads":16, "consolidate_threads":16}]
+          query-args: |
+            [{"Ls":100, "T":16}]
