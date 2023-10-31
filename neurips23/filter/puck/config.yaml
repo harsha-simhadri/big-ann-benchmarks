@@ -64,14 +64,13 @@ yfcc-10M:
       run-groups:
         base:
           args: |
-                [{ "index_type": 3, "C":500, "F":500, "FN":16, "N":0}]
+                [{ "index_type": 3, "C":200, "F":200, "FN":16, "N":0}]
           query-args: |
                 [ 
-                    {"radius_rate":1.00 ,"search_coarse_count":30, "filter_topk":70},
-                    {"radius_rate":1.00 ,"search_coarse_count":30, "filter_topk":75},
-                    {"radius_rate":1.00 ,"search_coarse_count":30, "filter_topk":80},                            
-                    {"radius_rate":1.00 ,"search_coarse_count":30, "filter_topk":85},                   
-                    {"radius_rate":1.00 ,"search_coarse_count":30, "filter_topk":90},                   
-                    {"radius_rate":1.00 ,"search_coarse_count":30, "filter_topk":100},                   
+                    {"radius_rate":1.00 ,"search_coarse_count":30, "filter_topk":60},
+                    {"radius_rate":1.00 ,"search_coarse_count":30, "filter_topk":65},
+                    {"radius_rate":1.00 ,"search_coarse_count":30, "filter_topk":70},                            
+                    {"radius_rate":1.00 ,"search_coarse_count":30, "filter_topk":75},                   
+                    {"radius_rate":1.00 ,"search_coarse_count":30, "filter_topk":80},                   
                     {"radius_rate":1.00 ,"search_coarse_count":30, "filter_topk":110 }                 
                 ]
