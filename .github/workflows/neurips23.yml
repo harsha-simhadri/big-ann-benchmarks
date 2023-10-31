@@ -24,6 +24,9 @@ jobs:
           - algorithm: diskann
             dataset: random-xs
             track: ood
+          - algorithm: cufe
+            dataset: random-xs
+            track: ood
       fail-fast: false
 
     steps:
