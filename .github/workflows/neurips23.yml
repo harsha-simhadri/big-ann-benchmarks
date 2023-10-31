@@ -30,6 +30,15 @@ jobs:
           - algorithm: vamana
             dataset: random-xs
             track: ood
+          - algorithm: sustech-ood
+            dataset: random-xs
+            track: ood
+          - algorithm: epsearch
+            dataset: random-xs
+            track: ood
+          - algorithm: mysteryann
+            dataset: random-xs
+            track: ood
           - algorithm: ngt
             dataset: random-xs
             track: ood
