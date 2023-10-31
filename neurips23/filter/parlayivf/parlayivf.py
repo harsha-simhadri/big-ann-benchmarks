@@ -127,10 +127,10 @@ class ParlayIVF(BaseFilterANN):
         print(f"Index fit in {time.time() - start} seconds")
 
     def load_index(self, dataset):
-        """this should in theory work"""
+        """Note that because so many builds are actually loads, build and load are almost identical"""
         start = time.time()
         ds = DATASETS[dataset]()
-        self.dtype = ds.dtype
+        self.dtype = self.translate_dtype(ds.dtype)
 
         if hasattr(self, 'index'):
             print("Index already exists, skipping fit")
