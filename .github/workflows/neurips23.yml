@@ -39,6 +39,9 @@ jobs:
           - algorithm: mysteryann
             dataset: random-xs
             track: ood
+          - algorithm: mysteryann-dif
+            dataset: random-xs
+            track: ood
       fail-fast: false
 
     steps:
