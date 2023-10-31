@@ -7,7 +7,7 @@ yfcc-10M:
       run-groups:
         base:
           args: |
-            [{"R": 16, "L": 80, "stitched_R":80}]
+            [{"R": 10, "L": 70, "stitched_R":96}]
           query-args: |
             [{"L": 80}, 
              {"L": 90},
