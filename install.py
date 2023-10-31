@@ -14,7 +14,7 @@ def build(tag, args, dockerfile):
         q = ""
 
     try:
-        command = 'docker build %s --rm -t %s -f' \
+        command = 'docker build --no-cache %s --rm -t %s -f' \
                    % (q, tag)
         command += ' %s .' % dockerfile
         print(command)
