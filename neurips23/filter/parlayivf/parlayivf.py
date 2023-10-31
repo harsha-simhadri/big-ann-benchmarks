@@ -43,7 +43,7 @@ class ParlayIVF(BaseFilterANN):
             raise Exception('Invalid metric')
         
     def translate_dtype(self, dtype):
-        if dtype == 'float32':
+        if 'float32' in dtype:
             return 'float'
         return dtype
 
@@ -106,6 +106,8 @@ class ParlayIVF(BaseFilterANN):
         start = time.time()
         ds = DATASETS[dataset]()
         self.dtype = self.translate_dtype(ds.dtype)
+
+        print(self.dtype)
 
         if hasattr(self, 'index'):
             print("Index already exists, skipping fit")
