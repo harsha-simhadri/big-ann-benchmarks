@@ -39,6 +39,9 @@ jobs:
           - algorithm: mysteryann
             dataset: random-xs
             track: ood
+          - algorithm: sustech-whu
+            dataset: sparse-small
+            track: sparse
       fail-fast: false
 
     steps:
