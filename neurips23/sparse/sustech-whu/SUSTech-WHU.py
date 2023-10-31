@@ -28,10 +28,15 @@ class HnswSparse(BaseSparseANN):
         """
         Build the index for the data points given in dataset name.
         """
-        self.ds = DATASETS[dataset]()
-        assert self.ds.data_type() == "sparse"
-        dataset_fn = self.ds.get_dataset_fn()
+        ds = DATASETS[dataset]()
+        index_dir = self.create_index_dir(dataset)
+        if hasattr(self, "index"):
+            print("Index object exists already")
+            return
+        assert ds.data_type() == "sparse"
+        dataset_fn = ds.get_dataset_fn()
         index_fn = f"{dataset}_M{self.M}_ef{self.ef}.hnsw"
+        index_fn = os.path.join(index_dir, index_fn)
         print("index name: " + index_fn)
         hnswsparse.build_index(index_fn, dataset_fn, self.M, self.ef)
         self.index = hnswsparse.HnswSparse(index_fn, dataset_fn)
@@ -47,9 +52,13 @@ class HnswSparse(BaseSparseANN):
         """
         m = self.M
         ef = self.ef
-        self.ds = DATASETS[dataset]()
+        ds = DATASETS[dataset]()
+        index_dir = self.create_index_dir(dataset)
+        if not (os.path.exists(index_dir)):
+            return False
         index_fn = f"{dataset}_M{m}_ef{ef}.hnsw"
-        dataset_fn = self.ds.get_dataset_fn()
+        index_fn = os.path.join(index_dir, index_fn)
+        dataset_fn = ds.get_dataset_fn()
         if not os.path.exists(index_fn):
             return False
         print("loading index")
@@ -57,13 +66,19 @@ class HnswSparse(BaseSparseANN):
         print("loading index success")
         return True
 
+    def create_index_dir(self, dataset):
+        index_dir = os.path.join(os.getcwd(), "data", "indices", dataset)
+        os.makedirs(index_dir, mode=0o777, exist_ok=True)
+        print(index_dir)
+        return index_dir
+
     def query(self, X, k):
         """Carry out a batch query for k-NN of query set X."""
         indptr = X.indptr
         indices = X.indices
         data = X.data
-        ncol = X.shape[1]
-        nnz = X.nnz
+        # ncol = X.shape[1]
+        # nnz = X.nnz
         nrow = X.shape[0]
         # prepare the queries as a list of dicts
         res = self.index.search(nrow, indptr, indices, data, self.ef, k)
