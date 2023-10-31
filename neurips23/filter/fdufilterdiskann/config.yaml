@@ -22,14 +22,14 @@ yfcc-10M:
       [{"R":60, "L":80, "buildthreads":16, "alpha":1.0}]
      query-args: |
       [
-        {"Ls":10, "T":16, "threshold_1":20000, "threshold_2":30000},
-        {"Ls":10, "T":16, "threshold_1":30000, "threshold_2":40000},
-        {"Ls":10, "T":16, "threshold_1":20000, "threshold_2":40000},
-        {"Ls":15, "T":16, "threshold_1":20000, "threshold_2":40000},
-        {"Ls":10, "T":16, "threshold_1":15000, "threshold_2":40000},
-        {"Ls":12, "T":16, "threshold_1":20000, "threshold_2":40000},
-        {"Ls":10, "T":16, "threshold_1":20000, "threshold_2":50000},
-        {"Ls":20, "T":16, "threshold_1":20000, "threshold_2":40000},
-        {"Ls":100, "T":16, "threshold_1":20000, "threshold_2":40000},
-        {"Ls":50, "T":16, "threshold_1":20000, "threshold_2":40000}
+        {"Ls":11, "T":16, "threshold_1":53500, "threshold_2":41000},
+        {"Ls":11, "T":16, "threshold_1":53500, "threshold_2":41100},
+        {"Ls":11, "T":16, "threshold_1":53500, "threshold_2":41200},
+        {"Ls":11, "T":16, "threshold_1":53500, "threshold_2":41300},
+        {"Ls":11, "T":16, "threshold_1":53500, "threshold_2":41400},
+        {"Ls":12, "T":16, "threshold_1":53500, "threshold_2":41000},
+        {"Ls":12, "T":16, "threshold_1":53500, "threshold_2":51100},
+        {"Ls":12, "T":16, "threshold_1":53500, "threshold_2":41200},
+        {"Ls":12, "T":16, "threshold_1":53500, "threshold_2":41300},
+        {"Ls":12, "T":16, "threshold_1":53500, "threshold_2":41400}
       ]
