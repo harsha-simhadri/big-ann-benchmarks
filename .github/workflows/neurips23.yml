@@ -34,6 +34,18 @@ jobs:
           - algorithm: fdufilterdiskann
             dataset: random-filter-s
             track: filter
+          - algorithm: shnsw
+            dataset: sparse-small
+            track: sparse
+          - algorithm: sustech-ood
+            dataset: random-xs
+            track: ood
+          - algorithm: epsearch
+            dataset: random-xs
+            track: ood
+          - algorithm: mysteryann
+            dataset: random-xs
+            track: ood
       fail-fast: false
 
     steps:
