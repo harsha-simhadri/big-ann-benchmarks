@@ -1,5 +1,6 @@
 random-filter-s:
-  docker-tag: neurips23-filter-parlayivf
+    parlayivf:
+      docker-tag: neurips23-filter-parlayivf
       module: neurips23.filter.parlayivf.parlayivf
       constructor: ParlayIVF
       base-args: ["@metric"]
