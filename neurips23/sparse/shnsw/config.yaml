@@ -1,0 +1,36 @@
+sparse-small:
+    shnsw:
+      docker-tag: neurips23-sparse-shnsw
+      module: neurips23.sparse.shnsw.shnsw
+      constructor: SparseHNSW
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+            [{"M": 16, "efConstruction": 200, "buildthreads": 8}]
+          query-args: 
+            [[10, 20, 40, 70, 75, 80, 85, 90, 100]]
+sparse-1M:
+    shnsw:
+      docker-tag: neurips23-sparse-shnsw
+      module: neurips23.sparse.shnsw.shnsw
+      constructor: SparseHNSW
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+            [{"M": 16, "efConstruction": 200, "buildthreads": 8}]
+          query-args: 
+            [[10, 20, 40, 60, 70, 75, 80, 90, 100]]
+sparse-full:
+    shnsw:
+      docker-tag: neurips23-sparse-shnsw
+      module: neurips23.sparse.shnsw.shnsw
+      constructor: SparseHNSW
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+            [{"M": 16, "efConstruction": 1000, "buildthreads": 8}]
+          query-args: 
+            [[20, 40, 45, 48, 50, 52, 55, 57, 70, 75, 80, 85, 90]]
