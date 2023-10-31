@@ -22,7 +22,7 @@ text2image-10M:
         base:
           args: |
               [{"edge": 140, "outdegree": 10, "indegree": 175,
-                "epsilon": 0.11, "reduction": 0.39}]
+                "epsilon": 0.11, "reduction": 0.38}]
           #      "url": "https://public-rlab.east.edge.storage-yahoo.jp/neurips23/indexes/onng-text2image-140-10-180-0.10-0.39.tgz"}]
           query-args: |
               [{"epsilon": 1.010},
