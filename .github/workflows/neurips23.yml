@@ -45,6 +45,9 @@ jobs:
           - algorithm: mysteryann
             dataset: random-xs
             track: ood
+          - algorithm: pyanns
+            dataset: sparse-small
+            track: sparse
       fail-fast: false
 
     steps:
