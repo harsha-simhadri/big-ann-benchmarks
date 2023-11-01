@@ -91,7 +91,7 @@ class ParlayIVF(BaseFilterANN):
             self._beam_widths = [100, 100, 100]
 
         if 'search_limits' in query_args:
-            self._search_limits = query_args['search_limit']
+            self._search_limits = query_args['search_limits']
         else:
             self._search_limits = list(self._weight_classes) + [3_000_000]
             
