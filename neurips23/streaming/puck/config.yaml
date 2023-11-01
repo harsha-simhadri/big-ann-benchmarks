@@ -8,11 +8,14 @@ msturing-30M-clustered:
         base:
           args: |
                 [
-                    { "index_type": 1, "C":200, "F":200, "FN":8, "N":0}
+                    { "index_type": 1, "C":200, "F":200, "FN":8, "N":0, "filter_topk":1000},
+                    { "index_type": 1, "C":200, "F":200, "FN":8, "N":0, "filter_topk":1050},
+                    { "index_type": 1, "C":200, "F":200, "FN":8, "N":0, "filter_topk":1100},
+                    { "index_type": 1, "C":200, "F":200, "FN":8, "N":0, "filter_topk":1200}
                 ]
           query-args: |
                 [
-                    {"radius_rate":1.00 ,"search_coarse_count":200, "filter_topk":1000 }                   
+                    {"radius_rate":1.00 ,"search_coarse_count":200}                   
                 ]
 
 
