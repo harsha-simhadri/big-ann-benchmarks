@@ -20,3 +20,4 @@ RUN g++ -shared -O3 -g -fPIC bow_id_selector_wrap.cxx -o _bow_id_selector.so  \
       -I $CONDA_PREFIX/include $CONDA_PREFIX/lib/libfaiss_avx2.so -Ifaiss
 
 RUN python3 -c 'import faiss; print(faiss.IndexFlatL2); print(faiss.__version__)'
+
