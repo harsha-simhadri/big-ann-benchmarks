@@ -91,7 +91,7 @@ class mysteryann(BaseOODANN):
     def create_index_dir(self, dataset):
         index_dir = os.path.join(os.getcwd(), "data", "indices", "ood")
         os.makedirs(index_dir, mode=0o777, exist_ok=True)
-        index_dir = os.path.join(index_dir, 'mysteryann')
+        index_dir = os.path.join(index_dir, 'mysteryann-dif')
         os.makedirs(index_dir, mode=0o777, exist_ok=True)
         index_dir = os.path.join(index_dir, dataset.short_name())
         os.makedirs(index_dir, mode=0o777, exist_ok=True)
