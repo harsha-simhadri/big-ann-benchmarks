@@ -19,15 +19,15 @@ text2image-10M:
       run-groups:
         base:
           args: |
-            [{"R":60, "L":500, "alpha":1.0, "n_ep_candidates":16384, "buildthreads":8, "ep_train":"id", "M":32, "efConstruction":200}]
+            [{"R":56, "L":500, "alpha":1.0, "n_ep_candidates":16384, "buildthreads":8, "ep_train":"id", "M":32, "efConstruction":200}]
           query-args: |
-            [{"Ls":70, "T":8, "efSearch":32},
-             {"Ls":70, "T":8, "efSearch":128},
-             {"Ls":80, "T":8, "efSearch":32},
-             {"Ls":80, "T":8, "efSearch":128},
-             {"Ls":85, "T":8, "efSearch":32}, 
-             {"Ls":90, "T":8, "efSearch":32}, 
-             {"Ls":95, "T":8, "efSearch":32}, 
-             {"Ls":100, "T":8, "efSearch":32}, 
-             {"Ls":105, "T":8, "efSearch":32}, 
-             {"Ls":110, "T":8, "efSearch":32}]
+            [{"Ls":100, "T":8, "efSearch":32},
+             {"Ls":105, "T":8, "efSearch":32},
+             {"Ls":110, "T":8, "efSearch":16}, 
+             {"Ls":110, "T":8, "efSearch":32}, 
+             {"Ls":115, "T":8, "efSearch":16}, 
+             {"Ls":115, "T":8, "efSearch":32}, 
+             {"Ls":120, "T":8, "efSearch":32}, 
+             {"Ls":125, "T":8, "efSearch":32}, 
+             {"Ls":130, "T":8, "efSearch":32}, 
+             {"Ls":140, "T":8, "efSearch":32}]
