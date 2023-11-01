@@ -48,6 +48,9 @@ jobs:
           - algorithm: mysteryann
             dataset: random-xs
             track: ood
+          - algorithm: pyanns
+            dataset: random-filter-s
+            track: filter
           - algorithm: mysteryann-dif
             dataset: random-xs
             track: ood
