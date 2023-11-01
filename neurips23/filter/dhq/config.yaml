@@ -1,5 +1,5 @@
 random-filter-s:
-    DHQ:
+    dhq:
       docker-tag: neurips23-filter-dhq
       module: neurips23.filter.dhq.dhq
       constructor: DHQINDEX
@@ -23,7 +23,7 @@ random-filter-s:
             ]
 
 yfcc-10M:
-    DHQ:
+    dhq:
       docker-tag: neurips23-filter-dhq
       module: neurips23.filter.dhq.dhq
       constructor: DHQINDEX
