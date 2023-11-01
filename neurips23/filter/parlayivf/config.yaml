@@ -55,13 +55,14 @@ yfcc-10M:
               "bitvector_cutoff": 10000
             }]
           query-args: |
-            [{"target_points": 15000,
-              "tiny_cutoff": 60000,
-              "beam_widths": [70, 70, 70]
+            [{"target_points": 5000,
+              "tiny_cutoff": 30000,
+              "beam_widths": [85, 50, 95],
+              "search_limits": [500, 500, 500]
               },
-              {"target_points": 15000,
-               "tiny_cutoff": 100000,
-               "beam_widths": [70, 70, 70]
+              {"target_points": 7500,
+               "tiny_cutoff": 35000,
+               "beam_widths": [55, 55, 55]
                },
                {"target_points": 15000,
               "tiny_cutoff": 60000,
@@ -95,4 +96,3 @@ yfcc-10M:
                "tiny_cutoff": 100000,
                "beam_widths": [40, 40, 40]
               }]
-                   
