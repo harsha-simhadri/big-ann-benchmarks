@@ -15,6 +15,9 @@ jobs:
           - algorithm: wm_filter
             dataset: random-filter-s
             track: filter
+          - algorithm: hwtl_sdu_anns_filter
+            dataset: random-filter-s
+            track: filter
           - algorithm: linscan
             dataset: sparse-small
             track: sparse
