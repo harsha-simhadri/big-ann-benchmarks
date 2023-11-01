@@ -1,7 +1,7 @@
 random-filter-s:
     faissplus:
       docker-tag: neurips23-filter-faissplus
-      module: neurips23.filter.faiss.faiss
+      module: neurips23.filter.faissplus.faiss
       constructor: FAISS
       base-args: ["@metric"]
       run-groups:
@@ -15,7 +15,7 @@ random-filter-s:
 random-s:
     faissplus:
       docker-tag: neurips23-filter-faissplus
-      module: neurips23.filter.faiss.faiss
+      module: neurips23.filter.faissplus.faiss
       constructor: FAISS
       base-args: ["@metric"]
       run-groups:
@@ -29,7 +29,7 @@ random-s:
 yfcc-10M-unfiltered:
     faissplus:
       docker-tag: neurips23-filter-faissplus
-      module: neurips23.filter.faiss.faiss
+      module: neurips23.filter.faissplus.faiss
       constructor: FAISS
       base-args: ["@metric"]
       run-groups:
@@ -41,7 +41,7 @@ yfcc-10M-unfiltered:
 yfcc-10M:
     faissplus:
       docker-tag: neurips23-filter-faissplus
-      module: neurips23.filter.faiss.faiss
+      module: neurips23.filter.faissplus.faiss
       constructor: FAISS
       base-args: ["@metric"]
       run-groups:
