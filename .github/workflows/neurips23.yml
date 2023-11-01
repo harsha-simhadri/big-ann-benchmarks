@@ -27,6 +27,24 @@ jobs:
           - algorithm: diskann
             dataset: random-xs
             track: ood
+          - algorithm: cufe
+            dataset: sparse-small
+            track: sparse
+          - algorithm: vamana
+            dataset: random-xs
+            track: ood
+          - algorithm: shnsw
+            dataset: sparse-small
+            track: sparse
+          - algorithm: sustech-ood
+            dataset: random-xs
+            track: ood
+          - algorithm: epsearch
+            dataset: random-xs
+            track: ood
+          - algorithm: mysteryann
+            dataset: random-xs
+            track: ood
       fail-fast: false
 
     steps:

@@ -8,6 +8,8 @@ See [Track T1/T2](t1_t2/README.md) for more details on evaluation for Tracks T1 
 
 See [Track T3](t3/README.md) for more details on evaluation for Track T3.
 
+See [PMLR](https://proceedings.mlr.press/v176/simhadri22a.html) article for the official competition report with plots.
+
 ## Install
 
 The only prerequisite is Python and Docker. 
