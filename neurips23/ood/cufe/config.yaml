@@ -2,7 +2,7 @@ random-xs:
     cufe: 
       docker-tag: neurips23-ood-cufe
       module: neurips23.ood.cufe.diskann-in-mem
-      constructor: diskann
+      constructor: cufe
       base-args: ["@metric"]
       run-groups:
         base:
@@ -14,7 +14,7 @@ text2image-10M:
     cufe: 
       docker-tag: neurips23-ood-cufe
       module: neurips23.ood.cufe.diskann-in-mem
-      constructor: diskann
+      constructor: cufe
       base-args: ["@metric"]
       run-groups:
         base:

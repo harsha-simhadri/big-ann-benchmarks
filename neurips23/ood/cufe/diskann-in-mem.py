@@ -10,7 +10,7 @@ from benchmark.datasets import DATASETS, download_accelerated
 
 class cufe(BaseOODANN):
     def __init__(self, metric, index_params):
-        self.name = "diskann"
+        self.name = "cufe"
         if (index_params.get("R")==None):
             print("Error: missing parameter R")
             return
