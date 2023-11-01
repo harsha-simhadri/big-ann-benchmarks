@@ -80,7 +80,7 @@ class Puck(BaseStreamingANN):
             py_puck_api.update_gflag('radius_rate', "%f"%(self._index_params['radius_rate']))
             self.indexkey += "_RadiusRate%s"%(self._index_params['radius_rate'])
         if "filter_topk" in self._index_params:
-            py_puck_api.update_gflag('filter_topk', "%f"%(self._index_params['filter_topk']))
+            py_puck_api.update_gflag('filter_topk', "%d"%(self._index_params['filter_topk']))
             self.indexkey += "_filter_topk%s"%(self._index_params['filter_topk'])
 
 
