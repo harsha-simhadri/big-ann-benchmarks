@@ -18,6 +18,9 @@ jobs:
           - algorithm: hwtl_sdu_anns_filter
             dataset: random-filter-s
             track: filter
+          - algorithm: parlayivf
+            dataset: random-filter-s
+            track: filter
           - algorithm: linscan
             dataset: sparse-small
             track: sparse
@@ -48,6 +51,9 @@ jobs:
           - algorithm: mysteryann
             dataset: random-xs
             track: ood
+          - algorithm: pyanns
+            dataset: random-filter-s
+            track: filter
           - algorithm: mysteryann-dif
             dataset: random-xs
             track: ood
