@@ -475,10 +475,10 @@ class FAISS(BaseFilterANN):
 
     def filtered_query(self, X, filter, k):
 
-        # try:
-        #     self.index.k_factor = self.k_factor
-        # except Exception as e:
-        #     pass
+        try:
+             self.index.k_factor = self.k_factor
+        except Exception as e:
+             pass
 
         nq = X.shape[0]
         self.I = -np.ones((nq, k), dtype='int32')
