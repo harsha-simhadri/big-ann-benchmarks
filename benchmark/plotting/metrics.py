@@ -95,7 +95,7 @@ def index_size(attrs):
 
 
 def build_time(attrs):
-    return attrs.get("build_time", 1e6)
+    return attrs.get("build_time", -1)
 
 
 def dist_computations(nq, attrs):
@@ -144,11 +144,11 @@ all_metrics = {
         "function": lambda true_nn, run_nn, metrics, run_attrs: index_size(run_attrs),  # noqa
         "worst": float("inf")
     },
-    "queriessize": {
-        "description": "Index size (kB)/Queries per second (s)",
-        "function": lambda true_nn, run_nn, metrics, run_attrs: index_size(run_attrs) / queries_per_second(len(true_nn[0]), run_attrs), # noqa
-        "worst": float("inf")
-    },
+    # "queriessize": {
+    #     "description": "Index size (kB)/Queries per second (s)",
+    #     "function": lambda true_nn, run_nn, metrics, run_attrs: index_size(run_attrs) / queries_per_second(len(true_nn[0]), run_attrs), # noqa
+    #     "worst": float("inf")
+    # },
     "wspq": {
         "description": "Watt seconds per query (watt*s/query)",
         "function": lambda true_nn, run_nn, metrics, run_attrs: watt_seconds_per_query(true_nn, run_attrs),  

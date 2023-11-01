@@ -1,0 +1,48 @@
+random-xs:
+    mysteryann: 
+      docker-tag: neurips23-ood-mysteryann
+      module: neurips23.ood.mysteryann.mysteryann
+      constructor: mysteryann
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+            [{"M_pjbp":35, "L_pjpq":500, "NoT":5, "NoP":2, "T":8, "EoP":1}]
+          query-args: |
+            [{"L_pq":75, "T":8},
+             {"L_pq":78, "T":8},
+             {"L_pq":80, "T":8},
+             {"L_pq":82, "T":8},
+             {"L_pq":83, "T":8},
+             {"L_pq":85, "T":8},
+             {"L_pq":87, "T":8},
+             {"L_pq":89, "T":8},
+             {"L_pq":92, "T":8}]
+text2image-10M:
+    mysteryann: 
+      docker-tag: neurips23-ood-mysteryann
+      module: neurips23.ood.mysteryann.mysteryann
+      constructor: mysteryann
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+            [{"M_pjbp":35, "L_pjpq":800, "NoT": 5, "NoP": 3, "T": 8, "EoP": 1}]
+          query-args: |
+            [{"L_pq":100, "T":8},
+             {"L_pq":110, "T":8},
+             {"L_pq":113, "T":8},
+             {"L_pq":115, "T":8},
+             {"L_pq":117, "T":8},
+             {"L_pq":118, "T":8},
+             {"L_pq":120, "T":8},
+             {"L_pq":123, "T":8},
+             {"L_pq":125, "T":8},
+             {"L_pq":128, "T":8},
+             {"L_pq":130, "T":8},
+             {"L_pq":133, "T":8},
+             {"L_pq":135, "T":8},
+             {"L_pq":140, "T":8},
+             {"L_pq":145, "T":8},
+             {"L_pq":150, "T":8}]
+
