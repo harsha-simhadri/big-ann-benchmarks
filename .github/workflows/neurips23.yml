@@ -15,7 +15,7 @@ jobs:
           - algorithm: wm_filter
             dataset: random-filter-s
             track: filter
-          - algorithm: DHQ
+          - algorithm: dhq
             dataset: random-filter-s
             track: filter
           - algorithm: linscan
