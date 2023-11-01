@@ -42,6 +42,10 @@ jobs:
           - algorithm: vamana
             dataset: random-xs
             track: ood
+          # Test fassplus entry
+          - algorithm: faissplus
+            dataset: random-filter-s
+            track: filter
           - algorithm: shnsw
             dataset: sparse-small
             track: sparse
