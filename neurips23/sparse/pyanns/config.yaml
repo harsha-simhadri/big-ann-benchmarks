@@ -40,12 +40,8 @@ sparse-full:
         query-args: |
           [
           {"budget": 0.08, "ef" : 50},
-          {"budget": 0.08, "ef" : 55},
-          {"budget": 0.08, "ef" : 60},
           {"budget": 0.08, "ef" : 65},
           {"budget": 0.08, "ef" : 70},
-          {"budget": 0.08, "ef" : 75},
-          {"budget": 0.08, "ef" : 80},
           {"budget": 0.1, "ef" : 50},
           {"budget": 0.1, "ef" : 55},
           {"budget": 0.1, "ef" : 60},
