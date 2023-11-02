@@ -1,0 +1,40 @@
+random-filter-s:
+    hwtl_sdu_anns_filter:
+      docker-tag: neurips23-filter-hwtl_sdu_anns_filter
+      module: neurips23.filter.hwtl_sdu_anns_filter.hwtl_sdu_anns_filter
+      constructor: hwtl_sdu_anns_filter
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+            [{"default": 1}]
+          query-args: |
+            [{"nprobe": 4, "expansion":3, "threshold":3000},
+             {"nprobe": 8, "expansion":3, "threshold":3000},
+             {"nprobe": 12, "expansion":3, "threshold":3000},
+             {"nprobe": 16, "expansion":3, "threshold":3000},
+             {"nprobe": 32, "expansion":3, "threshold":3000}
+            ]
+
+yfcc-10M:
+    hwtl_sdu_anns_filter:
+      docker-tag: neurips23-filter-hwtl_sdu_anns_filter
+      module: neurips23.filter.hwtl_sdu_anns_filter.hwtl_sdu_anns_filter
+      constructor: hwtl_sdu_anns_filter
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+            [{"L": 200, "R": 32, "level": 2, "threads": 16}]
+          query-args: |
+            [{"nprobe": 4, "expansion":3, "threshold":3000},
+             {"nprobe": 8, "expansion":3, "threshold":3000},
+             {"nprobe": 12, "expansion":3, "threshold":3000},
+             {"nprobe": 16, "expansion":3, "threshold":3000},
+             {"nprobe": 32, "expansion":3, "threshold":3000},
+             {"nprobe": 4, "expansion":4, "threshold":3000},
+             {"nprobe": 8, "expansion":4, "threshold":3000},
+             {"nprobe": 12, "expansion":4, "threshold":3000},
+             {"nprobe": 16, "expansion":4, "threshold":3000},
+             {"nprobe": 32, "expansion":4, "threshold":3000}
+            ]

@@ -15,6 +15,12 @@ jobs:
           - algorithm: wm_filter
             dataset: random-filter-s
             track: filter
+          - algorithm: dhq
+            dataset: random-filter-s
+            track: filter
+          - algorithm: hwtl_sdu_anns_filter
+            dataset: random-filter-s
+            track: filter
           - algorithm: parlayivf
             dataset: random-filter-s
             track: filter
@@ -36,6 +42,12 @@ jobs:
           - algorithm: vamana
             dataset: random-xs
             track: ood
+          - algorithm: fdufilterdiskann
+            dataset: random-filter-s
+            track: filter
+          - algorithm: faissplus
+            dataset: random-filter-s
+            track: filter
           - algorithm: shnsw
             dataset: sparse-small
             track: sparse
@@ -51,10 +63,19 @@ jobs:
           - algorithm: cufe
             dataset: random-xs
             track: streaming
+          - algorithm: sustech-whu
+            dataset: sparse-small
+            track: sparse
+          - algorithm: pyanns
+            dataset: sparse-small
+            track: sparse
           - algorithm: pyanns
             dataset: random-filter-s
             track: filter
           - algorithm: mysteryann-dif
+            dataset: random-xs
+            track: ood
+          - algorithm: pyanns
             dataset: random-xs
             track: ood
       fail-fast: false
