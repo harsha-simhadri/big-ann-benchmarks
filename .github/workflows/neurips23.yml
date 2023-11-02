@@ -42,7 +42,9 @@ jobs:
           - algorithm: vamana
             dataset: random-xs
             track: ood
-          # Test fassplus entry
+          - algorithm: fdufilterdiskann
+            dataset: random-filter-s
+            track: filter
           - algorithm: faissplus
             dataset: random-filter-s
             track: filter
