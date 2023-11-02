@@ -1,0 +1,52 @@
+sparse-small:
+  pyanns:
+    docker-tag: neurips23-sparse-pyanns
+    module: neurips23.sparse.pyanns.pyanns
+    constructor: Pyanns
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{}]
+        query-args: |
+          [
+          {"budget": 0.1, "ef" : 80}
+          ]
+sparse-1M:
+  pyanns:
+    docker-tag: neurips23-sparse-pyanns
+    module: neurips23.sparse.pyanns.pyanns
+    constructor: Pyanns
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{}]
+        query-args: |
+          [
+          {"budget": 0.1, "ef" : 80}
+          ]
+
+sparse-full:
+  pyanns:
+    docker-tag: neurips23-sparse-pyanns
+    module: neurips23.sparse.pyanns.pyanns
+    constructor: Pyanns
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{}]
+        query-args: |
+          [
+          {"budget": 0.08, "ef" : 50},
+          {"budget": 0.08, "ef" : 65},
+          {"budget": 0.08, "ef" : 70},
+          {"budget": 0.1, "ef" : 50},
+          {"budget": 0.1, "ef" : 55},
+          {"budget": 0.1, "ef" : 60},
+          {"budget": 0.1, "ef" : 65},
+          {"budget": 0.1, "ef" : 70},
+          {"budget": 0.1, "ef" : 75},
+          {"budget": 0.1, "ef" : 80}
+          ]
