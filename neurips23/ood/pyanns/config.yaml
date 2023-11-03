@@ -1,0 +1,37 @@
+random-xs:
+  pyanns:
+    docker-tag: neurips23-ood-pyanns
+    module: neurips23.ood.pyanns.pyanns
+    constructor: Pyanns
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{"R":32, "L":50}]
+        query-args: |
+          [{"ef":30}, {"ef":50}, {"ef":100}]
+text2image-10M:
+  pyanns:
+    docker-tag: neurips23-ood-pyanns
+    module: neurips23.ood.pyanns.pyanns
+    constructor: Pyanns
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{"R":48, "L":500, "buildthreads" : 8}]
+        query-args: |
+          [
+          {"ef":90},
+          {"ef":95},
+          {"ef":100},
+          {"ef":102},
+          {"ef":104},
+          {"ef":106},
+          {"ef":108},
+          {"ef":110},
+          {"ef":115},
+          {"ef":120},
+          {"ef":125},
+          {"ef":130}
+          ]

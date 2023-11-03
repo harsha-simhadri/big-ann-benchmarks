@@ -1,0 +1,33 @@
+random-xs:
+    epsearch: 
+      docker-tag: neurips23-ood-epsearch
+      module: neurips23.ood.epsearch.diskann-in-mem-ep-hnsw
+      constructor: epdiskann
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+            [{"R":30, "L":500, "alpha":1.2, "n_ep_candidates":32, "buildthreads":8, "ep_train":"id", "M":32, "efConstruction":200}]
+          query-args: |
+            [{"Ls":50, "T":8, "efSearch":4}]
+text2image-10M:
+    epsearch: 
+      docker-tag: neurips23-ood-epsearch
+      module: neurips23.ood.epsearch.diskann-in-mem-ep-hnsw
+      constructor: epdiskann
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+            [{"R":56, "L":500, "alpha":1.0, "n_ep_candidates":16384, "buildthreads":8, "ep_train":"id", "M":32, "efConstruction":200}]
+          query-args: |
+            [{"Ls":100, "T":8, "efSearch":32},
+             {"Ls":105, "T":8, "efSearch":32},
+             {"Ls":110, "T":8, "efSearch":16}, 
+             {"Ls":110, "T":8, "efSearch":32}, 
+             {"Ls":115, "T":8, "efSearch":16}, 
+             {"Ls":115, "T":8, "efSearch":32}, 
+             {"Ls":120, "T":8, "efSearch":32}, 
+             {"Ls":125, "T":8, "efSearch":32}, 
+             {"Ls":130, "T":8, "efSearch":32}, 
+             {"Ls":140, "T":8, "efSearch":32}]
