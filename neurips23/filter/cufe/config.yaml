@@ -52,15 +52,15 @@ yfcc-10M:
               "threads": 16
             }]
           query-args: | 
-            [{"nprobe": 4, "mt_threshold":0.0001},
-             {"nprobe": 4, "mt_threshold":0.0003}, 
-             {"nprobe": 8, "mt_threshold": 0.0003}, 
-             {"nprobe": 10, "mt_threshold":0.0001}, 
-             {"nprobe": 12, "mt_threshold": 0.0002},
+            [{"nprobe": 4, "mt_threshold":0.0003}, 
              {"nprobe": 16, "mt_threshold":0.0003}, 
-             {"nprobe": 16, "mt_threshold":0.0004}, 
-             {"nprobe": 16, "mt_threshold": 0.00045}
-             {"nprobe": 30, "mt_threshold": 0.0001}, 
-             {"nprobe": 32, "mt_threshold": 0.00033}
+             {"nprobe": 4, "mt_threshold":0.0001}, 
+             {"nprobe": 16, "mt_threshold":0.0001}, 
+             {"nprobe": 10, "mt_threshold":0.0001}, 
+             {"nprobe": 8, "mt_threshold": 0.0003}, 
+             {"nprobe": 32, "mt_threshold": 0.00033}, 
+             {"nprobe": 30, "mt_threshold": 0.00033}, 
+             {"nprobe": 12, "mt_threshold": 0.0002},
+             {"nprobe": 16, "mt_threshold": 0.00033}
             ]
 
