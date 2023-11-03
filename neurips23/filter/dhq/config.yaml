@@ -1,0 +1,47 @@
+random-filter-s:
+    dhq:
+      docker-tag: neurips23-filter-dhq
+      module: neurips23.filter.dhq.dhq
+      constructor: DHQINDEX
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+            [{"L": 200, "R": 24, "level": 2, "indexkey": "IVF1024,SQ8"}]
+          query-args: |
+            [
+                {"nprobe": 110, "num": 2100, "ef": 11, "random": 40}, 
+                {"nprobe": 110, "num": 2100, "ef": 13, "random": 35}, 
+                {"nprobe": 100, "num": 2400, "ef": 10, "random": 30}, 
+                {"nprobe": 100, "num": 2400, "ef": 10, "random": 45}, 
+                {"nprobe": 140, "num": 2100, "ef": 10, "random": 42}, 
+                {"nprobe": 140, "num": 2100, "ef": 10, "random": 41}, 
+                {"nprobe": 145, "num": 2100, "ef": 10, "random": 35}, 
+                {"nprobe": 115, "num": 2400, "ef": 10, "random": 30}, 
+                {"nprobe": 140, "num": 2100, "ef": 10, "random": 36}, 
+                {"nprobe": 155, "num": 2100, "ef": 10, "random": 35}
+            ]
+
+yfcc-10M:
+    dhq:
+      docker-tag: neurips23-filter-dhq
+      module: neurips23.filter.dhq.dhq
+      constructor: DHQINDEX
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+            [{"L": 200, "R": 24, "level": 2}]
+          query-args: |
+            [
+                {"nprobe": 110, "num": 2100, "ef": 11, "random": 40}, 
+                {"nprobe": 110, "num": 2100, "ef": 13, "random": 35}, 
+                {"nprobe": 100, "num": 2400, "ef": 10, "random": 30}, 
+                {"nprobe": 100, "num": 2400, "ef": 10, "random": 45}, 
+                {"nprobe": 140, "num": 2100, "ef": 10, "random": 42}, 
+                {"nprobe": 140, "num": 2100, "ef": 10, "random": 41}, 
+                {"nprobe": 145, "num": 2100, "ef": 10, "random": 35}, 
+                {"nprobe": 115, "num": 2400, "ef": 10, "random": 30}, 
+                {"nprobe": 140, "num": 2100, "ef": 10, "random": 36}, 
+                {"nprobe": 155, "num": 2100, "ef": 10, "random": 35}
+            ]

@@ -1,0 +1,37 @@
+sparse-small:
+    sustech-whu:
+      docker-tag: neurips23-sparse-sustech-whu
+      module: neurips23.sparse.sustech-whu.SUSTech-WHU 
+      constructor: HnswSparse
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+            [{"M":16,"ef":200}]
+          query-args: |
+            [{"ef":38},{"ef":40},{"ef":42},{"ef":48},{"ef":50},{"ef":59},{"ef":65},{"ef":70},{"ef":80},{"ef":82}]
+sparse-1M:
+    sustech-whu:
+      docker-tag: neurips23-sparse-sustech-whu
+      module: neurips23.sparse.sustech-whu.SUSTech-WHU 
+      constructor: HnswSparse
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+            [{"M":20,"ef":200}]
+          query-args: |
+            [{"ef":48},{"ef":50},{"ef":52},{"ef":55},{"ef":58},{"ef":50},{"ef":62},{"ef":65},{"ef":75},{"ef":80}]
+sparse-full:
+    sustech-whu:
+      docker-tag: neurips23-sparse-sustech-whu
+      module: neurips23.sparse.sustech-whu.SUSTech-WHU 
+      constructor: HnswSparse
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+            [{"M":20,"ef":1200}]
+          query-args: |
+            [{"ef":35},{"ef":40},{"ef":43},{"ef":45},{"ef":48},{"ef":50},{"ef":55},{"ef":65},{"ef":75},{"ef":80}]
+          
