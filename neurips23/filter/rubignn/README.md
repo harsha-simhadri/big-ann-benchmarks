@@ -56,3 +56,5 @@ Execute the build script: `docker_run_container_build.sh`.
 ## Build and search on random-filter-s
 
 Execute the build script: `docker_run_small_test.sh`.
+
+We have intergrate the bash script to contest framework, you can run `python3 run.py --algorithm rubignn --max-n-algorithms 2 --neurips23track filter --dataset random-filter-s` now. But this has extra overhead in searching, because every searching time it will reload the index.

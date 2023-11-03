@@ -30,6 +30,9 @@ jobs:
           - algorithm: vamana
             dataset: random-xs
             track: ood
+          - algorithm: rubignn
+            dataset: random-filter-s
+            track: filter
       fail-fast: false
 
     steps:
