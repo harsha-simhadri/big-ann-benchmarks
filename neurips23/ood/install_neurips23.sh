@@ -1,0 +1,11 @@
+python install.py --neurips23track ood --algorithm cufe
+python install.py --neurips23track ood --algorithm diskann
+python install.py --neurips23track ood --algorithm epsearch
+python install.py --neurips23track ood --algorithm mysteryann
+python install.py --neurips23track ood --algorithm mysteryann-dif
+python install.py --neurips23track ood --algorithm ngt
+python install.py --neurips23track ood --algorithm puck
+python install.py --neurips23track ood --algorithm puck-fizz
+python install.py --neurips23track ood --algorithm pyanns
+python install.py --neurips23track ood --algorithm sustech-ood
+python install.py --neurips23track ood --algorithm vamana
