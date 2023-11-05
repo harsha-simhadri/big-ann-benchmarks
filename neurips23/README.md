@@ -182,7 +182,7 @@ Please consult [this file](filter/faiss/Dockerfile) as an example.
 
 To build your Docker container, run:
 ```
-python install.py --neurips23track [task] --install [your_team_name]
+python install.py --neurips23track [task] --algorithm [your_team_name]
 ```
 
 ### Developing_Your_Algorithm
