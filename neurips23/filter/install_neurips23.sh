@@ -1,0 +1,9 @@
+python install.py --neurips23track filter --algorithm dhq
+python install.py --neurips23track filter --algorithm faiss
+python install.py --neurips23track filter --algorithm faissplus
+python install.py --neurips23track filter --algorithm fdufilterdiskann
+python install.py --neurips23track filter --algorithm hwtl_sdu_anns_filter
+python install.py --neurips23track filter --algorithm parlayivf
+python install.py --neurips23track filter --algorithm puck
+python install.py --neurips23track filter --algorithm pyanns
+python install.py --neurips23track filter --algorithm wm_filter
