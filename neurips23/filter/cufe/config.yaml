@@ -1,0 +1,66 @@
+random-filter-s:
+    cufe:
+      docker-tag: neurips23-filter-cufe
+      module: neurips23.filter.cufe.faissCUFE
+      constructor: faissCUFE
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+            [{"indexkey": "IVF1024,SQ8"}]
+          query-args: |
+            [{"nprobe": 1},
+              {"nprobe":2},
+              {"nprobe":4}]    
+random-s:
+    cufe:
+      docker-tag: neurips23-filter-cufe
+      module: neurips23.filter.cufe.faissCUFE
+      constructor: faissCUFE
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+            [{"indexkey": "IVF1024,SQ8"}]
+          query-args: |
+            [{"nprobe": 1},
+              {"nprobe":2},
+              {"nprobe":4}]
+yfcc-10M-unfiltered:
+    cufe:
+      docker-tag: neurips23-filter-cufe
+      module: neurips23.filter.cufe.faissCUFE
+      constructor: faissCUFE
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+            [{"indexkey": "IVF16384,SQ8", "binarysig": true, "threads": 16}]
+          query-args: |
+            [{"nprobe": 1}, {"nprobe": 4}, {"nprobe": 16}, {"nprobe": 64}]
+yfcc-10M:
+    cufe:
+      docker-tag: neurips23-filter-cufe
+      module: neurips23.filter.cufe.faissCUFE
+      constructor: faissCUFE
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+            [{"indexkey": "IVF4096,SQ8", 
+              "binarysig": true, 
+              "threads": 16
+            }]
+          query-args: | 
+            [{"nprobe": 4, "mt_threshold":0.0003}, 
+             {"nprobe": 16, "mt_threshold":0.0003}, 
+             {"nprobe": 4, "mt_threshold":0.0001}, 
+             {"nprobe": 16, "mt_threshold":0.0001}, 
+             {"nprobe": 10, "mt_threshold":0.0001}, 
+             {"nprobe": 8, "mt_threshold": 0.0003}, 
+             {"nprobe": 32, "mt_threshold": 0.00033}, 
+             {"nprobe": 30, "mt_threshold": 0.00033}, 
+             {"nprobe": 12, "mt_threshold": 0.0002},
+             {"nprobe": 16, "mt_threshold": 0.00033}
+            ]
+

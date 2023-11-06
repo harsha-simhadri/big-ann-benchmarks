@@ -37,6 +37,9 @@ jobs:
             dataset: random-xs
             track: ood
           - algorithm: cufe
+            dataset: random-s
+            track: filter
+          - algorithm: cufe
             dataset: sparse-small
             track: sparse
           - algorithm: vamana
