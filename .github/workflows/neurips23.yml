@@ -63,6 +63,9 @@ jobs:
           - algorithm: mysteryann
             dataset: random-xs
             track: ood
+          - algorithm: cufe
+            dataset: random-xs
+            track: streaming
           - algorithm: sustech-whu
             dataset: sparse-small
             track: sparse
