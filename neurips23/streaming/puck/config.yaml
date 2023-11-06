@@ -1,3 +1,19 @@
+random-xs:
+    puck:
+      docker-tag: neurips23-streaming-puck
+      module: neurips23.streaming.puck.puck
+      constructor: Puck
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+                [
+                    { "index_type": 1, "C":20, "F":20, "FN":10, "N":0, "filter_topk":200}
+                ]
+          query-args: |
+                [
+                    {"radius_rate":1.00 ,"search_coarse_count":5}                   
+                ]
 msturing-30M-clustered:
     puck:
       docker-tag: neurips23-streaming-puck
