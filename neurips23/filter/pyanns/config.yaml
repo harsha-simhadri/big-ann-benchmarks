@@ -1,0 +1,59 @@
+random-filter-s:
+  pyanns:
+    docker-tag: neurips23-filter-pyanns
+    module: neurips23.filter.pyanns.pyanns
+    constructor: Pyanns
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{"indexkey": "IVF1024,SQ8"}]
+        query-args: |
+          [{"nprobe": 1},
+            {"nprobe":2},
+            {"nprobe":4}]
+random-s:
+  pyanns:
+    docker-tag: neurips23-filter-pyanns
+    module: neurips23.filter.pyanns.pyanns
+    constructor: Pyanns
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{"indexkey": "IVF1024,SQ8"}]
+        query-args: |
+          [{"nprobe": 1},
+            {"nprobe":2},
+            {"nprobe":4}]
+yfcc-10M-unfiltered:
+  pyanns:
+    docker-tag: neurips23-filter-pyanns
+    module: neurips23.filter.pyanns.pyanns
+    constructor: Pyanns
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{"indexkey": "IVF16384,SQ8", "binarysig": true, "threads": 16}]
+        query-args: |
+          [{"nprobe": 1}, {"nprobe": 4}, {"nprobe": 16}, {"nprobe": 64}]
+yfcc-10M:
+  pyanns:
+    docker-tag: neurips23-filter-pyanns
+    module: neurips23.filter.pyanns.pyanns
+    constructor: Pyanns
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{"indexkey": "IVF16384,SQ8", 
+            "binarysig": true, 
+            "threads": 16
+          }]
+        query-args: |
+          [
+           {"nprobe": 16, "mt_threshold":0.0032},
+           {"nprobe": 16, "mt_threshold":0.0035},
+           {"nprobe": 32, "mt_threshold":0.001}
+          ]
