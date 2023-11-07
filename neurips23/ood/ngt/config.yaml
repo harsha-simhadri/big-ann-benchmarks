@@ -1,0 +1,34 @@
+random-xs:
+    ngt:
+      docker-tag: neurips23-ood-ngt
+      module: neurips23.ood.ngt.module
+      constructor: NGT
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"edge": 50, "outdegree": 10, "indegree": 100,
+                "epsilon": 0.1, "reduction": 0.39}]
+          #      "url": "https://public-rlab.east.edge.storage-yahoo.jp/neurips23/indexes/onng-random-50-10-100-0.10-0.39.tgz"}]
+          query-args: |
+              [{"epsilon": 1.1}]
+text2image-10M:
+    ngt:
+      docker-tag: neurips23-ood-ngt
+      module: neurips23.ood.ngt.module
+      constructor: NGT
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+              [{"edge": 140, "outdegree": 10, "indegree": 175,
+                "epsilon": 0.11, "reduction": 0.38}]
+          #      "url": "https://public-rlab.east.edge.storage-yahoo.jp/neurips23/indexes/onng-text2image-140-10-180-0.10-0.39.tgz"}]
+          query-args: |
+              [{"epsilon": 1.010},
+               {"epsilon": 1.014},
+               {"epsilon": 1.016},
+               {"epsilon": 1.017},
+               {"epsilon": 1.018},
+               {"epsilon": 1.020},
+               {"epsilon": 1.025}]
