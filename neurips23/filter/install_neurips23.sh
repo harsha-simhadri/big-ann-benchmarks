@@ -1,3 +1,4 @@
+python install.py --neurips23track filter --algorithm cufe
 python install.py --neurips23track filter --algorithm dhq
 python install.py --neurips23track filter --algorithm faiss
 python install.py --neurips23track filter --algorithm faissplus
