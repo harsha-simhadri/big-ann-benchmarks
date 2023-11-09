@@ -14,8 +14,13 @@ from scipy.sparse import csr_matrix
 from urllib.request import urlretrieve
 
 from .dataset_io import (
-    xbin_mmap, download_accelerated, download, sanitize,
-    knn_result_read, range_result_read, read_sparse_matrix,
+    xbin_mmap,
+    download_accelerated,
+    download,
+    sanitize,
+    knn_result_read,
+    range_result_read,
+    read_sparse_matrix,
     write_sparse_matrix,
 )
 
@@ -23,22 +28,25 @@ from .dataset_io import (
 BASEDIR = "data/"
 
 
-class Dataset():
+class Dataset:
     def prepare(self):
         """
         Download and prepare dataset, queries, groundtruth.
         """
         pass
+
     def get_dataset_fn(self):
         """
         Return filename of dataset file.
         """
         pass
+
     def get_dataset(self):
         """
         Return memmapped version of the dataset.
         """
         pass
+
     def get_dataset_iterator(self, bs=512, split=(1, 0)):
         """
         Return iterator over blocks of dataset of size at most 512.
@@ -48,16 +56,19 @@ class Dataset():
         processes / threads.
         """
         pass
+
     def get_queries(self):
         """
         Return (nq, d) array containing the nq queries.
         """
         pass
+
     def get_private_queries(self):
         """
         Return (private_nq, d) array containing the private_nq private queries.
         """
         pass
+
     def get_groundtruth(self, k=None):
         """
         Return (nq, k) array containing groundtruth indices
@@ -83,22 +94,22 @@ class Dataset():
         pass
 
     def default_count(self):
-        """ number of neighbors to return """
+        """number of neighbors to return"""
         return 10
 
     def short_name(self):
         return f"{self.__class__.__name__}-{self.nb}"
-    
+
     def __str__(self):
         return (
             f"Dataset {self.__class__.__name__} in dimension {self.d}, with distance {self.distance()}, "
-            f"search_type {self.search_type()}, size: Q {self.nq} B {self.nb}")
+            f"search_type {self.search_type()}, size: Q {self.nq} B {self.nb}"
+        )
 
 
 #############################################################################
 # Datasets for the competition
 ##############################################################################
-
 
 
 class DatasetCompetitionFormat(Dataset):
@@ -161,14 +172,14 @@ class DatasetCompetitionFormat(Dataset):
         else:
             # download cropped version of file
             file_size = 8 + self.d * self.nb * np.dtype(self.dtype).itemsize
-            outfile = outfile + '.crop_nb_%d' % self.nb
+            outfile = outfile + ".crop_nb_%d" % self.nb
             if os.path.exists(outfile):
                 print("file %s already exists" % outfile)
                 return
             download(sourceurl, outfile, max_size=file_size)
             # then overwrite the header...
-            header = np.memmap(outfile, shape=2, dtype='uint32', mode="r+")
-            
+            header = np.memmap(outfile, shape=2, dtype="uint32", mode="r+")
+
             assert header[0] == original_size
             assert header[1] == self.d
             header[0] = self.nb
@@ -178,12 +189,12 @@ class DatasetCompetitionFormat(Dataset):
         if os.path.exists(fn):
             return fn
         if self.nb != 10**9:
-            fn += '.crop_nb_%d' % self.nb
+            fn += ".crop_nb_%d" % self.nb
             return fn
         else:
             raise RuntimeError("file not found")
 
-    def get_dataset_iterator(self, bs=512, split=(1,0)):
+    def get_dataset_iterator(self, bs=512, split=(1, 0)):
         nsplit, rank = split
         i0, i1 = self.nb * rank // nsplit, self.nb * (rank + 1) // nsplit
         filename = self.get_dataset_fn()
@@ -202,13 +213,13 @@ class DatasetCompetitionFormat(Dataset):
 
     def search_type(self):
         return "knn"
-    
+
     def data_type(self):
         return "dense"
 
     def get_groundtruth(self, k=None):
         assert self.gt_fn is not None
-        fn = self.gt_fn.split("/")[-1]   # in case it's a URL
+        fn = self.gt_fn.split("/")[-1]  # in case it's a URL
         assert self.search_type() in ("knn", "knn_filtered")
 
         I, D = knn_result_read(os.path.join(self.basedir, fn))
@@ -232,7 +243,7 @@ class DatasetCompetitionFormat(Dataset):
 
     def get_private_queries(self):
         assert self.private_qs_url is not None
-        fn = self.private_qs_url.split("/")[-1]   # in case it's a URL
+        fn = self.private_qs_url.split("/")[-1]  # in case it's a URL
         filename = os.path.join(self.basedir, fn)
         x = xbin_mmap(filename, dtype=self.dtype)
         assert x.shape == (self.private_nq, self.d)
@@ -240,7 +251,7 @@ class DatasetCompetitionFormat(Dataset):
 
     def get_private_groundtruth(self, k=None):
         assert self.private_gt_url is not None
-        fn = self.private_gt_url.split("/")[-1]   # in case it's a URL
+        fn = self.private_gt_url.split("/")[-1]  # in case it's a URL
         assert self.search_type() == "knn"
 
         I, D = knn_result_read(os.path.join(self.basedir, fn))
@@ -251,7 +262,9 @@ class DatasetCompetitionFormat(Dataset):
             D = D[:, :k]
         return I, D
 
+
 subset_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/"
+
 
 class SSNPPDataset(DatasetCompetitionFormat):
     def __init__(self, nb_M=1000):
@@ -264,10 +277,13 @@ class SSNPPDataset(DatasetCompetitionFormat):
         self.ds_fn = "FB_ssnpp_database.u8bin"
         self.qs_fn = "FB_ssnpp_public_queries.u8bin"
         self.gt_fn = (
-            "FB_ssnpp_public_queries_1B_GT.rangeres" if self.nb_M == 1000 else
-            subset_url + "GT_100M/ssnpp-100M" if self.nb_M == 100 else
-            subset_url + "GT_10M/ssnpp-10M" if self.nb_M == 10 else
-            None
+            "FB_ssnpp_public_queries_1B_GT.rangeres"
+            if self.nb_M == 1000
+            else subset_url + "GT_100M/ssnpp-100M"
+            if self.nb_M == 100
+            else subset_url + "GT_10M/ssnpp-10M"
+            if self.nb_M == 10
+            else None
         )
 
         self.base_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/"
@@ -281,23 +297,24 @@ class SSNPPDataset(DatasetCompetitionFormat):
         return "range"
 
     def default_count(self):
-        """ for range search, this returns the squared range search radius """
+        """for range search, this returns the squared range search radius"""
         return 96237
 
     def distance(self):
         return "euclidean"
 
     def get_groundtruth(self, k=None):
-        """ override the ground-truth function as this is the only range search dataset """
+        """override the ground-truth function as this is the only range search dataset"""
         assert self.gt_fn is not None
-        fn = self.gt_fn.split("/")[-1]   # in case it's a URL
+        fn = self.gt_fn.split("/")[-1]  # in case it's a URL
         return range_result_read(os.path.join(self.basedir, fn))
 
     def get_private_groundtruth(self, k=None):
-        """ override the ground-truth function as this is the only range search dataset """
+        """override the ground-truth function as this is the only range search dataset"""
         assert self.private_gt_url is not None
-        fn = self.private_gt_url.split("/")[-1]   # in case it's a URL
+        fn = self.private_gt_url.split("/")[-1]  # in case it's a URL
         return range_result_read(os.path.join(self.basedir, fn))
+
 
 class BigANNDataset(DatasetCompetitionFormat):
     def __init__(self, nb_M=1000):
@@ -309,22 +326,27 @@ class BigANNDataset(DatasetCompetitionFormat):
         self.ds_fn = "base.1B.u8bin"
         self.qs_fn = "query.public.10K.u8bin"
         self.gt_fn = (
-            "GT.public.1B.ibin" if self.nb_M == 1000 else
-            subset_url + "GT_100M/bigann-100M" if self.nb_M == 100 else
-            subset_url + "GT_10M/bigann-10M" if self.nb_M == 10 else
-            None
+            "GT.public.1B.ibin"
+            if self.nb_M == 1000
+            else subset_url + "GT_100M/bigann-100M"
+            if self.nb_M == 100
+            else subset_url + "GT_10M/bigann-10M"
+            if self.nb_M == 10
+            else None
         )
         # self.gt_fn = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/bigann/public_query_gt100.bin" if self.nb == 10**9 else None
-        self.base_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/bigann/"
+        self.base_url = (
+            "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/bigann/"
+        )
         self.basedir = os.path.join(BASEDIR, "bigann")
 
         self.private_nq = 10000
         self.private_qs_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/bigann/query.private.799253207.10K.u8bin"
         self.private_gt_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/GT_1B_final_2bf4748c7817/bigann-1B.bin"
 
-
     def distance(self):
         return "euclidean"
+
 
 class Deep1BDataset(DatasetCompetitionFormat):
     def __init__(self, nb_M=1000):
@@ -336,12 +358,17 @@ class Deep1BDataset(DatasetCompetitionFormat):
         self.ds_fn = "base.1B.fbin"
         self.qs_fn = "query.public.10K.fbin"
         self.gt_fn = (
-            "https://storage.yandexcloud.net/yandex-research/ann-datasets/deep_new_groundtruth.public.10K.bin" if self.nb_M == 1000 else
-            subset_url + "GT_100M/deep-100M" if self.nb_M == 100 else
-            subset_url + "GT_10M/deep-10M" if self.nb_M == 10 else
-            None
+            "https://storage.yandexcloud.net/yandex-research/ann-datasets/deep_new_groundtruth.public.10K.bin"
+            if self.nb_M == 1000
+            else subset_url + "GT_100M/deep-100M"
+            if self.nb_M == 100
+            else subset_url + "GT_10M/deep-10M"
+            if self.nb_M == 10
+            else None
         )
-        self.base_url = "https://storage.yandexcloud.net/yandex-research/ann-datasets/DEEP/"
+        self.base_url = (
+            "https://storage.yandexcloud.net/yandex-research/ann-datasets/DEEP/"
+        )
         self.basedir = os.path.join(BASEDIR, "deep1b")
 
         self.private_nq = 30000
@@ -355,7 +382,6 @@ class Deep1BDataset(DatasetCompetitionFormat):
         return "euclidean"
 
 
-
 class Text2Image1B(DatasetCompetitionFormat):
     def __init__(self, nb_M=1000):
         self.nb_M = nb_M
@@ -366,12 +392,17 @@ class Text2Image1B(DatasetCompetitionFormat):
         self.ds_fn = "base.1B.fbin"
         self.qs_fn = "query.public.100K.fbin"
         self.gt_fn = (
-            "https://storage.yandexcloud.net/yandex-research/ann-datasets/t2i_new_groundtruth.public.100K.bin" if self.nb_M == 1000 else
-            subset_url + "GT_100M/text2image-100M" if self.nb_M == 100 else
-            subset_url + "GT_10M/text2image-10M" if self.nb_M == 10 else
-            None
+            "https://storage.yandexcloud.net/yandex-research/ann-datasets/t2i_new_groundtruth.public.100K.bin"
+            if self.nb_M == 1000
+            else subset_url + "GT_100M/text2image-100M"
+            if self.nb_M == 100
+            else subset_url + "GT_10M/text2image-10M"
+            if self.nb_M == 10
+            else None
         )
-        self.base_url = "https://storage.yandexcloud.net/yandex-research/ann-datasets/T2I/"
+        self.base_url = (
+            "https://storage.yandexcloud.net/yandex-research/ann-datasets/T2I/"
+        )
         self.basedir = os.path.join(BASEDIR, "text2image1B")
 
         self.private_nq = 30000
@@ -386,9 +417,14 @@ class Text2Image1B(DatasetCompetitionFormat):
 
     def get_query_train(self, maxn=10**6):
         xq_train = np.memmap(
-            BASEDIR + "/text2image1B/query.learn.50M.fbin", offset=8,
-            dtype='float32', shape=(maxn, 200), mode='r')
+            BASEDIR + "/text2image1B/query.learn.50M.fbin",
+            offset=8,
+            dtype="float32",
+            shape=(maxn, 200),
+            mode="r",
+        )
         return np.array(xq_train)
+
 
 class MSTuringANNS(DatasetCompetitionFormat):
     def __init__(self, nb_M=1000):
@@ -400,11 +436,15 @@ class MSTuringANNS(DatasetCompetitionFormat):
         self.ds_fn = "base1b.fbin"
         self.qs_fn = "query100K.fbin"
         self.gt_fn = (
-            "query_gt100.bin" if self.nb_M == 1000 else
-            "msturing-gt-100M" if self.nb_M == 100 else # back up subset_url + "GT_100M/msturing-100M"
-            "msturing-gt-10M" if self.nb_M == 10 else # back up subset_url + "GT_100M/msturing-10M"
-            "msturing-gt-1M" if self.nb_M == 1 else
-            None
+            "query_gt100.bin"
+            if self.nb_M == 1000
+            else "msturing-gt-100M"
+            if self.nb_M == 100
+            else "msturing-gt-10M"  # back up subset_url + "GT_100M/msturing-100M"
+            if self.nb_M == 10
+            else "msturing-gt-1M"  # back up subset_url + "GT_100M/msturing-10M"
+            if self.nb_M == 1
+            else None
         )
         self.base_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/MSFT-TURING-ANNS/"
         self.basedir = os.path.join(BASEDIR, "MSTuringANNS")
@@ -420,6 +460,7 @@ class MSTuringANNS(DatasetCompetitionFormat):
     def distance(self):
         return "euclidean"
 
+
 class MSTuringClustered10M(DatasetCompetitionFormat):
     def __init__(self):
         self.nb = 10**6 * 10
@@ -429,7 +470,7 @@ class MSTuringClustered10M(DatasetCompetitionFormat):
         self.ds_fn = "msturing-10M-clustered.fbin"
         self.qs_fn = "testQuery10K.fbin"
         self.gt_fn = "clu_msturing10M_gt100"
-        
+
         self.base_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp23/clustered_data/msturing-10M-clustered/"
         self.basedir = os.path.join(BASEDIR, "MSTuring-10M-clustered")
 
@@ -438,10 +479,11 @@ class MSTuringClustered10M(DatasetCompetitionFormat):
 
     def distance(self):
         return "euclidean"
-    
-    def prepare(self, skip_data=False, original_size=10 ** 9):
-        return super().prepare(skip_data, original_size = self.nb)
-    
+
+    def prepare(self, skip_data=False, original_size=10**9):
+        return super().prepare(skip_data, original_size=self.nb)
+
+
 class MSTuringClustered30M(DatasetCompetitionFormat):
     def __init__(self):
         self.nb = 29998994
@@ -451,7 +493,7 @@ class MSTuringClustered30M(DatasetCompetitionFormat):
         self.ds_fn = "30M-clustered64.fbin"
         self.qs_fn = "testQuery10K.fbin"
         self.gt_fn = "clu_msturing30M_gt100"
-        
+
         self.base_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp23/clustered_data/msturing-30M-clustered/"
         self.basedir = os.path.join(BASEDIR, "MSTuring-30M-clustered")
 
@@ -460,9 +502,10 @@ class MSTuringClustered30M(DatasetCompetitionFormat):
 
     def distance(self):
         return "euclidean"
-    
-    def prepare(self, skip_data=False, original_size=10 ** 9):
-        return super().prepare(skip_data, original_size = self.nb)
+
+    def prepare(self, skip_data=False, original_size=10**9):
+        return super().prepare(skip_data, original_size=self.nb)
+
 
 class MSSPACEV1B(DatasetCompetitionFormat):
     def __init__(self, nb_M=1000):
@@ -474,11 +517,15 @@ class MSSPACEV1B(DatasetCompetitionFormat):
         self.ds_fn = "spacev1b_base.i8bin"
         self.qs_fn = "query.i8bin"
         self.gt_fn = (
-            "public_query_gt100.bin" if self.nb_M == 1000 else
-            "msspacev-gt-100M" if self.nb_M == 100 else # backup subset_url + "GT_100M/msspacev-100M"
-            "msspacev-gt-10M" if self.nb_M == 10 else # backup subset_url + "GT_10M/msspacev-10M"
-            "msspacev-gt-1M" if self.nb_M == 1 else
-            None
+            "public_query_gt100.bin"
+            if self.nb_M == 1000
+            else "msspacev-gt-100M"
+            if self.nb_M == 100
+            else "msspacev-gt-10M"  # backup subset_url + "GT_100M/msspacev-100M"
+            if self.nb_M == 10
+            else "msspacev-gt-1M"  # backup subset_url + "GT_10M/msspacev-10M"
+            if self.nb_M == 1
+            else None
         )
         self.base_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/spacev1b/"
         self.basedir = os.path.join(BASEDIR, "MSSPACEV1B")
@@ -490,17 +537,18 @@ class MSSPACEV1B(DatasetCompetitionFormat):
     def distance(self):
         return "euclidean"
 
+
 class RandomClusteredDS(DatasetCompetitionFormat):
     def __init__(self, basedir="random-clustered"):
         self.nb = 10000
         self.nq = 1000
         self.d = 20
-        self.dtype = 'float32'
+        self.dtype = "float32"
         self.ds_fn = f"clu-random.fbin"
         self.qs_fn = f"queries_1000_20.fbin"
         self.gt_fn = f"clu_random_gt100"
 
-        self.base_url="https://comp21storage.blob.core.windows.net/publiccontainer/comp23/clustered_data/random-xs-clustered/"
+        self.base_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp23/clustered_data/random-xs-clustered/"
 
         self.basedir = os.path.join(BASEDIR, f"{basedir}{self.nb}")
         if not os.path.exists(self.basedir):
@@ -520,16 +568,17 @@ class RandomClusteredDS(DatasetCompetitionFormat):
 
     def default_count(self):
         return 10
-    
-    def prepare(self, skip_data=False, original_size=10 ** 9):
-        return super().prepare(skip_data, original_size = self.nb)
+
+    def prepare(self, skip_data=False, original_size=10**9):
+        return super().prepare(skip_data, original_size=self.nb)
+
 
 class RandomRangeDS(DatasetCompetitionFormat):
     def __init__(self, nb, nq, d):
         self.nb = nb
         self.nq = nq
         self.d = d
-        self.dtype = 'float32'
+        self.dtype = "float32"
         self.ds_fn = f"data_{self.nb}_{self.d}"
         self.qs_fn = f"queries_{self.nq}_{self.d}"
         self.gt_fn = f"gt_{self.nb}_{self.nq}_{self.d}"
@@ -544,47 +593,51 @@ class RandomRangeDS(DatasetCompetitionFormat):
 
         print(f"Preparing datasets with {self.nb} random points and {self.nq} queries.")
 
-
         X, _ = sklearn.datasets.make_blobs(
-            n_samples=self.nb + self.nq, n_features=self.d,
-            centers=self.nq, random_state=1)
+            n_samples=self.nb + self.nq,
+            n_features=self.d,
+            centers=self.nq,
+            random_state=1,
+        )
 
         data, queries = sklearn.model_selection.train_test_split(
-            X, test_size=self.nq, random_state=1)
-
+            X, test_size=self.nq, random_state=1
+        )
 
         with open(os.path.join(self.basedir, self.ds_fn), "wb") as f:
-            np.array([self.nb, self.d], dtype='uint32').tofile(f)
-            data.astype('float32').tofile(f)
+            np.array([self.nb, self.d], dtype="uint32").tofile(f)
+            data.astype("float32").tofile(f)
         with open(os.path.join(self.basedir, self.qs_fn), "wb") as f:
-            np.array([self.nq, self.d], dtype='uint32').tofile(f)
-            queries.astype('float32').tofile(f)
+            np.array([self.nq, self.d], dtype="uint32").tofile(f)
+            queries.astype("float32").tofile(f)
 
         print("Computing groundtruth")
 
-        nbrs = NearestNeighbors(n_neighbors=100, metric="euclidean", algorithm='brute').fit(data)
+        nbrs = NearestNeighbors(
+            n_neighbors=100, metric="euclidean", algorithm="brute"
+        ).fit(data)
         D, I = nbrs.kneighbors(queries)
 
         nres = np.count_nonzero((D < math.sqrt(self.default_count())) == True, axis=1)
         DD = np.zeros(nres.sum())
-        II = np.zeros(nres.sum(), dtype='int32')
+        II = np.zeros(nres.sum(), dtype="int32")
 
         s = 0
         for i, l in enumerate(nres):
-            DD[s : s + l] = D[i, 0 : l]
-            II[s : s + l] = I[i, 0 : l]
+            DD[s : s + l] = D[i, 0:l]
+            II[s : s + l] = I[i, 0:l]
             s += l
 
         with open(os.path.join(self.basedir, self.gt_fn), "wb") as f:
-            np.array([self.nq, nres.sum()], dtype='uint32').tofile(f)
-            nres.astype('int32').tofile(f)
-            II.astype('int32').tofile(f)
-            DD.astype('float32').tofile(f)
+            np.array([self.nq, nres.sum()], dtype="uint32").tofile(f)
+            nres.astype("int32").tofile(f)
+            II.astype("int32").tofile(f)
+            DD.astype("float32").tofile(f)
 
     def get_groundtruth(self, k=None):
-        """ override the ground-truth function as this is the only range search dataset """
+        """override the ground-truth function as this is the only range search dataset"""
         assert self.gt_fn is not None
-        fn = self.gt_fn.split("/")[-1]   # in case it's a URL
+        fn = self.gt_fn.split("/")[-1]  # in case it's a URL
         return range_result_read(os.path.join(self.basedir, fn))
 
     def search_type(self):
@@ -599,8 +652,9 @@ class RandomRangeDS(DatasetCompetitionFormat):
     def __str__(self):
         return f"RandomRange({self.nb})"
 
+
 class YFCC100MDataset(DatasetCompetitionFormat):
-    """ the 2023 competition """
+    """the 2023 competition"""
 
     def __init__(self, filtered=True, dummy=False):
         self.filtered = filtered
@@ -618,7 +672,9 @@ class YFCC100MDataset(DatasetCompetitionFormat):
             self.qs_private_fn = "dummy2.query.private.%d.100K.u8bin" % private_key
             self.ds_metadata_fn = "dummy2.base.metadata.10M.spmat"
             self.qs_metadata_fn = "dummy2.query.metadata.public.100K.spmat"
-            self.qs_private_metadata_fn = "dummy2.query.metadata.private.%d.100K.spmat" % private_key
+            self.qs_private_metadata_fn = (
+                "dummy2.query.metadata.private.%d.100K.spmat" % private_key
+            )
             if filtered:
                 # no subset as the database is pretty small.
                 self.gt_fn = "dummy2.GT.public.ibin"
@@ -632,7 +688,9 @@ class YFCC100MDataset(DatasetCompetitionFormat):
             self.qs_private_fn = "query.private.%d.100K.u8bin" % private_key
             self.ds_metadata_fn = "base.metadata.10M.spmat"
             self.qs_metadata_fn = "query.metadata.public.100K.spmat"
-            self.qs_private_metadata_fn = "query.metadata.private.%d.100K.spmat" % private_key
+            self.qs_private_metadata_fn = (
+                "query.metadata.private.%d.100K.spmat" % private_key
+            )
             if filtered:
                 # no subset as the database is pretty small.
                 self.gt_fn = "GT.public.ibin"
@@ -640,7 +698,9 @@ class YFCC100MDataset(DatasetCompetitionFormat):
                 self.gt_fn = "unfiltered.GT.public.ibin"
 
             # data is uploaded but download script not ready.
-        self.base_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/yfcc100M/"
+        self.base_url = (
+            "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/yfcc100M/"
+        )
         self.basedir = os.path.join(BASEDIR, "yfcc100M")
 
         self.private_nq = 100000
@@ -653,7 +713,11 @@ class YFCC100MDataset(DatasetCompetitionFormat):
 
     def prepare(self, skip_data=False):
         super().prepare(skip_data, 10**7)
-        for fn in (self.metadata_base_url, self.metadata_queries_url, self.metadata_private_queries_url):
+        for fn in (
+            self.metadata_base_url,
+            self.metadata_queries_url,
+            self.metadata_private_queries_url,
+        ):
             if fn:
                 outfile = os.path.join(self.basedir, fn.split("/")[-1])
                 if os.path.exists(outfile):
@@ -666,10 +730,12 @@ class YFCC100MDataset(DatasetCompetitionFormat):
 
     def get_queries_metadata(self):
         return read_sparse_matrix(os.path.join(self.basedir, self.qs_metadata_fn))
-    
+
     def get_private_queries_metadata(self):
-        return read_sparse_matrix(os.path.join(self.basedir, self.qs_private_metadata_fn))
-    
+        return read_sparse_matrix(
+            os.path.join(self.basedir, self.qs_private_metadata_fn)
+        )
+
     def distance(self):
         return "euclidean"
 
@@ -681,38 +747,45 @@ class YFCC100MDataset(DatasetCompetitionFormat):
 
 
 def _strip_gz(filename):
-    if not filename.endswith('.gz'):
-        raise RuntimeError(f"expected a filename ending with '.gz'. Received: {filename}")
+    if not filename.endswith(".gz"):
+        raise RuntimeError(
+            f"expected a filename ending with '.gz'. Received: {filename}"
+        )
     return filename[:-3]
 
 
 def _gunzip_if_needed(filename):
-    if filename.endswith('.gz'):
-        print('unzipping', filename, '...', end=" ", flush=True)
+    if filename.endswith(".gz"):
+        print("unzipping", filename, "...", end=" ", flush=True)
 
-        with gzip.open(filename, 'rb') as f_in, open(_strip_gz(filename), 'wb') as f_out:
+        with gzip.open(filename, "rb") as f_in, open(
+            _strip_gz(filename), "wb"
+        ) as f_out:
             shutil.copyfileobj(f_in, f_out)
 
         os.remove(filename)
-        print('done.')
+        print("done.")
 
 
 class SparseDataset(DatasetCompetitionFormat):
-    """ the 2023 competition
-        Sparse vectors for sparse max inner product search
-        Data is based on MSMARCO passage retrieval data (text passages and queries),
-        embedded via the SPLADE model.
+    """the 2023 competition
+    Sparse vectors for sparse max inner product search
+    Data is based on MSMARCO passage retrieval data (text passages and queries),
+    embedded via the SPLADE model.
 
-        The class overrides several methods since the sparse format is different than other datasets.
+    The class overrides several methods since the sparse format is different than other datasets.
     """
 
     def __init__(self, version="small"):
+        versions = {
+            "small": (100000, "base_small.csr.gz", "base_small.dev.gt"),
+            "1M": (1000000, "base_1M.csr.gz", "base_1M.dev.gt"),
+            "full": (8841823, "base_full.csr.gz", "base_full.dev.gt"),
+        }
 
-        versions = {"small": (100000, "base_small.csr.gz", "base_small.dev.gt"),
-                    "1M": (1000000, "base_1M.csr.gz", "base_1M.dev.gt"),
-                    "full": (8841823, "base_full.csr.gz", "base_full.dev.gt")}
-
-        assert version in versions, f'version="{version}" is invalid. Please choose one of {list(versions.keys())}.'
+        assert (
+            version in versions
+        ), f'version="{version}" is invalid. Please choose one of {list(versions.keys())}.'
 
         self.nb = versions[version][0]
         self.nq = 6980
@@ -723,13 +796,17 @@ class SparseDataset(DatasetCompetitionFormat):
 
         self.qs_private_fn = ""  # TBD
 
-        self.base_url = "https://storage.googleapis.com/ann-challenge-sparse-vectors/csr/"
+        self.base_url = (
+            "https://storage.googleapis.com/ann-challenge-sparse-vectors/csr/"
+        )
         self.basedir = os.path.join(BASEDIR, "sparse")
 
         self.gt_fn = versions[version][2]
         self.private_gt = ""  # TBD
 
-        self.d = np.nan # this is only for compatibility with printing the name of the class
+        self.d = (
+            np.nan
+        )  # this is only for compatibility with printing the name of the class
 
     def prepare(self, skip_data=False):
         # downloads the datasets and unzips (if necessary).
@@ -744,7 +821,7 @@ class SparseDataset(DatasetCompetitionFormat):
 
             sourceurl = os.path.join(self.base_url, fn)
             outfile = os.path.join(self.basedir, fn)
-            if outfile.endswith('.gz'):
+            if outfile.endswith(".gz"):
                 # check if the unzipped file already exists
                 if os.path.exists(_strip_gz(outfile)):
                     print("unzipped version of file %s already exists" % outfile)
@@ -764,7 +841,7 @@ class SparseDataset(DatasetCompetitionFormat):
         fn = self.ds_fn
         sourceurl = os.path.join(self.base_url, fn)
         outfile = os.path.join(self.basedir, fn)
-        if outfile.endswith('.gz'):
+        if outfile.endswith(".gz"):
             # check if the unzipped file already exists
             unzipped_outfile = _strip_gz(outfile)
             if os.path.exists(unzipped_outfile):
@@ -784,7 +861,7 @@ class SparseDataset(DatasetCompetitionFormat):
         raise RuntimeError("file not found")
 
     def get_dataset_iterator(self, bs=512, split=(1, 0)):
-        assert split == (1,0), 'No sharding supported yet.'  # todo
+        assert split == (1, 0), "No sharding supported yet."  # todo
 
         filename = self.get_dataset_fn()
 
@@ -803,7 +880,6 @@ class SparseDataset(DatasetCompetitionFormat):
         #     j1 = min(j0 + bs, i1)
         #     yield sanitize(x[j0:j1])
 
-
     def get_groundtruth(self, k=None):
         assert self.gt_fn is not None
         assert self.search_type() == "knn"
@@ -817,13 +893,15 @@ class SparseDataset(DatasetCompetitionFormat):
         return I, D
 
     def get_dataset(self):
-        assert self.nb <= 10 ** 6, "dataset too large, use iterator"
+        assert self.nb <= 10**6, "dataset too large, use iterator"
         return next(self.get_dataset_iterator(bs=self.nb))
 
     def get_queries(self):
         filename = os.path.join(self.basedir, self.qs_fn)
         print(filename)
-        x = read_sparse_matrix(_strip_gz(filename), do_mmap=False)  # read the queries file. It is a small file, so no need to mmap
+        x = read_sparse_matrix(
+            _strip_gz(filename), do_mmap=False
+        )  # read the queries file. It is a small file, so no need to mmap
         assert x.shape[0] == self.nq
         return x
 
@@ -838,7 +916,7 @@ class SparseDataset(DatasetCompetitionFormat):
 
     def search_type(self):
         return "knn"
-    
+
     def data_type(self):
         return "sparse"
 
@@ -848,7 +926,7 @@ class RandomDS(DatasetCompetitionFormat):
         self.nb = nb
         self.nq = nq
         self.d = d
-        self.dtype = 'float32'
+        self.dtype = "float32"
         self.ds_fn = f"data_{self.nb}_{self.d}"
         self.qs_fn = f"queries_{self.nq}_{self.d}"
         self.gt_fn = f"gt_{self.nb}_{self.nq}_{self.d}"
@@ -863,30 +941,34 @@ class RandomDS(DatasetCompetitionFormat):
 
         print(f"Preparing datasets with {self.nb} random points and {self.nq} queries.")
 
-
         X, _ = sklearn.datasets.make_blobs(
-            n_samples=self.nb + self.nq, n_features=self.d,
-            centers=self.nq, random_state=1)
+            n_samples=self.nb + self.nq,
+            n_features=self.d,
+            centers=self.nq,
+            random_state=1,
+        )
 
         data, queries = sklearn.model_selection.train_test_split(
-            X, test_size=self.nq, random_state=1)
-
+            X, test_size=self.nq, random_state=1
+        )
 
         with open(os.path.join(self.basedir, self.ds_fn), "wb") as f:
-            np.array([self.nb, self.d], dtype='uint32').tofile(f)
-            data.astype('float32').tofile(f)
+            np.array([self.nb, self.d], dtype="uint32").tofile(f)
+            data.astype("float32").tofile(f)
         with open(os.path.join(self.basedir, self.qs_fn), "wb") as f:
-            np.array([self.nq, self.d], dtype='uint32').tofile(f)
-            queries.astype('float32').tofile(f)
+            np.array([self.nq, self.d], dtype="uint32").tofile(f)
+            queries.astype("float32").tofile(f)
 
         print("Computing groundtruth")
 
-        nbrs = NearestNeighbors(n_neighbors=100, metric="euclidean", algorithm='brute').fit(data)
+        nbrs = NearestNeighbors(
+            n_neighbors=100, metric="euclidean", algorithm="brute"
+        ).fit(data)
         D, I = nbrs.kneighbors(queries)
         with open(os.path.join(self.basedir, self.gt_fn), "wb") as f:
-            np.array([self.nq, 100], dtype='uint32').tofile(f)
-            I.astype('uint32').tofile(f)
-            D.astype('float32').tofile(f)
+            np.array([self.nq, 100], dtype="uint32").tofile(f)
+            I.astype("uint32").tofile(f)
+            D.astype("float32").tofile(f)
 
     def search_type(self):
         return "knn"
@@ -899,7 +981,7 @@ class RandomDS(DatasetCompetitionFormat):
 
     def default_count(self):
         return 10
-    
+
 
 class RandomFilterDS(RandomDS):
     def __init__(self, nb, nq, d):
@@ -912,21 +994,27 @@ class RandomFilterDS(RandomDS):
         import sklearn.model_selection
         from sklearn.neighbors import NearestNeighbors
 
-        print(f"Preparing datasets with {self.nb} random points, {self.nq} queries, and two filters.")
+        print(
+            f"Preparing datasets with {self.nb} random points, {self.nq} queries, and two filters."
+        )
 
         X, _ = sklearn.datasets.make_blobs(
-            n_samples=self.nb + self.nq, n_features=self.d,
-            centers=self.nq, random_state=1)
+            n_samples=self.nb + self.nq,
+            n_features=self.d,
+            centers=self.nq,
+            random_state=1,
+        )
 
         data, queries = sklearn.model_selection.train_test_split(
-            X, test_size=self.nq, random_state=1) 
+            X, test_size=self.nq, random_state=1
+        )
 
         filter1 = [1, 2]
-        filter2 = [3, 4]       
+        filter2 = [3, 4]
 
         assert self.nb % 2 == 0
 
-        # simple filters, first half of the data matches second 
+        # simple filters, first half of the data matches second
         # half of the queries, and vice versa
 
         data_filters = [filter1] * (self.nb // 2) + [filter2] * (self.nb // 2)
@@ -935,11 +1023,11 @@ class RandomFilterDS(RandomDS):
         assert len(data_filters) == data.shape[0]
 
         with open(os.path.join(self.basedir, self.ds_fn), "wb") as f:
-            np.array([self.nb, self.d], dtype='uint32').tofile(f)
-            data.astype('float32').tofile(f)
+            np.array([self.nb, self.d], dtype="uint32").tofile(f)
+            data.astype("float32").tofile(f)
         with open(os.path.join(self.basedir, self.qs_fn), "wb") as f:
-            np.array([self.nq, self.d], dtype='uint32').tofile(f)
-            queries.astype('float32').tofile(f) 
+            np.array([self.nq, self.d], dtype="uint32").tofile(f)
+            queries.astype("float32").tofile(f)
 
         data_indices = np.array(data_filters).flatten()
         data_indptr = [2 * i for i in range(self.nb)] + [2 * self.nb]
@@ -951,35 +1039,41 @@ class RandomFilterDS(RandomDS):
         query_data = [1] * self.nq * 2
         query_metadata_sparse = csr_matrix((query_data, query_indices, query_indptr))
 
-        write_sparse_matrix(data_metadata_sparse, 
-                            os.path.join(self.basedir, self.ds_metadata_fn))
-        write_sparse_matrix(query_metadata_sparse, 
-                            os.path.join(self.basedir, self.qs_metadata_fn))
+        write_sparse_matrix(
+            data_metadata_sparse, os.path.join(self.basedir, self.ds_metadata_fn)
+        )
+        write_sparse_matrix(
+            query_metadata_sparse, os.path.join(self.basedir, self.qs_metadata_fn)
+        )
 
         print("Computing groundtruth")
 
         n_neighbors = 100
 
-        nbrs = NearestNeighbors(n_neighbors=n_neighbors, metric="euclidean", algorithm='brute').fit(data[:self.nb // 2])
-        DD, II = nbrs.kneighbors(queries[self.nq // 2:])
+        nbrs = NearestNeighbors(
+            n_neighbors=n_neighbors, metric="euclidean", algorithm="brute"
+        ).fit(data[: self.nb // 2])
+        DD, II = nbrs.kneighbors(queries[self.nq // 2 :])
 
-        nbrs = NearestNeighbors(n_neighbors=n_neighbors, metric="euclidean", algorithm='brute').fit(data[self.nb // 2: ])
-        D, I = nbrs.kneighbors(queries[:self.nq // 2])
+        nbrs = NearestNeighbors(
+            n_neighbors=n_neighbors, metric="euclidean", algorithm="brute"
+        ).fit(data[self.nb // 2 :])
+        D, I = nbrs.kneighbors(queries[: self.nq // 2])
 
         D = np.concatenate((D, DD))
         I = np.concatenate((I + self.nb // 2, II))
 
         with open(os.path.join(self.basedir, self.gt_fn), "wb") as f:
-            np.array([self.nq, n_neighbors], dtype='uint32').tofile(f)
-            I.astype('uint32').tofile(f)
-            D.astype('float32').tofile(f)
+            np.array([self.nq, n_neighbors], dtype="uint32").tofile(f)
+            I.astype("uint32").tofile(f)
+            D.astype("float32").tofile(f)
 
     def get_dataset_metadata(self):
         return read_sparse_matrix(os.path.join(self.basedir, self.ds_metadata_fn))
 
     def get_queries_metadata(self):
         return read_sparse_matrix(os.path.join(self.basedir, self.qs_metadata_fn))
-    
+
     def search_type(self):
         return "knn_filtered"
 
@@ -987,56 +1081,131 @@ class RandomFilterDS(RandomDS):
         return f"RandomFilter({self.nb})"
 
 
+class OpenAIEmbedding1M(DatasetCompetitionFormat):
+    def __init__(self, query_selection_random_seed):
+        self.seed = query_selection_random_seed
+        self.basedir = os.path.join(BASEDIR, "openai-embedding-1M")
+        self.d = 1536
+        self.nb = 1000000
+        self.nq = 100000
+        self.ds_fn = "base1m.fbin"
+        self.qs_fn = "queries_100k.fbin"
+        self.gt_fn = "gt_1m_100k.bin"
+
+    def prepare(self, skip_data=False):
+        from datasets import load_dataset
+        import tqdm
+        import numpy as np
+        import faiss
+
+        os.makedirs(self.basedir, exist_ok=True)
+
+        print("Downloading dataset...")
+        dataset = load_dataset("KShivendu/dbpedia-entities-openai-1M", split="train")
+
+        print("Converting to competition format...")
+        data = []
+        for row in tqdm.tqdm(dataset, desc="Collecting vectors", unit="vector"):
+            data.append(np.array(row["openai"], dtype=np.float32))
+        data = np.array(data)
+        with open(os.path.join(self.basedir, self.ds_fn), "wb") as f:
+            np.array(data.shape, dtype=np.uint32).tofile(f)
+            data.tofile(f)
+
+        print(f"Selecting queries using random seed: {self.seed}...")
+        rand = np.random.RandomState(self.seed)
+        rand.shuffle(data)
+        queries = data[:100000]
+        with open(os.path.join(self.basedir, self.qs_fn), "wb") as f:
+            np.array(queries.shape, dtype=np.uint32).tofile(f)
+            queries.tofile(f)
+
+        k = 100
+        batch_size = 1000
+        print(f"Computing groundtruth for k = {k} using batch_size = {batch_size}...")
+        index = faiss.IndexFlatIP(data.shape[1])
+        index.add(data)
+        ids = np.zeros((len(queries), k), dtype=np.uint32)
+        distances = np.zeros((len(queries), k), dtype=np.float32)
+        for i in tqdm.tqdm(
+            range(0, len(queries), batch_size),
+            total=len(queries) // batch_size,
+            desc="Brute force scan using FAISS",
+            unit=" batch",
+        ):
+            D, I = index.search(queries[i : i + batch_size], k)
+            ids[i : i + batch_size] = I
+            distances[i : i + batch_size] = D
+        with open(os.path.join(self.basedir, self.gt_fn), "wb") as f:
+            np.array(ids.shape, dtype=np.uint32).tofile(f)
+            ids.tofile(f)
+            distances.tofile(f)
+
+        print(f"Done. Dataset files are in {self.basedir}.")
+
+    def search_type(self):
+        """
+        "knn" or "range" or "knn_filtered"
+        """
+        return "knn"
+
+    def distance(self):
+        """
+        "euclidean" or "ip" or "angular"
+        """
+        return "eculidean"
+
+    def data_type(self):
+        """
+        "dense" or "sparse"
+        """
+        return "dense"
+
+    def default_count(self):
+        """number of neighbors to return"""
+        return 10
+
+    def short_name(self):
+        return f"{self.__class__.__name__}-{self.nb}"
+
 
 DATASETS = {
-    'bigann-1B': lambda : BigANNDataset(1000),
-    'bigann-100M': lambda : BigANNDataset(100),
-    'bigann-10M': lambda : BigANNDataset(10),
-
-    'deep-1B': lambda : Deep1BDataset(),
-    'deep-100M': lambda : Deep1BDataset(100),
-    'deep-10M': lambda : Deep1BDataset(10),
-
-    'ssnpp-1B': lambda : SSNPPDataset(1000),
-    'ssnpp-10M': lambda : SSNPPDataset(10),
-    'ssnpp-100M': lambda : SSNPPDataset(100),
-    'ssnpp-1M': lambda : SSNPPDataset(1),
-
-    'text2image-1B': lambda : Text2Image1B(),
-    'text2image-1M': lambda : Text2Image1B(1),
-    'text2image-10M': lambda : Text2Image1B(10),
-    'text2image-100M': lambda : Text2Image1B(100),
-
-    'msturing-1B': lambda : MSTuringANNS(1000),
-    'msturing-100M': lambda : MSTuringANNS(100),
-    'msturing-10M': lambda : MSTuringANNS(10),
-    'msturing-1M': lambda : MSTuringANNS(1),
-
-    'msturing-10M-clustered': lambda: MSTuringClustered10M(),
-    'msturing-30M-clustered': lambda: MSTuringClustered30M(),
-
-    'msspacev-1B': lambda : MSSPACEV1B(1000),
-    'msspacev-100M': lambda : MSSPACEV1B(100),
-    'msspacev-10M': lambda : MSSPACEV1B(10),
-    'msspacev-1M': lambda : MSSPACEV1B(1),
-
-    'yfcc-10M': lambda: YFCC100MDataset(),
-    'yfcc-10M-unfiltered': lambda: YFCC100MDataset(filtered=False),
-    'yfcc-10M-dummy': lambda: YFCC100MDataset(dummy=True),
-    'yfcc-10M-dummy-unfiltered': lambda: YFCC100MDataset(filtered=False, dummy=True),
-
-    'sparse-small': lambda: SparseDataset("small"),
-    'sparse-1M': lambda: SparseDataset("1M"),
-    'sparse-full': lambda: SparseDataset("full"), 
-
-    'random-xs': lambda : RandomDS(10000, 1000, 20),
-    'random-s': lambda : RandomDS(100000, 1000, 50),
-
-    'random-xs-clustered': lambda: RandomClusteredDS(),
-
-    'random-range-xs': lambda : RandomRangeDS(10000, 1000, 20),
-    'random-range-s': lambda : RandomRangeDS(100000, 1000, 50),
-
-    'random-filter-s': lambda : RandomFilterDS(100000, 1000, 50),
-
+    "bigann-1B": lambda: BigANNDataset(1000),
+    "bigann-100M": lambda: BigANNDataset(100),
+    "bigann-10M": lambda: BigANNDataset(10),
+    "deep-1B": lambda: Deep1BDataset(),
+    "deep-100M": lambda: Deep1BDataset(100),
+    "deep-10M": lambda: Deep1BDataset(10),
+    "ssnpp-1B": lambda: SSNPPDataset(1000),
+    "ssnpp-10M": lambda: SSNPPDataset(10),
+    "ssnpp-100M": lambda: SSNPPDataset(100),
+    "ssnpp-1M": lambda: SSNPPDataset(1),
+    "text2image-1B": lambda: Text2Image1B(),
+    "text2image-1M": lambda: Text2Image1B(1),
+    "text2image-10M": lambda: Text2Image1B(10),
+    "text2image-100M": lambda: Text2Image1B(100),
+    "msturing-1B": lambda: MSTuringANNS(1000),
+    "msturing-100M": lambda: MSTuringANNS(100),
+    "msturing-10M": lambda: MSTuringANNS(10),
+    "msturing-1M": lambda: MSTuringANNS(1),
+    "msturing-10M-clustered": lambda: MSTuringClustered10M(),
+    "msturing-30M-clustered": lambda: MSTuringClustered30M(),
+    "msspacev-1B": lambda: MSSPACEV1B(1000),
+    "msspacev-100M": lambda: MSSPACEV1B(100),
+    "msspacev-10M": lambda: MSSPACEV1B(10),
+    "msspacev-1M": lambda: MSSPACEV1B(1),
+    "yfcc-10M": lambda: YFCC100MDataset(),
+    "yfcc-10M-unfiltered": lambda: YFCC100MDataset(filtered=False),
+    "yfcc-10M-dummy": lambda: YFCC100MDataset(dummy=True),
+    "yfcc-10M-dummy-unfiltered": lambda: YFCC100MDataset(filtered=False, dummy=True),
+    "sparse-small": lambda: SparseDataset("small"),
+    "sparse-1M": lambda: SparseDataset("1M"),
+    "sparse-full": lambda: SparseDataset("full"),
+    "random-xs": lambda: RandomDS(10000, 1000, 20),
+    "random-s": lambda: RandomDS(100000, 1000, 50),
+    "random-xs-clustered": lambda: RandomClusteredDS(),
+    "random-range-xs": lambda: RandomRangeDS(10000, 1000, 20),
+    "random-range-s": lambda: RandomRangeDS(100000, 1000, 50),
+    "random-filter-s": lambda: RandomFilterDS(100000, 1000, 50),
+    "openai-embedding-1M": lambda: OpenAIEmbedding1M(93652),
 }
