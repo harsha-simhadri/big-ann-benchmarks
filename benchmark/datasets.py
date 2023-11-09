@@ -314,7 +314,7 @@ class BigANNDataset(DatasetCompetitionFormat):
             subset_url + "GT_10M/bigann-10M" if self.nb_M == 10 else
             None
         )
-        # self.gt_fn = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/bigann/public_query_gt100.bin" if self.nb == 10**9 else None
+        # self.gt_fn = "https://comp21storage.z5.web.core.windows.net/comp21/bigann/public_query_gt100.bin" if self.nb == 10**9 else None
         self.base_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/bigann/"
         self.basedir = os.path.join(BASEDIR, "bigann")
 
@@ -345,8 +345,8 @@ class Deep1BDataset(DatasetCompetitionFormat):
         self.basedir = os.path.join(BASEDIR, "deep1b")
 
         self.private_nq = 30000
-        self.private_qs_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/deep1b/query.heldout.30K.fbin"
-        self.private_gt_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/deep1b/gt100-heldout.30K.fbin"
+        self.private_qs_url = "https://comp21storage.z5.web.core.windows.net/comp21/deep1b/query.heldout.30K.fbin"
+        self.private_gt_url = "https://comp21storage.z5.web.core.windows.net/comp21/deep1b/gt100-heldout.30K.fbin"
 
         self.private_nq_large = 1000000
         self.private_qs_large_url = "https://storage.yandexcloud.net/yr-secret-share/ann-datasets-5ac0659e27/DEEP/query.private.1M.fbin"
@@ -406,16 +406,16 @@ class MSTuringANNS(DatasetCompetitionFormat):
             "msturing-gt-1M" if self.nb_M == 1 else
             None
         )
-        self.base_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/MSFT-TURING-ANNS/"
+        self.base_url = "https://comp21storage.z5.web.core.windows.net/comp21/MSFT-TURING-ANNS/"
         self.basedir = os.path.join(BASEDIR, "MSTuringANNS")
 
         self.private_nq = 10000
-        self.private_qs_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/MSFT-TURING-ANNS/testQuery10K.fbin"
-        self.private_gt_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/MSFT-TURING-ANNS/gt100-private10K-queries.bin"
+        self.private_qs_url = "https://comp21storage.z5.web.core.windows.net/comp21/MSFT-TURING-ANNS/testQuery10K.fbin"
+        self.private_gt_url = "https://comp21storage.z5.web.core.windows.net/comp21/MSFT-TURING-ANNS/gt100-private10K-queries.bin"
 
         self.private_nq_large = 99605
-        self.private_qs_large_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/MSFT-TURING-ANNS/testQuery99605.fbin"
-        self.private_gt_large_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/MSFT-TURING-ANNS/gt100-private99605-queries.bin"
+        self.private_qs_large_url = "https://comp21storage.z5.web.core.windows.net/comp21/MSFT-TURING-ANNS/testQuery99605.fbin"
+        self.private_gt_large_url = "https://comp21storage.z5.web.core.windows.net/comp21/MSFT-TURING-ANNS/gt100-private99605-queries.bin"
 
     def distance(self):
         return "euclidean"
@@ -430,7 +430,7 @@ class MSTuringClustered10M(DatasetCompetitionFormat):
         self.qs_fn = "testQuery10K.fbin"
         self.gt_fn = "clu_msturing10M_gt100"
         
-        self.base_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp23/clustered_data/msturing-10M-clustered/"
+        self.base_url = "https://comp21storage.z5.web.core.windows.net/comp23/clustered_data/msturing-10M-clustered/"
         self.basedir = os.path.join(BASEDIR, "MSTuring-10M-clustered")
 
         self.private_gt_url = None
@@ -452,7 +452,7 @@ class MSTuringClustered30M(DatasetCompetitionFormat):
         self.qs_fn = "testQuery10K.fbin"
         self.gt_fn = "clu_msturing30M_gt100"
         
-        self.base_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp23/clustered_data/msturing-30M-clustered/"
+        self.base_url = "https://comp21storage.z5.web.core.windows.net/comp23/clustered_data/msturing-30M-clustered/"
         self.basedir = os.path.join(BASEDIR, "MSTuring-30M-clustered")
 
         self.private_gt_url = None
@@ -480,12 +480,12 @@ class MSSPACEV1B(DatasetCompetitionFormat):
             "msspacev-gt-1M" if self.nb_M == 1 else
             None
         )
-        self.base_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/spacev1b/"
+        self.base_url = "https://comp21storage.z5.web.core.windows.net/comp21/spacev1b/"
         self.basedir = os.path.join(BASEDIR, "MSSPACEV1B")
 
         self.private_nq = 30000
-        self.private_qs_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/spacev1b/private_query_30k.bin"
-        self.private_gt_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/spacev1b/gt100_private_query_30k.bin"
+        self.private_qs_url = "https://comp21storage.z5.web.core.windows.net/comp21/spacev1b/private_query_30k.bin"
+        self.private_gt_url = "https://comp21storage.z5.web.core.windows.net/comp21/spacev1b/gt100_private_query_30k.bin"
 
     def distance(self):
         return "euclidean"
@@ -500,7 +500,7 @@ class RandomClusteredDS(DatasetCompetitionFormat):
         self.qs_fn = f"queries_1000_20.fbin"
         self.gt_fn = f"clu_random_gt100"
 
-        self.base_url="https://comp21storage.blob.core.windows.net/publiccontainer/comp23/clustered_data/random-xs-clustered/"
+        self.base_url="https://comp21storage.z5.web.core.windows.net/comp23/clustered_data/random-xs-clustered/"
 
         self.basedir = os.path.join(BASEDIR, f"{basedir}{self.nb}")
         if not os.path.exists(self.basedir):
