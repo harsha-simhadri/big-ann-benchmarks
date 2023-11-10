@@ -48,7 +48,8 @@ class BaseRunner():
             "distance": distance,
             "type": search_type,
             "count": int(count),
-            "search_times": search_times
+            "search_times": search_times,
+            "private_queries": private_query, 
         }
         additional = algo.get_additional()
         for k in additional:
