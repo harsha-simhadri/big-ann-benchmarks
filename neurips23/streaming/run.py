@@ -69,7 +69,8 @@ class StreamingRunner(BaseRunner):
             "type": search_type,
             "count": int(count),
             "search_times": search_times,
-            "num_searches": num_searches
+            "num_searches": num_searches,
+            "private_queries": private_query, 
         }
 
         for k, v in result_map.items():

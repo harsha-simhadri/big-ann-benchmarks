@@ -241,7 +241,7 @@ class DatasetCompetitionFormat(Dataset):
     def get_private_groundtruth(self, k=None):
         assert self.private_gt_url is not None
         fn = self.private_gt_url.split("/")[-1]   # in case it's a URL
-        assert self.search_type() == "knn"
+        assert self.search_type() in ("knn", "knn_filtered")
 
         I, D = knn_result_read(os.path.join(self.basedir, fn))
         assert I.shape[0] == self.private_nq
@@ -314,13 +314,13 @@ class BigANNDataset(DatasetCompetitionFormat):
             subset_url + "GT_10M/bigann-10M" if self.nb_M == 10 else
             None
         )
-        # self.gt_fn = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/bigann/public_query_gt100.bin" if self.nb == 10**9 else None
+        # self.gt_fn = "https://comp21storage.z5.web.core.windows.net/comp21/bigann/public_query_gt100.bin" if self.nb == 10**9 else None
         self.base_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/bigann/"
         self.basedir = os.path.join(BASEDIR, "bigann")
 
         self.private_nq = 10000
-        self.private_qs_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/bigann/query.private.799253207.10K.u8bin"
-        self.private_gt_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/GT_1B_final_2bf4748c7817/bigann-1B.bin"
+        #self.private_qs_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/bigann/query.private.799253207.10K.u8bin"
+        #self.private_gt_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/GT_1B_final_2bf4748c7817/bigann-1B.bin"
 
 
     def distance(self):
@@ -345,8 +345,8 @@ class Deep1BDataset(DatasetCompetitionFormat):
         self.basedir = os.path.join(BASEDIR, "deep1b")
 
         self.private_nq = 30000
-        self.private_qs_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/deep1b/query.heldout.30K.fbin"
-        self.private_gt_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/deep1b/gt100-heldout.30K.fbin"
+        self.private_qs_url = "https://comp21storage.z5.web.core.windows.net/comp21/deep1b/query.heldout.30K.fbin"
+        self.private_gt_url = "https://comp21storage.z5.web.core.windows.net/comp21/deep1b/gt100-heldout.30K.fbin"
 
         self.private_nq_large = 1000000
         self.private_qs_large_url = "https://storage.yandexcloud.net/yr-secret-share/ann-datasets-5ac0659e27/DEEP/query.private.1M.fbin"
@@ -406,16 +406,16 @@ class MSTuringANNS(DatasetCompetitionFormat):
             "msturing-gt-1M" if self.nb_M == 1 else
             None
         )
-        self.base_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/MSFT-TURING-ANNS/"
+        self.base_url = "https://comp21storage.z5.web.core.windows.net/comp21/MSFT-TURING-ANNS/"
         self.basedir = os.path.join(BASEDIR, "MSTuringANNS")
 
         self.private_nq = 10000
-        self.private_qs_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/MSFT-TURING-ANNS/testQuery10K.fbin"
-        self.private_gt_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/MSFT-TURING-ANNS/gt100-private10K-queries.bin"
+        self.private_qs_url = "https://comp21storage.z5.web.core.windows.net/comp21/MSFT-TURING-ANNS/testQuery10K.fbin"
+        self.private_gt_url = "https://comp21storage.z5.web.core.windows.net/comp21/MSFT-TURING-ANNS/gt100-private10K-queries.bin"
 
         self.private_nq_large = 99605
-        self.private_qs_large_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/MSFT-TURING-ANNS/testQuery99605.fbin"
-        self.private_gt_large_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/MSFT-TURING-ANNS/gt100-private99605-queries.bin"
+        self.private_qs_large_url = "https://comp21storage.z5.web.core.windows.net/comp21/MSFT-TURING-ANNS/testQuery99605.fbin"
+        self.private_gt_large_url = "https://comp21storage.z5.web.core.windows.net/comp21/MSFT-TURING-ANNS/gt100-private99605-queries.bin"
 
     def distance(self):
         return "euclidean"
@@ -430,7 +430,7 @@ class MSTuringClustered10M(DatasetCompetitionFormat):
         self.qs_fn = "testQuery10K.fbin"
         self.gt_fn = "clu_msturing10M_gt100"
         
-        self.base_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp23/clustered_data/msturing-10M-clustered/"
+        self.base_url = "https://comp21storage.z5.web.core.windows.net/comp23/clustered_data/msturing-10M-clustered/"
         self.basedir = os.path.join(BASEDIR, "MSTuring-10M-clustered")
 
         self.private_gt_url = None
@@ -452,7 +452,7 @@ class MSTuringClustered30M(DatasetCompetitionFormat):
         self.qs_fn = "testQuery10K.fbin"
         self.gt_fn = "clu_msturing30M_gt100"
         
-        self.base_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp23/clustered_data/msturing-30M-clustered/"
+        self.base_url = "https://comp21storage.z5.web.core.windows.net/comp23/clustered_data/msturing-30M-clustered/"
         self.basedir = os.path.join(BASEDIR, "MSTuring-30M-clustered")
 
         self.private_gt_url = None
@@ -480,12 +480,12 @@ class MSSPACEV1B(DatasetCompetitionFormat):
             "msspacev-gt-1M" if self.nb_M == 1 else
             None
         )
-        self.base_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/spacev1b/"
+        self.base_url = "https://comp21storage.z5.web.core.windows.net/comp21/spacev1b/"
         self.basedir = os.path.join(BASEDIR, "MSSPACEV1B")
 
         self.private_nq = 30000
-        self.private_qs_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/spacev1b/private_query_30k.bin"
-        self.private_gt_url = "https://comp21storage.blob.core.windows.net/publiccontainer/comp21/spacev1b/gt100_private_query_30k.bin"
+        self.private_qs_url = "https://comp21storage.z5.web.core.windows.net/comp21/spacev1b/private_query_30k.bin"
+        self.private_gt_url = "https://comp21storage.z5.web.core.windows.net/comp21/spacev1b/gt100_private_query_30k.bin"
 
     def distance(self):
         return "euclidean"
@@ -500,7 +500,7 @@ class RandomClusteredDS(DatasetCompetitionFormat):
         self.qs_fn = f"queries_1000_20.fbin"
         self.gt_fn = f"clu_random_gt100"
 
-        self.base_url="https://comp21storage.blob.core.windows.net/publiccontainer/comp23/clustered_data/random-xs-clustered/"
+        self.base_url="https://comp21storage.z5.web.core.windows.net/comp23/clustered_data/random-xs-clustered/"
 
         self.basedir = os.path.join(BASEDIR, f"{basedir}{self.nb}")
         if not os.path.exists(self.basedir):
@@ -610,7 +610,9 @@ class YFCC100MDataset(DatasetCompetitionFormat):
         self.d = 192
         self.nq = 100000
         self.dtype = "uint8"
-        private_key = 12345
+        private_key = 2727415019
+        self.gt_private_fn = ""
+
         if dummy:
             # for now it's dummy because we don't have the descriptors yet
             self.ds_fn = "dummy2.base.10M.u8bin"
@@ -636,24 +638,26 @@ class YFCC100MDataset(DatasetCompetitionFormat):
             if filtered:
                 # no subset as the database is pretty small.
                 self.gt_fn = "GT.public.ibin"
+                self.gt_private_fn = "GT.private.%d.ibin" % private_key
             else:
-                self.gt_fn = "unfiltered.GT.public.ibin"
+                self.gt_fn = "unfiltered.GT.public.ibin"      
 
             # data is uploaded but download script not ready.
         self.base_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/yfcc100M/"
         self.basedir = os.path.join(BASEDIR, "yfcc100M")
 
         self.private_nq = 100000
-        self.private_qs_url = self.base_url + ""
-        self.private_gt_url = self.base_url + ""
+        self.private_qs_url = self.base_url + self.qs_private_fn
+        self.private_gt_url = self.base_url + self.gt_private_fn
 
         self.metadata_base_url = self.base_url + self.ds_metadata_fn
         self.metadata_queries_url = self.base_url + self.qs_metadata_fn
-        self.metadata_private_queries_url = ""
+        self.metadata_private_queries_url = self.base_url + self.qs_private_metadata_fn
 
     def prepare(self, skip_data=False):
         super().prepare(skip_data, 10**7)
-        for fn in (self.metadata_base_url, self.metadata_queries_url, self.metadata_private_queries_url):
+        for fn in (self.metadata_base_url, self.metadata_queries_url, 
+                   self.metadata_private_queries_url):
             if fn:
                 outfile = os.path.join(self.basedir, fn.split("/")[-1])
                 if os.path.exists(outfile):
@@ -710,24 +714,26 @@ class SparseDataset(DatasetCompetitionFormat):
 
         versions = {"small": (100000, "base_small.csr.gz", "base_small.dev.gt"),
                     "1M": (1000000, "base_1M.csr.gz", "base_1M.dev.gt"),
-                    "full": (8841823, "base_full.csr.gz", "base_full.dev.gt")}
+                    "full": (8841823, "base_full.csr.gz", "base_full.dev.gt"),
+                    }
 
         assert version in versions, f'version="{version}" is invalid. Please choose one of {list(versions.keys())}.'
 
         self.nb = versions[version][0]
         self.nq = 6980
-        self.private_nq = 0  # TBD
+        self.private_nq = 7000
 
         self.ds_fn = versions[version][1]
         self.qs_fn = "queries.dev.csr.gz"
 
-        self.qs_private_fn = ""  # TBD
+        self.qs_private_fn = "queries.hidden.csr.gz"
 
         self.base_url = "https://storage.googleapis.com/ann-challenge-sparse-vectors/csr/"
         self.basedir = os.path.join(BASEDIR, "sparse")
 
         self.gt_fn = versions[version][2]
-        self.private_gt = ""  # TBD
+        self.private_gt = "base_full.hidden.gt"
+        self.private_gt_url = self.base_url + self.private_gt
 
         self.d = np.nan # this is only for compatibility with printing the name of the class
 
@@ -738,7 +744,7 @@ class SparseDataset(DatasetCompetitionFormat):
             os.makedirs(self.basedir)
 
         # start with the small ones...
-        for fn in [self.qs_fn, self.gt_fn]:
+        for fn in [self.qs_fn, self.gt_fn, self.qs_private_fn, self.private_gt]:
             if fn is None:
                 continue
 
@@ -828,11 +834,13 @@ class SparseDataset(DatasetCompetitionFormat):
         return x
 
     def get_private_queries(self):
-        raise RuntimeError("not implemented yet")
-
-    def get_private_groundtruth(self, k=None):
-        raise RuntimeError("not implemented yet")
-
+        assert self.qs_private_fn
+        filename = os.path.join(self.basedir, self.qs_private_fn)
+        print(filename)
+        x = read_sparse_matrix(_strip_gz(filename), do_mmap=False)  # read the queries file. It is a small file, so no need to mmap
+        assert x.shape[0] == self.private_nq
+        return x
+    
     def distance(self):
         return "ip"
 
