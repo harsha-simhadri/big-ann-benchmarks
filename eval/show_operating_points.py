@@ -5,11 +5,15 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument(
         '--algorithm',
-        required=True)
+        required=False)
+    parser.add_argument(
+        '--metric',
+        choices=['qps', 'recall'],
+        default='recall')
     parser.add_argument(
         '--threshold',
-        default=10000,
-        help='minimum QPS (10,000 T1/2,000 T2)',
+        default=0.9,
+        help='threshold',
         type=int)
     parser.add_argument(
         'csv',
@@ -19,7 +23,14 @@ if __name__ == "__main__":
     args = parser.parse_args()
     df = pd.read_csv(args.csv)
 
-    print(df[(df.qps > args.threshold) & (df.algorithm == args.algorithm)].groupby(['algorithm', 'dataset']).max()[['recall/ap']])
+    if args.algorithm:
+        df == df[df.algorithm == args.algorithm]
+    
+    if args.metric == "qps":
+        print(df[(df.qps > args.threshold)].groupby(['dataset', 'algorithm']).max()[['recall/ap']])
+    elif args.metric == "recall":
+        print(df[(df['recall/ap'] > args.threshold)].groupby(['dataset', 'algorithm']).max()[['qps']])
+
 
 
 
