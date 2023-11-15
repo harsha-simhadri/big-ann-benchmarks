@@ -1,0 +1,10 @@
+                                        qps
+dataset  algorithm
+yfcc-10M faiss                  3252.682553
+         faissplus              3625.027286
+         fdufilterdiskann       5752.463409
+         hwtl_sdu_anns_filter  15188.577106
+         parlayivf             37670.703774
+         puck                  19153.425169
+         pyanns                 5335.916507
+         wm_filter             14076.445534
