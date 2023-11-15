@@ -1,0 +1,7 @@
+                               qps
+dataset     algorithm
+sparse-full cufe        104.768194
+            linscan      92.510615
+            nle        2358.590429
+            pyanns     8732.172708
+            shnsw      7136.927865
