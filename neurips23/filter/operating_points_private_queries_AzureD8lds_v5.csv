@@ -1,6 +1,7 @@
                                         qps
 dataset  algorithm
-yfcc-10M faiss                  3252.682553
+yfcc-10M cufe                   2291.031703
+         faiss                  3252.682553
          faissplus              3625.027286
          fdufilterdiskann       5752.463409
          hwtl_sdu_anns_filter  15188.577106
