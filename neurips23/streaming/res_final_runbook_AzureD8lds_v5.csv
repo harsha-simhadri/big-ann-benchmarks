@@ -1,0 +1,7 @@
+algorithm,parameters,dataset,count,qps,distcomps,build,indexsize,mean_ssd_ios,mean_latency,track,recall/ap
+cufe,"diskann(('R32_L50', {'Ls': 70, 'T': 16}))",msturing-30M-clustered(final_runbook.yaml),10,,0.0,1.7107985019683838,4885612.0,0.0,0.0,streaming,0.7688699999999955
+cufe,"diskann(('R32_L70', {'Ls': 70, 'T': 16}))",msturing-30M-clustered(final_runbook.yaml),10,,0.0,1.7178819179534912,4885448.0,0.0,0.0,streaming,0.7937900000000012
+cufe,"diskann(('R50_L50', {'Ls': 70, 'T': 16}))",msturing-30M-clustered(final_runbook.yaml),10,,0.0,1.9073610305786133,4885652.0,0.0,0.0,streaming,0.8189199999999953
+diskann,"diskann(('R50_L50', {'Ls': 70, 'T': 16}))",msturing-30M-clustered(final_runbook.yaml),10,,0.0,-1.0,4887900.0,0.0,0.0,streaming,0.883300000000004
+hwtl_sdu_anns_stream,"HWTL_SDU_ANNS_stream(('R65_L70', {'Ls': 100, 'T': 16}))",msturing-30M-clustered(final_runbook.yaml),10,,0.0,1.6761493682861328,4885612.0,0.0,0.0,streaming,0.967459999999998
+pyanns,"pyanns(('R32_L100', {'Ls': 300, 'T': 8}))",msturing-30M-clustered(final_runbook.yaml),10,,0.0,1.0960314273834229,1991152.0,0.0,0.0,streaming,0.9597400000000078
