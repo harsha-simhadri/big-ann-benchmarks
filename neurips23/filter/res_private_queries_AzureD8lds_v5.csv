@@ -1,0 +1,84 @@
+algorithm,parameters,dataset,count,qps,distcomps,build,indexsize,mean_ssd_ios,mean_latency,track,recall/ap
+faiss,"Faiss(('IVF16384,SQ8', {'nprobe': 1, 'mt_threshold': 0.0001}))",yfcc-10M,10,5945.244749219077,0.0,-1.0,2931896.0,0,0,filter,0.48275499999999993
+faiss,"Faiss(('IVF16384,SQ8', {'nprobe': 1, 'mt_threshold': 0.0003}))",yfcc-10M,10,5281.6901231091115,0.0,-1.0,2931896.0,0,0,filter,0.537519
+faiss,"Faiss(('IVF16384,SQ8', {'nprobe': 4, 'mt_threshold': 0.0001}))",yfcc-10M,10,5726.9960008693915,0.0,-1.0,2931896.0,0,0,filter,0.626071
+faiss,"Faiss(('IVF16384,SQ8', {'nprobe': 4, 'mt_threshold': 0.0003}))",yfcc-10M,10,5160.4486065983865,0.0,-1.0,2931896.0,0,0,filter,0.673496
+faiss,"Faiss(('IVF16384,SQ8', {'nprobe': 1, 'mt_threshold': 0.01}))",yfcc-10M,10,1250.3444271855033,0.0,-1.0,2931896.0,0,0,filter,0.77993
+faiss,"Faiss(('IVF16384,SQ8', {'nprobe': 16, 'mt_threshold': 0.0001}))",yfcc-10M,10,5006.033002213941,0.0,-1.0,2931896.0,0,0,filter,0.781371
+faiss,"Faiss(('IVF16384,SQ8', {'nprobe': 16, 'mt_threshold': 0.0003}))",yfcc-10M,10,4634.919416207355,0.0,-1.0,2931896.0,0,0,filter,0.8179460000000001
+faiss,"Faiss(('IVF16384,SQ8', {'nprobe': 32, 'mt_threshold': 0.0001}))",yfcc-10M,10,4237.491325087723,0.0,-1.0,2931896.0,0,0,filter,0.848264
+faiss,"Faiss(('IVF16384,SQ8', {'nprobe': 4, 'mt_threshold': 0.01}))",yfcc-10M,10,1246.9902078375978,0.0,-1.0,2931896.0,0,0,filter,0.8602969999999999
+faiss,"Faiss(('IVF16384,SQ8', {'nprobe': 32, 'mt_threshold': 0.0003}))",yfcc-10M,10,3973.218244029237,0.0,-1.0,2931896.0,0,0,filter,0.878368
+faiss,"Faiss(('IVF16384,SQ8', {'nprobe': 64, 'mt_threshold': 0.0001}))",yfcc-10M,10,3252.6825532123057,0.0,-1.0,2931896.0,0,0,filter,0.901773
+faiss,"Faiss(('IVF16384,SQ8', {'nprobe': 64, 'mt_threshold': 0.0003}))",yfcc-10M,10,3170.757316175533,0.0,-1.0,2931896.0,0,0,filter,0.9249769999999999
+faiss,"Faiss(('IVF16384,SQ8', {'nprobe': 96, 'mt_threshold': 0.0001}))",yfcc-10M,10,2669.987328282653,0.0,-1.0,2931896.0,0,0,filter,0.9266780000000001
+faiss,"Faiss(('IVF16384,SQ8', {'nprobe': 16, 'mt_threshold': 0.01}))",yfcc-10M,10,1230.0326741212407,0.0,-1.0,2931896.0,0,0,filter,0.9352309999999999
+faiss,"Faiss(('IVF16384,SQ8', {'nprobe': 96, 'mt_threshold': 0.0003}))",yfcc-10M,10,2619.397917383608,0.0,-1.0,2931896.0,0,0,filter,0.94572
+faiss,"Faiss(('IVF16384,SQ8', {'nprobe': 32, 'mt_threshold': 0.01}))",yfcc-10M,10,1197.9200588376598,0.0,-1.0,2931896.0,0,0,filter,0.9615600000000001
+faiss,"Faiss(('IVF16384,SQ8', {'nprobe': 64, 'mt_threshold': 0.01}))",yfcc-10M,10,1152.8513276506665,0.0,-1.0,2931896.0,0,0,filter,0.979134
+faiss,"Faiss(('IVF16384,SQ8', {'nprobe': 96, 'mt_threshold': 0.01}))",yfcc-10M,10,1109.048883910594,0.0,-1.0,2931896.0,0,0,filter,0.9860260000000001
+faissplus,"Faiss(('IVF11264,SQ8', {'nprobe': 30, 'mt_threshold': 0.00033}))",yfcc-10M,10,3739.745556667947,0.0,-1.0,2928528.0,0,0,filter,0.8950210000000001
+faissplus,"Faiss(('IVF11264,SQ8', {'nprobe': 32, 'mt_threshold': 0.0003}))",yfcc-10M,10,3680.4139791822654,0.0,-1.0,2928528.0,0,0,filter,0.89711
+faissplus,"Faiss(('IVF11264,SQ8', {'nprobe': 32, 'mt_threshold': 0.00031}))",yfcc-10M,10,3669.889361292865,0.0,-1.0,2928528.0,0,0,filter,0.8980090000000001
+faissplus,"Faiss(('IVF11264,SQ8', {'nprobe': 32, 'mt_threshold': 0.00033}))",yfcc-10M,10,3638.7981908554293,0.0,-1.0,2928528.0,0,0,filter,0.899634
+faissplus,"Faiss(('IVF11264,SQ8', {'nprobe': 34, 'mt_threshold': 0.0003}))",yfcc-10M,10,3596.846687658357,0.0,-1.0,2928528.0,0,0,filter,0.901292
+faissplus,"Faiss(('IVF11264,SQ8', {'nprobe': 32, 'mt_threshold': 0.00035}))",yfcc-10M,10,3625.027286205938,0.0,-1.0,2928528.0,0,0,filter,0.9015190000000001
+faissplus,"Faiss(('IVF11264,SQ8', {'nprobe': 34, 'mt_threshold': 0.00031}))",yfcc-10M,10,3562.950763640292,0.0,-1.0,2928528.0,0,0,filter,0.902173
+faissplus,"Faiss(('IVF11264,SQ8', {'nprobe': 34, 'mt_threshold': 0.00033}))",yfcc-10M,10,3544.968263677164,0.0,-1.0,2928528.0,0,0,filter,0.903753
+faissplus,"Faiss(('IVF11264,SQ8', {'nprobe': 34, 'mt_threshold': 0.00035}))",yfcc-10M,10,3543.0207524705625,0.0,-1.0,2928528.0,0,0,filter,0.9055949999999999
+faissplus,"Faiss(('IVF11264,SQ8', {'nprobe': 40, 'mt_threshold': 0.0003}))",yfcc-10M,10,3349.1922140645943,0.0,-1.0,2928528.0,0,0,filter,0.912138
+fdufilterdiskann,"diskann(('R60_L80', {'Ls': 11, 'T': 16, 'threshold_1': 53500, 'threshold_2': 5000}))",yfcc-10M,10,5715.629504317638,0.0,-1.0,4960356.0,0,0,filter,0.9055799999999999
+fdufilterdiskann,"diskann(('R60_L80', {'Ls': 11, 'T': 16, 'threshold_1': 53500, 'threshold_2': 5005}))",yfcc-10M,10,5752.463409221762,0.0,-1.0,4960356.0,0,0,filter,0.9056520000000001
+fdufilterdiskann,"diskann(('R60_L80', {'Ls': 11, 'T': 16, 'threshold_1': 53500, 'threshold_2': 5010}))",yfcc-10M,10,5743.965688578372,0.0,-1.0,4960356.0,0,0,filter,0.9057230000000001
+fdufilterdiskann,"diskann(('R60_L80', {'Ls': 11, 'T': 16, 'threshold_1': 53500, 'threshold_2': 5015}))",yfcc-10M,10,5749.714139011047,0.0,-1.0,4960356.0,0,0,filter,0.905771
+fdufilterdiskann,"diskann(('R60_L80', {'Ls': 11, 'T': 16, 'threshold_1': 53500, 'threshold_2': 5020}))",yfcc-10M,10,5747.391248267429,0.0,-1.0,4960356.0,0,0,filter,0.9058350000000001
+fdufilterdiskann,"diskann(('R60_L80', {'Ls': 12, 'T': 16, 'threshold_1': 53500, 'threshold_2': 5025}))",yfcc-10M,10,5732.0712229157225,0.0,-1.0,4960356.0,0,0,filter,0.905972
+fdufilterdiskann,"diskann(('R60_L80', {'Ls': 12, 'T': 16, 'threshold_1': 53500, 'threshold_2': 5030}))",yfcc-10M,10,5746.4671995176495,0.0,-1.0,4960356.0,0,0,filter,0.9060180000000001
+fdufilterdiskann,"diskann(('R60_L80', {'Ls': 12, 'T': 16, 'threshold_1': 53500, 'threshold_2': 5035}))",yfcc-10M,10,5747.477014430329,0.0,-1.0,4960356.0,0,0,filter,0.9060790000000001
+fdufilterdiskann,"diskann(('R60_L80', {'Ls': 12, 'T': 16, 'threshold_1': 53500, 'threshold_2': 5040}))",yfcc-10M,10,5748.7337940356865,0.0,-1.0,4960356.0,0,0,filter,0.9061349999999999
+fdufilterdiskann,"diskann(('R60_L80', {'Ls': 12, 'T': 16, 'threshold_1': 53500, 'threshold_2': 5045}))",yfcc-10M,10,5747.668638990008,0.0,-1.0,4960356.0,0,0,filter,0.9061920000000001
+hwtl_sdu_anns_filter,"HWTL_SDU-ANNS-filter(gffc, 4, 3, 3000)",yfcc-10M,10,23275.997360247035,0.0,5439.43762421608,9146972.0,0,0,filter,0.8303800000000001
+hwtl_sdu_anns_filter,"HWTL_SDU-ANNS-filter(gffc, 4, 4, 3000)",yfcc-10M,10,23136.31692228311,0.0,5439.43762421608,9146972.0,0,0,filter,0.8448420000000001
+hwtl_sdu_anns_filter,"HWTL_SDU-ANNS-filter(gffc, 8, 3, 3000)",yfcc-10M,10,15225.301062680932,0.0,5439.43762421608,9146972.0,0,0,filter,0.8828480000000001
+hwtl_sdu_anns_filter,"HWTL_SDU-ANNS-filter(gffc, 8, 4, 3000)",yfcc-10M,10,15188.577105846425,0.0,5439.43762421608,9146972.0,0,0,filter,0.902098
+hwtl_sdu_anns_filter,"HWTL_SDU-ANNS-filter(gffc, 12, 3, 3000)",yfcc-10M,10,11817.714179629027,0.0,5439.43762421608,9146972.0,0,0,filter,0.9025829999999999
+hwtl_sdu_anns_filter,"HWTL_SDU-ANNS-filter(gffc, 16, 3, 3000)",yfcc-10M,10,9953.753287360167,0.0,5439.43762421608,9146972.0,0,0,filter,0.9118280000000001
+hwtl_sdu_anns_filter,"HWTL_SDU-ANNS-filter(gffc, 32, 3, 3000)",yfcc-10M,10,6833.071113820972,0.0,5439.43762421608,9146972.0,0,0,filter,0.923977
+hwtl_sdu_anns_filter,"HWTL_SDU-ANNS-filter(gffc, 12, 4, 3000)",yfcc-10M,10,11757.071215805807,0.0,5439.43762421608,9146972.0,0,0,filter,0.9240999999999999
+hwtl_sdu_anns_filter,"HWTL_SDU-ANNS-filter(gffc, 16, 4, 3000)",yfcc-10M,10,9925.256216448044,0.0,5439.43762421608,9146972.0,0,0,filter,0.9345760000000001
+hwtl_sdu_anns_filter,"HWTL_SDU-ANNS-filter(gffc, 32, 4, 3000)",yfcc-10M,10,6815.2319631035725,0.0,5439.43762421608,9146972.0,0,0,filter,0.948545
+parlayivf,"ParlayIVF(metric=Euclidian, dtype=uint8, T=8, cluster_size=5,000, cutoff=10,000, target_points=5,000, tiny_cutoff=28,000, max_iter=10, weight_classes=(100000, 400000), max_degrees=(8, 10, 12), beam_widths=[90, 57, 90], search_limits=[500, 500, 500])",yfcc-10M,10,37670.70377408125,0.0,-1.0,10157500.0,0,0,filter,0.903904
+parlayivf,"ParlayIVF(metric=Euclidian, dtype=uint8, T=8, cluster_size=5,000, cutoff=10,000, target_points=5,000, tiny_cutoff=30,000, max_iter=10, weight_classes=(100000, 400000), max_degrees=(8, 10, 12), beam_widths=[85, 50, 95], search_limits=[500, 500, 500])",yfcc-10M,10,37446.41461836352,0.0,-1.0,10157500.0,0,0,filter,0.90417
+parlayivf,"ParlayIVF(metric=Euclidian, dtype=uint8, T=8, cluster_size=5,000, cutoff=10,000, target_points=7,500, tiny_cutoff=35,000, max_iter=10, weight_classes=(100000, 400000), max_degrees=(8, 10, 12), beam_widths=[55, 55, 55], search_limits=[100000, 400000, 3000000])",yfcc-10M,10,34514.44720733845,0.0,-1.0,10157500.0,0,0,filter,0.9053660000000001
+parlayivf,"ParlayIVF(metric=Euclidian, dtype=uint8, T=8, cluster_size=5,000, cutoff=10,000, target_points=15,000, tiny_cutoff=60,000, max_iter=10, weight_classes=(100000, 400000), max_degrees=(8, 10, 12), beam_widths=[40, 40, 40], search_limits=[100000, 400000, 3000000])",yfcc-10M,10,30794.74039874316,0.0,-1.0,10157500.0,0,0,filter,0.9062889999999999
+parlayivf,"ParlayIVF(metric=Euclidian, dtype=uint8, T=8, cluster_size=5,000, cutoff=10,000, target_points=15,000, tiny_cutoff=100,000, max_iter=10, weight_classes=(100000, 400000), max_degrees=(8, 10, 12), beam_widths=[40, 40, 40], search_limits=[100000, 400000, 3000000])",yfcc-10M,10,30812.417694419684,0.0,-1.0,10157500.0,0,0,filter,0.906475
+parlayivf,"ParlayIVF(metric=Euclidian, dtype=uint8, T=8, cluster_size=5,000, cutoff=10,000, target_points=15,000, tiny_cutoff=60,000, max_iter=10, weight_classes=(100000, 400000), max_degrees=(8, 10, 12), beam_widths=[50, 50, 50], search_limits=[100000, 400000, 3000000])",yfcc-10M,10,30349.247926484022,0.0,-1.0,10157500.0,0,0,filter,0.92081
+parlayivf,"ParlayIVF(metric=Euclidian, dtype=uint8, T=8, cluster_size=5,000, cutoff=10,000, target_points=15,000, tiny_cutoff=100,000, max_iter=10, weight_classes=(100000, 400000), max_degrees=(8, 10, 12), beam_widths=[50, 50, 50], search_limits=[100000, 400000, 3000000])",yfcc-10M,10,30181.171767783293,0.0,-1.0,10157500.0,0,0,filter,0.920996
+parlayivf,"ParlayIVF(metric=Euclidian, dtype=uint8, T=8, cluster_size=5,000, cutoff=10,000, target_points=15,000, tiny_cutoff=100,000, max_iter=10, weight_classes=(100000, 400000), max_degrees=(8, 10, 12), beam_widths=[60, 60, 60], search_limits=[100000, 400000, 3000000])",yfcc-10M,10,29720.213048863814,0.0,-1.0,10157500.0,0,0,filter,0.930823
+parlayivf,"ParlayIVF(metric=Euclidian, dtype=uint8, T=8, cluster_size=5,000, cutoff=10,000, target_points=15,000, tiny_cutoff=60,000, max_iter=10, weight_classes=(100000, 400000), max_degrees=(8, 10, 12), beam_widths=[90, 90, 90], search_limits=[100000, 400000, 3000000])",yfcc-10M,10,28182.685823591055,0.0,-1.0,10157500.0,0,0,filter,0.948686
+parlayivf,"ParlayIVF(metric=Euclidian, dtype=uint8, T=8, cluster_size=5,000, cutoff=10,000, target_points=15,000, tiny_cutoff=100,000, max_iter=10, weight_classes=(100000, 400000), max_degrees=(8, 10, 12), beam_widths=[90, 90, 90], search_limits=[100000, 400000, 3000000])",yfcc-10M,10,27904.2277096707,0.0,-1.0,10157500.0,0,0,filter,0.948872
+puck,"Puck('C200_F200_FN16_Flat', {'radius_rate': 1.0, 'search_coarse_count': 30, 'filter_topk': 50})",yfcc-10M,10,20617.988505591744,0.0,-1.0,9005588.0,0,0,filter,0.8823570000000001
+puck,"Puck('C200_F200_FN16_Flat', {'radius_rate': 1.0, 'search_coarse_count': 30, 'filter_topk': 55})",yfcc-10M,10,20079.666550413473,0.0,-1.0,9005588.0,0,0,filter,0.891967
+puck,"Puck('C200_F200_FN16_Flat', {'radius_rate': 1.0, 'search_coarse_count': 30, 'filter_topk': 60})",yfcc-10M,10,19527.375848249114,0.0,-1.0,9005588.0,0,0,filter,0.899891
+puck,"Puck('C200_F200_FN16_Flat', {'radius_rate': 1.0, 'search_coarse_count': 30, 'filter_topk': 65})",yfcc-10M,10,19153.425168735655,0.0,-1.0,9005588.0,0,0,filter,0.906701
+puck,"Puck('C200_F200_FN16_Flat', {'radius_rate': 1.0, 'search_coarse_count': 30, 'filter_topk': 70})",yfcc-10M,10,18770.54333830727,0.0,-1.0,9005588.0,0,0,filter,0.912668
+puck,"Puck('C200_F200_FN16_Flat', {'radius_rate': 1.0, 'search_coarse_count': 30, 'filter_topk': 75})",yfcc-10M,10,18368.767580502823,0.0,-1.0,9005588.0,0,0,filter,0.9177899999999999
+puck,"Puck('C200_F200_FN16_Flat', {'radius_rate': 1.0, 'search_coarse_count': 30, 'filter_topk': 80})",yfcc-10M,10,18023.91041777419,0.0,-1.0,9005588.0,0,0,filter,0.9221550000000001
+puck,"Puck('C200_F200_FN16_Flat', {'radius_rate': 1.0, 'search_coarse_count': 30, 'filter_topk': 85})",yfcc-10M,10,17721.621033067735,0.0,-1.0,9005588.0,0,0,filter,0.926191
+puck,"Puck('C200_F200_FN16_Flat', {'radius_rate': 1.0, 'search_coarse_count': 30, 'filter_topk': 90})",yfcc-10M,10,17473.809412218074,0.0,-1.0,9005588.0,0,0,filter,0.9298109999999999
+puck,"Puck('C200_F200_FN16_Flat', {'radius_rate': 1.0, 'search_coarse_count': 30, 'filter_topk': 95})",yfcc-10M,10,17194.01755507395,0.0,-1.0,9005588.0,0,0,filter,0.9330120000000001
+puck,"Puck('C200_F200_FN16_Flat', {'radius_rate': 1.0, 'search_coarse_count': 30, 'filter_topk': 100})",yfcc-10M,10,16897.66934616722,0.0,-1.0,9005588.0,0,0,filter,0.9357340000000001
+puck,"Puck('C200_F200_FN16_Flat', {'radius_rate': 1.0, 'search_coarse_count': 30, 'filter_topk': 110})",yfcc-10M,10,16418.149751483084,0.0,-1.0,9005588.0,0,0,filter,0.9406599999999999
+pyanns,"Pyanns(('IVF16384,SQ8', {'nprobe': 16, 'mt_threshold': 0.0032}))",yfcc-10M,10,5373.685031969058,0.0,-1.0,2932384.0,0,0,filter,0.897833
+pyanns,"Pyanns(('IVF16384,SQ8', {'nprobe': 16, 'mt_threshold': 0.0035}))",yfcc-10M,10,5335.916506617737,0.0,-1.0,2932384.0,0,0,filter,0.900917
+pyanns,"Pyanns(('IVF16384,SQ8', {'nprobe': 32, 'mt_threshold': 0.001}))",yfcc-10M,10,4832.998975268765,0.0,-1.0,2932384.0,0,0,filter,0.911567
+wm_filter,"Faiss(('IVF1024,SQ8', 'direct', {'nprobe': 80, 'max_codes': 1800, 'selector_probe_limit': 80}))",yfcc-10M,10,13903.036761353605,0.0,-1.0,3335052.0,0,0,filter,0.885698
+wm_filter,"Faiss(('IVF1024,SQ8', 'direct', {'nprobe': 70, 'max_codes': 2100, 'selector_probe_limit': 70}))",yfcc-10M,10,14037.907099084978,0.0,-1.0,3335052.0,0,0,filter,0.8865270000000001
+wm_filter,"Faiss(('IVF1024,SQ8', 'direct', {'nprobe': 100, 'max_codes': 1800, 'selector_probe_limit': 100}))",yfcc-10M,10,13949.537596700138,0.0,-1.0,3335052.0,0,0,filter,0.8972490000000001
+wm_filter,"Faiss(('IVF1024,SQ8', 'direct', {'nprobe': 120, 'max_codes': 1800, 'selector_probe_limit': 120}))",yfcc-10M,10,13956.618095343878,0.0,-1.0,3335052.0,0,0,filter,0.90342
+wm_filter,"Faiss(('IVF1024,SQ8', 'direct', {'nprobe': 100, 'max_codes': 2100, 'selector_probe_limit': 100}))",yfcc-10M,10,13992.871358951954,0.0,-1.0,3335052.0,0,0,filter,0.905803
+wm_filter,"Faiss(('IVF1024,SQ8', 'direct', {'nprobe': 140, 'max_codes': 1800, 'selector_probe_limit': 140}))",yfcc-10M,10,13947.214583326406,0.0,-1.0,3335052.0,0,0,filter,0.907339
+wm_filter,"Faiss(('IVF1024,SQ8', 'direct', {'nprobe': 160, 'max_codes': 1800, 'selector_probe_limit': 160}))",yfcc-10M,10,14000.227245204653,0.0,-1.0,3335052.0,0,0,filter,0.909811
+wm_filter,"Faiss(('IVF1024,SQ8', 'direct', {'nprobe': 130, 'max_codes': 2100, 'selector_probe_limit': 130}))",yfcc-10M,10,14021.260895358095,0.0,-1.0,3335052.0,0,0,filter,0.914226
+wm_filter,"Faiss(('IVF1024,SQ8', 'direct', {'nprobe': 160, 'max_codes': 2100, 'selector_probe_limit': 160}))",yfcc-10M,10,14076.445534262568,0.0,-1.0,3335052.0,0,0,filter,0.918505
+wm_filter,"Faiss(('IVF1024,SQ8', 'direct', {'nprobe': 200, 'max_codes': 2100, 'selector_probe_limit': 200}))",yfcc-10M,10,13986.553873541105,0.0,-1.0,3335052.0,0,0,filter,0.921362
