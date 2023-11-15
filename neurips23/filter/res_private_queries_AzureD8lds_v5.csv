@@ -1,4 +1,14 @@
 algorithm,parameters,dataset,count,qps,distcomps,build,indexsize,mean_ssd_ios,mean_latency,track,recall/ap
+cufe,"Faiss(('IVF4096,SQ8', {'nprobe': 4, 'mt_threshold': 0.0001}))",yfcc-10M,10,5540.780477955831,0.0,-1,2921264.0,0,0,filter,0.722264
+cufe,"Faiss(('IVF4096,SQ8', {'nprobe': 4, 'mt_threshold': 0.0003}))",yfcc-10M,10,4991.026501560309,0.0,-1,2921264.0,0,0,filter,0.761878
+cufe,"Faiss(('IVF4096,SQ8', {'nprobe': 10, 'mt_threshold': 0.0001}))",yfcc-10M,10,4184.708797504027,0.0,-1,2921264.0,0,0,filter,0.8263619999999999
+cufe,"Faiss(('IVF4096,SQ8', {'nprobe': 8, 'mt_threshold': 0.0003}))",yfcc-10M,10,4231.148033154584,0.0,-1,2921264.0,0,0,filter,0.8357519999999999
+cufe,"Faiss(('IVF4096,SQ8', {'nprobe': 12, 'mt_threshold': 0.0002}))",yfcc-10M,10,3743.7007918433296,0.0,-1,2921264.0,0,0,filter,0.8609180000000001
+cufe,"Faiss(('IVF4096,SQ8', {'nprobe': 16, 'mt_threshold': 0.0001}))",yfcc-10M,10,3383.7700383587962,0.0,-1,2921264.0,0,0,filter,0.870402
+cufe,"Faiss(('IVF4096,SQ8', {'nprobe': 16, 'mt_threshold': 0.0003}))",yfcc-10M,10,3202.0333224295996,0.0,-1,2921264.0,0,0,filter,0.8960440000000001
+cufe,"Faiss(('IVF4096,SQ8', {'nprobe': 16, 'mt_threshold': 0.00033}))",yfcc-10M,10,3195.205534030068,0.0,-1,2921264.0,0,0,filter,0.8983840000000001
+cufe,"Faiss(('IVF4096,SQ8', {'nprobe': 30, 'mt_threshold': 0.00033}))",yfcc-10M,10,2291.0317034175628,0.0,-1,2921264.0,0,0,filter,0.937833
+cufe,"Faiss(('IVF4096,SQ8', {'nprobe': 32, 'mt_threshold': 0.00033}))",yfcc-10M,10,2196.607432270694,0.0,-1,2921264.0,0,0,filter,0.941038
 faiss,"Faiss(('IVF16384,SQ8', {'nprobe': 1, 'mt_threshold': 0.0001}))",yfcc-10M,10,5945.244749219077,0.0,-1.0,2931896.0,0,0,filter,0.48275499999999993
 faiss,"Faiss(('IVF16384,SQ8', {'nprobe': 1, 'mt_threshold': 0.0003}))",yfcc-10M,10,5281.6901231091115,0.0,-1.0,2931896.0,0,0,filter,0.537519
 faiss,"Faiss(('IVF16384,SQ8', {'nprobe': 4, 'mt_threshold': 0.0001}))",yfcc-10M,10,5726.9960008693915,0.0,-1.0,2931896.0,0,0,filter,0.626071
