@@ -240,7 +240,7 @@ random-xs-clustered:
     end: 8000
   76:
     operation: "search"
-  gt_url: "https://comp21storage.blob.core.windows.net/publiccontainer/comp23/clustered_data/random-xs-clustered/delete_runbook.yaml"
+  gt_url: "https://comp21storage.z5.web.core.windows.net/comp23/clustered_data/random-xs-clustered/delete_runbook.yaml"
 msturing-10M-clustered:
   max_pts: 6000000
   # On Azure D8lds v5, runtime: ~23 minutes 
@@ -479,4 +479,4 @@ msturing-10M-clustered:
     end: 9200000
   75:
     operation: "search"
-  gt_url: "https://comp21storage.blob.core.windows.net/publiccontainer/comp23/clustered_data/msturing-10M-clustered/delete_runbook.yaml"
+  gt_url: "https://comp21storage.z5.web.core.windows.net/comp23/clustered_data/msturing-10M-clustered/delete_runbook.yaml"

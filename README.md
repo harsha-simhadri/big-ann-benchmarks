@@ -16,4 +16,4 @@ Please see [this readme](./neurips21/README.md) for a guide of running billion-s
 
 # Credits
 
-This project is a version of [ann-benchmarks](https://github.com/erikbern/ann-benchmarks) by [Erik Bernhardsson](https://erikbern.com/) and contributors targetting billion-scale datasets.
+This project is a version of [ann-benchmarks](https://github.com/erikbern/ann-benchmarks) by [Erik Bernhardsson](https://erikbern.com/) and contributors targeting evaluation of algorithms and hardware for newer billion-scale datasets and practical variants of nearest neighbor search.

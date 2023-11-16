@@ -1,6 +1,6 @@
 FROM neurips23
 
-RUN apt-get install -y curl
+RUN apt-get update && apt-get install -y curl
 
 # install rust + build tools
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
