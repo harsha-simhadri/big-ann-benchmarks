@@ -37,6 +37,9 @@ jobs:
             dataset: random-xs
             track: ood
           - algorithm: cufe
+            dataset: random-s
+            track: filter
+          - algorithm: cufe
             dataset: sparse-small
             track: sparse
           - algorithm: vamana
@@ -63,6 +66,9 @@ jobs:
           - algorithm: mysteryann
             dataset: random-xs
             track: ood
+          - algorithm: hwtl_sdu_anns_stream
+            dataset: random-xs
+            track: streaming
           - algorithm: cufe
             dataset: random-xs
             track: streaming
@@ -78,6 +84,9 @@ jobs:
           - algorithm: mysteryann-dif
             dataset: random-xs
             track: ood
+          - algorithm: pyanns
+            dataset: random-xs
+            track: streaming
           - algorithm: ngt
             dataset: random-xs
             track: ood
