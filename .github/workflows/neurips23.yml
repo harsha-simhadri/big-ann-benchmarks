@@ -84,6 +84,15 @@ jobs:
           - algorithm: pyanns
             dataset: random-xs
             track: ood
+          - algorithm: puck
+            dataset: random-xs
+            track: streaming
+          - algorithm: puck
+            dataset: random-filter-s
+            track: filter
+          - algorithm: puck
+            dataset: random-xs
+            track: ood
       fail-fast: false
 
     steps:
