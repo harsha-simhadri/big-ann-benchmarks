@@ -14,4 +14,4 @@ puck,"Puck('C200_F200_FN8_Flat_filter_topk2100', {'radius_rate': 1.0, 'search_co
 puck,"Puck('C200_F200_FN8_Flat_filter_topk2200', {'radius_rate': 1.0, 'search_coarse_count': 200})",msturing-30M-clustered(final_runbook.yaml),10,0.0,0.04267311096191406,162304.0,0.0,0.0,streaming,0.9842099999999988
 puck,"Puck('C200_F200_FN8_Flat_filter_topk2300', {'radius_rate': 1.0, 'search_coarse_count': 200})",msturing-30M-clustered(final_runbook.yaml),10,0.0,0.0505528450012207,162288.0,0.0,0.0,streaming,0.9855499999999922
 
-* puck was ruin with 16GB docker memory limit, rather than 8GB.
+* puck was run with 16GB docker memory limit, rather than 8GB.
