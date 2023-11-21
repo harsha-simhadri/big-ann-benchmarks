@@ -14,7 +14,7 @@ if __name__ == "__main__":
         '--threshold',
         default=0.9,
         help='threshold',
-        type=int)
+        type=float)
     parser.add_argument(
         'csv',
         metavar='CSV',
@@ -25,7 +25,7 @@ if __name__ == "__main__":
 
     if args.algorithm:
         df == df[df.algorithm == args.algorithm]
-    
+
     if args.metric == "qps":
         print(df[(df.qps > args.threshold)].groupby(['dataset', 'algorithm']).max()[['recall/ap']])
     elif args.metric == "recall":
