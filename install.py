@@ -66,8 +66,8 @@ if __name__ == "__main__":
         if args.algorithm: # build a specific algorithm
             algos = [args.algorithm] 
         else: # build all algorithms in the track with Dockerfiles.
-            algos = filter(lambda entry : os.path.exists(neurips23.common.dockerfile_path(track, entry)),
-                            os.listdir(neurips23.common.track_path(track)))
+            algos = list(filter(lambda entry : os.path.exists(neurips23.common.dockerfile_path(track, entry)),
+                            os.listdir(neurips23.common.track_path(track))))
         tags = [neurips23.common.docker_tag(track, algo) for algo in algos]
         dockerfiles = [neurips23.common.dockerfile_path(track, algo) for algo in algos]
     else: # NeurIPS'21
