@@ -14,7 +14,7 @@ if __name__ == "__main__":
         '--threshold',
         default=0.9,
         help='threshold',
-        type=int)
+        type=float)
     parser.add_argument(
         'csv',
         metavar='CSV',
