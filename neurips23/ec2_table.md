@@ -26,3 +26,5 @@
 
 
 [1] Build time exceeded 12 hours (13 hours, 34 minutes)
+
+Results with private queries for yfcc-10M and sparse-full and public queries for text2image-10M
