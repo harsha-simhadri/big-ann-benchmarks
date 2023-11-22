@@ -274,8 +274,8 @@ class SSNPPDataset(DatasetCompetitionFormat):
         self.basedir = os.path.join(BASEDIR, "FB_ssnpp")
 
         self.private_nq = 100000
-        self.private_qs_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/FB_ssnpp_heldout_queries_3307fba121460a56.u8bin"
-        self.private_gt_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/GT_1B_final_2bf4748c7817/FB_ssnpp.bin"
+        self.private_qs_url = ""#https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/FB_ssnpp_heldout_queries_3307fba121460a56.u8bin"
+        self.private_gt_url = ""#https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/GT_1B_final_2bf4748c7817/FB_ssnpp.bin"
 
     def search_type(self):
         return "range"
@@ -319,8 +319,8 @@ class BigANNDataset(DatasetCompetitionFormat):
         self.basedir = os.path.join(BASEDIR, "bigann")
 
         self.private_nq = 10000
-        #self.private_qs_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/bigann/query.private.799253207.10K.u8bin"
-        #self.private_gt_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/GT_1B_final_2bf4748c7817/bigann-1B.bin"
+        self.private_qs_url = ""#https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/bigann/query.private.799253207.10K.u8bin"
+        self.private_gt_url = ""#https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/GT_1B_final_2bf4748c7817/bigann-1B.bin"
 
 
     def distance(self):
