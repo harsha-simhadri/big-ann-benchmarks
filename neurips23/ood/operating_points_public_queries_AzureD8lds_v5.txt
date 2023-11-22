@@ -1,0 +1,12 @@
+                                        qps
+dataset        algorithm
+text2image-10M cufe             3561.416286
+               diskann          4132.829728
+               epsearch         5876.982706
+               mysteryann      22555.248017
+               mysteryann-dif  22491.577263
+               ngt              6373.934425
+               puck             8699.573200
+               pyanns          22295.584534
+               sustech-ood     13772.370641
+               vamana           6753.344080

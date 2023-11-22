@@ -1,3 +1,4 @@
+
 # Practical Vector Search: NeurIPS 2023 Competition
 
 ## Table Of Contents
@@ -277,4 +278,3 @@ In particular, all steps mentioned in <#measuring_your_algorithm> must be possib
 
 
 ## For_Evaluators
-
