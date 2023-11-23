@@ -1,0 +1,36 @@
+yfcc-10M:
+    rubignn:
+      docker-tag: neurips23-filter-rubignn
+      module: neurips23.filter.rubignn.rubignn
+      constructor: rubignn
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+            [{"R": 10, "L": 70, "stitched_R":96}]
+          query-args: |
+            [{"L": 80}, 
+             {"L": 90},
+             {"L": 95},
+             {"L": 100},
+             {"L": 105},
+             {"L": 110},
+             {"L": 120},
+             {"L": 130}
+            ]
+random-filter-s:
+    rubignn:
+      docker-tag: neurips23-filter-rubignn
+      module: neurips23.filter.rubignn.rubignn
+      constructor: rubignn
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+            [{"R": 8, "L": 20, "stitched_R":16}]
+          query-args: |
+            [{"L": 10}, 
+             {"L": 20},
+             {"L": 30},
+             {"L": 40}
+            ]
