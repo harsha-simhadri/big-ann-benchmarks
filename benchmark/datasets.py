@@ -274,8 +274,8 @@ class SSNPPDataset(DatasetCompetitionFormat):
         self.basedir = os.path.join(BASEDIR, "FB_ssnpp")
 
         self.private_nq = 100000
-        self.private_qs_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/FB_ssnpp_heldout_queries_3307fba121460a56.u8bin"
-        self.private_gt_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/GT_1B_final_2bf4748c7817/FB_ssnpp.bin"
+        self.private_qs_url = ""#https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/FB_ssnpp_heldout_queries_3307fba121460a56.u8bin"
+        self.private_gt_url = ""#https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/GT_1B_final_2bf4748c7817/FB_ssnpp.bin"
 
     def search_type(self):
         return "range"
@@ -319,8 +319,8 @@ class BigANNDataset(DatasetCompetitionFormat):
         self.basedir = os.path.join(BASEDIR, "bigann")
 
         self.private_nq = 10000
-        #self.private_qs_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/bigann/query.private.799253207.10K.u8bin"
-        #self.private_gt_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/GT_1B_final_2bf4748c7817/bigann-1B.bin"
+        self.private_qs_url = ""#https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/bigann/query.private.799253207.10K.u8bin"
+        self.private_gt_url = ""#https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/GT_1B_final_2bf4748c7817/bigann-1B.bin"
 
 
     def distance(self):
@@ -995,6 +995,94 @@ class RandomFilterDS(RandomDS):
         return f"RandomFilter({self.nb})"
 
 
+class OpenAIEmbedding1M(DatasetCompetitionFormat):
+    def __init__(self, query_selection_random_seed):
+        self.seed = query_selection_random_seed
+        self.basedir = os.path.join(BASEDIR, "openai-embedding-1M")
+        self.d = 1536
+        self.nb = 1000000
+        self.nq = 100000
+        self.ds_fn = "base1m.fbin"
+        self.qs_fn = "queries_100k.fbin"
+        self.gt_fn = "gt_1m_100k.bin"
+
+    def prepare(self, skip_data=False):
+        from datasets import load_dataset
+        import tqdm
+        import numpy as np
+        import faiss
+
+        os.makedirs(self.basedir, exist_ok=True)
+
+        print("Downloading dataset...")
+        dataset = load_dataset("KShivendu/dbpedia-entities-openai-1M", split="train")
+
+        print("Converting to competition format...")
+        data = []
+        for row in tqdm.tqdm(dataset, desc="Collecting vectors", unit="vector"):
+            data.append(np.array(row["openai"], dtype=np.float32))
+        data = np.array(data)
+        with open(os.path.join(self.basedir, self.ds_fn), "wb") as f:
+            np.array(data.shape, dtype=np.uint32).tofile(f)
+            data.tofile(f)
+
+        print(f"Selecting queries using random seed: {self.seed}...")
+        rand = np.random.RandomState(self.seed)
+        rand.shuffle(data)
+        queries = data[:100000]
+        with open(os.path.join(self.basedir, self.qs_fn), "wb") as f:
+            np.array(queries.shape, dtype=np.uint32).tofile(f)
+            queries.tofile(f)
+
+        k = 100
+        batch_size = 1000
+        print(f"Computing groundtruth for k = {k} using batch_size = {batch_size}...")
+        index = faiss.IndexFlatIP(data.shape[1])
+        index.add(data)
+        ids = np.zeros((len(queries), k), dtype=np.uint32)
+        distances = np.zeros((len(queries), k), dtype=np.float32)
+        for i in tqdm.tqdm(
+            range(0, len(queries), batch_size),
+            total=len(queries) // batch_size,
+            desc="Brute force scan using FAISS",
+            unit=" batch",
+        ):
+            D, I = index.search(queries[i : i + batch_size], k)
+            ids[i : i + batch_size] = I
+            distances[i : i + batch_size] = D
+        with open(os.path.join(self.basedir, self.gt_fn), "wb") as f:
+            np.array(ids.shape, dtype=np.uint32).tofile(f)
+            ids.tofile(f)
+            distances.tofile(f)
+
+        print(f"Done. Dataset files are in {self.basedir}.")
+
+    def search_type(self):
+        """
+        "knn" or "range" or "knn_filtered"
+        """
+        return "knn"
+
+    def distance(self):
+        """
+        "euclidean" or "ip" or "angular"
+        """
+        return "eculidean"
+
+    def data_type(self):
+        """
+        "dense" or "sparse"
+        """
+        return "dense"
+
+    def default_count(self):
+        """number of neighbors to return"""
+        return 10
+
+    def short_name(self):
+        return f"{self.__class__.__name__}-{self.nb}"
+
+
 
 DATASETS = {
     'bigann-1B': lambda : BigANNDataset(1000),
@@ -1047,4 +1135,5 @@ DATASETS = {
 
     'random-filter-s': lambda : RandomFilterDS(100000, 1000, 50),
 
+    'openai-embedding-1M': lambda: OpenAIEmbedding1M(93652),
 }

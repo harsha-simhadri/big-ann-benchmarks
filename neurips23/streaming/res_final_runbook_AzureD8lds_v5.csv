@@ -1,0 +1,30 @@
+algorithm,parameters,dataset,count,qps,distcomps,build,indexsize,mean_ssd_ios,mean_latency,track,recall/ap
+cufe,"diskann(('R32_L50', {'Ls': 70, 'T': 16}))",msturing-30M-clustered(final_runbook.yaml),10,,0.0,1.7107985019683838,4885612.0,0.0,0.0,streaming,0.7688699999999955
+cufe,"diskann(('R32_L70', {'Ls': 70, 'T': 16}))",msturing-30M-clustered(final_runbook.yaml),10,,0.0,1.7178819179534912,4885448.0,0.0,0.0,streaming,0.7937900000000012
+cufe,"diskann(('R50_L50', {'Ls': 70, 'T': 16}))",msturing-30M-clustered(final_runbook.yaml),10,,0.0,1.9073610305786133,4885652.0,0.0,0.0,streaming,0.8189199999999953
+
+diskann,"diskann(('R50_L50', {'Ls': 70, 'T': 16}))",msturing-30M-clustered(final_runbook.yaml),10,,0.0,-1.0,4887900.0,0.0,0.0,streaming,0.883300000000004
+
+**hwtl_sdu_anns_stream,"HWTL_SDU_ANNS_stream(('R65_L70', {'Ls': 100, 'T': 16}))",msturing-30M-clustered(final_runbook.yaml),10,,0.0,1.6761493682861328,4885612.0,0.0,0.0,streaming,0.967459999999998
+
+pyanns,"pyanns(('R32_L100', {'Ls': 300, 'T': 8}))",msturing-30M-clustered(final_runbook.yaml),10,,0.0,1.0960314273834229,1991152.0,0.0,0.0,streaming,0.9597400000000078
+
+*puck,"Puck('C200_F200_FN8_Flat_filter_topk1200', {'radius_rate': 1.0, 'search_coarse_count': 200})",msturing-30M-clustered(final_runbook.yaml),10,0.0,0.04236912727355957,162400.0,0.0,0.0,streaming,0.9571000000000043
+*puck,"Puck('C200_F200_FN8_Flat_filter_topk1500', {'radius_rate': 1.0, 'search_coarse_count': 200})",msturing-30M-clustered(final_runbook.yaml),10,0.0,0.05324435234069824,161968.0,0.0,0.0,streaming,0.970739999999989
+*puck,"Puck('C200_F200_FN8_Flat_filter_topk1800', {'radius_rate': 1.0, 'search_coarse_count': 200})",msturing-30M-clustered(final_runbook.yaml),10,0.0,0.04367876052856445,162216.0,0.0,0.0,streaming,0.9777599999999922
+*puck,"Puck('C200_F200_FN8_Flat_filter_topk1900', {'radius_rate': 1.0, 'search_coarse_count': 200})",msturing-30M-clustered(final_runbook.yaml),10,0.0,0.047180891036987305,162396.0,0.0,0.0,streaming,0.9793199999999949
+*puck,"Puck('C200_F200_FN8_Flat_filter_topk2000', {'radius_rate': 1.0, 'search_coarse_count': 200})",msturing-30M-clustered(final_runbook.yaml),10,0.0,0.044286489486694336,162268.0,0.0,0.0,streaming,0.9805199999999994
+*puck,"Puck('C200_F200_FN8_Flat_filter_topk2100', {'radius_rate': 1.0, 'search_coarse_count': 200})",msturing-30M-clustered(final_runbook.yaml),10,0.0,0.04399824142456055,162216.0,0.0,0.0,streaming,0.9829200000000002
+*puck,"Puck('C200_F200_FN8_Flat_filter_topk2200', {'radius_rate': 1.0, 'search_coarse_count': 200})",msturing-30M-clustered(final_runbook.yaml),10,0.0,0.04267311096191406,162304.0,0.0,0.0,streaming,0.9842099999999988
+*puck,"Puck('C200_F200_FN8_Flat_filter_topk2300', {'radius_rate': 1.0, 'search_coarse_count': 200})",msturing-30M-clustered(final_runbook.yaml),10,0.0,0.0505528450012207,162288.0,0.0,0.0,streaming,0.9855499999999922
+
+^puck,"Puck('C200_F200_FN8_Flat_filter_topk1200', {'radius_rate': 1.0, 'search_coarse_count': 200})",msturing-30M-clustered(final_runbook.yaml),10,0.0,0.04411029815673828,162228.0,0.0,0.0,streaming,0.9582700000000062
+^puck,"Puck('C200_F200_FN8_Flat_filter_topk1500', {'radius_rate': 1.0, 'search_coarse_count': 200})",msturing-30M-clustered(final_runbook.yaml),10,0.0,0.04391145706176758,162192.0,0.0,0.0,streaming,0.9703899999999968
+^puck,"Puck('C200_F200_FN8_Flat_filter_topk2300', {'radius_rate': 1.0, 'search_coarse_count': 200})",msturing-30M-clustered(final_runbook.yaml),10,0.0,0.04377341270446777,162240.0,0.0,0.0,streaming,0.9848600000000147
+^puck,"Puck('C200_F200_FN8_Flat_filter_topk2200', {'radius_rate': 1.0, 'search_coarse_count': 200})",msturing-30M-clustered(final_runbook.yaml),10,0.0,0.043066978454589844,162004.0,0.0,0.0,streaming,0.9849299999999998
+
+
+*puck instances were run with 16GB docker mem_limit, rather than 8GB, on a machine with 16GB DRAM.
+^puck instances were run with 8GB docker mem_limit, on a machine with 16GB machine. However, all puck entries crash when run with 8GB mem_limit docker limit on a machine with 8GB DRAM.
+It is unclear if docker actually respects the memory limit.
+** Submission is not open sourced.
