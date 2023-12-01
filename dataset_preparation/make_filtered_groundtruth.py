@@ -72,8 +72,11 @@ if __name__ == "__main__":
     print("load dataset vectors")
     xb = ds.get_dataset()
     print("  size", xb.shape)
-    print("load query vectors")
-    xq = ds.get_queries()
+    print("load query vectors, private", args.private)
+    if args.private:
+        xq = ds.get_private_queries()
+    else:
+        xq = ds.get_queries()
     print("  size", xq.shape)
 
     if args.unfiltered:
@@ -86,7 +89,11 @@ if __name__ == "__main__":
     else:
         print("load dataset + query metadata")
         meta_b = ds.get_dataset_metadata()
-        meta_q = ds.get_queries_metadata()
+        if args.private:
+            print("   private query metadata")
+            meta_q = ds.get_private_queries_metadata()
+        else:
+            meta_q = ds.get_queries_metadata()
         print("  sizes", meta_b.shape, meta_q.shape)
         print("transpose doc-word matrix to inverted file")
         docs_per_word = meta_b.T.tocsr()

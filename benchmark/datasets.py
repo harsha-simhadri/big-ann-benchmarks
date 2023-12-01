@@ -231,19 +231,16 @@ class DatasetCompetitionFormat(Dataset):
         return sanitize(x)
 
     def get_private_queries(self):
-        assert self.private_qs_url is not None
-        fn = self.private_qs_url.split("/")[-1]   # in case it's a URL
-        filename = os.path.join(self.basedir, fn)
+        filename = os.path.join(self.basedir, self.qs_private_fn)
         x = xbin_mmap(filename, dtype=self.dtype)
         assert x.shape == (self.private_nq, self.d)
         return sanitize(x)
 
     def get_private_groundtruth(self, k=None):
-        assert self.private_gt_url is not None
-        fn = self.private_gt_url.split("/")[-1]   # in case it's a URL
+        assert self.private_gt_fn is not None
         assert self.search_type() in ("knn", "knn_filtered")
 
-        I, D = knn_result_read(os.path.join(self.basedir, fn))
+        I, D = knn_result_read(os.path.join(self.basedir, self.private_gt_fn))
         assert I.shape[0] == self.private_nq
         if k is not None:
             assert k <= 100
@@ -274,8 +271,8 @@ class SSNPPDataset(DatasetCompetitionFormat):
         self.basedir = os.path.join(BASEDIR, "FB_ssnpp")
 
         self.private_nq = 100000
-        self.private_qs_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/FB_ssnpp_heldout_queries_3307fba121460a56.u8bin"
-        self.private_gt_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/GT_1B_final_2bf4748c7817/FB_ssnpp.bin"
+        self.private_qs_url = ""#https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/FB_ssnpp_heldout_queries_3307fba121460a56.u8bin"
+        self.private_gt_url = ""#https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/GT_1B_final_2bf4748c7817/FB_ssnpp.bin"
 
     def search_type(self):
         return "range"
@@ -319,8 +316,8 @@ class BigANNDataset(DatasetCompetitionFormat):
         self.basedir = os.path.join(BASEDIR, "bigann")
 
         self.private_nq = 10000
-        #self.private_qs_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/bigann/query.private.799253207.10K.u8bin"
-        #self.private_gt_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/GT_1B_final_2bf4748c7817/bigann-1B.bin"
+        self.private_qs_url = ""#https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/bigann/query.private.799253207.10K.u8bin"
+        self.private_gt_url = ""#https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/GT_1B_final_2bf4748c7817/bigann-1B.bin"
 
 
     def distance(self):
@@ -641,6 +638,8 @@ class YFCC100MDataset(DatasetCompetitionFormat):
                 self.gt_private_fn = "GT.private.%d.ibin" % private_key
             else:
                 self.gt_fn = "unfiltered.GT.public.ibin"      
+
+            self.private_gt_fn = "GT.private.%d.ibin" % private_key
 
             # data is uploaded but download script not ready.
         self.base_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/yfcc100M/"
