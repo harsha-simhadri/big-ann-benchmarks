@@ -27,4 +27,4 @@
 [1] The entry was from an author affiliated with Zilliz, a company involved in the organizing team. The conflict was not disclosed by the author, and was discovered post evaluation.
 [2] Build time exceeded 12 hours (13 hours, 34 minutes)
 
-Results with private queries for yfcc-10M and sparse-full and public queries for text2image-10M
+Table lists highest QPS measured with at least 90% recall@10. Private queries were used for yfcc-10M and sparse-full and public queries for text2image-10M.
