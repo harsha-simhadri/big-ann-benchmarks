@@ -1,5 +1,3 @@
-
-|----------------------------------------------------------|
 | dataset         | algorithm             | qps            |
 |-----------------|-----------------------|----------------|
 | yfcc-10M        | parlayivf             | 37670.703774   |
@@ -12,7 +10,6 @@
 |                 | faissplus             | 3625.027286    |
 |                 | faiss                 | 3252.682553    |
 |                 | cufe                  | 2291.031703    |
-|----------------------------------------------------------|
 | text2image-10M  | mysteryann            | 22555.248017   |
 | (OOD track)     | pyanns [1]            | 22295.584534   |
 |                 | mysteryann-dif        | 22491.577263   |
@@ -23,7 +20,6 @@
 |                 | epsearch              | 5876.982706    |
 |                 | diskann               | 4132.829728    |
 |                 | cufe                  | 3561.416286    |
-|----------------------------------------------------------|
 | sparse-full     | pyanns [1]            | 6499.652881    |
 | (sparse track)  | shnsw                 | 5078.449772    |
 |                 | NLE-Full              | 1314.194166    |
@@ -31,7 +27,6 @@
 |                 | sustech-whu [2]       | 788.168885     |
 |                 | cufe                  | 97.860465      |
 |                 | linscan               | 95.098871      |
-|----------------------------------------------------------|
 
 
 [1] The entry was from an author affiliated with Zilliz, a company involved in the organizing team. The conflict was not disclosed by the author, and was discovered post evaluation.
