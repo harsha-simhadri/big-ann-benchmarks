@@ -50,11 +50,6 @@ The baselines were run on an Azure Standard D8lds v5 (8 vcpus, 16 GiB memory) ma
 |Streaming| DiskANN     | 0.883 (recall@10), 45 mins  |  `python3 run.py --dataset msturing-30M-clustered --algorithm diskann --neurips23track streaming --runbook_path neurips23/streaming/final_runbook.yaml` |
 |OOD      | DiskANN     | 4882                        | `python3 run.py --dataset text2image-10M --algorithm diskann --neurips23track ood` | 
 
-
-## Leaderboards
-
-We will release data points and plots for recall vs QPS separately for the four different tracks. 
-
 ## For_Participants
 
 Participants must submit their implementation via a pull request.  Optionally, participants can provide uploaded index file(s) (one per participating dataset). 
