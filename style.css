@@ -56,6 +56,11 @@ h3 {
   line-height: 1.75rem;
 }
 
+h4 {
+  font-size: 1.125rem;
+  line-height: 1.5rem;
+}
+
 /* Text */
 p,
 li {
@@ -208,6 +213,7 @@ a:hover {
   border-radius: 5px;
   color: #fff;
   transition: all 0.3s ease-in-out;
+  text-align: center;
 }
 
 .button.button-white {
@@ -257,9 +263,63 @@ a:hover {
   color: var(--color-gray);
 }
 
+/* Results section */
+.results {
+  background-color: #fff;
+}
+
+.results .buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.25rem;
+  margin-top: var(--spacing-md);
+}
+
+.results .title {
+  text-align: center;
+  color: var(--color-navy);
+}
+
+.results h3 {
+  margin-top: var(--spacing-sm);
+  text-align: center;
+}
+
+.results h4 {
+  margin-top: var(--spacing-md);
+}
+
+.result-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  margin: var(--spacing-sm) 0 var(--spacing-sm);
+  list-style: disc outside;
+  padding-left: 1.4rem;
+  color: var(--color-gray);
+}
+
+.result-list li > span:not(.authors),
+.result-list li::marker {
+  color: #000;
+  font-weight: 600;
+}
+
+.result-list li > span.authors {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 1rem;
+}
+
+.result-list li > span.authors > span {
+  color: #000;
+  font-weight: 600;
+}
+
 /* Tracks section */
 .tracks {
-  background-color: #fff;
+  background-color: var(--color-light-gray);
 }
 
 .tracks .title {
@@ -328,7 +388,7 @@ th {
 
 /* Participation */
 .participate {
-  background-color: var(--color-light-gray);
+  background-color: #fff;
 }
 
 .participate h2 {
@@ -353,6 +413,11 @@ th {
 }
 
 /* Contributor section */
+
+.organizers {
+  background-color: var(--color-light-gray);
+}
+
 .organizers > .container {
   display: flex;
   flex-direction: column;
@@ -444,6 +509,10 @@ th {
   h3 {
     font-size: 1.875rem;
     line-height: 2.25rem;
+  }
+
+  h4 {
+    font-size: 1.5rem;
   }
 
   .button {
