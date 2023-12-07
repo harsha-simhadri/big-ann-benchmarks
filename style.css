@@ -272,7 +272,7 @@ a:hover {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 1.25rem;
+  gap: 1.25 rem;
   margin-top: var(--spacing-md);
 }
 
@@ -293,7 +293,7 @@ a:hover {
 .result-list {
   display: flex;
   flex-direction: column;
-  gap: 1.75rem;
+  gap: 1rem;
   margin: var(--spacing-sm) 0 var(--spacing-sm);
   list-style: disc outside;
   padding-left: 1.4rem;
