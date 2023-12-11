@@ -102,7 +102,7 @@ jobs:
           - algorithm: puck
             dataset: random-xs
             track: ood
-          - algorithm: pinecone_filter
+          - algorithm: pinecone
             dataset: random-filter-s
             track: filter
       fail-fast: false
