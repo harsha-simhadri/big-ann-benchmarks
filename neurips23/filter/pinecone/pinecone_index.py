@@ -1,4 +1,5 @@
 import os
+import numpy as np
 
 from neurips23.filter.base import BaseFilterANN
 from benchmark.datasets import DATASETS
@@ -67,6 +68,14 @@ class PineconeIndex(BaseFilterANN):
         raise NotImplementedError()
 
     def filtered_query(self, X, filter, k):
+
+        if (X.dtype.kind == 'f'):
+            print('data type of X is ' + str(X.dtype))
+            X = X*10 + 128
+            X = X.astype(np.uint8)
+            padding_size = 192 - X.shape[1]
+            X = np.pad(X, ((0, 0), (0, padding_size)), mode='constant')
+
 
         results_tuple = self.index.search_parallel(X, filter.indptr, filter.indices, k) # this returns a tuple: (results_array, query_time, post_processing_time)
         self.I = results_tuple[0]
