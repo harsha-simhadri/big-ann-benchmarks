@@ -1,5 +1,5 @@
 random-filter-s:
-    pinecone_filter:
+    pinecone:
       docker-tag: neurips23-filter-pinecone
       module: neurips23.filter.pinecone.pinecone_index
       constructor: PineconeIndex
@@ -16,7 +16,7 @@ random-filter-s:
             {"fraction_coefficient": "2.0", "fraction_exponent": "0.1", "skip_clustering_threshold": 2000}
             ]
 yfcc-10M:
-    pinecone_filter:
+    pinecone:
       docker-tag: neurips23-filter-pinecone
       module: neurips23.filter.pinecone.pinecone_index
       constructor: PineconeIndex
