@@ -20,7 +20,7 @@ class S2_index(BaseOODANN):
         self.name = 'pinecone-ood'
         self._index_params = index_params
         self._metric = metric
-        self.index_path = "text2image-10M-data/"
+        self.index_path = "data/pinecone/ood/text2image-10M-data/"
 
         self.L = 225 
         self.R = 32
