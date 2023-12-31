@@ -1,0 +1,37 @@
+text2image-1M:
+    pinecone-ood: 
+      docker-tag: neurips23-ood-pinecone-ood
+      module: neurips23.ood.pinecone-ood.s2_index
+      constructor: S2_index
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+            [{"index_str":"OODIndex1024[HNSW32]_spillage=1"}]
+          query-args: |
+            [{"nprobe":"15", "kfactor":"4"}]
+text2image-10M:
+    pinecone-ood: 
+      docker-tag: neurips23-ood-pinecone-ood
+      module: neurips23.ood.pinecone-ood.s2_index
+      constructor: S2_index
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+            [{"index_str":"OODIndex32768[HNSW32]_spillage=1"}]
+          query-args: |
+            [{"nprobe":"45", "kfactor":"1", "Ls":"45"},
+            {"nprobe":"47", "kfactor":"2", "Ls":"47"},
+            {"nprobe":"48", "kfactor":"2", "Ls":"48"},
+            {"nprobe":"49", "kfactor":"2", "Ls":"49"},
+            {"nprobe":"50", "kfactor":"2", "Ls":"50"},
+            {"nprobe":"51", "kfactor":"2", "Ls":"51"},
+            {"nprobe":"52", "kfactor":"2", "Ls":"52"},
+            {"nprobe":"55", "kfactor":"2", "Ls":"55"},
+            {"nprobe":"47", "kfactor":"3", "Ls":"47"},
+            {"nprobe":"48", "kfactor":"3", "Ls":"48"},
+            {"nprobe":"49", "kfactor":"3", "Ls":"49"},
+            {"nprobe":"50", "kfactor":"3", "Ls":"50"},
+            {"nprobe":"55", "kfactor":"3", "Ls":"55"},
+            {"nprobe":"80", "kfactor":"3", "Ls":"80"}]
