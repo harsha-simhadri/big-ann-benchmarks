@@ -31,23 +31,10 @@ class S2_index(BaseOODANN):
             return
         self.index_str = index_params.get("index_str")
 
+
     def fit(self, dataset):
-        ds = DATASETS[dataset]()
-
-        print(f"Building index")
-        start = time.time()
-
-        index = pys2.OODIndexWrapper(ds.d,
-                                    self.index_str,
-                                    ds.get_dataset_fn(), 
-                                    None, 
-                                    None, 
-                                    None)
-        end = time.time()
-        elapsed = end - start
-        print(f"Building index took {elapsed} seconds")
-
-        self.index = index
+        # this version is for evaluating existing indexes only
+        raise NotImplementedError()
 
     def index_name(self):
         return f"R{self.R}_L{self.L}"
@@ -93,7 +80,17 @@ class S2_index(BaseOODANN):
         If the file does not exist, there is an option to download it from a public url
         """
         ds = DATASETS[dataset]()
-        print(f"Loading index")
+
+        print(f"Loading index (downloading if necessary)")
+
+        # check if index files exist. If not, download them
+
+
+        bucket_name = 'research-public-storage'
+        file_list = ['ood-index/text2image-10M-centroids', 'ood-index/text2image-10M-centroids.fbin', 'ood-index/coip-t2i-10M-vecsofvecs', 'ood-index/text2image-10M-vecs']
+
+        download_multiple_files(bucket_name, file_list, self.index_path)
+
 
         index_dir = self.create_index_dir(ds)
 
@@ -193,4 +190,32 @@ class S2_index(BaseOODANN):
     def __str__(self):
         return f'pinecone-ood({self.index_str, self._index_params, self._query_args})'
 
+def download_public_gcs_file(bucket_name, source_blob_name, destination_dir):
+    """Download a file from Google Cloud Storage if it doesn't exist locally."""
+    destination_file_name = os.path.join(destination_dir, os.path.basename(source_blob_name))
+
+    # Check if the file already exists
+    if os.path.exists(destination_file_name):
+        print(f"File already exists: {destination_file_name}")
+        return
+
+    # Download the file
+    url = f"https://storage.googleapis.com/{bucket_name}/{source_blob_name}"
+    response = requests.get(url)
+    
+    if response.status_code == 200:
+        # Ensure destination directory exists
+        os.makedirs(os.path.dirname(destination_file_name), exist_ok=True)
+        
+        # Write the file
+        with open(destination_file_name, 'wb') as f:
+            f.write(response.content)
+        print(f"File downloaded successfully: {destination_file_name}")
+    else:
+        print(f"Failed to download {source_blob_name}: HTTP status code {response.status_code}")
+
+def download_multiple_files(bucket_name, file_list, destination_dir):
+    """Download multiple files from GCS to a local directory if they don't already exist."""
+    for file_name in file_list:
+        download_public_gcs_file(bucket_name, file_name, destination_dir)
    
