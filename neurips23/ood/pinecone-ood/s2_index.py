@@ -2,6 +2,7 @@ import pickle
 import numpy as np
 import os
 import time
+import requests
 
 from multiprocessing.pool import ThreadPool
 
