@@ -27,11 +27,7 @@ text2image-10M:
             {"nprobe":"52", "kfactor":"2", "Ls":"52"},
             {"nprobe":"53", "kfactor":"2", "Ls":"53"},
             {"nprobe":"54", "kfactor":"2", "Ls":"54"},
-            {"nprobe":"55", "kfactor":"2", "Ls":"55"},
             {"nprobe":"60", "kfactor":"2", "Ls":"60"},
-            {"nprobe":"48", "kfactor":"3", "Ls":"48"},
             {"nprobe":"49", "kfactor":"3", "Ls":"49"},
             {"nprobe":"50", "kfactor":"3", "Ls":"50"},
-            {"nprobe":"51", "kfactor":"3", "Ls":"51"},
-            {"nprobe":"55", "kfactor":"3", "Ls":"55"},
-            {"nprobe":"80", "kfactor":"3", "Ls":"80"}]
+            {"nprobe":"51", "kfactor":"3", "Ls":"51"}]
