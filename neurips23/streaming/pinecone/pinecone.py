@@ -25,7 +25,6 @@ class pinecone(BaseStreamingANN):
         self.L = index_params.get("L")
         self.insert_threads = index_params.get("insert_threads")
         self.consolidate_threads = index_params.get("consolidate_threads")
-        self.r_index = PineconeRerankingIndex()
         self.mx = None
         self.mi = None
 
@@ -65,6 +64,8 @@ class pinecone(BaseStreamingANN):
             num_threads = self.insert_threads, #to allocate scratch space for up to 64 search threads
             initial_search_complexity = 100
         )
+        self.r_index = PineconeRerankingIndex(max_pts)
+
         self.max_pts = max_pts
         print('Index class constructed and ready for update/search')
         self.active_indices = set()
@@ -95,16 +96,16 @@ class pinecone(BaseStreamingANN):
         self.r_index.batch_insert(ids+1, X, dim)
 
         retvals = self.index.batch_insert(Xq, ids+1)
-        if -1 in retvals:
-            print('insertion failed')
-            print('insertion return values', retvals)
+        # if -1 in retvals:
+        #     print('insertion failed')
+        #     print('insertion return values', retvals)
 
     def delete(self, ids):
         for id in ids:
             self.index.mark_deleted(id+1)
-            self.r_index.delete(id+1)
+            # self.r_index.delete(id+1)
             
-
+        self.r_index.batch_delete(ids+1)
         self.active_indices.difference_update(ids+1)
         self.num_unprocessed_deletes += len(ids)
 
