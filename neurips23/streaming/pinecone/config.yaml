@@ -10,5 +10,7 @@ msturing-30M-clustered:
           [{"R":32, "L":100, "insert_threads":8, "consolidate_threads":8}]
         query-args: |
           [
-            {"Ls":300, "k_1":30, "T":8}
+            {"Ls":300, "k_1":30, "T":8},
+            {"Ls":400, "k_1":30, "T":8},
+            {"Ls":500, "k_1":30, "T":8}
           ]
