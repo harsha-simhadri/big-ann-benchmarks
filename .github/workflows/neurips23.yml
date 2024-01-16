@@ -111,6 +111,9 @@ jobs:
           - algorithm: zilliz
             dataset: sparse-small
             track: sparse
+          - algorithm: zilliz
+            dataset: random-filter-s
+            track: filter
       fail-fast: false
 
     steps:
