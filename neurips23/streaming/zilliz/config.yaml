@@ -1,0 +1,60 @@
+random-xs-clustered:
+  zilliz:
+    docker-tag: neurips23-streaming-zilliz
+    module: neurips23.streaming.zilliz.zilliz
+    constructor: Zilliz
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{"R":32, "L":100, "insert_threads":16, "consolidate_threads":16}]
+        query-args: |
+          [{"Ls":200, "T":8}]
+
+random-xs:
+  zilliz:
+    docker-tag: neurips23-streaming-zilliz
+    module: neurips23.streaming.zilliz.zilliz
+    constructor: Zilliz
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{"R":32, "L":50, "insert_threads":16, "consolidate_threads":16}]
+        query-args: |
+          [{"Ls":50, "T":8}]
+
+msturing-10M-clustered:
+  zilliz:
+    docker-tag: neurips23-streaming-zilliz
+    module: neurips23.streaming.zilliz.zilliz
+    constructor: Zilliz
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{"R":16, "L":10, "insert_threads":8, "consolidate_threads":8}]
+        query-args: |
+          [
+           {"Ls":100, "T":8}
+          ]
+
+msturing-30M-clustered:
+  zilliz:
+    docker-tag: neurips23-streaming-zilliz
+    module: neurips23.streaming.zilliz.zilliz
+    constructor: Zilliz
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [
+            {"R":32, "L":110, "insert_threads":8, "consolidate_threads":8}
+          ]
+        query-args: |
+          [
+           {"Ls":400, "T":8},
+           {"Ls":450, "T":8},
+           {"Ls":500, "T":8},
+           {"Ls":550, "T":8}
+          ]
