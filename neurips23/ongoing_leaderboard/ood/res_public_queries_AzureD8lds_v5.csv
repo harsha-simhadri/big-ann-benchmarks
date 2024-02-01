@@ -1,0 +1,125 @@
+algorithm,parameters,dataset,count,qps,distcomps,build,indexsize,mean_ssd_ios,mean_latency,track,recall/ap
+cufe,"diskann(('R64_L500', {'Ls': 30, 'T': 8}))",text2image-10M,10,7279.959810036327,0.0,-1.0,11085428.0,0,0,ood,0.790859
+cufe,"diskann(('R64_L500', {'Ls': 50, 'T': 8}))",text2image-10M,10,5490.448366029961,0.0,-1.0,11085428.0,0,0,ood,0.852343
+cufe,"diskann(('R64_L500', {'Ls': 70, 'T': 8}))",text2image-10M,10,4507.2064405611445,0.0,-1.0,11085428.0,0,0,ood,0.885197
+cufe,"diskann(('R64_L500', {'Ls': 100, 'T': 8}))",text2image-10M,10,3561.4162863548163,0.0,-1.0,11085428.0,0,0,ood,0.9141870000000001
+diskann,"diskann(('R64_L500', {'Ls': 30, 'T': 8}))",text2image-10M,10,8220.552612368514,0.0,-1.0,11088812.0,0,0,ood,0.790859
+diskann,"diskann(('R64_L500', {'Ls': 50, 'T': 8}))",text2image-10M,10,6234.375800793162,0.0,-1.0,11088812.0,0,0,ood,0.852343
+diskann,"diskann(('R64_L500', {'Ls': 70, 'T': 8}))",text2image-10M,10,5106.184939893883,0.0,-1.0,11088812.0,0,0,ood,0.885197
+diskann,"diskann(('R64_L500', {'Ls': 100, 'T': 8}))",text2image-10M,10,4132.82972826732,0.0,-1.0,11088812.0,0,0,ood,0.9141870000000001
+epsearch,"diskann(('R60_L500_alpha1.0', {'Ls': 70, 'T': 8, 'efSearch': 32}))",text2image-10M,10,7573.446042503093,0.0,20.606487035751343,9923132.0,0,0,ood,0.8635550000000001
+epsearch,"diskann(('R60_L500_alpha1.0', {'Ls': 70, 'T': 8, 'efSearch': 128}))",text2image-10M,10,6640.106372050111,0.0,20.606487035751343,9923132.0,0,0,ood,0.86555
+epsearch,"diskann(('R60_L500_alpha1.0', {'Ls': 80, 'T': 8, 'efSearch': 32}))",text2image-10M,10,6937.091639136287,0.0,20.606487035751343,9923132.0,0,0,ood,0.877434
+epsearch,"diskann(('R60_L500_alpha1.0', {'Ls': 80, 'T': 8, 'efSearch': 128}))",text2image-10M,10,6196.065618049459,0.0,20.606487035751343,9923132.0,0,0,ood,0.8793979999999999
+epsearch,"diskann(('R60_L500_alpha1.0', {'Ls': 85, 'T': 8, 'efSearch': 32}))",text2image-10M,10,6734.157169006247,0.0,20.606487035751343,9923132.0,0,0,ood,0.883373
+epsearch,"diskann(('R60_L500_alpha1.0', {'Ls': 90, 'T': 8, 'efSearch': 32}))",text2image-10M,10,6481.696715359318,0.0,20.606487035751343,9923132.0,0,0,ood,0.888749
+epsearch,"diskann(('R60_L500_alpha1.0', {'Ls': 95, 'T': 8, 'efSearch': 32}))",text2image-10M,10,6272.184337292608,0.0,20.606487035751343,9923132.0,0,0,ood,0.8935280000000001
+epsearch,"diskann(('R60_L500_alpha1.0', {'Ls': 100, 'T': 8, 'efSearch': 32}))",text2image-10M,10,6052.100101117866,0.0,20.606487035751343,9923132.0,0,0,ood,0.897959
+epsearch,"diskann(('R60_L500_alpha1.0', {'Ls': 105, 'T': 8, 'efSearch': 32}))",text2image-10M,10,5876.9827056185695,0.0,20.606487035751343,9923132.0,0,0,ood,0.901895
+epsearch,"diskann(('R60_L500_alpha1.0', {'Ls': 110, 'T': 8, 'efSearch': 32}))",text2image-10M,10,5693.436734613872,0.0,20.606487035751343,9923132.0,0,0,ood,0.9056050000000001
+mysteryann,"mystery_order_sq8(('M_bp35_L_pq500_NoT5_ord', {'L_pq': 100, 'T': 8}))",text2image-10M,10,25972.7125466913,0.0,10054.136591434479,3442296.0,0,0,ood,0.8901859999999999
+mysteryann,"mystery_order_sq8(('M_bp35_L_pq800_NoT5_ord', {'L_pq': 100, 'T': 8}))",text2image-10M,10,24033.13191812092,0.0,12980.704694986343,3472904.0,0,0,ood,0.8904759999999999
+mysteryann,"mystery_order_sq8(('M_bp35_L_pq500_NoT5_ord', {'L_pq': 110, 'T': 8}))",text2image-10M,10,23960.960062191152,0.0,10054.136591434479,3442296.0,0,0,ood,0.8962920000000001
+mysteryann,"mystery_order_sq8(('M_bp35_L_pq800_NoT5_ord', {'L_pq': 110, 'T': 8}))",text2image-10M,10,22242.643715166523,0.0,12980.704694986343,3472904.0,0,0,ood,0.8966179999999999
+mysteryann,"mystery_order_sq8(('M_bp35_L_pq800_NoT5_ord', {'L_pq': 113, 'T': 8}))",text2image-10M,10,21698.203690703507,0.0,12980.704694986343,3472904.0,0,0,ood,0.898118
+mysteryann,"mystery_order_sq8(('M_bp35_L_pq800_NoT5_ord', {'L_pq': 115, 'T': 8}))",text2image-10M,10,21391.99462882581,0.0,12980.704694986343,3472904.0,0,0,ood,0.899173
+mysteryann,"mystery_order_sq8(('M_bp35_L_pq800_NoT5_ord', {'L_pq': 117, 'T': 8}))",text2image-10M,10,21031.962706022703,0.0,12980.704694986343,3472904.0,0,0,ood,0.900209
+mysteryann,"mystery_order_sq8(('M_bp35_L_pq500_NoT5_ord', {'L_pq': 118, 'T': 8}))",text2image-10M,10,22555.24801714806,0.0,10054.136591434479,3442296.0,0,0,ood,0.9003249999999999
+mysteryann,"mystery_order_sq8(('M_bp35_L_pq800_NoT5_ord', {'L_pq': 118, 'T': 8}))",text2image-10M,10,20878.974987317466,0.0,12980.704694986343,3472904.0,0,0,ood,0.9007189999999999
+mysteryann,"mystery_order_sq8(('M_bp35_L_pq500_NoT5_ord', {'L_pq': 120, 'T': 8}))",text2image-10M,10,22190.251905649486,0.0,10054.136591434479,3442296.0,0,0,ood,0.901281
+mysteryann,"mystery_order_sq8(('M_bp35_L_pq800_NoT5_ord', {'L_pq': 120, 'T': 8}))",text2image-10M,10,20516.52101025145,0.0,12980.704694986343,3472904.0,0,0,ood,0.9017329999999999
+mysteryann,"mystery_order_sq8(('M_bp35_L_pq500_NoT5_ord', {'L_pq': 123, 'T': 8}))",text2image-10M,10,21777.656995713216,0.0,10054.136591434479,3442296.0,0,0,ood,0.9027369999999999
+mysteryann,"mystery_order_sq8(('M_bp35_L_pq800_NoT5_ord', {'L_pq': 123, 'T': 8}))",text2image-10M,10,20146.247118416475,0.0,12980.704694986343,3472904.0,0,0,ood,0.903234
+mysteryann,"mystery_order_sq8(('M_bp35_L_pq500_NoT5_ord', {'L_pq': 125, 'T': 8}))",text2image-10M,10,21416.5746247916,0.0,10054.136591434479,3442296.0,0,0,ood,0.903621
+mysteryann,"mystery_order_sq8(('M_bp35_L_pq800_NoT5_ord', {'L_pq': 125, 'T': 8}))",text2image-10M,10,19897.609219828784,0.0,12980.704694986343,3472904.0,0,0,ood,0.904158
+mysteryann,"mystery_order_sq8(('M_bp35_L_pq500_NoT5_ord', {'L_pq': 128, 'T': 8}))",text2image-10M,10,21042.52695508358,0.0,10054.136591434479,3442296.0,0,0,ood,0.9048
+mysteryann,"mystery_order_sq8(('M_bp35_L_pq800_NoT5_ord', {'L_pq': 128, 'T': 8}))",text2image-10M,10,19370.337849349133,0.0,12980.704694986343,3472904.0,0,0,ood,0.9054930000000001
+mysteryann,"mystery_order_sq8(('M_bp35_L_pq500_NoT5_ord', {'L_pq': 130, 'T': 8}))",text2image-10M,10,20714.551841495875,0.0,10054.136591434479,3442296.0,0,0,ood,0.905621
+mysteryann,"mystery_order_sq8(('M_bp35_L_pq800_NoT5_ord', {'L_pq': 130, 'T': 8}))",text2image-10M,10,19149.148223707383,0.0,12980.704694986343,3472904.0,0,0,ood,0.9063510000000001
+mysteryann,"mystery_order_sq8(('M_bp35_L_pq500_NoT5_ord', {'L_pq': 133, 'T': 8}))",text2image-10M,10,20260.53624892588,0.0,10054.136591434479,3442296.0,0,0,ood,0.906866
+mysteryann,"mystery_order_sq8(('M_bp35_L_pq500_NoT5_ord', {'L_pq': 135, 'T': 8}))",text2image-10M,10,20056.785183920634,0.0,10054.136591434479,3442296.0,0,0,ood,0.9076739999999999
+mysteryann,"mystery_order_sq8(('M_bp35_L_pq800_NoT5_ord', {'L_pq': 133, 'T': 8}))",text2image-10M,10,18858.45297436587,0.0,12980.704694986343,3472904.0,0,0,ood,0.9077080000000001
+mysteryann,"mystery_order_sq8(('M_bp35_L_pq800_NoT5_ord', {'L_pq': 135, 'T': 8}))",text2image-10M,10,18670.398101579813,0.0,12980.704694986343,3472904.0,0,0,ood,0.9085089999999999
+mysteryann,"mystery_order_sq8(('M_bp35_L_pq500_NoT5_ord', {'L_pq': 140, 'T': 8}))",text2image-10M,10,19398.64130552921,0.0,10054.136591434479,3442296.0,0,0,ood,0.909539
+mysteryann,"mystery_order_sq8(('M_bp35_L_pq800_NoT5_ord', {'L_pq': 140, 'T': 8}))",text2image-10M,10,18071.719274939685,0.0,12980.704694986343,3472904.0,0,0,ood,0.9102539999999999
+mysteryann,"mystery_order_sq8(('M_bp35_L_pq500_NoT5_ord', {'L_pq': 145, 'T': 8}))",text2image-10M,10,18814.805218527497,0.0,10054.136591434479,3442296.0,0,0,ood,0.9113239999999999
+mysteryann,"mystery_order_sq8(('M_bp35_L_pq800_NoT5_ord', {'L_pq': 145, 'T': 8}))",text2image-10M,10,17441.31644866809,0.0,12980.704694986343,3472904.0,0,0,ood,0.912032
+mysteryann,"mystery_order_sq8(('M_bp35_L_pq500_NoT5_ord', {'L_pq': 150, 'T': 8}))",text2image-10M,10,18306.685375319208,0.0,10054.136591434479,3442296.0,0,0,ood,0.912903
+mysteryann,"mystery_order_sq8(('M_bp35_L_pq800_NoT5_ord', {'L_pq': 150, 'T': 8}))",text2image-10M,10,16884.496035530712,0.0,12980.704694986343,3472904.0,0,0,ood,0.913678
+mysteryann-dif,"mystery_dif(('M_bp45_L_pq800_NoT5_ord', {'L_pq': 80, 'T': 8}))",text2image-10M,10,25192.52354029848,0.0,15153.181450128555,3764068.0,0,0,ood,0.892398
+mysteryann-dif,"mystery_dif(('M_bp45_L_pq800_NoT5_ord', {'L_pq': 83, 'T': 8}))",text2image-10M,10,24301.803979772212,0.0,15153.181450128555,3764068.0,0,0,ood,0.8946910000000001
+mysteryann-dif,"mystery_dif(('M_bp45_L_pq800_NoT5_ord', {'L_pq': 85, 'T': 8}))",text2image-10M,10,23945.025202110708,0.0,15153.181450128555,3764068.0,0,0,ood,0.896139
+mysteryann-dif,"mystery_dif(('M_bp45_L_pq800_NoT5_ord', {'L_pq': 88, 'T': 8}))",text2image-10M,10,23195.239491739216,0.0,15153.181450128555,3764068.0,0,0,ood,0.8982129999999999
+mysteryann-dif,"mystery_dif(('M_bp45_L_pq800_NoT5_ord', {'L_pq': 90, 'T': 8}))",text2image-10M,10,22856.226120952877,0.0,15153.181450128555,3764068.0,0,0,ood,0.89951
+mysteryann-dif,"mystery_dif(('M_bp45_L_pq800_NoT5_ord', {'L_pq': 92, 'T': 8}))",text2image-10M,10,22491.577262781466,0.0,15153.181450128555,3764068.0,0,0,ood,0.900859
+mysteryann-dif,"mystery_dif(('M_bp45_L_pq800_NoT5_ord', {'L_pq': 93, 'T': 8}))",text2image-10M,10,22256.957209457916,0.0,15153.181450128555,3764068.0,0,0,ood,0.901512
+mysteryann-dif,"mystery_dif(('M_bp45_L_pq800_NoT5_ord', {'L_pq': 95, 'T': 8}))",text2image-10M,10,21683.12436448727,0.0,15153.181450128555,3764068.0,0,0,ood,0.902791
+mysteryann-dif,"mystery_dif(('M_bp45_L_pq800_NoT5_ord', {'L_pq': 100, 'T': 8}))",text2image-10M,10,20796.958647893043,0.0,15153.181450128555,3764068.0,0,0,ood,0.905522
+mysteryann-dif,"mystery_dif(('M_bp45_L_pq800_NoT5_ord', {'L_pq': 103, 'T': 8}))",text2image-10M,10,20341.434900316977,0.0,15153.181450128555,3764068.0,0,0,ood,0.907004
+mysteryann-dif,"mystery_dif(('M_bp45_L_pq800_NoT5_ord', {'L_pq': 107, 'T': 8}))",text2image-10M,10,19773.54007458148,0.0,15153.181450128555,3764068.0,0,0,ood,0.9090210000000001
+mysteryann-dif,"mystery_dif(('M_bp45_L_pq800_NoT5_ord', {'L_pq': 110, 'T': 8}))",text2image-10M,10,19148.947146755723,0.0,15153.181450128555,3764068.0,0,0,ood,0.9104660000000001
+mysteryann-dif,"mystery_dif(('M_bp45_L_pq800_NoT5_ord', {'L_pq': 115, 'T': 8}))",text2image-10M,10,18449.400270800325,0.0,15153.181450128555,3764068.0,0,0,ood,0.9126429999999999
+mysteryann-dif,"mystery_dif(('M_bp45_L_pq800_NoT5_ord', {'L_pq': 120, 'T': 8}))",text2image-10M,10,17773.55981778379,0.0,15153.181450128555,3764068.0,0,0,ood,0.914775
+ngt,"ngt-onng(140, 10, 175, 0.38, 1.01)",text2image-10M,10,10985.191861301393,0.0,17207.229791641235,13520028.0,0,0,ood,0.836957
+ngt,"ngt-onng(140, 10, 175, 0.38, 1.014)",text2image-10M,10,8180.4655435835475,0.0,17207.229791641235,13520028.0,0,0,ood,0.8792350000000001
+ngt,"ngt-onng(140, 10, 175, 0.38, 1.016)",text2image-10M,10,6947.188054485262,0.0,17207.229791641235,13520028.0,0,0,ood,0.896765
+ngt,"ngt-onng(140, 10, 175, 0.38, 1.017)",text2image-10M,10,6373.934424627632,0.0,17207.229791641235,13520028.0,0,0,ood,0.9045719999999999
+ngt,"ngt-onng(140, 10, 175, 0.38, 1.018)",text2image-10M,10,5840.45799462455,0.0,17207.229791641235,13520028.0,0,0,ood,0.9121409999999999
+ngt,"ngt-onng(140, 10, 175, 0.38, 1.02)",text2image-10M,10,4915.01731878989,0.0,17207.229791641235,13520028.0,0,0,ood,0.925044
+ngt,"ngt-onng(140, 10, 175, 0.38, 1.025)",text2image-10M,10,3124.5794247695217,0.0,17207.229791641235,13520028.0,0,0,ood,0.950941
+puck,"Puck('C1000_F1000_Neighborhood16_Construction200', {'search_coarse_count': 10, 'tinker_search_range': 160})",text2image-10M,10,8699.573200088375,0.0,3755.9797084331512,10461336.0,0,0,ood,0.90274
+puck,"Puck('C1000_F1000_Neighborhood16_Construction200', {'search_coarse_count': 10, 'tinker_search_range': 165})",text2image-10M,10,8569.286434280677,0.0,3755.9797084331512,10461336.0,0,0,ood,0.9050779999999999
+puck,"Puck('C1000_F1000_Neighborhood16_Construction200', {'search_coarse_count': 10, 'tinker_search_range': 170})",text2image-10M,10,8445.65128004966,0.0,3755.9797084331512,10461336.0,0,0,ood,0.9072290000000001
+puck,"Puck('C1000_F1000_Neighborhood16_Construction200', {'search_coarse_count': 10, 'tinker_search_range': 175})",text2image-10M,10,8291.625663753955,0.0,3755.9797084331512,10461336.0,0,0,ood,0.90931
+puck,"Puck('C1000_F1000_Neighborhood16_Construction200', {'search_coarse_count': 10, 'tinker_search_range': 190})",text2image-10M,10,7712.680979266639,0.0,3755.9797084331512,10461336.0,0,0,ood,0.915129
+pyanns,pyanns(R48_L500)_ef90,text2image-10M,10,24651.9776841128,0.0,65.571697473526,9467416.0,0,0,ood,0.886506
+pyanns,pyanns(R48_L500)_ef95,text2image-10M,10,23800.50651569667,0.0,65.571697473526,9467416.0,0,0,ood,0.891129
+pyanns,pyanns(R48_L500)_ef100,text2image-10M,10,23171.50493762019,0.0,65.571697473526,9467416.0,0,0,ood,0.8954610000000001
+pyanns,pyanns(R48_L500)_ef102,text2image-10M,10,22779.610587047868,0.0,65.571697473526,9467416.0,0,0,ood,0.8972289999999999
+pyanns,pyanns(R48_L500)_ef104,text2image-10M,10,22530.984035209818,0.0,65.571697473526,9467416.0,0,0,ood,0.899081
+pyanns,pyanns(R48_L500)_ef106,text2image-10M,10,22295.584534407157,0.0,65.571697473526,9467416.0,0,0,ood,0.900665
+pyanns,pyanns(R48_L500)_ef108,text2image-10M,10,21950.162507872887,0.0,65.571697473526,9467416.0,0,0,ood,0.9022030000000001
+pyanns,pyanns(R48_L500)_ef110,text2image-10M,10,21766.227832711524,0.0,65.571697473526,9467416.0,0,0,ood,0.903647
+pyanns,pyanns(R48_L500)_ef115,text2image-10M,10,21145.458310974413,0.0,65.571697473526,9467416.0,0,0,ood,0.907281
+pyanns,pyanns(R48_L500)_ef120,text2image-10M,10,20509.23768082663,0.0,65.571697473526,9467416.0,0,0,ood,0.9106669999999999
+pyanns,pyanns(R48_L500)_ef125,text2image-10M,10,20042.78638380129,0.0,65.571697473526,9467416.0,0,0,ood,0.913669
+pyanns,pyanns(R48_L500)_ef130,text2image-10M,10,19449.298301722632,0.0,65.571697473526,9467416.0,0,0,ood,0.9164770000000001
+sustech-ood,"{'ef': 95, 'nprobe': 30})",text2image-10M,10,18162.18661727464,0.0,-1.0,5517620.0,0,0,ood,0.8678570000000001
+sustech-ood,"{'ef': 115, 'nprobe': 30})",text2image-10M,10,15896.175556554164,0.0,-1.0,5517620.0,0,0,ood,0.886045
+sustech-ood,"{'ef': 125, 'nprobe': 30})",text2image-10M,10,14970.225900539803,0.0,-1.0,5517620.0,0,0,ood,0.8934599999999999
+sustech-ood,"{'ef': 130, 'nprobe': 30})",text2image-10M,10,14567.046588734564,0.0,-1.0,5517620.0,0,0,ood,0.896814
+sustech-ood,"{'ef': 135, 'nprobe': 30})",text2image-10M,10,14165.046562611216,0.0,-1.0,5517620.0,0,0,ood,0.899874
+sustech-ood,"{'ef': 140, 'nprobe': 30})",text2image-10M,10,13772.370640629206,0.0,-1.0,5517620.0,0,0,ood,0.9029170000000001
+sustech-ood,"{'ef': 145, 'nprobe': 30})",text2image-10M,10,13328.14651585747,0.0,-1.0,5517620.0,0,0,ood,0.905587
+sustech-ood,"{'ef': 155, 'nprobe': 30})",text2image-10M,10,12650.642655231122,0.0,-1.0,5517620.0,0,0,ood,0.910525
+sustech-ood,"{'ef': 175, 'nprobe': 30})",text2image-10M,10,11480.431785133864,0.0,-1.0,5517620.0,0,0,ood,0.9191090000000001
+vamana,vamana,text2image-10M,10,8483.434987951827,0.0,-1.0,13103244.0,0,0,ood,0.8773770000000001
+vamana,vamana,text2image-10M,10,7700.206886294895,0.0,-1.0,13103244.0,0,0,ood,0.88975
+vamana,vamana,text2image-10M,10,7020.024230550478,0.0,-1.0,13103244.0,0,0,ood,0.8999010000000001
+vamana,vamana,text2image-10M,10,6753.344079936281,0.0,-1.0,13103244.0,0,0,ood,0.9041650000000001
+vamana,vamana,text2image-10M,10,6526.129176966475,0.0,-1.0,13103244.0,0,0,ood,0.908165
+vamana,vamana,text2image-10M,10,6318.392317391812,0.0,-1.0,13103244.0,0,0,ood,0.911952
+vamana,vamana,text2image-10M,10,6058.712614862352,0.0,-1.0,13103244.0,0,0,ood,0.9153420000000001
+vamana,vamana,text2image-10M,10,5637.011304425858,0.0,-1.0,13103244.0,0,0,ood,0.92154
+vamana,vamana,text2image-10M,10,5451.26659005034,0.0,-1.0,13103244.0,0,0,ood,0.924339
+vamana,vamana,text2image-10M,10,4737.442175825159,0.0,-1.0,13103244.0,0,0,ood,0.935529
+zilliz,zilliz_(R48_L500)_ef90,text2image-10M,10,31148.096981044335,0.0,7589.557703971863,11115584.0,0.0,0.0,ood,0.889166
+zilliz,zilliz_(R48_L500)_ef95,text2image-10M,10,29863.85022221466,0.0,7589.557703971863,11115584.0,0.0,0.0,ood,0.8938750000000001
+zilliz,zilliz_(R48_L500)_ef100,text2image-10M,10,28538.10639505947,0.0,7589.557703971863,11115584.0,0.0,0.0,ood,0.897826
+zilliz,zilliz_(R48_L500)_ef102,text2image-10M,10,28001.62095870227,0.0,7589.557703971863,11115584.0,0.0,0.0,ood,0.899642
+zilliz,zilliz_(R48_L500)_ef104,text2image-10M,10,27585.042124975516,0.0,7589.557703971863,11115584.0,0.0,0.0,ood,0.901216
+zilliz,zilliz_(R48_L500)_ef106,text2image-10M,10,27374.67205313826,0.0,7589.557703971863,11115584.0,0.0,0.0,ood,0.9026379999999999
+zilliz,zilliz_(R48_L500)_ef108,text2image-10M,10,26774.042755315306,0.0,7589.557703971863,11115584.0,0.0,0.0,ood,0.9041650000000001
+zilliz,zilliz_(R48_L500)_ef110,text2image-10M,10,26395.14072612212,0.0,7589.557703971863,11115584.0,0.0,0.0,ood,0.9054420000000001
+zilliz,zilliz_(R48_L500)_ef115,text2image-10M,10,25240.164360895433,0.0,7589.557703971863,11115584.0,0.0,0.0,ood,0.908855
+zilliz,zilliz_(R48_L500)_ef120,text2image-10M,10,24576.384006000095,0.0,7589.557703971863,11115584.0,0.0,0.0,ood,0.911992
+pinecone-ood,"pinecone-ood(('OODIndex32768[HNSW32]_spillage=1', {'index_str': 'OODIndex32768[HNSW32]_spillage=1'}, {'nprobe': '45', 'kfactor': '1', 'Ls': '45'}))",text2image-10M,10,36659.59981876052,0.0,-1.0,12513068.0,0.0,0.0,ood,0.867379
+pinecone-ood,"pinecone-ood(('OODIndex32768[HNSW32]_spillage=1', {'index_str': 'OODIndex32768[HNSW32]_spillage=1'}, {'nprobe': '50', 'kfactor': '2', 'Ls': '50'}))",text2image-10M,10,32512.53025349176,0.0,-1.0,12513068.0,0.0,0.0,ood,0.8952540000000001
+pinecone-ood,"pinecone-ood(('OODIndex32768[HNSW32]_spillage=1', {'index_str': 'OODIndex32768[HNSW32]_spillage=1'}, {'nprobe': '51', 'kfactor': '2', 'Ls': '51'}))",text2image-10M,10,32741.430840457826,0.0,-1.0,12513068.0,0.0,0.0,ood,0.8966200000000001
+pinecone-ood,"pinecone-ood(('OODIndex32768[HNSW32]_spillage=1', {'index_str': 'OODIndex32768[HNSW32]_spillage=1'}, {'nprobe': '49', 'kfactor': '3', 'Ls': '49'}))",text2image-10M,10,32109.845991854,0.0,-1.0,12513068.0,0.0,0.0,ood,0.8978160000000001
+pinecone-ood,"pinecone-ood(('OODIndex32768[HNSW32]_spillage=1', {'index_str': 'OODIndex32768[HNSW32]_spillage=1'}, {'nprobe': '52', 'kfactor': '2', 'Ls': '52'}))",text2image-10M,10,32592.471715802436,0.0,-1.0,12513068.0,0.0,0.0,ood,0.897985
+pinecone-ood,"pinecone-ood(('OODIndex32768[HNSW32]_spillage=1', {'index_str': 'OODIndex32768[HNSW32]_spillage=1'}, {'nprobe': '50', 'kfactor': '3', 'Ls': '50'}))",text2image-10M,10,31497.60323165717,0.0,-1.0,12513068.0,0.0,0.0,ood,0.899432
+pinecone-ood,"pinecone-ood(('OODIndex32768[HNSW32]_spillage=1', {'index_str': 'OODIndex32768[HNSW32]_spillage=1'}, {'nprobe': '53', 'kfactor': '2', 'Ls': '53'}))",text2image-10M,10,32289.27367872038,0.0,-1.0,12513068.0,0.0,0.0,ood,0.89944
+pinecone-ood,"pinecone-ood(('OODIndex32768[HNSW32]_spillage=1', {'index_str': 'OODIndex32768[HNSW32]_spillage=1'}, {'nprobe': '51', 'kfactor': '3', 'Ls': '51'}))",text2image-10M,10,31389.775503036333,0.0,-1.0,12513068.0,0.0,0.0,ood,0.9007400000000001
+pinecone-ood,"pinecone-ood(('OODIndex32768[HNSW32]_spillage=1', {'index_str': 'OODIndex32768[HNSW32]_spillage=1'}, {'nprobe': '54', 'kfactor': '2', 'Ls': '54'}))",text2image-10M,10,31643.011822191536,0.0,-1.0,12513068.0,0.0,0.0,ood,0.900752
+pinecone-ood,"pinecone-ood(('OODIndex32768[HNSW32]_spillage=1', {'index_str': 'OODIndex32768[HNSW32]_spillage=1'}, {'nprobe': '60', 'kfactor': '2', 'Ls': '60'}))",text2image-10M,10,29531.271166416154,0.0,-1.0,12513068.0,0.0,0.0,ood,0.9082000000000001
