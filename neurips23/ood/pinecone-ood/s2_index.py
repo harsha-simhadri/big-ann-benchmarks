@@ -14,6 +14,21 @@ import diskannpy
 
 import pys2
 
+def read_fbin(filename, start_idx=0, chunk_size=None):
+    with open(filename, "rb") as f:
+        nvecs, dim = np.fromfile(f, count=2, dtype=np.int32)
+        nvecs = (nvecs - start_idx) if chunk_size is None else chunk_size
+        arr = np.fromfile(f, count=nvecs * dim, dtype=np.float32,
+                          offset=start_idx * 4 * dim)
+    return arr.reshape(nvecs, dim)
+
+def quantize(array, min_v, max_v):
+    # Normalize the array
+    normalized_array = (array - min_v) / (max_v - min_v)
+    # Scale to 8-bit range and convert to uint8
+    quantized_array = (normalized_array * 255).astype(np.uint8)
+    return quantized_array
+
 class S2_index(BaseOODANN):
 
     def __init__(self,  metric, index_params):
@@ -60,14 +75,14 @@ class S2_index(BaseOODANN):
             raise Exception('Invalid metric')
 
     def translate_dtype(self, dtype:str):
-        if dtype == 'uint8':
-            return np.uint8
-        elif dtype == 'int8':
-            return np.int8
-        elif dtype == 'float32':
-            return np.float32
-        else:
-            raise Exception('Invalid data type')
+        # if dtype == 'uint8':
+        return np.uint8
+        # elif dtype == 'int8':
+        #     return np.int8
+        # elif dtype == 'float32':
+        #     return np.float32
+        # else:
+        #     raise Exception('Invalid data type')
 
 
     def load_index(self, dataset):
@@ -96,8 +111,12 @@ class S2_index(BaseOODANN):
         index_dir = self.create_index_dir(ds)
 
         start = time.time()
+        data = read_fbin(self.index_path + "text2image-10M-centroids.fbin")
+        self.min  = np.amin(data)
+        self.max = np.amax(data)
+        data = quantize(data, self.min, self.max)
         diskannpy.build_memory_index(
-            data = self.index_path + "text2image-10M-centroids.fbin",
+            data = data,
             distance_metric = "l2",
             vector_dtype = self.translate_dtype(ds.dtype),
             index_directory = index_dir,
@@ -152,7 +171,7 @@ class S2_index(BaseOODANN):
         nq, dim = (np.shape(X))
         
         sc = time.time()        
-        ids, _ = self.centroid_index.batch_search(X, self.nprobe, self.Ls, 10)
+        ids, _ = self.centroid_index.batch_search(quantize(X, self.min, self.max), self.nprobe, self.Ls, 10)
         tc = time.time()
         elapsed = tc - sc
         print(f"Querying centroids took {elapsed} seconds")
@@ -219,4 +238,3 @@ def download_multiple_files(bucket_name, file_list, destination_dir):
     """Download multiple files from GCS to a local directory if they don't already exist."""
     for file_name in file_list:
         download_public_gcs_file(bucket_name, file_name, destination_dir)
-   
