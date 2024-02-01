@@ -50,11 +50,6 @@ The baselines were run on an Azure Standard D8lds v5 (8 vcpus, 16 GiB memory) ma
 |Streaming| DiskANN     | 0.883 (recall@10), 45 mins  |  `python3 run.py --dataset msturing-30M-clustered --algorithm diskann --neurips23track streaming --runbook_path neurips23/streaming/final_runbook.yaml` |
 |OOD      | DiskANN     | 4882                        | `python3 run.py --dataset text2image-10M --algorithm diskann --neurips23track ood` | 
 
-
-## Leaderboards
-
-We will release data points and plots for recall vs QPS separately for the four different tracks. 
-
 ## For_Participants
 
 Participants must submit their implementation via a pull request.  Optionally, participants can provide uploaded index file(s) (one per participating dataset). 
@@ -256,12 +251,6 @@ We will run early PRs on organizer's machines to the extent possible and provide
 There are several ways to get help as you develop your algorithm using this framework:
 * You can submit an issue at this github repository.
 * Send en email to the competition's googlegroup, big-ann-organizers@googlegroups.com
-
-### Leaderboard
-
-This leaderboard is based on the standard recall@10 vs throughput benchmark that has become a standard benchmark when evaluating and comparing approximate nearest neighbor algorithms. The recall of the baselines at this QPS threshold is listed [above](#measuring_your_algorithm). 
-
-For tasks "Filter", "Out-of-Distribution" and "Sparse" tracks, algorithms will be ranked on the QPS they achieve on the track dataset, as long as the recall@10 is at least 90%. For the Streaming track, algorithms will be ranked on recall@10, as long as each algorithm completes the runbook within the alloted 1 hour. 
 
 ## Custom_Setup
 

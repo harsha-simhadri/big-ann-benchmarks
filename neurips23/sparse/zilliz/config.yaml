@@ -1,0 +1,61 @@
+sparse-small:
+  zilliz:
+    docker-tag: neurips23-sparse-zilliz
+    module: neurips23.sparse.zilliz.zilliz
+    constructor: Zilliz
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{
+           "R": 48,
+           "L": 500
+          }]
+        query-args: |
+          [
+          {"budget": 0.1, "ef" : 80}
+          ]
+sparse-1M:
+  zilliz:
+    docker-tag: neurips23-sparse-zilliz
+    module: neurips23.sparse.zilliz.zilliz
+    constructor: Zilliz
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{
+           "R": 48,
+           "L": 500
+          }]
+        query-args: |
+          [
+          {"budget": 0.1, "ef" : 80}
+          ]
+
+sparse-full:
+  zilliz:
+    docker-tag: neurips23-sparse-zilliz
+    module: neurips23.sparse.zilliz.zilliz
+    constructor: Zilliz
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{
+           "R": 48,
+           "L": 500
+          }]
+        query-args: |
+          [
+          {"budget": 0.11, "ef" : 45},
+          {"budget": 0.11, "ef" : 55},
+          {"budget": 0.11, "ef" : 65},
+          {"budget": 0.11, "ef" : 70},
+          {"budget": 0.12, "ef" : 45},
+          {"budget": 0.12, "ef" : 50},
+          {"budget": 0.12, "ef" : 55},
+          {"budget": 0.12, "ef" : 60},
+          {"budget": 0.12, "ef" : 65},
+          {"budget": 0.12, "ef" : 70}
+          ]
