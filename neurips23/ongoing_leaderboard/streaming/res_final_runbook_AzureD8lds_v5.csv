@@ -1,0 +1,16 @@
+[new submissions only (post-NeurIPS); both algorithms are closed-source]
+
+algorithm,parameters,dataset,count,qps,distcomps,build,indexsize,mean_ssd_ios,mean_latency,track,recall/ap
+
+pinecone,"pinecone(('R32_L100', {'Ls': 300, 'k_1': 30, 'T': 8}))",msturing-30M-clustered(final_runbook.yaml),10,,0.0,0.4844532012939453,2012204.0,0.0,0.0,streaming,0.9908199999999938
+pinecone,"pinecone(('R32_L100', {'Ls': 400, 'k_1': 30, 'T': 8}))",msturing-30M-clustered(final_runbook.yaml),10,,0.0,0.4679222106933594,2012132.0,0.0,0.0,streaming,0.9955599999999979
+pinecone,"pinecone(('R32_L100', {'Ls': 500, 'k_1': 30, 'T': 8}))",msturing-30M-clustered(final_runbook.yaml),10,,0.0,0.4697451591491699,2010972.0,0.0,0.0,streaming,0.997470000000012
+pinecone,"pinecone(('R32_L100', {'Ls': 520, 'k_1': 30, 'T': 8}))",msturing-30M-clustered(final_runbook.yaml),10,,0.0,0.4661228656768799,2010132.0,0.0,0.0,streaming,0.9975800000000051
+pinecone,"pinecone(('R32_L100', {'Ls': 540, 'k_1': 30, 'T': 8}))",msturing-30M-clustered(final_runbook.yaml),10,,0.0,0.47268199920654297,2009848.0,0.0,0.0,streaming,0.9978599999999915
+pinecone,"pinecone(('R32_L100', {'Ls': 560, 'k_1': 30, 'T': 8}))",msturing-30M-clustered(final_runbook.yaml),10,,0.0,0.4661598205566406,2012224.0,0.0,0.0,streaming,0.9981500000000073 [**]
+zilliz,"zilliz(('R32_L110', {'Ls': 400, 'T': 8}))",msturing-30M-clustered(final_runbook.yaml),10,,0.0,0.560248613357544,1998432.0,0.0,0.0,streaming,0.9950700000000096
+zilliz,"zilliz(('R32_L110', {'Ls': 450, 'T': 8}))",msturing-30M-clustered(final_runbook.yaml),10,,0.0,0.4881885051727295,1996952.0,0.0,0.0,streaming,0.9964800000000104
+zilliz,"zilliz(('R32_L110', {'Ls': 500, 'T': 8}))",msturing-30M-clustered(final_runbook.yaml),10,,0.0,0.48344945907592773,1996968.0,0.0,0.0,streaming,0.9971399999999904
+zilliz,"zilliz(('R32_L110', {'Ls': 550, 'T': 8}))",msturing-30M-clustered(final_runbook.yaml),10,,0.0,0.4869539737701416,1996116.0,0.0,0.0,streaming,0.9976799999999912
+
+[**] did not complete within 1 hour (1:00:09), so it does not count.

@@ -1,0 +1,16 @@
+                                        qps
+dataset  algorithm                         
+yfcc-10M pinecone              85491.542780 [*]
+         zilliz                84596.419213 [*]
+         parlayivf             37902.113726
+         puck                  19193.294823
+         hwtl_sdu_anns_filter  15059.124141 [*]
+         wm_filter             14467.961514
+         dhq                   13670.864704
+         fdufilterdiskann       5679.748583
+         pyanns                 5184.844352
+         faissplus              3776.539092
+         faiss                  3032.534357
+         cufe                   2917.132715
+
+ [*] not open source (binary only)
