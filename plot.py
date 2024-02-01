@@ -1,9 +1,12 @@
-import os
+import csv
 import matplotlib as mpl
 mpl.use('Agg')  # noqa
 import matplotlib.pyplot as plt
 import numpy as np
 import argparse
+
+from collections import defaultdict
+
 
 from benchmark.datasets import DATASETS
 from benchmark.algorithms.definitions import get_definitions
@@ -12,6 +15,7 @@ from benchmark.plotting.utils import (get_plot_label, compute_metrics,
         create_linestyles, create_pointset)
 from benchmark.results import (store_results, load_all_results,
                             get_unique_algorithms)
+
 
 
 def create_plot(all_data, raw, x_scale, y_scale, xn, yn, fn_out, linestyles):
@@ -92,11 +96,16 @@ if __name__ == "__main__":
     parser.add_argument(
         '--dataset',
         metavar="DATASET",
-        default='sift-1M')
+        required=True)
     parser.add_argument(
         '--count',
         default=-1,
         type=int)
+    parser.add_argument(
+        '--csv',
+        metavar='FILE',
+        help='use results from pre-computed CSV file',
+    )
     parser.add_argument(
         '--definitions',
         metavar='FILE',
@@ -153,18 +162,41 @@ if __name__ == "__main__":
 
     if args.count == -1:
         args.count = dataset.default_count()
+
     if args.x_axis == "k-nn" and dataset.search_type() == "range":
         args.x_axis = "ap"
+
     count = int(args.count)
-    unique_algorithms = get_unique_algorithms()
-    results = load_all_results(args.dataset, count, neurips23track=args.neurips23track)
-    linestyles = create_linestyles(sorted(unique_algorithms))
-    if args.private_query:
-        runs = compute_metrics(dataset.get_private_groundtruth(k=args.count),
-                               results, args.x_axis, args.y_axis, args.recompute)
+    if not args.csv:
+        unique_algorithms = get_unique_algorithms()
+        results = load_all_results(args.dataset, count, neurips23track=args.neurips23track)
+        if args.private_query:
+            runs = compute_metrics(dataset.get_private_groundtruth(k=args.count),
+                                    results, args.x_axis, args.y_axis, args.recompute)
+        else:
+            runs = compute_metrics(dataset.get_groundtruth(k=args.count),
+                                    results, args.x_axis, args.y_axis, args.recompute)
     else:
-        runs = compute_metrics(dataset.get_groundtruth(k=args.count),
-                               results, args.x_axis, args.y_axis, args.recompute)
+        with open(args.csv) as csvfile:
+            reader = csv.DictReader(csvfile)
+            data = [row for row in reader if row['dataset'] == args.dataset and
+                        row['track'] == args.neurips23track]
+            runs = defaultdict(list)
+            for result in data:
+                # we store a single quality metric in the csv file
+                x_axis = args.x_axis
+                if x_axis == 'k-nn' or x_axis == 'ap':
+                    x_axis='recall/ap'
+                y_axis = args.y_axis
+                if y_axis == 'k-nn' or y_axis == 'ap':
+                    y_axis='recall/ap'
+                runs[result['algorithm']].append((result['algorithm'], result['parameters'],
+                                                  float(result[x_axis]), float(result[y_axis])))
+            unique_algorithms = set(runs)
+
+
+    linestyles = create_linestyles(sorted(unique_algorithms))
+
 
     if not runs:
         raise Exception('Nothing to plot')
