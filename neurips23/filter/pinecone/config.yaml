@@ -24,17 +24,17 @@ yfcc-10M:
       run-groups:
         base:
           args: |
-            [{"indexkey": "FilterIVFFlatU8", "num_clusters": "1024", "precompute_intersection_threshold": "2500"}]
+            [{"indexkey": "FilterIVFFlatU8", "num_clusters": "2048", "precompute_intersection_threshold": "1600"}]
           query-args: |
             [
-            {"fraction_coefficient": "19.0", "fraction_exponent": "0.65", "skip_clustering_threshold": 2000},
-            {"fraction_coefficient": "18.0", "fraction_exponent": "0.65", "skip_clustering_threshold": 2000},
-            {"fraction_coefficient": "17.0", "fraction_exponent": "0.65", "skip_clustering_threshold": 2000},
-            {"fraction_coefficient": "16.0", "fraction_exponent": "0.65", "skip_clustering_threshold": 2000},
-            {"fraction_coefficient": "15.0", "fraction_exponent": "0.65", "skip_clustering_threshold": 2000},
-            {"fraction_coefficient": "14.7", "fraction_exponent": "0.65", "skip_clustering_threshold": 2000},
-            {"fraction_coefficient": "14.3", "fraction_exponent": "0.65", "skip_clustering_threshold": 2000},
-            {"fraction_coefficient": "14.0", "fraction_exponent": "0.65", "skip_clustering_threshold": 2000},
             {"fraction_coefficient": "13.0", "fraction_exponent": "0.65", "skip_clustering_threshold": 2000},
-            {"fraction_coefficient": "11.0", "fraction_exponent": "0.65", "skip_clustering_threshold": 2000}
+            {"fraction_coefficient": "12.0", "fraction_exponent": "0.65", "skip_clustering_threshold": 2000},
+            {"fraction_coefficient": "11.5", "fraction_exponent": "0.65", "skip_clustering_threshold": 2000},
+            {"fraction_coefficient": "11.0", "fraction_exponent": "0.65", "skip_clustering_threshold": 2000},
+            {"fraction_coefficient": "10.5", "fraction_exponent": "0.65", "skip_clustering_threshold": 2000},
+            {"fraction_coefficient": "10.5", "fraction_exponent": "0.64", "skip_clustering_threshold": 2000},
+            {"fraction_coefficient": "10.0", "fraction_exponent": "0.64", "skip_clustering_threshold": 2000},
+            {"fraction_coefficient": "9.5", "fraction_exponent": "0.64", "skip_clustering_threshold": 2000},
+            {"fraction_coefficient": "9.0", "fraction_exponent": "0.64", "skip_clustering_threshold": 2000},
+            {"fraction_coefficient": "8.5", "fraction_exponent": "0.64", "skip_clustering_threshold": 2000}
             ]
