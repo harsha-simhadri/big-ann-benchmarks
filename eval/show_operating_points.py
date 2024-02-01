@@ -16,15 +16,20 @@ if __name__ == "__main__":
         help='threshold',
         type=float)
     parser.add_argument(
-        'csv',
+        '--csv',
         metavar='CSV',
         help='input csv')
+    parser.add_argument(
+        '--dataset',
+        required=False)
 
     args = parser.parse_args()
     df = pd.read_csv(args.csv)
 
     if args.algorithm:
-        df == df[df.algorithm == args.algorithm]
+        df = df[df.algorithm == args.algorithm]
+    if args.dataset:
+        df = df[df.dataset == args.dataset]
 
     if args.metric == "qps":
         print(df[(df.qps > args.threshold)].groupby(['dataset', 'algorithm']).max()[['recall/ap']])
