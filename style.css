@@ -369,6 +369,10 @@ a:hover {
   overflow-x: auto;
 }
 
+.group-border {
+    border-right: 3px solid #738fab;
+}
+
 table {
   border-collapse: collapse;
   font-size: 1rem;
