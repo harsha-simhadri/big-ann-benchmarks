@@ -159,7 +159,8 @@ def compute_metrics_all_runs(dataset, dataset_name, res, recompute=False,
                 v = []
                 assert len(true_nn_across_steps) == len(run_nn_across_steps)
                 for (true_nn, run_nn) in zip(true_nn_across_steps, run_nn_across_steps):
-                  if 'knn' in metrics_cache:
+                  clear_cache = True
+                  if clear_cache and 'knn' in metrics_cache:
                     del metrics_cache['knn']
                   val = metric["function"](true_nn, run_nn, metrics_cache, properties)
                   v.append(val)
