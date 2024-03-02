@@ -10,13 +10,13 @@ sparse-full:
           [{"num_threads": 8, "index_path": "data/pinecone/sparse/index/"}]
         query-args: |
           [
-          {"nprobe":5, "top_kprime":45, "ip_budget": 350},
-          {"nprobe":6, "top_kprime":45, "ip_budget": 350},
-          {"nprobe":7, "top_kprime":45, "ip_budget": 350},
-          {"nprobe":8, "top_kprime":45, "ip_budget": 350},
-          {"nprobe":9, "top_kprime":45, "ip_budget": 350},
-          {"nprobe":10, "top_kprime":45, "ip_budget": 350},
-          {"nprobe":11, "top_kprime":45, "ip_budget": 350},
-          {"nprobe":11, "top_kprime":45, "ip_budget": 350},
-          {"nprobe":11, "top_kprime":45, "ip_budget": 350},
-          {"nprobe":12, "top_kprime":45, "ip_budget": 350}]
+          {"nprobe":8, "top_kprime":26, "ip_budget": 350},
+          {"nprobe":8, "top_kprime":28, "ip_budget": 325},
+          {"nprobe":8, "top_kprime":30, "ip_budget": 300},
+          {"nprobe":8, "top_kprime":30, "ip_budget": 280},
+          {"nprobe":8, "top_kprime":30, "ip_budget": 260},
+          {"nprobe":8, "top_kprime":30, "ip_budget": 240},
+          {"nprobe":8, "top_kprime":30, "ip_budget": 220},
+          {"nprobe":8, "top_kprime":30, "ip_budget": 200},
+          {"nprobe":8, "top_kprime":32, "ip_budget": 280},
+          {"nprobe":8, "top_kprime":34, "ip_budget": 260}]
