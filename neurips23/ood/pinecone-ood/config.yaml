@@ -17,7 +17,7 @@ text2image-10M:
       constructor: S2_index
       base-args: ["@metric"]
       run-groups:
-        base
+        base:
           args: |
             [{"index_str":"OODIndex32768[HNSW32]_spillage=1"}]
           query-args: |
