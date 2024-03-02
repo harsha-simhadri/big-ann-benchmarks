@@ -17,17 +17,18 @@ text2image-10M:
       constructor: S2_index
       base-args: ["@metric"]
       run-groups:
-        base:
+        base
           args: |
             [{"index_str":"OODIndex32768[HNSW32]_spillage=1"}]
           query-args: |
-            [{"nprobe":"45", "kfactor":"1", "Ls":"45"},
-            {"nprobe":"50", "kfactor":"2", "Ls":"50"},
-            {"nprobe":"51", "kfactor":"2", "Ls":"51"},
-            {"nprobe":"52", "kfactor":"2", "Ls":"52"},
-            {"nprobe":"53", "kfactor":"2", "Ls":"53"},
-            {"nprobe":"54", "kfactor":"2", "Ls":"54"},
-            {"nprobe":"60", "kfactor":"2", "Ls":"60"},
-            {"nprobe":"49", "kfactor":"3", "Ls":"49"},
-            {"nprobe":"50", "kfactor":"3", "Ls":"50"},
-            {"nprobe":"51", "kfactor":"3", "Ls":"51"}]
+            [{"nprobe":"45", "kfactor":"1"},
+            {"nprobe":"52", "kfactor":"2"},
+            {"nprobe":"53", "kfactor":"2"},
+            {"nprobe":"54", "kfactor":"2"},
+            {"nprobe":"55", "kfactor":"2"},
+            {"nprobe":"60", "kfactor":"2"},
+            {"nprobe":"49", "kfactor":"3"},
+            {"nprobe":"50", "kfactor":"3"},
+            {"nprobe":"51", "kfactor":"3"},
+            {"nprobe":"52", "kfactor":"3"}
+            ]
