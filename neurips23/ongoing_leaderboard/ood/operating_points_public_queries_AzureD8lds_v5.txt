@@ -1,7 +1,7 @@
                                         qps
 dataset        algorithm                   
-text2image-10M pinecone-ood    31643.011822 [*]
-               zilliz          27585.042125 [*]
+text2image-10M pinecone-ood    38087.669026 [*]
+               zilliz          33240.822128 [*]
                mysteryann      22555.248017
                mysteryann-dif  22491.577263
                pyanns          22295.584534

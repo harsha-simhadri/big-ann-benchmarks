@@ -31,7 +31,7 @@ While the highest achieved recall@10 is 0.99786 (by pinecone), the similar submi
 
 ## Ongoing Leaderboard Rules
 
-The leaderboard is evaluated periodically, collecting new algorithm submissions. The current update is from Feb. 1st, 2024. The next update is scheduled to March 1st.
+The leaderboard is evaluated periodically, collecting new algorithm submissions. The current update is from March. 1st, 2024.
 
 The rules of the ongoing leaderboard are similar to the original competition, with the following exceptions:
 - Open source is encouraged but not enforced. Closed-source entries will be marked as such. In any case, a short description of the algorithm is required. 
