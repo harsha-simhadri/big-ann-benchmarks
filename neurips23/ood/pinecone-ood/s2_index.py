@@ -39,7 +39,7 @@ class S2_index(BaseOODANN):
         self.index_path = "data/pinecone/ood/text2image-10M-data/"
 
         self.L = 225 
-        self.R = 32
+        self.R = 28
         
         print(index_params)
         if (index_params.get("index_str")==None):
@@ -75,15 +75,7 @@ class S2_index(BaseOODANN):
             raise Exception('Invalid metric')
 
     def translate_dtype(self, dtype:str):
-        # if dtype == 'uint8':
         return np.uint8
-        # elif dtype == 'int8':
-        #     return np.int8
-        # elif dtype == 'float32':
-        #     return np.float32
-        # else:
-        #     raise Exception('Invalid data type')
-
 
     def load_index(self, dataset):
         """
@@ -101,13 +93,12 @@ class S2_index(BaseOODANN):
 
         # check if index files exist. If not, download them
 
-
         bucket_name = 'research-public-storage'
         file_list = ['ood-index/text2image-10M-centroids', 'ood-index/text2image-10M-centroids.fbin', 'ood-index/coip-t2i-10M-vecsofvecs', 'ood-index/text2image-10M-vecs']
 
         download_multiple_files(bucket_name, file_list, self.index_path)
 
-
+        # build the centroid index with diskann
         index_dir = self.create_index_dir(ds)
 
         start = time.time()
@@ -124,7 +115,7 @@ class S2_index(BaseOODANN):
             complexity= self.L,
             graph_degree= self.R,
             num_threads = 32,
-            alpha=1.2,
+            alpha=1.7,
             use_pq_build=False,
             num_pq_bytes=0, #irrelevant given use_pq_build=False
             use_opq=False
@@ -132,22 +123,11 @@ class S2_index(BaseOODANN):
         end = time.time()
         print("DiskANN index built in %.3f s" % (end - start))
 
-        
-        print('Loading index..')
-        self.centroid_index = diskannpy.StaticMemoryIndex(
-            distance_metric = "l2",
-            vector_dtype = self.translate_dtype(ds.dtype),
-            index_directory = index_dir,
-            index_prefix = self.index_name(),
-            num_threads = 64, #to allocate scratch space for up to 64 search threads
-            initial_search_complexity = 100
-        )
-        print('Index ready for search')
-
+        # build the global index, based on the 
         self.index = pys2.OODIndexWrapper(ds.d,
                                     self.index_str,
                                     ds.get_dataset_fn(), 
-                                    self.index_path + "text2image-10M-centroids", 
+                                    index_dir,
                                     self.index_path + "text2image-10M-vecs", 
                                     self.index_path + "coip-t2i-10M-vecsofvecs")
         print(f"Finished loading index")
@@ -167,24 +147,12 @@ class S2_index(BaseOODANN):
         """
         raise NotImplementedError()
     
-    def query(self, X, k):
-        nq, dim = (np.shape(X))
-        
+    def query(self, X, k):        
         sc = time.time()        
-        ids, _ = self.centroid_index.batch_search(quantize(X, self.min, self.max), self.nprobe, self.Ls, 10)
-        tc = time.time()
-        elapsed = tc - sc
-        print(f"Querying centroids took {elapsed} seconds")
-
-        sp = time.time()
-        # self.res = self.index.search_parallel(X, k)
-        self.res = self.index.search_parallel_with_partitions(X, ids, self.nprobe, k)
+        self.res = self.index.search_parallel(X, k)
         tp = time.time()
-        elapsed = tp - sp
         elapsed_full = tp - sc
-        print(f"Querying rest of index took {elapsed} seconds")
         print(f"Full query time took {elapsed_full} seconds")
-
 
     def get_results(self):
         return self.res
@@ -200,12 +168,12 @@ class S2_index(BaseOODANN):
             self.index.set_search_param('nprobe', nprobe)
             self.nprobe = int(nprobe)
         else:
-            self.index.set_search_param('nprobe', "20")
+            self.index.set_search_param('nprobe', "50")
+            self.nprobe = 50
         if "kfactor" in query_args: 
             self.index.set_search_param('kfactor', query_args.get("kfactor"))
         else: 
-            self.index.set_search_param('kfactor', "18")
-
+            self.index.set_search_param('kfactor', "3")
 
     def __str__(self):
         return f'pinecone-ood({self.index_str, self._index_params, self._query_args})'

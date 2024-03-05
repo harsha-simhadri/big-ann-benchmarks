@@ -12,8 +12,8 @@
 |                | faissplus                | 3776.539092  |
 |                | faiss                    | 3032.534357  |
 |                | cufe                     | 2917.132715  |
-| text2image-10M | pinecone-ood [*]         | 31643.011822 |
-| (OOD track)    | zilliz [*]               | 27585.042125 |
+| text2image-10M | pinecone-ood [*]         | 38087.669026 |
+| (OOD track)    | zilliz [*]               | 33240.822128 |
 |                | mysteryann               | 22555.248017 |
 |                | pyanns                   | 22295.584534 |
 |                | mysteryann-dif           | 22491.577263 |
@@ -24,9 +24,9 @@
 |                | epsearch                 | 5876.982706  |
 |                | diskann                  | 4132.829728  |
 |                | cufe                     | 3561.416286  |
-| sparse-full    | zilliz [*]               | 9933.146877  |
-| (sparse track) | pyanns                   | 8732.172708  |
-|                | pinecone_smips [*]       | 8078.366327  |
+| sparse-full    | zilliz [*]               | 10749.188262 |
+| (sparse track) | pinecone_smips [*]       | 10439.909652 |
+|                | pyanns                   | 8732.172708  |
 |                | shnsw                    | 7136.927865  |
 |                | nle                      | 2358.590429  |
 |                | cufe                     | 104.768194   |
@@ -36,6 +36,4 @@
 
 Table lists highest QPS measured with at least 90% recall@10, on the *public* query set.
 
-Last evaluation date: Feb. 1st, 2024
-
-Next evaluation date: March 1st, 2024
+Last evaluation date: March 1st, 2024 (includes all submission until March 1st, 2024, AOE)
