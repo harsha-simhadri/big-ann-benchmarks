@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" href="style.css">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta property="og:image" content="https://big-ann-benchmarks.com/assets/og.png" />
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://big-ann-benchmarks.com/assets/og.png">
+  <title>NeurIPS'23 Competition Track: Big-ANN</title>
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="/style.css" />
+
+  <!-- Heap -->
+  <script type="text/javascript">
+    window.heap = window.heap || [], heap.load = function (e, t) { window.heap.appid = e, window.heap.config = t = t || {}; var r = document.createElement("script"); r.type = "text/javascript", r.async = !0, r.src = "https://cdn.heapanalytics.com/js/heap-" + e + ".js"; var a = document.getElementsByTagName("script")[0]; a.parentNode.insertBefore(r, a); for (var n = function (e) { return function () { heap.push([e].concat(Array.prototype.slice.call(arguments, 0))) } }, p = ["addEventProperties", "addUserProperties", "clearEventProperties", "identify", "resetIdentity", "removeEventProperty", "setEventProperties", "track", "unsetEventProperty"], o = 0; o < p.length; o++)heap[p[o]] = n(p[o]) };
+    heap.load("3879495182");
+  </script>
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <!-- Header title -->
+      <a class="title" href="neurips23.html">Big-ANN</a>
+
+      <!-- Nav -->
+      <nav>
+        <ul>
+          <li><a href="#tracks">Tracks</a></li>
+          <li><a href="https://github.com/harsha-simhadri/big-ann-benchmarks/blob/main/neurips23/README.md">Participate</a></li>
+          <li><a href="#organizers">Organizers</a></li>
+          <li><a href="neurips21.html">NeurIPS'21: Billion-Scale ANN Challenge</a></li>
+        </ul>
+      </nav>
+
+      <!-- External / logo links -->
+      <div class="external-links">
+        <a href="https://github.com/harsha-simhadri/big-ann-benchmarks/tree/main/neurips23" target="_blank">
+          <img src="assets/github_logo.png" alt="GitHub" /></a>
+        <!-- <a href="https://discord.gg/qR3WhPSFWh" target="_blank"><img src="assets/discord_logo.png" alt="Discord" /></a> -->
+        <!-- <a href="https://cmt3.research.microsoft.com/BigAnnBenchmarks2023" target="_blank"><img src="assets/cmt_logo.png" alt="CMT portal" /></a> -->
+      </div>
+    </div>
+  </header>
+
+  <!-- Content -->
+  <main>
+    <!-- Hero -->
+    <section class="hero">
+      <div class="container content-section">
+        <div>
+          <!-- <p class="hero-eyebrow">August 30th: Deadline to Join</p> -->
+
+          <h1>
+            NeurIPS'23 Competition Track:
+            <span>Big-ANN</span>
+          </h1>
+        </div>
+
+        <p class="presented-by">
+          Supported by         
+          <img src="assets/microsoft_logo.png" class="microsoft-logo" alt="Microsoft" />
+          <img src="assets/pinecone-logo.svg" class="pinecone-logo" alt="Pinecone" /> 
+          <img src="assets/aws_logo.png" class="aws-logo" alt="AWS" />
+          <img src="assets/zilliz-logo.png" class="zilliz-logo" alt="Zilliz" />
+        </p>
+
+        <div class="table-container">
+                  <p class="hero-text">
+          <b>New: the latest ongoing leaderboard has been released (March 1st, 2024). <br> Top entries:</b>
+        </p>
+
+ <table>
+             <th colspan="3" class="group-border">Filter track</th>
+            <th colspan="3" class="group-border">OOD track</th>
+            <th colspan="3">Sparse track</th>
+        </tr>
+        <tr>
+            <th>Rank</th>
+            <th>Algorithm</th>
+            <th class="group-border">QPS@90% recall</th>
+            <th>Rank</th>
+            <th>Algorithm</th>
+            <th class="group-border">QPS@90% recall</th>
+            <th>Rank</th>
+            <th>Algorithm</th>
+            <th>QPS@90% recall</th>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td><a href="https://github.com/harsha-simhadri/big-ann-benchmarks/tree/main/neurips23/filter/pinecone ">Pinecone-filter</a></td>
+            <td class="group-border">85,491</td>
+            <td>1</td>
+            <td><a href="https://github.com/harsha-simhadri/big-ann-benchmarks/tree/main/neurips23/ood/pinecone-ood">Pinecone-ood</a></td>
+            <td class="group-border">38,088</td>
+            <td>1</td>
+            <td><a href="https://github.com/harsha-simhadri/big-ann-benchmarks/tree/main/neurips23/sparse/zilliz ">Zilliz</a></td>
+            <td>10,749</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td><a href="https://github.com/harsha-simhadri/big-ann-benchmarks/tree/main/neurips23/filter/zilliz ">Zilliz</a></td>
+            <td class="group-border">84,596</td>
+            <td>2</td>
+            <td><a href="https://github.com/harsha-simhadri/big-ann-benchmarks/tree/main/neurips23/ood/zilliz ">Zilliz</a></td>
+            <td class="group-border">33,241</td>
+            <td>2</td>
+            <td><a href="https://github.com/harsha-simhadri/big-ann-benchmarks/tree/main/neurips23/sparse/pinecone_smips">Pinecone_smips</a></td>
+            <td>10,440</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td><a href="https://github.com/harsha-simhadri/big-ann-benchmarks/tree/main/neurips23/filter/parlayivf">ParlayANN IVF<sup>2</sup></a></td>
+            <td class="group-border">37,902</td>
+            <td>3</td>
+            <td><a href="https://github.com/harsha-simhadri/big-ann-benchmarks/tree/main/neurips23/ood/mysteryann">RoarANN</a></td>
+            <td class="group-border">22,555</td>
+            <td>3</td>
+            <td><a href="https://github.com/harsha-simhadri/big-ann-benchmarks/tree/main/neurips23/sparse/pyanns">PyANNS</a></td>
+            <td>8,732</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td><a href="https://github.com/harsha-simhadri/big-ann-benchmarks/tree/main/neurips23/filter/puck">Puck</a></td>
+            <td class="group-border">19,193</td>
+            <td>4</td>
+            <td><a href="https://github.com/harsha-simhadri/big-ann-benchmarks/tree/main/neurips23/ood/pyanns">PyANNS</a></td>
+            <td class="group-border">22,296</td>
+            <td>4</td>
+            <td><a href="https://github.com/harsha-simhadri/big-ann-benchmarks/tree/main/neurips23/sparse/shnsw">shnsw</a></td>
+            <td>7,137</td>
+        </tr>
+        <tr >
+            <td style="padding: 0;"> ...</td>
+            <td style="padding: 0;"> ...</td>
+            <td style="padding: 0;" class="group-border"> ...</td>
+            <td style="padding: 0;"> ...</td>
+            <td style="padding: 0;"> ...</td>
+            <td style="padding: 0;" class="group-border"> ...</td>
+            <td style="padding: 0;"> ...</td>
+            <td style="padding: 0;"> ...</td>
+            <td style="padding: 0;"> ...</td>
+        </tr>
+        <tr>
+            <td>Baseline</td>
+            <td><a href="https://github.com/harsha-simhadri/big-ann-benchmarks/tree/main/neurips23/filter/faiss">FAISS</a></td>
+            <td class="group-border">3,032</td>
+            <td>Baseline</td>
+            <td><a href="https://github.com/harsha-simhadri/big-ann-benchmarks/tree/main/neurips23/ood/diskann">Diskann</a></td>
+            <td class="group-border">4,133</td>
+            <td>Baseline</td>
+            <td><a href="https://github.com/harsha-simhadri/big-ann-benchmarks/tree/main/neurips23/sparse/pyanns">Linscan</a></td>
+            <td>93</td>
+        </tr>
+
+    </table>
+        <p class="hero-text">
+          Note: entries by pinecone and zilliz are not open source.
+          <br>
+          <div class="buttons">
+          <a href="https://github.com/harsha-simhadri/big-ann-benchmarks/blob/main/neurips23/ongoing_leaderboard/leaderboard.md"
+            class="button button-alpha">Full Leaderboard, Plots, and Rules</a>
+        </div>
+        </p>
+        </div>
+
+
+        <p class="hero-text">
+          This challenge is to encourage the development of indexing data
+          structures and search algorithms for practical variants of
+          the Approximate Nearest Neighbor (ANN) or Vector search problem. 
+          These variants are increasingly relevant as vector search becomes commonplace.
+          This challenge has four tracks covering sparse,
+          filtered, out-of-distribution and streaming variants of ANNS. These
+          variants require adapted search algorithms and strategies with
+          different tradeoffs. Participants are encouraged to develop and
+          submit new algorithms that improve on the baselines for these
+          variants. This competition aims at being accessible to participants
+          by limiting the scale of the datasets to about 10 million points.
+        </p>
+
+<!--        <div class="buttons">-->
+<!--          <a href="https://github.com/harsha-simhadri/big-ann-benchmarks/blob/main/neurips23/README.md"-->
+<!--            class="button button-white">Get Started</a>-->
+<!--          <a href="https://neurips.cc/virtual/2023/competition/66587" class="button button-alpha">-->
+<!--            NeurIPS'23 Session-->
+<!--          </a>-->
+<!--          <a href="https://github.com/harsha-simhadri/big-ann-benchmarks/blob/main/neurips23/leaderboard.md" class="button button-white">-->
+<!--            NeurIPS'23 Leaderboard-->
+<!--          </a>-->
+<!--          <a href="#winners" class="button button-alpha">-->
+<!--            Track Winners and presentations-->
+<!--          </a>-->
+<!--        </div>-->
+      </div>
+    </section>
+
+
+    <!-- Tracks -->
+    <section id="tracks" class="tracks">
+      <div class="container content-section">
+        <div class="title">
+          <h2>
+            Tracks: Datasets, Metrics and Baselines
+          </h2>
+
+          <p>
+            The evaluation hardware is normalized to Azure Standard D8lds v5
+            (8 vCPUs and 16GB DRAM). The index build time on this machine
+            will be limited to 12 hours,
+            except for streaming index which has stricter time limits.
+          </p>
+          <p>
+            The challenge consists of 4 tracks with separate leaderboards and
+            participants can choose to submit entries to one or more tracks:
+          </p>
+        </div>
+
+        <ul class="tracks-list">
+          <li>
+            <span>Filtered Search</span>: This task will use a random 10M slice of the YFCC
+            100M dataset transformed with CLIP embeddings. In addition, we
+            associate with each image a "bag" of tags: words extracted from
+            the description, the camera model, the year the picture was taken
+            and the country. The tags are from a vocabulary of 200386 possible
+            tags. The 100,000 queries consist of one image embedding and one
+            or two tags that must appear in the database elements to be
+            considered.
+          </li>
+          <li>
+            <span>Out-Of-Distribution</span>: This task will use the Yandex Text-to-Image
+            10M, cross-modal dataset where the database and query index have
+            different distributions in the shared vector space. The base set
+            is a 10M subset of the Yandex visual search database of
+            200-dimensional image embeddings which are produced with the
+            Se-ResNext-101 model. The query embeddings correspond to the
+            user-specified textual search queries. The text embeddings are
+            extracted with a variant of the DSSM model.
+          </li>
+          <li>
+            <span>Sparse</span>: This task is based on the common MSMARCO passage retrieval
+            dataset, which has 8,841,823 text passages, encoded into sparse
+            vectors using the SPLADE model. The vectors have a large dimension
+            (about 30,000), but each vector in the base dataset has an average
+            of approximately 120 nonzero elements. The query set contains
+            6,980 text queries, embedded by the same SPLADE model. The average
+            number of nonzero elements in the query set is approximately 49
+            (since text queries are generally shorter). Given a sparse query
+            vector, the index should return the top-k results according to the
+            maximal inner product between the vectors.
+          </li>
+          <li>
+            <span>Streaming Search</span>: This task uses 30M slice of the MS Turing data
+            set released in the previous challenge. The index starts with zero
+            points and must implement the "runbook" provided -- a sequence of
+            insertion, deletion, and search operations (roughly 4:4:1 ratio) --
+            within a time bound of 1 hour and 8GB DRAM.  The intention
+            is for the algorithm to process the operations and maintain a compact 
+            index over the active points rather than index the entire anticipated 
+            set of points and use tombstones or flags to mark active elements.
+            More details to come. The runbook is provided in `final_runbook.yaml`
+            which is generated with `final_runbook_gen.py`.
+          </li>
+        </ul>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Track</th>
+                <th>Dataset</th>
+                <th>Dimensions</th>
+                <th>Data type</th>
+                <th>Baseline algo</th>
+                <th>QPS @ 90% recall</th>
+                <th>Release terms</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td>Filtered</td>
+                <td>YFCC-10M + CLIP</td>
+                <td>192</td>
+                <td>uint8</td>
+                <td>filter-FAISS</td>
+                <td>3200</td>
+                <td>
+                  <a href="https://creativecommons.org/licenses/by/4.0/deed.en">CC BY 4.0</a>
+                </td>
+              </tr>
+
+              <tr>
+                <td>OOD</td>
+                <td>Text2Image-10M</td>
+                <td>200</td>
+                <td>float32</td>
+                <td><a href="https://github.com/microsoft/DiskANN">diskann</a></td>
+                <td>4882</td>
+                <td>
+                  <a href="https://creativecommons.org/licenses/by/4.0/deed.en">CC BY 4.0</a>
+                </td>
+              </tr>
+
+              <tr>
+                <td>Sparse</td>
+                <td>MS MARCO / SPLADE</td>
+                <td>~30K</td>
+                <td>float32, sparse format</td>
+                <td><a href="https://arxiv.org/abs/2301.10622">Linscan</a></td>
+                <td>101</td>
+                <td>
+                  <a href="https://microsoft.github.io/msmarco/">MS-MARCO</a>:
+                  Free NC <br />
+                  <a href="https://huggingface.co/naver/splade-cocondenser-ensembledistil/tree/main">SPLADE</a>:
+                  <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA</a>
+                </td>
+              </tr>
+
+              <tr>
+                <td>Streaming</td>
+                <td>MSTuring-30M-clustered</td>
+                <td>100</td>
+                <td>float32</td>
+                <td><a href="https://arxiv.org/abs/2105.09613">fresh-diskann</a></td>
+                <td>0.883 recall@10 (45mins)</td>
+                <td>
+                  <a href="https://github.com/microsoft/SPTAG/blob/main/datasets/SPACEV1B/LICENSE">O-UDA</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <span class="table-notes">
+          We recommend using <a href="https://github.com/axel-download-accelerator/axel">Axel</a> for downloading
+          non-Microsoft
+          datasets. We recommend using <a
+            href="https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10">AzCopy</a> for
+          downloading
+          Microsoft datasets.
+        </span>
+      </div>
+    </section>
+
+
+    
+    <!-- NeurIPS'23 winners info -->
+    <section id="winners" class="results">
+      <div class="container content-section">
+        <div class="title">
+          <h2>Track Winners and Presentations</h2>
+        </div>
+
+        <h4>Filtered Search</h4>
+        <ul class="result-list">
+          <li>
+            <span><a href="https://github.com/harsha-simhadri/big-ann-benchmarks/tree/main/neurips23/filter/parlayivf">ParlayANN IVF<sup>2</sup></a></span>: 
+            Fusing Classic and Spatial Inverted Indices for Fast Filtered ANNS
+            <a href="neurips23_slides/IVF_2_filter_Ben.pdf">[slides]</a>
+            <span class="authors"><span>Authors</span>: Ben Landrum (UMD), Magdalen Dobson Manohar (CMU), Mazin Karjikar (UMD), Laxman Dhulipala (UMD)</span>
+          </li>
+        </ul>
+
+        <h4>Out-Of-Distribution</h4>
+        <ul class="result-list">
+          <li>
+            <span><a href="https://github.com/harsha-simhadri/big-ann-benchmarks/tree/main/neurips23/ood/mysteryann">RoarANN</a></span>: Projected Bipartite Graph for Efficient Cross-Modal Approximate Nearest Neighbor Search
+            <span class="authors"><span>Authors</span>: Meng Chen, Yue Chen, Rui Ma, Kai Zhang, Yuzheng Cai, Jiayang Shi,  Yizhuo Chen, Weiguo Zheng. All authors from Fudan University.</span>
+          </li>
+
+          <li>
+            <span><a href="https://github.com/harsha-simhadri/big-ann-benchmarks/tree/main/neurips23/ood/pyanns">PyANNS</a></span> 
+            <span class="authors"><span>Authors</span>: Zihao Wang, Shanghai Jiao Tong University<sup>*</sup></span>
+          </li>
+        </ul>
+
+        <h4>Sparse</h4>
+        <ul class="result-list">
+          <li>
+            <span><a href="https://github.com/harsha-simhadri/big-ann-benchmarks/tree/main/neurips23/sparse/pyanns">PyANNS</a></span>
+              <span class="authors"><span>Authors</span>: Zihao Wang, Shanghai Jiao Tong University<sup>*</sup></span>
+          </li>
+          <li>
+            <span><a href="https://github.com/harsha-simhadri/big-ann-benchmarks/tree/main/neurips23/sparse/shnsw">GrassRMA</a></span>: GRAph-based Sparse Vector Search with Reducing Memory Accesses<br/>
+              <span class="authors"><span>Authors</span>:  Meng Chen, Yue Chen, Rui Ma, Kai Zhang, Yuzheng Cai, Jiayang Shi, Yizhuo Chen, Weiguo Zheng. All authors from Fudan University.</span>
+          </li>
+        </ul>
+
+        <h4>Streaming Search</h4>
+        <ul class="result-list">
+          <li>
+            <span><a href="https://github.com/harsha-simhadri/big-ann-benchmarks/tree/main/neurips23/streaming/puck">Puck</a></span>: 
+              Efficient Multi-level Index Structure for Approximate Nearest Neighbor Search in Practice
+              <a href="neurips23_slides/streaming_puck_baidu.pptx">[slides]</a>
+              <span class="authors"><span>Authors</span>: Jie Yin, Ben Huang, Baidu.</span>
+          </li>
+        </ul>
+        <p></p>
+        <sup>*</sup> Zihao Wang is also an employee of Zilliz. However, he declares that the PyANNs entry was created on his time off, without any involvement from Zilliz or any of the other organizers. This entry did not declare conflict with organizers before participating.
+      
+        <h4>Organizer Presentations</h4>
+        <ul class="result-list">
+          <li>
+            <span><a href="neurips23_slides/intro.pptx">Introduction</a></span>
+          </li>
+          <li>
+            <span><a href="neurips23_slides/summary.pdf">Summary</a></span>
+          </li>
+        </ul>
+
+
+        <h4> Invited Talks</h4>
+        <ul class="result-list">
+          <li>
+            <span>Corey Nolet: </span><a href="neurips23_slides/NVIDIA_Corey.pdf">
+              Accelerating vector search on the GPU with RAPIDS RAFT</a>
+          </li>
+          <li>
+            <span>Yury Malkov: </span><a href="neurips23_slides/ANNS_for_recommendation_systems_Yury.pdf">Approximate Nearest Neighbor Search in Recommender Systems</a>
+          </li>
+        </ul>
+
+      </div>
+    </section>
+
+    <!-- Participation -->
+    <section id="participate" class="participate">
+      <div class="container content-section">
+        <h2>Participation</h2>
+
+        <!-- Guidelines -->
+        <div class="participate-section">
+          <h3>Guidelines</h3>
+
+          <ul>
+            <li>
+              <span>To participate</span>, please express
+              interest through the <a href="https://cmt3.research.microsoft.com/BigAnnBenchmarks2023">CMT portal</a>.
+            </li>
+            <li>
+              <span>To request cloud compute credits</span>
+              ($1000) towards development, please select the "Requesting cloud
+              credit" field in your CMT entry and share a brief overview of
+              the ideas you plan to develop with these credits in your CMT
+              entry.
+            </li>
+
+            <li>
+              <span>To get started</span>, please see the
+              instructions in the <a
+                href="https://github.com/harsha-simhadri/big-ann-benchmarks/blob/main/neurips23/README.md">README
+                file</a>, and submit a Pull Request
+              corresponding to your algorithm(s).
+            </li>
+
+            <li>
+              <span>For questions and discussions</span>, please
+              use the <a href="https://github.com/harsha-simhadri/big-ann-benchmarks/issues">Github issues</a> or the <a
+                href="https://discord.com/invite/qR3WhPSFWh">Discord channel</a>.
+            </li>
+          </ul>
+        </div>
+
+        <!-- Timeline -->
+        <div class="participate-section">
+          <h3>Timeline (subject to change)</h3>
+
+          <ul>
+            <li>
+              <span>June</span>: Baseline results, testing
+              infrastructure, CFP and final ranking metrics released.
+            </li>
+            <li>
+              <span><s>End-July</s>August 30th</span>: Suggested deadline for requesting allocation of cloud
+              compute credits for development. Credits will be provided on ongoing basis. 
+            </li>
+            <li>
+              <span><s>August 30th</s>September 15th</span>: Final deadline for
+              participants to submit an expression of interest through CMT.
+            </li>
+            <li>
+              <span>October 30th</span>: End of competition
+              period. Teams to release code in a containerized form, and
+              complete a pull request to the <a href="https://github.com/harshas-simhadri/big-ann-benchmarks"> eval framework</a>  with code to run
+              the algorithms.
+            </li>
+            <li>
+              <span>Mid-November</span>: Release of preliminary
+              results on standardized machines. Review of code by organizers
+              and participants. Participants can raise concerns about the
+              evaluation.
+            </li>
+            <li>
+              <span>Early December</span>: Final results
+              published, and competition results archived (the competition
+              will go on if interest continues).
+            </li>
+            <li>
+              <span>During NeurIPS</span>: Organizers will
+              provide an overview of the competition and results. Organizers
+              will also request the best entries (including leaderboard
+              toppers, or promising new approaches) to present an overview for
+              further discussion.
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Organizers -->
+    <section id="organizers" class="organizers">
+      <div class="container content-section">
+        <div class="title">
+          <h2>Organizers and Dataset Contributors</h2>
+
+          <p>
+            Organizers can be reached at
+            <a href="mailto:big-ann-organizers@googlegroups.com">big-ann-organizers@googlegroups.com</a>. We thank
+            Microsoft Research, Meta, Pinecone, Yandex, and Zilliz
+            for help in preparing and organizing this competition. We thank 
+            Microsoft for cloud credits towards running the competition,
+            and AWS and Pinecone for compute credits for participants.
+          </p>
+        </div>
+
+        <div class="organizer-grid">
+          <!-- Harsha Simhadri -->
+          <a href="https://harsha-simhadri.org/" class="organizer">
+            <img src="assets/organizers/harsha-simhadri.png" alt="Harsha Simhadri">
+            <span class="name">Harsha Simhadri</span>
+            <span class="role">Microsoft Research India</span>
+          </a>
+
+          <!-- Martin Aumüller -->
+          <a href="http://www.itu.dk/people/maau/" class="organizer">
+            <img src="assets/organizers/martin-aumüller.png" alt="Martin Aumüller">
+            <span class="name">Martin Aumüller</span>
+            <span class="role">IT University of Copenhagen</span>
+          </a>
+
+          <!-- Dmitry Baranchuk -->
+          <a href="https://research.yandex.com/people/dmitry-baranchuk" class="organizer">
+            <img src="assets/organizers/dmitry-baranchuk.png" alt="Dmitry Baranchuk">
+            <span class="name">Dmitry Baranchuk</span>
+            <span class="role">Yandex</span>
+          </a>
+
+          <!-- Matthijs Douze -->
+          <a href="https://ai.facebook.com/people/matthijs-douze/" class="organizer">
+            <img src="assets/organizers/matthijs-douze.png" alt="Matthijs Douze">
+            <span class="name">Matthijs Douze</span>
+            <span class="role">Meta AI Research</span>
+          </a>
+
+          <!-- Amir Ingber -->
+          <a href="https://www.linkedin.com/in/ingberamir/" class="organizer">
+            <img src="assets/organizers/amir-ingber.png" alt="Amir Ingber">
+            <span class="name">Amir Ingber</span>
+            <span class="role">Pinecone</span>
+          </a>
+
+          <!-- Edo Liberty -->
+          <a href="https://edoliberty.github.io/" class="organizer">
+            <img src="assets/organizers/edo-liberty.png" alt="Edo Liberty">
+            <span class="name">Edo Liberty</span>
+            <span class="role">Pinecone</span>
+          </a>
+
+          <!-- Frank Liu -->
+          <a href="https://www.linkedin.com/in/fzliu/" class="organizer">
+            <img src="assets/organizers/frank-liu.png" alt="Frank Liu">
+            <span class="name">Frank Liu</span>
+            <span class="role">Zilliz</span>
+          </a>
+
+          <!-- George Williams -->
+          <a href="https://medium.com/@georgewilliams" class="organizer">
+            <img src="assets/organizers/george-williams.png" class="image-border" alt="George Williams">
+            <span class="name">George Williams</span>
+            <span class="role">Smile Identity</span>
+          </a>
+        </div>
+
+        <p class="presented-by">
+          Supported by
+          <img src="assets/microsoft_logo.png" class="microsoft-logo" alt="Microsoft" />
+          <img src="assets/pinecone-logo.svg" class="pinecone-logo" alt="Pinecone" /> 
+          <img src="assets/aws_logo.png" class="aws-logo" alt="AWS" />
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <!-- Footer title -->
+      <a class="title text-small" href="neurips23.html">Big-ANN</a>
+
+      <!-- Nav -->
+      <nav>
+        <ul>
+          <li>
+            <a href="#tracks">Tracks</a>
+          </li>
+          <li><a href="#participate">Participate</a></li>
+          <li><a href="#organizers">Organizers</a></li>
+          <li><a href="neurips21.html">NeurIPS'21: Billion-Scale ANN Challenge</a></li>
+        </ul>
+      </nav>
+
+      <!-- External / logo links -->
+      <div class="external-links">
+        <a href="https://github.com/harsha-simhadri/big-ann-benchmarks/tree/main/neurips23" target="_blank">
+          <img src="assets/github_logo_white.png" alt="GitHub" /></a>
+        <a href="https://discord.gg/qR3WhPSFWh" target="_blank"><img src="assets/discord_logo.png" alt="Discord" /></a>
+        <a href="https://cmt3.research.microsoft.com/BigAnnBenchmarks2023" target="_blank"><img
+            src="assets/cmt_logo.png" alt="CMT portal" /></a>
+      </div>
+    </div>
+  </footer>
+</body>
+
+</html>

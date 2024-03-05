@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+    <html lang="en">
+      <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+        <title>Big ANN Benchmarks</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <!-- Bootstrap -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <style>
+            body { padding-top: 50px; }
+            table, th, td {
+              border: 1px solid black;
+              border-collapse: collapse;
+            }
+            th, td {
+              text-align: center;
+              width: 900px;
+              height: 50px;
+            }
+        </style>
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+      </head>
+         <body>
+
+            <nav class="navbar navbar-inverse navbar-fixed-top">
+              <div class="container">
+                <div class="navbar-header">
+                  <a class="navbar-brand" href="neurips21.html">Big ANN Benchmarks</a>
+                </div>
+                <div id="navbar" class="collapse navbar-collapse">
+                  <ul class="nav navbar-nav">
+                    <li class="active"><a href="neurips21.html">Home</a></li>
+                  </ul>
+                  <ul class="nav navbar-nav">
+                    <li class="active"><a href="#why">Goals</a></li>
+                  </ul>
+                  <ul class="nav navbar-nav">
+                    <li class="active"><a href="#tracks">Tracks</a></li>
+                  </ul>
+                  <ul class="nav navbar-nav">
+                    <li class="active"><a href="#bench-datasets">Datasets</a></li>
+                  </ul>
+                  <ul class="nav navbar-nav">
+                    <li class="active"><a href="#metrics">Metrics</a></li>
+                  </ul>
+                  <ul class="nav navbar-nav">
+                    <li class="active"><a href="#call">CFP</a></li>
+                  </ul>
+                  <!-- <ul class="nav navbar-nav">
+                    <li class="active"><a href="#datasets">Results by Datasets</a></li>
+                  </ul>
+                  <ul class="nav navbar-nav">
+                    <li class="active"><a href="#algorithms">Results by Algorithms</a></li>
+                  </ul> -->
+                  <ul class="nav navbar-nav">
+                    <li class="active"><a href="#organizers">Organizers</a></li>
+                  </ul>
+                  <ul class="nav navbar-nav">
+                    <li class="active"><a href="neurips23.html">NeurIPS'23: Practical Vector Search Challenge</a></li>
+                  </ul>
+                </div><!--/.nav-collapse -->
+              </div>
+            </nav>
+
+                    <div class="container">
+            <h1>Billion-Scale Approximate Nearest Neighbor Search Challenge: <a href="https://neurips.cc/Conferences/2021/CompetitionTrack"> NeurIPS'21 competition track</a></h1>
+
+            </p>
+            <!-- <div id="results"> -->
+            <!--<h2>Benchmarking Results</h2>
+            <p>Results are split by distance measure and dataset. In the bottom, you can find an overview of an algorithm's performance on all datasets. Each dataset is annoted
+            by <em>(k = ...)</em>, the number of nearest neighbors an algorithm was supposed to return. The plot shown depicts <em>Recall</em> (the fraction
+            of true nearest neighbors found, on average over all queries) against <em>Queries per second</em>.  Clicking on a plot reveils detailled interactive plots, including
+            approximate recall, index size, and build time.</p> -->
+            
+
+            <h2> Code, Report, Results and Blogs</h2>
+              <ul>
+                <li><strong>See <a href="https://github.com/harsha-simhadri/big-ann-benchmarks">github</a> for evaluation framework, baselines, submissions and measurements.</strong></li>
+                <li><strong><a href="https://arxiv.org/pdf/2205.03763.pdf">Competition report</a>. please cite this if you use these datasets or evaluation framework in your research. </strong></li>
+                <li><strong>Track T1/T2 <a href="https://github.com/harsha-simhadri/big-ann-benchmarks/tree/main/t1_t2#leaderboard">leaderboard</a>.</strong> </li>
+                <li><strong>Track T3 <a href="https://github.com/harsha-simhadri/big-ann-benchmarks/tree/main/t3">leaderboard</a>.</strong>  </li>
+                <li><strong><a href="https://medium.com/big-ann-benchmarks" target="_blank">Medium</a> channel.</strong></li>
+                </ul>
+
+
+            <div id="why">
+              <h2>Why this competition?</h2>
+              In the past few years, we’ve seen a lot of new research and creative approaches for large-scale ANNS, including:
+              <ul>
+                <li>Partition-based, and graph-based indexing strategies (as well as hybrid indexing approaches).</li>
+                <li>Mixing RAM and SSD storage to efficiently store and process large datasets that exceed the size of RAM.</li>
+                <li>Using accelerator hardware such as GPUs, FPGAs, and other custom in-memory silicon.</li>
+                <li>Leveraging machine learning for dimensionality reduction of the original vectors.</li>
+              </ul>
+              <p>
+               In addition to an uptick in academic interest, many implementations of these algorithms at scale now appear in production 
+               and high availability datacenter contexts: powering enterprise-grade, mission-critical, and web-scale search applications.
+                In these deployment scenarios, benchmarks such as cost, preprocessing time, power consumption become just as important as
+                the recall-vs-latency tradeoff. Despite this, most empirical evaluations of algorithms have focused on smaller datasets
+                of about a million points, e.g. ann-bechmarks.com. However, deploying recent algorithmic advances in ANNS techniques for
+                search, recommendation and ranking at scale requires support at billion or substantially larger scale. Barring a few recent
+                papers, there is limited consensus on which algorithms are effective at this scale.
+              </p>
+
+                We believe that this challenge will be impactful in several ways:
+                <ul>
+                  <li>Provide a comparative understanding of algorithmic ideas and their application at scale.</li>
+                  <li>Promote the development of new techniques for the problem and demonstration of their value.</li>
+                  <li>Provide a compilation of datasets, many new, to enable future development of algorithms.</li>
+                  <li>Introduce a standard benchmarking approach.</li>
+                </ul>
+                By providing a platform for those interested in this problem, we aim to encourge more collaboration and collectively advance the field at a more rapid pace.
+                <strong> Researchers can request Azure compute credit from a pool sponsored by Microsoft Research.</strong>
+            </div>
+
+            <div id="tracks">
+              <h2>Tracks</h2>
+              <h4>Standard Hardware Tracks (T1 and T2)</h4>
+              <p>
+                There are two standard standard hardware tracks: 
+                <ul style="list-style-type:none">
+                  <li><strong>Track 1: In-memory indices   with <a href="https://github.com/facebookresearch/faiss" target="_blank">FAISS</a> as the baseline. </strong>
+                     Search would use Azure <a href="https://docs.microsoft.com/en-us/azure/virtual-machines/fsv2-series">Standard_F32s_v2 VMs</a>
+                     with 32 vCPUs and 64GB RAM. Index construction would use Azure
+                     <a href="https://docs.microsoft.com/en-us/azure/virtual-machines/fsv2-series">Standard_F64s_v2 VM</a>
+                     with 64vCPUs, 128GB RAM and an additional 4TB of SSD to be used for storing the data, index and other intermediate data.</li>
+                  <li><strong>Track 2:   Out-of-core indices with <a href="https://github.com/Microsoft/diskann" target="_blank">DiskANN</a> as the baseline. </strong>
+                    In addition to the limited DRAM in T1, index can use an SSD for search.
+                    Search would use Azure 
+                    <a href="https://docs.microsoft.com/en-us/azure/virtual-machines/lsv2-series">Standard_L8s_v2 VMs</a> with 8 vCPUS, 64GB RAM and a local SSD Index constrained to 1TB.
+                     Construction would use Azure
+                     <a href="https://docs.microsoft.com/en-us/azure/virtual-machines/fsv2-series">Standard_F64s_v2 VM</a>
+                     with 64vCPU, 128GB RAM and an additional 4TB of SSD to be used for storing the data, index and other intermediate data.</li>
+                </ul>
+                Participants are expected to release their code for index building and search which the organizers will run on separate machines.
+                Participants provide a configuration for their <strong>index build code that would complete in 4 days for each dataset</strong>.
+                The protocol for evaluation is as follows:
+                <ul type="none">
+                  <li>[on indexing machine] participants will be given a local path with 1B vector dataset. </li>
+                  <li>[on indexing machine] participants build an index from the 1B vectors and store back to local disk. </li>
+                  <li>[on indexing machine] Stored index is copied out to a temporary cloud storage location by the eval framework.</li>
+                  <li>[on search machine] organizers load the index from cloud storage to a local path and provide the path to the search code.</li>
+                  <li>[on search machine] organizers perform searches with held-out query set and measure recall and time to process the queries with several sets of parameters.</li>
+                </ul>
+              </p>
+              
+              Finalized details for build and search hardware timing will be released along with the the eval framework.
+
+              <h4> Custom Hardware Track (T3)</h4>
+              <p>
+                Participants can use non-standard hardware such as GPUs, AI accelerators, FPGAs, and custom in-memory silicon. 
+                In this track, participants will either 1) send their hardware, such as PCI boards to GSI Technology or 2) evaluate
+                themselves using the scripts made available by the organizers. For T3 participants sending hardware,
+                we will make specific delivery arrangements at participant’s expense. We will install the hardware on a system under
+                the organizers control (we have a few bare-metal options available) and follow any installation directions provided.
+                Participants will be allowed to temporarily log into the machine to finalize any installation and configuration,
+                or for debugging installation as needed. For T3 participants running the evaluation themselves, we request remote ssh
+                access and sudo accounts on the systems so that the organizers can verify the system and hardware (such as IPMI support,
+                minimum resource availability such as disk storage for datasets).
+            
+                The evaluation phase will proceed like T1/T2, with a few modifications. 
+                <ul>
+                  <li>For participants that send their hardware, T3 organizers will provide remote access to a separate indexing machine.
+                    <ul>
+                      <li>	[on separate indexing machine] participants download 1B vector dataset and store to local disk </li>
+                      <li>	[on separate indexing machine] participants build an index from the 1B vectors and store back to local disk </li>
+                      <li>  Stored index is copied to eval machine </li>
+                      <li>	[on eval machine] T3 organizers load the index from local disk </li>
+                      <li>	[on eval machine] T3 organizers provide index  with held-out query set and measure recall and time to process the queries with several sets of parameters. 
+                        Index search code can use internal parallelism to batch process the queries.  </li>
+                    </ul>
+                  </li>
+                  <li> For participants that give us remote access to systems, participants are responsible for building their index.
+                    <ul>
+                      <li> [on indexing machine] participants download 1B vector dataset and store to local disk </li>
+                      <li>	[on indexing machine] participants build an index from the 1B vectors and store back to local disk </li>
+                      <li>	Stored index is copied to eval machine</li>
+                      <li>	[on eval machine] T3 organizers load the index from local disk</li>
+                      <li>	[on eval machine] T3 organizers perform searches with held-out query set and measure recall and search time with several sets of parameters.</li>
+                    </ul>
+                  </li>
+                </ul>
+
+                T3 will maintain different leaderboards for each dataset based on the following benchmarks:
+                <ul>
+                  <li>Recall vs throughput using the same ranking formula as the T1/T2 track</li>
+                  <li>Power- recall vs throughput/watt and a similar ranking formula to the T1/T2 track.</li>
+                  <li>Cost measured as cost/watt (measured as queries/second/watt and MSRP/watt)</li>
+                  <li>Total cost normalized across all tracks.</li>
+                </ul>
+                We will provide the exact details on how we collect and compute these benchmarks as well as additional machine and operating system specification before the competition begins.
+             </p>
+            </div>
+
+            <div id="bench-datasets">
+              <h2>Benchmark Datasets</h2>
+              We intend to use the following 6 billion point datasets.  
+              <ul>
+                <li><a href="http://corpus-texmex.irisa.fr/" target="_blank">BIGANN</a> consists of SIFT descriptors applied to images from extracted from a large image dataset.</li>
+                <li>Facebook SimSearchNet++ is a new dataset released by Facebook for this competition. 
+                  It consists of features used for image copy detection for integrity purposes.
+                  The features are generated by <a href="https://ai.facebook.com/blog/using-ai-to-detect-covid-19-misinformation-and-exploitative-content">Facebook SimSearchNet++ model</a>.</li>
+                <li>Microsoft Turing-ANNS-1B is a new dataset being released by the Microsoft Turing team for this competition.
+                   It consists of Bing queries encoded by Turing AGI v5 that trains Transformers to capture similarity of intent in 
+                   web search queries. An early version of the RNN-based AGI Encoder is described in a <a href="https://www.microsoft.com/en-us/research/publication/generic-intent-representation-in-web-search/">
+                   SIGIR'19 paper</a> and a <a href="https://www.microsoft.com/en-us/research/blog/learning-web-search-intent-representations-from-massive-web-search-logs/">blogpost</a>.</li>
+                <li><a href="https://github.com/microsoft/SPTAG/tree/master/datasets/SPACEV1B">Microsoft SPACEV-1B</a> is a new web search related dataset 
+                  released by Microsoft Bing for this competition.
+                 It consists of document and query vectors encoded by Microsoft SpaceV Superior model to capture generic intent representation.</li>
+                <li><a href="https://research.yandex.com/datasets/biganns" target="_blank">Yandex DEEP-1B</a> image descriptor dataset consisting of the projected
+                  and normalized outputs from the last fully-connected layer of the GoogLeNet model, which was pretrained on the Imagenet classification task.  </li>
+                <li><a href="https://research.yandex.com/datasets/biganns" target="_blank">Yandex Text-to-Image-1B</a> is a new cross-model dataset (text and visual),
+                  where database and query vectors have different distributions in a shared representation space. The base set consists of Image embeddings produced by the
+                  Se-ResNext-101 model, and queries are textual embeddings produced by a variant of the DSSM model. Since the distributions are different, a 50M sample 
+                  of the query distribution is provided. </li>
+              </ul>
+
+              <p>
+              All datasets are in the common binary format that starts with 8 bytes of data consisting of <em>num_points(uint32_t)</em>
+              <em>num_dimensions(uint32)</em> followed by <em>num_pts X num_dimensions x sizeof(type)</em> bytes of data stored one vector after another. Data files
+              will have suffixes <em>.fbin</em>, <em>.u8bin</em>, and <em>.i8bin</em> to represent float32, uint8 and int8 type data. Note that a different query set
+              will be used for evaluation. The details of the datasets along with links to the base, query and sample sets, and the ground truth nearest neighbors 
+              of the query set are listed below.
+              </p>
+              
+              <p>
+              The ground truth binary files for k-NN search consist of the following information: <em>num_queries(uint32_t)</em>
+              <em>K-NN(uint32)</em> followed by <em>num_queries X K x sizeof(uint32_t)</em> bytes of data representing the IDs of the K-nearest neighbors of the
+              queries, followed by <em>num_queries X K x sizeof(float)</em> bytes of data representing the distances to the corresponding points. The distances
+              help identify neighbors tied in terms of distances. In recall calculation, returning a neighbor not in the ground truth set but whose distance is tied
+              with an entry in the ground truth is counted as success.
+              </p>
+              <p>
+              The ground truth binary files for range search consist of the following information: <em>num_queries(int32_t)</em> followed by the total number
+              of results <em>total_res(int32_t)</em> followed
+              by <em> num_queries X size(int32_t)</em> bytes corresponding to <em>num_results_per_query</em> for each query, followed by <em>total_res X sizeof(int32_t)</em>
+              bytes corresponding to the IDs of the neighbors of each query one after the other.
+              </p>
+              <p>
+              The ground truth files for the first 10M slice, the first 100M slice, and the complete 1B set of each dataset against the respective query set can be downloaded
+              <a href="https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/GT_10M_v2.tgz">here(10M)</a>, 
+              <a href="https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/GT_100M_v2.tgz">here(100M)</a>, and
+              <a href="https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/GT_1B_v2.tgz">here(1B)</a>. 
+              </p>
+
+              <TABLE>
+                <TR>
+                   <TD> Dataset </TD>
+                   <TD> Datatype </TD>
+                   <TD> Dimensions </TD>
+                   <TD> Distance </TD>
+                   <TD> Range/k-NN </TD>
+                   <TD> Base data </TD>
+                   <TD> Sample data</TD>
+                   <TD> Query data </TD>
+                   <TD> Ground truth </TD>
+                   <TD> Release terms </TD>
+                </TR>
+                <TR>
+                   <TD> BIGANN </TD>
+                   <TD> uint8 </TD>
+                   <TD> 128 </TD>
+                   <TD> L2 </TD>
+                   <TD> k-NN </TD>
+                   <TD> <a href="https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/bigann/base.1B.u8bin">1B points</a> </TD>
+                   <TD> <a href="https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/bigann/learn.100M.u8bin">100M base points</a> </TD>
+                   <TD> <a href="https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/bigann/query.public.10K.u8bin">10K queries</a> </TD>
+                   <TD> <a href="https://comp21storage.blob.core.windows.net/publiccontainer/comp21/bigann/public_query_gt100.bin">link</a> </TD>
+                   <TD> <a href="https://creativecommons.org/share-your-work/public-domain/cc0/">CC0</a> </TD>
+                </TR>
+                <TR>
+                  <TD> Facebook SimSearchNet++* </TD>
+                  <TD> uint8 </TD>
+                  <TD> 256 </TD>
+                  <TD> L2 </TD>
+                  <TD> Range </TD>
+                  <TD> <a href="https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/FB_ssnpp_database.u8bin">1B points</a> </TD>
+                  <TD> N/A </TD>
+                  <TD> <a href="https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/FB_ssnpp_public_queries.u8bin">100k queries</a> </TD>
+                  <TD> <a href="https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/FB_ssnpp_public_queries_GT.rangeres">link</a> </TD>
+                  <TD> <a href="https://creativecommons.org/licenses/by-nc/2.0/">CC BY-NC</a> </TD>
+               </TR>
+               <TR>
+                <TD> Microsoft Turing-ANNS* </TD>
+                <TD> float32 </TD>
+                <TD> 100 </TD>
+                <TD> L2 </TD>
+                <TD> k-NN </TD>
+                <TD> <a href="https://comp21storage.blob.core.windows.net/publiccontainer/comp21/MSFT-TURING-ANNS/base1b.fbin"> 1B points</a></TD>
+                <TD> N/A </TD>
+                <TD> <a href="https://comp21storage.blob.core.windows.net/publiccontainer/comp21/MSFT-TURING-ANNS/query100K.fbin">100K queries</a> </TD>
+                <TD> <a href="https://comp21storage.blob.core.windows.net/publiccontainer/comp21/MSFT-TURING-ANNS/query_gt100.bin">link</a> </TD>
+                <TD> <a href="MSFT-Turing-ANNS-terms.txt" target="_blank">link to terms</a> </TD>
+              </TR>
+              <TR>
+                <TD> Microsoft SPACEV* </TD>
+                <TD> int8 </TD>
+                <TD> 100 </TD>
+                <TD> L2 </TD>
+                <TD> k-NN </TD>
+                <TD> <a href="https://comp21storage.blob.core.windows.net/publiccontainer/comp21/spacev1b/spacev1b_base.i8bin">1B points</a></TD>
+                <TD> <a href="https://comp21storage.blob.core.windows.net/publiccontainer/comp21/spacev1b/spacev100m_base.i8bin">100M base points</a> </TD>
+                <TD> <a href="https://comp21storage.blob.core.windows.net/publiccontainer/comp21/spacev1b/query.i8bin">29.3K queries</a> </TD>
+                <TD> <a href="https://comp21storage.blob.core.windows.net/publiccontainer/comp21/spacev1b/public_query_gt100.bin">link</a> </TD>
+                <TD> <a href="https://github.com/microsoft/SPTAG/blob/master/datasets/SPACEV1B/LICENSE" target="_blank">O-UDA</a> </TD>
+              </TR>
+              <TR>
+                <TD> Yandex DEEP </TD>
+                <TD> float32 </TD>
+                <TD> 96 </TD>
+                <TD> L2 </TD>
+                <TD> k-NN </TD>
+                <TD> <a href="https://storage.yandexcloud.net/yandex-research/ann-datasets/DEEP/base.1B.fbin">1B points</a> </TD>
+                <TD> <a href="https://storage.yandexcloud.net/yandex-research/ann-datasets/DEEP/learn.350M.fbin ">350M base points</a> </TD>
+                <TD> <a href="https://storage.yandexcloud.net/yandex-research/ann-datasets/DEEP/query.public.10K.fbin">10K queries</a> </TD>
+                <TD> <a href="https://storage.yandexcloud.net/yandex-research/ann-datasets/deep_new_groundtruth.public.10K.bin">link</a> </TD>
+                <TD> <a href="https://creativecommons.org/licenses/by/4.0/deed.en">CC BY 4.0</a> </TD>
+              </TR>
+              <TR>
+                <TD> Yandex Text-to-Image* </TD>
+                <TD> float32 </TD>
+                <TD> 200 </TD>
+                <TD> inner-product </TD>
+                <TD> k-NN </TD>
+                <TD> <a href="https://storage.yandexcloud.net/yandex-research/ann-datasets/T2I/base.1B.fbin">1B points</a> </TD>
+                <TD> <a href="https://storage.yandexcloud.net/yandex-research/ann-datasets/T2I/query.learn.50M.fbin ">50M queries</a> </TD>
+                <TD> <a href="https://storage.yandexcloud.net/yandex-research/ann-datasets/T2I/query.public.100K.fbin">100K queries</a> </TD>
+                <TD> <a href="https://storage.yandexcloud.net/yandex-research/ann-datasets/t2i_new_groundtruth.public.100K.bin">link</a> </TD>
+                <TD> <a href="https://creativecommons.org/licenses/by/4.0/deed.en">CC BY 4.0</a> </TD>
+              </TR>
+             </TABLE>
+             * new datasets <BR>
+              We recommend using <a href="https://github.com/axel-download-accelerator/axel" target="_blank">Axel</a> for downloading BIGANN, Facebook-SSN++, Yandex DEEP1B and T2I datasets.<BR>
+              We recommend using <a href="https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10" target="_blank">AzCopy</a> for downloading Microsoft datasets.
+            </div>
+
+            <div id="metrics">
+            <h2>Metrics</h2>
+            The competition will measure recall@10 of the algorithms on the 6 data sets a private query set (unreleased) at a fixed query throughput.
+            Track T1 measures recall of algorithms at 10000 Queries/second (on 32 vCPUs),  T2 measures recall at 1500 Queries/second, T2 measures recall at 2000 Queries/second. 
+            <strong>The primary metric for comparison in each track will be the sum of improvements in recall over the baseline at the target QPS over all datasets.</strong>
+              Additionally, track T3 will also rank entries by power and cost per query. See this  
+            <a href="https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/notebooks/T3Analysis.ipynb"> notebook </a>
+            for power and cost analysis.
+            <strong>  A team has to publish an algorithm and commit to benchmarking on at least 3 datasets to be considered for ranking. Recall regression on a dataset selected
+            by a team will be continued as a negative score. </strong>
+            The recall@10(AP for SSN++-1B dataset) of the baseline algorithms on each dataset for the public query set is listed below.
+            
+            <table>
+              <tr>
+                <td> Track </td> <td>Algorithm</td> <td>Search Machine</td><td>Target Queries/sec</td>
+                <td>BIGANN-1B</td> <td>SSN++-1B</td> <td>Turing-ANNS-1B</td> <td>SPACEV-1B</td> <td>DEEP-1B</td> <td>Text-to-Image-1B</td>
+              </tr>
+              <tr>
+                <td> Track 1 </td> <td> <a href="https://github.com/harsha-simhadri/big-ann-benchmarks/tree/main/track1_baseline_faiss">FAISS-CPU</a> </td> <td>Azure F32s_v2 32vCPUs + 64GB RAM</td>
+                 <td>10000</td> <td> 0.634 </td> <td>0.753</td> <td>0.703</td> <td>0.728</td> <td>0.650</td> <td>0.069</td>
+              </tr>
+              <tr>
+                <td> Track 2 </td> <td> DiskANN </td> <td>Azure L8s_v2 8vCPUs + 64GB RAM + 1TB SSD</td>  <td>1500</td> <td> 0.949 </td> <td>0.16274</td> <td>0.936</td> <td>0.901</td> <td>0.937</td> <td>0.488</td>
+              </tr>
+              <tr>
+                <td> Track 3 </td> <td> <a href="https://github.com/harsha-simhadri/big-ann-benchmarks/blob/gw/T3/t3/run_faiss_baseline.sh">FAISS-GPU</a> </td> <td>NVIDIA V100 + 700GB RAM</td> 
+              </td><td>2000</td> <td>0.927</td> <td>TBA</td> <td>0.910</td> <td>0.850</td> <td>0.942</td> <td>0.86</td>
+              </tr>
+            </table>
+            </div>  
+
+            <BR> 
+              Baseline DiskANN indices for T2 can be downloaded using "azcopy copy 'https://comp21storage.blob.core.windows.net/publiccontainer/comp21/diskann-T2-baseline-indices' 'local_folder' --recursive". 
+               Note that this would take some time as the indices are large. All indices were built using R and L parameters set to 100.
+               Search for T2 used 16 threads and beamwidth 4. The Ls parameter was varied to tune recall vs QPS.<BR>
+               <strong>Update:</strong> T2 baseline results have been modified after measuring via pybind11 interface on docker. There was a 30-40% QPS loss using this interface
+               as compared to direct measurements of C++ code from commandline. As a result, the QPS target has now been lowered, and the recall is reported at this threshold.
+            
+            
+            <div id="call">
+              <h2>Call for Participation and Timeline</h2>
+              <p>
+                Participation is open to all teams interested in developing new algorithms or re-implementing 
+                existing algorithms more efficiently either in software or hardware. Participants are
+                requested to submit a <a href="https://cmt3.research.microsoft.com/BigANNS2021">brief document through CMT</a> 
+                for each track they will be competing in. The document should contain the following details:
+                <ul>
+                  <li> Name, email and affiliation of each participant in the team </li>
+                  <li> A name and/or URL for the submission. </li>
+                  <li> [Optional] To receive Azure credits for developing new ideas, please submit your request
+                   by <strong>June 30th</strong> with preliminary data on smaller scale datasets and why you think
+                   your algorithm will work well at billion scale. This will be used by the organizers to select strong
+                   entries. We request teams who already have access to infrastructure (e.g. those from industry or
+                   with access to large university clusters) to skip this. </li>
+                </ul>
+
+
+               For Track T3, the document should contain the following additional details to help organizers plan
+               and assess eligibility for seperate leaderboards:
+                <ul>
+                  <li> Type of hardware, e.g., PCIe extension board, rack-mounted system, or other. </li>
+                 <li> Evidence of the retail MSRP of the hardware, i.e., pricing on website or copy of the customer invoice. </li>
+                  <li> If hardware will be sent to GSI Technology (at the participants expense) or if organizers will given remote access to the systems. 
+                  	 For remote system access participants, whether their system supports standard IPMI power monitoring.  
+                     If not IPMI, then an equivalent power monitoring interface must be available.
+                  <li> Operating system requirements. </li>
+                  <li> Whether the participant requires a separate machine for index building. We have limited Azure-based
+                    Fsv2-series machines and some bare-metal machines managed by the T3 organizers. </li>
+                  </ul>
+              </p>
+
+              <h4>Consent Forms</h4>
+              Please review and complete the consent form for participation in <a href="https://forms.office.com/r/DxGuwujC4T">Tracks T1/T2</a>
+              and <a href="https://forms.office.com/r/qWTBuVApDs">Track T3</a>. Note that there are separate consent forms
+                for the standard and custom hardware tracks. Completing the form is necessary for participation.
+
+              <p>
+              <h4>Timeline (subject to change)</h4>
+              <ul>
+                  <li>May: release of data, guidelines, and a call for participation. Registration open. </li>
+                  <li>June: Baseline results, testing infrastructure and final ranking metrics released.</li>
+                  <li>July 11th: Participants in need of compute resources to submit an expression of interest.</li>
+                  <li>Mid-July: Allocation of compute resources.</li>
+                  <li>July 30th: Final deadline for participants to submit an expression of interest through CMT.</li>
+                  <li>October 22nd: End of competition period. Teams to release of code in a containerized form, and complete a pull request to the eval framework with code to run the algorithms.</li>
+                  <li>October 29th: Participants submit a brief report outlining their algorithm and results.</li>
+                  <li>Mid-November: Release of preliminary results on standardized machines. Review of code by organizers and participants. Participants can raise concerns about the evaluation.</li>
+                  <li>Early December: Final results published, and competition results archived (the competition will go on if interest continues).</li>
+                  <li>During NeurIPS, organizers will provide an overview of the competition and results. Organizers will also request the best entries
+                    (including leaderboard toppers, or promising new approaches) to present an overview for further discussion.</li>
+              </ul>
+              </p>
+            </div>
+
+            
+            <div id="schedule">
+              <h3>Summary of NeurIPS'21 event</h3>
+                The <a href="https://neurips.cc/virtual/2021/competition/22443#collapse21991">NeurIPS session</a> for this competition happend on Dec 8, 2021. See slides and recordings of the talks below.
+                 <strong><a href="https://neurips.cc/virtual/2021/competition/22443#collapse-sl-21991">Overview Talk</a> and <a href="https://neurips.cc/virtual/2021/competition/22443#collapse48501">Break-out session</a> schedule (GMT)</strong>.
+                 <ul>
+                  <li> 11:05-11:25: Overview Talk (<a href="templates/slides/comp-overview.pptx">slides</a>, <a href="https://youtu.be/jjWxVxKSn1c">video</a>)</li>
+                  <li> 12:00-12:45: Overview of results presented by organizers, followed by Q&A  </li>
+                  <ul>
+                    <li>Standard hardware tracks T1 and T2 results (<a href="templates/slides/T1_T2_results.pptx">slides</a>)</li>
+                    <li>Custom hardware track T3 results (<a href="templates/slides/T3-results.pptx">slides</a>)</li>
+                  </ul>
+                  <li> 12:45-13:20: Invited talk 1 by <a href="http://www.cs.columbia.edu/~andoni/">Prof. Alexandr Andoni</a>: Learning to Hash Robustly, with Guarantees (<a href="templates/slides/lsh_neurips21.pptx">slides</a>, <a href="https://youtu.be/WcOu2LF57HI">video</a>)</li>
+                  <li> 13:20-13:55: Invited talk 2 by <a href="https://www.cs.rice.edu/~as143/">Prof. Anshumali Shrivastava</a>:Iterative Repartitioning for Learning to Hash  and the Power of k-Choices (<a href="templates/slides/invited-talk-anshu.pptx">slides</a>, <a href="https://youtu.be/TOHByhrlOiw">video</a>)</li>
+                  <li> 13:55-14:30: Talks from track winners.
+                    <ul>
+                      <li>Track 1: <a href="https://github.com/harsha-simhadri/big-ann-benchmarks/pull/69">kst_ann_t1</a> Li Liu, Jin Yu, Guohao Dai, Wei Wu, Yu Qiao, Yu Wang, Lingzhi Liu, <i>Kuaishou Technology and Tsinghua University</i> (<a href="https://youtu.be/dc_PGe7l5f8">video</a>)</li>
+                      <li>Track 2: <a href="https://github.com/harsha-simhadri/big-ann-benchmarks/pull/70">BBANN</a>  Xiaomeng Yi, Xiaofan Luan, Weizhi Xu, Qianya Cheng, Jigao Luo, Xiangyu Wang, Jiquan Long, Xiao Yan, Zheng Bian, Jiarui Luo, Shengjun Li, Chengming Li, <i>Zilliz and Southern University of Science and Technology</i> (<a href="templates/slides/Track2_xiaomeng_yi.pdf">slides</a>, <a href="https://youtu.be/MJcFwG5OzKM">video</a>)</li>
+                      <li>Track 3: <a href="https://github.com/harsha-simhadri/big-ann-benchmarks/pull/63">OptaNNe</a>  Sourabh Dongaonkar, Mark Hildebrand, Mariano Tepper, Cecilia Aguerrebere, Ted Willke, Jawad Khan, <i>Intel Corporation, Intel Labs and UC Davis</i> (<a href="templates/slides/optanne.pptx">slides</a>, <a href="https://youtu.be/XgtKUsGhyG4">video</a>)</li>
+                    </ul>
+                  </li>
+                  <li> 14:30-15:00: Open discussion on competition and future directions (<a href="https://github.com/harsha-simhadri/big-ann-benchmarks/issues/90">github thread</a>, <a href="https://youtu.be/9I4GC1eGWCk">video</a>) </li>
+                </ul>
+              <p>
+                <strong>Abstract for Invited talk: "Learning to Hash Robustly, with Guarantees"</strong> <BR>
+                    There is a gap between the high-dimensional nearest neighbor search
+                    (NNS) algorithms achieving the best worst-case guarantees and the
+                    top-performing ones in practice. The former are based on indexing via
+                    the randomized Locality Sensitive Hashing (LSH), and its
+                    derivatives. The latter "learn" the best indexing method in order to
+                    speed-up NNS, crucially adapting to the structure of the given 
+                    dataset. Alas, the latter also almost always come at the cost of 
+                    losing the guarantees of either correctness or robust performance on 
+                    adversarial queries (or apply to datasets with an assumed extra 
+                    structure/model).
+                    
+                    How can we bridge these two perspectives and bring the best of both
+                    worlds?  As a step in this direction, we will talk about an NNS algorithm
+                    that has worst-case guarantees essentially matching that of
+                    theoretical algorithms, while optimizing the hashing to the structure
+                    of the dataset (think instance-optimal algorithms) for performance on
+                    the minimum-performing query. We will discuss the algorithm's ability
+                    to optimize for a given dataset from both theoretical and practical
+                    perspective.
+                </p>
+  
+                <p>
+                <strong>Abstract for Invited talk: "Iterative Repartitioning for Learning to Hash  and the Power of k-Choices"</strong> <BR>
+                  Dense embedding models are commonly deployed in commercial
+                  search engines, wherein all the vectors are pre-computed, and
+                  near-neighbor search (NNS) is performed with the query vector to find
+                  relevant documents. However, the bottleneck of indexing a large number
+                  of dense vectors and performing an NNS hurts the query time and
+                  accuracy of these models. In this talk, we argue that high-dimensional
+                  and ultra-sparse embedding is a significantly superior alternative to
+                  dense low-dimensional embedding for both query efficiency and
+                  accuracy. Extreme sparsity eliminates the need for NNS by replacing
+                  them with simple lookups, while its high dimensionality ensures that
+                  the embeddings are informative even when sparse. However, learning
+                  extremely high dimensional embeddings leads to blow-up in the model
+                  size. To make the training feasible, we propose a partitioning
+                  algorithm that learns such high-dimensional embeddings across multiple
+                  GPUs without any communication. We theoretically prove that our way of
+                  one-sided learning is equivalent to learning both query and label
+                  embeddings. We call our novel system designed on sparse embeddings as
+                  IRLI (pronounced `early'), which iteratively partitions the items by
+                  learning the relevant buckets directly from the query-item relevance
+                  data. Furthermore, IRLI employs a superior power-of-k-choices based
+                  load balancing strategy. We mathematically show that IRLI retrieves
+                  the correct item with high probability under very natural assumptions
+                  and provides superior load balancing. IRLI surpasses the best
+                  baseline's precision on multi-label classification while being 5x
+                  faster on inference. For near-neighbor search tasks, the same method
+                  outperforms the state-of-the-art Learned Hashing approach NeuralLSH by
+                  requiring only ~ {1/6}^th of the candidates for the same recall. IRLI
+                  is both data and model parallel, making it ideal for distributed GPU
+                  implementation. We demonstrate this advantage by indexing 100 million
+                  dense vectors and surpassing the popular FAISS library by >10%.
+                </p>
+                </div>
+
+
+            <div id="organizers">
+              <h2>Organizers and Dataset Contributors</h2>
+              <ul>
+                <li><a href="https://harsha-simhadri.org/" target="_blank">Harsha Vardhan Simhadri, Microsoft Research India</a></li>
+                <li><a href="https://medium.com/@georgewilliams" target="_blank">George Williams, GSI Technology</a> </li>
+                <li><a href="http://www.itu.dk/people/maau/" target="_blank">Martin Aumüller, IT University of Copenhagen</a> </li>
+                <li><a href="https://research.yandex.com/people/102794/" target="_blank">Artem Babenko, Yandex</a></li>
+                <li><a href="https://research.yandex.com/people/610754" target="_blank">Dmitry Baranchuk, Yandex</a></li>
+                <li><a href="https://www.microsoft.com/en-us/research/people/cheqi/" target="_blank">Qi Chen, Microsoft Research Asia</a></li>
+                <li><a href="https://ai.facebook.com/people/matthijs-douze/" target="_blank">Matthijs Douze, Facebook AI Research</a></li>
+                <li><a href="https://github.com/beauby/" target="_blank">Lucas Hosseini, Facebook AI Research</a></li>
+                <li><a href="https://rakri.github.io/" target="_blank">Ravishankar Krishnaswamy, Microsoft Research India and IIT Madras</a></li>
+                <li><a href="https://www.microsoft.com/en-us/research/people/gopalsr//" target="_blank">Gopal Srinivasa, Microsoft Research India</a></li>
+                <li><a href="https://suhasjs.github.io/" target="_blank">Suhas Jayaram Subramanya, Carnegie Mellon University</a></li>
+                <li><a href="https://www.microsoft.com/en-us/research/people/jingdw/" target="_blank">Jingdong Wang, Microsoft Research Asia</a></li>
+              </ul>
+
+            <p>
+              Organizers can be reached at <a href="mailto:big-ann-organizers@googlegroups.com">big-ann-organizers@googlegroups.com</a>.
+            </p>
+            <p>
+              We thank Microsoft Research for help in organizing this competition, and contributing compute credits. 
+              We thank Microsoft Bing and Turing teams for creating datasets for release. 
+            </p>
+            </div>
+        </div>
+    </body>
+</html>
