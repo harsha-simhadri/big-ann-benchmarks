@@ -156,11 +156,17 @@ def compute_metrics_all_runs(dataset, dataset_name, res, recompute=False,
             if not search_times and name=="search_times": #don't process search_times by default
                 continue
             if neurips23track == 'streaming':
-                v = 0
+                v = []
                 assert len(true_nn_across_steps) == len(run_nn_across_steps)
                 for (true_nn, run_nn) in zip(true_nn_across_steps, run_nn_across_steps):
-                    v += metric["function"](true_nn, run_nn, metrics_cache, properties)
-                v /= len(run_nn_across_steps)
+                  clear_cache = True
+                  if clear_cache and 'knn' in metrics_cache:
+                    del metrics_cache['knn']
+                  val = metric["function"](true_nn, run_nn, metrics_cache, properties)
+                  v.append(val)
+                if name == 'k-nn':
+                  print('Recall: ', v)
+                v = numpy.mean(v)
             else:
                 v = metric["function"](true_nn, run_nn, metrics_cache, properties)
             run_result[name] = v
