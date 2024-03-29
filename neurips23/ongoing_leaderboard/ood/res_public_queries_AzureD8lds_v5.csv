@@ -123,3 +123,6 @@ pinecone-ood,"pinecone-ood(('OODIndex32768[HNSW32]_spillage=1', {'index_str': 'O
 pinecone-ood,"pinecone-ood(('OODIndex32768[HNSW32]_spillage=1', {'index_str': 'OODIndex32768[HNSW32]_spillage=1'}, {'nprobe': '55', 'kfactor': '2'}))",text2image-10M,10,37320.02224446669,0.0,-1.0,12638196.0,0,0,ood,0.901603
 pinecone-ood,"pinecone-ood(('OODIndex32768[HNSW32]_spillage=1', {'index_str': 'OODIndex32768[HNSW32]_spillage=1'}, {'nprobe': '52', 'kfactor': '3'}))",text2image-10M,10,37564.66762604567,0.0,-1.0,12638196.0,0,0,ood,0.9016970000000001
 pinecone-ood,"pinecone-ood(('OODIndex32768[HNSW32]_spillage=1', {'index_str': 'OODIndex32768[HNSW32]_spillage=1'}, {'nprobe': '60', 'kfactor': '2'}))",text2image-10M,10,35178.14248715093,0.0,-1.0,12638196.0,0,0,ood,0.907671
+scann,"ScaNN,tree=27/40000,AH2,reorder=140",text2image-10M,10,49638.85439366108,0.0,2.384185791015625e-05,5193604.0,0,0,ood,0.8801439999999999
+scann,"ScaNN,tree=35/40000,AH2,reorder=150",text2image-10M,10,42017.953809847575,0.0,2.1696090698242188e-05,5193712.0,0,0,ood,0.9002129999999999
+scann,"ScaNN,tree=42/40000,AH2,reorder=160",text2image-10M,10,37230.35468884727,0.0,2.5272369384765625e-05,5193912.0,0,0,ood,0.9140969999999999
