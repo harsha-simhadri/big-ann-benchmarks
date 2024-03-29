@@ -27,8 +27,6 @@ Note: "pinecone_smips" and "zilliz" are not open source
 ### Streaming track
 The [result file](streaming/res_final_runbook_AzureD8lds_v5.csv) lists measurements for all streaming algorithms on Azure D8lds_v5. 
 
-While the highest achieved recall@10 is 0.99786 (by pinecone), the similar submission by zilliz has almost the same recall at 0.99768. Since in the current setup of the track it seems that there is little innovation left, this streaming track in its current form will no longer be tracked in future leaderboards.
-
 ## Ongoing Leaderboard Rules
 
 The leaderboard is evaluated periodically, collecting new algorithm submissions. The current update is from March. 1st, 2024.
