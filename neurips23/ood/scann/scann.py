@@ -70,7 +70,7 @@ class Scann(BaseOODANN):
       }}
       partitioning {{
         num_children: { self.tree_size }
-        max_clustering_iterations: 10
+        max_clustering_iterations: 40
         min_cluster_size: 10
         partitioning_distance {{
           distance_measure: "SquaredL2Distance"
@@ -78,7 +78,7 @@ class Scann(BaseOODANN):
         num_cpus: 8
         database_spilling {{
           spilling_type: TWO_CENTER_ORTHOGONALITY_AMPLIFIED
-          orthogonality_amplification_lambda: 1.5
+          orthogonality_amplification_lambda: 1.3
           overretrieve_factor: 1.2
         }}
         query_spilling {{
@@ -92,7 +92,7 @@ class Scann(BaseOODANN):
         query_tokenization_type: FLOAT
         balancing_type: UNBALANCED_FLOAT32
         single_machine_center_initialization: RANDOM_INITIALIZATION
-        avq: 1.8
+        avq: 1.6
       }}
       hash {{
         asymmetric_hash {{
@@ -120,7 +120,7 @@ class Scann(BaseOODANN):
           enabled: true
         }}
       }}
-      #custom_search_method: "experimental_top_level_partitioner:700,20,3.0,2.5,1.8"
+      custom_search_method: "experimental_top_level_partitioner:700,20,3.0,2.5,1.8"
     """
 
         ds = DATASETS[dataset]()
@@ -128,29 +128,29 @@ class Scann(BaseOODANN):
         self.searcher = (scann.scann_ops_pybind.builder(
             np.zeros([0, ds.d]).astype('float32'), k, 'dot_product')
             .score_brute_force()
-            .build(docids=[]))
+            .build())
         self.searcher.reserve(10_000_000)
 
         # Avoid loading the full database..
         import gc
         s = 0
-        for data in ds.get_dataset_iterator(bs=1_000_000):
+        trained = False
+        for data in ds.get_dataset_iterator(bs=100_000):
             print(f'ScaNN: Read datapoints: {s}')
-            docids = [i for i in range(s, s+len(data))]
-            self.searcher.upsert(docids, data)
+            self.searcher.searcher.upsert([None] * len(data), data, len(data))
             s += len(data)
+            del data
+            gc.collect()
+            if not trained and s >= 8_000_000:
+                self.searcher.set_num_threads(8)
+                self.searcher.rebalance(config)
+                self.searcher.set_num_threads(8)
+                trained = True
         del ds
-        self.searcher.docid_to_id = None
-        self.searcher.docids = None
+        # path = Path(self.serialized_dir)
+        # path.mkdir(parents=True, exist_ok=True)
+        # self.searcher.serialize(self.serialized_dir)
         gc.collect()
-        print('ScaNN: Training')
-        self.searcher.set_num_threads(8)
-        self.searcher = scann.scann_ops_pybind.create_searcher(data, config)
-        print('ScaNN: Training done.')
-        path = Path(self.serialized_dir)
-        path.mkdir(parents=True, exist_ok=True)
-        self.searcher.serialize(self.serialized_dir)
-        self.searcher.set_num_threads(8)
 
     def query(self, X, k):
         self.res = self.searcher.search_batched_parallel(
