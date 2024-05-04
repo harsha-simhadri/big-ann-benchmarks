@@ -173,6 +173,31 @@ class DatasetCompetitionFormat(Dataset):
             assert header[1] == self.d
             header[0] = self.nb
 
+    def download_slice(self, num_vectors, original_size=10**9):
+        fn = self.ds_fn
+        sourceurl = os.path.join(self.base_url, fn)
+        outfile = os.path.join(self.basedir, fn)
+        if os.path.exists(outfile):
+            print("file %s already exists" % outfile)
+            return
+        if self.nb < num_vectors:
+            raise RuntimeError("not enough points")
+        else:
+            # download cropped version of file
+            file_size = 8 + self.d * num_vectors * np.dtype(self.dtype).itemsize
+            outfile = outfile + '.crop_nb_%d' % num_vectors
+            if os.path.exists(outfile):
+                print("file %s already exists" % outfile)
+                return
+            download(sourceurl, outfile, max_size=file_size)
+            # then overwrite the header...
+            header = np.memmap(outfile, shape=2, dtype='uint32', mode="r+")
+            
+            assert header[0] == original_size
+            assert header[1] == self.d
+            header[0] = num_vectors
+
+
     def get_dataset_fn(self):
         fn = os.path.join(self.basedir, self.ds_fn)
         if self.nb != 10**9:
