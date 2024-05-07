@@ -9,7 +9,12 @@ text2image-10M:
           args: |
             [{"tree_size": 40000, "download": true, "config_id": 0}]
           query-args: |
-            [{"leaves_to_search": 35, "reorder": 150}]
+            [{"leaves_to_search": 35, "reorder": 150},
+             {"leaves_to_search": 35, "reorder": 155},
+             {"leaves_to_search": 36, "reorder": 150},
+             {"leaves_to_search": 37, "reorder": 145},
+             {"leaves_to_search": 38, "reorder": 140},
+             {"leaves_to_search": 34, "reorder": 155}]
         tree40k-config1:
           args: |
             [{"tree_size": 40000, "download": true, "config_id": 1}]

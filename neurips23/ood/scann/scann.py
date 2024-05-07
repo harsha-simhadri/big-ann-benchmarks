@@ -118,6 +118,7 @@ class Scann(BaseOODANN):
         approx_num_neighbors: 150
         bfloat16 {{
           enabled: true
+          noise_shaping_threshold: 0.2
         }}
       }}
       custom_search_method: "experimental_top_level_partitioner:700,20,3.0,2.5,1.8"
