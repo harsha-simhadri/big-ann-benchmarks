@@ -51,14 +51,20 @@ def create_plot(all_data, raw, x_scale, y_scale, xn, yn, fn_out, linestyles):
     ax.set_xlabel(xm['description'])
     # Custom scales of the type --x-scale a3
     if x_scale[0] == 'a':
-        alpha = int(x_scale[1:])
+        if x_scale[1:] == 'neurips23ood':
+          alpha = 3
+        else:
+          alpha = int(x_scale[1:])
         fun = lambda x: 1-(1-x)**(1/alpha)
         inv_fun = lambda x: 1-(1-x)**alpha
         ax.set_xscale('function', functions=(fun, inv_fun))
-        if alpha <= 3:
+        if x_scale[1:] == 'neurips23ood':
+          xm['lim'] = (0.7, 0.97)
+          plt.xticks([0.7, 0.75, 0.8, 0.85, 0.9, 0.95])
+        elif alpha <= 3:
             ticks = [inv_fun(x) for x in np.arange(0,1.2,.2)]
             plt.xticks(ticks)
-        if alpha > 3:
+        elif alpha > 3:
             from matplotlib import ticker
             ax.xaxis.set_major_formatter(ticker.LogitFormatter())
             #plt.xticks(ticker.LogitLocator().tick_values(min_x, max_x))

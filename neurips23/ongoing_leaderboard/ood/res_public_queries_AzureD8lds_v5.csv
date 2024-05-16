@@ -123,3 +123,11 @@ pinecone-ood,"pinecone-ood(('OODIndex32768[HNSW32]_spillage=1', {'index_str': 'O
 pinecone-ood,"pinecone-ood(('OODIndex32768[HNSW32]_spillage=1', {'index_str': 'OODIndex32768[HNSW32]_spillage=1'}, {'nprobe': '55', 'kfactor': '2'}))",text2image-10M,10,37320.02224446669,0.0,-1.0,12638196.0,0,0,ood,0.901603
 pinecone-ood,"pinecone-ood(('OODIndex32768[HNSW32]_spillage=1', {'index_str': 'OODIndex32768[HNSW32]_spillage=1'}, {'nprobe': '52', 'kfactor': '3'}))",text2image-10M,10,37564.66762604567,0.0,-1.0,12638196.0,0,0,ood,0.9016970000000001
 pinecone-ood,"pinecone-ood(('OODIndex32768[HNSW32]_spillage=1', {'index_str': 'OODIndex32768[HNSW32]_spillage=1'}, {'nprobe': '60', 'kfactor': '2'}))",text2image-10M,10,35178.14248715093,0.0,-1.0,12638196.0,0,0,ood,0.907671
+scann,"ScaNN,tree=27/40000,AH2,reorder=140",text2image-10M,10,48296.886642618236,0.0,12124.119821548462,6587528.0,0,0,ood,0.8840809999999999
+scann,"ScaNN,tree=34/40000,AH2,reorder=155",text2image-10M,10,43372.02235782551,0.0,12131.287629842758,6612140.0,0,0,ood,0.899724
+scann,"ScaNN,tree=35/40000,AH2,reorder=150",text2image-10M,10,41897.94105624706,0.0,12131.287629842758,6612140.0,0,0,ood,0.9004429999999999
+scann,"ScaNN,tree=35/40000,AH2,reorder=155",text2image-10M,10,41987.20634235152,0.0,12131.287629842758,6612140.0,0,0,ood,0.9012399999999999
+scann,"ScaNN,tree=36/40000,AH2,reorder=150",text2image-10M,10,42285.962239376444,0.0,12131.287629842758,6612140.0,0,0,ood,0.901969
+scann,"ScaNN,tree=37/40000,AH2,reorder=145",text2image-10M,10,42854.013476886255,0.0,12131.287629842758,6612140.0,0,0,ood,0.90249
+scann,"ScaNN,tree=38/40000,AH2,reorder=140",text2image-10M,10,42326.04841208092,0.0,12131.287629842758,6612140.0,0,0,ood,0.902833
+scann,"ScaNN,tree=42/40000,AH2,reorder=160",text2image-10M,10,38892.123997724135,0.0,12105.756680965424,6689552.0,0,0,ood,0.911592
