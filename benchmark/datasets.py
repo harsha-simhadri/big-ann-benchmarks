@@ -175,12 +175,10 @@ class DatasetCompetitionFormat(Dataset):
 
     def get_dataset_fn(self):
         fn = os.path.join(self.basedir, self.ds_fn)
-        if self.nb != 10**9:
-            fn += '.crop_nb_%d' % self.nb
         if os.path.exists(fn):
             return fn
         else:
-            raise RuntimeError("file not found")
+            raise RuntimeError("file %s not found" %fn)
 
     def get_dataset_iterator(self, bs=512, split=(1,0)):
         nsplit, rank = split
@@ -247,9 +245,21 @@ class DatasetCompetitionFormat(Dataset):
             D = D[:, :k]
         return I, D
 
+class BillionScaleDatasetCompetitionFormat(DatasetCompetitionFormat):
+
+    def get_dataset_fn(self):
+        fn = os.path.join(self.basedir, self.ds_fn)
+        if self.nb != 10**9:
+            fn += '.crop_nb_%d' % self.nb
+        if os.path.exists(fn):
+            return fn
+        else:
+            raise RuntimeError("file %s not found" %fn)
+
+
 subset_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/"
 
-class SSNPPDataset(DatasetCompetitionFormat):
+class SSNPPDataset(BillionScaleDatasetCompetitionFormat):
     def __init__(self, nb_M=1000):
         # assert nb_M in (10, 1000)
         self.nb_M = nb_M
@@ -295,7 +305,7 @@ class SSNPPDataset(DatasetCompetitionFormat):
         fn = self.private_gt_url.split("/")[-1]   # in case it's a URL
         return range_result_read(os.path.join(self.basedir, fn))
 
-class BigANNDataset(DatasetCompetitionFormat):
+class BigANNDataset(BillionScaleDatasetCompetitionFormat):
     def __init__(self, nb_M=1000):
         self.nb_M = nb_M
         self.nb = 10**6 * nb_M
@@ -322,7 +332,7 @@ class BigANNDataset(DatasetCompetitionFormat):
     def distance(self):
         return "euclidean"
 
-class Deep1BDataset(DatasetCompetitionFormat):
+class Deep1BDataset(BillionScaleDatasetCompetitionFormat):
     def __init__(self, nb_M=1000):
         self.nb_M = nb_M
         self.nb = 10**6 * nb_M
@@ -352,7 +362,7 @@ class Deep1BDataset(DatasetCompetitionFormat):
 
 
 
-class Text2Image1B(DatasetCompetitionFormat):
+class Text2Image1B(BillionScaleDatasetCompetitionFormat):
     def __init__(self, nb_M=1000):
         self.nb_M = nb_M
         self.nb = 10**6 * nb_M
@@ -386,7 +396,7 @@ class Text2Image1B(DatasetCompetitionFormat):
             dtype='float32', shape=(maxn, 200), mode='r')
         return np.array(xq_train)
 
-class MSTuringANNS(DatasetCompetitionFormat):
+class MSTuringANNS(BillionScaleDatasetCompetitionFormat):
     def __init__(self, nb_M=1000):
         self.nb_M = nb_M
         self.nb = 10**6 * nb_M
@@ -460,7 +470,7 @@ class MSTuringClustered30M(DatasetCompetitionFormat):
     def prepare(self, skip_data=False, original_size=10 ** 9):
         return super().prepare(skip_data, original_size = self.nb)
 
-class MSSPACEV1B(DatasetCompetitionFormat):
+class MSSPACEV1B(BillionScaleDatasetCompetitionFormat):
     def __init__(self, nb_M=1000):
         self.nb_M = nb_M
         self.nb = 10**6 * nb_M
