@@ -740,8 +740,8 @@ class SparseDataset(DatasetCompetitionFormat):
         self.basedir = os.path.join(BASEDIR, "sparse")
 
         self.gt_fn = versions[version][2]
-        self.private_gt = "base_full.hidden.gt"
-        self.private_gt_url = self.base_url + self.private_gt
+        self.private_gt_fn = "base_full.hidden.gt"
+        self.private_gt_url = self.base_url + self.private_gt_fn
 
         self.d = np.nan # this is only for compatibility with printing the name of the class
 
@@ -752,7 +752,7 @@ class SparseDataset(DatasetCompetitionFormat):
             os.makedirs(self.basedir)
 
         # start with the small ones...
-        for fn in [self.qs_fn, self.gt_fn, self.qs_private_fn, self.private_gt]:
+        for fn in [self.qs_fn, self.gt_fn, self.qs_private_fn, self.private_gt_fn]:
             if fn is None:
                 continue
 
