@@ -9,7 +9,6 @@ import gc
 import resource
 import threading
 import json
-
 from multiprocessing.pool import ThreadPool
 
 from benchmark.algorithms.base import BaseANN
@@ -187,6 +186,7 @@ def build_index(buildthreads, by_residual, maxtrain, clustering_niter,
                 print("  adding %d:%d / %d [%.3f s, RSS %d kiB] " % (
                     i0, i1, ds.nb, time.time() - t0,
                     faiss.get_mem_usage_kb()))
+                xblock = xblock.astype('f4')
                 index.add_core(
                     len(xblock),
                     faiss.swig_ptr(xblock),
@@ -250,13 +250,7 @@ class IndexQuantizerOnGPU:
         t0 = time.time()
         for i0, xblock, Dc, Ic in stage2:
             ni = len(xblock)
-            self.index_ivf.search_preassigned(
-                ni, faiss.swig_ptr(xblock),
-                k, sp(Ic), sp(Dc),
-                sp(D[i0:]), sp(I[i0:]),
-                False
-            )
-
+        D[i0:i0+ni], I[i0:i0+ni] = self.index_ivf.search_preassigned(xblock, k, Ic, Dc)
         return D, I
 
     def range_search(self, x, radius):
