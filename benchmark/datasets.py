@@ -498,6 +498,11 @@ class MSSPACEV1B(BillionScaleDatasetCompetitionFormat):
     def distance(self):
         return "euclidean"
 
+'''
+The base vectors of Wikipedia-Cohere consist of 35 million cohere embeddings of the title and text of Wikipedia English articles. 
+The 5000 query vectors consist of 5000 cohere embeddings of the title and text of Wikipedia simple articles.
+See https://huggingface.co/datasets/Cohere/wikipedia-22-12-en-embeddings?row=2 for more details.
+'''
 class WikipediaDataset(BillionScaleDatasetCompetitionFormat):
     def __init__(self, nb=35000000):
         self.nb = nb
@@ -537,6 +542,12 @@ class WikipediaDataset(BillionScaleDatasetCompetitionFormat):
     def distance(self):
         return "ip"
 
+'''
+The MSMarco Web Search dataset has 100,924,960 base vectors consisting of embeddings of web documents 
+from the ClueWeb22 document dataset, while its 9,374 queries correspond to web queries collected from 
+the Microsoft Bing search engine.
+See https://github.com/microsoft/MS-MARCO-Web-Search for more details.
+'''
 class MSMarcoWebSearchDataset(BillionScaleDatasetCompetitionFormat):
     def __init__(self, nb=101070374):
         self.nb = nb
