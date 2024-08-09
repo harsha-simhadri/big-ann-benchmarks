@@ -131,13 +131,13 @@ To make the results available for post-processing, change permissions of the res
 sudo chmod 777 -R results/
 ```
 
-The following command will summarize all results files into a single csv file `res.csv` suitable for further processing. 
+The following command will summarize all results files into a single csv file `res.csv` suitable for further processing. This file lists the recall and other metrics for each run configuration.
 
 ```
 python data_export.py --out res.csv
 ```
 
-To plot QPS vs recall, you can use `plot.py` as follows:
+To plot QPS vs recall for a dataset/track and across all algoritms and parameter configurations, you can use `plot.py` as follows (this does not apply to streaming track which reports a single recall number per runbook/algorithm):
 ```
 python plot.py --dataset yfcc-10M --neurips23track filter
 ```
