@@ -619,6 +619,12 @@ class MSMarcoWebSearchDataset(BillionScaleDatasetCompetitionFormat):
     def distance(self):
         return "ip"
 
+'''
+The OpenAI-ArXiv dataset consists of 2321096 1536-dimensional OpenAI ada-002 
+embeddings of the abstracts of ArXiv papers, with 20000 queries drawn from the same source. 
+The ArXiv dataset was released by Cornell University and can be found here:
+https://www.kaggle.com/datasets/Cornell-University/arxiv
+'''
 class OpenAIArXivDataset(DatasetCompetitionFormat):
     def __init__(self, nb=2321096):
         self.nb = nb
