@@ -45,8 +45,8 @@ def output_gt(ds, tag_to_id, step, gt_cmdline, runbook_path):
         ids_list.append(id)
         tags_list.append(tag)
 
-    ids = np.array(ids_list)
-    tags = np.array(tags_list)
+    ids = np.array(ids_list, dtype = np.uint32)
+    tags = np.array(tags_list, dtype = np.uint32)
     print(len(tag_to_id))
     print(len(ids))
     print(len(tags))

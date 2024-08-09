@@ -7,6 +7,7 @@ def load_runbook(dataset_name, max_pts, runbook_file):
         run_list = []
         while i in runbook:
             entry = runbook.get(i)
+            print(entry)
             if entry['operation'] not in {'insert', 'delete', 'search', 'replace'}:
                 raise Exception('Undefined runbook operation')
             if entry['operation']  in {'insert', 'delete'}:
@@ -19,21 +20,21 @@ def load_runbook(dataset_name, max_pts, runbook_file):
                 if entry['end'] < 0 or entry['end'] > max_pts:
                     raise Exception('End out of range in runbook')
             if entry['operation'] in {'replace'}:
-                if 'to_replace_start' not in entry:
+                if 'tags_start' not in entry:
                     raise Exception('Start of indices to be replaced not specified in runbook')
-                if 'to_replace_end' not in entry:
+                if 'tags_end' not in entry:
                     raise Exception('End of indices to be replaced not specified in runbook')
-                if 'replace_ids_start' not in entry:
+                if 'ids_start' not in entry:
                     raise Exception('Start of indices to replace not specified in runbook')
-                if 'replace_ids_end' not in entry:
+                if 'ids_end' not in entry:
                     raise Exception('End of indices to replace not specified in runbook')
-                if entry['to_replace_start'] < 0 or entry ['to_replace_start'] >= max_pts:
+                if entry['tags_start'] < 0 or entry ['tags_start'] >= max_pts:
                     raise Exception('Start of indices to be replaced out of range in runbook') 
-                if entry['to_replace_end'] < 0 or entry ['to_replace_end'] > max_pts:
+                if entry['tags_end'] < 0 or entry ['tags_end'] > max_pts:
                     raise Exception('End of indices to be replaced out of range in runbook') 
-                if entry['replace_ids_start'] < 0 or entry ['replace_ids_start'] >= max_pts:
+                if entry['ids_start'] < 0 or entry ['ids_start'] >= max_pts:
                     raise Exception('Start of indices to replace out of range in runbook') 
-                if entry['replace_ids_end'] < 0 or entry ['replace_ids_end'] > max_pts:
+                if entry['ids_end'] < 0 or entry ['ids_end'] > max_pts:
                     raise Exception('End of indices to replace out of range in runbook') 
             i += 1
             run_list.append(entry)
