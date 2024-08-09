@@ -7,7 +7,6 @@ def load_runbook(dataset_name, max_pts, runbook_file):
         run_list = []
         while i in runbook:
             entry = runbook.get(i)
-            print(entry)
             if entry['operation'] not in {'insert', 'delete', 'search', 'replace'}:
                 raise Exception('Undefined runbook operation')
             if entry['operation']  in {'insert', 'delete'}:

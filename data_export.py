@@ -97,6 +97,10 @@ if __name__ == "__main__":
             runbook_paths = [None]
             if track == 'streaming':
                 runbook_paths = ['neurips23/streaming/simple_runbook.yaml',
+                                    'neurips23/streaming/simple_replace_runbook.yaml',
+                                    'neurips23/streaming/random_replace_runbook.yaml',
+                                    'neurips23/streaming/clustered_replace_runbook.yaml',
+                                    'neurips23/streaming/clustered_runbook.yaml',
                                     'neurips23/streaming/clustered_runbook.yaml',
                                     'neurips23/streaming/delete_runbook.yaml',
                                     'neurips23/streaming/final_runbook.yaml',

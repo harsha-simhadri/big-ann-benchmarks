@@ -46,9 +46,9 @@ class StreamingRunner(BaseRunner):
                     ids = np.arange(entry['start'], entry['end'], dtype=np.uint32)
                     algo.delete(ids)
                 case 'replace':
-                    tags_to_replace = np.arange(entry['to_replace_start'], entry['to_replace_end'], dtype=np.uint32)
-                    ids_start = entry['replace_ids_start']
-                    ids_end = entry['replace_ids_end']
+                    tags_to_replace = np.arange(entry['tags_start'], entry['tags_end'], dtype=np.uint32)
+                    ids_start = entry['ids_start']
+                    ids_end = entry['ids_end']
                     algo.replace(ds.get_data_in_range(ids_start, ids_end), tags_to_replace)
                 case 'search':
                     if search_type == 'knn':

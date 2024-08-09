@@ -26,8 +26,8 @@ def get_next_set(tag_to_id: np.ndarray, entry):
             return tag_to_id
         case 'replace':
             # replace key with value
-            for i in range(entry['to_replace_end'] - entry['to_replace_start']):
-                tag_to_id[i + entry['to_replace_start']] = entry['replace_ids_start'] + i
+            for i in range(entry['tags_end'] - entry['tags_start']):
+                tag_to_id[i + entry['tags_start']] = entry['ids_start'] + i
             return tag_to_id
         case 'search':
             return tag_to_id
@@ -47,11 +47,7 @@ def output_gt(ds, tag_to_id, step, gt_cmdline, runbook_path):
 
     ids = np.array(ids_list, dtype = np.uint32)
     tags = np.array(tags_list, dtype = np.uint32)
-    print(len(tag_to_id))
-    print(len(ids))
-    print(len(tags))
-    print(ids)
-    print(tags)
+
 
     data = ds.get_data_in_range(0, ds.nb)
     data_slice = data[np.array(ids)]
@@ -64,13 +60,11 @@ def output_gt(ds, tag_to_id, step, gt_cmdline, runbook_path):
     data_file = prefix + '.data'
     gt_file = prefix + '.gt100'
 
-    
-
     with open(tags_file, 'wb') as tf:
         one = 1
         tf.write(tags.size.to_bytes(4, byteorder='little'))
         tf.write(one.to_bytes(4, byteorder='little'))
-        tags.tofile(tf)
+        tags.tofile(tf)    
     with open(data_file, 'wb') as f:
         f.write(ids.size.to_bytes(4, byteorder='little')) #npts
         f.write(ds.d.to_bytes(4, byteorder='little'))
@@ -148,7 +142,6 @@ def main():
         else:
             tag_to_id = get_next_set(tag_to_id, entry)
         if (entry['operation'] == 'search'):
-            print(tag_to_id)
             output_gt(ds, tag_to_id, step, common_cmd, args.runbook_file)
         step += 1
 
