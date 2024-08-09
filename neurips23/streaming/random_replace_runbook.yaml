@@ -1,0 +1,450 @@
+msturing-10M-clustered:
+  max_pts: 6641122
+  1:
+    end: 170550
+    operation: insert
+    start: 0
+  2:
+    operation: search
+  3:
+    end: 441922
+    operation: insert
+    start: 255771
+  4:
+    operation: search
+  5:
+    end: 658388
+    operation: insert
+    start: 491965
+  6:
+    operation: search
+  7:
+    end: 984005
+    operation: insert
+    start: 824781
+  8:
+    operation: search
+  9:
+    end: 1353604
+    operation: insert
+    start: 1081209
+  10:
+    operation: search
+  11:
+    end: 1778387
+    operation: insert
+    start: 1568760
+  12:
+    operation: search
+  13:
+    end: 2214835
+    operation: insert
+    start: 1959174
+  14:
+    operation: search
+  15:
+    end: 2655948
+    operation: insert
+    start: 2404186
+  16:
+    operation: search
+  17:
+    end: 2985929
+    operation: insert
+    start: 2798660
+  18:
+    operation: search
+  19:
+    end: 3367448
+    operation: insert
+    start: 3082959
+  20:
+    operation: search
+  21:
+    end: 3767906
+    operation: insert
+    start: 3480554
+  22:
+    operation: search
+  23:
+    end: 4130724
+    operation: insert
+    start: 3910930
+  24:
+    operation: search
+  25:
+    end: 4461308
+    operation: insert
+    start: 4194870
+  26:
+    operation: search
+  27:
+    end: 4839923
+    operation: insert
+    start: 4652840
+  28:
+    operation: search
+  29:
+    end: 5032089
+    operation: insert
+    start: 4872616
+  30:
+    operation: search
+  31:
+    end: 5526086
+    operation: insert
+    start: 5184725
+  32:
+    operation: search
+  33:
+    end: 5891879
+    operation: insert
+    start: 5629098
+  34:
+    operation: search
+  35:
+    end: 6218348
+    operation: insert
+    start: 6023119
+  36:
+    operation: search
+  37:
+    end: 6413108
+    operation: insert
+    start: 6292969
+  38:
+    operation: search
+  39:
+    end: 6658829
+    operation: insert
+    start: 6508987
+  40:
+    operation: search
+  41:
+    end: 6958659
+    operation: insert
+    start: 6767675
+  42:
+    operation: search
+  43:
+    end: 7234176
+    operation: insert
+    start: 7000498
+  44:
+    operation: search
+  45:
+    end: 7402476
+    operation: insert
+    start: 7263856
+  46:
+    operation: search
+  47:
+    end: 7683180
+    operation: insert
+    start: 7485517
+  48:
+    operation: search
+  49:
+    end: 8008502
+    operation: insert
+    start: 7739934
+  50:
+    operation: search
+  51:
+    end: 8334761
+    operation: insert
+    start: 8055691
+  52:
+    operation: search
+  53:
+    end: 8578113
+    operation: insert
+    start: 8381008
+  54:
+    operation: search
+  55:
+    end: 8849550
+    operation: insert
+    start: 8750107
+  56:
+    operation: search
+  57:
+    end: 9102186
+    operation: insert
+    start: 8942969
+  58:
+    operation: search
+  59:
+    end: 9466319
+    operation: insert
+    start: 9223315
+  60:
+    operation: search
+  61:
+    end: 9624181
+    operation: insert
+    start: 9508781
+  62:
+    operation: search
+  63:
+    end: 9908074
+    operation: insert
+    start: 9722747
+  64:
+    operation: search
+  65:
+    ids_end: 9970476
+    ids_start: 9908074
+    operation: replace
+    tags_end: 62402
+    tags_start: 0
+  66:
+    operation: search
+  67:
+    ids_end: 7420049
+    ids_start: 7402476
+    operation: replace
+    tags_end: 273344
+    tags_start: 255771
+  68:
+    operation: search
+  69:
+    ids_end: 8623785
+    ids_start: 8578113
+    operation: replace
+    tags_end: 537637
+    tags_start: 491965
+  70:
+    operation: search
+  71:
+    ids_end: 1867257
+    ids_start: 1778387
+    operation: replace
+    tags_end: 913651
+    tags_start: 824781
+  72:
+    operation: search
+  73:
+    ids_end: 9468584
+    ids_start: 9466319
+    operation: replace
+    tags_end: 1083474
+    tags_start: 1081209
+  74:
+    operation: search
+  75:
+    ids_end: 9171728
+    ids_start: 9102186
+    operation: replace
+    tags_end: 1638302
+    tags_start: 1568760
+  76:
+    operation: search
+  77:
+    ids_end: 449264
+    ids_start: 441922
+    operation: replace
+    tags_end: 1966516
+    tags_start: 1959174
+  78:
+    operation: search
+  79:
+    ids_end: 2326420
+    ids_start: 2214835
+    operation: replace
+    tags_end: 2515771
+    tags_start: 2404186
+  80:
+    operation: search
+  81:
+    ids_end: 3053826
+    ids_start: 2985929
+    operation: replace
+    tags_end: 2866557
+    tags_start: 2798660
+  82:
+    operation: search
+  83:
+    ids_end: 5047708
+    ids_start: 5032089
+    operation: replace
+    tags_end: 3098578
+    tags_start: 3082959
+  84:
+    operation: search
+  85:
+    ids_end: 3827125
+    ids_start: 3767906
+    operation: replace
+    tags_end: 3539773
+    tags_start: 3480554
+  86:
+    operation: search
+  87:
+    ids_end: 7722589
+    ids_start: 7683180
+    operation: replace
+    tags_end: 3950339
+    tags_start: 3910930
+  88:
+    operation: search
+  89:
+    ids_end: 2715056
+    ids_start: 2655948
+    operation: replace
+    tags_end: 4253978
+    tags_start: 4194870
+  90:
+    operation: search
+  91:
+    ids_end: 666699
+    ids_start: 658388
+    operation: replace
+    tags_end: 4661151
+    tags_start: 4652840
+  92:
+    operation: search
+  93:
+    ids_end: 6464489
+    ids_start: 6413108
+    operation: replace
+    tags_end: 4923997
+    tags_start: 4872616
+  94:
+    operation: search
+  95:
+    ids_end: 8911561
+    ids_start: 8849550
+    operation: replace
+    tags_end: 5246736
+    tags_start: 5184725
+  96:
+    operation: search
+  97:
+    ids_end: 214429
+    ids_start: 170550
+    operation: replace
+    tags_end: 5672977
+    tags_start: 5629098
+  98:
+    operation: search
+  99:
+    ids_end: 5623390
+    ids_start: 5526086
+    operation: replace
+    tags_end: 6120423
+    tags_start: 6023119
+  100:
+    operation: search
+  101:
+    ids_end: 3433790
+    ids_start: 3367448
+    operation: replace
+    tags_end: 6359311
+    tags_start: 6292969
+  102:
+    operation: search
+  103:
+    ids_end: 6757160
+    ids_start: 6658829
+    operation: replace
+    tags_end: 6607318
+    tags_start: 6508987
+  104:
+    operation: search
+  105:
+    ids_end: 4844417
+    ids_start: 4839923
+    operation: replace
+    tags_end: 6772169
+    tags_start: 6767675
+  106:
+    operation: search
+  107:
+    ids_end: 5910157
+    ids_start: 5891879
+    operation: replace
+    tags_end: 7018776
+    tags_start: 7000498
+  108:
+    operation: search
+  109:
+    ids_end: 6992439
+    ids_start: 6958659
+    operation: replace
+    tags_end: 7297636
+    tags_start: 7263856
+  110:
+    operation: search
+  111:
+    ids_end: 4537475
+    ids_start: 4461308
+    operation: replace
+    tags_end: 7561684
+    tags_start: 7485517
+  112:
+    operation: search
+  113:
+    ids_end: 4141330
+    ids_start: 4130724
+    operation: replace
+    tags_end: 7750540
+    tags_start: 7739934
+  114:
+    operation: search
+  115:
+    ids_end: 9715601
+    ids_start: 9624181
+    operation: replace
+    tags_end: 8147111
+    tags_start: 8055691
+  116:
+    operation: search
+  117:
+    ids_end: 8024912
+    ids_start: 8008502
+    operation: replace
+    tags_end: 8397418
+    tags_start: 8381008
+  118:
+    operation: search
+  119:
+    ids_end: 1453047
+    ids_start: 1353604
+    operation: replace
+    tags_end: 8849550
+    tags_start: 8750107
+  120:
+    operation: search
+  121:
+    ids_end: 1054574
+    ids_start: 984005
+    operation: replace
+    tags_end: 9013538
+    tags_start: 8942969
+  122:
+    operation: search
+  123:
+    ids_end: 8375611
+    ids_start: 8334761
+    operation: replace
+    tags_end: 9264165
+    tags_start: 9223315
+  124:
+    operation: search
+  125:
+    ids_end: 6264887
+    ids_start: 6218348
+    operation: replace
+    tags_end: 9555320
+    tags_start: 9508781
+  126:
+    operation: search
+  127:
+    ids_end: 7256463
+    ids_start: 7234176
+    operation: replace
+    tags_end: 9745034
+    tags_start: 9722747
+  128:
+    operation: search
