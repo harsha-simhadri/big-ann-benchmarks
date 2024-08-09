@@ -4,6 +4,8 @@ import random
 
 dataset_name="wikipedia-35M"
 
+random.seed(809)
+
 total_points=35000000
 max_t=350
 

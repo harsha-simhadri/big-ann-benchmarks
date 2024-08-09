@@ -4,6 +4,8 @@ import random
 
 dataset_name="msmarco-100M"
 
+random.seed(809)
+
 total_points=101070374
 max_t=1000
 # insert the points in 1000 steps
