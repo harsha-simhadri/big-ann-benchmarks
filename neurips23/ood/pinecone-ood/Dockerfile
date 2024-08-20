@@ -10,12 +10,5 @@ RUN DEBIAN_FRONTEND=noninteractive apt install -y git make cmake g++ libaio-dev 
 RUN git clone --branch ood https://github.com/pinecone-io/bigann.git
 RUN pip install ./bigann/*.whl
 # verify that the build worked
-RUN python3 -c 'import pys2;'
 RUN python3 -c 'import diskannpy;'
-
-#COPY DiskANN-fast-l2 ./DiskANN-fast-l2
-#WORKDIR /home/app/DiskANN-fast-l2
-#RUN pip3 install virtualenv build
-#RUN python3 -m build
-#RUN pip install dist/diskannpy-0.7.0rc2-cp310-cp310-linux_x86_64.whl
-#WORKDIR /home/app
+RUN python3 -c 'import pys2;'

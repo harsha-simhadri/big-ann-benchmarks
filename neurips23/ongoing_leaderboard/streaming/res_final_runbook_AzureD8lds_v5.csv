@@ -1,0 +1,26 @@
+algorithm,parameters,dataset,count,distcomps,build,indexsize,mean_ssd_ios,mean_latency,track,recall/ap
+cufe,"diskann(('R32_L50', {'Ls': 70, 'T': 16}))",msturing-30M-clustered(final_runbook.yaml),10,0.0,1.3113090991973877,4885788.0,0.0,0.0,streaming,0.583055046875
+cufe,"diskann(('R32_L70', {'Ls': 70, 'T': 16}))",msturing-30M-clustered(final_runbook.yaml),10,0.0,1.0831573009490967,4887188.0,0.0,0.0,streaming,0.624561953125
+cufe,"diskann(('R50_L50', {'Ls': 70, 'T': 16}))",msturing-30M-clustered(final_runbook.yaml),10,0.0,1.8305697441101074,4886520.0,0.0,0.0,streaming,0.648414546875
+diskann,"diskann(('R32_L50', {'Ls': 70, 'T': 16}))",msturing-30M-clustered(final_runbook.yaml),10,0.0,1.1122524738311768,4886768.0,0.0,0.0,streaming,0.6645060468749999
+diskann,"diskann(('R32_L70', {'Ls': 70, 'T': 16}))",msturing-30M-clustered(final_runbook.yaml),10,0.0,1.0698881149291992,4887680.0,0.0,0.0,streaming,0.70397678125
+diskann,"diskann(('R50_L50', {'Ls': 70, 'T': 16}))",msturing-30M-clustered(final_runbook.yaml),10,0.0,1.1081297397613525,4886700.0,0.0,0.0,streaming,0.7217818906250001
+hwtl_sdu_anns_stream,"HWTL_SDU_ANNS_stream(('R65_L70', {'Ls': 100, 'T': 16}))",msturing-30M-clustered(final_runbook.yaml),10,0.0,1.0948116779327393,4886164.0,0.0,0.0,streaming,0.768952
+pinecone,"pinecone(('R32_L100', {'Ls': 300, 'k_1': 30, 'T': 8}))",msturing-30M-clustered(final_runbook.yaml),10,0.0,0.4915146827697754,2010240.0,0.0,0.0,streaming,0.87917684375
+pinecone,"pinecone(('R32_L100', {'Ls': 400, 'k_1': 30, 'T': 8}))",msturing-30M-clustered(final_runbook.yaml),10,0.0,0.48432421684265137,2010132.0,0.0,0.0,streaming,0.897700875
+pinecone,"pinecone(('R32_L100', {'Ls': 500, 'k_1': 30, 'T': 8}))",msturing-30M-clustered(final_runbook.yaml),10,0.0,0.5003581047058105,2011976.0,0.0,0.0,streaming,0.91069109375
+pinecone,"pinecone(('R32_L100', {'Ls': 520, 'k_1': 30, 'T': 8}))",msturing-30M-clustered(final_runbook.yaml),10,0.0,0.4860832691192627,2011852.0,0.0,0.0,streaming,0.9122819531249998
+puck,"Puck('C200_F200_FN8_Flat_filter_topk1200', {'radius_rate': 1.0, 'search_coarse_count': 200})",msturing-30M-clustered(final_runbook.yaml),10,0.0,0.04408073425292969,162048.0,0.0,0.0,streaming,0.082635671875
+puck,"Puck('C200_F200_FN8_Flat_filter_topk1500', {'radius_rate': 1.0, 'search_coarse_count': 200})",msturing-30M-clustered(final_runbook.yaml),10,0.0,0.044727325439453125,161992.0,0.0,0.0,streaming,0.08501453125
+puck,"Puck('C200_F200_FN8_Flat_filter_topk2200', {'radius_rate': 1.0, 'search_coarse_count': 200})",msturing-30M-clustered(final_runbook.yaml),10,0.0,0.04478740692138672,162408.0,0.0,0.0,streaming,0.085827234375
+puck,"Puck('C200_F200_FN8_Flat_filter_topk1800', {'radius_rate': 1.0, 'search_coarse_count': 200})",msturing-30M-clustered(final_runbook.yaml),10,0.0,0.0438840389251709,162408.0,0.0,0.0,streaming,0.086184
+puck,"Puck('C200_F200_FN8_Flat_filter_topk2000', {'radius_rate': 1.0, 'search_coarse_count': 200})",msturing-30M-clustered(final_runbook.yaml),10,0.0,0.04354524612426758,162384.0,0.0,0.0,streaming,0.08634762500000001
+puck,"Puck('C200_F200_FN8_Flat_filter_topk1900', {'radius_rate': 1.0, 'search_coarse_count': 200})",msturing-30M-clustered(final_runbook.yaml),10,0.0,0.04436898231506348,161988.0,0.0,0.0,streaming,0.089766546875
+puck,"Puck('C200_F200_FN8_Flat_filter_topk2100', {'radius_rate': 1.0, 'search_coarse_count': 200})",msturing-30M-clustered(final_runbook.yaml),10,0.0,0.04493570327758789,162004.0,0.0,0.0,streaming,0.094701671875
+puck,"Puck('C200_F200_FN8_Flat_filter_topk2300', {'radius_rate': 1.0, 'search_coarse_count': 200})",msturing-30M-clustered(final_runbook.yaml),10,0.0,0.04451322555541992,162284.0,0.0,0.0,streaming,0.09497957812499999
+pyanns,"pyanns(('R32_L100', {'Ls': 300, 'T': 8}))",msturing-30M-clustered(final_runbook.yaml),10,0.0,0.48983025550842285,1993504.0,0.0,0.0,streaming,0.8701873124999999
+scann,"ScaNN,tree=700/5000,AH2,reorder=317",msturing-30M-clustered(final_runbook.yaml),10,0.0,0.0022873878479003906,1024.0,0.0,0.0,streaming,0.9923721875000002
+zilliz,"zilliz(('R32_L110', {'Ls': 400, 'T': 8}))",msturing-30M-clustered(final_runbook.yaml),10,0.0,0.5011320114135742,1997468.0,0.0,0.0,streaming,0.90545821875
+zilliz,"zilliz(('R32_L110', {'Ls': 450, 'T': 8}))",msturing-30M-clustered(final_runbook.yaml),10,0.0,0.5150127410888672,1997640.0,0.0,0.0,streaming,0.9121628749999999
+zilliz,"zilliz(('R32_L110', {'Ls': 500, 'T': 8}))",msturing-30M-clustered(final_runbook.yaml),10,0.0,0.5063564777374268,1998164.0,0.0,0.0,streaming,0.9176968593750001
+zilliz,"zilliz(('R32_L110', {'Ls': 550, 'T': 8}))",msturing-30M-clustered(final_runbook.yaml),10,0.0,0.555382251739502,1997092.0,0.0,0.0,streaming,0.9218934843750001

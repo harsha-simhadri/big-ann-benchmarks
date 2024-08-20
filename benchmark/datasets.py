@@ -158,6 +158,9 @@ class DatasetCompetitionFormat(Dataset):
             return
         if self.nb == 10**9:
             download_accelerated(sourceurl, outfile)
+        elif self.nb == original_size:
+            #if nb vectors is less than 1 billion, can download the whole dataset in the normal fashion without a cropped header
+            download(sourceurl, outfile)
         else:
             # download cropped version of file
             file_size = 8 + self.d * self.nb * np.dtype(self.dtype).itemsize
@@ -168,7 +171,6 @@ class DatasetCompetitionFormat(Dataset):
             download(sourceurl, outfile, max_size=file_size)
             # then overwrite the header...
             header = np.memmap(outfile, shape=2, dtype='uint32', mode="r+")
-            
             assert header[0] == original_size
             assert header[1] == self.d
             header[0] = self.nb
@@ -177,11 +179,8 @@ class DatasetCompetitionFormat(Dataset):
         fn = os.path.join(self.basedir, self.ds_fn)
         if os.path.exists(fn):
             return fn
-        if self.nb != 10**9:
-            fn += '.crop_nb_%d' % self.nb
-            return fn
         else:
-            raise RuntimeError("file not found")
+            raise RuntimeError("file %s not found" %fn)
 
     def get_dataset_iterator(self, bs=512, split=(1,0)):
         nsplit, rank = split
@@ -248,9 +247,21 @@ class DatasetCompetitionFormat(Dataset):
             D = D[:, :k]
         return I, D
 
+class BillionScaleDatasetCompetitionFormat(DatasetCompetitionFormat):
+
+    def get_dataset_fn(self):
+        fn = os.path.join(self.basedir, self.ds_fn)
+        if self.nb != 10**9:
+            fn += '.crop_nb_%d' % self.nb
+        if os.path.exists(fn):
+            return fn
+        else:
+            raise RuntimeError("file %s not found" %fn)
+
+
 subset_url = "https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/"
 
-class SSNPPDataset(DatasetCompetitionFormat):
+class SSNPPDataset(BillionScaleDatasetCompetitionFormat):
     def __init__(self, nb_M=1000):
         # assert nb_M in (10, 1000)
         self.nb_M = nb_M
@@ -296,7 +307,7 @@ class SSNPPDataset(DatasetCompetitionFormat):
         fn = self.private_gt_url.split("/")[-1]   # in case it's a URL
         return range_result_read(os.path.join(self.basedir, fn))
 
-class BigANNDataset(DatasetCompetitionFormat):
+class BigANNDataset(BillionScaleDatasetCompetitionFormat):
     def __init__(self, nb_M=1000):
         self.nb_M = nb_M
         self.nb = 10**6 * nb_M
@@ -323,7 +334,7 @@ class BigANNDataset(DatasetCompetitionFormat):
     def distance(self):
         return "euclidean"
 
-class Deep1BDataset(DatasetCompetitionFormat):
+class Deep1BDataset(BillionScaleDatasetCompetitionFormat):
     def __init__(self, nb_M=1000):
         self.nb_M = nb_M
         self.nb = 10**6 * nb_M
@@ -353,7 +364,7 @@ class Deep1BDataset(DatasetCompetitionFormat):
 
 
 
-class Text2Image1B(DatasetCompetitionFormat):
+class Text2Image1B(BillionScaleDatasetCompetitionFormat):
     def __init__(self, nb_M=1000):
         self.nb_M = nb_M
         self.nb = 10**6 * nb_M
@@ -387,7 +398,7 @@ class Text2Image1B(DatasetCompetitionFormat):
             dtype='float32', shape=(maxn, 200), mode='r')
         return np.array(xq_train)
 
-class MSTuringANNS(DatasetCompetitionFormat):
+class MSTuringANNS(BillionScaleDatasetCompetitionFormat):
     def __init__(self, nb_M=1000):
         self.nb_M = nb_M
         self.nb = 10**6 * nb_M
@@ -461,7 +472,7 @@ class MSTuringClustered30M(DatasetCompetitionFormat):
     def prepare(self, skip_data=False, original_size=10 ** 9):
         return super().prepare(skip_data, original_size = self.nb)
 
-class MSSPACEV1B(DatasetCompetitionFormat):
+class MSSPACEV1B(BillionScaleDatasetCompetitionFormat):
     def __init__(self, nb_M=1000):
         self.nb_M = nb_M
         self.nb = 10**6 * nb_M
@@ -483,6 +494,171 @@ class MSSPACEV1B(DatasetCompetitionFormat):
         self.private_nq = 30000
         self.private_qs_url = "https://comp21storage.z5.web.core.windows.net/comp21/spacev1b/private_query_30k.bin"
         self.private_gt_url = "https://comp21storage.z5.web.core.windows.net/comp21/spacev1b/gt100_private_query_30k.bin"
+
+    def distance(self):
+        return "euclidean"
+
+'''
+The base vectors of Wikipedia-Cohere consist of 35 million cohere embeddings of the title and text of Wikipedia English articles. 
+The 5000 query vectors consist of 5000 cohere embeddings of the title and text of Wikipedia simple articles.
+See https://huggingface.co/datasets/Cohere/wikipedia-22-12-en-embeddings?row=2 for more details.
+'''
+class WikipediaDataset(BillionScaleDatasetCompetitionFormat):
+    def __init__(self, nb=35000000):
+        self.nb = nb
+        self.d = 768
+        self.nq = 5000
+        self.dtype = "float32"
+        self.ds_fn = "wikipedia_base.bin"
+        self.qs_fn = "wikipedia_query.bin"
+        self.gt_fn = (
+            "wikipedia-35M" if self.nb == 35000000 else
+            "wikipedia-1M" if self.nb == 1000000 else
+            "wikipedia-100K" if self.nb == 100000 else
+            None
+        )
+        self.basedir = os.path.join(BASEDIR, "wikipedia_cohere")
+        self.base_url = "https://comp21storage.z5.web.core.windows.net/wiki-cohere-35M/"
+
+        self.private_qs_url = None
+        self.private_gt_url = None
+
+    def prepare(self, skip_data=False, original_size=35000000):
+        return super().prepare(skip_data, 35000000)
+
+    def get_dataset_fn(self):
+        fn = os.path.join(self.basedir, self.ds_fn)
+        if self.nb != 35000000:
+            fn += '.crop_nb_%d' % self.nb
+        if os.path.exists(fn):
+            return fn
+        else:
+            raise RuntimeError("file %s not found" %fn)
+        
+    def get_dataset(self):
+        slice = next(self.get_dataset_iterator(bs=self.nb))
+        return sanitize(slice)
+
+    def distance(self):
+        return "ip"
+
+'''
+The MSMarco Web Search dataset has 100,924,960 base vectors consisting of embeddings of web documents 
+from the ClueWeb22 document dataset, while its 9,374 queries correspond to web queries collected from 
+the Microsoft Bing search engine.
+See https://github.com/microsoft/MS-MARCO-Web-Search for more details.
+'''
+class MSMarcoWebSearchDataset(BillionScaleDatasetCompetitionFormat):
+    def __init__(self, nb=101070374):
+        self.nb = nb
+        self.d = 768
+        self.nq = 9376
+        self.dtype = "float32"
+        self.ds_fn = "vectors.bin"
+        self.qs_fn = "query.bin"
+        self.gt_fn = (
+            "msmarco-100M-gt100" if self.nb == 101070374 else
+            "msmarco-10M-gt100" if self.nb == 10000000 else
+            "msmarco-1M-gt100" if self.nb == 1000000 else
+            None
+        )
+        self.basedir = os.path.join(BASEDIR, "msmarco_websearch")
+        self.base_url = "https://msmarco.z22.web.core.windows.net/msmarcowebsearch/vectors/SimANS/passage_vectors/vectors.bin"
+        self.query_url = "https://msmarco.z22.web.core.windows.net/msmarcowebsearch/vectors/SimANS/query_vectors/vectors.bin"
+        self.gt_url = "https://comp21storage.z5.web.core.windows.net/msmarcowebsearch/"
+
+    def prepare(self, skip_data=False, original_size=101070374):
+        if not os.path.exists(self.basedir):
+            os.makedirs(self.basedir)
+
+        qs_outfile = os.path.join(self.basedir, self.qs_fn)
+        download(self.query_url, qs_outfile)
+
+        gt_outfile = os.path.join(self.basedir, self.gt_fn)
+        groundtruth_url = os.path.join(self.gt_url, self.gt_fn)
+        download(groundtruth_url, gt_outfile)
+
+        if skip_data:
+            return
+
+        fn = self.ds_fn
+        sourceurl = self.base_url
+        outfile = os.path.join(self.basedir, fn)
+        if os.path.exists(outfile):
+            print("file %s already exists" % outfile)
+            return
+        if self.nb == original_size:
+            download(self.base_url, outfile)
+        else:
+            # download cropped version of file
+            file_size = 8 + self.d * self.nb * np.dtype(self.dtype).itemsize
+            outfile = outfile + '.crop_nb_%d' % self.nb
+            if os.path.exists(outfile):
+                print("file %s already exists" % outfile)
+                return
+            download(sourceurl, outfile, max_size=file_size)
+            # then overwrite the header...
+            header = np.memmap(outfile, shape=2, dtype='uint32', mode="r+")
+            assert header[0] == original_size
+            assert header[1] == self.d
+            header[0] = self.nb
+
+    def get_dataset_fn(self):
+        fn = os.path.join(self.basedir, self.ds_fn)
+        if self.nb != 101070374:
+            fn += '.crop_nb_%d' % self.nb
+        if os.path.exists(fn):
+            return fn
+        else:
+            raise RuntimeError("file %s not found" %fn)
+        
+    def get_dataset(self):
+        slice = next(self.get_dataset_iterator(bs=self.nb))
+        return sanitize(slice)
+
+    def distance(self):
+        return "ip"
+
+'''
+The OpenAI-ArXiv dataset consists of 2321096 1536-dimensional OpenAI ada-002 
+embeddings of the abstracts of ArXiv papers, with 20000 queries drawn from the same source. 
+The ArXiv dataset was released by Cornell University and can be found here:
+https://www.kaggle.com/datasets/Cornell-University/arxiv
+'''
+class OpenAIArXivDataset(DatasetCompetitionFormat):
+    def __init__(self, nb=2321096):
+        self.nb = nb
+        self.d = 1536
+        self.nq = 20000
+        self.dtype = "float32"
+        self.ds_fn =  "openai_base.bin"
+        self.qs_fn = "openai_query.bin"
+        self.gt_fn = (
+            "openai-2M" if self.nb == 2321096 else
+            "openai-100K" if self.nb == 100000 else
+            None
+        )
+        self.basedir = os.path.join(BASEDIR, "OpenAIArXiv")
+        self.base_url = "https://comp21storage.z5.web.core.windows.net/arxiv-openaiv2-2M"
+
+        self.private_qs_url = None
+        self.private_gt_url = None
+
+    def prepare(self, skip_data=False, original_size=2321096):
+        return super().prepare(skip_data, 2321096)
+
+    def get_dataset_fn(self):
+        fn = os.path.join(self.basedir, self.ds_fn)
+        if self.nb != 2321096:
+            fn += '.crop_nb_%d' % self.nb
+        if os.path.exists(fn):
+            return fn
+        else:
+            raise RuntimeError("file %s not found" %fn)
+        
+    def get_dataset(self):
+        slice = next(self.get_dataset_iterator(bs=self.nb))
+        return sanitize(slice)
 
     def distance(self):
         return "euclidean"
@@ -1123,6 +1299,17 @@ DATASETS = {
     'sparse-small': lambda: SparseDataset("small"),
     'sparse-1M': lambda: SparseDataset("1M"),
     'sparse-full': lambda: SparseDataset("full"), 
+
+    'wikipedia-35M': lambda : WikipediaDataset(35000000),
+    'wikipedia-1M': lambda : WikipediaDataset(1000000),
+    'wikipedia-100K': lambda : WikipediaDataset(100000),
+
+    'msmarco-100M': lambda : MSMarcoWebSearchDataset(101070374),
+    'msmarco-10M': lambda : MSMarcoWebSearchDataset(10000000),
+    'msmarco-1M': lambda : MSMarcoWebSearchDataset(1000000),
+
+    'openai-2M': lambda : OpenAIArXivDataset(2321096),
+    'openai-100K': lambda : OpenAIArXivDataset(100000),
 
     'random-xs': lambda : RandomDS(10000, 1000, 20),
     'random-s': lambda : RandomDS(100000, 1000, 50),

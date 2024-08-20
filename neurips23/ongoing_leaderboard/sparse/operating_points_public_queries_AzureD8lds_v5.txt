@@ -1,0 +1,11 @@
+                                     qps
+dataset     algorithm
+sparse-full zilliz          10749.188262 [*]
+            pinecone_smips  10439.909652 [*]
+            pyanns           8732.172708
+            shnsw            7136.927865
+            nle              2358.590429
+            cufe              104.768194
+            linscan            92.510615
+
+[*] not open source (binary only)
