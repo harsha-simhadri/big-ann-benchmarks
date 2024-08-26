@@ -65,7 +65,6 @@ def download_accelerated(src, dst, quiet=False, sas_string=""):
         cmd = f"axel --alternate -n 10 {src} -o {dst}"
         if quiet:
             cmd += " -q"
-    cmd += " --from-to BlobLocal"
 
     print("running", cmd)
     ret = os.system(cmd)
