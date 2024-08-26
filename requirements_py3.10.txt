@@ -1,5 +1,5 @@
 ansicolors==1.1.8
-docker==6.1.2
+docker==7.1.0
 h5py==3.10.0
 matplotlib==3.3.4
 numpy==1.24.2
