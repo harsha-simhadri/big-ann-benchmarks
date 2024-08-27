@@ -1,5 +1,5 @@
 
-# NeurIPS23 Practical Search Challenge Evaluation On AMD 16-Core 3GHz CPU via Latitude Bare-Metal Hardware Cloud
+# Evaluation On AMD 16-Core 3GHz CPU via [Latitude](https://www.latitude.sh/) Bare-Metal Hardware Cloud
 
 ## Table Of Contents
 
@@ -354,6 +354,7 @@ python3 run.py --dataset msturing-30M-clustered --algorithm scann --neurips23tra
 * Evaluate without Docker.
 * Consider evaluating on other systems provided by [Latitdude](https://www.latitude.sh/)
 * Capture algorithm (index) build time.
+* Run bandwidth benchmarks for the NVMEe drive.
 
 ## Disclaimers_And_Credits
 
