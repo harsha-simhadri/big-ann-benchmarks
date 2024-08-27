@@ -5,8 +5,8 @@
 
 - [Introduction](#introduction)  
 - [Leaderboard](#leaderboard) 
-- [Comparison](#getting_started) 
-- [HW Inventory](#hardware_inventory)
+- [Comparison](#comparison) 
+- [Hardware Inventory](#hardware_inventory)
 - [How To Reproduce](#how_to_reproduce)
 - [TODO](#todo)  
 - [Disclaimers And Credits](#disclaimers_and_credits)  
@@ -30,7 +30,7 @@ Shown here results run on the following hardware:
 ## Comparison
  
 
-## Hardware Inventory
+## Hardware_Inventory
 
 ### Via *lshw*
 
@@ -41,7 +41,7 @@ The following is a detailed hardware invontory using the *lshw* Linux command:
 
 ### Via *hwinfo*
 
-## How To Reproduce 
+## How_To_Reproduce 
 
 The following steps will allow you to reproduce the results of leaderboard shown above.
 
@@ -355,7 +355,7 @@ python3 run.py --dataset msturing-30M-clustered --algorithm scann --neurips23tra
 * Consider evaluating on other systems provided by [Latitdude](https://www.latitude.sh/)
 * Capture algorithm (index) build time.
 
-## Disclaimers And Credits
+## Disclaimers_And_Credits
 
 * The hardware systems were graciously donated by [Latitude](https://www.latitude.sh/)
 * None of the organizers are an employee or affiliated with Latitude.
