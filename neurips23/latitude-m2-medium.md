@@ -408,7 +408,7 @@ python data_export.py --recompute --output neurips23/latitude/data_export.csv
 
 To plot individual tracks:
 ```
-python plot.py --neurips23track sparse --output neurips23/latitude/sparse.png --raw --rec^Cpute --dataset sparse-full
+python plot.py --neurips23track sparse --output neurips23/latitude/sparse.png --raw --recompute --dataset sparse-full
 python plot.py --neurips23track filter --output neurips23/latitude/filter.png --raw --recompute --dataset yfcc-10M
 python plot.py --neurips23track ood --output neurips23/latitude/ood.png --raw --recompute --dataset text2image-10M
 TODO: streaming
