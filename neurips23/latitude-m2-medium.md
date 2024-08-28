@@ -51,7 +51,7 @@ The full data export CSV file can be found [here.](latitude/data_export.csv)
 
 * Via [*lshw*](latitude/m2-medium-lshw.txt)
 * Via [*hwinfo*](latitude/m2-medium-hwinfo.txt)
-* Via [*procinfo*](latitude/m2-mediumlshw.txt)
+* Via [*procinfo*](latitude/m2-medium-procinfo.txt)
 
 ## How_To_Reproduce
 
