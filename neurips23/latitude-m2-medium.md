@@ -1,5 +1,5 @@
 
-# Eval On AMD 16-Core/3GHz Bare-Metal 
+# Eval On AMD 3GHz/16-Core CPU + 125GB RAM + NVMe SSD (Bare Metal)
 
 ## Table Of Contents
 
