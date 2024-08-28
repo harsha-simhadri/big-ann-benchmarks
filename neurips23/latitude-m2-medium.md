@@ -28,19 +28,19 @@ We include a [detailed hardware inventory.](#hardware_inventory)
 
 ### Track: Filter
 
-![Filter](latitude/filter.png)]
+![Filter](latitude/filter.png)
 
 ### Track: Sparse
 
-![Sparse](latitude/sparse.png)]
+![Sparse](latitude/sparse.png)
 
 ### Track: OOD
 
-![OOD](latitude/ood.png)]
+![OOD](latitude/ood.png)
 
 ### Track: Streaming
 
-![Streaming](latitude/streaming.png)]
+![Streaming](latitude/streaming.png)
 
 ## Hardware_Inventory
 
