@@ -881,7 +881,7 @@ TODO: streaming
 
 * Create one shell script to run all system preparation, build, and eval commands shown above.
 * Evaluate without Docker.
-* Consider evaluating on other systems provided by [Latitdude](https://www.latitude.sh/)
+* Consider evaluating on other systems (CPUs and GPUs) provided by [Latitude](https://www.latitude.sh/)
 * Capture algorithm (index) build time.
 * Run bandwidth benchmarks for the NVMe drive.
 * Specify the commit tag and possibly date of the algorithm evaluation.
@@ -890,6 +890,6 @@ TODO: streaming
 
 * The hardware systems were graciously donated by [Latitude](https://www.latitude.sh/)
 * None of the organizers are an employee or affiliated with Latitude.
-* George Williams, organizer for both the NeurIPS2021 and NeurIPS2023 Competitions ran the evaluations described above.
-* Victor... 
+* [George Williamsi](https://github.com/sourcesync), organizer for both the NeurIPS2021 and NeurIPS2023 Competitions ran the evaluations described above.
+* Our main contact from Latitude is [Victor Chiea](victor.chiea@latitude.sh), whom we were introduced by [Harald Carlens](harald@mlcontests.com).
 
