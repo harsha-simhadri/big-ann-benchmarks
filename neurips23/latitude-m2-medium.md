@@ -55,7 +55,7 @@ The use the following Linux commands to capture the detailed hardware inventory:
 
 ### Via *lshw*
 
-The following is a summary hardware invontory using the *lshw* Linux command:
+The following is a summary hardware inventory using the *lshw* Linux command:
 ```
 $ sudo lshw -short
 H/W path              Device          Class          Description
@@ -531,7 +531,7 @@ eno2        TX 7.01MiB       RX 448.80MiB
 
 ## How_To_Reproduce 
 
-The following steps will allow you to reproduce the results of leaderboard shown above.
+The following steps will allow you to reproduce the results shown above.
 
 ### Preparation
 
@@ -898,7 +898,7 @@ TODO: streaming
 ## Disclaimers_And_Credits
 
 * The hardware systems were graciously donated by [Latitude](https://www.latitude.sh/)
-* None of the organizers are an employee or affiliated with Latitude.
-* [George Williamsi](https://github.com/sourcesync), organizer for both the NeurIPS2021 and NeurIPS2023 Competitions ran the evaluations described above.
+* None of the organizers is an employee or affiliated with Latitude.
+* [George Williams](https://github.com/sourcesync), an organizer for both the NeurIPS2021 and NeurIPS2023 Competitions ran the evaluations described above.
 * Our main contact from Latitude is [Victor Chiea](victor.chiea@latitude.sh), whom we were introduced by [Harald Carlens](harald@mlcontests.com).
 
