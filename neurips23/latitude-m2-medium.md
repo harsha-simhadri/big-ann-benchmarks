@@ -320,6 +320,13 @@ python install.py --neurips23track ood --algorithm pinecone-ood
 python run.py --neurips23track ood --algorithm pinecone-ood --dataset text2image-10M
 ```
 
+#### OOD Algorithm: zilliz
+
+```
+python install.py --neurips23track ood --algorithm zilliz
+python3 run.py --dataset text2image-10M --algorithm zilliz  --neurips23track ood
+```
+
 ### Streaming Track
 
 Prepare the track dataset by running the following command in the top-level directory of the repository:
