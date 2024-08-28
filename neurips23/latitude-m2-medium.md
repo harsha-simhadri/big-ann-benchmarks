@@ -417,8 +417,8 @@ TODO: streaming
 ## Disclaimers_And_Credits
 
 * The hardware systems were graciously donated by [Latitude](https://www.latitude.sh/)
-* None of the organizers is an employee or affiliated with Latitude.
+* None of the Neurips2021/23 organizers is an employee or affiliated with Latitude.
 * [George Williams](https://github.com/sourcesync), an organizer for both the NeurIPS2021 and NeurIPS2023 Competitions ran the evaluations described above.
-* Our main contact from Latitude is [Victor Chiea](victor.chiea@latitude.sh), whom we were introduced by [Harald Carlens](harald@mlcontests.com).
+* Our main contact from Latitude is [Victor Chiea](victor.chiea@latitude.sh), whom we were introduced by [Harald Carlens](harald@mlcontests.com) from [MLContests](https://mlcontests.com/).
 * Latitude logo for sponsorship attribution below (note: it has a transparent background):
 <img src="latitude/latitude_logo.png" height="100px">
