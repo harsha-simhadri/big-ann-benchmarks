@@ -45,7 +45,7 @@ Note:
 
 ### Data Export
 
-The full data export CSV file can be found [here.](latitude/data_export.csv)
+The full data export CSV file can be found [here.](latitude/data_export_m2-medium.csv)
 
 ## Hardware_Inventory
 
@@ -220,6 +220,13 @@ python3 run.py --dataset yfcc-10M --algorithm wm_filter  --neurips23track filter
 ```
 python install.py --neurips23track filter --algorithm pinecone
 python run.py --neurips23track filter --algorithm pinecone --dataset yfcc-10M
+```
+
+#### Filter Algorithm: zilliz
+
+```
+python install.py --neurips23track filter --algorithm zilliz
+python3 run.py --dataset yfcc-10M --algorithm zilliz  --neurips23track filter
 ```
 
 ### OOD Track
@@ -403,7 +410,7 @@ TimeoutError: timed out
 To extract the data as CSV:
 ```
 sudo chmod ugo+r -R ./results/ # recursively add read permissions to data files
-python data_export.py --recompute --output neurips23/latitude/data_export.csv
+python data_export.py --recompute --output neurips23/latitude/data_export_m2-medium.csv
 ```
 
 To plot individual tracks:
