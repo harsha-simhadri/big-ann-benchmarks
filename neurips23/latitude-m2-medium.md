@@ -14,13 +14,15 @@
 
 The NeurIPS2023 Practical Vector Search Challenge evaluated participating algorithms on Azure and EC2 CPU-based hardware instances.
 
-In pursuit of expanding the evaluation criteria, we are maintaining leaderboards on other generally available hardware configurations.
+In pursuit of expanding the evaluation criteria, we are evaluating on other generally available hardware configurations.
 
 Shown here are results run on the following hardware:
 * AMD EPYC 9124 16-Core 3GHz processor
 * 125GB RAM 
 * 440GB NVMe SSD
-* Bare-metal systems provided by the [Latitude](https://www.latitude.sh/) 
+* Bare-metal systems provided by [Latitude](https://www.latitude.sh/) 
+
+We include a [detailed hardware inventory.](#hardware_inventory)
 
 ## Results
 
