@@ -527,7 +527,7 @@ The following steps will allow you to reproduce the results of leaderboard shown
 ### Preparation
 
 * Signup for/sign into your Latitude account 
-* Provision an "m2-medium" instance with at least 100GB NVMEe SSD with Linux 20.04.06 LTS
+* Provision an "m2-medium" instance with at least 100GB NVMe SSD with Linux 20.04.06 LTS
 * ssh remotely into the instance
 * update Linux via command ```sudo apt-get update```
 * install Anaconda for Linux
@@ -883,7 +883,7 @@ TODO: streaming
 * Evaluate without Docker.
 * Consider evaluating on other systems provided by [Latitdude](https://www.latitude.sh/)
 * Capture algorithm (index) build time.
-* Run bandwidth benchmarks for the NVMEe drive.
+* Run bandwidth benchmarks for the NVMe drive.
 * Specify the commit tag and possibly date of the algorithm evaluation.
 
 ## Disclaimers_And_Credits
