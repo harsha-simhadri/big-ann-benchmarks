@@ -902,4 +902,4 @@ TODO: streaming
 * [George Williams](https://github.com/sourcesync), an organizer for both the NeurIPS2021 and NeurIPS2023 Competitions ran the evaluations described above.
 * Our main contact from Latitude is [Victor Chiea](victor.chiea@latitude.sh), whom we were introduced by [Harald Carlens](harald@mlcontests.com).
 * Latitude logo below:
-<img src="latitude/latitude_logo.png" height="100px">
+<div style="background-color:white;"><img src="latitude/latitude_logo.png" height="100px"></div>
