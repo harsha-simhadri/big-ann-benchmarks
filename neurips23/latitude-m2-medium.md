@@ -42,7 +42,16 @@ We include a [detailed hardware inventory.](#hardware_inventory)
 
 ![Streaming](latitude/streaming.png)
 
+### Data Export
+
+The full data export CSV file can be found [here.](latitude/data_export.csv)
+
 ## Hardware_Inventory
+
+The use the following Linux commands to capture the detailed hardware inventory:
+* *lshw*
+* *hwinfo*
+* *procinfo*
 
 ### Via *lshw*
 
