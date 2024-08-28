@@ -20,7 +20,7 @@ Shown here are results run on the following hardware:
 * AMD EPYC 9124 16-Core 3GHz processor
 * 125GB RAM 
 * 440GB NVMe SSD
-* Bare-metal systems provided by [Latitude](https://www.latitude.sh/) 
+* Bare-metal "m2-medium" instance provided by [Latitude](https://www.latitude.sh/) 
 
 We include a [detailed hardware inventory.](#hardware_inventory)
 
@@ -901,4 +901,5 @@ TODO: streaming
 * None of the organizers is an employee or affiliated with Latitude.
 * [George Williams](https://github.com/sourcesync), an organizer for both the NeurIPS2021 and NeurIPS2023 Competitions ran the evaluations described above.
 * Our main contact from Latitude is [Victor Chiea](victor.chiea@latitude.sh), whom we were introduced by [Harald Carlens](harald@mlcontests.com).
-
+* Latitude logo below:
+![Latitude](latitude/latitude_logo.png)
