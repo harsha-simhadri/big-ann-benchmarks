@@ -1,0 +1,108 @@
++ set -e
++ python install.py --neurips23track sparse --algorithm zilliz
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 556B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/ubuntu:jammy
+#2 DONE 0.1s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 66B done
+#3 DONE 0.0s
+
+#4 [1/8] FROM docker.io/library/ubuntu:jammy@sha256:adbb90115a21969d2fe6fa7f9af4253e16d45f8d4c1e930182610c4731962658
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 80B done
+#5 DONE 0.0s
+
+#6 [4/8] RUN cp azcopy_folder/azcopy /usr/bin
+#6 CACHED
+
+#7 [2/8] RUN apt-get update && apt-get install -y python3-numpy python3-scipy python3-pip build-essential git axel wget
+#7 CACHED
+
+#8 [5/8] RUN pip3 install -U pip
+#8 CACHED
+
+#9 [6/8] WORKDIR /home/app
+#9 CACHED
+
+#10 [3/8] RUN wget https://aka.ms/downloadazcopy-v10-linux && mv downloadazcopy-v10-linux azcopy.tgz && tar xzf azcopy.tgz --transform 's!^[^/]\+\($\|/\)!azcopy_folder\1!'
+#10 CACHED
+
+#11 [7/8] COPY requirements_py3.10.txt run_algorithm.py ./
+#11 CACHED
+
+#12 [8/8] RUN pip3 install -r requirements_py3.10.txt
+#12 CACHED
+
+#13 exporting to image
+#13 exporting layers done
+#13 writing image sha256:2c76bbc113266e4782270104c7c70525aab0dcc93687ee5293516e33e09661ca done
+#13 naming to docker.io/library/neurips23 done
+#13 DONE 0.0s
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 266B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/neurips23:latest
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 66B done
+#3 DONE 0.0s
+
+#4 [1/6] FROM docker.io/library/neurips23:latest
+#4 DONE 0.0s
+
+#5 [4/6] RUN git clone https://github.com/hhy3/zilliz-bigann.git --branch sparse --depth 1
+#5 CACHED
+
+#6 [3/6] RUN apt install python-is-python3
+#6 CACHED
+
+#7 [5/6] RUN pip install ./zilliz-bigann/*.whl
+#7 CACHED
+
+#8 [2/6] RUN apt update
+#8 CACHED
+
+#9 [6/6] RUN python3 -c 'import sparse_searcher'
+#9 CACHED
+
+#10 exporting to image
+#10 exporting layers done
+#10 writing image sha256:a5b4d75df078adfee3099740d4babc86c2eda7a91b51cc6bced3d1a426999251 done
+#10 naming to docker.io/library/neurips23-sparse-zilliz done
+#10 DONE 0.0s
+Building base image...
+Building algorithm images... with (1) processes
+Building neurips23-sparse-zilliz...
+docker build  --rm -t neurips23-sparse-zilliz -f neurips23/sparse/zilliz/Dockerfile .
+
+
+Install Status:
+{'neurips23-sparse-zilliz': 'success'}
++ python3 run.py --dataset sparse-full --algorithm zilliz --neurips23track sparse
+unzipped version of file data/sparse/queries.dev.csr.gz already exists
+file data/sparse/base_full.dev.gt already exists
+unzipped version of file data/sparse/queries.hidden.csr.gz already exists
+file data/sparse/base_full.hidden.gt already exists
+unzipped version of file data/sparse/base_full.csr.gz already exists
+2024-08-29 20:15:57,913 - annb - INFO - running only zilliz
+2024-08-29 20:15:58,017 - annb - INFO - Order: [Definition(algorithm='zilliz', constructor='Zilliz', module='neurips23.sparse.zilliz.zilliz', docker_tag='neurips23-sparse-zilliz', docker_volumes=[], arguments=['ip', {'R': 48, 'L': 500}], query_argument_groups=[[{'budget': 0.11, 'ef': 45}], [{'budget': 0.11, 'ef': 55}], [{'budget': 0.11, 'ef': 65}], [{'budget': 0.11, 'ef': 70}], [{'budget': 0.12, 'ef': 45}], [{'budget': 0.12, 'ef': 50}], [{'budget': 0.12, 'ef': 55}], [{'budget': 0.12, 'ef': 60}], [{'budget': 0.12, 'ef': 65}], [{'budget': 0.12, 'ef': 70}]], disabled=False)]
+RW Namespace(dataset='sparse-full', count=10, definitions='algos-2021.yaml', algorithm='zilliz', docker_tag=None, list_algorithms=False, force=False, rebuild=False, runs=5, timeout=43200, max_n_algorithms=-1, power_capture='', t3=False, nodocker=False, upload_index=False, download_index=False, blob_prefix=None, sas_string=None, private_query=False, neurips23track='sparse', runbook_path='neurips23/streaming/simple_runbook.yaml')
+Setting container wait timeout to 43200 seconds
+2024-08-29 20:15:58,239 - annb.7f101676fc43 - INFO - Created container 7f101676fc43: CPU limit 0-31, mem limit 131724724992, timeout 43200, command ['--dataset', 'sparse-full', '--algorithm', 'zilliz', '--module', 'neurips23.sparse.zilliz.zilliz', '--constructor', 'Zilliz', '--runs', '5', '--count', '10', '--neurips23track', 'sparse', '["ip", {"R": 48, "L": 500}]', '[{"budget": 0.11, "ef": 45}]', '[{"budget": 0.11, "ef": 55}]', '[{"budget": 0.11, "ef": 65}]', '[{"budget": 0.11, "ef": 70}]', '[{"budget": 0.12, "ef": 45}]', '[{"budget": 0.12, "ef": 50}]', '[{"budget": 0.12, "ef": 55}]', '[{"budget": 0.12, "ef": 60}]', '[{"budget": 0.12, "ef": 65}]', '[{"budget": 0.12, "ef": 70}]']
+2024-08-29 20:15:58,499 - annb.7f101676fc43 - INFO - [34m['ip', {'R': 48, 'L': 500}][0m
+2024-08-29 20:15:58,499 - annb.7f101676fc43 - INFO - [34mTrying to instantiate neurips23.sparse.zilliz.zilliz.Zilliz(['ip', {'R': 48, 'L': 500}])[0m
+2024-08-29 20:15:58,500 - annb.7f101676fc43 - INFO - [34mRunning zilliz on sparse-full[0m
+2024-08-29 20:15:58,500 - annb.7f101676fc43 - INFO - [34mstart add[0m
+2024-08-29 20:16:03,347 - annb.7f101676fc43 - INFO - [34mIndexing. 8841823 items[0m

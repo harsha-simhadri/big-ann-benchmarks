@@ -1,0 +1,126 @@
++ set -e
++ python install.py --neurips23track filter --algorithm fdufilterdiskann
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 556B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/ubuntu:jammy
+#2 DONE 0.1s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 66B done
+#3 DONE 0.0s
+
+#4 [1/8] FROM docker.io/library/ubuntu:jammy@sha256:adbb90115a21969d2fe6fa7f9af4253e16d45f8d4c1e930182610c4731962658
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 80B done
+#5 DONE 0.0s
+
+#6 [2/8] RUN apt-get update && apt-get install -y python3-numpy python3-scipy python3-pip build-essential git axel wget
+#6 CACHED
+
+#7 [5/8] RUN pip3 install -U pip
+#7 CACHED
+
+#8 [6/8] WORKDIR /home/app
+#8 CACHED
+
+#9 [3/8] RUN wget https://aka.ms/downloadazcopy-v10-linux && mv downloadazcopy-v10-linux azcopy.tgz && tar xzf azcopy.tgz --transform 's!^[^/]\+\($\|/\)!azcopy_folder\1!'
+#9 CACHED
+
+#10 [7/8] COPY requirements_py3.10.txt run_algorithm.py ./
+#10 CACHED
+
+#11 [4/8] RUN cp azcopy_folder/azcopy /usr/bin
+#11 CACHED
+
+#12 [8/8] RUN pip3 install -r requirements_py3.10.txt
+#12 CACHED
+
+#13 exporting to image
+#13 exporting layers done
+#13 writing image sha256:2c76bbc113266e4782270104c7c70525aab0dcc93687ee5293516e33e09661ca done
+#13 naming to docker.io/library/neurips23 done
+#13 DONE 0.0s
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 692B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/neurips23:latest
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 66B done
+#3 DONE 0.0s
+
+#4 [ 1/13] FROM docker.io/library/neurips23:latest
+#4 DONE 0.0s
+
+#5 [ 2/13] RUN apt update
+#5 CACHED
+
+#6 [ 4/13] RUN add-apt-repository -y ppa:git-core/ppa
+#6 CACHED
+
+#7 [ 5/13] RUN apt update
+#7 CACHED
+
+#8 [ 6/13] RUN DEBIAN_FRONTEND=noninteractive apt install -y git make cmake g++ libaio-dev libgoogle-perftools-dev libunwind-dev clang-format libboost-dev libboost-program-options-dev libmkl-full-dev libcpprest-dev python3.10
+#8 CACHED
+
+#9 [ 3/13] RUN apt install -y software-properties-common
+#9 CACHED
+
+#10 [ 7/13] WORKDIR /home/app
+#10 CACHED
+
+#11 [ 8/13] RUN git clone --recursive --branch main https://github.com/PUITAR/FduFilterDiskANN.git
+#11 0.164 Cloning into 'FduFilterDiskANN'...
+#11 0.926 fatal: could not read Username for 'https://github.com': No such device or address
+#11 ERROR: process "/bin/sh -c git clone --recursive --branch main https://github.com/PUITAR/FduFilterDiskANN.git" did not complete successfully: exit code: 128
+------
+ > [ 8/13] RUN git clone --recursive --branch main https://github.com/PUITAR/FduFilterDiskANN.git:
+0.164 Cloning into 'FduFilterDiskANN'...
+0.926 fatal: could not read Username for 'https://github.com': No such device or address
+------
+Dockerfile:11
+--------------------
+   9 |     # COPY FilterDiskann /home/app/FilterDiskann
+  10 |     WORKDIR /home/app
+  11 | >>> RUN git clone --recursive --branch main https://github.com/PUITAR/FduFilterDiskANN.git
+  12 |     WORKDIR /home/app/FduFilterDiskANN/pybindings
+  13 |     
+--------------------
+ERROR: failed to solve: process "/bin/sh -c git clone --recursive --branch main https://github.com/PUITAR/FduFilterDiskANN.git" did not complete successfully: exit code: 128
+Building base image...
+Building algorithm images... with (1) processes
+Building neurips23-filter-fdufilterdiskann...
+docker build  --rm -t neurips23-filter-fdufilterdiskann -f neurips23/filter/fdufilterdiskann/Dockerfile .
+
+
+Install Status:
+{'neurips23-filter-fdufilterdiskann': 'fail'}
++ python3 run.py --dataset yfcc-10M --algorithm fdufilterdiskann --neurips23track filter
+file data/yfcc100M/query.public.100K.u8bin already exists
+file data/yfcc100M/GT.public.ibin already exists
+file data/yfcc100M/query.private.2727415019.100K.u8bin already exists
+file data/yfcc100M/GT.private.2727415019.ibin already exists
+file data/yfcc100M/base.10M.u8bin already exists
+file data/yfcc100M/base.metadata.10M.spmat already exists
+file data/yfcc100M/query.metadata.public.100K.spmat already exists
+file data/yfcc100M/query.metadata.private.2727415019.100K.spmat already exists
+2024-08-29 20:17:35,410 - annb - INFO - running only fdufilterdiskann
+2024-08-29 20:17:35,543 - annb - INFO - not all docker images available, only: {'neurips23-ood-ngt', 'neurips23-ood-epsearch', 'neurips23-ood-pinecone-ood', 'neurips23-filter-zilliz', 'neurips23-ood-pyanns', 'neurips23-sparse-spmat', 'neurips23-sparse-shnsw', 'neurips23', 'neurips23-streaming-puck', 'neurips23-filter-pyanns', 'neurips23-filter-cufe', 'neurips23-sparse-linscan', 'neurips23-ood-sustech-ood', 'neurips23-filter-wm_filter', 'neurips23-sparse-cufe', 'neurips23-ood-zilliz', 'neurips23-sparse-pinecone_smips', 'neurips23-streaming-pyanns', 'neurips23-sparse-pyanns', 'neurips23-filter-pinecone', 'neurips23-streaming-scann', 'neurips23-ood-puck', 'neurips23-filter-faiss', 'neurips23-filter-puck', 'neurips23-ood-vamana', 'neurips23-ood-mysteryann-dif', 'neurips23-ood-diskann', 'neurips23-filter-parlayivf', 'neurips23-streaming-hwtl_sdu_anns_stream', 'neurips23-sparse-zilliz', 'neurips23-streaming-pinecone', 'neurips23-streaming-cufe', 'neurips23-filter-faissplus', 'neurips23-ood-cufe', 'neurips23-ood-mysteryann', 'neurips23-sparse-nle', 'neurips23-streaming-diskann'}
+2024-08-29 20:17:35,543 - annb - INFO - missing docker images: {'neurips23-filter-fdufilterdiskann'}
+Traceback (most recent call last):
+  File "/home/gwilliams/Projects/BigANN/big-ann-benchmarks/run.py", line 6, in <module>
+    main()
+  File "/home/gwilliams/Projects/BigANN/big-ann-benchmarks/benchmark/main.py", line 257, in main
+    raise Exception('Nothing to run')
+Exception: Nothing to run

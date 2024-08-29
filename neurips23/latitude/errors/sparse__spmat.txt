@@ -1,0 +1,99 @@
++ set -e
++ python install.py --neurips23track sparse --algorithm spmat
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 556B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/ubuntu:jammy
+#2 DONE 0.1s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 66B done
+#3 DONE 0.0s
+
+#4 [1/8] FROM docker.io/library/ubuntu:jammy@sha256:adbb90115a21969d2fe6fa7f9af4253e16d45f8d4c1e930182610c4731962658
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 80B done
+#5 DONE 0.0s
+
+#6 [7/8] COPY requirements_py3.10.txt run_algorithm.py ./
+#6 CACHED
+
+#7 [5/8] RUN pip3 install -U pip
+#7 CACHED
+
+#8 [4/8] RUN cp azcopy_folder/azcopy /usr/bin
+#8 CACHED
+
+#9 [2/8] RUN apt-get update && apt-get install -y python3-numpy python3-scipy python3-pip build-essential git axel wget
+#9 CACHED
+
+#10 [3/8] RUN wget https://aka.ms/downloadazcopy-v10-linux && mv downloadazcopy-v10-linux azcopy.tgz && tar xzf azcopy.tgz --transform 's!^[^/]\+\($\|/\)!azcopy_folder\1!'
+#10 CACHED
+
+#11 [6/8] WORKDIR /home/app
+#11 CACHED
+
+#12 [8/8] RUN pip3 install -r requirements_py3.10.txt
+#12 CACHED
+
+#13 exporting to image
+#13 exporting layers done
+#13 writing image sha256:2c76bbc113266e4782270104c7c70525aab0dcc93687ee5293516e33e09661ca done
+#13 naming to docker.io/library/neurips23 done
+#13 DONE 0.0s
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 241B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/neurips23:latest
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 66B done
+#3 DONE 0.0s
+
+#4 [1/4] FROM docker.io/library/neurips23:latest
+#4 DONE 0.0s
+
+#5 [3/4] RUN apt-get install -y wget git cmake g++ libaio-dev libgoogle-perftools-dev clang-format libboost-dev python3 python3-setuptools python3-pip
+#5 CACHED
+
+#6 [2/4] RUN apt-get update
+#6 CACHED
+
+#7 [4/4] RUN pip3 install scipy
+#7 CACHED
+
+#8 exporting to image
+#8 exporting layers done
+#8 writing image sha256:f2aea319617db7cbc10c695080a06bf851ff86af5168a487205f602b579cf830 done
+#8 naming to docker.io/library/neurips23-sparse-spmat done
+#8 DONE 0.0s
+Building base image...
+Building algorithm images... with (1) processes
+Building neurips23-sparse-spmat...
+docker build  --rm -t neurips23-sparse-spmat -f neurips23/sparse/spmat/Dockerfile .
+
+
+Install Status:
+{'neurips23-sparse-spmat': 'success'}
++ python3 run.py --dataset sparse-full --algorithm spmat --neurips23track sparse
+unzipped version of file data/sparse/queries.dev.csr.gz already exists
+file data/sparse/base_full.dev.gt already exists
+unzipped version of file data/sparse/queries.hidden.csr.gz already exists
+file data/sparse/base_full.hidden.gt already exists
+unzipped version of file data/sparse/base_full.csr.gz already exists
+2024-08-29 22:02:27,951 - annb - INFO - running only spmat
+Traceback (most recent call last):
+  File "/home/gwilliams/Projects/BigANN/big-ann-benchmarks/run.py", line 6, in <module>
+    main()
+  File "/home/gwilliams/Projects/BigANN/big-ann-benchmarks/benchmark/main.py", line 257, in main
+    raise Exception('Nothing to run')
+Exception: Nothing to run

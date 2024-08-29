@@ -1,0 +1,153 @@
++ set -e
++ python install.py --neurips23track ood --algorithm puck-fizz
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 556B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/ubuntu:jammy
+#2 DONE 0.1s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 66B done
+#3 DONE 0.0s
+
+#4 [1/8] FROM docker.io/library/ubuntu:jammy@sha256:adbb90115a21969d2fe6fa7f9af4253e16d45f8d4c1e930182610c4731962658
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 80B done
+#5 DONE 0.0s
+
+#6 [5/8] RUN pip3 install -U pip
+#6 CACHED
+
+#7 [3/8] RUN wget https://aka.ms/downloadazcopy-v10-linux && mv downloadazcopy-v10-linux azcopy.tgz && tar xzf azcopy.tgz --transform 's!^[^/]\+\($\|/\)!azcopy_folder\1!'
+#7 CACHED
+
+#8 [6/8] WORKDIR /home/app
+#8 CACHED
+
+#9 [2/8] RUN apt-get update && apt-get install -y python3-numpy python3-scipy python3-pip build-essential git axel wget
+#9 CACHED
+
+#10 [4/8] RUN cp azcopy_folder/azcopy /usr/bin
+#10 CACHED
+
+#11 [7/8] COPY requirements_py3.10.txt run_algorithm.py ./
+#11 CACHED
+
+#12 [8/8] RUN pip3 install -r requirements_py3.10.txt
+#12 CACHED
+
+#13 exporting to image
+#13 exporting layers done
+#13 writing image sha256:2c76bbc113266e4782270104c7c70525aab0dcc93687ee5293516e33e09661ca done
+#13 naming to docker.io/library/neurips23 done
+#13 DONE 0.0s
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 1.56kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/neurips23:latest
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 66B done
+#3 DONE 0.0s
+
+#4 [ 1/20] FROM docker.io/library/neurips23:latest
+#4 DONE 0.0s
+
+#5 [ 5/20] RUN apt-get update && apt-get install -y swig cmake
+#5 CACHED
+
+#6 [ 3/20] RUN apt-get update
+#6 CACHED
+
+#7 [ 9/20] RUN wget https://cmake.org/files/v3.22/cmake-3.22.0-linux-x86_64.sh
+#7 CACHED
+
+#8 [13/20] RUN echo "/opt/intel/oneapi/mkl/latest/lib/intel64" > /etc/ld.so.conf.d/mkl.conf
+#8 CACHED
+
+#9 [14/20] RUN ldconfig
+#9 CACHED
+
+#10 [ 7/20] RUN cat /etc/ld.so.conf
+#10 CACHED
+
+#11 [11/20] RUN wget https://registrationcenter-download.intel.com/akdlm/IRC_NAS/adb8a02c-4ee7-4882-97d6-a524150da358/l_onemkl_p_2023.2.0.49497_offline.sh
+#11 CACHED
+
+#12 [12/20] RUN sh l_onemkl_p_2023.2.0.49497_offline.sh -a --components intel.oneapi.lin.mkl.devel --action install --eula accept -s
+#12 CACHED
+
+#13 [16/20] RUN echo ".  /opt/intel/oneapi/mkl/latest/env/vars.sh" >> /etc/profile.d/intel.sh
+#13 CACHED
+
+#14 [ 4/20] RUN apt-get install -y wget git cmake g++ libaio-dev libgoogle-perftools-dev clang-format libboost-dev python3 python3-setuptools python3-pip
+#14 CACHED
+
+#15 [15/20] RUN touch /etc/profile.d/intel.sh
+#15 CACHED
+
+#16 [ 6/20] RUN pip3 install pybind11 numpy
+#16 CACHED
+
+#17 [10/20] RUN mkdir cmake && sh cmake-3.22.0-linux-x86_64.sh --skip-license --prefix=cmake
+#17 CACHED
+
+#18 [ 2/20] RUN apt update
+#18 CACHED
+
+#19 [ 8/20] RUN ls /etc/ld.so.conf.d/
+#19 CACHED
+
+#20 [17/20] RUN . /etc/profile.d/intel.sh
+#20 CACHED
+
+#21 [18/20] RUN git clone -b ood-try https://github.com/baidu/puck.git
+#21 0.172 Cloning into 'puck'...
+#21 1.179 fatal: Remote branch ood-try not found in upstream origin
+#21 ERROR: process "/bin/sh -c git clone -b ood-try https://github.com/baidu/puck.git" did not complete successfully: exit code: 128
+------
+ > [18/20] RUN git clone -b ood-try https://github.com/baidu/puck.git:
+0.172 Cloning into 'puck'...
+1.179 fatal: Remote branch ood-try not found in upstream origin
+------
+Dockerfile:31
+--------------------
+  29 |     #RUN  git config --global http.sslVerify false
+  30 |     
+  31 | >>> RUN git clone -b ood-try https://github.com/baidu/puck.git
+  32 |     # COPY puck-ood-feature.tar.gz .
+  33 |     # RUN tar zxvf puck-ood-feature.tar.gz
+--------------------
+ERROR: failed to solve: process "/bin/sh -c git clone -b ood-try https://github.com/baidu/puck.git" did not complete successfully: exit code: 128
+Building base image...
+Building algorithm images... with (1) processes
+Building neurips23-ood-puck-fizz...
+docker build  --rm -t neurips23-ood-puck-fizz -f neurips23/ood/puck-fizz/Dockerfile .
+
+
+Install Status:
+{'neurips23-ood-puck-fizz': 'fail'}
++ python3 run.py --dataset text2image-10M --algorithm puck-fizz --neurips23track ood
+file data/text2image1B/query.public.100K.fbin already exists
+file data/text2image1B/text2image-10M already exists
+file data/text2image1B/query.heldout.30K.fbin already exists
+file data/text2image1B/gt100-heldout.30K.fbin already exists
+file data/text2image1B/base.1B.fbin.crop_nb_10000000 already exists
+2024-08-29 22:03:20,868 - annb - INFO - running only puck-fizz
+2024-08-29 22:03:21,001 - annb - INFO - not all docker images available, only: {'neurips23-streaming-pyanns', 'neurips23-ood-epsearch', 'neurips23-sparse-nle', 'neurips23-filter-faissplus', 'neurips23-filter-pinecone', 'neurips23-sparse-linscan', 'neurips23-sparse-spmat', 'neurips23-filter-wm_filter', 'neurips23-sparse-pyanns', 'neurips23-filter-zilliz', 'neurips23-sparse-pinecone_smips', 'neurips23-streaming-scann', 'neurips23-filter-puck', 'neurips23-streaming-puck', 'neurips23-ood-pyanns', 'neurips23-ood-diskann', 'neurips23-filter-parlayivf', 'neurips23', 'neurips23-ood-vamana', 'neurips23-filter-faiss', 'neurips23-ood-mysteryann', 'neurips23-sparse-cufe', 'neurips23-ood-puck', 'neurips23-ood-mysteryann-dif', 'neurips23-ood-pinecone-ood', 'neurips23-streaming-cufe', 'neurips23-streaming-diskann', 'neurips23-filter-pyanns', 'neurips23-sparse-shnsw', 'neurips23-streaming-pinecone', 'neurips23-ood-sustech-ood', 'neurips23-ood-zilliz', 'neurips23-filter-cufe', 'neurips23-streaming-hwtl_sdu_anns_stream', 'neurips23-ood-ngt', 'neurips23-sparse-zilliz', 'neurips23-ood-cufe'}
+2024-08-29 22:03:21,002 - annb - INFO - missing docker images: {'neurips23-ood-puck-fizz'}
+Traceback (most recent call last):
+  File "/home/gwilliams/Projects/BigANN/big-ann-benchmarks/run.py", line 6, in <module>
+    main()
+  File "/home/gwilliams/Projects/BigANN/big-ann-benchmarks/benchmark/main.py", line 257, in main
+    raise Exception('Nothing to run')
+Exception: Nothing to run
