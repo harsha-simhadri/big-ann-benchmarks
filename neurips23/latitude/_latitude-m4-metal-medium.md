@@ -87,18 +87,24 @@ Prepare the track dataset by running the following command in the top-level dire
 python create_dataset.py --dataset sparse-full
 ```
 
+See the [latitude/commands](latitude/commands) directory for individual algorithm scripts.
+
 ### Filter Track
 
 Prepare the track dataset by running the following command in the top-level directory of the repository:
 ```
 python create_dataset.py --dataset yfcc-10M
 ```
+
+See the [latitude/commands](latitude/commands) directory for individual algorithm scripts.
+
 ### OOD Track
 
 Prepare the track dataset by running the following command in the top-level directory of the repository:
 ```
 python create_dataset.py --dataset text2image-10M 
 ```
+See the [latitude/commands](latitude/commands) directory for individual algorithm scripts.
 
 ### Streaming Track
 
@@ -107,6 +113,8 @@ Prepare the track dataset by running the following command in the top-level dire
 python create_dataset.py --dataset msturing-30M-clustered
 python -m benchmark.streaming.download_gt --runbook_file neurips23/streaming/final_runbook.yaml  --dataset msturing-30M-clustered
 ```
+
+See the [latitude/commands](latitude/commands) directory for individual algorithm scripts.
 
 ### Analysis
 
