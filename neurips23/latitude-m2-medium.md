@@ -138,6 +138,13 @@ python install.py --neurips23track sparse --algorithm pinecone_smips
 python run.py --dataset sparse-full --algorithm pinecone_smips  --neurips23track sparse
 ```
 
+#### Sparse Algorithm: zilliz
+
+```
+python install.py --neurips23track sparse --algorithm zilliz
+python run.py --dataset sparse-full --algorithm zilliz --neurips23track sparse
+```
+
 ### Filter Track
 
 Prepare the track dataset by running the following command in the top-level directory of the repository:
@@ -411,7 +418,6 @@ Traceback (most recent call last):
     return self._sock.recv_into(b)
 TimeoutError: timed out
 ```
-
 ### Analysis
 
 To extract the data as CSV:
