@@ -132,7 +132,7 @@ python plot.py --neurips23track ood --output neurips23/latitude/ood.png --raw --
 TODO: streaming track
 ```
 
-To render the ranking table, see the analysis.ipynb notebook in the 'latitude' subdirectory.
+To render the ranking table, see this [notebook](latitude/analysis.ipynb).
 
 ## Disclaimers_And_Credits
 
