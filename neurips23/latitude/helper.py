@@ -35,7 +35,6 @@ def replace_table_with_links(html, df):
                     raise Exception("Cannot locate table cell")   
                 track = col[0]
                 algo = matches.groups()[1]
-                print(track, algo)
                 if algo=="": continue
                 link_path = os.path.join( CDIR, "%s__%s.sh" % (track, algo) )
                 if not os.path.exists(link_path):
@@ -44,7 +43,8 @@ def replace_table_with_links(html, df):
                 if os.path.exists(err_path):
                     print("WARNING: Using error file path for %s/%s" % (track,algo))
                     link_path = err_path
-                link = '<a href="' + link_path + '"><div style="height:100%%;width:100%%">%s</div></a>' % algo
+                rel_link_path = os.path.join("latitude", link_path) # path is relative to markdown
+                link = '<a href="' + rel_link_path + '"><div style="height:100%%;width:100%%">%s</div></a>' % algo
                 # replace cell content with the linked version
                 new_html = new_html[0:matches.span(2)[0]] + link + new_html[matches.span(3)[0]:]
     return new_html
