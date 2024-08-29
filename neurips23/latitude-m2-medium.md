@@ -26,6 +26,228 @@ Note:
 * The [NeurIPS2023](README.md) Docker-based eval limits the use of available underlying resources.
 
 ## Results
+<table id="T_dbd66">
+  <thead>
+    <tr>
+      <th id="T_dbd66_level0_col0" class="col_heading level0 col0" colspan="4">filter</th>
+      <th id="T_dbd66_level0_col4" class="col_heading level0 col4" colspan="4">sparse</th>
+      <th id="T_dbd66_level0_col8" class="col_heading level0 col8" colspan="4">ood</th>
+    </tr>
+    <tr>
+      <th id="T_dbd66_level1_col0" class="col_heading level1 col0" >rank</th>
+      <th id="T_dbd66_level1_col1" class="col_heading level1 col1" >algorithm</th>
+      <th id="T_dbd66_level1_col2" class="col_heading level1 col2" >qps</th>
+      <th id="T_dbd66_level1_col3" class="col_heading level1 col3" >status</th>
+      <th id="T_dbd66_level1_col4" class="col_heading level1 col4" >rank</th>
+      <th id="T_dbd66_level1_col5" class="col_heading level1 col5" >algorithm</th>
+      <th id="T_dbd66_level1_col6" class="col_heading level1 col6" >qps</th>
+      <th id="T_dbd66_level1_col7" class="col_heading level1 col7" >status</th>
+      <th id="T_dbd66_level1_col8" class="col_heading level1 col8" >rank</th>
+      <th id="T_dbd66_level1_col9" class="col_heading level1 col9" >algorithm</th>
+      <th id="T_dbd66_level1_col10" class="col_heading level1 col10" >qps</th>
+      <th id="T_dbd66_level1_col11" class="col_heading level1 col11" >status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="T_dbd66_row0_col0" class="data row0 col0" >1</td>
+      <td id="T_dbd66_row0_col1" class="data row0 col1" ><a href="commands/filter__pinecone.sh"><div style="height:100%;width:100%">pinecone</div></a></td>
+      <td id="T_dbd66_row0_col2" class="data row0 col2" >146721.241800</td>
+      <td id="T_dbd66_row0_col3" class="data row0 col3" >ok</td>
+      <td id="T_dbd66_row0_col4" class="data row0 col4" >1</td>
+      <td id="T_dbd66_row0_col5" class="data row0 col5" ><a href="commands/sparse__pyanns.sh"><div style="height:100%;width:100%">pyanns</div></a></td>
+      <td id="T_dbd66_row0_col6" class="data row0 col6" >26858.518647</td>
+      <td id="T_dbd66_row0_col7" class="data row0 col7" >ok</td>
+      <td id="T_dbd66_row0_col8" class="data row0 col8" >1</td>
+      <td id="T_dbd66_row0_col9" class="data row0 col9" ><a href="commands/ood__pinecone-ood.sh"><div style="height:100%;width:100%">pinecone-ood</div></a></td>
+      <td id="T_dbd66_row0_col10" class="data row0 col10" >76865.422871</td>
+      <td id="T_dbd66_row0_col11" class="data row0 col11" >ok</td>
+    </tr>
+    <tr>
+      <td id="T_dbd66_row1_col0" class="data row1 col0" >2</td>
+      <td id="T_dbd66_row1_col1" class="data row1 col1" >puck</td>
+      <td id="T_dbd66_row1_col2" class="data row1 col2" >62257.694628</td>
+      <td id="T_dbd66_row1_col3" class="data row1 col3" >ok</td>
+      <td id="T_dbd66_row1_col4" class="data row1 col4" >2</td>
+      <td id="T_dbd66_row1_col5" class="data row1 col5" >pinecone_smips</td>
+      <td id="T_dbd66_row1_col6" class="data row1 col6" >12003.182367</td>
+      <td id="T_dbd66_row1_col7" class="data row1 col7" >ok</td>
+      <td id="T_dbd66_row1_col8" class="data row1 col8" >2</td>
+      <td id="T_dbd66_row1_col9" class="data row1 col9" >pyanns</td>
+      <td id="T_dbd66_row1_col10" class="data row1 col10" >55504.351628</td>
+      <td id="T_dbd66_row1_col11" class="data row1 col11" >ok</td>
+    </tr>
+    <tr>
+      <td id="T_dbd66_row2_col0" class="data row2 col0" >3</td>
+      <td id="T_dbd66_row2_col1" class="data row2 col1" >parlayivf</td>
+      <td id="T_dbd66_row2_col2" class="data row2 col2" >55033.197938</td>
+      <td id="T_dbd66_row2_col3" class="data row2 col3" >ok</td>
+      <td id="T_dbd66_row2_col4" class="data row2 col4" >3</td>
+      <td id="T_dbd66_row2_col5" class="data row2 col5" >shnsw</td>
+      <td id="T_dbd66_row2_col6" class="data row2 col6" >8247.277083</td>
+      <td id="T_dbd66_row2_col7" class="data row2 col7" >ok</td>
+      <td id="T_dbd66_row2_col8" class="data row2 col8" >3</td>
+      <td id="T_dbd66_row2_col9" class="data row2 col9" >sustech-ood</td>
+      <td id="T_dbd66_row2_col10" class="data row2 col10" >28458.262883</td>
+      <td id="T_dbd66_row2_col11" class="data row2 col11" >ok</td>
+    </tr>
+    <tr>
+      <td id="T_dbd66_row3_col0" class="data row3 col0" >4</td>
+      <td id="T_dbd66_row3_col1" class="data row3 col1" >wm_filter</td>
+      <td id="T_dbd66_row3_col2" class="data row3 col2" >20874.856888</td>
+      <td id="T_dbd66_row3_col3" class="data row3 col3" >ok</td>
+      <td id="T_dbd66_row3_col4" class="data row3 col4" >4</td>
+      <td id="T_dbd66_row3_col5" class="data row3 col5" >nle</td>
+      <td id="T_dbd66_row3_col6" class="data row3 col6" >2945.626091</td>
+      <td id="T_dbd66_row3_col7" class="data row3 col7" >ok</td>
+      <td id="T_dbd66_row3_col8" class="data row3 col8" >4</td>
+      <td id="T_dbd66_row3_col9" class="data row3 col9" >mysteryann-dif</td>
+      <td id="T_dbd66_row3_col10" class="data row3 col10" >27946.097391</td>
+      <td id="T_dbd66_row3_col11" class="data row3 col11" >ok</td>
+    </tr>
+    <tr>
+      <td id="T_dbd66_row4_col0" class="data row4 col0" >5</td>
+      <td id="T_dbd66_row4_col1" class="data row4 col1" >pyanns</td>
+      <td id="T_dbd66_row4_col2" class="data row4 col2" >8988.021683</td>
+      <td id="T_dbd66_row4_col3" class="data row4 col3" >ok</td>
+      <td id="T_dbd66_row4_col4" class="data row4 col4" >5</td>
+      <td id="T_dbd66_row4_col5" class="data row4 col5" >cufe</td>
+      <td id="T_dbd66_row4_col6" class="data row4 col6" >84.975738</td>
+      <td id="T_dbd66_row4_col7" class="data row4 col7" >ok</td>
+      <td id="T_dbd66_row4_col8" class="data row4 col8" >5</td>
+      <td id="T_dbd66_row4_col9" class="data row4 col9" >mysteryann</td>
+      <td id="T_dbd66_row4_col10" class="data row4 col10" >26560.866584</td>
+      <td id="T_dbd66_row4_col11" class="data row4 col11" >ok</td>
+    </tr>
+    <tr>
+      <td id="T_dbd66_row5_col0" class="data row5 col0" >6</td>
+      <td id="T_dbd66_row5_col1" class="data row5 col1" >faissplus</td>
+      <td id="T_dbd66_row5_col2" class="data row5 col2" >8493.264038</td>
+      <td id="T_dbd66_row5_col3" class="data row5 col3" >ok</td>
+      <td id="T_dbd66_row5_col4" class="data row5 col4" >6</td>
+      <td id="T_dbd66_row5_col5" class="data row5 col5" >linscan</td>
+      <td id="T_dbd66_row5_col6" class="data row5 col6" >60.756008</td>
+      <td id="T_dbd66_row5_col7" class="data row5 col7" >ok</td>
+      <td id="T_dbd66_row5_col8" class="data row5 col8" >6</td>
+      <td id="T_dbd66_row5_col9" class="data row5 col9" >vamana</td>
+      <td id="T_dbd66_row5_col10" class="data row5 col10" >19965.516521</td>
+      <td id="T_dbd66_row5_col11" class="data row5 col11" >ok</td>
+    </tr>
+    <tr>
+      <td id="T_dbd66_row6_col0" class="data row6 col0" >7</td>
+      <td id="T_dbd66_row6_col1" class="data row6 col1" >faiss</td>
+      <td id="T_dbd66_row6_col2" class="data row6 col2" >7327.855358</td>
+      <td id="T_dbd66_row6_col3" class="data row6 col3" >ok</td>
+      <td id="T_dbd66_row6_col4" class="data row6 col4" ><NA></td>
+      <td id="T_dbd66_row6_col5" class="data row6 col5" >sustech-whu</td>
+      <td id="T_dbd66_row6_col6" class="data row6 col6" ></td>
+      <td id="T_dbd66_row6_col7" class="data row6 col7" >error</td>
+      <td id="T_dbd66_row6_col8" class="data row6 col8" >7</td>
+      <td id="T_dbd66_row6_col9" class="data row6 col9" >puck</td>
+      <td id="T_dbd66_row6_col10" class="data row6 col10" >18960.224161</td>
+      <td id="T_dbd66_row6_col11" class="data row6 col11" >ok</td>
+    </tr>
+    <tr>
+      <td id="T_dbd66_row7_col0" class="data row7 col0" >8</td>
+      <td id="T_dbd66_row7_col1" class="data row7 col1" >cufe</td>
+      <td id="T_dbd66_row7_col2" class="data row7 col2" >6318.461801</td>
+      <td id="T_dbd66_row7_col3" class="data row7 col3" >ok</td>
+      <td id="T_dbd66_row7_col4" class="data row7 col4" ><NA></td>
+      <td id="T_dbd66_row7_col5" class="data row7 col5" >spmat</td>
+      <td id="T_dbd66_row7_col6" class="data row7 col6" ></td>
+      <td id="T_dbd66_row7_col7" class="data row7 col7" >error</td>
+      <td id="T_dbd66_row7_col8" class="data row7 col8" >8</td>
+      <td id="T_dbd66_row7_col9" class="data row7 col9" >ngt</td>
+      <td id="T_dbd66_row7_col10" class="data row7 col10" >11921.398938</td>
+      <td id="T_dbd66_row7_col11" class="data row7 col11" >ok</td>
+    </tr>
+    <tr>
+      <td id="T_dbd66_row8_col0" class="data row8 col0" ><NA></td>
+      <td id="T_dbd66_row8_col1" class="data row8 col1" >zilliz</td>
+      <td id="T_dbd66_row8_col2" class="data row8 col2" ></td>
+      <td id="T_dbd66_row8_col3" class="data row8 col3" >error</td>
+      <td id="T_dbd66_row8_col4" class="data row8 col4" ><NA></td>
+      <td id="T_dbd66_row8_col5" class="data row8 col5" >zilliz</td>
+      <td id="T_dbd66_row8_col6" class="data row8 col6" ></td>
+      <td id="T_dbd66_row8_col7" class="data row8 col7" >error</td>
+      <td id="T_dbd66_row8_col8" class="data row8 col8" >9</td>
+      <td id="T_dbd66_row8_col9" class="data row8 col9" >epsearch</td>
+      <td id="T_dbd66_row8_col10" class="data row8 col10" >7663.219028</td>
+      <td id="T_dbd66_row8_col11" class="data row8 col11" >ok</td>
+    </tr>
+    <tr>
+      <td id="T_dbd66_row9_col0" class="data row9 col0" ><NA></td>
+      <td id="T_dbd66_row9_col1" class="data row9 col1" >dhq</td>
+      <td id="T_dbd66_row9_col2" class="data row9 col2" ></td>
+      <td id="T_dbd66_row9_col3" class="data row9 col3" >error</td>
+      <td id="T_dbd66_row9_col4" class="data row9 col4" ><NA></td>
+      <td id="T_dbd66_row9_col5" class="data row9 col5" ></td>
+      <td id="T_dbd66_row9_col6" class="data row9 col6" ></td>
+      <td id="T_dbd66_row9_col7" class="data row9 col7" ></td>
+      <td id="T_dbd66_row9_col8" class="data row9 col8" >10</td>
+      <td id="T_dbd66_row9_col9" class="data row9 col9" >diskann</td>
+      <td id="T_dbd66_row9_col10" class="data row9 col10" >6406.820738</td>
+      <td id="T_dbd66_row9_col11" class="data row9 col11" >ok</td>
+    </tr>
+    <tr>
+      <td id="T_dbd66_row10_col0" class="data row10 col0" ><NA></td>
+      <td id="T_dbd66_row10_col1" class="data row10 col1" >hwtl_sdu_anns_filter</td>
+      <td id="T_dbd66_row10_col2" class="data row10 col2" ></td>
+      <td id="T_dbd66_row10_col3" class="data row10 col3" >error</td>
+      <td id="T_dbd66_row10_col4" class="data row10 col4" ><NA></td>
+      <td id="T_dbd66_row10_col5" class="data row10 col5" ></td>
+      <td id="T_dbd66_row10_col6" class="data row10 col6" ></td>
+      <td id="T_dbd66_row10_col7" class="data row10 col7" ></td>
+      <td id="T_dbd66_row10_col8" class="data row10 col8" >11</td>
+      <td id="T_dbd66_row10_col9" class="data row10 col9" >cufe</td>
+      <td id="T_dbd66_row10_col10" class="data row10 col10" >5404.492150</td>
+      <td id="T_dbd66_row10_col11" class="data row10 col11" >ok</td>
+    </tr>
+    <tr>
+      <td id="T_dbd66_row11_col0" class="data row11 col0" ><NA></td>
+      <td id="T_dbd66_row11_col1" class="data row11 col1" >fdufilterdiskann</td>
+      <td id="T_dbd66_row11_col2" class="data row11 col2" ></td>
+      <td id="T_dbd66_row11_col3" class="data row11 col3" >error</td>
+      <td id="T_dbd66_row11_col4" class="data row11 col4" ><NA></td>
+      <td id="T_dbd66_row11_col5" class="data row11 col5" ></td>
+      <td id="T_dbd66_row11_col6" class="data row11 col6" ></td>
+      <td id="T_dbd66_row11_col7" class="data row11 col7" ></td>
+      <td id="T_dbd66_row11_col8" class="data row11 col8" ><NA></td>
+      <td id="T_dbd66_row11_col9" class="data row11 col9" >scann</td>
+      <td id="T_dbd66_row11_col10" class="data row11 col10" ></td>
+      <td id="T_dbd66_row11_col11" class="data row11 col11" >error</td>
+    </tr>
+    <tr>
+      <td id="T_dbd66_row12_col0" class="data row12 col0" ><NA></td>
+      <td id="T_dbd66_row12_col1" class="data row12 col1" ></td>
+      <td id="T_dbd66_row12_col2" class="data row12 col2" ></td>
+      <td id="T_dbd66_row12_col3" class="data row12 col3" ></td>
+      <td id="T_dbd66_row12_col4" class="data row12 col4" ><NA></td>
+      <td id="T_dbd66_row12_col5" class="data row12 col5" ></td>
+      <td id="T_dbd66_row12_col6" class="data row12 col6" ></td>
+      <td id="T_dbd66_row12_col7" class="data row12 col7" ></td>
+      <td id="T_dbd66_row12_col8" class="data row12 col8" ><NA></td>
+      <td id="T_dbd66_row12_col9" class="data row12 col9" >zilliz</td>
+      <td id="T_dbd66_row12_col10" class="data row12 col10" ></td>
+      <td id="T_dbd66_row12_col11" class="data row12 col11" >error</td>
+    </tr>
+    <tr>
+      <td id="T_dbd66_row13_col0" class="data row13 col0" ><NA></td>
+      <td id="T_dbd66_row13_col1" class="data row13 col1" ></td>
+      <td id="T_dbd66_row13_col2" class="data row13 col2" ></td>
+      <td id="T_dbd66_row13_col3" class="data row13 col3" ></td>
+      <td id="T_dbd66_row13_col4" class="data row13 col4" ><NA></td>
+      <td id="T_dbd66_row13_col5" class="data row13 col5" ></td>
+      <td id="T_dbd66_row13_col6" class="data row13 col6" ></td>
+      <td id="T_dbd66_row13_col7" class="data row13 col7" ></td>
+      <td id="T_dbd66_row13_col8" class="data row13 col8" ><NA></td>
+      <td id="T_dbd66_row13_col9" class="data row13 col9" >puck-fizz</td>
+      <td id="T_dbd66_row13_col10" class="data row13 col10" ></td>
+      <td id="T_dbd66_row13_col11" class="data row13 col11" >error</td>
+    </tr>
+  </tbody>
+</table>
+ 
 
 ### Track: Filter
 
