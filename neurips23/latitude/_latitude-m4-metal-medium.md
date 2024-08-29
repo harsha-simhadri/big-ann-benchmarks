@@ -19,7 +19,7 @@ Shown here are results run on the following hardware:
 * AMD EPYC 9124 16-Core 3GHz processor
 * 125GB RAM 
 * 440GB NVMe SSD
-* Bare-metal "m4-bare-medium" instance provided by [Latitude](https://www.latitude.sh/) 
+* Bare-metal "m4-metal-medium" instance provided by [Latitude](https://www.latitude.sh/) 
 
 Note:
 * We've included a [detailed hardware inventory.](#hardware_inventory)
@@ -45,13 +45,13 @@ Note:
 
 ### Data Export
 
-The full data export CSV file can be found [here.](latitude/data_export_m4-bare-medium.csv)
+The full data export CSV file can be found [here.](latitude/data_export_m4-metal-medium.csv)
 
 ## Hardware_Inventory
 
-* Via [*lshw*](latitude/m4-bare-medium-lshw.txt)
-* Via [*hwinfo*](latitude/m4-bare-medium-hwinfo.txt)
-* Via [*procinfo*](latitude/m4-bare-medium-procinfo.txt)
+* Via [*lshw*](latitude/m4-metal-medium-lshw.txt)
+* Via [*hwinfo*](latitude/m4-metal-medium-hwinfo.txt)
+* Via [*procinfo*](latitude/m4-metal-medium-procinfo.txt)
 
 ## How_To_Reproduce
 
@@ -62,7 +62,7 @@ A few algorithms did not complete and those errors are shown.
 ### System Preparation
 
 * Signup for/sign into your Latitude account 
-* Provision an "m4-bare-medium" instance with at least 100GB NVMe SSD with Linux 20.04.06 LTS
+* Provision an "m4-metal-medium" instance with at least 100GB NVMe SSD with Linux 20.04.06 LTS
 * ssh remotely into the instance
 * update Linux via command ```sudo apt-get update```
 * install Anaconda for Linux
@@ -70,8 +70,8 @@ A few algorithms did not complete and those errors are shown.
 ```
 git clone git@github.com:harsha-simhadri/big-ann-benchmarks.git
 cd big-ann-benchmarks
-conda create -n bigann-latitude-m4-bare-medium python=3.10
-conda activate bigann-latitude-m4-bare-medium
+conda create -n bigann-latitude-m4-metal-medium python=3.10
+conda activate bigann-latitude-m4-metal-medium
 python -m pip install -r requirements_py3.10.txt 
 ```
 
