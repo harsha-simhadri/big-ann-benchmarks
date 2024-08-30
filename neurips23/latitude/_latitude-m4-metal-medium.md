@@ -21,15 +21,11 @@ Shown here are results run on the following hardware:
 * 440GB NVMe SSD
 * Bare-metal "m4-metal-medium" instance provided by [Latitude](https://www.latitude.sh/) 
 
-Note:
-* We've included a [detailed hardware inventory.](#hardware_inventory)
-* The [NeurIPS2023](README.md) Docker-based eval limits the use of available underlying resources.
-
 ## Results
 
 Notes:
 * Evaluations were run in late August 2024
-* Click on algorithm link to see the build and run commmand used (and errors if any).
+* In the table, each track algorithm links to the build and run commmand used (and errors if any).
 * Pareto graphs for each track shown below.
 
 ### Track: Filter
