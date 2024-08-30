@@ -23,6 +23,8 @@ Shown here are results run on the following hardware:
 
 ## Results
 
+The calculated rankings are shown at the top.
+
 Notes:
 * Evaluations were run in late August 2024
 * In the table, each track algorithm links to the build and run commmand used (and errors if any).
