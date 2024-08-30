@@ -26,9 +26,10 @@ Shown here are results run on the following hardware:
 The calculated rankings are shown at the top.
 
 Notes:
-* Evaluations were run in late August 2024
-# All participating algorithms are shown, but only qualifying algorithms are ranked.
-* In the table, each track algorithm links to the build and run commmand used (and errors if any).
+* Evaluations were run in late August 2024/Q
+* In each track, qualifying algorithms are ranked by largest QPS where recall/ap >= 0.9.
+* All participating algorithms are shown for each track, but only qualifying algorithms are ranked.
+* Each track algorithm links to the build and run commmand used (or disqualifying errors, if any).
 * Pareto graphs for each track shown below.
 
 ### Track: Filter
