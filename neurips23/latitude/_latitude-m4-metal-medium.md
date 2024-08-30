@@ -118,7 +118,7 @@ See the [latitude/commands](latitude/commands) directory for individual algorith
 
 To extract the data as CSV:
 ```
-sudo chmod ugo+rw -R ./results/ # recursively add read permissions to data files
+sudo chmod ugo+rw -R ./results/ # recursively add read/write permissions to directories and files under the results directory.
 python data_export.py --recompute --output neurips23/latitude/data_export_m4-metal-medium.csv
 ```
 
