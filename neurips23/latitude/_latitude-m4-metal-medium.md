@@ -27,6 +27,7 @@ The calculated rankings are shown at the top.
 
 Notes:
 * Evaluations were run in late August 2024
+# All participating algorithms are shown, but only qualifying algorithms are ranked.
 * In the table, each track algorithm links to the build and run commmand used (and errors if any).
 * Pareto graphs for each track shown below.
 
