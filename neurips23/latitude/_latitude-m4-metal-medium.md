@@ -27,7 +27,7 @@ The calculated rankings are shown at the top.
 
 Notes:
 * Evaluations were run in late August 2024.
-* In each track, qualifying algorithms are ranked by largest QPS where recall/ap >= 0.9.
+* In each track, qualifying algorithms are ranked by largest *qps* where *recall/ap* >= 0.9.
 * All participating algorithms are shown for each track, but only qualifying algorithms are ranked.
 * Each track algorithm links to the build and run commmand used (or disqualifying errors, if any).
 * Pareto graphs for each track shown below.
