@@ -58,8 +58,6 @@ The full data export CSV file can be found [here.](latitude/data_export_m4-metal
 
 This section shows the steps you can use to reproduce the results shown above, from scratch.
 
-A few algorithms did not complete and those errors are shown.
-
 ### System Preparation
 
 * Signup for/sign into your Latitude account 
