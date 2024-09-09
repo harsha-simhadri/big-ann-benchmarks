@@ -19,3 +19,9 @@ USER root
 # copy the script to start the database that we will use start the database during the tests
 COPY neurips23/streaming/start_database.sh /home/app/
 RUN chmod +x /home/app/start_database.sh
+
+# install linux-tools-generic into docker so that devs can use perf if they want
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt install -y linux-tools-generic
+
+# clone FlameGraph for the same purpose
+RUN git clone https://github.com/brendangregg/FlameGraph

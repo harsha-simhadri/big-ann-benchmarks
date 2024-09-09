@@ -289,6 +289,7 @@ def run_docker(definition, dataset, count, runs, timeout, rebuild,
             },
             cpuset_cpus=cpu_limit,
             mem_limit=mem_limit,
+            privileged=True, # so that we can run perf inside the container
             detach=True)
  
     # set/override container timeout based on competition flag
