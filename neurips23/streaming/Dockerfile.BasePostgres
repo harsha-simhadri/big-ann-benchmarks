@@ -1,0 +1,21 @@
+FROM neurips23
+
+# install Postgres and dev package
+RUN apt-get update && \
+    apt-get -y install wget gnupg2 lsb-release
+RUN sh -c 'echo "deb https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y install postgresql-16 postgresql-server-dev-16
+
+# install git
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt install -y git
+
+# create a Postgres database
+USER postgres
+RUN mkdir /var/lib/postgresql/test_database
+RUN /usr/lib/postgresql/16/bin/initdb -D /var/lib/postgresql/test_database
+USER root
+
+# copy the script to start the database that we will use start the database during the tests
+COPY neurips23/streaming/start_database.sh /home/app/
+RUN chmod +x /home/app/start_database.sh

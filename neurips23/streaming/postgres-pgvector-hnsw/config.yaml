@@ -1,0 +1,100 @@
+random-xs:
+    postgres-pgvector-hnsw:
+      docker-tag: neurips23-streaming-postgres-pgvector-hnsw
+      module: neurips23.streaming.postgres-pgvector-hnsw.wrapper
+      constructor: PostgresPgvectorHnsw
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+            [{"m":16, "ef_construction":64, "insert_conns":16}]
+          query-args: |
+            [{"ef_search":50, "query_conns":8}]
+random-xs-clustered:
+    postgres-pgvector-hnsw:
+      docker-tag: neurips23-streaming-postgres-pgvector-hnsw
+      module: neurips23.streaming.postgres-pgvector-hnsw.wrapper
+      constructor: PostgresPgvectorHnsw
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+            [{"m":16, "ef_construction":64, "insert_conns":16}]
+          query-args: |
+            [{"ef_search":50, "query_conns":8}]
+msspacev-1M:
+    postgres-pgvector-hnsw:
+      docker-tag: neurips23-streaming-postgres-pgvector-hnsw
+      module: neurips23.streaming.postgres-pgvector-hnsw.wrapper
+      constructor: PostgresPgvectorHnsw
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+            [{"m":25, "ef_construction":64, "insert_conns":16}]
+          query-args: |
+            [{"ef_search":300, "query_conns":16},
+             {"ef_search":100, "query_conns":16}]
+msturing-1M:
+    postgres-pgvector-hnsw:
+      docker-tag: neurips23-streaming-postgres-pgvector-hnsw
+      module: neurips23.streaming.postgres-pgvector-hnsw.wrapper
+      constructor: PostgresPgvectorHnsw
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+            [{"m":25, "ef_construction":64, "insert_conns":16}]
+          query-args: |
+            [{"ef_search":300, "query_conns":16},
+             {"ef_search":100, "query_conns":16}]
+msspacev-10M:
+    postgres-pgvector-hnsw:
+      docker-tag: neurips23-streaming-postgres-pgvector-hnsw
+      module: neurips23.streaming.postgres-pgvector-hnsw.wrapper
+      constructor: PostgresPgvectorHnsw
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+            [{"m":32, "ef_construction":64, "insert_conns":16}]
+          query-args: |
+            [{"ef_search":100, "query_conns":16}]
+msturing-10M:
+    postgres-pgvector-hnsw:
+      docker-tag: neurips23-streaming-postgres-pgvector-hnsw
+      module: neurips23.streaming.postgres-pgvector-hnsw.wrapper
+      constructor: PostgresPgvectorHnsw
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+            [{"m":32, "ef_construction":64, "insert_conns":16}]
+          query-args: |
+            [{"ef_search":100, "query_conns":16}]
+msturing-10M-clustered:
+    postgres-pgvector-hnsw:
+      docker-tag: neurips23-streaming-postgres-pgvector-hnsw
+      module: neurips23.streaming.postgres-pgvector-hnsw.wrapper
+      constructor: PostgresPgvectorHnsw
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+            [{"m":32, "ef_construction":64, "insert_conns":16}]
+          query-args: |
+            [{"ef_search":100, "query_conns":16}]
+msturing-30M-clustered:
+    postgres-pgvector-hnsw:
+      docker-tag: neurips23-streaming-postgres-pgvector-hnsw
+      module: neurips23.streaming.postgres-pgvector-hnsw.wrapper
+      constructor: PostgresPgvectorHnsw
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+            [{"m":16, "ef_construction":64, "insert_conns":16},
+             {"m":16, "ef_construction":90, "insert_conns":16},
+             {"m":25, "ef_construction":64, "insert_conns":16}]
+          query-args: |
+            [{"ef_search":70, "query_conns":16}]
