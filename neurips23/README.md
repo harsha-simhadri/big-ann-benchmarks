@@ -175,6 +175,7 @@ where [task] is _sparse_, _streaming_, _filter_, or _ood_.
 This framework evaluates algorithms in Docker containers by default.  Your algorithm's Dockerfile should live in *neurips23/[task]/[your_team_name]/Dockerfile*.  Your Docker file should contain everything needed to install and run your algorithm on a system with the same hardware. 
 
 It's recommended to use `neurips23` as the base image for your Dockerfile except that you will likely want to use `neurips23_postgres` for Postgres based algorithms.
+However, `install.py` builds the base Postgres image only if the algorithm name starts with `postgres-`. For this reason, if you want to use the Postgres base image, you should place your implementation in a directory starting with `postgres-` under the `streaming` directory.
 
 Please consult [this file](filter/faiss/Dockerfile) as an example. 
 
