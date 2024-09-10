@@ -174,6 +174,8 @@ where [task] is _sparse_, _streaming_, _filter_, or _ood_.
 
 This framework evaluates algorithms in Docker containers by default.  Your algorithm's Dockerfile should live in *neurips23/[task]/[your_team_name]/Dockerfile*.  Your Docker file should contain everything needed to install and run your algorithm on a system with the same hardware. 
 
+It's recommended to use `neurips23` as the base image for your Dockerfile except that you will likely want to use `neurips23_postgres` for Postgres based algorithms.
+
 Please consult [this file](filter/faiss/Dockerfile) as an example. 
 
 To build your Docker container, run:
@@ -185,10 +187,15 @@ python install.py --neurips23track [task] --algorithm [your_team_name]
 
 Develop and add your algorithm's Python class to the `neurips23/[task]/[your_team_name]/` directory.
 * You will need to subclass from the [BaseANN class](../benchmark/algorithms/base.py). Each track has its own base class, for example see the [BaseFilterANN class](../neurips23/filter/base.py). 
-Implement the functions of that parent class.
+  * For streaming, it's recommended to subclass from the [BaseStreamingANN class](../neurips23/streaming/base.py) except that you will likely want to use [BaseStreamingANNPostgres class](../neurips23/streaming/base_postgres.py) for Postgres based algorithms.
+  
+  Finally, you need to implement the functions of the chosen parent class.
 * You should consult the examples present in the [neurips23](./) directory.
 * If it is difficult to write a Python wrapper, please consult [HttpANN](../benchmark/algorithms/httpann_example.py) for a RESTful API.
 * Create a `yaml` file, for example `neurips23/[task]/[your_team_name]/config.yaml`, that specifies how to invoke your implementation.  This file contains the index build parameters and query parameters that will get passed to your algorithm at run-time. 
+  * For Postgres based algoritms under streaming, `insert_conns` and `query_conns` are the number of connections to be used for insertions and queries respectively and any Postgres based algorithm must specify them in the config file.
+    The parameters provided as part of `args` (except `insert_conns`) are considered as index-build parameters to be provided to `WITH` clause of the `CREATE INDEX` command that will be used to create the index.
+    Similarly, the parameters provided as part of `query_args` (except `query_conns`) are considered as GUC names and values to be set for the query execution using `SET` commands for all database connections.
 
 When you are ready to test on the competition datasets, use the create_dataset.py script as follows:
 ```
