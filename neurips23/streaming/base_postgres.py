@@ -42,7 +42,8 @@ class BaseStreamingANNPostgres(BaseStreamingANN):
         self.index_build_params = {k: v for k, v in index_params.items() if k != "insert_conns"}
 
         self.ind_op_class = self.determine_index_op_class(metric)
-        self.query_op = self.determine_query_op(metric)
+
+        self.search_query = f"SELECT id FROM test_tbl ORDER BY vec_col {self.determine_query_op(metric)} %b LIMIT %b"
 
         start_database_result = subprocess.run(['bash', '/home/app/start_database.sh'], capture_output=True, text=True)
         if start_database_result.returncode != 0:
@@ -113,7 +114,8 @@ class BaseStreamingANNPostgres(BaseStreamingANN):
             self.num_unprocessed_deletes = 0
 
         def copy_data(conn_idx, id_start_idx, id_end_idx):
-            with self.conns[conn_idx].cursor().copy("COPY test_tbl (id, vec_col) FROM STDIN") as copy:
+            with self.conns[conn_idx].cursor().copy("COPY test_tbl (id, vec_col) FROM STDIN WITH (FORMAT BINARY)") as copy:
+                copy.set_types(["int8", "vector"])
                 for id, vec in zip(ids[id_start_idx:id_end_idx], X[id_start_idx:id_end_idx]):
                     copy.write_row((id, vec))
 
@@ -169,7 +171,7 @@ class BaseStreamingANNPostgres(BaseStreamingANN):
             for query_vec in X[query_vec_start_idx: query_vec_end_idx]:
                 with self.conns[conn_idx].cursor() as cur:
                     try:
-                        cur.execute(f"SELECT id FROM test_tbl ORDER BY vec_col {self.query_op} %s LIMIT {k}", (query_vec, ))
+                        cur.execute(self.search_query, (query_vec, k, ), binary=True, prepare=True)
                     except Exception as e:
                         raise Exception(f"Error '{e}' when querying with k={k}\nQuery vector was:\n{query_vec}") from e
 
