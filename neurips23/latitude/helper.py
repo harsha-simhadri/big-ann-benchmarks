@@ -19,7 +19,7 @@ def remove_style_prefix(html):
     else:
         return html
 
-def replace_table_with_links(html, df):
+def replace_table_with_links(html, df, ignore_algos=[]):
     '''This is a messy function but seems to work well.  It replaces table cells with appropriate 
        links by iterating the rows and cols of table and locating the cell html via regex.  It may
        be better to use BeautifulSoup and related scraping/html helper library.'''
@@ -36,6 +36,9 @@ def replace_table_with_links(html, df):
                 track = col[0]
                 algo = matches.groups()[1]
                 if algo=="": continue
+                if algo in ignore_algos:
+                    print("WARNING: Ignoring %s" % algo)
+                    continue
                 link_path = os.path.join( CDIR, "%s__%s.sh" % (track, algo) )
                 if not os.path.exists(link_path):
                     raise Exception("Cannot locate run path" + link_path)
