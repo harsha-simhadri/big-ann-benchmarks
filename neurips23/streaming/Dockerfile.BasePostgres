@@ -16,9 +16,15 @@ RUN mkdir /var/lib/postgresql/test_database
 RUN /usr/lib/postgresql/16/bin/initdb -D /var/lib/postgresql/test_database
 USER root
 
-# copy the script to start the database that we will use start the database during the tests
-COPY neurips23/streaming/start_database.sh /home/app/
+# create that we will use start the database during the tests
+RUN echo "su - postgres -c \"/usr/lib/postgresql/16/bin/pg_ctl \
+          -D /var/lib/postgresql/test_database \
+          -l /var/lib/postgresql/test_database_logfile \
+          -o \\\"-F -p 5432\\\" start\"" > /home/app/start_database.sh
 RUN chmod +x /home/app/start_database.sh
+
+# install python deps
+RUN pip3 install pgvector==0.3.3 psycopg==3.2.1
 
 # install linux-tools-generic into docker so that devs can use perf if they want
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt install -y linux-tools-generic

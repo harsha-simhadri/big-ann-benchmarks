@@ -36,6 +36,9 @@ class BaseStreamingANNPostgres(BaseStreamingANN):
         if self.n_insert_conns == None:
             raise Exception('Missing parameter insert_conns')
 
+        # save it for later use in __str__()
+        self._index_params = index_params
+
         # we'll initialize the connections later in set_query_arguments() per "query-arguments" set
         self.conns = []
 
@@ -228,6 +231,9 @@ class BaseStreamingANNPostgres(BaseStreamingANN):
         self.res = np.vstack(result_id_lists, dtype=np.int32)
 
     def set_query_arguments(self, query_args):
+        # save it for later use in __str__()
+        self._query_args = query_args
+
         # close any existing connections
         for conn in self.conns:
             conn.close()
@@ -261,4 +267,8 @@ class BaseStreamingANNPostgres(BaseStreamingANN):
                 cursor_print_and_execute(cur, f"SET enable_seqscan TO OFF")
 
     def __str__(self):
-        return self.name
+        build_args_str = ' '.join([f'{k}={v}' for k, v in sorted(self._index_params.items())])
+        query_args_str = ' '.join([f'{k}={v}' for k, v in sorted(self._query_args.items())])
+
+        return f'{self.name}({build_args_str} - {query_args_str})'
+
