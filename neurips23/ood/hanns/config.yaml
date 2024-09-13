@@ -1,0 +1,21 @@
+text2image-10M:
+    hanns:
+      docker-tag: neurips23-ood-hanns
+      module: neurips23.ood.hanns.hanns
+      constructor: Hanns
+      base-args: ["@metric"]
+      run-groups:
+        tree40k-config0:
+          args: |
+            [{"tree_size": 40000, "download": true, "config_id": 0}]
+          query-args: |
+            [{"leaves_to_search": 27, "reorder": 111},
+             {"leaves_to_search": 27, "reorder": 130},
+             {"leaves_to_search": 32, "reorder": 140},
+             {"leaves_to_search": 32, "reorder": 150},
+             {"leaves_to_search": 34, "reorder": 150},
+             {"leaves_to_search": 36, "reorder": 150},
+             {"leaves_to_search": 37, "reorder": 145},
+             {"leaves_to_search": 38, "reorder": 140},
+             {"leaves_to_search": 42, "reorder": 160},
+             {"leaves_to_search": 34, "reorder": 155}]

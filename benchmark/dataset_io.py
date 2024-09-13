@@ -61,6 +61,7 @@ def download_accelerated(src, dst, quiet=False, sas_string=""):
             cmd = f"azcopy copy {src} {dst}"
         else:
             cmd = f"azcopy copy '{src}?{sas_string}' '{dst}'"
+        cmd += " --from-to BlobLocal"
     else:
         cmd = f"axel --alternate -n 10 {src} -o {dst}"
         if quiet:

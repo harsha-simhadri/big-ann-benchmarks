@@ -97,6 +97,10 @@ if __name__ == "__main__":
             runbook_paths = [None]
             if track == 'streaming':
                 runbook_paths = ['neurips23/streaming/simple_runbook.yaml',
+                                    'neurips23/streaming/simple_replace_runbook.yaml',
+                                    'neurips23/streaming/random_replace_runbook.yaml',
+                                    'neurips23/streaming/clustered_replace_runbook.yaml',
+                                    'neurips23/streaming/clustered_runbook.yaml',
                                     'neurips23/streaming/clustered_runbook.yaml',
                                     'neurips23/streaming/delete_runbook.yaml',
                                     'neurips23/streaming/final_runbook.yaml',
@@ -104,6 +108,7 @@ if __name__ == "__main__":
                                     'neurips23/streaming/wikipedia-35M_expirationtime_runbook.yaml',
                                     'neurips23/streaming/msmarco-100M_expirationtime_runbook.yaml']
             for runbook_path in runbook_paths:
+                print("Looking for runbook ", runbook_path)
                 results = load_all_results(dataset_name, neurips23track=track, runbook_path=runbook_path)
                 results = compute_metrics_all_runs(dataset, dataset_name, results, args.recompute, \
                     args.sensors, args.search_times, args.private_query, \
