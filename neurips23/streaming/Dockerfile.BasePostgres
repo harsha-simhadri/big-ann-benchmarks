@@ -16,7 +16,7 @@ RUN mkdir /var/lib/postgresql/test_database
 RUN /usr/lib/postgresql/16/bin/initdb -D /var/lib/postgresql/test_database
 USER root
 
-# create that we will use start the database during the tests
+# create the script that we will use start the database during the tests
 RUN echo "su - postgres -c \"/usr/lib/postgresql/16/bin/pg_ctl \
           -D /var/lib/postgresql/test_database \
           -l /var/lib/postgresql/test_database_logfile \
