@@ -23,9 +23,13 @@ Shown here are results run on the following hardware:
 
 ## Results
 
+The calculated rankings are shown at the top.
+
 Notes:
-* Evaluations were run in late August 2024
-* In the table, each track algorithm links to the build and run commmand used (and errors if any).
+* Evaluations were run in late August 2024.
+* In each track, qualifying algorithms are ranked by largest *qps* where *recall/ap* >= 0.9.
+* All participating algorithms are shown for each track, but only qualifying algorithms are ranked.
+* Each track algorithm links to the build and run commmand used (or disqualifying errors, if any).
 * Pareto graphs for each track shown below.
 
 ### Track: Filter
@@ -114,7 +118,7 @@ See the [latitude/commands](latitude/commands) directory for individual algorith
 
 To extract the data as CSV:
 ```
-sudo chmod ugo+rw -R ./results/ # recursively add read permissions to data files
+sudo chmod ugo+rw -R ./results/ # recursively add read/write permissions to directories and files under the results directory.
 python data_export.py --recompute --output neurips23/latitude/data_export_m4-metal-medium.csv
 ```
 
