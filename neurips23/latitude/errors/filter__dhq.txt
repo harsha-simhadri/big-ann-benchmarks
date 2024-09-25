@@ -1,0 +1,217 @@
++ set -e
++ python install.py --neurips23track filter --algorithm dhq
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 556B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/ubuntu:jammy
+#2 DONE 0.1s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 66B done
+#3 DONE 0.0s
+
+#4 [1/8] FROM docker.io/library/ubuntu:jammy@sha256:adbb90115a21969d2fe6fa7f9af4253e16d45f8d4c1e930182610c4731962658
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 321B done
+#5 DONE 0.0s
+
+#6 [4/8] RUN cp azcopy_folder/azcopy /usr/bin
+#6 CACHED
+
+#7 [5/8] RUN pip3 install -U pip
+#7 CACHED
+
+#8 [3/8] RUN wget https://aka.ms/downloadazcopy-v10-linux && mv downloadazcopy-v10-linux azcopy.tgz && tar xzf azcopy.tgz --transform 's!^[^/]\+\($\|/\)!azcopy_folder\1!'
+#8 CACHED
+
+#9 [6/8] WORKDIR /home/app
+#9 CACHED
+
+#10 [2/8] RUN apt-get update && apt-get install -y python3-numpy python3-scipy python3-pip build-essential git axel wget
+#10 CACHED
+
+#11 [7/8] COPY requirements_py3.10.txt run_algorithm.py ./
+#11 CACHED
+
+#12 [8/8] RUN pip3 install -r requirements_py3.10.txt
+#12 CACHED
+
+#13 exporting to image
+#13 exporting layers done
+#13 writing image sha256:2c76bbc113266e4782270104c7c70525aab0dcc93687ee5293516e33e09661ca done
+#13 naming to docker.io/library/neurips23 done
+#13 DONE 0.0s
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 1.76kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/neurips23:latest
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 66B done
+#3 DONE 0.0s
+
+#4 [ 1/22] FROM docker.io/library/neurips23:latest
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 185B done
+#5 DONE 0.0s
+
+#6 [18/22] RUN cd /home/app/DHQ/faiss/build/faiss/python/ && python3 setup.py install
+#6 CACHED
+
+#7 [ 7/22] RUN apt-get update; DEBIAN_FRONTEND=noninteractive apt install intel-mkl python3-setuptools  wget python3-matplotlib build-essential checkinstall libssl-dev swig4.0 python3-dev  python3-numpy  python3-numpy-dev   -y
+#7 CACHED
+
+#8 [ 2/22] RUN apt update
+#8 CACHED
+
+#9 [ 6/22] RUN DEBIAN_FRONTEND=noninteractive apt install -y git make cmake g++ libaio-dev libgoogle-perftools-dev libunwind-dev clang-format libboost-dev libboost-program-options-dev libmkl-full-dev libcpprest-dev python3.10 python3-numpy python3-scipy python3-pip build-essential git libblas-dev liblapack-dev wget libaio-dev libgoogle-perftools-dev clang-format libboost-all-dev libopenblas-dev liblapacke-dev
+#9 CACHED
+
+#10 [10/22] RUN pip3 install -U pip numpy pybind11 tqdm
+#10 CACHED
+
+#11 [14/22] RUN cp /home/app/DHQ/faiss/build/faiss/libfaiss.so /lib
+#11 CACHED
+
+#12 [ 4/22] RUN add-apt-repository -y ppa:git-core/ppa
+#12 CACHED
+
+#13 [ 9/22] RUN python3 -m pip install -r requirements_conda.txt
+#13 CACHED
+
+#14 [ 8/22] COPY install/requirements_conda.txt ./
+#14 CACHED
+
+#15 [ 5/22] RUN apt update
+#15 CACHED
+
+#16 [11/22] RUN git clone https://github.com/SDU-L/DHQ.git
+#16 CACHED
+
+#17 [15/22] RUN cp /home/app/DHQ/faiss/build/faiss/libfaiss_avx2.so /lib
+#17 CACHED
+
+#18 [17/22] RUN cp /home/app/DHQ/faiss/build/faiss/python/_swigfaiss.so /lib
+#18 CACHED
+
+#19 [13/22] RUN cp /home/app/DHQ/faiss/build/faiss/python/libfaiss_python_callbacks.so /lib
+#19 CACHED
+
+#20 [16/22] RUN cp /home/app/DHQ/faiss/build/faiss/python/_swigfaiss_avx2.so /lib
+#20 CACHED
+
+#21 [ 3/22] RUN apt install -y software-properties-common
+#21 CACHED
+
+#22 [12/22] RUN chmod -R +777 DHQ/
+#22 CACHED
+
+#23 [19/22] RUN cd /home/app
+#23 CACHED
+
+#24 [20/22] RUN python3 -c 'import faiss; print(faiss.IDSelectorFilterWise); print(faiss.__version__)'
+#24 0.325 
+#24 0.325 A module that was compiled using NumPy 1.x cannot be run in
+#24 0.325 NumPy 2.1.0 as it may crash. To support both 1.x and 2.x
+#24 0.325 versions of NumPy, modules must be compiled with NumPy 2.0.
+#24 0.325 Some module may need to rebuild instead e.g. with 'pybind11>=2.12'.
+#24 0.325 
+#24 0.325 If you are a user of the module, the easiest solution will be to
+#24 0.325 downgrade to 'numpy<2' or try to upgrade the affected module.
+#24 0.325 We expect that some modules will need time to support NumPy 2.
+#24 0.325 
+#24 0.325 Traceback (most recent call last):  File "<string>", line 1, in <module>
+#24 0.325   File "/home/app/DHQ/faiss/build/faiss/python/build/lib/faiss/__init__.py", line 16, in <module>
+#24 0.325     from .loader import *
+#24 0.325   File "/home/app/DHQ/faiss/build/faiss/python/build/lib/faiss/loader.py", line 55, in <module>
+#24 0.325     from .swigfaiss_avx2 import *
+#24 0.325   File "/home/app/DHQ/faiss/build/faiss/python/build/lib/faiss/swigfaiss_avx2.py", line 13, in <module>
+#24 0.325     from . import _swigfaiss_avx2
+#24 0.325 AttributeError: _ARRAY_API not found
+#24 0.386 
+#24 0.386 A module that was compiled using NumPy 1.x cannot be run in
+#24 0.386 NumPy 2.1.0 as it may crash. To support both 1.x and 2.x
+#24 0.386 versions of NumPy, modules must be compiled with NumPy 2.0.
+#24 0.386 Some module may need to rebuild instead e.g. with 'pybind11>=2.12'.
+#24 0.386 
+#24 0.386 If you are a user of the module, the easiest solution will be to
+#24 0.386 downgrade to 'numpy<2' or try to upgrade the affected module.
+#24 0.386 We expect that some modules will need time to support NumPy 2.
+#24 0.386 
+#24 0.386 Traceback (most recent call last):  File "<string>", line 1, in <module>
+#24 0.386   File "/home/app/DHQ/faiss/build/faiss/python/build/lib/faiss/__init__.py", line 16, in <module>
+#24 0.386     from .loader import *
+#24 0.386   File "/home/app/DHQ/faiss/build/faiss/python/build/lib/faiss/loader.py", line 65, in <module>
+#24 0.386     from .swigfaiss import *
+#24 0.386   File "/home/app/DHQ/faiss/build/faiss/python/build/lib/faiss/swigfaiss.py", line 13, in <module>
+#24 0.386     from . import _swigfaiss
+#24 0.386 AttributeError: _ARRAY_API not found
+#24 0.386 Traceback (most recent call last):
+#24 0.386   File "<string>", line 1, in <module>
+#24 0.386   File "/home/app/DHQ/faiss/build/faiss/python/build/lib/faiss/__init__.py", line 16, in <module>
+#24 0.386     from .loader import *
+#24 0.386   File "/home/app/DHQ/faiss/build/faiss/python/build/lib/faiss/loader.py", line 65, in <module>
+#24 0.386     from .swigfaiss import *
+#24 0.386   File "/home/app/DHQ/faiss/build/faiss/python/build/lib/faiss/swigfaiss.py", line 13, in <module>
+#24 0.386     from . import _swigfaiss
+#24 0.386 ImportError: numpy.core.multiarray failed to import
+#24 ERROR: process "/bin/sh -c python3 -c 'import faiss; print(faiss.IDSelectorFilterWise); print(faiss.__version__)'" did not complete successfully: exit code: 1
+------
+ > [20/22] RUN python3 -c 'import faiss; print(faiss.IDSelectorFilterWise); print(faiss.__version__)':
+0.386 AttributeError: _ARRAY_API not found
+0.386 Traceback (most recent call last):
+0.386   File "<string>", line 1, in <module>
+0.386   File "/home/app/DHQ/faiss/build/faiss/python/build/lib/faiss/__init__.py", line 16, in <module>
+0.386     from .loader import *
+0.386   File "/home/app/DHQ/faiss/build/faiss/python/build/lib/faiss/loader.py", line 65, in <module>
+0.386     from .swigfaiss import *
+0.386   File "/home/app/DHQ/faiss/build/faiss/python/build/lib/faiss/swigfaiss.py", line 13, in <module>
+0.386     from . import _swigfaiss
+0.386 ImportError: numpy.core.multiarray failed to import
+------
+Dockerfile:30
+--------------------
+  28 |     
+  29 |     ENV PYTHONPATH=DHQ/faiss/build/faiss/python/build/lib/
+  30 | >>> RUN python3 -c 'import faiss; print(faiss.IDSelectorFilterWise); print(faiss.__version__)'
+  31 |     RUN pip3 install DHQ/DHQ-1.0.3-cp310-cp310-linux_x86_64.whl
+  32 |     RUN python3 -c 'import DHQ'
+--------------------
+ERROR: failed to solve: process "/bin/sh -c python3 -c 'import faiss; print(faiss.IDSelectorFilterWise); print(faiss.__version__)'" did not complete successfully: exit code: 1
+Building base image...
+Building algorithm images... with (1) processes
+Building neurips23-filter-dhq...
+docker build  --rm -t neurips23-filter-dhq -f neurips23/filter/dhq/Dockerfile .
+
+
+Install Status:
+{'neurips23-filter-dhq': 'fail'}
++ python3 run.py --dataset yfcc-10M --algorithm dhq --neurips23track filter
+file data/yfcc100M/query.public.100K.u8bin already exists
+file data/yfcc100M/GT.public.ibin already exists
+file data/yfcc100M/query.private.2727415019.100K.u8bin already exists
+file data/yfcc100M/GT.private.2727415019.ibin already exists
+file data/yfcc100M/base.10M.u8bin already exists
+file data/yfcc100M/base.metadata.10M.spmat already exists
+file data/yfcc100M/query.metadata.public.100K.spmat already exists
+file data/yfcc100M/query.metadata.private.2727415019.100K.spmat already exists
+2024-08-30 00:40:52,299 - annb - INFO - running only dhq
+2024-08-30 00:40:52,411 - annb - INFO - not all docker images available, only: {'neurips23-ood-cufe', 'neurips23-ood-ngt', 'neurips23-ood-mysteryann', 'neurips23-sparse-spmat', 'neurips23-ood-sustech-ood', 'neurips23-sparse-nle', 'neurips23-filter-zilliz', 'neurips23-filter-wm_filter', 'neurips23-sparse-zilliz', 'neurips23-sparse-linscan', 'neurips23-filter-parlayivf', 'neurips23-streaming-cufe', 'neurips23-ood-zilliz', 'neurips23-ood-pinecone-ood', 'neurips23-ood-pyanns', 'neurips23-ood-vamana', 'neurips23-sparse-pinecone_smips', 'neurips23-filter-pinecone', 'neurips23-filter-faissplus', 'neurips23-ood-puck', 'neurips23-ood-epsearch', 'neurips23', 'neurips23-streaming-pinecone', 'neurips23-streaming-diskann', 'neurips23-ood-diskann', 'neurips23-sparse-pyanns', 'neurips23-filter-cufe', 'neurips23-filter-puck', 'neurips23-streaming-pyanns', 'neurips23-sparse-cufe', 'neurips23-filter-faiss', 'neurips23-ood-mysteryann-dif', 'neurips23-ood-scann', 'neurips23-sparse-shnsw', 'neurips23-streaming-hwtl_sdu_anns_stream', 'neurips23-filter-pyanns', 'neurips23-streaming-scann', 'neurips23-streaming-puck'}
+2024-08-30 00:40:52,412 - annb - INFO - missing docker images: {'neurips23-filter-dhq'}
+Traceback (most recent call last):
+  File "/home/gwilliams/Projects/BigANN/big-ann-benchmarks/run.py", line 6, in <module>
+    main()
+  File "/home/gwilliams/Projects/BigANN/big-ann-benchmarks/benchmark/main.py", line 257, in main
+    raise Exception('Nothing to run')
+Exception: Nothing to run
