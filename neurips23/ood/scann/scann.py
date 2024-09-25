@@ -1,4 +1,3 @@
-
 import os
 from pathlib import Path
 
@@ -10,6 +9,7 @@ from neurips23.ood.base import BaseOODANN
 import numpy as np
 import scann
 from scann.proto import scann_pb2
+import multiprocessing
 
 
 class Scann(BaseOODANN):
@@ -19,6 +19,8 @@ class Scann(BaseOODANN):
         self.download = index_params.get('download', False)
         self.tree_size = index_params.get('tree_size', 40_000)
         self.serialized_dir = 'data/scann/ood'
+        # To account for hyper-threading.
+        self.num_cpus = multiprocessing.cpu_count() // 2
         print('ScaNN: Init')
 
     def load_index(self, dataset):
@@ -54,7 +56,7 @@ class Scann(BaseOODANN):
                 os.rename(src, dst)
             self.searcher = scann.scann_ops_pybind.load_searcher(
                 self.serialized_dir)
-            self.searcher.set_num_threads(8)
+            self.searcher.set_num_threads(self.num_cpus)
 
     def fit(self, dataset):
         if hasattr(self, 'searcher'):
@@ -143,9 +145,9 @@ class Scann(BaseOODANN):
             del data
             gc.collect()
             if not trained and s >= 8_000_000:
-                self.searcher.set_num_threads(8)
+                self.searcher.set_num_threads(self.num_cpus)
                 self.searcher.rebalance(config)
-                self.searcher.set_num_threads(8)
+                self.searcher.set_num_threads(self.num_cpus)
                 trained = True
         del ds
         # path = Path(self.serialized_dir)
@@ -158,7 +160,7 @@ class Scann(BaseOODANN):
             X,
             leaves_to_search=self.leaves_to_search,
             pre_reorder_num_neighbors=self.reorder,
-            batch_size=12500
+            batch_size=(X.shape[0] // self.num_cpus)
         )[0]
 
     def set_query_arguments(self, query_args):
