@@ -13,3 +13,5 @@ results/*
 venv
 
 .idea
+
+.vscode
