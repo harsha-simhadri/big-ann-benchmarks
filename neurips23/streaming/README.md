@@ -23,7 +23,8 @@ Now that the number of runbooks has started to increase significantly, here we l
 4. `delete_runbook.yaml`: A runbook executing all steps in the clustered runbook, but which then deletes a fraction of each cluster.
 5. `final_runbook.yaml`: The NeurIPS 2023 streaming challenge final runbook. It takes the `msturing-30M-clustered` dataset and performs several rounds of insertion and deletion in clustered order.
 6. `msmarco-100M_expirationtime_runbook.yaml`: A runbook using the `msmarco-100M` dataset which inserts each point with a randomly chosen expiration time: never, in 200 steps, or in 50 steps.
-7. `neurips23/streaming/wikipedia-35M_expirationtime_runbook.yaml`: A runbook using the `wikipedia-35M` dataset which inserts each point with a randomly chosen expiration time: never, in 200 steps, or in 50 steps.
-8. `neurips23/streaming/msturing-10M_slidingwindow_runbook.yaml`: A runbook using the `msturing-10M` dataset which inserts half the points, then maintains the index at a consistent size using a sliding window. 
+7. `wikipedia-35M_expirationtime_runbook.yaml`: A runbook using the `wikipedia-35M` dataset which inserts each point with a randomly chosen expiration time: never, in 100 steps, or in 20 steps.
+7. `wikipedia-35M_expirationtime_replace_runbook.yaml`: A runbook that takes the same setup as `wikipedia-35M_expirationtime_runbook.yaml`, but also replaces some points before they expire.
+8. `msturing-10M_slidingwindow_runbook.yaml`: A runbook using the `msturing-10M` dataset which inserts half the points, then maintains the index at a consistent size using a sliding window. 
 9. `clustered_replace_runbook.yaml`: A replace-focused runbook which takes the `msturing-10M-clustered` dataset, inserts a fraction of the points in each cluster, then replaces some of that fraction with vector ids from the same cluster.
 10. `random_replace_runbook.yaml`: A replace-focused runbook which takes the `msturing-10M-clustered` dataset, inserts a fraction of the points in each cluster, then replaces some of that fraction with vector ids from a different randomly selected cluster.
