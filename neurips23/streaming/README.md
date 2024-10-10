@@ -15,7 +15,7 @@ Each vector is assumed to have a unique *id* which never changes throughout the 
 
 ## Available Runbooks
 
-Now that the number of runbooks has started to increase significantly, here we list the available runbooks with a brief description of each. 
+Now that the number of runbooks has started to increase significantly, here we list the available runbooks (found in the `runbooks` folder within this directory) with a brief description of each. 
 
 1. `simple_runbook.yaml`: A runbook executing a short sequences of insertions, searches, and deletions to aid with debugging and testing.
 2. `simple_replace_runbook.yaml`: A runbook executing a short sequence of inserts, searches, and replaces to aid with debugging and testing.
