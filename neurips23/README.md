@@ -46,8 +46,8 @@ The baselines were run on an Azure Standard D8lds v5 (8 vcpus, 16 GiB memory) ma
 |---------|-------------|-----------------------------|---------|
 |Sparse   | Linear Scan | 101                         |  `python3 run.py --dataset sparse-full --algorithm linscan --neurips23track sparse` |
 |Filter   | faiss       | 3200                        | `python3 run.py --dataset yfcc-10M --algorithm faiss --neurips23track filter` |
-|Streaming| DiskANN     | 0.924 (recall@10), 23 mins  |  `python3 run.py --dataset msturing-10M-clustered --algorithm diskann --neurips23track streaming --runbook_path neurips23/runbooks/streaming/delete_runbook.yaml` |
-|Streaming| DiskANN     | 0.883 (recall@10), 45 mins  |  `python3 run.py --dataset msturing-30M-clustered --algorithm diskann --neurips23track streaming --runbook_path neurips23/runbooks/streaming/final_runbook.yaml` |
+|Streaming| DiskANN     | 0.924 (recall@10), 23 mins  |  `python3 run.py --dataset msturing-10M-clustered --algorithm diskann --neurips23track streaming --runbook_path neurips23/streaming/runbooks/delete_runbook.yaml` |
+|Streaming| DiskANN     | 0.883 (recall@10), 45 mins  |  `python3 run.py --dataset msturing-30M-clustered --algorithm diskann --neurips23track streaming --runbook_path neurips23/streaming/runbooks/final_runbook.yaml` |
 |OOD      | DiskANN     | 4882                        | `python3 run.py --dataset text2image-10M --algorithm diskann --neurips23track ood` | 
 
 ## For_Participants
@@ -99,7 +99,7 @@ Test the benchmark and baseline using the algorithm's definition file on small t
 python run.py --neurips23track filter    --algorithm faiss   --dataset random-filter-s
 python run.py --neurips23track sparse    --algorithm linscan --dataset sparse-small
 python run.py --neurips23track ood       --algorithm diskann --dataset random-xs
-python run.py --neurips23track streaming --algorithm diskann --dataset random-xs --runbook_path neurips23/runbooks/streaming/simple_runbook.yaml
+python run.py --neurips23track streaming --algorithm diskann --dataset random-xs --runbook_path neurips23/streaming/runbooks/simple_runbook.yaml
 ```
 
 For the competition dataset, run commands mentioned in the table above, for example:
@@ -108,22 +108,22 @@ python run.py --neurips23track filter    --algorithm faiss   --dataset yfcc-10M
 python run.py --neurips23track sparse    --algorithm linscan --dataset sparse-full
 python run.py --neurips23track ood       --algorithm diskann --dataset text2image-10M
 # preliminary runbook for testing 
-python run.py --neurips23track streaming --algorithm diskann --dataset msturing-10M-clustered --runbook_path neurips23/runbooks/streaming/delete_runbook.yaml
+python run.py --neurips23track streaming --algorithm diskann --dataset msturing-10M-clustered --runbook_path neurips23/streaming/runbooks/delete_runbook.yaml
 #Final runbook for evaluation
-python run.py --neurips23track streaming --algorithm diskann --dataset msturing-30M-clustered --runbook_path neurips23/runbooks/streaming/final_runbook.yaml
+python run.py --neurips23track streaming --algorithm diskann --dataset msturing-30M-clustered --runbook_path neurips23/streaming/runbooks/final_runbook.yaml
 ```
 
 For streaming track, runbook specifies the order of operations to be executed by the algorithms. To download the ground truth for every search operation: (needs azcopy tool in your binary path):
 ```
-python -m benchmark.streaming.download_gt --runbook_file neurips23/runbooks/streaming/simple_runbook.yaml --dataset msspacev-10M
-python -m benchmark.streaming.download_gt --runbook_file neurips23/runbooks/streaming/delete_runbook.yaml --dataset msturing-10M-clustered
-python -m benchmark.streaming.download_gt --runbook_file neurips23/runbooks/streaming/final_runbook.yaml  --dataset msturing-30M-clustered
+python -m benchmark.streaming.download_gt --runbook_file neurips23/streaming/runbooks/simple_runbook.yaml --dataset msspacev-10M
+python -m benchmark.streaming.download_gt --runbook_file neurips23/streaming/runbooks/delete_runbook.yaml --dataset msturing-10M-clustered
+python -m benchmark.streaming.download_gt --runbook_file neurips23/streaming/runbooks/final_runbook.yaml  --dataset msturing-30M-clustered
 ```
 Alternately, to compute ground truth for an arbitrary runbook, [clone and build DiskANN repo](https://github.com/Microsoft/DiskANN) and use the command line tool to compute ground truth at various search checkpoints. The `--gt_cmdline_tool` points to the directory with DiskANN commandline tools.
 ```
-python benchmark/streaming/compute_gt.py --dataset msspacev-10M --runbook neurips23/runbooks/streaming/simple_runbook.yaml --gt_cmdline_tool ~/DiskANN/build/apps/utils/compute_groundtruth
+python benchmark/streaming/compute_gt.py --dataset msspacev-10M --runbook neurips23/streaming/runbooks/simple_runbook.yaml --gt_cmdline_tool ~/DiskANN/build/apps/utils/compute_groundtruth
 ```
-Consider also the examples in runbooks [here]]neurips23/runbooks/streaming/clustered_runbook.yaml) and [here](neurips23/runbooks/streaming/delete_runbook.yaml). The datasets here are [generated](neurips23/runbooks/streaming/clustered_data_gen.py) by clustering the original dataset with k-means and packing points in the same cluster into contiguous indices. Then insertions are then performed one cluster at a time. This runbook tests if an indexing algorithm can adapt to data draft. The `max_pts` entry for the dataset in the runbook indicates an upper bound on the number of active points that the index must support during the runbook execution.
+Consider also the examples in runbooks [here]]neurips23/streaming/runbooks/clustered_runbook.yaml) and [here](neurips23/streaming/runbooks/delete_runbook.yaml). The datasets here are [generated](neurips23/streaming/runbooks/clustered_data_gen.py) by clustering the original dataset with k-means and packing points in the same cluster into contiguous indices. Then insertions are then performed one cluster at a time. This runbook tests if an indexing algorithm can adapt to data draft. The `max_pts` entry for the dataset in the runbook indicates an upper bound on the number of active points that the index must support during the runbook execution.
 
 
 To make the results available for post-processing, change permissions of the results folder

@@ -115,6 +115,15 @@ gen_exp_time_runbook(dataset_name, dataset_size, max_t, dataset_file, ratios, ti
 
 ratios = (0, 4, 18)
 timesteps = (0, 100, 20)
+seed = 1232
+dataset_file = 'wikipedia-1M_expiration_time_runbook.yaml'
+dataset_name = 'wikipedia-1M'
+dataset_size = 1000000
+max_t = 100
+gen_exp_time_runbook(dataset_name, dataset_size, max_t, dataset_file, ratios, timesteps, seed, False)
+
+ratios = (0, 4, 18)
+timesteps = (0, 100, 20)
 seed = 809
 dataset_file = 'wikipedia-35M_expiration_time_replace_runbook.yaml'
 dataset_name = 'wikipedia-35M'
