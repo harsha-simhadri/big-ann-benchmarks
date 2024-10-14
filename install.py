@@ -63,11 +63,22 @@ if __name__ == "__main__":
             --rm -t %s -f %s .' % (neurips23.common.docker_tag_base(), neurips23.common.dockerfile_path_base()), shell=True)
         track = args.neurips23track
 
+        build_postgres_base = False
+
         if args.algorithm: # build a specific algorithm
-            algos = [args.algorithm] 
+            algos = [args.algorithm]
+            build_postgres_base = args.algorithm.startswith('postgres-')
         else: # build all algorithms in the track with Dockerfiles.
             algos = list(filter(lambda entry : os.path.exists(neurips23.common.dockerfile_path(track, entry)),
                             os.listdir(neurips23.common.track_path(track))))
+            build_postgres_base = True
+
+        if build_postgres_base:
+            print('Building Postgres base image...')
+            subprocess.check_call(
+                'docker build \
+                --rm -t %s -f %s .' % (neurips23.common.docker_tag_postgres_base(), neurips23.common.dockerfile_path_postgres_base()), shell=True)
+
         tags = [neurips23.common.docker_tag(track, algo) for algo in algos]
         dockerfiles = [neurips23.common.dockerfile_path(track, algo) for algo in algos]
     else: # NeurIPS'21

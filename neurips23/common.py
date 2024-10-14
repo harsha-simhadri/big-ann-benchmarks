@@ -9,6 +9,9 @@ from neurips23.streaming.run import StreamingRunner
 def docker_tag_base():
     return 'neurips23'
 
+def docker_tag_postgres_base():
+    return 'neurips23_postgres'
+
 def basedir():
     return 'neurips23'
 
@@ -17,6 +20,9 @@ def docker_tag(track, algo):
 
 def dockerfile_path_base():
     return os.path.join('neurips23', 'Dockerfile')
+
+def dockerfile_path_postgres_base():
+    return os.path.join('neurips23', 'streaming', 'Dockerfile.BasePostgres')
 
 def track_path(track):
     return os.path.join('neurips23', track)
