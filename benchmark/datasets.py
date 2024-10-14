@@ -153,6 +153,9 @@ class DatasetCompetitionFormat(Dataset):
         fn = self.ds_fn
         sourceurl = os.path.join(self.base_url, fn)
         outfile = os.path.join(self.basedir, fn)
+        if self.nb != original_size:
+            outfile = outfile + '.crop_nb_%d' % self.nb
+            
         if os.path.exists(outfile):
             print("file %s already exists" % outfile)
             return
@@ -164,7 +167,6 @@ class DatasetCompetitionFormat(Dataset):
         else:
             # download cropped version of file
             file_size = 8 + self.d * self.nb * np.dtype(self.dtype).itemsize
-            outfile = outfile + '.crop_nb_%d' % self.nb
             if os.path.exists(outfile):
                 print("file %s already exists" % outfile)
                 return
