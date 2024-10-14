@@ -448,3 +448,4 @@ msturing-10M-clustered:
     tags_start: 9722747
   128:
     operation: search
+  gt_url: "https://comp21storage.z5.web.core.windows.net/comp23/clustered_data/msturing-10M-clustered/random_replace_runboook.yaml"
