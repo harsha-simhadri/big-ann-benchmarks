@@ -12,7 +12,7 @@ timesteps: how long to wait before deleting for each ratio
 seed: seed given to random generator
 do_replace: whether to include replace in runbook or not
 '''
-def gen_exp_time_runbook(dataset_name, dataset_size, max_t, runbook_filename, ratios, timesteps, seed = 0, do_replace = False):
+def gen_exp_time_runbook(dataset_name, dataset_size, max_t, runbook_filename, ratios, timesteps, seed = 0, do_replace = False, gt_url = None):
     random.seed(seed)
     data = {dataset_name: {}}
 
@@ -102,6 +102,9 @@ def gen_exp_time_runbook(dataset_name, dataset_size, max_t, runbook_filename, ra
 
     data[dataset_name]["max_pts"]=max_num_points
 
+    if gt_url is not None:
+        data[dataset_name]["gt_url"] = gt_url
+
     with open(runbook_filename, 'w') as outfile:
         yaml.dump(data, outfile, default_flow_style=False)
 
@@ -112,7 +115,8 @@ dataset_file = 'wikipedia-35M_expirationtime_runbook.yaml'
 dataset_name = 'wikipedia-35M'
 dataset_size = 35000000
 max_t = 350
-gen_exp_time_runbook(dataset_name, dataset_size, max_t, dataset_file, ratios, timesteps, seed, False)
+gt_url = "https://comp21storage.z5.web.core.windows.net/wiki-cohere-35M/wikipedia-35M_expirationtime_runbook.yaml"
+gen_exp_time_runbook(dataset_name, dataset_size, max_t, dataset_file, ratios, timesteps, seed, False, gt_url)
 
 ratios = (0, 4, 18)
 timesteps = (0, 100, 20)
@@ -121,7 +125,7 @@ dataset_file = 'wikipedia-1M_expiration_time_runbook.yaml'
 dataset_name = 'wikipedia-1M'
 dataset_size = 1000000
 max_t = 100
-gen_exp_time_runbook(dataset_name, dataset_size, max_t, dataset_file, ratios, timesteps, seed, False)
+gen_exp_time_runbook(dataset_name, dataset_size, max_t, dataset_file, ratios, timesteps, seed, False, None)
 
 ratios = (0, 4, 18)
 timesteps = (0, 100, 20)
@@ -130,7 +134,7 @@ dataset_file = 'wikipedia-35M_expiration_time_replace_runbook.yaml'
 dataset_name = 'wikipedia-35M'
 dataset_size = 35000000
 max_t = 350
-gen_exp_time_runbook(dataset_name, dataset_size, max_t, dataset_file, ratios, timesteps, seed, True)
+gen_exp_time_runbook(dataset_name, dataset_size, max_t, dataset_file, ratios, timesteps, seed, True, None)
 
 ratios = (0, 6, 25)
 timesteps = (0, 200, 50)
@@ -139,5 +143,5 @@ dataset_file = 'msmarco-100M_expirationtime_runbook.yaml'
 dataset_name = 'msmarco-100M'
 dataset_size = 101070374
 max_t = 1000
-gen_exp_time_runbook(dataset_name, dataset_size, max_t, dataset_file, ratios, timesteps, seed, False)
+gen_exp_time_runbook(dataset_name, dataset_size, max_t, dataset_file, ratios, timesteps, seed, False, None)
 
