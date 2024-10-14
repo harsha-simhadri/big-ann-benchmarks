@@ -30,7 +30,8 @@ def gen_exp_time_runbook(dataset_name, dataset_size, max_t, runbook_filename, ra
             fraction = random.uniform(.5, .9)
         else:
             fraction = 1.0
-        end = int(fraction*(i+1)*batch_size)
+        start = i*batch_size
+        end = start + int(fraction*batch_size)
         ids_start = end
         ids_end = (i+1)*batch_size
         tags_start = i*batch_size
