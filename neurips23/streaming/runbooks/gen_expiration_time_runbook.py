@@ -12,7 +12,7 @@ timesteps: how long to wait before deleting for each ratio
 seed: seed given to random generator
 do_replace: whether to include replace in runbook or not
 '''
-def gen_exp_time_runbook(dataset_name, dataset_size, max_t, runbook_filename, ratios, timesteps, seed = 0, do_replace = False, gt_url = None):
+def gen_exp_time_runbook(dataset_name, dataset_size, max_t, runbook_filename, ratios, timesteps, seed = 0, do_replace = False, gt_url = None, do_delete = True):
     random.seed(seed)
     data = {dataset_name: {}}
 
@@ -45,22 +45,21 @@ def gen_exp_time_runbook(dataset_name, dataset_size, max_t, runbook_filename, ra
         }
         t+=1
 
-        num_points+=batch_size
+        num_points+=int(fraction*batch_size)
 
         max_num_points=max(max_num_points,num_points)
 
         
         data_type = random.randint(0, ratios[2])
-        if data_type <= ratios[0]:
-            pass
-        elif data_type > ratios[0] and data_type < ratios[1]:
-            if (i+timesteps[1] < max_t):
-                to_delete[i+timesteps[1]].append(delete_info)
-        else:
-            if (i+timesteps[2] < max_t):
-                to_delete[i+timesteps[2]].append(delete_info)
-
-        
+        if do_delete:
+            if data_type <= ratios[0]:
+                pass
+            elif data_type > ratios[0] and data_type < ratios[1]:
+                if (i+timesteps[1] < max_t):
+                    to_delete[i+timesteps[1]].append(delete_info)
+            else:
+                if (i+timesteps[2] < max_t):
+                    to_delete[i+timesteps[2]].append(delete_info)
 
         if do_replace:
             if data_type <= ratios[0]:
@@ -125,15 +124,45 @@ dataset_file = 'wikipedia-1M_expiration_time_runbook.yaml'
 dataset_name = 'wikipedia-1M'
 dataset_size = 1000000
 max_t = 100
-gen_exp_time_runbook(dataset_name, dataset_size, max_t, dataset_file, ratios, timesteps, seed, False, None)
+gt_url = "https://comp21storage.z5.web.core.windows.net/wiki-cohere-35M/wikipedia-1M_expiration_time_runbook.yaml/"
+gen_exp_time_runbook(dataset_name, dataset_size, max_t, dataset_file, ratios, timesteps, seed, False, gt_url)
 
 ratios = (0, 4, 18)
 timesteps = (0, 100, 20)
-seed = 809
-dataset_file = 'wikipedia-35M_expiration_time_replace_runbook.yaml'
+seed = 10001
+dataset_file = 'wikipedia-35M_expiration_time_replace_only_runbook.yaml'
+dataset_name = 'wikipedia-35M'
+dataset_size = 8000000 #only use a prefix of the dataset
+max_t = 80
+gt_url = None
+gen_exp_time_runbook(dataset_name, dataset_size, max_t, dataset_file, ratios, timesteps, seed, True, gt_url, False)
+
+ratios = (0, 4, 18)
+timesteps = (0, 100, 20)
+seed = 754
+dataset_file = 'wikipedia-1M_expiration_time_replace_only_runbook.yaml'
+dataset_name = 'wikipedia-1M'
+dataset_size = 1000000
+max_t = 100
+gt_url = None
+gen_exp_time_runbook(dataset_name, dataset_size, max_t, dataset_file, ratios, timesteps, seed, True, gt_url, False)
+
+ratios = (3, 8, 18)
+timesteps = (0, 300, 50)
+seed = 22
+dataset_file = 'wikipedia-35M_expiration_time_replace_delete_runbook.yaml'
 dataset_name = 'wikipedia-35M'
 dataset_size = 35000000
 max_t = 350
+gen_exp_time_runbook(dataset_name, dataset_size, max_t, dataset_file, ratios, timesteps, seed, True, None)
+
+ratios = (1, 8, 18)
+timesteps = (0, 100, 20)
+seed = 56
+dataset_file = 'wikipedia-1M_expiration_time_replace_delete_runbook.yaml'
+dataset_name = 'wikipedia-1M'
+dataset_size = 1000000
+max_t = 100
 gen_exp_time_runbook(dataset_name, dataset_size, max_t, dataset_file, ratios, timesteps, seed, True, None)
 
 ratios = (0, 6, 25)
