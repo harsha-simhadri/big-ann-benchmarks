@@ -30,6 +30,7 @@ def load_runbook(dataset_name, max_pts, runbook_file):
                 if entry['tags_start'] < 0 or entry ['tags_start'] >= max_pts:
                     raise Exception('Start of indices to be replaced out of range in runbook') 
                 if entry['tags_end'] < 0 or entry ['tags_end'] > max_pts:
+                    print(entry['tags_end'])
                     raise Exception('End of indices to be replaced out of range in runbook') 
                 if entry['ids_start'] < 0 or entry ['ids_start'] >= max_pts:
                     raise Exception('Start of indices to replace out of range in runbook') 
