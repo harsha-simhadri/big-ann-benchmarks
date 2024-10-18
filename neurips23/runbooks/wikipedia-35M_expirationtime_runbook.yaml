@@ -3304,4 +3304,4 @@ wikipedia-35M:
   1001:
     operation: search
   max_pts: 5200000
-  gt_url: "https://comp21storage.z5.web.core.windows.net/wiki-cohere-35M/wikipedia-35M_expirationtime_runbook.yaml"
+  gt_url: https://comp21storage.z5.web.core.windows.net/wiki-cohere-35M/wikipedia-35M_expirationtime_runbook.yaml
