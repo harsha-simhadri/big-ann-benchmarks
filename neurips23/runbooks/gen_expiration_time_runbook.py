@@ -124,7 +124,7 @@ dataset_file = 'wikipedia-1M_expiration_time_runbook.yaml'
 dataset_name = 'wikipedia-1M'
 dataset_size = 1000000
 max_t = 100
-gt_url = "https://comp21storage.z5.web.core.windows.net/wiki-cohere-35M/wikipedia-1M_expiration_time_runbook.yaml/"
+gt_url = "https://comp21storage.z5.web.core.windows.net/wiki-cohere-35M/wikipedia-1M_expiration_time_runbook.yaml"
 gen_exp_time_runbook(dataset_name, dataset_size, max_t, dataset_file, ratios, timesteps, seed, False, gt_url)
 
 ratios = (0, 4, 18)
