@@ -124,7 +124,7 @@ dataset_file = 'wikipedia-1M_expiration_time_runbook.yaml'
 dataset_name = 'wikipedia-1M'
 dataset_size = 1000000
 max_t = 100
-gt_url = "https://comp21storage.z5.web.core.windows.net/wiki-cohere-35M/wikipedia-1M_expiration_time_runbook.yaml/"
+gt_url = "https://comp21storage.z5.web.core.windows.net/wiki-cohere-35M/wikipedia-1M_expiration_time_runbook.yaml"
 gen_exp_time_runbook(dataset_name, dataset_size, max_t, dataset_file, ratios, timesteps, seed, False, gt_url)
 
 ratios = (0, 4, 18)
@@ -134,7 +134,7 @@ dataset_file = 'wikipedia-35M_expiration_time_replace_only_runbook.yaml'
 dataset_name = 'wikipedia-35M'
 dataset_size = 8000000 #only use a prefix of the dataset
 max_t = 80
-gt_url = None
+gt_url = "https://comp21storage.z5.web.core.windows.net/wiki-cohere-35M/wikipedia-35M_expiration_time_replace_only_runbook.yaml"
 gen_exp_time_runbook(dataset_name, dataset_size, max_t, dataset_file, ratios, timesteps, seed, True, gt_url, False)
 
 ratios = (0, 4, 18)
@@ -144,7 +144,7 @@ dataset_file = 'wikipedia-1M_expiration_time_replace_only_runbook.yaml'
 dataset_name = 'wikipedia-1M'
 dataset_size = 1000000
 max_t = 100
-gt_url = None
+gt_url = "https://comp21storage.z5.web.core.windows.net/wiki-cohere-35M/wikipedia-1M_expiration_time_replace_only_runbook.yaml"
 gen_exp_time_runbook(dataset_name, dataset_size, max_t, dataset_file, ratios, timesteps, seed, True, gt_url, False)
 
 ratios = (3, 8, 18)
@@ -154,7 +154,8 @@ dataset_file = 'wikipedia-35M_expiration_time_replace_delete_runbook.yaml'
 dataset_name = 'wikipedia-35M'
 dataset_size = 35000000
 max_t = 350
-gen_exp_time_runbook(dataset_name, dataset_size, max_t, dataset_file, ratios, timesteps, seed, True, None)
+gt_url = "https://comp21storage.z5.web.core.windows.net/wiki-cohere-35M/wikipedia-35M_expiration_time_replace_delete_runbook.yaml"
+gen_exp_time_runbook(dataset_name, dataset_size, max_t, dataset_file, ratios, timesteps, seed, True, gt_url)
 
 ratios = (1, 8, 18)
 timesteps = (0, 100, 20)
@@ -163,7 +164,8 @@ dataset_file = 'wikipedia-1M_expiration_time_replace_delete_runbook.yaml'
 dataset_name = 'wikipedia-1M'
 dataset_size = 1000000
 max_t = 100
-gen_exp_time_runbook(dataset_name, dataset_size, max_t, dataset_file, ratios, timesteps, seed, True, None)
+gt_url = "https://comp21storage.z5.web.core.windows.net/wiki-cohere-35M/wikipedia-1M_expiration_time_replace_delete_runbook.yaml"
+gen_exp_time_runbook(dataset_name, dataset_size, max_t, dataset_file, ratios, timesteps, seed, True, gt_url)
 
 ratios = (0, 6, 25)
 timesteps = (0, 200, 50)

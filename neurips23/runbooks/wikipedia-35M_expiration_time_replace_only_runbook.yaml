@@ -852,3 +852,4 @@ wikipedia-35M:
   222:
     operation: search
   max_pts: 5548955
+  gt_url: "https://comp21storage.z5.web.core.windows.net/wiki-cohere-35M/wikipedia-35M_expiration_time_replace_only_runbook.yaml"
