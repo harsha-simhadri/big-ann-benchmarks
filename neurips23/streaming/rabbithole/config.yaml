@@ -1,0 +1,28 @@
+random-xs:
+  rabbithole:
+    docker-tag: neurips23-streaming-rabbithole
+    module: neurips23.streaming.rabbithole.rabbithole
+    constructor: RabbitHole
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{"nlist":16}]
+        query-args: |
+          [{"probe": 3}]
+msturing-30M-clustered:
+  rabbithole:
+    docker-tag: neurips23-streaming-rabbithole
+    module: neurips23.streaming.rabbithole.rabbithole
+    constructor: RabbitHole
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{"nlist":16384}]
+        query-args: |
+          [
+            {"probe": 300},
+            {"probe": 500},
+            {"probe": 1000}
+          ]
