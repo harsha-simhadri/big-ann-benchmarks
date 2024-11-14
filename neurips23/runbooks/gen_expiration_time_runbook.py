@@ -179,7 +179,7 @@ gen_exp_time_runbook(dataset_name, dataset_size, max_t, dataset_file, ratios, ti
 ratios = (0, 4, 18)
 timesteps = (0, 100, 20)
 seed = 732
-dataset_file = 'msturing_35M_expiration_time_runbook.yaml'
+dataset_file = 'msturing-35M_expiration_time_runbook.yaml'
 dataset_name = 'msturing-100M'
 dataset_size = 35000000
 max_t = 350
