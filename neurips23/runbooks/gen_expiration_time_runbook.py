@@ -176,3 +176,23 @@ dataset_size = 101070374
 max_t = 1000
 gen_exp_time_runbook(dataset_name, dataset_size, max_t, dataset_file, ratios, timesteps, seed, False, None)
 
+ratios = (0, 4, 18)
+timesteps = (0, 100, 20)
+seed = 732
+dataset_file = 'msturing_35M_expiration_time_runbook.yaml'
+dataset_name = 'msturing-100M'
+dataset_size = 35000000
+max_t = 350
+gt_url = None
+gen_exp_time_runbook(dataset_name, dataset_size, max_t, dataset_file, ratios, timesteps, seed, False, gt_url)
+
+ratios = (0, 4, 18)
+timesteps = (0, 100, 20)
+seed = 5554
+dataset_file = 'msturing-1M_expiration_time_runbook.yaml'
+dataset_name = 'msturing-1M'
+dataset_size = 1000000
+max_t = 100
+gt_url = None
+gen_exp_time_runbook(dataset_name, dataset_size, max_t, dataset_file, ratios, timesteps, seed, False, gt_url)
+
