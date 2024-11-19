@@ -435,7 +435,7 @@ class MSTuringANNS(BillionScaleDatasetCompetitionFormat):
 class MSTuringANNSPQ(BillionScaleDatasetCompetitionFormat):
     def __init__(self, nb_M=1):
         self.nb_M = nb_M
-        self.nb = 10**6 * nb_M
+        self.nb = 10**6 * nb_M  
         self.d = 100
         self.nq = 10000
         self.dtype = "float32"
