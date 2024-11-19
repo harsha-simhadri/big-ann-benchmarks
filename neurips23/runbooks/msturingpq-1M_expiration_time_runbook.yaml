@@ -1,4 +1,4 @@
-msturing-1M:
+msturingpq-1M:
   1:
     end: 10000
     operation: insert
@@ -843,4 +843,4 @@ msturing-1M:
     start: 790000
   261:
     operation: search
-  max_pts: 500000
+  max_pts: 440000

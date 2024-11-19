@@ -430,6 +430,30 @@ class MSTuringANNS(BillionScaleDatasetCompetitionFormat):
     def distance(self):
         return "euclidean"
 
+# 1M slice of MSTuring dataset, with ground truth corresponding to the 10K query set
+# this is needed for backwards compatibility with the streaming code
+class MSTuringANNSPQ(BillionScaleDatasetCompetitionFormat):
+    def __init__(self, nb_M=1):
+        self.nb_M = nb_M
+        self.nb = 10**6 * nb_M
+        self.d = 100
+        self.nq = 10000
+        self.dtype = "float32"
+        self.ds_fn = "base1b.fbin"
+        self.qs_fn = "testQuery10K.fbin"
+        self.gt_fn = (
+            "msturing-1M-private-gt100" if self.nb_M == 1 else
+            None
+        )
+        self.base_url = "https://comp21storage.z5.web.core.windows.net/comp21/MSFT-TURING-ANNS/"
+        self.basedir = os.path.join(BASEDIR, "MSTuringANNSPQ")
+
+        self.private_qs_url = None
+        self.private_gt_url = None
+
+    def distance(self):
+        return "euclidean"
+
 class MSTuringClustered10M(DatasetCompetitionFormat):
     def __init__(self):
         self.nb = 10**6 * 10
@@ -1284,6 +1308,8 @@ DATASETS = {
     'msturing-100M': lambda : MSTuringANNS(100),
     'msturing-10M': lambda : MSTuringANNS(10),
     'msturing-1M': lambda : MSTuringANNS(1),
+
+    'msturingpq-1M': lambda : MSTuringANNSPQ(1),
 
     'msturing-10M-clustered': lambda: MSTuringClustered10M(),
     'msturing-30M-clustered': lambda: MSTuringClustered30M(),
