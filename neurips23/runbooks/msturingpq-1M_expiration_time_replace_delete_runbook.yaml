@@ -1209,4 +1209,5 @@ msturingpq-1M:
     start: 990000
   317:
     operation: search
-  max_pts: 270000
+  max_pts: 248123
+  gt_url: https://comp21storage.z5.web.core.windows.net/comp21/MSFT-TURING-ANNS/msturingpq-1M_expiration_time_replace_delete_runbook.yaml

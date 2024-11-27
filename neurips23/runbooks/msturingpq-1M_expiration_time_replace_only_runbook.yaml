@@ -1092,3 +1092,4 @@ msturing-1M:
   282:
     operation: search
   max_pts: 696111
+  gt_url: https://comp21storage.z5.web.core.windows.net/comp21/MSFT-TURING-ANNS/msturingpq-1M_expiration_time_replace_only_runbook.yaml

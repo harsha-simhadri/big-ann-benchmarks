@@ -101,8 +101,11 @@ def gen_exp_time_runbook(dataset_name, dataset_size, max_t, runbook_filename, ra
         }
         t+=1
 
-    if max_points != None & max_points >= max_num_points:
-        data[dataset_name]["max_pts"]=max_points
+    if max_points != None:
+        if max_points >= max_num_points:
+            data[dataset_name]["max_pts"]=max_points
+        else:
+            data[dataset_name]["max_pts"]=max_num_points
     else:
         data[dataset_name]["max_pts"]=max_num_points
 
