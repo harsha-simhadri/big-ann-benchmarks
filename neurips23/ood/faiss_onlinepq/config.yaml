@@ -1,0 +1,24 @@
+random-xs:
+  faiss_onlinepq:
+    docker-tag: neurips23-ood-faiss_onlinepq
+    module: neurips23.ood.faiss_onlinepq.faiss_onlinepq
+    constructor: faiss_onlinepq
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{"indexkey": "PQ4x8"}]
+        query-args: |
+            [{"ef":30}]
+text2image-10M:
+  faiss_lsh:
+    docker-tag: neurips23-ood-faiss_onlinepq
+    module: neurips23.ood.faiss_onlinepq.faiss_onlinepq
+    constructor: faiss_onlinepq
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{"indexkey": "PQ8x8"}]
+        query-args: |
+          [{"ef":30}]

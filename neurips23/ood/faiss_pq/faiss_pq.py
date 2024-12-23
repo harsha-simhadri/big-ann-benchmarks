@@ -6,22 +6,23 @@ from neurips23.ood.base import BaseOODANN
 from benchmark.datasets import DATASETS
 from benchmark.dataset_io import download_accelerated
 import os
-import torch
 
-class candy_lshapg(BaseOODANN):
+class faiss_pq(BaseOODANN):
     def __init__(self, metric, index_params):
-        self.indexkey="LSHAPG"
-        self.name = "candy_LSHAPG"
+        self.indexkey="PQ4x8np"
+        self.name = "faiss_PQ"
         self.ef=16
 
     def fit(self, dataset):
         ds = DATASETS[dataset]()
         d = ds.d
-        index = PyCANDYAlgo.createIndex(self.indexkey, d)
+        index = PyCANDYAlgo.index_factory_ip(d, self.indexkey)
 
         xb = ds.get_dataset()
-        subA = torch.from_numpy(xb.copy())
-        index.loadInitialTensor(subA)
+
+        index.train(xb.shape[0], xb.flatten())
+        index.add(xb.shape[0], xb.flatten())
+        index.verbose = True
         self.index = index
         self.nb = ds.nb
         self.xb = xb
@@ -32,9 +33,11 @@ class candy_lshapg(BaseOODANN):
     def query(self, X, k):
 
 
-        queryTensor = torch.from_numpy(X.copy())
-        results = self.index.searchIndex(queryTensor, k)
+        querySize = X.shape[0]
+
+        results = self.index.search(querySize, X.flatten(), k, self.ef)
         res = np.array(results).reshape(X.shape[0], k)
+
 
         self.res = res
 

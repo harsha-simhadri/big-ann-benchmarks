@@ -1,0 +1,24 @@
+random-xs:
+  candy_flann:
+    docker-tag: neurips23-ood-candy_flann
+    module: neurips23.ood.candy_flann.candy_flann
+    constructor: candy_flann
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{"indexkey": "Flann"}]
+        query-args: |
+            [{"ef":30}]
+text2image-10M:
+  candy_flann:
+    docker-tag: neurips23-ood-candy_flann
+    module: neurips23.ood.candy_flann.candy_flann
+    constructor: candy_flann
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{"indexkey": "Flann"}]
+        query-args: |
+          [{"ef":30}]

@@ -22,6 +22,7 @@ class faiss_IVFPQ(BaseOODANN):
         xb = ds.get_dataset()
         print("train")
         index.train(xb.shape[0], xb.flatten())
+        index.add(xb.shape[0], xb.flatten())
         self.index = index
         self.nb = ds.nb
         self.xb = xb

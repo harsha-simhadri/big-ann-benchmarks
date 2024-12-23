@@ -4,14 +4,12 @@ import numpy as np
 
 from neurips23.ood.base import BaseOODANN
 from benchmark.datasets import DATASETS
-from benchmark.dataset_io import download_accelerated
-import os
 import torch
 
-class candy_lshapg(BaseOODANN):
+class candy_flann(BaseOODANN):
     def __init__(self, metric, index_params):
-        self.indexkey="LSHAPG"
-        self.name = "candy_LSHAPG"
+        self.indexkey="Flann"
+        self.name = "candy_FLANN"
         self.ef=16
 
     def fit(self, dataset):

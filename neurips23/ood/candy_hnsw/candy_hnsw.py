@@ -8,10 +8,10 @@ from benchmark.dataset_io import download_accelerated
 import os
 import torch
 
-class candy_lshapg(BaseOODANN):
+class candy_hnsw(BaseOODANN):
     def __init__(self, metric, index_params):
-        self.indexkey="LSHAPG"
-        self.name = "candy_LSHAPG"
+        self.indexkey="HNSWNaive"
+        self.name = "candy_HNSW"
         self.ef=16
 
     def fit(self, dataset):
@@ -39,12 +39,10 @@ class candy_lshapg(BaseOODANN):
         self.res = res
 
     def set_query_arguments(self, query_args):
-        return
-        # UNIMPLEMENTED OR NO PARAMETERS
-        # if "ef" in query_args:
-        #     self.ef = query_args['ef']
-        # else:
-        #     self.ef = 16
+        if "ef" in query_args:
+            self.ef = query_args['ef']
+        else:
+            self.ef = 16
 
     def index_name(self, name):
         return f"data/{name}.{self.indexkey}.faissindex"
