@@ -30,6 +30,7 @@ class candy_flann(BaseStreamingANN):
 
 
     def delete(self, ids):
+        self.index.deleteIndex(ids)
         return
 
     def query(self, X, k):

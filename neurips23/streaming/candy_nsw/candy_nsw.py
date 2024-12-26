@@ -29,6 +29,7 @@ class candy_nsw(BaseStreamingANN):
 
 
     def delete(self, ids):
+        self.index.deleteIndex(ids)
         return
 
     def query(self, X, k):
