@@ -22,9 +22,9 @@ class candy_lshapg(BaseStreamingANN):
     def insert(self, X,ids):
         subA = torch.from_numpy(X.copy())
         if(self.trained):
-            self.index.insertTensor(subA)
+            self.index.insertTensorWithIds(ids,subA)
         else:
-            self.index.loadInitialTensor(subA)
+            self.index.loadInitialTensorWithIds(ids,subA)
             self.trained = True
 
 
