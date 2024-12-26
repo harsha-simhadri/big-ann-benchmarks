@@ -1,0 +1,24 @@
+random-xs:
+  faiss_nsg:
+    docker-tag: neurips23-ood-faiss_nsg
+    module: neurips23.ood.faiss_nsg.faiss_nsg
+    constructor: faiss_nsg
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{"indexkey": "NSG32"}]
+        query-args: |
+            [{"ef":30}]
+text2image-10M:
+  faiss_nsg:
+    docker-tag: neurips23-ood-faiss_nsg
+    module: neurips23.ood.faiss_nsg.faiss_nsg
+    constructor: faiss_nsg
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{"indexkey": "NSG32"}]
+        query-args: |
+          [{"ef":30}]

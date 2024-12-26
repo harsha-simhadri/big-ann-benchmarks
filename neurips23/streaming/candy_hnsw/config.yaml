@@ -1,0 +1,36 @@
+random-xs:
+  candy_hnsw:
+    docker-tag: neurips23-streaming-candy_hnsw
+    module: neurips23.streaming.candy_hnsw.candy_hnsw
+    constructor: candy_hnsw
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{"indexkey": "HNSWNaive"}]
+        query-args: |
+            [{"ef":30}, {"ef":50}, {"ef":100}]
+random-xs128:
+  candy_hnsw:
+    docker-tag: neurips23-streaming-candy_hnsw
+    module: neurips23.streaming.candy_hnsw.candy_hnsw
+    constructor: candy_hnsw
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{"indexkey": "HNSWNaive"}]
+        query-args: |
+            [{"ef":30}, {"ef":50}, {"ef":100}]
+msturing-10M-clustered:
+  candy_hnsw:
+    docker-tag: neurips23-streaming-candy_hnsw
+    module: neurips23.streaming.candy_hnsw.candy_hnsw
+    constructor: candy_hnsw
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{"indexkey": "HNSWNaive"}]
+        query-args: |
+          [{"ef":30}, {"ef":50}, {"ef":100}]

@@ -1,0 +1,24 @@
+random-xs:
+  faiss_onlinepq:
+    docker-tag: neurips23-streaming-faiss_onlinepq
+    module: neurips23.streaming.faiss_onlinepq.faiss_onlinepq
+    constructor: faiss_onlinepq
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{"indexkey": "PQ4x8"}]
+        query-args: |
+            [{"ef":30}]
+msturing-10M-clustered:
+  faiss_lsh:
+    docker-tag: neurips23-streaming-faiss_onlinepq
+    module: neurips23.streaming.faiss_onlinepq.faiss_onlinepq
+    constructor: faiss_onlinepq
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{"indexkey": "PQ8x8"}]
+        query-args: |
+          [{"ef":30}]

@@ -1,0 +1,35 @@
+random-xs:
+  faiss_HNSW:
+    docker-tag: neurips23-ood-faiss_HNSW
+    module: neurips23.ood.faiss_HNSW.faiss_HNSW
+    constructor: faiss_HNSW
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{"indexkey": "HNSW32"}]
+        query-args: |
+          [{"ef":30}, {"ef":50}, {"ef":100}]
+text2image-10M:
+  faiss_HNSW:
+    docker-tag: neurips23-ood-faiss_HNSW
+    module: neurips23.ood.faiss_HNSW.faiss_HNSW
+    constructor: faiss_HNSW
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{"indexkey": "HNSW32"}]
+        query-args: |
+          [
+          {"ef":90},
+          {"ef":95},
+          {"ef":100},
+          {"ef":102},
+          {"ef":104},
+          {"ef":106},
+          {"ef":108},
+          {"ef":110},
+          {"ef":115},
+          {"ef":120}
+          ]

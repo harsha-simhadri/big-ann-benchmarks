@@ -1,0 +1,24 @@
+random-xs:
+  candy_lshapg:
+    docker-tag: neurips23-ood-candy_lshapg
+    module: neurips23.ood.candy_lshapg.candy_lshapg
+    constructor: candy_lshapg
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{"indexkey": "LSHAPG"}]
+        query-args: |
+            [{"ef":30}]
+text2image-10M:
+  candy_lshapg:
+    docker-tag: neurips23-ood-candy_lshapg
+    module: neurips23.ood.candy_lshapg.candy_lshapg
+    constructor: candy_lshapg
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{"indexkey": "LSHAPG"}]
+        query-args: |
+          [{"ef":30}]

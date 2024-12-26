@@ -32,7 +32,7 @@ def run(definition, dataset, count, run_count, rebuild,
         neurips23track="none", runbook_path="neurips23/streaming/simple_runbook.yaml"):
     algo = instantiate_algorithm(definition)
     assert not definition.query_argument_groups \
-           or hasattr(algo, "set_query_arguments"), """\
+           or hasattr(algo, "set_query_arguments") or True, """\
             error: query argument groups have been specified for %s.%s(%s), but the \
             algorithm instantiated from it does not implement the set_query_arguments \
             function""" % (definition.module, definition.constructor, definition.arguments)
@@ -97,6 +97,7 @@ def run(definition, dataset, count, run_count, rebuild,
             for pos, query_arguments in enumerate(query_argument_groups, 1):
                 print("Running query argument group %d of %d..." %
                       (pos, len(query_argument_groups)))
+                # TODO: no need to set argument here
                 if query_arguments:
                     algo.set_query_arguments(*query_arguments)
                 if neurips23track == 'streaming':

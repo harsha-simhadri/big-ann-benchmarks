@@ -1,0 +1,24 @@
+random-xs:
+  candy_flann:
+    docker-tag: neurips23-streaming-candy_flann
+    module: neurips23.streaming.candy_flann.candy_flann
+    constructor: candy_flann
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{"indexkey": "Flann"}]
+        query-args: |
+            [{"ef":30}]
+msturing-10M-clustered:
+  candy_flann:
+    docker-tag: neurips23-streaming-candy_flann
+    module: neurips23.streaming.candy_flann.candy_flann
+    constructor: candy_flann
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{"indexkey": "Flann"}]
+        query-args: |
+          [{"ef":30}]

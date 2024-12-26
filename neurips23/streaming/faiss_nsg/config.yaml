@@ -1,0 +1,24 @@
+random-xs:
+  faiss_nsg:
+    docker-tag: neurips23-streaming-faiss_nsg
+    module: neurips23.streaming.faiss_nsg.faiss_nsg
+    constructor: faiss_nsg
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{"indexkey": "NSG32"}]
+        query-args: |
+            [{"ef":30}]
+msturing-10M-clustered:
+  faiss_nsg:
+    docker-tag: neurips23-streaming-faiss_nsg
+    module: neurips23.streaming.faiss_nsg.faiss_nsg
+    constructor: faiss_nsg
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{"indexkey": "NSG32"}]
+        query-args: |
+          [{"ef":30}]

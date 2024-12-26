@@ -1,0 +1,24 @@
+random-xs:
+  candy_mnru:
+    docker-tag: neurips23-streaming-candy_mnru
+    module: neurips23.streaming.candy_mnru.candy_mnru
+    constructor: candy_mnru
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{"indexkey": "MNRU32"}]
+        query-args: |
+            [{"ef":30}, {"ef":50}, {"ef":100}]
+msturing-10M-clustered:
+  candy_mnru:
+    docker-tag: neurips23-streaming-candy_mnru
+    module: neurips23.streaming.candy_mnru.candy_mnru
+    constructor: candy_mnru
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{"indexkey": "MNRU32"}]
+        query-args: |
+          [{"ef":30}, {"ef":50}, {"ef":100}]
