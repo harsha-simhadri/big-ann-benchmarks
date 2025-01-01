@@ -13,6 +13,7 @@ import sys
 import traceback
 
 from benchmark.datasets import DATASETS
+from benchmark.random_datasets_utils import parse_dataset, normalize_dataset_name
 from benchmark.algorithms.definitions import (get_all_definitions, 
                                               get_definitions,
                                               list_algorithms,
@@ -71,7 +72,8 @@ def main():
         metavar='NAME',
         help='the dataset to load training points from',
         default='sift-1M',
-        choices=DATASETS.keys())
+        # choices=DATASETS.keys())
+        required=True)
     parser.add_argument(
         "-k", "--count",
         default=-1,
@@ -183,7 +185,10 @@ def main():
     logging.config.fileConfig("logging.conf")
     logger = logging.getLogger("annb")
 
-    dataset = DATASETS[args.dataset]()
+    # parse_dataset function allows you to customize the random dataset size
+    # Allowed Types : random-plus()、random-xs()、random-s()、random-range-xs()、random-range-s()
+    dataset = parse_dataset(args)
+
     dataset.prepare(args.neurips23track == 'none') # prepare dataset, but skip potentially huge base vectors
     dimension = dataset.d
     point_type = 'float'
@@ -192,11 +197,11 @@ def main():
         args.count = dataset.default_count()
     if args.neurips23track == 'none':
         definitions = get_definitions(
-            args.definitions, dimension, args.dataset, distance, args.count)
+            args.definitions, dimension, normalize_dataset_name(args.dataset), distance, args.count)
     else:
         definitions = get_all_definitions(
             neurips23.common.track_path(args.neurips23track), 
-            dimension, args.dataset, distance, args.count)
+            dimension, normalize_dataset_name(args.dataset), distance, args.count)
 
     # Filter out, from the loaded definitions, all those query argument groups
     # that correspond to experiments that have already been run. (This might

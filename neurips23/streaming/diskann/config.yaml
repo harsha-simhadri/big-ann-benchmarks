@@ -124,3 +124,27 @@ msturing-30M-clustered:
              {"R":50, "L":50, "insert_threads":16, "consolidate_threads":16}]
           query-args: |
             [{"Ls":70, "T":16}]
+siftsmall:
+  diskann:
+    docker-tag: neurips23-streaming-diskann
+    module: neurips23.streaming.diskann.diskann-str
+    constructor: diskann
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{"R":32, "L":50, "insert_threads":16, "consolidate_threads":16}]
+        query-args: |
+          [{"Ls":50, "T":8}]
+random-plus:
+  diskann:
+    docker-tag: neurips23-streaming-diskann
+    module: neurips23.streaming.diskann.diskann-str
+    constructor: diskann
+    base-args: [ "@metric" ]
+    run-groups:
+      base:
+        args: |
+          [{"R":32, "L":50, "insert_threads":16, "consolidate_threads":16}]
+        query-args: |
+          [{"Ls":50, "T":8}]

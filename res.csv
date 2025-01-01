@@ -1,0 +1,5 @@
+algorithm,parameters,dataset,count,distcomps,build,indexsize,mean_ssd_ios,mean_latency,track,recall/ap
+diskann,"diskann(('R32_L50', {'Ls': 50, 'T': 8}))","random-plus(30000,3000,20)(simple_runbook.yaml)",10,0.0,0.004477739334106445,7520.0,0.0,0.0,streaming,0.9975444444444443
+diskann,"diskann(('R32_L50', {'Ls': 50, 'T': 8}))","random-plus(40000,4000,20)(simple_runbook.yaml)",10,0.0,0.014147043228149414,9064.0,0.0,0.0,streaming,0.9971166666666668
+diskann,"diskann(('R32_L50', {'Ls': 50, 'T': 8}))",random-plus(simple_runbook.yaml),10,0.0,0.0025620460510253906,4276.0,0.0,0.0,streaming,0.9993333333333334
+diskann,"diskann(('R32_L50', {'Ls': 50, 'T': 8}))",random-xs(simple_runbook.yaml),10,0.0,0.008827924728393555,4192.0,0.0,0.0,streaming,0.9994999999999999

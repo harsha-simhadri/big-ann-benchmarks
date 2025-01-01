@@ -12,7 +12,6 @@ from benchmark.datasets import DATASETS
 from benchmark.plotting.utils  import compute_metrics_all_runs
 from benchmark.results import load_all_results, get_unique_algorithms
 
-
 def cleaned_run_metric(run_metrics):
     cleaned = []
     for run_metric in run_metrics:
