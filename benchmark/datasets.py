@@ -7,6 +7,7 @@ import random
 import sys
 import struct
 import time
+from pathlib import Path
 
 import numpy as np
 from scipy.sparse import csr_matrix
@@ -22,6 +23,54 @@ from .dataset_io import (
 
 BASEDIR = "data/"
 
+
+
+def load_data(path):
+    import torch
+    with open(path, "rb") as f:
+        nb_d = np.fromfile(f, dtype=np.int32, count=2)
+        nb, d = nb_d[0], nb_d[1]
+        vectors = np.fromfile(f, dtype=np.int32).reshape((nb, d))
+    vectors_tensor = torch.tensor(vectors, dtype=torch.float32)
+    return nb, d, vectors_tensor
+
+def sample_vectors(vectors, nb, nq):
+    import torch
+    num = vectors.shape[0]
+    if num < nb + nq:
+        raise ValueError("Not enough vectors to sample!")
+
+    indices = torch.randperm(nb + nq)
+
+    index_vectors = vectors[indices[:nb]]
+
+    query_vectors = vectors[indices[nb:nb + nq]]
+    return index_vectors, query_vectors
+
+def save_data(vectors_index_tensor, dataset=None, type=None, basedir=None):
+    import torch
+    if basedir is None:
+        basedir = Path.cwd()
+        if dataset is not None:
+            basedir = basedir/'dataset'/dataset
+            basedir.mkdir(parents=True, exist_ok=True)
+
+    if isinstance(vectors_index_tensor, np.ndarray):
+        vectors_index_tensor = torch.tensor(vectors_index_tensor, dtype=torch.float32)
+
+    # 获取数据的维度
+    nb = vectors_index_tensor.shape[0]  # 索引向量的数量
+    d = vectors_index_tensor.shape[1]  # 向量的维度
+
+    path = os.path.join(basedir, type + '_' + str(nb) + '_' + str(d))
+    # 保存索引数据
+    with open(path, "wb") as f:
+        # 保存 nb 和 d
+        np.array([nb, d], dtype='uint32').tofile(f)
+        # 保存索引向量
+        vectors_index_tensor.numpy().astype('float32').tofile(f)
+
+    return path
 
 class Dataset():
     def prepare(self):
@@ -1259,7 +1308,385 @@ class OpenAIEmbedding1M(DatasetCompetitionFormat):
     def short_name(self):
         return f"{self.__class__.__name__}-{self.nb}"
 
+class GLOVE(DatasetCompetitionFormat):
+    def __init__(self):
+        self.d = 100
+        self.nb = 10000
+        self.nq = 100
+        self.dtype = "float32"
+        self.ds_fn = f"data_{self.nb}_{self.d}"
+        self.qs_fn = f"queries_{self.nq}_{self.d}"
+        self.gt_fn = f"gt_{self.nb}_{self.nq}_{self.d}"
+        self.basedir = os.path.join(BASEDIR, "GLOVE")
+        if not os.path.exists(self.basedir):
+            os.makedirs(self.basedir)
 
+    def prepare(self, skip_data=False):
+        downloadflag = 0
+        for item in os.listdir(self.basedir):
+            item_path = os.path.join(self.basedir, item)
+            if os.path.isdir(item_path) or os.path.isfile(item_path):
+                print("GLOVE has already installed!")
+                downloadflag = 1
+                break
+        if downloadflag == 0:
+            import gdown
+            folder_url = "https://drive.google.com/drive/folders/1m06VVmXmklHr7QZzdz6w8EtYmuRGIl9s?usp=sharing"
+            gdown.download_folder(folder_url, output=self.basedir)
+
+        prepocessflag = 0
+        if prepocessflag == 1:
+            num, dim, vectors  = load_data(self.basedir+'/data_1192514_100')
+            index_vectors, query_vectors = sample_vectors(vectors, self.nb, self.nq)
+            save_data(index_vectors, type='data', basedir=self.basedir)
+            save_data(query_vectors, type='queries', basedir=self.basedir)
+
+    def search_type(self):
+        return "knn"
+
+    def distance(self):
+        return "euclidean"
+
+    def default_count(self):
+        return 10
+
+class MSONG(DatasetCompetitionFormat):
+    def __init__(self):
+        self.d = 420
+        self.nb = 10000
+        self.nq = 100
+        self.dtype = "float32"
+        self.ds_fn = f"data_{self.nb}_{self.d}"
+        self.qs_fn = f"queries_{self.nq}_{self.d}"
+        self.gt_fn = f"gt_{self.nb}_{self.nq}_{self.d}"
+        self.basedir = os.path.join(BASEDIR, "MSONG")
+        if not os.path.exists(self.basedir):
+            os.makedirs(self.basedir)
+
+    def prepare(self, skip_data=False):
+        downloadflag = 0
+        for item in os.listdir(self.basedir):
+            item_path = os.path.join(self.basedir, item)
+            if os.path.isdir(item_path) or os.path.isfile(item_path):
+                print("MSONG has already installed!")
+                downloadflag = 1
+                break
+        if downloadflag == 0:
+            import gdown
+            folder_url = "https://drive.google.com/drive/folders/1TnLNJNVqyFrEzKGfQVdvUC8Al-tmjVg0?usp=sharing"
+            gdown.download_folder(folder_url, output=self.basedir)
+
+        prepocessflag = 0
+        if prepocessflag == 0:
+            num, dim, vectors = load_data(self.basedir+'/data_992272_420')
+            index_vectors, query_vectors = sample_vectors(vectors, self.nb, self.nq)
+            save_data(index_vectors, type='data', basedir=self.basedir)
+            save_data(query_vectors, type='queries', basedir=self.basedir)
+
+    def search_type(self):
+        return "knn"
+
+    def distance(self):
+        return "euclidean"
+
+    def default_count(self):
+        return 10
+
+class SUN(DatasetCompetitionFormat):
+    def __init__(self):
+        self.d = 512
+        self.nb = 10000
+        self.nq = 100
+        self.dtype = "float32"
+        self.ds_fn = f"data_{self.nb}_{self.d}"
+        self.qs_fn = f"queries_{self.nq}_{self.d}"
+        self.gt_fn = f"gt_{self.nb}_{self.nq}_{self.d}"
+        self.basedir = os.path.join(BASEDIR, "SUN")
+        if not os.path.exists(self.basedir):
+            os.makedirs(self.basedir)
+
+    def prepare(self, skip_data=False):
+        downloadflag = 0
+        for item in os.listdir(self.basedir):
+            item_path = os.path.join(self.basedir, item)
+            if os.path.isdir(item_path) or os.path.isfile(item_path):
+                print("SUN has already installed!")
+                downloadflag = 1
+                break
+        if downloadflag == 0:
+            import gdown
+            folder_url = "https://drive.google.com/drive/folders/1gNK1n-do-7d5N-Z1tuAoXe5Xq3I8fZIH?usp=sharing"
+            gdown.download_folder(folder_url, output=self.basedir)
+
+        prepocessflag = 0
+        if prepocessflag == 0:
+            num, dim, vectors = load_data(self.basedir+'/data_79106_512')
+            index_vectors, query_vectors = sample_vectors(vectors, self.nb, self.nq)
+            save_data(index_vectors, type='data', basedir=self.basedir)
+            save_data(query_vectors, type='queries', basedir=self.basedir)
+
+    def search_type(self):
+        return "knn"
+
+    def distance(self):
+        return "euclidean"
+
+    def default_count(self):
+        return 10
+
+class DPR(DatasetCompetitionFormat):
+    def __init__(self):
+        self.d = 128
+        self.nb = 10000
+        self.nq = 100
+        self.dtype = "float32"
+        self.ds_fn = f"data_{self.nb}_{self.d}"
+        self.qs_fn = f"queries_{self.nq}_{self.d}"
+        self.gt_fn = f"gt_{self.nb}_{self.nq}_{self.d}"
+        self.basedir = os.path.join(BASEDIR, "SIFTSMALL")
+        if not os.path.exists(self.basedir):
+            os.makedirs(self.basedir)
+
+
+    def prepare(self, skip_data=False):
+        for item in os.listdir(self.basedir):
+            item_path = os.path.join(self.basedir, item)
+            if os.path.isdir(item_path) or os.path.isfile(item_path):
+                print("SIFTSMALL has already installed!")
+                return
+
+        import gdown
+        folder_url = "https://drive.google.com/drive/folders/1XbvrSjlP-oUZ5cixVpfSTn0zE-Cim0NK?usp=sharing"
+        gdown.download_folder(folder_url, output=self.basedir)
+
+    def search_type(self):
+        return "knn"
+
+    def distance(self):
+        return "euclidean"
+
+    def default_count(self):
+        return 10
+
+class REDDIT(DatasetCompetitionFormat):
+    def __init__(self):
+        self.d = 128
+        self.nb = 10000
+        self.nq = 100
+        self.dtype = "float32"
+        self.ds_fn = f"data_{self.nb}_{self.d}"
+        self.qs_fn = f"queries_{self.nq}_{self.d}"
+        self.gt_fn = f"gt_{self.nb}_{self.nq}_{self.d}"
+        self.basedir = os.path.join(BASEDIR, "SIFTSMALL")
+        if not os.path.exists(self.basedir):
+            os.makedirs(self.basedir)
+
+
+    def prepare(self, skip_data=False):
+        for item in os.listdir(self.basedir):
+            item_path = os.path.join(self.basedir, item)
+            if os.path.isdir(item_path) or os.path.isfile(item_path):
+                print("SIFTSMALL has already installed!")
+                return
+
+        import gdown
+        folder_url = "https://drive.google.com/drive/folders/1XbvrSjlP-oUZ5cixVpfSTn0zE-Cim0NK?usp=sharing"
+        gdown.download_folder(folder_url, output=self.basedir)
+
+    def search_type(self):
+        return "knn"
+
+    def distance(self):
+        return "euclidean"
+
+    def default_count(self):
+        return 10
+
+class COCO(DatasetCompetitionFormat):
+    def __init__(self):
+        self.d = 128
+        self.nb = 10000
+        self.nq = 100
+        self.dtype = "float32"
+        self.ds_fn = f"data_{self.nb}_{self.d}"
+        self.qs_fn = f"queries_{self.nq}_{self.d}"
+        self.gt_fn = f"gt_{self.nb}_{self.nq}_{self.d}"
+        self.basedir = os.path.join(BASEDIR, "SIFTSMALL")
+        if not os.path.exists(self.basedir):
+            os.makedirs(self.basedir)
+
+
+    def prepare(self, skip_data=False):
+        for item in os.listdir(self.basedir):
+            item_path = os.path.join(self.basedir, item)
+            if os.path.isdir(item_path) or os.path.isfile(item_path):
+                print("SIFTSMALL has already installed!")
+                return
+
+        import gdown
+        folder_url = "https://drive.google.com/drive/folders/1XbvrSjlP-oUZ5cixVpfSTn0zE-Cim0NK?usp=sharing"
+        gdown.download_folder(folder_url, output=self.basedir)
+
+    def search_type(self):
+        return "knn"
+
+    def distance(self):
+        return "euclidean"
+
+    def default_count(self):
+        return 10
+
+class TREVI(DatasetCompetitionFormat):
+    def __init__(self):
+        self.d = 4096
+        self.nb = 10000
+        self.nq = 100
+        self.dtype = "float32"
+        self.ds_fn = f"data_{self.nb}_{self.d}"
+        self.qs_fn = f"queries_{self.nq}_{self.d}"
+        self.gt_fn = f"gt_{self.nb}_{self.nq}_{self.d}"
+        self.basedir = os.path.join(BASEDIR, "TREVI")
+        if not os.path.exists(self.basedir):
+            os.makedirs(self.basedir)
+
+    def prepare(self, skip_data=False):
+        downloadflag = 0
+        for item in os.listdir(self.basedir):
+            item_path = os.path.join(self.basedir, item)
+            if os.path.isdir(item_path) or os.path.isfile(item_path):
+                print("TREVI has already installed!")
+                downloadflag = 1
+                break
+        if downloadflag == 0:
+            import gdown
+            folder_url = "https://drive.google.com/drive/folders/1MEhmUP_1H01JUdWTs80PCIq6880jkf-H?usp=sharing"
+            gdown.download_folder(folder_url, output=self.basedir)
+
+        prepocessflag = 0
+        if prepocessflag == 0:
+            num, dim, vectors = load_data(self.basedir+'/data_99900_4096')
+            index_vectors, query_vectors = sample_vectors(vectors, self.nb, self.nq)
+            save_data(index_vectors, type='data', basedir=self.basedir)
+            save_data(query_vectors, type='queries', basedir=self.basedir)
+
+    def search_type(self):
+        return "knn"
+
+    def distance(self):
+        return "euclidean"
+
+    def default_count(self):
+        return 10
+
+class WTE(DatasetCompetitionFormat):
+    def __init__(self):
+        self.d = 128
+        self.nb = 10000
+        self.nq = 100
+        self.dtype = "float32"
+        self.ds_fn = f"data_{self.nb}_{self.d}"
+        self.qs_fn = f"queries_{self.nq}_{self.d}"
+        self.gt_fn = f"gt_{self.nb}_{self.nq}_{self.d}"
+        self.basedir = os.path.join(BASEDIR, "SIFTSMALL")
+        if not os.path.exists(self.basedir):
+            os.makedirs(self.basedir)
+
+
+    def prepare(self, skip_data=False):
+        for item in os.listdir(self.basedir):
+            item_path = os.path.join(self.basedir, item)
+            if os.path.isdir(item_path) or os.path.isfile(item_path):
+                print("SIFTSMALL has already installed!")
+                return
+
+        import gdown
+        folder_url = "https://drive.google.com/drive/folders/1XbvrSjlP-oUZ5cixVpfSTn0zE-Cim0NK?usp=sharing"
+        gdown.download_folder(folder_url, output=self.basedir)
+
+    def search_type(self):
+        return "knn"
+
+    def distance(self):
+        return "euclidean"
+
+    def default_count(self):
+        return 10
+
+class SIFTSMALL(DatasetCompetitionFormat):
+    def __init__(self):
+        self.d = 128
+        self.nb = 10000
+        self.nq = 100
+        self.dtype = "float32"
+        self.ds_fn = f"data_{self.nb}_{self.d}"
+        self.qs_fn = f"queries_{self.nq}_{self.d}"
+        self.gt_fn = f"gt_{self.nb}_{self.nq}_{self.d}"
+        self.basedir = os.path.join(BASEDIR, "SIFTSMALL")
+        if not os.path.exists(self.basedir):
+            os.makedirs(self.basedir)
+
+
+    def prepare(self, skip_data=False):
+        for item in os.listdir(self.basedir):
+            item_path = os.path.join(self.basedir, item)
+            if os.path.isdir(item_path) or os.path.isfile(item_path):
+                print("SIFTSMALL has already installed!")
+                return
+
+        import gdown
+        folder_url = "https://drive.google.com/drive/folders/1XbvrSjlP-oUZ5cixVpfSTn0zE-Cim0NK?usp=sharing"
+        gdown.download_folder(folder_url, output=self.basedir)
+
+    def search_type(self):
+        return "knn"
+
+    def distance(self):
+        return "euclidean"
+
+    def default_count(self):
+        return 10
+
+class SIFT(DatasetCompetitionFormat):
+    def __init__(self):
+        self.d = 128
+        self.nb = 10000
+        self.nq = 100
+        self.dtype = "float32"
+        self.ds_fn = f"data_{self.nb}_{self.d}"
+        self.qs_fn = f"queries_{self.nq}_{self.d}"
+        self.gt_fn = f"gt_{self.nb}_{self.nq}_{self.d}"
+        self.basedir = os.path.join(BASEDIR, "SIFT")
+        if not os.path.exists(self.basedir):
+            os.makedirs(self.basedir)
+
+    def prepare(self, skip_data=False):
+        downloadflag = 0
+        for item in os.listdir(self.basedir):
+            item_path = os.path.join(self.basedir, item)
+            if os.path.isdir(item_path) or os.path.isfile(item_path):
+                print("SIFT has already installed!")
+                downloadflag = 1
+                break
+        if downloadflag == 0:
+            import gdown
+            folder_url = "https://drive.google.com/drive/folders/1PngXRH9jnN86T8RNiU-QyGqOillfQE_p?usp=sharing"
+            gdown.download_folder(folder_url, output=self.basedir)
+
+        prepocessflag = 0
+        if prepocessflag == 0:
+            num, dim, vectors = load_data(self.basedir+'/data_1000000_128')
+            index_vectors, query_vectors = sample_vectors(vectors, self.nb, self.nq)
+            save_data(index_vectors, type='data', basedir=self.basedir)
+            save_data(query_vectors, type='queries', basedir=self.basedir)
+
+    def search_type(self):
+        return "knn"
+
+    def distance(self):
+        return "euclidean"
+
+    def default_count(self):
+        return 10
 
 DATASETS = {
     'bigann-1B': lambda : BigANNDataset(1000),
@@ -1324,4 +1751,15 @@ DATASETS = {
     'random-filter-s': lambda : RandomFilterDS(100000, 1000, 50),
 
     'openai-embedding-1M': lambda: OpenAIEmbedding1M(93652),
+
+    'sift-small': lambda: SIFTSMALL(),
+    'glove': lambda: GLOVE(),
+    'sift': lambda: SIFT(),
+    'msong': lambda: MSONG(),
+    'sun': lambda: SUN(),
+    'dpr': lambda: DPR(),
+    'reddit': lambda: REDDIT(),
+    'coco': lambda: COCO(),
+    'trevi': lambda: TREVI(),
+    'wte': lambda: WTE(),
 }
