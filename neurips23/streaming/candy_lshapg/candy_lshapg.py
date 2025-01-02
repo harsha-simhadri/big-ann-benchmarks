@@ -15,6 +15,11 @@ class candy_lshapg(BaseStreamingANN):
 
     def setup(self, dtype, max_pts, ndim):
         index = PyCANDYAlgo.createIndex(self.indexkey, ndim)
+
+        cm = PyCANDYAlgo.ConfigMap()
+        cm.edit("indexTag", self.indexkey)
+        cm.edit("vecDim", ndim)
+        index.setConfig(cm)
         self.index = index
 
         return
