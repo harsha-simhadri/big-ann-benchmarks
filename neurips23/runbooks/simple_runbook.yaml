@@ -108,3 +108,223 @@ msspacev-1M:
   6:
     operation: "search"
   gt_url: "https://comp21storage.z5.web.core.windows.net/comp23/str_gt/MSSPACEV1B/1000000/simple_runbook.yaml"
+  
+sift-small:
+  max_pts: 10000
+  1:
+    operation: "insert"
+    start: 0
+    end: 10000
+  2:
+    operation: "search"
+  3:
+    operation: "delete"
+    start: 0
+    end: 5000
+  4:
+    operation: "search"
+  5:
+    operation: "insert"
+    start: 0
+    end: 5000
+  6:
+    operation: "search"
+  gt_url: "none"
+
+glove:
+  max_pts: 10000
+  1:
+    operation: "insert"
+    start: 0
+    end: 10000
+  2:
+    operation: "search"
+  3:
+    operation: "delete"
+    start: 0
+    end: 5000
+  4:
+    operation: "search"
+  5:
+    operation: "insert"
+    start: 0
+    end: 5000
+  6:
+    operation: "search"
+  gt_url: "none"
+
+sift:
+  max_pts: 10000
+  1:
+    operation: "insert"
+    start: 0
+    end: 10000
+  2:
+    operation: "search"
+  3:
+    operation: "delete"
+    start: 0
+    end: 5000
+  4:
+    operation: "search"
+  5:
+    operation: "insert"
+    start: 0
+    end: 5000
+  6:
+    operation: "search"
+  gt_url: "none"
+
+msong:
+  max_pts: 10000
+  1:
+    operation: "insert"
+    start: 0
+    end: 10000
+  2:
+    operation: "search"
+  3:
+    operation: "delete"
+    start: 0
+    end: 5000
+  4:
+    operation: "search"
+  5:
+    operation: "insert"
+    start: 0
+    end: 5000
+  6:
+    operation: "search"
+  gt_url: "none"
+
+sun:
+  max_pts: 10000
+  1:
+    operation: "insert"
+    start: 0
+    end: 10000
+  2:
+    operation: "search"
+  3:
+    operation: "delete"
+    start: 0
+    end: 5000
+  4:
+    operation: "search"
+  5:
+    operation: "insert"
+    start: 0
+    end: 5000
+  6:
+    operation: "search"
+  gt_url: "none"
+
+dpr:
+  max_pts: 10000
+  1:
+    operation: "insert"
+    start: 0
+    end: 10000
+  2:
+    operation: "search"
+  3:
+    operation: "delete"
+    start: 0
+    end: 5000
+  4:
+    operation: "search"
+  5:
+    operation: "insert"
+    start: 0
+    end: 5000
+  6:
+    operation: "search"
+  gt_url: "none"
+
+reddit:
+  max_pts: 10000
+  1:
+    operation: "insert"
+    start: 0
+    end: 10000
+  2:
+    operation: "search"
+  3:
+    operation: "delete"
+    start: 0
+    end: 5000
+  4:
+    operation: "search"
+  5:
+    operation: "insert"
+    start: 0
+    end: 5000
+  6:
+    operation: "search"
+  gt_url: "none"
+
+coco:
+  max_pts: 10000
+  1:
+    operation: "insert"
+    start: 0
+    end: 10000
+  2:
+    operation: "search"
+  3:
+    operation: "delete"
+    start: 0
+    end: 5000
+  4:
+    operation: "search"
+  5:
+    operation: "insert"
+    start: 0
+    end: 5000
+  6:
+    operation: "search"
+  gt_url: "none"
+
+trevi:
+  max_pts: 10000
+  1:
+    operation: "insert"
+    start: 0
+    end: 10000
+  2:
+    operation: "search"
+  3:
+    operation: "delete"
+    start: 0
+    end: 5000
+  4:
+    operation: "search"
+  5:
+    operation: "insert"
+    start: 0
+    end: 5000
+  6:
+    operation: "search"
+  gt_url: "none"
+
+wte:
+  max_pts: 10000
+  1:
+    operation: "insert"
+    start: 0
+    end: 10000
+  2:
+    operation: "search"
+  3:
+    operation: "delete"
+    start: 0
+    end: 5000
+  4:
+    operation: "search"
+  5:
+    operation: "insert"
+    start: 0
+    end: 5000
+  6:
+    operation: "search"
+  gt_url: "none"
