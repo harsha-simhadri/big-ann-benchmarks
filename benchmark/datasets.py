@@ -1260,6 +1260,102 @@ class OpenAIEmbedding1M(DatasetCompetitionFormat):
         return f"{self.__class__.__name__}-{self.nb}"
 
 
+class SIFT(DatasetCompetitionFormat):
+    def __init__(self, nb, nq, d, basedir = "sift"):
+        self.nb = nb
+        self.nq = nq
+        self.d = d
+        self.dtype = 'float32'
+        self.ds_fn = f"data_{self.nb}_{self.d}"
+        self.qs_fn = f"queries_{self.nq}_{self.d}"
+        self.gt_fn = f"gt_{self.nb}_{self.nq}_{self.d}"
+        self.basedir = os.path.join(BASEDIR, f"{basedir}{self.nb}")
+        if not os.path.exists(self.basedir):
+            os.makedirs(self.basedir)
+
+    def prepare(self, skip_data=False):
+        print("Please manually move in the data.")
+
+    def search_type(self):
+        return "knn"
+
+    def distance(self):
+        return "euclidean"
+
+    def __str__(self):
+        return f"Random({self.nb})"
+
+    def default_count(self):
+        return 10
+
+
+class RandomPlus(DatasetCompetitionFormat):
+    def __init__(self, nb, nq, d, seed=7758258, drift_position=0, drift_offset=0.5, query_noise_fraction=0, basedir="randomplus"):
+        self.nb = nb
+        self.nq = nq
+        self.d = d
+        self.dtype = 'float32'
+        self.ds_fn = f"data_{self.nb}_{self.d}"
+        self.qs_fn = f"queries_{self.nq}_{self.d}"
+        self.gt_fn = f"gt_{self.nb}_{self.nq}_{self.d}"
+        self.basedir = os.path.join(BASEDIR, f"{basedir}{self.nb}")
+        self.drift_position = drift_position
+        self.drift_offset = drift_offset
+        self.query_noise_fraction = query_noise_fraction
+        self.seed = seed
+
+        if not os.path.exists(self.basedir):
+            os.makedirs(self.basedir)
+
+    def prepare(self, skip_data=False):
+        from sklearn.neighbors import NearestNeighbors
+        import torch
+
+        torch.manual_seed(self.seed)
+        np.random.seed(self.seed)
+        data = torch.rand((self.nb, self.d), dtype=torch.float32)
+
+        if self.drift_position > 0 and self.drift_position < self.nb:
+            print(f"I will introduce concept drift from {self.drift_position}, drift offset={self.drift_offset}")
+            data[self.drift_position:] = data[self.drift_position:] * (1.0 - self.drift_offset)
+
+        indices = torch.randperm(data.size(0))[:self.nq]
+        queries = data[indices]
+
+        if self.query_noise_fraction > 0:
+            queries = (1 - self.query_noise_fraction) * queries + self.query_noise_fraction * torch.rand_like(queries)
+
+        # print(os.path.join(self.basedir, self.ds_fn))
+        with open(os.path.join(self.basedir, self.ds_fn), "wb") as f:
+            np.array([self.nb, self.d], dtype='uint32').tofile(f)
+            data.numpy().astype('float32').tofile(f)
+
+        # print(os.path.join(self.basedir, self.qs_fn))
+        with open(os.path.join(self.basedir, self.qs_fn), "wb") as f:
+            np.array([self.nq, self.d], dtype='uint32').tofile(f)
+            queries.numpy().astype('float32').tofile(f)
+
+        nbrs = NearestNeighbors(n_neighbors=100, metric="euclidean", algorithm='brute').fit(data.numpy())
+        D, I = nbrs.kneighbors(queries.numpy())
+
+        # print(os.path.join(self.basedir, self.gt_fn))
+        with open(os.path.join(self.basedir, self.gt_fn), "wb") as f:
+            np.array([self.nq, 100], dtype='uint32').tofile(f)
+            I.astype('uint32').tofile(f)
+            D.astype('float32').tofile(f)
+
+    def search_type(self):
+        return "knn"
+
+    def distance(self):
+        return "euclidean"
+
+    def __str__(self):
+        return f"RandomPlus({self.nb})"
+
+    def default_count(self):
+        return 10
+
 
 DATASETS = {
     'bigann-1B': lambda : BigANNDataset(1000),
@@ -1324,4 +1420,8 @@ DATASETS = {
     'random-filter-s': lambda : RandomFilterDS(100000, 1000, 50),
 
     'openai-embedding-1M': lambda: OpenAIEmbedding1M(93652),
+
+    "siftsmall": lambda: SIFT(10000, 100, 128),
+    
+    "random-plus": lambda: RandomPlus(10000,1000,20)
 }
