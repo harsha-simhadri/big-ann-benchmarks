@@ -24,10 +24,10 @@ class AbstractThread:
             self.thread.join()
 
 
-class ParallelIndexWorker(AbstractThread):
+class CongestionDropWorker(AbstractThread):
 
     """
-    The parallel index worker processes one row at a time for insert, query, and delete
+    The parallel index worker processes one batch at a time for insert, query, and delete
     """
     def __init__(self):
         super().__init__()
@@ -71,9 +71,10 @@ class ParallelIndexWorker(AbstractThread):
                 self.initial_load_queue.pop()
                 initial_vectors.append(pair.vectors)
                 initial_ids.append(pair.idx)
-            initial_vectors = np.vstack(initial_vectors)
-            initial_ids = np.vstack(initial_ids)
-            self.my_index_algo.insert(initial_vectors, initial_ids)
+            if(len(initial_vectors)>0):
+                initial_vectors = np.vstack(initial_vectors)
+                initial_ids = np.vstack(initial_ids)
+                self.my_index_algo.insert(initial_vectors, initial_ids)
 
             self.m_mut.release()
 
@@ -84,9 +85,9 @@ class ParallelIndexWorker(AbstractThread):
             while(not self.insert_queue.empty()):
                 pair = self.insert_queue.front()
                 self.insert_queue.pop()
-                self.my_index_algo.insert(pair.vectors, [pair.idx])
+                self.my_index_algo.insert(pair.vectors, np.array(pair.idx))
 
-                self.ingested_vectors += 1
+                self.ingested_vectors += pair.vectors.shape[0]
 
             self.m_mut.release()
 
@@ -97,7 +98,7 @@ class ParallelIndexWorker(AbstractThread):
             while(not self.delete_queue.empty()):
                 idx = self.delete_queue.front()
                 self.delete_queue.pop()
-                self.my_index_algo.delete([idx])
+                self.my_index_algo.delete(idx)
 
             self.m_mut.release()
 
@@ -109,11 +110,6 @@ class ParallelIndexWorker(AbstractThread):
                     shouldLoop=False
                     print(f"parallel worker {self.my_id} terminates")
                     return
-
-
-
-
-
 
 
     def startHPC(self):
@@ -130,6 +126,7 @@ class ParallelIndexWorker(AbstractThread):
     def waitPendingOperations(self):
         while not self.m_mut.acquire(blocking=False):
             pass
+        print("Waiting")
         self.m_mut.release()
         return True
 
@@ -144,20 +141,13 @@ class ParallelIndexWorker(AbstractThread):
             self.my_index_algo.insert(X,ids)
             self.m_mut.release()
             return
-        else:
-            for x, id in zip(X,ids):
-                self.initial_load_queue.push(NumpyIdxPair(x,id))
-            return
 
 
     def insert(self,X,id):
-        # here is inserted one row by one row
-        # X is one row and id is only 1
         if(self.insert_queue.empty() or (not self.congestion_drop)):
             self.insert_queue.push(NumpyIdxPair(X,id))
         else:
             print("DROPPING DATA!")
-
         return
 
     def delete(self, id):
@@ -168,4 +158,6 @@ class ParallelIndexWorker(AbstractThread):
         self.my_index_algo.query(X,k)
         self.res = self.my_index_algo.res
         return
+
+
 
