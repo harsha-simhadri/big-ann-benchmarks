@@ -135,13 +135,17 @@ class Puck(BaseStreamingANN):
         self.index.batch_delete(n, ids.tolist())
     def query(self, X, topK):
         n, d = X.shape
-        self.res = (np.empty((n, topK), dtype='float32'), np.empty((n, topK), dtype='uint32'))
         #self.index.search(n, swig_ptr(X), topK, swig_ptr(self.res[0]), swig_ptr(self.res[1]))
-        self.index.search(n, X.flatten(), topK, self.res[0].flatten(), self.res[1].flatten())
+        results=self.index.search(n, X.flatten(), topK)
+
+        res = np.array(results).reshape(X.shape[0], topK)
+
+        self.res = res
         #print(self.res[0])
         #print(self.res[1])
     def get_results(self):
-        return self.res[1]
+        print(self.res)
+        return self.res
     
     def __str__(self):
         return f'Puck{self.indexkey, self.qas}'
