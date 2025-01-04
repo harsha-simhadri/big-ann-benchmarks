@@ -6,18 +6,18 @@ from numpy import typing as npt
 from neurips23.streaming.base import BaseStreamingANN
 import torch
 
-class candy_hnsw(BaseStreamingANN):
+class candy_nsg(BaseStreamingANN):
     def __init__(self, metric, index_params):
-        self.indexkey="HNSWNaive"
-        self.name = "candy_HNSW"
+        self.indexkey="faiss"
+        self.faissIndexTag = "NSG"
+        self.name = "candy_LSHAPG"
         self.ef=16
         self.trained = False
 
     def setup(self, dtype, max_pts, ndim):
         index = PyCANDYAlgo.createIndex(self.indexkey, ndim)
-
         cm = PyCANDYAlgo.ConfigMap()
-        cm.edit("indexTag", self.indexkey)
+        cm.edit("faissIndexTag", "NSG")
         cm.edit("vecDim", ndim)
         index.setConfig(cm)
         self.index = index
