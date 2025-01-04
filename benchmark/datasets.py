@@ -1335,7 +1335,7 @@ class GLOVE(DatasetCompetitionFormat):
             gdown.download_folder(folder_url, output=self.basedir)
 
         prepocessflag = 0
-        if prepocessflag == 1:
+        if prepocessflag == 0:
             num, dim, vectors  = load_data(self.basedir+'/data_1192514_100')
             index_vectors, query_vectors = sample_vectors(vectors, self.nb, self.nq)
             save_data(index_vectors, type='data', basedir=self.basedir)
