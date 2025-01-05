@@ -1,6 +1,6 @@
 random-xs:
   max_pts: 10000
-  1:
+  1: 
     operation: "insert"
     start: 0
     end: 10000
@@ -23,7 +23,7 @@ msturing-10M:
   max_pts: 10000000
   # On Azure D8lds v5 with "R":50, "L":50, "insert_threads":16, "consolidate_threads":16
   # ~28 mins run time "Ls":100, "search_threads":16, average recall@10: 0.892
-  1:
+  1: 
     operation: "insert"
     start: 0
     end: 10000000
@@ -47,7 +47,7 @@ msturing-1M:
   # On Azure D8lds v5 with "R":50, "L":50, "insert_threads":16, "consolidate_threads":16
   # ~3.5 mins run time "Ls":300, "search_threads":16, average recall@10: 0.906
   # ~2 mins   run time "Ls":100, "search_threads":16, average recall@10: 0.958
-  1:
+  1: 
     operation: "insert"
     start: 0
     end: 1000000
@@ -68,7 +68,7 @@ msturing-1M:
   gt_url: "https://comp21storage.z5.web.core.windows.net/comp23/str_gt/MSTuringANNS/1000000/simple_runbook.yaml"
 msspacev-10M:
   max_pts: 10000000
-  1:
+  1: 
     operation: "insert"
     start: 0
     end: 10000000
@@ -89,7 +89,7 @@ msspacev-10M:
   gt_url: "https://comp21storage.z5.web.core.windows.net/comp23/str_gt/MSSPACEV1B/10000000/simple_runbook.yaml"
 msspacev-1M:
   max_pts: 1000000
-  1:
+  1: 
     operation: "insert"
     start: 0
     end: 1000000
@@ -108,6 +108,226 @@ msspacev-1M:
   6:
     operation: "search"
   gt_url: "https://comp21storage.z5.web.core.windows.net/comp23/str_gt/MSSPACEV1B/1000000/simple_runbook.yaml"
+
+sift-small:
+  max_pts: 10000
+  1:
+    operation: "insert"
+    start: 0
+    end: 10000
+  2:
+    operation: "search"
+  3:
+    operation: "delete"
+    start: 0
+    end: 5000
+  4:
+    operation: "search"
+  5:
+    operation: "insert"
+    start: 0
+    end: 5000
+  6:
+    operation: "search"
+  gt_url: "none"
+
+glove:
+  max_pts: 10000
+  1:
+    operation: "insert"
+    start: 0
+    end: 10000
+  2:
+    operation: "search"
+  3:
+    operation: "delete"
+    start: 0
+    end: 5000
+  4:
+    operation: "search"
+  5:
+    operation: "insert"
+    start: 0
+    end: 5000
+  6:
+    operation: "search"
+  gt_url: "none"
+
+sift:
+  max_pts: 10000
+  1:
+    operation: "insert"
+    start: 0
+    end: 10000
+  2:
+    operation: "search"
+  3:
+    operation: "delete"
+    start: 0
+    end: 5000
+  4:
+    operation: "search"
+  5:
+    operation: "insert"
+    start: 0
+    end: 5000
+  6:
+    operation: "search"
+  gt_url: "none"
+
+msong:
+  max_pts: 10000
+  1:
+    operation: "insert"
+    start: 0
+    end: 10000
+  2:
+    operation: "search"
+  3:
+    operation: "delete"
+    start: 0
+    end: 5000
+  4:
+    operation: "search"
+  5:
+    operation: "insert"
+    start: 0
+    end: 5000
+  6:
+    operation: "search"
+  gt_url: "none"
+
+sun:
+  max_pts: 10000
+  1:
+    operation: "insert"
+    start: 0
+    end: 10000
+  2:
+    operation: "search"
+  3:
+    operation: "delete"
+    start: 0
+    end: 5000
+  4:
+    operation: "search"
+  5:
+    operation: "insert"
+    start: 0
+    end: 5000
+  6:
+    operation: "search"
+  gt_url: "none"
+
+dpr:
+  max_pts: 10000
+  1:
+    operation: "insert"
+    start: 0
+    end: 10000
+  2:
+    operation: "search"
+  3:
+    operation: "delete"
+    start: 0
+    end: 5000
+  4:
+    operation: "search"
+  5:
+    operation: "insert"
+    start: 0
+    end: 5000
+  6:
+    operation: "search"
+  gt_url: "none"
+
+reddit:
+  max_pts: 10000
+  1:
+    operation: "insert"
+    start: 0
+    end: 10000
+  2:
+    operation: "search"
+  3:
+    operation: "delete"
+    start: 0
+    end: 5000
+  4:
+    operation: "search"
+  5:
+    operation: "insert"
+    start: 0
+    end: 5000
+  6:
+    operation: "search"
+  gt_url: "none"
+
+coco:
+  max_pts: 10000
+  1:
+    operation: "insert"
+    start: 0
+    end: 10000
+  2:
+    operation: "search"
+  3:
+    operation: "delete"
+    start: 0
+    end: 5000
+  4:
+    operation: "search"
+  5:
+    operation: "insert"
+    start: 0
+    end: 5000
+  6:
+    operation: "search"
+  gt_url: "none"
+
+trevi:
+  max_pts: 10000
+  1:
+    operation: "insert"
+    start: 0
+    end: 10000
+  2:
+    operation: "search"
+  3:
+    operation: "delete"
+    start: 0
+    end: 5000
+  4:
+    operation: "search"
+  5:
+    operation: "insert"
+    start: 0
+    end: 5000
+  6:
+    operation: "search"
+  gt_url: "none"
+
+wte:
+  max_pts: 10000
+  1:
+    operation: "insert"
+    start: 0
+    end: 10000
+  2:
+    operation: "search"
+  3:
+    operation: "delete"
+    start: 0
+    end: 5000
+  4:
+    operation: "search"
+  5:
+    operation: "insert"
+    start: 0
+    end: 5000
+  6:
+    operation: "search"
+  gt_url: "none"
 siftsmall:
   max_pts: 10000
   1:
