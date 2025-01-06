@@ -65,28 +65,34 @@ def test_congestion_drop_index():
     # Initialize CongestionDropIndex with 1 worker
     index = CongestionDropIndex(parallel_workers=1, fine_grained=False, single_worker_opt=True)
     index.setup(dtype=np.float32, max_pts=1000, ndims=128)
-
+    index.startHPC()
     # Test initial load
-    X_initial = np.random.rand(5, 128).astype(np.float32)
-    ids_initial = np.arange(5)
+    X_initial = np.random.rand(1000, 128).astype(np.float32)
+    ids_initial = np.arange(1000)
     index.initial_load(X_initial, ids_initial)
 
     # Test insert
-    X_insert = np.random.rand(3, 128).astype(np.float32)
-    ids_insert = np.arange(5, 8)
+    X_insert = np.random.rand(1000, 128).astype(np.float32)
+    ids_insert = np.arange(1000, 2000)
     index.insert(X_insert, ids_insert)
+    insert_size = 1000
+    index.waitPendingOperations()
 
+    #print(f"{index.workers[0].ingested_vectors}")
+    assert index.workers[0].ingested_vectors == insert_size, f"Expected {insert_size} ingested vectors, got {index.workers[0].ingested_vectors}."
     # Test delete
-    ids_delete = [0, 1]
+    ids_delete = np.arange(100)
     index.delete(ids_delete)
+    index.waitPendingOperations()
 
     # Test query
-    X_query = np.random.rand(2, 128).astype(np.float32)
-    k = 2
+    X_query = np.random.rand(5, 128).astype(np.float32)
+    k = 5
     index.query(X_query, k)
 
     # Print results
     print("Query results:", index.res)
+    index.endHPC()
 
 # Run the test
 print("TEST WORKER...")

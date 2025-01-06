@@ -37,7 +37,7 @@ class CongestionDropWorker(AbstractThread):
 
         self.insert_queue = NumpyIdxQueue(10)
         self.initial_load_queue = NumpyIdxQueue(10)
-        self.delete_queue = IdxQueue(10)
+        self.delete_queue = NumpyIdxQueue(10)
         self.query_queue = NumpyIdxQueue(10)
         self.cmd_queue = IdxQueue(10)
 
@@ -66,7 +66,7 @@ class CongestionDropWorker(AbstractThread):
             # 1. initial load stage
             while not self.m_mut.acquire(blocking=False):
                 pass
-
+            #print("Lock acquire by inline main initial")
             initial_vectors = []
             initial_ids = []
             while(not self.initial_load_queue.empty()):
@@ -78,31 +78,28 @@ class CongestionDropWorker(AbstractThread):
                 initial_vectors = np.vstack(initial_vectors)
                 initial_ids = np.vstack(initial_ids)
                 self.my_index_algo.insert(initial_vectors, initial_ids)
-
+            #print("Lock to be released by inline main initial")
             self.m_mut.release()
 
             # 2. insert phase
             while not self.m_mut.acquire(blocking=False):
                 pass
-
+            #print("Lock acquire by inline main insertion & deletion")
             while(not self.insert_queue.empty()):
                 pair = self.insert_queue.front()
                 self.insert_queue.pop()
                 self.my_index_algo.insert(pair.vectors, np.array(pair.idx))
 
                 self.ingested_vectors += pair.vectors.shape[0]
+                print(f"ingested_vectors={self.ingested_vectors}")
 
-            self.m_mut.release()
 
             # 3. delete phase
-            while not self.m_mut.acquire(blocking=False):
-                pass
-
             while(not self.delete_queue.empty()):
-                idx = self.delete_queue.front()
+                idx = self.delete_queue.front().idx
                 self.delete_queue.pop()
                 self.my_index_algo.delete(idx)
-
+            #print("Lock to be released by inline main insertion & deletion")
             self.m_mut.release()
 
             # 4. terminate
@@ -138,10 +135,11 @@ class CongestionDropWorker(AbstractThread):
         here index should be loaded several rows at a time before streaming
         """
         if(self.single_worker_opt):
-            print("Optimized for single worker!")
             while not self.m_mut.acquire(blocking=False):
                 pass
+            #print("Lock acquire by initial_load")
             self.my_index_algo.insert(X,ids)
+            #print("Lock to be released by initial_load")
             self.m_mut.release()
             return
 
@@ -154,7 +152,11 @@ class CongestionDropWorker(AbstractThread):
         return
 
     def delete(self, id):
-        self.delete_queue.push(id)
+        if(self.delete_queue.empty() or (not self.congestion_drop)):
+            self.delete_queue.push(NumpyIdxPair(np.array([0.0]),id))
+        else:
+            #TODO: Fix this
+            print("Failed to process deletion!")
         return
 
     def query(self, X, k):
@@ -204,7 +206,7 @@ class CongestionDropIndex(BaseANN):
 
     def initial_load(self,X,ids):
         if self.parallel_workers==1 and self.single_worker_opt==True:
-            print("Optimized for single worker!")
+            print("Initial_Load Optimized for single worker!")
             self.workers[0].initial_load(X,ids)
             time.sleep(2)
             self.workers[0].waitPendingOperations()
@@ -228,13 +230,13 @@ class CongestionDropIndex(BaseANN):
 
     def delete(self, ids):
         if(self.parallel_workers==1 and self.single_worker_opt==True):
-            for id in ids:
-                self.workers[0].delete(id)
+            print("Delete Optimized for single worker!")
+            self.workers[0].delete(ids)
         else:
             mapping = dict()
             for i in range(self.parallel_workers):
                 mapping[i] =[]
-            for i in id:
+            for i in ids:
                 mapping[self.workerMap[i]].append(i)
                 self.workers[i]=-1
 
