@@ -124,7 +124,6 @@ class CongestionDropWorker(AbstractThread):
     def waitPendingOperations(self):
         while not self.m_mut.acquire(blocking=False):
             pass
-        print("Waiting")
         self.m_mut.release()
         return True
 
@@ -143,10 +142,11 @@ class CongestionDropWorker(AbstractThread):
 
 
     def insert(self,X,id):
-        if(self.insert_queue.size()<self.insert_queue.capacity() or (not self.congestion_drop)):
+        if(self.insert_queue.empty() or (not self.congestion_drop)):
             self.insert_queue.push(NumpyIdxPair(X,id))
         else:
-            print(f"DROPPING DATA {id[0]}:{id[-1]} when size = {self.insert_queue.size()}")
+            print(f"DROPPING DATA {id[0]}:{id[-1]}")
+            pass
         return
 
     def delete(self, id):

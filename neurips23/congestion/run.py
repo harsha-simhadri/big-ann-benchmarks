@@ -59,7 +59,7 @@ class CongestionRunner(BaseRunner):
                     for i in range(step):
                         print(f'step {start+i*batchSize}:{start+(i+1)*batchSize}')
                         algo.insert(ds.get_data_in_range(start+i*batchSize,start+(i+1)*batchSize), ids[i*batchSize:(i+1)*batchSize])
-                    if(start+(step+1)*batchSize>end):
+                    if(start+step*batchSize<end and start+(step+1)*batchSize>end):
                         print(f'last {start+step*batchSize}:{end}')
                         algo.insert(ds.get_data_in_range(step*batchSize,end), ids[step*batchSize:])
 
@@ -81,7 +81,7 @@ class CongestionRunner(BaseRunner):
                     if search_type == 'knn':
                         algo.query(Q, count)
                         results = algo.get_results()
-                        print(f"results shape={results.shape}")
+
                     elif search_type == 'range':
                         algo.range_query(Q, count)
                         results = algo.get_range_results()

@@ -11,4 +11,7 @@ class faiss_HNSW(BaseCongestionDropANN):
         self.indexkey="HNSW32"
         self.name = "candy_HNSW_congestion"
 
+    def set_query_arguments(self, query_args):
+        self.workers[0].my_index_algo.set_query_arguments(query_args)
+
 
