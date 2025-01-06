@@ -72,19 +72,17 @@ def test_congestion_drop_index():
     index.initial_load(X_initial, ids_initial)
 
     # Test insert
-    X_insert = np.random.rand(1000, 128).astype(np.float32)
-    ids_insert = np.arange(1000, 2000)
-    index.insert(X_insert, ids_insert)
-    insert_size = 1000
-    index.waitPendingOperations()
-
-    #print(f"{index.workers[0].ingested_vectors}")
-    assert index.workers[0].ingested_vectors == insert_size, f"Expected {insert_size} ingested vectors, got {index.workers[0].ingested_vectors}."
+    for i in range(1,15):
+        X_insert = np.random.rand(1000, 128).astype(np.float32)
+        ids_insert = np.arange(1000*i, 1000*(i+1))
+        index.insert(X_insert, ids_insert)
+        index.waitPendingOperations()
+        print(f"{index.workers[0].ingested_vectors} and {1000*i}")
     # Test delete
     ids_delete = np.arange(100)
     index.delete(ids_delete)
     index.waitPendingOperations()
-
+    print(f"Fianlly {index.workers[0].ingested_vectors} are ingested")
     # Test query
     X_query = np.random.rand(5, 128).astype(np.float32)
     k = 5

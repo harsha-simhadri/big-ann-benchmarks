@@ -91,7 +91,7 @@ class CongestionDropWorker(AbstractThread):
                 self.my_index_algo.insert(pair.vectors, np.array(pair.idx))
 
                 self.ingested_vectors += pair.vectors.shape[0]
-                print(f"ingested_vectors={self.ingested_vectors}")
+                #print(f"ingested_vectors={self.ingested_vectors}")
 
 
             # 3. delete phase
@@ -99,7 +99,7 @@ class CongestionDropWorker(AbstractThread):
                 idx = self.delete_queue.front().idx
                 self.delete_queue.pop()
                 self.my_index_algo.delete(idx)
-            #print("Lock to be released by inline main insertion & deletion")
+
             self.m_mut.release()
 
             # 4. terminate
@@ -148,7 +148,7 @@ class CongestionDropWorker(AbstractThread):
         if(self.insert_queue.empty() or (not self.congestion_drop)):
             self.insert_queue.push(NumpyIdxPair(X,id))
         else:
-            print("DROPPING DATA!")
+            print(f"DROPPING DATA {id[0]}:{id[-1]}")
         return
 
     def delete(self, id):
@@ -167,13 +167,15 @@ class CongestionDropWorker(AbstractThread):
 class CongestionDropIndex(BaseANN):
     workers: List[CongestionDropWorker]
     workerMap: List[bool]
-    def __init__(self, parallel_workers=1, fine_grained=False, single_worker_opt=True):
+    def __init__(self, parallel_workers=1, fine_grained=False, single_worker_opt=True, clear_pending_operations=True):
         super().__init__()
         self.parallel_workers = parallel_workers
         self.insert_idx = 0
         self.fine_grained_parallel_insert = fine_grained
         self.single_worker_opt = single_worker_opt
+        self.clear_pending_operations = clear_pending_operations
         self.workers=[]
+        self.verbose = False
 
         for i in range(parallel_workers):
             self.workers.append(CongestionDropWorker())
@@ -200,13 +202,20 @@ class CongestionDropIndex(BaseANN):
         return
 
     def waitPendingOperations(self):
+        if(self.clear_pending_operations):
+            if self.verbose:
+                print("CLEAR CURRENT OPERATION QUEUE!")
+            for i in range(self.parallel_workers):
+                while(self.workers[i].insert_queue.size()!=0 and self.workers[i].delete_queue.size()!=0):
+                    self.workers[i].waitPendingOperations()
+            return
         for i in range(self.parallel_workers):
             self.workers[i].waitPendingOperations()
-        return
 
     def initial_load(self,X,ids):
         if self.parallel_workers==1 and self.single_worker_opt==True:
-            print("Initial_Load Optimized for single worker!")
+            if self.verbose:
+                print("Initial_Load Optimized for single worker!")
             self.workers[0].initial_load(X,ids)
             time.sleep(2)
             self.workers[0].waitPendingOperations()
@@ -230,7 +239,8 @@ class CongestionDropIndex(BaseANN):
 
     def delete(self, ids):
         if(self.parallel_workers==1 and self.single_worker_opt==True):
-            print("Delete Optimized for single worker!")
+            if self.verbose:
+                print("Delete Optimized for single worker!")
             self.workers[0].delete(ids)
         else:
             mapping = dict()
