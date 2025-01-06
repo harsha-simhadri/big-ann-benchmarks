@@ -6,7 +6,7 @@ import sys
 [sys.path.append(i) for i in ['.', '..']]
 
 from benchmark.datasets import DATASETS
-from benchmark.streaming.load_runbook import load_runbook
+from benchmark.congestion.load_runbook import load_runbook_congestion
 
 def get_range_start_end(entry, tag_to_id):
     for i in range(entry['end'] - entry['start']):
@@ -15,6 +15,10 @@ def get_range_start_end(entry, tag_to_id):
 
 def get_next_set(tag_to_id: np.ndarray, entry):
     match entry['operation']:
+        case 'initial':
+            for i in range(entry['end'] - entry['start']):
+                tag_to_id[i + entry['start']] = i + entry['start']
+            return tag_to_id
         case 'insert':
             for i in range(entry['end'] - entry['start']):
                 tag_to_id[i+entry['start']] = i+entry['start']
@@ -24,12 +28,22 @@ def get_next_set(tag_to_id: np.ndarray, entry):
             for i in range(entry['end'] - entry['start']):
                 tag_to_id.pop(i + entry['start'])
             return tag_to_id
+        case 'batch_insert':
+            for i in range(entry['end'] - entry['start']):
+                tag_to_id[i + entry['start']] = i + entry['start']
+            return tag_to_id
         case 'replace':
             # replace key with value
             for i in range(entry['tags_end'] - entry['tags_start']):
                 tag_to_id[i + entry['tags_start']] = entry['ids_start'] + i
             return tag_to_id
         case 'search':
+            return tag_to_id
+        case 'startHPC':
+            return tag_to_id
+        case 'endHPC':
+            return tag_to_id
+        case 'waitPending':
             return tag_to_id
         case _:       
             raise ValueError('Undefined entry in runbook')
@@ -108,7 +122,7 @@ def main():
     args = parser.parse_args()
 
     ds = DATASETS[args.dataset]()
-    max_pts, runbook = load_runbook(args.dataset, ds.nb, args.runbook_file)
+    max_pts, runbook = load_runbook_congestion(args.dataset, ds.nb, args.runbook_file)
     query_file = ds.qs_fn if args.private_query else ds.qs_fn
     
     common_cmd = args.gt_cmdline_tool + ' --dist_fn ' 
@@ -126,7 +140,7 @@ def main():
         case 'int8':
             common_cmd += 'int8'
         case 'uint8':
-            commond_cmd += 'uint8'
+            common_cmd += 'uint8'
         case _:
             raise RuntimeError('Invalid datatype')
     common_cmd += ' --K 100'
@@ -135,8 +149,8 @@ def main():
     step = 1
     ids = np.empty(0, dtype=np.uint32)
 
-    for entry in runbook:
-        # the first step must be an insertion
+    for entry in runbook[1:]:
+        # the first step must be an HPC and second must be initial
         if step == 1:
             tag_to_id = get_range_start_end(entry, {})
         else:

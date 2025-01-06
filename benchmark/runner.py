@@ -102,7 +102,7 @@ def run(definition, dataset, count, run_count, rebuild=True,
             for pos, query_arguments in enumerate(query_argument_groups, 1):
                 print("Running query argument group %d of %d..." %
                       (pos, len(query_argument_groups)))
-                # TODO: no need to set argument here
+
                 if query_arguments:
                     algo.set_query_arguments(*query_arguments)
                 if neurips23track in ['streaming', 'congestion']:
@@ -124,6 +124,7 @@ def run(definition, dataset, count, run_count, rebuild=True,
                     power_stats = power_capture.run(algo, X, distance, count,
                                                     run_count, search_type, descriptor)
                 print('start store results')
+
                 store_results(dataset, count, definition,
                               query_arguments, descriptor,
                               results, search_type, neurips23track, runbook_path)

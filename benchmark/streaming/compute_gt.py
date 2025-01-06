@@ -6,7 +6,7 @@ import sys
 [sys.path.append(i) for i in ['.', '..']]
 
 from benchmark.datasets import DATASETS
-from benchmark.streaming.load_runbook import load_runbook
+from benchmark.streaming.load_runbook import load_runbook_streaming
 
 def get_range_start_end(entry, tag_to_id):
     for i in range(entry['end'] - entry['start']):
@@ -108,7 +108,7 @@ def main():
     args = parser.parse_args()
 
     ds = DATASETS[args.dataset]()
-    max_pts, runbook = load_runbook(args.dataset, ds.nb, args.runbook_file)
+    max_pts, runbook = load_runbook_streaming(args.dataset, ds.nb, args.runbook_file)
     query_file = ds.qs_fn if args.private_query else ds.qs_fn
     
     common_cmd = args.gt_cmdline_tool + ' --dist_fn ' 
