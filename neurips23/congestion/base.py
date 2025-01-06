@@ -1,9 +1,13 @@
 from threading import Thread,Lock
-from typing import Optional
+from typing import Optional,List
 from PyCANDYAlgo.utils import *
+from caffe2.python import parallel_workers
+
+from benchmark.algorithms.base import BaseANN
 from neurips23.streaming.faiss_HNSW.faiss_HNSW import faiss_HNSW
 from neurips23.congestion.congestion_utils import *
 import numpy as np
+import time
 
 class AbstractThread:
     """
@@ -159,5 +163,124 @@ class CongestionDropWorker(AbstractThread):
         self.res = self.my_index_algo.res
         return
 
+class CongestionDropIndex(BaseANN):
+    workers: List[CongestionDropWorker]
+    workerMap: List[bool]
+    def __init__(self, parallel_workers=1, fine_grained=False, single_worker_opt=True):
+        super().__init__()
+        self.parallel_workers = parallel_workers
+        self.insert_idx = 0
+        self.fine_grained_parallel_insert = fine_grained
+        self.single_worker_opt = single_worker_opt
+
+        for i in range(parallel_workers):
+            self.workers.append(CongestionDropWorker())
+
+
+
+    def setup(self, dtype, max_pts, ndims) -> None:
+        for i in range(self.parallel_workers):
+            worker = self.workers[i]
+            worker.setup(dtype, max_pts, ndims)
+            worker.my_id=i
+        return
+
+    def startHPC(self):
+        for i in range(self.parallel_workers):
+            self.workers[i].startHPC()
+        return
+
+    def endHPC(self):
+        for i in range(self.parallel_workers):
+            self.workers[i].endHPC()
+        for i in range(self.parallel_workers):
+            self.workers[i].join_thread()
+        return
+
+    def waitPendingOperations(self):
+        for i in range(self.parallel_workers):
+            self.workers[i].waitPendingOperations()
+        return
+
+    def initial_load(self,X,ids):
+        if self.parallel_workers==1 and self.single_worker_opt==True:
+            print("Optimized for single worker!")
+            self.workers[0].initial_load(X,ids)
+            time.sleep(2)
+            self.workers[0].waitPendingOperations()
+            return
+
+        self.partition_initial_load(X,ids)
+        for i in range(self.parallel_workers):
+            self.waitPendingOperations()
+        return
+
+    def insert(self, X, id):
+        if(not self.fine_grained_parallel_insert):
+            self.insertInline(X,id)
+        else:
+            rows = X.shape[0]
+            for i in range(rows):
+                rowI = X[i]
+                idI = id[i]
+                self.insertInline(rowI, [idI])
+        return
+
+    def delete(self, id):
+        if(self.parallel_workers==1 and self.single_worker_opt==True):
+            self.workers[0].delete(id)
+        else:
+            mapping = dict()
+            for i in range(self.parallel_workers):
+                mapping[i] =[]
+            for i in id:
+                mapping[self.workerMap[i]].append(i)
+                self.workers[i]=-1
+
+            for i in range(self.parallel_workers):
+                self.workers[i].delete(mapping[i])
+
+        return
+
+    def query(self, X, k):
+        if(self.parallel_workers==1 and self.single_worker_opt==True):
+            self.workers[0].query(X, k)
+            self.res = self.workers[0].res
+            return
+
+
+    def partition_initial_load(self, X, ids):
+        rows = X.shape[0]
+        startPos = [0]*self.parallel_workers
+        endPos = [0]*self.parallel_workers
+
+        step = (int)(rows/self.parallel_workers)
+        startPos[0] = 0
+        endPos[self.parallel_workers-1]=rows
+        stepAcc = step
+        for i in range(1, self.parallel_workers):
+            startPos[i] = stepAcc
+            stepAcc += step
+
+        stepAcc=step
+
+        for i in range(self.parallel_workers-1):
+            endPos[i]=stepAcc
+            stepAcc+=step
+        for i in range(self.parallel_workers):
+            sub = X[startPos[i]:endPos[i]]
+            sub_id=ids[startPos[i]:endPos[i]]
+            self.workerMap.extend([i]*(endPos[i]-startPos[i]))
+            self.workers[i].initial_load(sub,sub_id)
+
+
+    def insertInline(self,X,ids):
+        self.workers[self.insert_idx].insert(X,ids)
+        if(self.single_worker_opt==False or self.parallel_workers>1):
+            for i in ids:
+                self.workerMap[i]=self.insert_idx
+        self.insert_idx+=1
+        if(self.insert_idx>=self.parallel_workers):
+            self.insert_idx=0
 
 
