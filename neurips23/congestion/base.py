@@ -1,7 +1,6 @@
 from threading import Thread,Lock
 from typing import Optional,List
 from PyCANDYAlgo.utils import *
-from caffe2.python import parallel_workers
 
 from benchmark.algorithms.base import BaseANN
 from neurips23.streaming.faiss_HNSW.faiss_HNSW import faiss_HNSW
@@ -172,6 +171,7 @@ class CongestionDropIndex(BaseANN):
         self.insert_idx = 0
         self.fine_grained_parallel_insert = fine_grained
         self.single_worker_opt = single_worker_opt
+        self.workers=[]
 
         for i in range(parallel_workers):
             self.workers.append(CongestionDropWorker())
@@ -215,20 +215,21 @@ class CongestionDropIndex(BaseANN):
             self.waitPendingOperations()
         return
 
-    def insert(self, X, id):
+    def insert(self, X, ids):
         if(not self.fine_grained_parallel_insert):
-            self.insertInline(X,id)
+            self.insertInline(X,ids)
         else:
             rows = X.shape[0]
             for i in range(rows):
                 rowI = X[i]
-                idI = id[i]
+                idI = ids[i]
                 self.insertInline(rowI, [idI])
         return
 
-    def delete(self, id):
+    def delete(self, ids):
         if(self.parallel_workers==1 and self.single_worker_opt==True):
-            self.workers[0].delete(id)
+            for id in ids:
+                self.workers[0].delete(id)
         else:
             mapping = dict()
             for i in range(self.parallel_workers):

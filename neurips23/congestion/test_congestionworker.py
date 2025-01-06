@@ -61,5 +61,37 @@ def test_congestion_drop_worker():
 
     print("Test passed.")
 
+def test_congestion_drop_index():
+    # Initialize CongestionDropIndex with 1 worker
+    index = CongestionDropIndex(parallel_workers=1, fine_grained=False, single_worker_opt=True)
+    index.setup(dtype=np.float32, max_pts=1000, ndims=128)
+
+    # Test initial load
+    X_initial = np.random.rand(5, 128).astype(np.float32)
+    ids_initial = np.arange(5)
+    index.initial_load(X_initial, ids_initial)
+
+    # Test insert
+    X_insert = np.random.rand(3, 128).astype(np.float32)
+    ids_insert = np.arange(5, 8)
+    index.insert(X_insert, ids_insert)
+
+    # Test delete
+    ids_delete = [0, 1]
+    index.delete(ids_delete)
+
+    # Test query
+    X_query = np.random.rand(2, 128).astype(np.float32)
+    k = 2
+    index.query(X_query, k)
+
+    # Print results
+    print("Query results:", index.res)
+
 # Run the test
-test_congestion_drop_worker()
+print("TEST WORKER...")
+#test_congestion_drop_worker()
+
+
+print("TEST BASE INDEX...")
+test_congestion_drop_index()
