@@ -63,7 +63,7 @@ def test_congestion_drop_worker():
 
 def test_congestion_drop_index():
     # Initialize CongestionDropIndex with 1 worker
-    index = CongestionDropIndex(parallel_workers=1, fine_grained=False, single_worker_opt=True)
+    index = BaseCongestionDropANN(parallel_workers=1, fine_grained=False, single_worker_opt=True,my_index_algos=[faiss_HNSW("IP",None)])
     index.setup(dtype=np.float32, max_pts=1000, ndims=128)
     index.startHPC()
     # Test initial load

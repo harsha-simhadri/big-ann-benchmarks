@@ -1,15 +1,22 @@
 import yaml
 
-def load_runbook_streaming(dataset_name, max_pts, runbook_file):
+def load_runbook_congestion(dataset_name, max_pts, runbook_file):
     with open(runbook_file) as fd:
         runbook = yaml.safe_load(fd)[dataset_name]
         i=1
         run_list = []
         while i in runbook:
             entry = runbook.get(i)
-            if entry['operation'] not in {'insert', 'delete', 'search', 'replace'}:
+            if entry['operation'] not in {'initial','insert', 'delete', 'search', 'replace', 'batch_insert','startHPC', 'endHPC', 'waitPending'}:
                 raise Exception('Undefined runbook operation')
-            if entry['operation']  in {'insert', 'delete'}:
+            if entry['operation'] in {'batch_insert'}:
+                if 'start' not in entry:
+                    raise Exception('Start not speficied in runbook')
+                if 'end' not in entry:
+                    raise Exception('End not specified in runbook')
+                if 'batchSize' not in entry:
+                    raise Exception('batchSize not specified in runbook')
+            if entry['operation']  in {'initial','insert', 'delete'}:
                 if 'start' not in entry:
                     raise Exception('Start not speficied in runbook')
                 if 'end' not in entry:

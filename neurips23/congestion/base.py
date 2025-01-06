@@ -3,7 +3,7 @@ from typing import Optional,List
 from PyCANDYAlgo.utils import *
 
 from benchmark.algorithms.base import BaseANN
-from neurips23.streaming.faiss_HNSW.faiss_HNSW import faiss_HNSW
+
 from neurips23.congestion.congestion_utils import *
 import numpy as np
 import time
@@ -32,7 +32,7 @@ class CongestionDropWorker(AbstractThread):
     """
     The parallel index worker processes one batch at a time for insert, query, and delete
     """
-    def __init__(self):
+    def __init__(self, my_index_algo):
         super().__init__()
 
         self.insert_queue = NumpyIdxQueue(10)
@@ -47,14 +47,12 @@ class CongestionDropWorker(AbstractThread):
         self.ingested_vectors = 0
         self.single_worker_opt = True
         self.m_mut = Lock()
-        self.my_index_algo = None
+        self.my_index_algo = my_index_algo
 
 
     def setup(self, dtype, max_pts, ndim):
         self.vec_dim=ndim
-        my_index_algo = faiss_HNSW("",None)
-        my_index_algo.setup(dtype, max_pts, ndim)
-        self.my_index_algo=my_index_algo
+        self.my_index_algo.setup(dtype, max_pts, ndim)
 
     def inline_main(self):
         print(f"Worker {self.my_id}: Starting main thread logic.")
@@ -145,10 +143,10 @@ class CongestionDropWorker(AbstractThread):
 
 
     def insert(self,X,id):
-        if(self.insert_queue.empty() or (not self.congestion_drop)):
+        if(self.insert_queue.size()<self.insert_queue.capacity() or (not self.congestion_drop)):
             self.insert_queue.push(NumpyIdxPair(X,id))
         else:
-            print(f"DROPPING DATA {id[0]}:{id[-1]}")
+            print(f"DROPPING DATA {id[0]}:{id[-1]} when size = {self.insert_queue.size()}")
         return
 
     def delete(self, id):
@@ -164,11 +162,10 @@ class CongestionDropWorker(AbstractThread):
         self.res = self.my_index_algo.res
         return
 
-class CongestionDropIndex(BaseANN):
+class BaseCongestionDropANN(BaseANN):
     workers: List[CongestionDropWorker]
     workerMap: List[bool]
-    def __init__(self, parallel_workers=1, fine_grained=False, single_worker_opt=True, clear_pending_operations=True):
-        super().__init__()
+    def __init__(self, my_index_algos, metric, index_params, parallel_workers=1,fine_grained=False, single_worker_opt=True, clear_pending_operations=True):
         self.parallel_workers = parallel_workers
         self.insert_idx = 0
         self.fine_grained_parallel_insert = fine_grained
@@ -178,7 +175,7 @@ class CongestionDropIndex(BaseANN):
         self.verbose = False
 
         for i in range(parallel_workers):
-            self.workers.append(CongestionDropWorker())
+            self.workers.append(CongestionDropWorker(my_index_algo=my_index_algos[i]))
 
 
 
@@ -295,5 +292,15 @@ class CongestionDropIndex(BaseANN):
         self.insert_idx+=1
         if(self.insert_idx>=self.parallel_workers):
             self.insert_idx=0
+
+    def set_query_arguments(self, query_args):
+        self.workers[0].my_index_algo.set_query_arguments(query_args)
+
+    def index_name(self, name):
+        return self.workers[0].my_index_algo.index_name(name)
+
+    def replace(self,X,ids):
+        self.delete(X,ids)
+        self.insert(X,ids)
 
 
