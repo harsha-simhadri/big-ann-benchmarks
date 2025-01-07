@@ -12,7 +12,7 @@ def get_result_filename(dataset=None, count=None, definition=None,
     if neurips23track and neurips23track != 'none':
         d.append('neurips23')
         d.append(neurips23track)
-        if neurips23track == 'streaming':
+        if neurips23track in ['streaming','congestion']:
             if runbook_path == None:
                 raise RuntimeError('Need runbook_path to store results')
             else:
@@ -35,6 +35,7 @@ def get_result_filename(dataset=None, count=None, definition=None,
         if len(data) > 150:
             data = data[-149:]
         d.append(data)
+
     return os.path.join(*d)
 
 
@@ -53,14 +54,22 @@ def store_results(dataset, count, definition, query_arguments,
         attrs, results, search_type, neurips23track=None, runbook_path=None):
     fn = get_result_filename(
         dataset, count, definition, query_arguments, neurips23track, runbook_path) + '.hdf5'
+    fn_attr =  get_result_filename(
+        dataset, count, definition, query_arguments, neurips23track, runbook_path) + '.csv'
     head, tail = os.path.split(fn)
     if not os.path.isdir(head):
         os.makedirs(head)
     f = h5py.File(name=fn, mode='w', libver='latest')
+    import pandas as pd
+    df = pd.DataFrame([attrs])
+
+    # Write the DataFrame to a CSV file
+    df.to_csv(fn_attr, index=False)
+
     for k, v in attrs.items():
         f.attrs[k] = v
 
-    if neurips23track == 'streaming':
+    if neurips23track in ['streaming', 'congestion']:
         for i, step_results in enumerate(results):
             step = attrs['step_' + str(i)]
             add_results_to_h5py(f, search_type, step_results, count, '_step' + str(step))
@@ -69,17 +78,21 @@ def store_results(dataset, count, definition, query_arguments,
     f.close()
 
 
-def load_all_results(dataset=None, count=None, neurips23track=None, runbook_path=None):
+
+
+def load_all_results(dataset=None, count=None, neurips23track="congestion", runbook_path=None):
     """
     A generator for all result files.
     """
     for root, _, files in os.walk(get_result_filename(dataset, count, \
                                                       neurips23track=neurips23track, \
                                                     runbook_path=runbook_path)):
+        print(root)
         for fn in files:
             if os.path.splitext(fn)[-1] != '.hdf5':
                 continue
             try:
+                print(root)
                 f = h5py.File(name=os.path.join(root, fn), mode='r+', libver='latest')
                 properties = dict(f.attrs)
                 yield properties, f

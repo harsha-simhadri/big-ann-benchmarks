@@ -63,6 +63,7 @@ def knn(true_nn, run_nn, count, metrics):
         print('Computing knn metrics')
         knn_metrics = metrics.create_group('knn')
         mean, std, recalls, queries_with_ties = get_recall_values(true_nn, run_nn, count)
+        print(len(recalls))
         if queries_with_ties>0:
             print("Warning: %d/%d queries contained ties accounted for in recall" % (queries_with_ties, len(run_nn)))
         knn_metrics.attrs['mean'] = mean
@@ -110,6 +111,20 @@ def mean_ssd_ios(attrs):
 def mean_latency(attrs):
     return attrs.get("mean_latency", 0)
 
+def pendingWrite(attrs):
+    return attrs.get("pendingWrite",-1)
+
+def batchLatency(attrs, count=0):
+    return attrs.get(f"95latency(Insert)_{count}",-1)
+
+def latencyQuery(attrs,count=0):
+    return attrs.get(f"latencyOfQuery_{count}",-1)
+
+
+
+
+
+
 all_metrics = {
     "k-nn": {
         "description": "Recall",
@@ -154,20 +169,54 @@ all_metrics = {
         "function": lambda true_nn, run_nn, metrics, run_attrs: watt_seconds_per_query(true_nn, run_attrs),  
         "worst": float("-inf")
     },
-    "mean_ssd_ios": {
-        "description": "Average SSD I/Os per query",
-        "function": lambda true_nn, run_nn, metrics, run_attrs: mean_ssd_ios(run_attrs),  
-        "worst": float("inf")
-    },
-    "mean_latency": {
-        "description": "Mean latency across queries",
-        "function": lambda true_nn, run_nn, metrics, run_attrs: mean_latency(run_attrs),  
-        "worst": float("inf")
-    },
+    # "mean_ssd_ios": {
+    #     "description": "Average SSD I/Os per query",
+    #     "function": lambda true_nn, run_nn, metrics, run_attrs: mean_ssd_ios(run_attrs),
+    #     "worst": float("inf")
+    # },
+    # "mean_latency": {
+    #     "description": "Mean latency across queries",
+    #     "function": lambda true_nn, run_nn, metrics, run_attrs: mean_latency(run_attrs),
+    #     "worst": float("inf")
+    # },
     "search_times": {
         "description": "List of consecutive search times for the same run parameter",
         "function": lambda true_nn, run_nn, metrics, run_attrs: run_attrs.get("search_times",[]), 
         "worst": float("inf")
     },
-
+    "pendingWriteTime": {
+        "description": "Time to wait for the index to complete previous batches",
+        "function": lambda true_nn, run_nn, metrics, run_attrs: pendingWrite(run_attrs),
+        "worst": float("inf")
+    },
+    f"batchLatency_{0}": {
+        "description": "95% Latency to complete 0th batches to be inserted",
+        "function": lambda true_nn, run_nn, metrics, run_attrs: batchLatency(run_attrs,0),
+        "worst": float("inf")
+    },
+    f"batchLatency_{1}": {
+        "description": "95% Latency to complete 1st batches to be inserted",
+        "function": lambda true_nn, run_nn, metrics, run_attrs: batchLatency(run_attrs,1),
+        "worst": float("inf")
+    },
+    f"batchLatency_{2}": {
+        "description": "95% Latency to complete 2nd batches to be inserted",
+        "function": lambda true_nn, run_nn, metrics, run_attrs: batchLatency(run_attrs,2),
+        "worst": float("inf")
+    },
+    f"latencySearch_{0}": {
+        "description": "latency to complete the 0th search",
+        "function": lambda true_nn, run_nn, metrics, run_attrs: latencyQuery(run_attrs),
+        "worst": float("inf")
+    },
+    f"latencySearch_{1}": {
+        "description": "latency to complete the 1st search",
+        "function": lambda true_nn, run_nn, metrics, run_attrs: latencyQuery(run_attrs,1),
+        "worst": float("inf")
+    },
+    f"latencySearch_{2}": {
+        "description": "latency to complete the 2nd search",
+        "function": lambda true_nn, run_nn, metrics, run_attrs: latencyQuery(run_attrs,2),
+        "worst": float("inf")
+    }
 }

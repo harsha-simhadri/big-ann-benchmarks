@@ -5,6 +5,7 @@ from neurips23.filter.run import FilterRunner
 from neurips23.sparse.run import SparseRunner
 from neurips23.ood.run import OODRunner
 from neurips23.streaming.run import StreamingRunner
+from neurips23.congestion.run import CongestionRunner
 
 def docker_tag_base():
     return 'neurips23'
@@ -34,7 +35,8 @@ RUNNERS = {
     "filter": FilterRunner,
     "sparse": SparseRunner,
     "ood": OODRunner,
-    "streaming": StreamingRunner
+    "streaming": StreamingRunner,
+    "congestion": CongestionRunner
 }
 
 

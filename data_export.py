@@ -55,6 +55,11 @@ if __name__ == "__main__":
         '--output',
         help='Path to the output csv file',
         required=True)
+
+    parser.add_argument(
+        '--track',
+        choices=['streaming', 'congestion'],
+        required=True)
     parser.add_argument(
         '--recompute',
         action='store_true',
@@ -87,31 +92,37 @@ if __name__ == "__main__":
     datasets = DATASETS.keys()
     dfs = []
 
-    neurips23tracks = ['filter', 'ood', 'sparse', 'streaming', 'none']
-
+    neurips23tracks = ['streaming', 'none', 'congestion']
+    tracks = [args.track]
     is_first = True
-    for track in neurips23tracks:
+    datasets = ['random-xs']
+    for track in tracks:
         for dataset_name in datasets:
             print(f"Looking at track:{track}, dataset:{dataset_name}")
             dataset = DATASETS[dataset_name]()
             runbook_paths = [None]
             if track == 'streaming':
-                runbook_paths = ['neurips23/runbooks/simple_runbook.yaml',
-                                    'neurips23/runbooks/simple_replace_runbook.yaml',
-                                    'neurips23/runbooks/random_replace_runbook.yaml',
-                                    'neurips23/runbooks/clustered_replace_runbook.yaml',
-                                    'neurips23/runbooks/clustered_runbook.yaml',
-                                    'neurips23/runbooks/clustered_runbook.yaml',
-                                    'neurips23/runbooks/delete_runbook.yaml',
-                                    'neurips23/runbooks/final_runbook.yaml',
-                                    'neurips23/runbooks/msturing-10M_slidingwindow_runbook.yaml',
-                                    'neurips23/runbooks/wikipedia-35M_expirationtime_runbook.yaml',
-                                    'neurips23/runbooks/wikipedia-1M_expiration_time_runbook.yaml',
-                                    'neurips23/runbooks/wikipedia-35M_expiration_time_replace_only_runbook.yaml',
-                                    'neurips23/runbooks/wikipedia-1M_expiration_time_replace_only_runbook.yaml',
-                                    'neurips23/runbooks/wikipedia-35M_expiration_time_replace_delete_runbook.yaml',
-                                    'neurips23/runbooks/wikipedia-1M_expiration_time_replace_delete_runbook.yaml',
-                                    'neurips23/runbooks/msmarco-100M_expirationtime_runbook.yaml']
+                runbook_paths = ['neurips23/runbooks/streaming/simple_runbook.yaml'
+                                    # 'neurips23/runbooks/streaming/simple_replace_runbook.yaml',
+                                    # 'neurips23/runbooks/streaming/random_replace_runbook.yaml',
+                                    # 'neurips23/runbooks/streaming/clustered_replace_runbook.yaml',
+                                    # 'neurips23/runbooks/streaming/clustered_runbook.yaml',
+                                    # 'neurips23/runbooks/streaming/clustered_runbook.yaml',
+                                    # 'neurips23/runbooks/streaming/delete_runbook.yaml',
+                                    # 'neurips23/runbooks/streaming/final_runbook.yaml',
+                                    # 'neurips23/runbooks/streaming/msturing-10M_slidingwindow_runbook.yaml',
+                                    # 'neurips23/runbooks/streaming/wikipedia-35M_expirationtime_runbook.yaml',
+                                    # 'neurips23/runbooks/streaming/wikipedia-1M_expiration_time_runbook.yaml',
+                                    # 'neurips23/runbooks/streaming/wikipedia-35M_expiration_time_replace_only_runbook.yaml',
+                                    # 'neurips23/runbooks/streaming/wikipedia-1M_expiration_time_replace_only_runbook.yaml',
+                                    # 'neurips23/runbooks/streaming/wikipedia-35M_expiration_time_replace_delete_runbook.yaml',
+                                    # 'neurips23/runbooks/streaming/wikipedia-1M_expiration_time_replace_delete_runbook.yaml',
+                                    #'neurips23/runbooks/streaming/msmarco-100M_expirationtime_runbook.yaml'
+                                    ]
+            if track == 'congestion':
+                runbook_paths = ['neurips23/runbooks/congestion/simple_runbook_2.yaml',
+                                 'neurips23/runbooks/congestion/simple_runbook.yaml'
+                                ]
             for runbook_path in runbook_paths:
                 print("Looking for runbook ", runbook_path)
                 results = load_all_results(dataset_name, neurips23track=track, runbook_path=runbook_path)
@@ -126,4 +137,4 @@ if __name__ == "__main__":
     if len(dfs) > 0:
         data = pd.concat(dfs)
         data = data.sort_values(by=["algorithm", "dataset", "recall/ap"])        
-        data.to_csv(args.output, index=False)
+        data.to_csv(args.output+"-"+args.track+".csv", index=False)

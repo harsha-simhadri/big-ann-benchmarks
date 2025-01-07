@@ -1,0 +1,23 @@
+random-xs:
+  max_pts: 10000
+  1:
+    operation: "startHPC"
+  2:
+    operation: "initial"
+    start: 0
+    end: 1000
+  3:
+    operation: "batch_insert"
+    start: 1000
+    end: 10000
+    batchSize: 1200
+    eventRate: 1000
+  4:
+    operation: "search"
+  5:
+    operation: "waitPending"
+  6:
+    operation: "search"
+  7:
+    operation: "endHPC"
+  gt_url: "https://comp21storage.z5.web.core.windows.net/comp23/str_gt/random10000/10000/simple_runbook.yaml"
