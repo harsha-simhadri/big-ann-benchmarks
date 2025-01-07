@@ -1578,29 +1578,48 @@ class TREVI(DatasetCompetitionFormat):
         return 10
 
 class WTE(DatasetCompetitionFormat):
-    def __init__(self):
-        self.d = 128
+    def __init__(self, dataset_name):
+        self.d = 768
         self.nb = 10000
         self.nq = 100
         self.dtype = "float32"
+        self.dataset_name = dataset_name
         self.ds_fn = f"data_{self.nb}_{self.d}"
         self.qs_fn = f"queries_{self.nq}_{self.d}"
         self.gt_fn = f"gt_{self.nb}_{self.nq}_{self.d}"
-        self.basedir = os.path.join(BASEDIR, "SIFTSMALL")
+        self.basedir = os.path.join(BASEDIR, "WTE" + str(dataset_name))
         if not os.path.exists(self.basedir):
             os.makedirs(self.basedir)
 
 
     def prepare(self, skip_data=False):
+        downloadflag = 0
         for item in os.listdir(self.basedir):
             item_path = os.path.join(self.basedir, item)
             if os.path.isdir(item_path) or os.path.isfile(item_path):
-                print("SIFTSMALL has already installed!")
-                return
+                print("WTE" + self.dataset_name + " has already installed!")
+                downloadflag = 1
+                break
+        if downloadflag == 0:
+            import gdown
+            folder_url_dict = {'-0.05':'https://drive.google.com/drive/folders/1W26G6ZiI37uPy9sy80t-LsoA9BwYivnu?usp=sharing'
+                                , '-0.1':'https://drive.google.com/drive/folders/1W0HTj3XBBpPHMymYDAqKS8R0-ENhgTMC?usp=sharing'
+                                , '-0.2':'https://drive.google.com/drive/folders/1riZJIAA_lIEIC3ohNCuPR0dvhOTO67W2?usp=sharing'
+                                , '-0.4':'https://drive.google.com/drive/folders/1SmKVC-3SUR3n7NDxO33kD4axNqrB7HvR?usp=sharing'
+                                , '-0.6':'https://drive.google.com/drive/folders/1x5U3LdJZgGIamK0rkb41MGzqaQnfoVL8?usp=sharing'
+                                , '-0.8':'https://drive.google.com/drive/folders/10JrpQPvbQegMF-VrJOD7PkMOjWYjlzDH?usp=sharing'}
+            folder_url = folder_url_dict[str(self.dataset_name)]
+            gdown.download_folder(folder_url, output=self.basedir)
 
-        import gdown
-        folder_url = "https://drive.google.com/drive/folders/1XbvrSjlP-oUZ5cixVpfSTn0zE-Cim0NK?usp=sharing"
-        gdown.download_folder(folder_url, output=self.basedir)
+        prepocessflag = 0
+        if prepocessflag == 0:
+            num, dim, vectors = load_data(self.basedir+'/data_100000_768')
+            index_vectors, _ = sample_vectors(vectors, self.nb, self.nq)
+            save_data(index_vectors, type='data', basedir=self.basedir)
+
+            num, dim, vectors = load_data(self.basedir+'/queries_100000_768')
+            _, query_vectors = sample_vectors(vectors, 0, self.nq)
+            save_data(query_vectors, type='queries', basedir=self.basedir)
 
     def search_type(self):
         return "knn"
@@ -1674,8 +1693,56 @@ class SIFT(DatasetCompetitionFormat):
         prepocessflag = 0
         if prepocessflag == 0:
             num, dim, vectors = load_data(self.basedir+'/data_1000000_128')
-            index_vectors, query_vectors = sample_vectors(vectors, self.nb, self.nq)
+            index_vectors, _ = sample_vectors(vectors, self.nb, self.nq)
             save_data(index_vectors, type='data', basedir=self.basedir)
+
+            num, dim, vectors = load_data(self.basedir+'/queries_10000_128')
+            _, query_vectors = sample_vectors(vectors, 0, self.nq)
+            save_data(query_vectors, type='queries', basedir=self.basedir)
+
+    def search_type(self):
+        return "knn"
+
+    def distance(self):
+        return "euclidean"
+
+    def default_count(self):
+        return 10
+
+class OPENIMAGESTREAMING(DatasetCompetitionFormat):
+    def __init__(self):
+        self.d = 512
+        self.nb = 10000
+        self.nq = 100
+        self.dtype = "float32"
+        self.ds_fn = f"data_{self.nb}_{self.d}"
+        self.qs_fn = f"queries_{self.nq}_{self.d}"
+        self.gt_fn = f"gt_{self.nb}_{self.nq}_{self.d}"
+        self.basedir = os.path.join(BASEDIR, "openimage-streaming")
+        if not os.path.exists(self.basedir):
+            os.makedirs(self.basedir)
+
+    def prepare(self, skip_data=False):
+        downloadflag = 0
+        for item in os.listdir(self.basedir):
+            item_path = os.path.join(self.basedir, item)
+            if os.path.isdir(item_path) or os.path.isfile(item_path):
+                print("openimage-streaming has already installed!")
+                downloadflag = 1
+                break
+        if downloadflag == 0:
+            import gdown
+            folder_url = "https://drive.google.com/drive/folders/1ZkWOrja-0A6C9yh3ysFoCP6w5u7oWjQx?usp=sharing"
+            gdown.download_folder(folder_url, output=self.basedir)
+
+        prepocessflag = 0
+        if prepocessflag == 0:
+            num, dim, vectors = load_data(self.basedir+'/data_1000000_512')
+            index_vectors, _ = sample_vectors(vectors, self.nb, self.nq)
+            save_data(index_vectors, type='data', basedir=self.basedir)
+
+            num, dim, vectors = load_data(self.basedir+'/queries_10000_512')
+            _, query_vectors = sample_vectors(vectors, 0, self.nq)
             save_data(query_vectors, type='queries', basedir=self.basedir)
 
     def search_type(self):
@@ -1829,5 +1896,13 @@ DATASETS = {
     'reddit': lambda: REDDIT(),
     'coco': lambda: COCO(),
     'trevi': lambda: TREVI(),
-    'wte': lambda: WTE(),
+
+    'wte-0.05': lambda: WTE('-0.05'),
+    'wte-0.1': lambda: WTE('-0.1'),
+    'wte-0.2': lambda: WTE('-0.2'),
+    'wte-0.4': lambda: WTE('-0.4'),
+    'wte-0.6': lambda: WTE('-0.6'),
+    'wte-0.8': lambda: WTE('-0.8'),
+
+    'openimage-streaming': lambda: OPENIMAGESTREAMING(),
 }

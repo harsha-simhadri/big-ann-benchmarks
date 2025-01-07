@@ -307,7 +307,7 @@ trevi:
     operation: "search"
   gt_url: "none"
 
-wte:
+wte-0.05:
   max_pts: 10000
   1:
     operation: "insert"
@@ -351,3 +351,134 @@ random-plus:
     operation: "search"
   gt_url: None
 
+wte-0.1:
+  max_pts: 10000
+  1:
+    operation: "insert"
+    start: 0
+    end: 10000
+  2:
+    operation: "search"
+  3:
+    operation: "delete"
+    start: 0
+    end: 5000
+  4:
+    operation: "search"
+  5:
+    operation: "insert"
+    start: 0
+    end: 5000
+  6:
+    operation: "search"
+  gt_url: "none"
+
+wte-0.2:
+  max_pts: 10000
+  1:
+    operation: "insert"
+    start: 0
+    end: 10000
+  2:
+    operation: "search"
+  3:
+    operation: "delete"
+    start: 0
+    end: 5000
+  4:
+    operation: "search"
+  5:
+    operation: "insert"
+    start: 0
+    end: 5000
+  6:
+    operation: "search"
+  gt_url: "none"
+
+wte-0.4:
+  max_pts: 10000
+  1:
+    operation: "insert"
+    start: 0
+    end: 10000
+  2:
+    operation: "search"
+  3:
+    operation: "delete"
+    start: 0
+    end: 5000
+  4:
+    operation: "search"
+  5:
+    operation: "insert"
+    start: 0
+    end: 5000
+  6:
+    operation: "search"
+  gt_url: "none"
+
+wte-0.6:
+  max_pts: 10000
+  1:
+    operation: "insert"
+    start: 0
+    end: 10000
+  2:
+    operation: "search"
+  3:
+    operation: "delete"
+    start: 0
+    end: 5000
+  4:
+    operation: "search"
+  5:
+    operation: "insert"
+    start: 0
+    end: 5000
+  6:
+    operation: "search"
+  gt_url: "none"
+
+wte-0.8:
+  max_pts: 10000
+  1:
+    operation: "insert"
+    start: 0
+    end: 10000
+  2:
+    operation: "search"
+  3:
+    operation: "delete"
+    start: 0
+    end: 5000
+  4:
+    operation: "search"
+  5:
+    operation: "insert"
+    start: 0
+    end: 5000
+  6:
+    operation: "search"
+  gt_url: "none"
+
+openimage-streaming:
+  max_pts: 10000
+  1:
+    operation: "insert"
+    start: 0
+    end: 10000
+  2:
+    operation: "search"
+  3:
+    operation: "delete"
+    start: 0
+    end: 5000
+  4:
+    operation: "search"
+  5:
+    operation: "insert"
+    start: 0
+    end: 5000
+  6:
+    operation: "search"
+  gt_url: "none"
