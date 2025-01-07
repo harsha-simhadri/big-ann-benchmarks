@@ -11,6 +11,7 @@ random-xs:
     start: 1000
     end: 10000
     batchSize: 1200
+    eventRate: 100
   4:
     operation: "search"
   5:
@@ -25,9 +26,10 @@ random-xs:
     operation: "search"
   9:
     operation: "batch_insert"
-    start: 5000
-    end: 10000
+    start: 0
+    end: 5000
     batchSize: 1000
+    eventRate: 100
   10:
     operation: "waitPending"
   11:
