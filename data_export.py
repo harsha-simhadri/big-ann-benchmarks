@@ -129,7 +129,7 @@ if __name__ == "__main__":
                 results = compute_metrics_all_runs(dataset, dataset_name, results, args.recompute, \
                     args.sensors, args.search_times, args.private_query, \
                     neurips23track=track, runbook_path=runbook_path)
-                results = _metric(results)
+                results = cleaned_run_metric(results)
                 if len(results) > 0:
                     dfs.append(pd.DataFrame(results))
 

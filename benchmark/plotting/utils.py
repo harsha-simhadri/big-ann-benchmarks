@@ -95,10 +95,6 @@ def compute_metrics_all_runs(dataset, dataset_name, res, recompute=False,
         elif neurips23track == "congestion":
             true_nn_across_steps = []
             gt_dir = benchmark.congestion.compute_gt.gt_dir(dataset, runbook_path)
-            print(f"GT_DIR={gt_dir}")
-            print()
-
-
             max_pts, runbook = load_runbook_congestion(dataset_name, dataset.nb, runbook_path)
 
             for step, entry in enumerate(runbook):
@@ -188,10 +184,14 @@ def compute_metrics_all_runs(dataset, dataset_name, res, recompute=False,
                   v.append(val)
                 if name == 'k-nn':
                   print('Recall: ', v)
-                v = numpy.mean(v)
+                #v = numpy.mean(v)
             else:
                 v = metric["function"](true_nn, run_nn, metrics_cache, properties)
-            run_result[name] = v
+            print("name"+name)
+            if(name=="k-nn"):
+                for i in range(len(v)):
+                    run_result['knn_'+str(i)] = v[i]
+            run_result[name] = numpy.mean(v)
         yield run_result
 
 #def compute_all_metrics(true_nn, run, properties, recompute=False):
