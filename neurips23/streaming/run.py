@@ -20,7 +20,7 @@ class StreamingRunner(BaseRunner):
     
 
 
-    def run_task(algo, ds, distance, count, run_count, search_type, private_query, runbook):
+    def run_task(algo, ds, distance, count, run_count, search_type, private_query, runbook, definition, query_arguments, runbook_path,dataset):
         best_search_time = float('inf')
         search_times = []
         all_results = []

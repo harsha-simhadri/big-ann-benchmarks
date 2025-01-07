@@ -94,11 +94,21 @@ def compute_metrics_all_runs(dataset, dataset_name, res, recompute=False,
                     true_nn_across_steps.append(true_nn)
         elif neurips23track == "congestion":
             true_nn_across_steps = []
-            gt_dir = benchmark.streaming.compute_gt.gt_dir(dataset, runbook_path)
+            gt_dir = benchmark.congestion.compute_gt.gt_dir(dataset, runbook_path)
+            print(f"GT_DIR={gt_dir}")
+            print()
+
+
             max_pts, runbook = load_runbook_congestion(dataset_name, dataset.nb, runbook_path)
+
             for step, entry in enumerate(runbook):
                 if entry['operation'] == 'search':
-                    step_gt_path = os.path.join(gt_dir, 'step' + str(step+1) + '.gt100')
+                    if neurips23track == 'congestion':
+                        step_gt_path = os.path.join(gt_dir, 'step' + str(step) + '.gt100')
+                        print(f"STEP {step} GT Path: {step_gt_path}")
+                    else:
+                        step_gt_path = os.path.join(gt_dir, 'step' + str(step+1) + '.gt100')
+                        print(f"STEP {step+1} GT Path: {step_gt_path}")
                     true_nn = knn_result_read(step_gt_path)
                     true_nn_across_steps.append(true_nn)
 

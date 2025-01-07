@@ -20,6 +20,10 @@ class faiss_HNSW(BaseStreamingANN):
         return
 
     def insert(self, X,ids):
+        # print(X.shape)
+        # print(ids.shape)
+        # print(type(X))
+        # print(type(ids))
         if(self.trained):
             self.index.add(X.shape[0],X.flatten())
         else:
@@ -39,7 +43,6 @@ class faiss_HNSW(BaseStreamingANN):
 
         results = self.index.search(querySize, X.flatten(), k, self.ef)
         res = np.array(results).reshape(X.shape[0], k)
-
         self.res = res
 
     def set_query_arguments(self, query_args):

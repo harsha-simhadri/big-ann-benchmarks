@@ -95,6 +95,7 @@ if __name__ == "__main__":
     neurips23tracks = ['streaming', 'none', 'congestion']
     tracks = [args.track]
     is_first = True
+    datasets = ['random-xs']
     for track in tracks:
         for dataset_name in datasets:
             print(f"Looking at track:{track}, dataset:{dataset_name}")
@@ -119,15 +120,16 @@ if __name__ == "__main__":
                                     #'neurips23/runbooks/streaming/msmarco-100M_expirationtime_runbook.yaml'
                                     ]
             if track == 'congestion':
-                runbook_paths = ['neurips23/runbooks/congestion/simple_runbook.yaml',
-                                 'neurips23/runbooks/streaming/simple_runbook.yaml']
+                runbook_paths = ['neurips23/runbooks/congestion/simple_runbook_2.yaml',
+                                 'neurips23/runbooks/congestion/simple_runbook.yaml'
+                                ]
             for runbook_path in runbook_paths:
                 print("Looking for runbook ", runbook_path)
                 results = load_all_results(dataset_name, neurips23track=track, runbook_path=runbook_path)
                 results = compute_metrics_all_runs(dataset, dataset_name, results, args.recompute, \
                     args.sensors, args.search_times, args.private_query, \
                     neurips23track=track, runbook_path=runbook_path)
-                results = cleaned_run_metric(results)
+                results = _metric(results)
                 if len(results) > 0:
                     dfs.append(pd.DataFrame(results))
 

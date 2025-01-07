@@ -81,8 +81,7 @@ def run(definition, dataset, count, run_count, rebuild=True,
             print("Loaded existing index")
 
 
-        index_size = algo.get_memory_usage() - memory_usage_before
-        print('Index memory footprint: ', index_size)
+
 
         if upload_index:
             print("Starting index upload...")
@@ -107,10 +106,13 @@ def run(definition, dataset, count, run_count, rebuild=True,
                     algo.set_query_arguments(*query_arguments)
                 if neurips23track in ['streaming', 'congestion']:
                     descriptor, results = custom_runner.run_task(
-                        algo, ds, distance, count, 1, search_type, private_query, runbook)
+                        algo, ds, distance, count, 1, search_type, private_query, runbook, definition, query_arguments, runbook_path, dataset)
                 else:
                     descriptor, results = custom_runner.run_task(
                         algo, ds, distance, count, run_count, search_type, private_query)
+                index_size = algo.get_memory_usage() - memory_usage_before
+
+                print('Index memory footprint after all queries: ', index_size)
 
                 descriptor["build_time"] = build_time
                 descriptor["index_size"] = index_size

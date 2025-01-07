@@ -4,7 +4,7 @@ import yaml
 import pandas as pd
 from benchmark.algorithms.base_runner import BaseRunner
 from benchmark.datasets import DATASETS
-
+from benchmark.results import get_result_filename
 
 def generateTimestamps(rows, eventRate=4000):
     """
@@ -55,7 +55,7 @@ def getLatencyPercentile(fraction: float, event_time: np.ndarray, processed_time
     return valid_latency_sorted[idx].item()
 
 
-def store_timestamps_to_csv(ids, eventTimeStamps, arrivalTimeStamps, processedTimeStamps, run_count, sub_count):
+def store_timestamps_to_csv(filename, ids, eventTimeStamps, arrivalTimeStamps, processedTimeStamps, counts):
     """
     Store the timestamps and IDs into a CSV file.
 
@@ -72,12 +72,14 @@ def store_timestamps_to_csv(ids, eventTimeStamps, arrivalTimeStamps, processedTi
         'arrivalTime': arrivalTimeStamps,
         'processedTime': processedTimeStamps
     })
-
-    # Save to CSV with dynamic filename based on the current batch insert count
-    filename = f"{run_count}_batch_insert_{sub_count}.csv"
+    import os
+    head, tail = os.path.split(filename)
+    if not os.path.isdir(head):
+        os.makedirs(head)
+    filename = filename +f"_{counts}_timestamps.csv"
     df.to_csv(filename, index=False)
 
-    print(f"Data saved to {filename}")
+    print(f"Timestamps saved to {filename}")
 
 
 class CongestionRunner(BaseRunner):
@@ -94,7 +96,7 @@ class CongestionRunner(BaseRunner):
     
 
 
-    def run_task(algo, ds, distance, count, run_count, search_type, private_query, runbook):
+    def run_task(algo, ds, distance, count, run_count, search_type, private_query, runbook, definition, query_arguments, runbook_path,dataset):
         best_search_time = float('inf')
         search_times = []
         all_results = []
@@ -109,6 +111,12 @@ class CongestionRunner(BaseRunner):
         result_map = {}
         num_searches = 0
         counts = {'initial':0,'batch_insert':0,'insert':0,'delete':0,'search':0}
+
+        attrs = {
+            "name": str(algo),
+            "pendingWrite":0
+        }
+
         for step, entry in enumerate(runbook):
             start_time = time.time()
             match entry['operation']:
@@ -122,7 +130,9 @@ class CongestionRunner(BaseRunner):
                 case 'endHPC':
                     algo.endHPC()
                 case 'waitPending':
+                    t0 = time.time()
                     algo.waitPendingOperations()
+                    attrs['pendingWrite'] += (time.time()-t0)*1e6
                 case 'batch_insert':
                     start = entry['start']
                     end = entry['end']
@@ -149,6 +159,7 @@ class CongestionRunner(BaseRunner):
                         algo.insert(ds.get_data_in_range(start+i*batchSize,start+(i+1)*batchSize), ids[i*batchSize:(i+1)*batchSize])
                         processedTimeStamps[i*batchSize:(i+1)*batchSize] = (time.time()-start_time)*1e6
 
+
                     # process the rest
                     if(start+step*batchSize<end and start+(step+1)*batchSize>end):
                         tNow = (time.time()-start_time)*1e6
@@ -161,12 +172,12 @@ class CongestionRunner(BaseRunner):
                         processedTimeStamps[step*batchSize:end] = (time.time() - start_time) * 1e6
                         arrivalTimeStamps[step*batchSize:end] = tExpectedArrival
 
-
-                    store_timestamps_to_csv(ids,eventTimeStamps, arrivalTimeStamps, processedTimeStamps, run_count, counts['batch_insert'])
+                    attrs["95%latency(Insert)_" + str(counts['batch_insert'])] = getLatencyPercentile(0.95,
+                                                                                                      eventTimeStamps,
+                                                                                                      processedTimeStamps)
+                    filename = get_result_filename(dataset, count, definition, query_arguments, neurips23track="congestion", runbook_path=runbook_path)
+                    store_timestamps_to_csv(filename, ids,eventTimeStamps, arrivalTimeStamps, processedTimeStamps, counts['batch_insert'])
                     counts['batch_insert'] +=1
-
-
-
 
 
                 case 'insert':
@@ -188,7 +199,9 @@ class CongestionRunner(BaseRunner):
                     algo.replace(ds.get_data_in_range(ids_start, ids_end), tags_to_replace)
                 case 'search':
                     if search_type == 'knn':
+                        t0=time.time()
                         algo.query(Q, count)
+                        attrs['latencyOfQuery_'+str(counts['search'])]=(time.time()-t0)*1e6
                         results = algo.get_results()
 
                     elif search_type == 'range':
@@ -207,20 +220,18 @@ class CongestionRunner(BaseRunner):
             step_time = (time.time() - start_time)
             print(f"Step {step+1} took {step_time}s.")
 
-        attrs = {
-            "name": str(algo),
-            "run_count": run_count,
-            "distance": distance,
-            "type": search_type,
-            "count": int(count),
-            "search_times": search_times,
-            "num_searches": num_searches,
-            "private_queries": private_query, 
-        }
+        attrs["run_count"]=run_count
+        attrs["distance"]=distance
+        attrs["type"]= search_type,
+        attrs["count"] =int(count)
+        attrs["search_times"]= search_times
+        attrs["num_searches"]= num_searches
+        attrs["private_queries"]=private_query
 
+        # record each search
         for k, v in result_map.items():
             attrs['step_' + str(k)] = v
-
+        print(attrs)
         additional = algo.get_additional()
         for k in additional:
             attrs[k] = additional[k]
