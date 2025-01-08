@@ -1435,28 +1435,37 @@ class SUN(DatasetCompetitionFormat):
 
 class DPR(DatasetCompetitionFormat):
     def __init__(self):
-        self.d = 128
+        self.d = 768
         self.nb = 10000
         self.nq = 100
         self.dtype = "float32"
         self.ds_fn = f"data_{self.nb}_{self.d}"
         self.qs_fn = f"queries_{self.nq}_{self.d}"
         self.gt_fn = f"gt_{self.nb}_{self.nq}_{self.d}"
-        self.basedir = os.path.join(BASEDIR, "SIFTSMALL")
+        self.basedir = os.path.join(BASEDIR, "DPR")
         if not os.path.exists(self.basedir):
             os.makedirs(self.basedir)
 
 
     def prepare(self, skip_data=False):
+        downloadflag = 0
         for item in os.listdir(self.basedir):
             item_path = os.path.join(self.basedir, item)
             if os.path.isdir(item_path) or os.path.isfile(item_path):
-                print("SIFTSMALL has already installed!")
+                print("DPR has already installed!")
+                downloadflag = 1
                 return
+        if downloadflag == 0:
+            import gdown
+            folder_url = "https://drive.google.com/drive/folders/1-zF1brIbWv209I8qU_InTfHbQQXbHMi2?usp=sharing"
+            gdown.download_folder(folder_url, output=self.basedir)
 
-        import gdown
-        folder_url = "https://drive.google.com/drive/folders/1XbvrSjlP-oUZ5cixVpfSTn0zE-Cim0NK?usp=sharing"
-        gdown.download_folder(folder_url, output=self.basedir)
+        prepocessflag = 0
+        if prepocessflag == 0:
+            num, dim, vectors = load_data(self.basedir + '/data_100000_768')
+            index_vectors, query_vectors = sample_vectors(vectors, self.nb, self.nq)
+            save_data(index_vectors, type='data', basedir=self.basedir)
+            save_data(query_vectors, type='queries', basedir=self.basedir)
 
     def search_type(self):
         return "knn"
@@ -1469,28 +1478,37 @@ class DPR(DatasetCompetitionFormat):
 
 class REDDIT(DatasetCompetitionFormat):
     def __init__(self):
-        self.d = 128
+        self.d = 768
         self.nb = 10000
         self.nq = 100
         self.dtype = "float32"
         self.ds_fn = f"data_{self.nb}_{self.d}"
         self.qs_fn = f"queries_{self.nq}_{self.d}"
         self.gt_fn = f"gt_{self.nb}_{self.nq}_{self.d}"
-        self.basedir = os.path.join(BASEDIR, "SIFTSMALL")
+        self.basedir = os.path.join(BASEDIR, "REDDIT")
         if not os.path.exists(self.basedir):
             os.makedirs(self.basedir)
 
 
     def prepare(self, skip_data=False):
+        downloadflag = 0
         for item in os.listdir(self.basedir):
             item_path = os.path.join(self.basedir, item)
             if os.path.isdir(item_path) or os.path.isfile(item_path):
-                print("SIFTSMALL has already installed!")
+                print("REDDIT has already installed!")
+                downloadflag = 1
                 return
+        if downloadflag == 0:
+            import gdown
+            folder_url = "https://drive.google.com/drive/folders/1Q2DWWtEnCuh3_lB_UonU7l5EHGy7pBmG?usp=sharing"
+            gdown.download_folder(folder_url, output=self.basedir)
 
-        import gdown
-        folder_url = "https://drive.google.com/drive/folders/1XbvrSjlP-oUZ5cixVpfSTn0zE-Cim0NK?usp=sharing"
-        gdown.download_folder(folder_url, output=self.basedir)
+        prepocessflag = 0
+        if prepocessflag == 0:
+            num, dim, vectors = load_data(self.basedir + '/data_100000_768')
+            index_vectors, query_vectors = sample_vectors(vectors, self.nb, self.nq)
+            save_data(index_vectors, type='data', basedir=self.basedir)
+            save_data(query_vectors, type='queries', basedir=self.basedir)
 
     def search_type(self):
         return "knn"
@@ -1905,4 +1923,5 @@ DATASETS = {
     'wte-0.8': lambda: WTE('-0.8'),
 
     'openimage-streaming': lambda: OPENIMAGESTREAMING(),
+
 }
