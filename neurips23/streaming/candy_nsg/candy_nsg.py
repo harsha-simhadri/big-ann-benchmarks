@@ -9,15 +9,20 @@ import torch
 class candy_nsg(BaseStreamingANN):
     def __init__(self, metric, index_params):
         self.indexkey="faiss"
-        self.faissIndexTag = "NSG"
-        self.name = "candy_LSHAPG"
+        self.faissIndexTag = index_params['indexkey']
+        self.metric = metric
+        self.name = "candy_nsg"
         self.ef=16
         self.trained = False
 
     def setup(self, dtype, max_pts, ndim):
         index = PyCANDYAlgo.createIndex(self.indexkey, ndim)
         cm = PyCANDYAlgo.ConfigMap()
-        cm.edit("faissIndexTag", "NSG")
+        if self.metric == 'euclidean':
+            cm.edit("metricType", "L2")
+        else:
+            cm.edit("metricType", "IP")
+        cm.edit("faissIndexTag", self.faissIndexTag)
         cm.edit("vecDim", ndim)
         index.setConfig(cm)
         self.index = index

@@ -96,7 +96,7 @@ class CongestionDropWorker(AbstractThread):
             while(not self.delete_queue.empty()):
                 idx = self.delete_queue.front().idx
                 self.delete_queue.pop()
-                self.my_index_algo.delete(idx)
+                self.my_index_algo.delete(np.array(idx))
 
             self.m_mut.release()
 

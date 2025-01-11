@@ -15,9 +15,15 @@ class faiss_fast_scan(BaseStreamingANN):
         self.name = "faiss_fast_scan"
         self.ef=16
         self.trained = False
+        self.metric = metric
 
     def setup(self, dtype, max_pts, ndim):
-        index = PyCANDYAlgo.index_factory_ip(ndim, self.indexkey)
+        index = None
+        if self.metric == 'euclidean':
+            index = PyCANDYAlgo.index_factory_l2(ndim, self.indexkey)
+        else:
+            index = PyCANDYAlgo.index_factory_ip(ndim, self.indexkey)
+
         self.index = index
 
         return

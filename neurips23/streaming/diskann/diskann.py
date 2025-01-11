@@ -97,6 +97,7 @@ class diskann(BaseStreamingANN):
             print('insertion return values', retvals)
 
     def delete(self, ids):
+        print(f"type={type(ids)}")
         for id in ids:
             self.index.mark_deleted(id + 1)
         self.active_indices.difference_update(ids + 1)

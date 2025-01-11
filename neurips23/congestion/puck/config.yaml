@@ -1,0 +1,41 @@
+random-xs:
+    puck:
+      docker-tag: neurips23-congestion-puck
+      module: neurips23.congestion.puck.puck
+      constructor: Puck
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+                [
+                    { "index_type": 1, "C":20, "F":20, "FN":10, "N":0, "filter_topk":200}
+                ]
+          query-args: |
+                [
+                    {"radius_rate":1.00 ,"search_coarse_count":5}                   
+                ]
+msturing-30M-clustered:
+    puck:
+      docker-tag: neurips23-congestion-puck
+      module: neurips23.congestion.puck.puck
+      constructor: Puck
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+                [
+                    { "index_type": 1, "C":200, "F":200, "FN":8, "N":0, "filter_topk":1200},
+                    { "index_type": 1, "C":200, "F":200, "FN":8, "N":0, "filter_topk":1500},
+                    { "index_type": 1, "C":200, "F":200, "FN":8, "N":0, "filter_topk":1800},
+                    { "index_type": 1, "C":200, "F":200, "FN":8, "N":0, "filter_topk":1900},
+                    { "index_type": 1, "C":200, "F":200, "FN":8, "N":0, "filter_topk":2000},
+                    { "index_type": 1, "C":200, "F":200, "FN":8, "N":0, "filter_topk":2100},
+                    { "index_type": 1, "C":200, "F":200, "FN":8, "N":0, "filter_topk":2200},
+                    { "index_type": 1, "C":200, "F":200, "FN":8, "N":0, "filter_topk":2300}
+                ]
+          query-args: |
+                [
+                    {"radius_rate":1.00 ,"search_coarse_count":200}                   
+                ]
+
+

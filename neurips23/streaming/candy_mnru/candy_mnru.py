@@ -8,13 +8,19 @@ import torch
 
 class candy_mnru(BaseStreamingANN):
     def __init__(self, metric, index_params):
-        self.indexkey="MNRU32"
+        self.indexkey= index_params['indexkey']
+        self.metric = metric
         self.name = "candy_MNRU"
         self.ef=16
         self.trained = False
 
     def setup(self, dtype, max_pts, ndim):
-        index = PyCANDYAlgo.index_factory_ip(ndim, self.indexkey)
+        index = None
+        if self.metric == 'euclidean':
+            index = PyCANDYAlgo.index_factory_l2(ndim, self.indexkey)
+        else:
+            index = PyCANDYAlgo.index_factory_ip(ndim, self.indexkey)
+
         self.index = index
 
         return

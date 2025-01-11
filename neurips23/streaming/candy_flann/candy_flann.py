@@ -9,7 +9,8 @@ import torch
 
 class candy_flann(BaseStreamingANN):
     def __init__(self, metric, index_params):
-        self.indexkey="Flann"
+        self.indexkey= index_params['indexkey']
+        self.metric = metric
         self.name = "candy_FLANN"
         self.ef=16
         self.trained = False
@@ -18,6 +19,10 @@ class candy_flann(BaseStreamingANN):
         index = PyCANDYAlgo.createIndex(self.indexkey, ndim)
 
         cm = PyCANDYAlgo.ConfigMap()
+        if self.metric == 'euclidean':
+            cm.edit("metricType", "L2")
+        else:
+            cm.edit("metricType", "IP")
         cm.edit("indexTag", self.indexkey)
         cm.edit("vecDim", ndim)
         index.setConfig(cm)

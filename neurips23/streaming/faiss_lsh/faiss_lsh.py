@@ -8,16 +8,20 @@ import torch
 
 class faiss_lsh(BaseStreamingANN):
     def __init__(self, metric, index_params):
-        self.indexkey="LSH"
+        self.indexkey= index_params['indexkey']
+        self.metric = metric
         self.name = "faiss_LSH"
         self.ef=16
         self.trained = False
 
     def setup(self, dtype, max_pts, ndim):
-        index = PyCANDYAlgo.index_factory_ip(ndim, self.indexkey)
-        self.index = index
+        index = None
+        if self.metric == 'euclidean':
+            index = PyCANDYAlgo.index_factory_l2(ndim, self.indexkey)
+        else:
+            index = PyCANDYAlgo.index_factory_ip(ndim, self.indexkey)
 
-        return
+        self.index = index
 
     def insert(self, X,ids):
         if(self.trained):

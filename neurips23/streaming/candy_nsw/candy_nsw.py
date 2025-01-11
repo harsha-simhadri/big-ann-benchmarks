@@ -8,7 +8,8 @@ import torch
 
 class candy_nsw(BaseStreamingANN):
     def __init__(self, metric, index_params):
-        self.indexkey="NSW"
+        self.indexkey= index_params['indexkey']
+        self.metric = metric
         self.name = "candy_NSW"
         self.ef=16
         self.trained = False
@@ -17,6 +18,10 @@ class candy_nsw(BaseStreamingANN):
         index = PyCANDYAlgo.createIndex(self.indexkey, ndim)
 
         cm = PyCANDYAlgo.ConfigMap()
+        if self.metric == 'euclidean':
+            cm.edit("metricType", "L2")
+        else:
+            cm.edit("metricType", "IP")
         cm.edit("indexTag", self.indexkey)
         cm.edit("vecDim", ndim)
         index.setConfig(cm)

@@ -1,0 +1,29 @@
+random-xs:
+  pyanns:
+    docker-tag: neurips23-congestion-pyanns
+    module: neurips23.congestion.pyanns.pyanns
+    constructor: Pyanns
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{"R":32, "L":50, "insert_threads":16, "consolidate_threads":16}]
+        query-args: |
+          [{"Ls":50, "T":8}]
+
+msturing-30M-clustered:
+  pyanns:
+    docker-tag: neurips23-congestion-pyanns
+    module: neurips23.congestion.pyanns.pyanns
+    constructor: Pyanns
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{"R":32, "L":100, "insert_threads":8, "consolidate_threads":8}]
+        query-args: |
+          [{"Ls":300, "T":8},
+           {"Ls":400, "T":8},
+           {"Ls":500, "T":8},
+           {"Ls":600, "T":8}
+          ]

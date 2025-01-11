@@ -1,7 +1,7 @@
 random-xs:
-    cufe: 
-      docker-tag: neurips23-streaming-cufe
-      module: neurips23.streaming.cufe.cufe
+    cufe:
+      docker-tag: neurips23-congestion-cufe
+      module: neurips23.congestion.cufe.cufe
       constructor: diskannCUFE
       base-args: ["@metric"]
       run-groups:
@@ -11,9 +11,9 @@ random-xs:
           query-args: |
             [{"Ls":50, "T":8}]
 random-xs-clustered:
-    cufe: 
-      docker-tag: neurips23-streaming-cufe
-      module: neurips23.streaming.cufe.cufe
+    cufe:
+      docker-tag: neurips23-congestion-cufe
+      module: neurips23.congestion.cufe.cufe
       constructor: diskannCUFE
       base-args: ["@metric"]
       run-groups:
@@ -23,9 +23,9 @@ random-xs-clustered:
           query-args: |
             [{"Ls":50, "T":8}]
 msspacev-1M:
-    cufe: 
-      docker-tag: neurips23-streaming-cufe
-      module: neurips23.streaming.cufe.cufe
+    cufe:
+      docker-tag: neurips23-congestion-cufe
+      module: neurips23.congestion.cufe.cufe
       constructor: diskannCUFE
       base-args: ["@metric"]
       run-groups:
@@ -36,9 +36,9 @@ msspacev-1M:
             [{"Ls":300, "T":16},
              {"Ls":100, "T":16}]
 msturing-1M:
-    cufe: 
-      docker-tag: neurips23-streaming-cufe
-      module: neurips23.streaming.cufe.cufe
+    cufe:
+      docker-tag: neurips23-congestion-cufe
+      module: neurips23.congestion.cufe.cufe
       constructor: diskannCUFE
       base-args: ["@metric"]
       run-groups:
@@ -49,9 +49,9 @@ msturing-1M:
             [{"Ls":300, "T":16},
              {"Ls":100, "T":16}]
 msspacev-10M:
-    cufe: 
-      docker-tag: neurips23-streaming-cufe
-      module: neurips23.streaming.cufe.cufe
+    cufe:
+      docker-tag: neurips23-congestion-cufe
+      module: neurips23.congestion.cufe.cufe
       constructor: diskannCUFE
       base-args: ["@metric"]
       run-groups:
@@ -61,9 +61,9 @@ msspacev-10M:
           query-args: |
             [{"Ls":100, "T":16}]
 msturing-10M:
-    cufe: 
-      docker-tag: neurips23-streaming-cufe
-      module: neurips23.streaming.cufe.cufe
+    cufe:
+      docker-tag: neurips23-congestion-cufe
+      module: neurips23.congestion.cufe.cufe
       constructor: diskannCUFE
       base-args: ["@metric"]
       run-groups:
@@ -73,9 +73,9 @@ msturing-10M:
           query-args: |
             [{"Ls":100, "T":16}]
 msturing-10M-clustered:
-    cufe: 
-      docker-tag: neurips23-streaming-cufe
-      module: neurips23.streaming.cufe.cufe
+    cufe:
+      docker-tag: neurips23-congestion-cufe
+      module: neurips23.congestion.cufe.cufe
       constructor: diskannCUFE
       base-args: ["@metric"]
       run-groups:
@@ -85,9 +85,9 @@ msturing-10M-clustered:
           query-args: |
             [{"Ls":100, "T":16}]
 msturing-30M-clustered:
-    cufe: 
-      docker-tag: neurips23-streaming-cufe
-      module: neurips23.streaming.cufe.cufe
+    cufe:
+      docker-tag: neurips23-congestion-cufe
+      module: neurips23.congestion.cufe.cufe
       constructor: diskannCUFE
       base-args: ["@metric"]
       run-groups:
