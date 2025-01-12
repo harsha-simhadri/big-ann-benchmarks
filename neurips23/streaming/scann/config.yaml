@@ -1,12 +1,25 @@
+random-xs:
+  scann:
+    docker-tag: neurips23-streaming-scann
+    module: neurips23.streaming.scann.scann
+    constructor: Scann
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{ "tree_size": 5000, "leaves_to_search": 700, "reorder": 317}]
+        query-args: |
+          [{}]
+
 msturing-30M-clustered:
-    scann:
-      docker-tag: neurips23-streaming-scann
-      module: neurips23.streaming.scann.scann
-      constructor: Scann
-      base-args: ["@metric"]
-      run-groups:
-        dynamic4M:
-          args: |
-            [{ "tree_size": 5000, "leaves_to_search": 700, "reorder": 317}]
-          query-args: |
-            [{}]
+  scann:
+    docker-tag: neurips23-streaming-scann
+    module: neurips23.streaming.scann.scann
+    constructor: Scann
+    base-args: ["@metric"]
+    run-groups:
+      dynamic4M:
+        args: |
+          [{ "tree_size": 5000, "leaves_to_search": 700, "reorder": 317}]
+        query-args: |
+          [{}]

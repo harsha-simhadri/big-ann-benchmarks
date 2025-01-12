@@ -168,8 +168,23 @@ def main():
         help='runbook yaml path for neurips23 streaming track',
         default='neurips23/streaming/simple_runbook.yaml'
     )
+    parser.add_argument(
+        '--eventrate',
+        type=int,
+        help='Event rate for congestion scenarios'
+    )
+    parser.add_argument(
+        '--batchsize',
+        type=int,
+        help='Batch size for congestion scenarios'
+    )
 
     args = parser.parse_args()
+
+    # if args.neurips23track == 'congestion':
+    #     if args.eventrate is None or args.batchsize is None:
+    #         raise ValueError("Both --eventrate and --batchsize must be provided when --neurips23track is 'congestion'.")
+
     if args.timeout == -1:
         args.timeout = None
 

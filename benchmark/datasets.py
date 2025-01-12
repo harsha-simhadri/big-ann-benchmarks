@@ -1505,9 +1505,12 @@ class REDDIT(DatasetCompetitionFormat):
 
         prepocessflag = 0
         if prepocessflag == 0:
-            num, dim, vectors = load_data(self.basedir + '/data_100000_768')
-            index_vectors, query_vectors = sample_vectors(vectors, self.nb, self.nq)
+            num, dim, vectors = load_data(self.basedir+'/data_100000_768')
+            index_vectors, _ = sample_vectors(vectors, self.nb, self.nq)
             save_data(index_vectors, type='data', basedir=self.basedir)
+
+            num, dim, vectors = load_data(self.basedir+'/queries_2000_768')
+            _, query_vectors = sample_vectors(vectors, 0, self.nq)
             save_data(query_vectors, type='queries', basedir=self.basedir)
 
     def search_type(self):

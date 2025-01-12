@@ -116,6 +116,9 @@ def get_definitions(definition_file, dimension, dataset,
         algorithm_definitions.update(definitions["any"])
     if dataset in definitions:
         algorithm_definitions.update(definitions[dataset])
+    # Default
+    if not algorithm_definitions:
+        algorithm_definitions.update(definitions["random-xs"])
 
     definitions = []
     for (name, algo) in algorithm_definitions.items():

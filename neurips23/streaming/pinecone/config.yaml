@@ -1,3 +1,16 @@
+random-xs:
+  pinecone:
+    docker-tag: neurips23-streaming-pinecone
+    module: neurips23.streaming.pinecone.pinecone
+    constructor: pinecone
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{"R":32, "L":100, "insert_threads":8, "consolidate_threads":8}]
+        query-args: |
+          [{"Ls":300, "k_1":30, "T":8}]
+
 msturing-30M-clustered:
   pinecone:
     docker-tag: neurips23-streaming-pinecone

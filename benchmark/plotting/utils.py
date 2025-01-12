@@ -3,6 +3,7 @@ from __future__ import absolute_import
 import itertools
 import numpy
 import os
+import yaml
 import traceback
 import sys
 
@@ -80,6 +81,9 @@ def compute_metrics_all_runs(dataset, dataset_name, res, recompute=False,
         sensor_metrics=False, search_times=False,
         private_query=False, neurips23track=None, runbook_path=None):
 
+    if neurips23track == 'congestion' and runbook_path:
+        dataset_params = get_dataset_params_from_runbook(runbook_path, dataset_name)
+
     try:
         if neurips23track not in ['streaming', 'congestion']:
             true_nn = dataset.get_private_groundtruth() if private_query else dataset.get_groundtruth()
@@ -156,10 +160,18 @@ def compute_metrics_all_runs(dataset, dataset_name, res, recompute=False,
         except:
             pass
 
+
+        dataset_info = dataset
+        if neurips23track == 'congestion' and dataset_params:
+            batchsize = dataset_params.get('batchSize', None)
+            eventrate = dataset_params.get('eventRate', None)
+            if batchsize and eventrate:
+                dataset_info = f"{dataset}(BatchSize: {batchsize}, EventRate: {eventrate})"
+
         run_result = {
             'algorithm': algo,
             'parameters': algo_name,
-            'dataset': dataset if neurips23track not in ['streaming', 'congestion'] else dataset + '(' + os.path.split(runbook_path)[-1] + ')',
+            'dataset': dataset_info if neurips23track not in ['streaming', 'congestion'] else dataset_info + '(' + os.path.split(runbook_path)[-1] + ')',
             'count': properties['count'],
         }
         for name, metric in metrics.items():
@@ -261,3 +273,28 @@ def get_plot_label(xm, ym):
                        "ylabel": ym["description"],
                        "updown": get_up_down(ym),
                        "leftright": get_left_right(xm)}
+
+
+# Add the batchsize and eventrate parameters to the result file
+def get_dataset_params_from_runbook(runbook_path, dataset_name):
+
+    with open(runbook_path, 'r') as file:
+        runbook = yaml.safe_load(file)
+
+    if dataset_name not in runbook:
+        print(f"Dataset {dataset_name} not found in runbook.")
+        return None
+
+    dataset_info = runbook[dataset_name]
+
+    batchsize = None
+    eventrate = None
+
+    for step, step_details in dataset_info.items():
+        if isinstance(step_details, dict):
+            batchsize = step_details.get('batchSize', None)
+            eventrate = step_details.get('eventRate', None)
+            if batchsize and eventrate:
+                return {'batchSize': batchsize, 'eventRate': eventrate}
+
+    return None

@@ -95,7 +95,7 @@ if __name__ == "__main__":
     neurips23tracks = ['streaming', 'none', 'congestion']
     tracks = [args.track]
     is_first = True
-    datasets = ['random-xs']
+    # datasets = ['random-xs']
     for track in tracks:
         for dataset_name in datasets:
             print(f"Looking at track:{track}, dataset:{dataset_name}")
