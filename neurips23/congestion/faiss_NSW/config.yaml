@@ -1,0 +1,35 @@
+random-xs:
+  faiss_NSW:
+    docker-tag: neurips23-congestion-faiss_NSW
+    module: neurips23.congestion.faiss_NSW.faiss_NSW
+    constructor: faiss_NSW
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{"indexkey": "NSW32"}]
+        query-args: |
+          [{"ef":30}]
+msturing-10M-clustered:
+  faiss_NSW:
+    docker-tag: neurips23-congestion-faiss_NSW
+    module: neurips23.congestion.faiss_NSW.faiss_NSW
+    constructor: faiss_NSW
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{"indexkey": "NSW32"}]
+        query-args: |
+          [
+          {"ef":90},
+          {"ef":95},
+          {"ef":100},
+          {"ef":102},
+          {"ef":104},
+          {"ef":106},
+          {"ef":108},
+          {"ef":110},
+          {"ef":115},
+          {"ef":120}
+          ]

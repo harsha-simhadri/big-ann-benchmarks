@@ -1,0 +1,36 @@
+random-xs:
+  candy_sptag:
+    docker-tag: neurips23-streaming-candy_sptag
+    module: neurips23.streaming.candy_sptag.candy_sptag
+    constructor: candy_sptag
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{"indexkey": "SPTAG"}]
+        query-args: |
+            [{"ef":30}]
+random-xs128:
+  candy_sptag:
+    docker-tag: neurips23-streaming-candy_sptag
+    module: neurips23.streaming.candy_sptag.candy_sptag
+    constructor: candy_sptag
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{"indexkey": "SPTAG"}]
+        query-args: |
+            [{"ef":30}]
+msturing-10M-clustered:
+  candy_sptag:
+    docker-tag: neurips23-streaming-candy_sptag
+    module: neurips23.streaming.candy_sptag.candy_sptag
+    constructor: candy_sptag
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{"indexkey": "SPTAG"}]
+        query-args: |
+          [{"ef":30}]

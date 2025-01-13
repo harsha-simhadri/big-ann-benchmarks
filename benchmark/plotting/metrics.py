@@ -115,9 +115,7 @@ def pendingWrite(attrs):
     return attrs.get("pendingWrite",-1)
 
 def batchLatency(attrs, count=0):
-
     return attrs.get(f"latency(Insert)_{count}",-1)
-
 
 def latencyQuery(attrs,count=0):
     return attrs.get(f"latencyOfQuery_{count}",-1)
@@ -230,5 +228,4 @@ all_metrics = {
         "function": lambda true_nn, run_nn, metrics, run_attrs: totalTime(run_attrs),
         "worst": float("inf")
     }
-
 }
