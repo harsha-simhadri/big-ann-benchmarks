@@ -114,9 +114,10 @@ class CongestionRunner(BaseRunner):
 
         attrs = {
             "name": str(algo),
-            "pendingWrite":0
+            "pendingWrite":0,
+            "totalTime":0
         }
-
+        totalStart = time.time()
         for step, entry in enumerate(runbook):
             start_time = time.time()
             match entry['operation']:
@@ -130,9 +131,12 @@ class CongestionRunner(BaseRunner):
                 case 'endHPC':
                     algo.endHPC()
                 case 'waitPending':
+                    print("There is pending write: wait first")
                     t0 = time.time()
                     algo.waitPendingOperations()
                     attrs['pendingWrite'] += (time.time()-t0)*1e6
+                    print('Pending write time: ')
+                    print(attrs['pendingWrite'])
                 case 'batch_insert':
                     start = entry['start']
                     end = entry['end']
@@ -172,9 +176,7 @@ class CongestionRunner(BaseRunner):
                         processedTimeStamps[step*batchSize:end] = (time.time() - start_time) * 1e6
                         arrivalTimeStamps[step*batchSize:end] = tExpectedArrival
 
-                    attrs["95%latency(Insert)_" + str(counts['batch_insert'])] = getLatencyPercentile(0.95,
-                                                                                                      eventTimeStamps,
-                                                                                                      processedTimeStamps)
+                    attrs["latency(Insert)_" + str(counts['batch_insert'])] = processedTimeStamps[-1]
                     filename = get_result_filename(dataset, count, definition, query_arguments, neurips23track="congestion", runbook_path=runbook_path)
                     store_timestamps_to_csv(filename, ids,eventTimeStamps, arrivalTimeStamps, processedTimeStamps, counts['batch_insert'])
                     counts['batch_insert'] +=1
@@ -219,7 +221,7 @@ class CongestionRunner(BaseRunner):
                     raise NotImplementedError('Invalid runbook operation.')
             step_time = (time.time() - start_time)
             print(f"Step {step+1} took {step_time}s.")
-
+        attrs["totalTime"] = (time.time()-totalStart) * 1e6
         attrs["run_count"]=run_count
         attrs["distance"]=distance
         attrs["type"]= search_type,
