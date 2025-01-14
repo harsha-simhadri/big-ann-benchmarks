@@ -1334,6 +1334,13 @@ class GLOVE(DatasetCompetitionFormat):
             gdown.download_folder(folder_url, output=self.basedir)
 
         prepocessflag = 0
+        data_file_path = os.path.join(self.basedir, self.ds_fn)
+        queries_file_path = os.path.join(self.basedir, self.qs_fn)
+
+        if os.path.exists(data_file_path) and os.path.exists(queries_file_path):
+            print("Preprocessed data already exists. Skipping data generation.")
+            prepocessflag = 1
+
         if prepocessflag == 0:
             num, dim, vectors  = load_data(self.basedir+'/data_1192514_100')
             index_vectors, query_vectors = sample_vectors(vectors, self.nb, self.nq)
@@ -1376,6 +1383,13 @@ class MSONG(DatasetCompetitionFormat):
             gdown.download_folder(folder_url, output=self.basedir)
 
         prepocessflag = 0
+        data_file_path = os.path.join(self.basedir, self.ds_fn)
+        queries_file_path = os.path.join(self.basedir, self.qs_fn)
+
+        if os.path.exists(data_file_path) and os.path.exists(queries_file_path):
+            print("Preprocessed data already exists. Skipping data generation.")
+            prepocessflag = 1
+
         if prepocessflag == 0:
             num, dim, vectors = load_data(self.basedir+'/data_992272_420')
             index_vectors, query_vectors = sample_vectors(vectors, self.nb, self.nq)
@@ -1418,6 +1432,13 @@ class SUN(DatasetCompetitionFormat):
             gdown.download_folder(folder_url, output=self.basedir)
 
         prepocessflag = 0
+        data_file_path = os.path.join(self.basedir, self.ds_fn)
+        queries_file_path = os.path.join(self.basedir, self.qs_fn)
+
+        if os.path.exists(data_file_path) and os.path.exists(queries_file_path):
+            print("Preprocessed data already exists. Skipping data generation.")
+            prepocessflag = 1
+
         if prepocessflag == 0:
             num, dim, vectors = load_data(self.basedir+'/data_79106_512')
             index_vectors, query_vectors = sample_vectors(vectors, self.nb, self.nq)
@@ -1454,13 +1475,20 @@ class DPR(DatasetCompetitionFormat):
             if os.path.isdir(item_path) or os.path.isfile(item_path):
                 print("DPR has already installed!")
                 downloadflag = 1
-                return
+                break
         if downloadflag == 0:
             import gdown
             folder_url = "https://drive.google.com/drive/folders/1-zF1brIbWv209I8qU_InTfHbQQXbHMi2?usp=sharing"
             gdown.download_folder(folder_url, output=self.basedir)
 
         prepocessflag = 0
+        data_file_path = os.path.join(self.basedir, self.ds_fn)
+        queries_file_path = os.path.join(self.basedir, self.qs_fn)
+
+        if os.path.exists(data_file_path) and os.path.exists(queries_file_path):
+            print("Preprocessed data already exists. Skipping data generation.")
+            prepocessflag = 1
+
         if prepocessflag == 0:
             num, dim, vectors = load_data(self.basedir + '/data_100000_768')
             index_vectors, query_vectors = sample_vectors(vectors, self.nb, self.nq)
@@ -1497,13 +1525,20 @@ class REDDIT(DatasetCompetitionFormat):
             if os.path.isdir(item_path) or os.path.isfile(item_path):
                 print("REDDIT has already installed!")
                 downloadflag = 1
-                return
+                break
         if downloadflag == 0:
             import gdown
             folder_url = "https://drive.google.com/drive/folders/1Q2DWWtEnCuh3_lB_UonU7l5EHGy7pBmG?usp=sharing"
             gdown.download_folder(folder_url, output=self.basedir)
 
         prepocessflag = 0
+        data_file_path = os.path.join(self.basedir, self.ds_fn)
+        queries_file_path = os.path.join(self.basedir, self.qs_fn)
+
+        if os.path.exists(data_file_path) and os.path.exists(queries_file_path):
+            print("Preprocessed data already exists. Skipping data generation.")
+            prepocessflag = 1
+
         if prepocessflag == 0:
             num, dim, vectors = load_data(self.basedir+'/data_100000_768')
             index_vectors, _ = sample_vectors(vectors, self.nb, self.nq)
@@ -1583,6 +1618,13 @@ class TREVI(DatasetCompetitionFormat):
             gdown.download_folder(folder_url, output=self.basedir)
 
         prepocessflag = 0
+        data_file_path = os.path.join(self.basedir, self.ds_fn)
+        queries_file_path = os.path.join(self.basedir, self.qs_fn)
+
+        if os.path.exists(data_file_path) and os.path.exists(queries_file_path):
+            print("Preprocessed data already exists. Skipping data generation.")
+            prepocessflag = 1
+
         if prepocessflag == 0:
             num, dim, vectors = load_data(self.basedir+'/data_99900_4096')
             index_vectors, query_vectors = sample_vectors(vectors, self.nb, self.nq)
@@ -1633,6 +1675,13 @@ class WTE(DatasetCompetitionFormat):
             gdown.download_folder(folder_url, output=self.basedir)
 
         prepocessflag = 0
+        data_file_path = os.path.join(self.basedir, self.ds_fn)
+        queries_file_path = os.path.join(self.basedir, self.qs_fn)
+
+        if os.path.exists(data_file_path) and os.path.exists(queries_file_path):
+            print("Preprocessed data already exists. Skipping data generation.")
+            prepocessflag = 1
+
         if prepocessflag == 0:
             num, dim, vectors = load_data(self.basedir+'/data_100000_768')
             index_vectors, _ = sample_vectors(vectors, self.nb, self.nq)
@@ -1712,6 +1761,13 @@ class SIFT(DatasetCompetitionFormat):
             gdown.download_folder(folder_url, output=self.basedir)
 
         prepocessflag = 0
+        data_file_path = os.path.join(self.basedir, self.ds_fn)
+        queries_file_path = os.path.join(self.basedir, self.qs_fn)
+
+        if os.path.exists(data_file_path) and os.path.exists(queries_file_path):
+            print("Preprocessed data already exists. Skipping data generation.")
+            prepocessflag = 1
+
         if prepocessflag == 0:
             num, dim, vectors = load_data(self.basedir+'/data_1000000_128')
             index_vectors, _ = sample_vectors(vectors, self.nb, self.nq)
@@ -1757,6 +1813,13 @@ class OPENIMAGESTREAMING(DatasetCompetitionFormat):
             gdown.download_folder(folder_url, output=self.basedir)
 
         prepocessflag = 0
+        data_file_path = os.path.join(self.basedir, self.ds_fn)
+        queries_file_path = os.path.join(self.basedir, self.qs_fn)
+
+        if os.path.exists(data_file_path) and os.path.exists(queries_file_path):
+            print("Preprocessed data already exists. Skipping data generation.")
+            prepocessflag = 1
+
         if prepocessflag == 0:
             num, dim, vectors = load_data(self.basedir+'/data_1000000_512')
             index_vectors, _ = sample_vectors(vectors, self.nb, self.nq)
@@ -1794,6 +1857,13 @@ class RandomPlus(DatasetCompetitionFormat):
             os.makedirs(self.basedir)
 
     def prepare(self, skip_data=False):
+        data_file_path = os.path.join(self.basedir, self.ds_fn)
+        queries_file_path = os.path.join(self.basedir, self.qs_fn)
+        gt_file_path = os.path.join(self.basedir, self.gt_fn)
+        if os.path.exists(data_file_path) and os.path.exists(queries_file_path) and os.path.exists(gt_file_path):
+            print("Preprocessed data already exists. Skipping data generation.")
+            return
+
         from sklearn.neighbors import NearestNeighbors
         import torch
 
