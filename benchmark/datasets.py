@@ -1310,8 +1310,8 @@ class OpenAIEmbedding1M(DatasetCompetitionFormat):
 class GLOVE(DatasetCompetitionFormat):
     def __init__(self):
         self.d = 100
-        self.nb = 10000
-        self.nq = 100
+        self.nb = 1192514
+        self.nq = 200
         self.dtype = "float32"
         self.ds_fn = f"data_{self.nb}_{self.d}"
         self.qs_fn = f"queries_{self.nq}_{self.d}"
@@ -1359,8 +1359,8 @@ class GLOVE(DatasetCompetitionFormat):
 class MSONG(DatasetCompetitionFormat):
     def __init__(self):
         self.d = 420
-        self.nb = 10000
-        self.nq = 100
+        self.nb = 992272
+        self.nq = 200
         self.dtype = "float32"
         self.ds_fn = f"data_{self.nb}_{self.d}"
         self.qs_fn = f"queries_{self.nq}_{self.d}"
@@ -1408,8 +1408,8 @@ class MSONG(DatasetCompetitionFormat):
 class SUN(DatasetCompetitionFormat):
     def __init__(self):
         self.d = 512
-        self.nb = 10000
-        self.nq = 100
+        self.nb = 79106
+        self.nq = 200
         self.dtype = "float32"
         self.ds_fn = f"data_{self.nb}_{self.d}"
         self.qs_fn = f"queries_{self.nq}_{self.d}"
@@ -1457,7 +1457,7 @@ class SUN(DatasetCompetitionFormat):
 class DPR(DatasetCompetitionFormat):
     def __init__(self):
         self.d = 768
-        self.nb = 10000
+        self.nb = 100000
         self.nq = 100
         self.dtype = "float32"
         self.ds_fn = f"data_{self.nb}_{self.d}"
@@ -1507,11 +1507,11 @@ class DPR(DatasetCompetitionFormat):
 class REDDIT(DatasetCompetitionFormat):
     def __init__(self):
         self.d = 768
-        self.nb = 10000
-        self.nq = 100
+        self.nb = 100000
+        self.nq = 2000
         self.dtype = "float32"
         self.ds_fn = f"data_{self.nb}_{self.d}"
-        self.qs_fn = f"queries_{self.nq}_{self.d}"
+        self.qs_fn = f"query_{self.nq}_{self.d}"
         self.gt_fn = f"gt_{self.nb}_{self.nq}_{self.d}"
         self.basedir = os.path.join(BASEDIR, "REDDIT")
         if not os.path.exists(self.basedir):
@@ -1594,7 +1594,7 @@ class COCO(DatasetCompetitionFormat):
 class TREVI(DatasetCompetitionFormat):
     def __init__(self):
         self.d = 4096
-        self.nb = 10000
+        self.nb = 99900
         self.nq = 100
         self.dtype = "float32"
         self.ds_fn = f"data_{self.nb}_{self.d}"
@@ -1737,7 +1737,7 @@ class SIFTSMALL(DatasetCompetitionFormat):
 class SIFT(DatasetCompetitionFormat):
     def __init__(self):
         self.d = 128
-        self.nb = 10000
+        self.nb = 1000000
         self.nq = 100
         self.dtype = "float32"
         self.ds_fn = f"data_{self.nb}_{self.d}"
@@ -1789,8 +1789,8 @@ class SIFT(DatasetCompetitionFormat):
 class OPENIMAGESTREAMING(DatasetCompetitionFormat):
     def __init__(self):
         self.d = 512
-        self.nb = 10000
-        self.nq = 100
+        self.nb = 1000000
+        self.nq = 10000
         self.dtype = "float32"
         self.ds_fn = f"data_{self.nb}_{self.d}"
         self.qs_fn = f"queries_{self.nq}_{self.d}"
@@ -1977,6 +1977,9 @@ DATASETS = {
     'openai-embedding-1M': lambda: OpenAIEmbedding1M(93652),
 
     "random-plus": lambda: RandomPlus(10000,1000,20),
+
+    "random-plus-experiment": lambda: RandomPlus(500000,1000,20),
+    "random-experiment": lambda: RandomDS(500000,1000,20),
 
     'sift-small': lambda: SIFTSMALL(),
     'glove': lambda: GLOVE(),
