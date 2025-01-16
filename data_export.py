@@ -120,8 +120,9 @@ if __name__ == "__main__":
                                     #'neurips23/runbooks/streaming/msmarco-100M_expirationtime_runbook.yaml'
                                     ]
             if track == 'congestion':
-                runbook_paths = ['neurips23/runbooks/congestion/simple_runbook_2.yaml',
-                                 'neurips23/runbooks/congestion/simple_runbook.yaml'
+                runbook_paths = [#'neurips23/runbooks/congestion/simple_runbook_2.yaml',
+                                 #'neurips23/runbooks/congestion/simple_runbook.yaml',
+                                 'neurips23/runbooks/congestion/test_experiment.yaml'
                                 ]
             for runbook_path in runbook_paths:
                 print("Looking for runbook ", runbook_path)

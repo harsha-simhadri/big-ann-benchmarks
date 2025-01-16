@@ -148,4 +148,4 @@ class Puck(BaseStreamingANN):
         return self.res
     
     def __str__(self):
-        return f'Puck{self.indexkey, self.qas}'
+        return f'Puck{self.indexkey}'

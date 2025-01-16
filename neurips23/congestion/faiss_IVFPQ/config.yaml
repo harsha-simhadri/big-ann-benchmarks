@@ -9,7 +9,7 @@ random-xs:
         args: |
           [{"indexkey": "IVF1024,SQ8"}]
         query-args: |
-            [{"nprobe": 1}, {"nprobe": 4}, {"nprobe": 16}, {"nprobe": 64}]
+            [{"nprobe": 16}]
 msturing-10M-clustered:
   faiss_IVFPQ:
     docker-tag: neurips23-congestion-faiss_IVFPQ
@@ -21,4 +21,4 @@ msturing-10M-clustered:
         args: |
           [{"indexkey": "IVF1024,SQ8"}]
         query-args: |
-          [{"nprobe": 1}, {"nprobe": 4}, {"nprobe": 16}, {"nprobe": 64}]
+          [{"nprobe": 16}]

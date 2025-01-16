@@ -1,0 +1,83 @@
+random-xs:
+  max_pts: 10000
+  1:
+    operation: "startHPC"
+  2:
+    operation: "initial"
+    start: 0
+    end: 5000
+  3:
+    operation: "batch_insert"
+    start: 5000
+    end: 10000
+    batchSize: 2500
+    eventRate: 2500
+  4:
+    operation: "waitPending"
+  5:
+    operation: "search"
+  6:
+    operation: "endHPC"
+  gt_url: "https://comp21storage.z5.web.core.windows.net/comp23/str_gt/random10000/10000/simple_runbook.yaml"
+
+random-plus(5000000,1000,768):
+  max_pts: 500000
+  1:
+    operation: "startHPC"
+  2:
+    operation: "initial"
+    start: 0
+    end: 50000
+  3:
+    operation: "batch_insert"
+    start: 50000
+    end: 100000
+    batchSize: 2500
+    eventRate: 2500
+  4:
+    operation: "waitPending"
+  5:
+    operation: "search"
+  5:
+    operation: "batch_insert"
+    start: 100000
+    end: 500000
+    batchSize: 2500
+    eventRate: 2500
+  6:
+    operation: "waitPending"
+  7:
+    operation: "search"
+  8:
+    operation: "batch_insert"
+    start: 500000
+    end: 1000000
+    batchSize: 2500
+    eventRate: 2500
+  9:
+    operation: "waitPending"
+  10:
+    operation: "search"
+  11:
+    operation: "batch_insert"
+    start: 1000000
+    end: 2500000
+    batchSize: 2500
+    eventRate: 2500
+  12:
+    operation: "waitPending"
+  13:
+    operation: "search"
+  14:
+    operation: "batch_insert"
+    start: 2500000
+    end: 5000000
+    batchSize: 2500
+    eventRate: 2500
+  15:
+    operation: "waitPending"
+  16:
+    operation: "search"
+  17:
+    operation: "endHPC"
+  gt_url: "none"

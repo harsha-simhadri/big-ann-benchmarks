@@ -5,6 +5,7 @@ import pandas as pd
 from benchmark.algorithms.base_runner import BaseRunner
 from benchmark.datasets import DATASETS
 from benchmark.results import get_result_filename
+import tracemalloc
 
 def generateTimestamps(rows, eventRate=4000):
     """
@@ -111,11 +112,19 @@ class CongestionRunner(BaseRunner):
         result_map = {}
         num_searches = 0
         counts = {'initial':0,'batch_insert':0,'insert':0,'delete':0,'search':0}
-
         attrs = {
             "name": str(algo),
             "pendingWrite":0,
-            "totalTime":0
+            "totalTime":0,
+            "continuousQueryLatencies":[],
+            "continuousQueryResults":[],
+            'latencyInsert':[],
+            'latencyQuery':[],
+            'latencyDelete':[],
+            'updateMemoryFootPrint':0,
+            'searchMemoryFootPrint':0,
+            'querySize':ds.nq,
+            'insertThroughput':[]
         }
         totalStart = time.time()
         for step, entry in enumerate(runbook):
@@ -127,6 +136,7 @@ class CongestionRunner(BaseRunner):
                     ids = np.arange(start,end,dtype=np.uint32)
                     algo.initial_load(ds.get_data_in_range(start,end),ids)
                 case 'startHPC':
+                    print(type(algo))
                     algo.startHPC()
                 case 'endHPC':
                     algo.endHPC()
@@ -138,20 +148,22 @@ class CongestionRunner(BaseRunner):
                     print('Pending write time: ')
                     print(attrs['pendingWrite'])
                 case 'batch_insert':
+                    tracemalloc.start()
                     start = entry['start']
                     end = entry['end']
                     batchSize = entry['batchSize']
                     eventRate = entry['eventRate']
                     print(f"Inserting with batch size={batchSize}")
-                    step = (end-start)//batchSize
+                    batch_step = (end-start)//batchSize
                     ids = np.arange(start, end, dtype=np.uint32)
                     eventTimeStamps = generateTimestamps(rows=end-start,eventRate=eventRate)
                     arrivalTimeStamps = np.zeros(end-start,dtype=int)
                     processedTimeStamps = np.zeros(end-start, dtype=int)
-
-                    # TODO: with time
+                    attrs["latencyInsert"].append(0)
+                    attrs['continuousQueryLatencies'].append([])
+                    attrs['continuousQueryResults'].append([])
                     start_time = time.time()
-                    for i in range(step):
+                    for i in range(batch_step):
                         tNow = (time.time()-start_time)*1e6
                         tExpectedArrival = eventTimeStamps[(i+1)*batchSize-1]
                         while tNow<tExpectedArrival:
@@ -160,27 +172,53 @@ class CongestionRunner(BaseRunner):
                         arrivalTimeStamps[i*batchSize:(i+1)*batchSize] = tExpectedArrival
 
                         print(f'step {start+i*batchSize}:{start+(i+1)*batchSize}')
+                        t0 = time.time()
                         algo.insert(ds.get_data_in_range(start+i*batchSize,start+(i+1)*batchSize), ids[i*batchSize:(i+1)*batchSize])
+                        attrs["latencyInsert"][-1]+=(time.time()-t0)*1e6
                         processedTimeStamps[i*batchSize:(i+1)*batchSize] = (time.time()-start_time)*1e6
+
+                        #algo.waitPendingOperations()
+                        # continuous query phase
+                        t0 = time.time()
+                        algo.query(Q, count)
+                        attrs['continuousQueryLatencies'][-1].append((time.time() - t0) * 1e6)
+
+                        results = algo.get_results()
+                        attrs['continuousQueryResults'][-1].append(results)
 
 
                     # process the rest
-                    if(start+step*batchSize<end and start+(step+1)*batchSize>end):
+                    if(start+batch_step*batchSize<end and start+(batch_step+1)*batchSize>end):
                         tNow = (time.time()-start_time)*1e6
                         tExpectedArrival = eventTimeStamps[end-start-1]
                         while tNow<tExpectedArrival:
                             # busy waiting for a batch to arrive
                             tNow = (time.time()-start_time)*1e6
-                        print(f'last {start+step*batchSize}:{end}')
-                        algo.insert(ds.get_data_in_range(step*batchSize,end), ids[step*batchSize:])
-                        processedTimeStamps[step*batchSize:end] = (time.time() - start_time) * 1e6
-                        arrivalTimeStamps[step*batchSize:end] = tExpectedArrival
+                        print(f'last {start+batch_step*batchSize}:{end}')
+                        t0=time.time()
+                        algo.insert(ds.get_data_in_range(start+batch_step*batchSize,end), ids[batch_step*batchSize:])
+                        attrs["latencyInsert"][-1]+=(time.time()-t0)*1e6
+                        processedTimeStamps[batch_step*batchSize:end] = (time.time() - start_time) * 1e6
+                        arrivalTimeStamps[batch_step*batchSize:end] = tExpectedArrival
 
-                    attrs["latency(Insert)_" + str(counts['batch_insert'])] = processedTimeStamps[-1]
+                        #algo.waitPendingOperations()
+                        # continuous query phase
+                        t0 = time.time()
+                        algo.query(Q, count)
+                        attrs['continuousQueryLatencies'][-1].append((time.time() - t0) * 1e6)
+
+                        results = algo.get_results()
+                        attrs['continuousQueryResults'][-1].append(results)
+
+                    attrs['insertThroughput'].append((end-start)/((attrs['latencyInsert'][-1])/1e6))
                     filename = get_result_filename(dataset, count, definition, query_arguments, neurips23track="congestion", runbook_path=runbook_path)
                     store_timestamps_to_csv(filename, ids,eventTimeStamps, arrivalTimeStamps, processedTimeStamps, counts['batch_insert'])
                     counts['batch_insert'] +=1
 
+                    current, peak = tracemalloc.get_traced_memory()
+                    if peak>attrs['updateMemoryFootPrint']:
+                        attrs['updateMemoryFootPrint'] = peak
+                    tracemalloc.stop()
 
                 case 'insert':
                     start = entry['start']
@@ -200,17 +238,22 @@ class CongestionRunner(BaseRunner):
                     ids_end = entry['ids_end']
                     algo.replace(ds.get_data_in_range(ids_start, ids_end), tags_to_replace)
                 case 'search':
+                    tracemalloc.start()
                     if search_type == 'knn':
                         t0=time.time()
                         algo.query(Q, count)
-                        attrs['latencyOfQuery_'+str(counts['search'])]=(time.time()-t0)*1e6
+                        attrs['latencyQuery'].append((time.time()-t0)*1e6)
                         results = algo.get_results()
-
-                    elif search_type == 'range':
-                        algo.range_query(Q, count)
-                        results = algo.get_range_results()
-                    else:
-                        raise NotImplementedError(f"Search type {search_type} not available.")
+                    current, peak = tracemalloc.get_traced_memory()
+                    if peak>attrs['searchMemoryFootPrint']:
+                        attrs['searchMemoryFootPrint'] = peak
+                    tracemalloc.stop()
+                    #
+                    # elif search_type == 'range':
+                    #     algo.range_query(Q, count)
+                    #     results = algo.get_range_results()
+                    # else:
+                    #     raise NotImplementedError(f"Search type {search_type} not available.")
                     all_results.append(results)
                     result_map[num_searches] = step + 1
                     num_searches += 1
@@ -233,8 +276,9 @@ class CongestionRunner(BaseRunner):
         # record each search
         for k, v in result_map.items():
             attrs['step_' + str(k)] = v
-        print(attrs)
         additional = algo.get_additional()
         for k in additional:
             attrs[k] = additional[k]
         return (attrs, all_results)
+
+

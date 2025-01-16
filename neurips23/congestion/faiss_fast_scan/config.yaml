@@ -22,14 +22,5 @@ msturing-10M-clustered:
           [{"indexkey": "IVF2000,PQ50x4fs,RFlat"}]
         query-args: |
           [
-          {"ef":90},
-          {"ef":95},
-          {"ef":100},
-          {"ef":102},
-          {"ef":104},
-          {"ef":106},
-          {"ef":108},
-          {"ef":110},
-          {"ef":115},
-          {"ef":120}
+          {"ef":100}
           ]

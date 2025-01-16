@@ -19,6 +19,6 @@ msturing-10M-clustered:
     run-groups:
       base:
         args: |
-          [{"indexkey": "PQ8x8np"}]
+          [{"indexkey": "PQ4x8np"}]
         query-args: |
           [{"ef":30}]

@@ -19,8 +19,10 @@ class candy_lshapg(BaseStreamingANN):
 
         cm = PyCANDYAlgo.ConfigMap()
         if self.metric == 'euclidean':
+            print(self.metric)
             cm.edit("metricType", "L2")
         else:
+            print(self.metric)
             cm.edit("metricType", "IP")
         cm.edit("indexTag", self.indexkey)
         cm.edit("vecDim", ndim)

@@ -41,6 +41,7 @@ def compute_recall_with_distance_ties(true_ids, true_dists, run_ids, count):
 
 def get_recall_values(true_nn, run_nn, count, count_ties=True):
     true_ids, true_dists = true_nn
+
     if not count_ties:
         true_ids = true_ids[:, :count]
         assert true_ids.shape == run_nn.shape
@@ -72,6 +73,8 @@ def knn(true_nn, run_nn, count, metrics):
     else:
         print("Found cached result")
     return metrics['knn']
+
+
 
 def ap(true_nn, run_nn, metrics):
     if'ap' not in metrics:
@@ -123,6 +126,12 @@ def latencyQuery(attrs,count=0):
 def totalTime(attrs):
     return attrs.get("totalTime",-1)
 
+def continuousLatency(attrs):
+    lats = attrs.get("continuousQueryLatencies")
+    sum = 0
+    for i in range(len(lats)):
+        sum+=lats[i]
+    return sum/len(lats)
 
 
 
@@ -192,40 +201,52 @@ all_metrics = {
         "function": lambda true_nn, run_nn, metrics, run_attrs: pendingWrite(run_attrs),
         "worst": float("inf")
     },
-    f"batchLatency_{0}": {
-        "description": "95% Latency to complete 0th batches to be inserted",
-        "function": lambda true_nn, run_nn, metrics, run_attrs: batchLatency(run_attrs,0),
-        "worst": float("inf")
-    },
-    f"batchLatency_{1}": {
-        "description": "95% Latency to complete 1st batches to be inserted",
-        "function": lambda true_nn, run_nn, metrics, run_attrs: batchLatency(run_attrs,1),
-        "worst": float("inf")
-    },
-    f"batchLatency_{2}": {
-        "description": "95% Latency to complete 2nd batches to be inserted",
-        "function": lambda true_nn, run_nn, metrics, run_attrs: batchLatency(run_attrs,2),
-        "worst": float("inf")
-    },
-    f"latencySearch_{0}": {
-        "description": "latency to complete the 0th search",
-        "function": lambda true_nn, run_nn, metrics, run_attrs: latencyQuery(run_attrs),
-        "worst": float("inf")
-    },
-    f"latencySearch_{1}": {
-        "description": "latency to complete the 1st search",
-        "function": lambda true_nn, run_nn, metrics, run_attrs: latencyQuery(run_attrs,1),
-        "worst": float("inf")
-    },
-    f"latencySearch_{2}": {
-        "description": "latency to complete the 2nd search",
-        "function": lambda true_nn, run_nn, metrics, run_attrs: latencyQuery(run_attrs,2),
-        "worst": float("inf")
-    },
+    # f"batchLatency_{0}": {
+    #     "description": "95% Latency to complete 0th batches to be inserted",
+    #     "function": lambda true_nn, run_nn, metrics, run_attrs: batchLatency(run_attrs,0),
+    #     "worst": float("inf")
+    # },
+    # f"batchLatency_{1}": {
+    #     "description": "95% Latency to complete 1st batches to be inserted",
+    #     "function": lambda true_nn, run_nn, metrics, run_attrs: batchLatency(run_attrs,1),
+    #     "worst": float("inf")
+    # },
+    # f"batchLatency_{2}": {
+    #     "description": "95% Latency to complete 2nd batches to be inserted",
+    #     "function": lambda true_nn, run_nn, metrics, run_attrs: batchLatency(run_attrs,2),
+    #     "worst": float("inf")
+    # },
+    # f"latencySearch_{0}": {
+    #     "description": "latency to complete the 0th search",
+    #     "function": lambda true_nn, run_nn, metrics, run_attrs: latencyQuery(run_attrs),
+    #     "worst": float("inf")
+    # },
+    # f"latencySearch_{1}": {
+    #     "description": "latency to complete the 1st search",
+    #     "function": lambda true_nn, run_nn, metrics, run_attrs: latencyQuery(run_attrs,1),
+    #     "worst": float("inf")
+    # },
+    # f"latencySearch_{2}": {
+    #     "description": "latency to complete the 2nd search",
+    #     "function": lambda true_nn, run_nn, metrics, run_attrs: latencyQuery(run_attrs,2),
+    #     "worst": float("inf")
+    # },
 
     "totalTime": {
         "description": "Total time (ms)",
         "function": lambda true_nn, run_nn, metrics, run_attrs: totalTime(run_attrs),
         "worst": float("inf")
-    }
+    },
+    # "continuousRecall_{0}":{
+    #     "description": "Average recall during 0th continuous querying",
+    #     "function": lambda true_nn, run_nn, metrics, run_attrs: knn(true_nn, run_nn, run_attrs["count"], metrics).attrs['mean'],  # noqa
+    #     "worst": float("-inf"),
+    #     "lim": [0.0, 1.03],
+    # },
+    # "continuousLatency_{0}":{
+    #     "description": "Average search latency during continuous querying",
+    #     "function": lambda true_nn, run_nn, metrics, run_attrs: continuousLatency(run_attrs),
+    #     "worst": float("inf")
+    #
+    # }
 }

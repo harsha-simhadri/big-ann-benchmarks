@@ -22,5 +22,5 @@ msturing-10M-clustered:
           [{"indexkey": "SPTAG"}]
         query-args: |
           [
-          {"ef":90},
+          {"ef":90}
           ]

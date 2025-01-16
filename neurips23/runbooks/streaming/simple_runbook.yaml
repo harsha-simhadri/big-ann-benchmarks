@@ -482,3 +482,91 @@ openimage-streaming:
   6:
     operation: "search"
   gt_url: "none"
+
+random-experiment:
+  max_pts: 500000
+  1:
+    operation: "insert"
+    start: 0
+    end: 500000
+  2:
+    operation: "search"
+  3:
+    operation: "delete"
+    start: 0
+    end: 250000
+  4:
+    operation: "search"
+  5:
+    operation: "insert"
+    start: 0
+    end: 250000
+  6:
+    operation: "search"
+  gt_url: "none"
+
+random-plus-experiment:
+  max_pts: 500000
+  1:
+    operation: "insert"
+    start: 0
+    end: 500000
+  2:
+    operation: "search"
+  3:
+    operation: "delete"
+    start: 0
+    end: 250000
+  4:
+    operation: "search"
+  5:
+    operation: "insert"
+    start: 0
+    end: 250000
+  6:
+    operation: "search"
+  gt_url: "none"
+
+msturing-10M-clustered:
+  max_pts: 10000000
+  1:
+    operation: "insert"
+    start: 0
+    end: 10000000
+  2:
+    operation: "search"
+  3:
+    operation: "delete"
+    start: 0
+    end: 5000000
+  4:
+    operation: "search"
+  5:
+    operation: "insert"
+    start: 0
+    end: 5000000
+  6:
+    operation: "search"
+  gt_url: "none"
+
+random-plus(500000,1000,1024):
+  max_pts: 500000
+  1:
+    operation: "insert"
+    start: 0
+    end: 500000
+  2:
+    operation: "search"
+  3:
+    operation: "delete"
+    start: 0
+    end: 250000
+  4:
+    operation: "search"
+  5:
+    operation: "insert"
+    start: 0
+    end: 250000
+  6:
+    operation: "search"
+  gt_url: "none"

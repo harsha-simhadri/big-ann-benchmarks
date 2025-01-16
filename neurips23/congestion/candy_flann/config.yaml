@@ -13,7 +13,7 @@ random-xs:
 msturing-10M-clustered:
   candy_flann:
     docker-tag: neurips23-congestion-candy_flann
-    module: neurips23.streaming.candy_flann.candy_flann
+    module: neurips23.congestion.candy_flann.candy_flann
     constructor: candy_flann
     base-args: ["@metric"]
     run-groups:

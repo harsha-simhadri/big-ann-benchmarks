@@ -92,7 +92,47 @@ def output_gt(ds, tag_to_id, step, gt_cmdline, runbook_path):
     print("Removing data file")
     rm_cmdline = "rm " + data_file
     os.system(rm_cmdline)
-    
+
+
+def output_gt_batch(ds, tag_to_id, num_batch_insert, step, gt_cmdline, runbook_path):
+    ids_list = []
+    tags_list = []
+    for tag, id in tag_to_id.items():
+        ids_list.append(id)
+        tags_list.append(tag)
+
+    ids = np.array(ids_list, dtype=np.uint32)
+    tags = np.array(tags_list, dtype=np.uint32)
+
+    data = ds.get_data_in_range(0, ds.nb)
+    data_slice = data[np.array(ids)]
+
+    dir = gt_dir(ds, runbook_path)
+    prefix = os.path.join(dir, 'batch') + str(num_batch_insert)+"_"+str(step)
+    os.makedirs(dir, exist_ok=True)
+
+    tags_file = prefix + '.tags'
+    data_file = prefix + '.data'
+    gt_file = prefix + '.gt100'
+
+    with open(tags_file, 'wb') as tf:
+        one = 1
+        tf.write(tags.size.to_bytes(4, byteorder='little'))
+        tf.write(one.to_bytes(4, byteorder='little'))
+        tags.tofile(tf)
+    with open(data_file, 'wb') as f:
+        f.write(ids.size.to_bytes(4, byteorder='little'))  # npts
+        f.write(ds.d.to_bytes(4, byteorder='little'))
+        data_slice.tofile(f)
+
+    gt_cmdline += ' --base_file ' + data_file
+    gt_cmdline += ' --gt_file ' + gt_file
+    gt_cmdline += ' --tags_file ' + tags_file
+    print("Executing cmdline: ", gt_cmdline)
+    os.system(gt_cmdline)
+    print("Removing data file")
+    rm_cmdline = "rm " + data_file
+    os.system(rm_cmdline)
 
 def main():
     parser = argparse.ArgumentParser(
@@ -148,15 +188,36 @@ def main():
 
     step = 1
     ids = np.empty(0, dtype=np.uint32)
-
+    num_batch_insert = 0
     for entry in runbook[1:]:
         # the first step must be an HPC and second must be initial
         if step == 1:
             tag_to_id = get_range_start_end(entry, {})
-        else:
+        elif (entry['operation']!='batch_insert'):
             tag_to_id = get_next_set(tag_to_id, entry)
         if (entry['operation'] == 'search'):
             output_gt(ds, tag_to_id, step, common_cmd, args.runbook_file)
+        if (entry['operation'] == 'batch_insert'):
+            batchSize = entry['batchSize']
+            end = entry['end']
+            start = entry['start']
+            batch_step = (end - start) // batchSize
+
+            for i in range(batch_step):
+                print(f"{i}: {start+i*batchSize}~{start+(i+1)*batchSize}")
+
+                for j in range(start+i*batchSize,start+(i+1)*batchSize):
+                    tag_to_id[j] = j
+                output_gt_batch(ds, tag_to_id, num_batch_insert, i, common_cmd, args.runbook_file)
+
+            if (start + batch_step * batchSize < end and start + (batch_step + 1) * batchSize > end):
+                print(f"{batch_step}: {start + batch_step * batchSize}~{end}")
+                for j in range(start+batch_step*batchSize,end):
+                    tag_to_id[j] = j
+                output_gt_batch(ds, tag_to_id, num_batch_insert, batch_step, common_cmd, args.runbook_file)
+
+            num_batch_insert += 1
+
         step += 1
 
 if __name__ == '__main__':

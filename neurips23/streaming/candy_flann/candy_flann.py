@@ -19,6 +19,7 @@ class candy_flann(BaseStreamingANN):
         index = PyCANDYAlgo.createIndex(self.indexkey, ndim)
 
         cm = PyCANDYAlgo.ConfigMap()
+        print(self.metric)
         if self.metric == 'euclidean':
             cm.edit("metricType", "L2")
         else:

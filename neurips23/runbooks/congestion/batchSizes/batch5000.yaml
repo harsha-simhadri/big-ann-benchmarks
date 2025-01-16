@@ -1,0 +1,87 @@
+random-xs:
+  max_pts: 10000
+  1:
+    operation: "startHPC"
+  2:
+    operation: "initial"
+    start: 0
+    end: 5000
+  3:
+    operation: "batch_insert"
+    start: 5000
+    end: 10000
+    batchSize: 5000
+    eventRate: 2500
+  4:
+    operation: "waitPending"
+  5:
+    operation: "search"
+  6:
+    operation: "endHPC"
+  gt_url: "https://comp21storage.z5.web.core.windows.net/comp23/str_gt/random10000/10000/simple_runbook.yaml"
+
+msturing-10M-clustered:
+  max_pts: 10000000
+  1:
+    operation: "startHPC"
+  2:
+    operation: "initial"
+    start: 0
+    end: 50000
+  3:
+    operation: "batch_insert"
+    start: 50000
+    end: 10000000
+    batchSize: 5000
+    eventRate: 2500
+  4:
+    operation: "waitPending"
+  5:
+    operation: "search"
+  6:
+    operation: "endHPC"
+  gt_url: "none"
+
+msturing-30M-clustered:
+  max_pts: 30000000
+  1:
+    operation: "startHPC"
+  2:
+    operation: "initial"
+    start: 0
+    end: 50000
+  3:
+    operation: "batch_insert"
+    start: 50000
+    end: 30000000
+    batchSize: 5000
+    eventRate: 2500
+  4:
+    operation: "waitPending"
+  5:
+    operation: "search"
+  6:
+    operation: "endHPC"
+  gt_url: "none"
+
+random-plus-experiment:
+  max_pts: 500000
+  1:
+    operation: "startHPC"
+  2:
+    operation: "initial"
+    start: 0
+    end: 50000
+  3:
+    operation: "batch_insert"
+    start: 50000
+    end: 500000
+    batchSize: 5000
+    eventRate: 2500
+  4:
+    operation: "waitPending"
+  5:
+    operation: "search"
+  6:
+    operation: "endHPC"
+  gt_url: "none"

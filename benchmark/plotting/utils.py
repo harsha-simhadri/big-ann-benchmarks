@@ -7,7 +7,7 @@ import yaml
 import traceback
 import sys
 
-from benchmark.plotting.metrics import all_metrics as metrics
+from benchmark.plotting.metrics import all_metrics as metrics, get_recall_values
 from benchmark.sensors.power_capture import power_capture
 from benchmark.dataset_io import knn_result_read
 import benchmark.streaming.compute_gt
@@ -100,17 +100,35 @@ def compute_metrics_all_runs(dataset, dataset_name, res, recompute=False,
             true_nn_across_steps = []
             gt_dir = benchmark.congestion.compute_gt.gt_dir(dataset, runbook_path)
             max_pts, runbook = load_runbook_congestion(dataset_name, dataset.nb, runbook_path)
-
+            true_nn_across_batches = []
+            num_batch_insert = 0
             for step, entry in enumerate(runbook):
                 if entry['operation'] == 'search':
                     if neurips23track == 'congestion':
                         step_gt_path = os.path.join(gt_dir, 'step' + str(step) + '.gt100')
-                        print(f"STEP {step} GT Path: {step_gt_path}")
                     else:
                         step_gt_path = os.path.join(gt_dir, 'step' + str(step+1) + '.gt100')
-                        print(f"STEP {step+1} GT Path: {step_gt_path}")
                     true_nn = knn_result_read(step_gt_path)
                     true_nn_across_steps.append(true_nn)
+
+                if entry['operation'] == 'batch_insert':
+                    true_nn_across_batches.append([])
+                    end = entry['end']
+                    start = entry['start']
+                    batchSize = entry['batchSize']
+                    batch_step = (end - start) // batchSize
+                    for i in range(batch_step):
+                        step_gt_path = os.path.join(gt_dir, 'batch' +str(num_batch_insert) +"_"+str(i) + '.gt100')
+                        print(step_gt_path)
+                        true_nn = knn_result_read(step_gt_path)
+                        true_nn_across_batches[-1].append(true_nn)
+                    if (start + batch_step * batchSize < end and start + (batch_step + 1) * batchSize > end):
+                        step_gt_path = os.path.join(gt_dir, 'batch' + str(num_batch_insert) + "_" + str(batch_step) + '.gt100')
+                        print(step_gt_path)
+                        true_nn = knn_result_read(step_gt_path)
+                        true_nn_across_batches[-1].append(true_nn)
+                    num_batch_insert += 1
+
 
     except:
         print(f"Groundtruth for {dataset} not found.")
@@ -125,10 +143,18 @@ def compute_metrics_all_runs(dataset, dataset_name, res, recompute=False,
         if search_type == "knn" or search_type == "knn_filtered":
             if neurips23track in ['streaming','congestion']:
                 run_nn_across_steps = []
+                run_nn_across_batches = []
                 for i in range(0,properties['num_searches']):
                    step_suffix = str(properties['step_' + str(i)])
                    run_nn_across_steps.append(numpy.array(run['neighbors_step' +  step_suffix]))
                    #true_nn_across_steps.append()
+                for i in range(len(properties['continuousQueryResults'])):
+                    run_nn_across_batches.append([])
+                    for j in range(len(properties['continuousQueryResults'][i])):
+                        run_nn_across_batches[i].append(numpy.array(properties['continuousQueryResults'][i][j]))
+
+
+
             else:
                 run_nn = numpy.array(run['neighbors'])
         elif search_type == "range":
@@ -187,9 +213,11 @@ def compute_metrics_all_runs(dataset, dataset_name, res, recompute=False,
                 continue
             if neurips23track in ['streaming', 'congestion']:
                 v = []
+                bv=[]
                 assert len(true_nn_across_steps) == len(run_nn_across_steps)
                 for (true_nn, run_nn) in zip(true_nn_across_steps, run_nn_across_steps):
                   clear_cache = True
+
                   if clear_cache and 'knn' in metrics_cache:
                     del metrics_cache['knn']
                   val = metric["function"](true_nn, run_nn, metrics_cache, properties)
@@ -197,12 +225,49 @@ def compute_metrics_all_runs(dataset, dataset_name, res, recompute=False,
                 if name == 'k-nn':
                   print('Recall: ', v)
                 #v = numpy.mean(v)
+                assert len(true_nn_across_batches) == len(run_nn_across_batches)
+                for(true_nn, run_nn) in zip(true_nn_across_batches, run_nn_across_batches):
+                    bv.append([])
+                    assert(len(true_nn)==len(run_nn))
+                    for(t,r) in zip(true_nn, run_nn):
+                        mean, std, recalls, queries_with_ties = get_recall_values(t, r, properties['count'])
+                        val = mean
+                        bv[-1].append(val)
+
+
+
             else:
                 v = metric["function"](true_nn, run_nn, metrics_cache, properties)
-            print("name"+name)
+
             if(name=="k-nn"):
                 for i in range(len(v)):
                     run_result['knn_'+str(i)] = v[i]
+
+                for i in range(len(bv)):
+                    recall_sum = 0
+                    latency_sum = 0
+                    for j in range(len(bv[i])):
+                        recall_sum+=bv[i][j]
+                        latency_sum+=properties['continuousQueryLatencies'][i][j]
+                    run_result['continuousRecall_'+str(i)] = recall_sum/len(bv[i])
+                    run_result['continuousLatency_'+str(i)] = latency_sum/len(bv[i])
+                    run_result['continuousThroughput_'+str(i)] = properties['querySize']/((run_result['continuousLatency_'+str(i)])/1e6)
+
+                for i in range(len(properties['latencyInsert'])):
+                    run_result['latencyInsert_'+str(i)] = properties['latencyInsert'][i]
+                    run_result['insertThroughput' + str(i)] = properties['insertThroughput'][i]
+                for i in range(len(properties['latencyQuery'])):
+                    run_result['latencyQuery_'+str(i)] = properties['latencyQuery'][i]
+                    run_result['queryThroughput'+str(i)] = properties['querySize']/(properties['latencyQuery'][i]/1e6)
+
+
+                run_result['updateMemFPRT'] = properties['updateMemoryFootPrint']
+                run_result['searchMemFPRT'] = properties['searchMemoryFootPrint']
+                run_result['querySize'] = properties['querySize']
+
+
+
+
             run_result[name] = numpy.mean(v)
         yield run_result
 

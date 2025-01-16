@@ -1643,7 +1643,7 @@ class TREVI(DatasetCompetitionFormat):
 class WTE(DatasetCompetitionFormat):
     def __init__(self, dataset_name):
         self.d = 768
-        self.nb = 10000
+        self.nb = 100000
         self.nq = 100
         self.dtype = "float32"
         self.dataset_name = dataset_name
@@ -1913,6 +1913,7 @@ class RandomPlus(DatasetCompetitionFormat):
         return 10
 
 DATASETS = {
+    'random-plus(500000,1000,1024)': lambda : RandomPlus(500000, 1000, 1024, 7758258, 0, 0.5, 0, "randomplus"),
     'bigann-1B': lambda : BigANNDataset(1000),
     'bigann-100M': lambda : BigANNDataset(100),
     'bigann-10M': lambda : BigANNDataset(10),
