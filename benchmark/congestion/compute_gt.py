@@ -202,19 +202,29 @@ def main():
             end = entry['end']
             start = entry['start']
             batch_step = (end - start) // batchSize
-
+            continuous_counter = 0
             for i in range(batch_step):
-                print(f"{i}: {start+i*batchSize}~{start+(i+1)*batchSize}")
+
 
                 for j in range(start+i*batchSize,start+(i+1)*batchSize):
                     tag_to_id[j] = j
-                output_gt_batch(ds, tag_to_id, num_batch_insert, i, common_cmd, args.runbook_file)
+
+                continuous_counter+=batchSize
+                if(continuous_counter>=(end-start)/100):
+                    print(f"{i}: {start + i * batchSize}~{start + (i + 1) * batchSize} output gt")
+                    output_gt_batch(ds, tag_to_id, num_batch_insert, i, common_cmd, args.runbook_file)
+                    continuous_counter = 0
 
             if (start + batch_step * batchSize < end and start + (batch_step + 1) * batchSize > end):
-                print(f"{batch_step}: {start + batch_step * batchSize}~{end}")
+
                 for j in range(start+batch_step*batchSize,end):
                     tag_to_id[j] = j
-                output_gt_batch(ds, tag_to_id, num_batch_insert, batch_step, common_cmd, args.runbook_file)
+
+                continuous_counter+=batchSize
+                if(continuous_counter>=(end-start)/100):
+                    print(f"{batch_step}: {start + batch_step * batchSize}~{end} output gt")
+                    output_gt_batch(ds, tag_to_id, num_batch_insert, batch_step, common_cmd, args.runbook_file)
+                    continuous_counter = 0
 
             num_batch_insert += 1
 

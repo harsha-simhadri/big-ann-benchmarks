@@ -122,7 +122,8 @@ if __name__ == "__main__":
             if track == 'congestion':
                 runbook_paths = [#'neurips23/runbooks/congestion/simple_runbook_2.yaml',
                                  #'neurips23/runbooks/congestion/simple_runbook.yaml',
-                                 'neurips23/runbooks/congestion/test_experiment.yaml'
+                                 'neurips23/runbooks/congestion/test_experiment.yaml',
+                                 'neurips23/runbooks/congestion/general_experiment/general_experiment.yaml'
                                 ]
             for runbook_path in runbook_paths:
                 print("Looking for runbook ", runbook_path)

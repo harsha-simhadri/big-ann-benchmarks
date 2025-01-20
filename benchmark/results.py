@@ -87,7 +87,6 @@ def load_all_results(dataset=None, count=None, neurips23track="congestion", runb
     for root, _, files in os.walk(get_result_filename(dataset, count, \
                                                       neurips23track=neurips23track, \
                                                     runbook_path=runbook_path)):
-        print(root)
         for fn in files:
             if os.path.splitext(fn)[-1] != '.hdf5':
                 continue

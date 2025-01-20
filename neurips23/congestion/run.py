@@ -111,6 +111,7 @@ class CongestionRunner(BaseRunner):
         # Load Runbook
         result_map = {}
         num_searches = 0
+        num_batch = 0
         counts = {'initial':0,'batch_insert':0,'insert':0,'delete':0,'search':0}
         attrs = {
             "name": str(algo),
@@ -163,6 +164,7 @@ class CongestionRunner(BaseRunner):
                     attrs['continuousQueryLatencies'].append([])
                     attrs['continuousQueryResults'].append([])
                     start_time = time.time()
+                    continuous_counter = 0
                     for i in range(batch_step):
                         tNow = (time.time()-start_time)*1e6
                         tExpectedArrival = eventTimeStamps[(i+1)*batchSize-1]
@@ -179,12 +181,17 @@ class CongestionRunner(BaseRunner):
 
                         #algo.waitPendingOperations()
                         # continuous query phase
-                        t0 = time.time()
-                        algo.query(Q, count)
-                        attrs['continuousQueryLatencies'][-1].append((time.time() - t0) * 1e6)
+                        continuous_counter += batchSize
+                        if(continuous_counter >= (end-start)/100):
+                            print(f"{i}: {start + i * batchSize}~{start + (i + 1) * batchSize} querying")
+                            t0 = time.time()
+                            algo.query(Q, count)
+                            attrs['continuousQueryLatencies'][-1].append((time.time() - t0) * 1e6)
 
-                        results = algo.get_results()
-                        attrs['continuousQueryResults'][-1].append(results)
+                            results = algo.get_results()
+                            attrs[f'continuousQueryResults'][-1].append(results)
+                            #attrs[f'continuousQueryRecall{num_batch}_{i}'] = results
+                            continuous_counter = 0
 
 
                     # process the rest
@@ -203,12 +210,18 @@ class CongestionRunner(BaseRunner):
 
                         #algo.waitPendingOperations()
                         # continuous query phase
-                        t0 = time.time()
-                        algo.query(Q, count)
-                        attrs['continuousQueryLatencies'][-1].append((time.time() - t0) * 1e6)
+                        continuous_counter += batchSize
+                        if(continuous_counter >= (end-start)/100):
+                            print(f"{i}: {start + i * batchSize}~{end} querying")
 
-                        results = algo.get_results()
-                        attrs['continuousQueryResults'][-1].append(results)
+                            t0 = time.time()
+                            algo.query(Q, count)
+                            attrs['continuousQueryLatencies'][-1].append((time.time() - t0) * 1e6)
+
+                            results = algo.get_results()
+                            attrs['continuousQueryResults'][-1].append(results)
+                            #attrs[f'continuousQueryRecall{num_batch}_{batch_step}'] = results
+                            continuous_counter = 0
 
                     attrs['insertThroughput'].append((end-start)/((attrs['latencyInsert'][-1])/1e6))
                     filename = get_result_filename(dataset, count, definition, query_arguments, neurips23track="congestion", runbook_path=runbook_path)
@@ -219,6 +232,8 @@ class CongestionRunner(BaseRunner):
                     if peak>attrs['updateMemoryFootPrint']:
                         attrs['updateMemoryFootPrint'] = peak
                     tracemalloc.stop()
+
+                    num_batch +=1
 
                 case 'insert':
                     start = entry['start']

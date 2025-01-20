@@ -1,0 +1,26 @@
+random-xs:
+  linear:
+    docker-tag: neurips23-streaming-linear
+    module: neurips23.streaming.linear.linear
+    constructor: linear
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{"indexkey": "Flat"}]
+        query-args: |
+          [{"ef":100}]
+msturing-10M-clustered:
+  linear:
+    docker-tag: neurips23-streaming-linear
+    module: neurips23.streaming.linear.linear
+    constructor: linear
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{"indexkey": "Flat"}]
+        query-args: |
+          [
+          {"ef":100}
+          ]

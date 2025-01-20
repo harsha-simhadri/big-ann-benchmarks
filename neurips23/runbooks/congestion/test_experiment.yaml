@@ -9,26 +9,14 @@ random-xs:
   3:
     operation: "batch_insert"
     start: 5000
-    end: 7500
-    batchSize: 101
+    end: 10000
+    batchSize: 11
     eventRate: 2500
   4:
     operation: "waitPending"
   5:
-    operation: "delete"
-    start: 2500
-    end: 5000
-  6:
-    operation: "batch_insert"
-    start: 7500
-    end: 10000
-    batchSize: 100
-    eventRate: 2500
-  7:
-    operation: "waitPending"
-  8:
     operation: "search"
-  9:
+  6:
     operation: "endHPC"
   gt_url: "https://comp21storage.z5.web.core.windows.net/comp23/str_gt/random10000/10000/simple_runbook.yaml"
 

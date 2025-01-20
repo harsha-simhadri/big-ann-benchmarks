@@ -7,6 +7,7 @@ from benchmark.algorithms.base import BaseANN
 from neurips23.congestion.congestion_utils import *
 import numpy as np
 import time
+import random
 
 class AbstractThread:
     """
@@ -48,6 +49,10 @@ class CongestionDropWorker(AbstractThread):
         self.single_worker_opt = True
         self.m_mut = Lock()
         self.my_index_algo = my_index_algo
+
+        self.randomContamination = False
+        self.randomDropProb = 0.0
+
 
 
     def setup(self, dtype, max_pts, ndim):
@@ -143,7 +148,15 @@ class CongestionDropWorker(AbstractThread):
 
     def insert(self,X,id):
         if(self.insert_queue.empty() or (not self.congestion_drop)):
-            self.insert_queue.push(NumpyIdxPair(X,id))
+            if(not self.randomContamination):
+                self.insert_queue.push(NumpyIdxPair(X,id))
+            else:
+                rand = random.random()
+                if(rand<self.randomDropProb):
+                    rand_X = np.random.random(X.shape)
+                    self.insert_queue.push(NumpyIdxPair(rand_X, id))
+                else:
+                    self.insert_queue.push(NumpyIdxPair(X,id))
         else:
             print(f"DROPPING DATA {id[0]}:{id[-1]}")
             pass
@@ -173,6 +186,8 @@ class BaseCongestionDropANN(BaseANN):
         self.clear_pending_operations = clear_pending_operations
         self.workers=[]
         self.verbose = False
+
+
 
         for i in range(parallel_workers):
             self.workers.append(CongestionDropWorker(my_index_algo=my_index_algos[i]))

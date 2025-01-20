@@ -117,16 +117,21 @@ def compute_metrics_all_runs(dataset, dataset_name, res, recompute=False,
                     start = entry['start']
                     batchSize = entry['batchSize']
                     batch_step = (end - start) // batchSize
+                    continuous_counter = 0
                     for i in range(batch_step):
-                        step_gt_path = os.path.join(gt_dir, 'batch' +str(num_batch_insert) +"_"+str(i) + '.gt100')
-                        print(step_gt_path)
-                        true_nn = knn_result_read(step_gt_path)
-                        true_nn_across_batches[-1].append(true_nn)
+                        continuous_counter += batchSize
+                        if(continuous_counter >= (end-start)/100):
+                            step_gt_path = os.path.join(gt_dir, 'batch' +str(num_batch_insert) +"_"+str(i) + '.gt100')
+                            true_nn = knn_result_read(step_gt_path)
+                            true_nn_across_batches[-1].append(true_nn)
+                            continuous_counter = 0
                     if (start + batch_step * batchSize < end and start + (batch_step + 1) * batchSize > end):
-                        step_gt_path = os.path.join(gt_dir, 'batch' + str(num_batch_insert) + "_" + str(batch_step) + '.gt100')
-                        print(step_gt_path)
-                        true_nn = knn_result_read(step_gt_path)
-                        true_nn_across_batches[-1].append(true_nn)
+                        continuous_counter += batchSize
+                        if(continuous_counter>=(end-start)/100):
+                            step_gt_path = os.path.join(gt_dir, 'batch' + str(num_batch_insert) + "_" + str(batch_step) + '.gt100')
+
+                            true_nn = knn_result_read(step_gt_path)
+                            true_nn_across_batches[-1].append(true_nn)
                     num_batch_insert += 1
 
 
@@ -151,7 +156,8 @@ def compute_metrics_all_runs(dataset, dataset_name, res, recompute=False,
                 for i in range(len(properties['continuousQueryResults'])):
                     run_nn_across_batches.append([])
                     for j in range(len(properties['continuousQueryResults'][i])):
-                        run_nn_across_batches[i].append(numpy.array(properties['continuousQueryResults'][i][j]))
+                        temp = numpy.array(properties['continuousQueryResults'][i][j])
+                        run_nn_across_batches[i].append(temp)
 
 
 
