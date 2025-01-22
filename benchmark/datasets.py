@@ -1595,7 +1595,7 @@ class TREVI(DatasetCompetitionFormat):
     def __init__(self):
         self.d = 4096
         self.nb = 99900
-        self.nq = 100
+        self.nq = 200
         self.dtype = "float32"
         self.ds_fn = f"data_{self.nb}_{self.d}"
         self.qs_fn = f"queries_{self.nq}_{self.d}"
@@ -1738,7 +1738,7 @@ class SIFT(DatasetCompetitionFormat):
     def __init__(self):
         self.d = 128
         self.nb = 1000000
-        self.nq = 100
+        self.nq = 10000
         self.dtype = "float32"
         self.ds_fn = f"data_{self.nb}_{self.d}"
         self.qs_fn = f"queries_{self.nq}_{self.d}"
