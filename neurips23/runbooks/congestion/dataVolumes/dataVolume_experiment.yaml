@@ -11,7 +11,7 @@ random-xs:
     start: 5000
     end: 10000
     batchSize: 2500
-    eventRate: 2500
+    eventRate: 10000
   4:
     operation: "waitPending"
   5:
@@ -33,7 +33,7 @@ random-plus(5000000,1000,768):
     start: 50000
     end: 100000
     batchSize: 2500
-    eventRate: 2500
+    eventRate: 10000
   4:
     operation: "waitPending"
   5:
@@ -43,7 +43,7 @@ random-plus(5000000,1000,768):
     start: 100000
     end: 500000
     batchSize: 2500
-    eventRate: 2500
+    eventRate: 10000
   6:
     operation: "waitPending"
   7:
@@ -53,7 +53,7 @@ random-plus(5000000,1000,768):
     start: 500000
     end: 1000000
     batchSize: 2500
-    eventRate: 2500
+    eventRate: 10000
   9:
     operation: "waitPending"
   10:
@@ -63,7 +63,7 @@ random-plus(5000000,1000,768):
     start: 1000000
     end: 2500000
     batchSize: 2500
-    eventRate: 2500
+
   12:
     operation: "waitPending"
   13:
@@ -73,7 +73,7 @@ random-plus(5000000,1000,768):
     start: 2500000
     end: 5000000
     batchSize: 2500
-    eventRate: 2500
+
   15:
     operation: "waitPending"
   16:

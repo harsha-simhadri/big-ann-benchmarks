@@ -274,7 +274,7 @@ def compute_metrics_all_runs(dataset, dataset_name, res, recompute=False,
 
 
 
-            run_result[name] = numpy.mean(v)
+            run_result[name] = numpy.nanmean(v)
         yield run_result
 
 #def compute_all_metrics(true_nn, run, properties, recompute=False):

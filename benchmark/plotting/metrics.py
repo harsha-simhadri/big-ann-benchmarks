@@ -54,7 +54,7 @@ def get_recall_values(true_nn, run_nn, count, count_ties=True):
             if found_tie: queries_with_ties += 1 
         else:
             recalls[i] = compute_recall_without_distance_ties(true_ids[i], run_nn[i], count)
-    return (np.mean(recalls) / float(count),
+    return (np.nanmean(recalls) / float(count),
             np.std(recalls) / float(count),
             recalls,
             queries_with_ties)

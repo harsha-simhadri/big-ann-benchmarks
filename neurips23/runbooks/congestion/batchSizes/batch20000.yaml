@@ -11,7 +11,7 @@ random-xs:
     start: 5000
     end: 10000
     batchSize: 20000
-    eventRate: 2500
+    eventRate: 10000
   4:
     operation: "waitPending"
   5:
@@ -33,7 +33,7 @@ msturing-10M-clustered:
     start: 50000
     end: 10000000
     batchSize: 20000
-    eventRate: 2500
+    eventRate: 10000
   4:
     operation: "waitPending"
   5:
@@ -55,7 +55,7 @@ msturing-30M-clustered:
     start: 50000
     end: 30000000
     batchSize: 20000
-    eventRate: 2500
+    eventRate: 10000
   4:
     operation: "waitPending"
   5:
@@ -77,7 +77,7 @@ random-plus-experiment:
     start: 50000
     end: 500000
     batchSize: 20000
-    eventRate: 2500
+    eventRate: 10000
   4:
     operation: "waitPending"
   5:

@@ -56,7 +56,14 @@ class Pyanns(BaseStreamingANN):
         return np.uint8
 
     def setup(self, dtype, max_pts, ndim):
-        index_class = diskannpy.DynamicMemoryUInt8Index
+        if dtype == 'uint8':
+            index_class = diskannpy.DynamicMemoryUInt8Index
+        elif dtype == 'int8':
+            index_class = diskannpy.DynamicMemoryInt8Index
+        elif dtype == 'float32':
+            index_class = diskannpy.DynamicMemoryFloatIndex
+        else:
+            raise Exception('Invalid dtype for index creation')
         self.index = index_class(
             algo_type=diskannpy.AlgoType.PYANNS,
             distance_metric=self.translate_dist_fn(self._metric),
@@ -84,13 +91,14 @@ class Pyanns(BaseStreamingANN):
         self.active_indices.update(ids + 1)
         print('#active pts', len(self.active_indices), '#unprocessed deletes', self.num_unprocessed_deletes)
         if len(self.active_indices) + self.num_unprocessed_deletes >= self.max_pts:
+            print("try to delete")
             self.index.consolidate_delete()
             self.num_unprocessed_deletes = 0
-
         retvals = self.index.batch_insert(X, ids + 1, len(ids), self.insert_threads)
         if -1 in retvals:
             print('insertion failed')
             print('insertion return values', retvals)
+
 
     def delete(self, ids):
         for id in ids:

@@ -11,7 +11,7 @@ openimage-streaming:
     start: 50000
     end: 1000000
     batchSize: 2500
-    eventRate: 2500
+    eventRate: 10000
   4:
     operation: "waitPending"
   5:

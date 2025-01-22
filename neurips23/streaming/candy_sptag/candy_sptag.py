@@ -26,16 +26,33 @@ class candy_sptag(BaseStreamingANN):
         cm.edit("vecDim", ndim)
         index.setConfig(cm)
         self.index = index
+        self.my_index = -1 * np.ones(max_pts, dtype=int)
+        # Mapping from global id to faiss index id
+        self.my_inverse_index = -1*np.ones(max_pts, dtype=int)
+        self.ntotal = 0
 
         return
 
     def insert(self, X,ids):
-        subA = torch.from_numpy(X.copy())
-        if(self.trained):
-            self.index.insertTensorWithIds(ids,subA)
+
+        mask = self.my_inverse_index[ids] == -1
+        new_ids = ids[mask]
+
+        new_data = X[mask]
+        if (new_data.shape[0] != 0):
+            subA = torch.from_numpy(new_data.copy())
+            if(self.trained):
+                self.index.insertTensorWithIds(new_ids,subA)
+            else:
+                self.index.loadInitialTensorWithIds(new_ids,subA)
+                self.trained = True
+            indices = np.arange(self.ntotal, self.ntotal + new_data.shape[0])
+            self.my_index[indices] = new_ids
+            print(f"Indices {indices[0]} : {indices[-1]} to Global {new_ids[0]}:{new_ids[-1]}")
+            self.my_inverse_index[new_ids] = indices
+            self.ntotal += new_data.shape[0]
         else:
-            self.index.loadInitialTensorWithIds(ids,subA)
-            self.trained = True
+            print("Not Inserting Same Data!")
 
 
     def delete(self, ids):
@@ -46,9 +63,9 @@ class candy_sptag(BaseStreamingANN):
 
 
         queryTensor = torch.from_numpy(X.copy())
-        results = self.index.searchIndex(queryTensor, k)
-        res = np.array(results).reshape(X.shape[0], k)
-
+        results = np.array(self.index.searchIndex(queryTensor, k))
+        ids = self.my_index[results]
+        res = ids.reshape(X.shape[0], k)
         self.res = res
 
     def set_query_arguments(self, query_args):

@@ -10,7 +10,7 @@ random-xs:
     operation: "batch_insert"
     start: 5000
     end: 10000
-    batchSize: 11
+    batchSize: 2500
     eventRate: 2500
   4:
     operation: "waitPending"
@@ -158,12 +158,12 @@ sift:
     operation: "startHPC"
   2:
     operation: "initial"
-    start: 990000
-    end: 995000
+    start: 980000
+    end: 990000
   3:
     operation: "batch_insert"
-    start: 995000
-    end: 1000000
+    start: 990000
+    end: 997500
     batchSize: 2500
     eventRate: 2500
   4:
@@ -171,6 +171,20 @@ sift:
   5:
     operation: "search"
   6:
+    operation: "delete"
+    start: 992500
+    end: 997500
+  7:
+    operation: "batch_insert"
+    start: 992500
+    end: 1000000
+    batchSize: 2500
+    eventRate: 2500
+  8:
+    operation: "waitPending"
+  9:
+    operation: "search"
+  10:
     operation: "endHPC"
   gt_url: "none"
 

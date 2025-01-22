@@ -67,8 +67,8 @@ def store_results(dataset, count, definition, query_arguments,
     df.to_csv(fn_attr, index=False)
 
     for k, v in attrs.items():
+        # TODO: here is one potential bug
         f.attrs[k] = v
-
     if neurips23track in ['streaming', 'congestion']:
         for i, step_results in enumerate(results):
             step = attrs['step_' + str(i)]
