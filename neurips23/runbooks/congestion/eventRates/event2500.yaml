@@ -43,7 +43,7 @@ msturing-10M-clustered:
   gt_url: "none"
 
 msturing-30M-clustered:
-  max_pts: 30000000
+  max_pts: 29990000
   1:
     operation: "startHPC"
   2:
@@ -53,7 +53,7 @@ msturing-30M-clustered:
   3:
     operation: "batch_insert"
     start: 50000
-    end: 30000000
+    end: 29990000
     batchSize: 2500
     eventRate: 2500
   4:
