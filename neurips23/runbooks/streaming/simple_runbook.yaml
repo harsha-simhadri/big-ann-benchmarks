@@ -285,6 +285,28 @@ coco:
     operation: "search"
   gt_url: "none"
 
+cirr:
+  max_pts: 10000
+  1:
+    operation: "insert"
+    start: 0
+    end: 10000
+  2:
+    operation: "search"
+  3:
+    operation: "delete"
+    start: 0
+    end: 5000
+  4:
+    operation: "search"
+  5:
+    operation: "insert"
+    start: 0
+    end: 5000
+  6:
+    operation: "search"
+  gt_url: "none"
+
 trevi:
   max_pts: 10000
   1:

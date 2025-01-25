@@ -1559,28 +1559,96 @@ class REDDIT(DatasetCompetitionFormat):
 
 class COCO(DatasetCompetitionFormat):
     def __init__(self):
-        self.d = 128
+        self.d = 768
         self.nb = 10000
         self.nq = 100
         self.dtype = "float32"
         self.ds_fn = f"data_{self.nb}_{self.d}"
         self.qs_fn = f"queries_{self.nq}_{self.d}"
         self.gt_fn = f"gt_{self.nb}_{self.nq}_{self.d}"
-        self.basedir = os.path.join(BASEDIR, "SIFTSMALL")
+        self.basedir = os.path.join(BASEDIR, "COCO")
         if not os.path.exists(self.basedir):
             os.makedirs(self.basedir)
 
 
     def prepare(self, skip_data=False):
+        downloadflag = 0
         for item in os.listdir(self.basedir):
             item_path = os.path.join(self.basedir, item)
             if os.path.isdir(item_path) or os.path.isfile(item_path):
-                print("SIFTSMALL has already installed!")
-                return
+                print("COCO has already installed!")
+                downloadflag = 1
+                break
+        if downloadflag == 0:
+            import gdown
+            folder_url = "https://drive.google.com/drive/folders/1Hp6SI8YOFPdWbmC1a4_-1dZWxZH3CHMS?usp=sharing"
+            gdown.download_folder(folder_url, output=self.basedir)
 
-        import gdown
-        folder_url = "https://drive.google.com/drive/folders/1XbvrSjlP-oUZ5cixVpfSTn0zE-Cim0NK?usp=sharing"
-        gdown.download_folder(folder_url, output=self.basedir)
+        prepocessflag = 0
+        data_file_path = os.path.join(self.basedir, self.ds_fn)
+        queries_file_path = os.path.join(self.basedir, self.qs_fn)
+
+        if os.path.exists(data_file_path) and os.path.exists(queries_file_path):
+            print("Preprocessed data already exists. Skipping data generation.")
+            prepocessflag = 1
+
+        if prepocessflag == 0:
+            num, dim, vectors = load_data(self.basedir + '/data_100000_768')
+            index_vectors, query_vectors = sample_vectors(vectors, self.nb, self.nq)
+            save_data(index_vectors, type='data', basedir=self.basedir)
+            save_data(query_vectors, type='queries', basedir=self.basedir)
+
+    def search_type(self):
+        return "knn"
+
+    def distance(self):
+        return "euclidean"
+
+    def default_count(self):
+        return 10
+
+class CIRR(DatasetCompetitionFormat):
+    def __init__(self):
+        self.d = 768
+        self.nb = 10000
+        self.nq = 100
+        self.dtype = "float32"
+        self.ds_fn = f"data_{self.nb}_{self.d}"
+        self.qs_fn = f"queries_{self.nq}_{self.d}"
+        self.gt_fn = f"gt_{self.nb}_{self.nq}_{self.d}"
+        self.basedir = os.path.join(BASEDIR, "CIRR")
+        if not os.path.exists(self.basedir):
+            os.makedirs(self.basedir)
+
+    def prepare(self, skip_data=False):
+        downloadflag = 0
+        for item in os.listdir(self.basedir):
+            item_path = os.path.join(self.basedir, item)
+            if os.path.isdir(item_path) or os.path.isfile(item_path):
+                print("CIRR has already installed!")
+                downloadflag = 1
+                break
+        if downloadflag == 0:
+            import gdown
+            folder_url = " https://drive.google.com/drive/folders/1zCZWG3DX_4xnAC0kZv1IxEqLD0qv6kOy?usp=sharing"
+            gdown.download_folder(folder_url, output=self.basedir)
+
+        prepocessflag = 0
+        data_file_path = os.path.join(self.basedir, self.ds_fn)
+        queries_file_path = os.path.join(self.basedir, self.qs_fn)
+
+        if os.path.exists(data_file_path) and os.path.exists(queries_file_path):
+            print("Preprocessed data already exists. Skipping data generation.")
+            prepocessflag = 1
+
+        if prepocessflag == 0:
+            num, dim, vectors = load_data(self.basedir + '/data_101335_768')
+            index_vectors, _ = sample_vectors(vectors, self.nb, self.nq)
+            save_data(index_vectors, type='data', basedir=self.basedir)
+
+            num, dim, vectors = load_data(self.basedir + '/queries_4181_768query')
+            _, query_vectors = sample_vectors(vectors, 0, self.nq)
+            save_data(query_vectors, type='queries', basedir=self.basedir)
 
     def search_type(self):
         return "knn"
@@ -1913,7 +1981,6 @@ class RandomPlus(DatasetCompetitionFormat):
         return 10
 
 DATASETS = {
-    'random-plus(500000,1000,1024)': lambda : RandomPlus(500000, 1000, 1024, 7758258, 0, 0.5, 0, "randomplus"),
     'bigann-1B': lambda : BigANNDataset(1000),
     'bigann-100M': lambda : BigANNDataset(100),
     'bigann-10M': lambda : BigANNDataset(10),
@@ -1989,8 +2056,10 @@ DATASETS = {
     'sun': lambda: SUN(),
     'dpr': lambda: DPR(),
     'reddit': lambda: REDDIT(),
-    'coco': lambda: COCO(),
     'trevi': lambda: TREVI(),
+
+    'coco': lambda: COCO(),
+    'cirr': lambda: CIRR(),
 
     'wte-0.05': lambda: WTE('-0.05'),
     'wte-0.1': lambda: WTE('-0.1'),
