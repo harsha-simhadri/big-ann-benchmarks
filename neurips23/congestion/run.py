@@ -139,6 +139,22 @@ class CongestionRunner(BaseRunner):
                 case 'startHPC':
                     print(type(algo))
                     algo.startHPC()
+                case 'enableScenario':
+                    randomDrop = False
+                    randomContamination = False
+                    outOfOrder = False
+                    if(entry.get("randomContamination", 0)==1):
+                        randomContamination = True
+                    if(entry.get("randomDrop", 0 )==1):
+                        randomDrop = True
+                    randomContaminationProb = entry.get("randomContaminationProb", 0.0)
+                    randomDropProb = entry.get("randomDropProb",0.0)
+
+                    if(entry.get("outOfOrder", 0 )==1):
+                        outOfOrder = True
+
+                    algo.enableScenario(randomContamination, randomContaminationProb, randomDrop, randomDropProb, outOfOrder)
+
                 case 'endHPC':
                     algo.endHPC()
                 case 'waitPending':

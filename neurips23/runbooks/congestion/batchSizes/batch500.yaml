@@ -1,3 +1,25 @@
+sift:
+  max_pts: 1000000
+  1:
+    operation: "startHPC"
+  2:
+    operation: "initial"
+    start: 0
+    end: 50000
+  3:
+    operation: "batch_insert"
+    start: 50000
+    end: 1000000
+    batchSize: 500
+    eventRate: 10000
+  4:
+    operation: "waitPending"
+  5:
+    operation: "search"
+  6:
+    operation: "endHPC"
+  gt_url: "none"
+
 random-xs:
   max_pts: 10000
   1:

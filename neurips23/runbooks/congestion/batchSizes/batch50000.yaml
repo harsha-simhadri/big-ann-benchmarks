@@ -10,8 +10,8 @@ sift:
     operation: "batch_insert"
     start: 50000
     end: 1000000
-    batchSize: 2500
-    eventRate: 100
+    batchSize: 50000
+    eventRate: 10000
   4:
     operation: "waitPending"
   5:
@@ -32,8 +32,8 @@ random-xs:
     operation: "batch_insert"
     start: 5000
     end: 10000
-    batchSize: 2500
-    eventRate: 100
+    batchSize: 50000
+    eventRate: 10000
   4:
     operation: "waitPending"
   5:
@@ -54,8 +54,8 @@ msturing-10M-clustered:
     operation: "batch_insert"
     start: 50000
     end: 10000000
-    batchSize: 2500
-    eventRate: 100
+    batchSize: 50000
+    eventRate: 10000
   4:
     operation: "waitPending"
   5:
@@ -76,8 +76,8 @@ msturing-30M-clustered:
     operation: "batch_insert"
     start: 50000
     end: 29990000
-    batchSize: 2500
-    eventRate: 100
+    batchSize: 50000
+    eventRate: 10000
   4:
     operation: "waitPending"
   5:
@@ -98,8 +98,8 @@ random-plus-experiment:
     operation: "batch_insert"
     start: 50000
     end: 500000
-    batchSize: 2500
-    eventRate: 100
+    batchSize: 50000
+    eventRate: 10000
   4:
     operation: "waitPending"
   5:

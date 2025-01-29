@@ -51,7 +51,14 @@ class CongestionDropWorker(AbstractThread):
         self.my_index_algo = my_index_algo
 
         self.randomContamination = False
+        self.randomDrop = False
+
         self.randomDropProb = 0.0
+        self.randomContaminationProb = 0.0
+
+        self.outOfOrder = False
+
+
 
 
 
@@ -147,19 +154,43 @@ class CongestionDropWorker(AbstractThread):
 
 
     def insert(self,X,id):
-        if(self.insert_queue.empty() or (not self.congestion_drop)):
-            if(not self.randomContamination):
-                self.insert_queue.push(NumpyIdxPair(X,id))
-            else:
-                rand = random.random()
-                if(rand<self.randomDropProb):
-                    rand_X = np.random.random(X.shape)
-                    self.insert_queue.push(NumpyIdxPair(rand_X, id))
-                else:
+        if(not self.randomDrop):
+            if(self.insert_queue.empty() or (not self.congestion_drop)):
+                if(not self.randomContamination):
                     self.insert_queue.push(NumpyIdxPair(X,id))
+                else:
+                    rand = random.random()
+                    if(rand<self.randomContaminationProb):
+                        rand_X = np.random.random(X.shape)
+                        print(f"RANDOM CONTAMINATING DATA {id[0]}:{id[-1]}")
+                        # simply replace the current batch with random data
+                        self.insert_queue.push(NumpyIdxPair(rand_X, id))
+                    else:
+                        self.insert_queue.push(NumpyIdxPair(X,id))
+            else:
+                print(f"DROPPING DATA {id[0]}:{id[-1]}")
+                pass
         else:
-            print(f"DROPPING DATA {id[0]}:{id[-1]}")
-            pass
+            rand_drop =random.random()
+            if(rand_drop<self.randomDropProb):
+                print(f"RANDOM DROPPING DATA {id[0]}:{id[-1]}")
+                pass
+            if(self.insert_queue.empty() or (not self.congestion_drop)):
+                if(not self.randomContamination):
+                    self.insert_queue.push(NumpyIdxPair(X,id))
+                else:
+                    rand = random.random()
+                    if(rand<self.randomContaminationProb):
+                        print(f"RANDOM CONTAMINATING DATA {id[0]}:{id[-1]}")
+                        rand_X = np.random.random(X.shape)
+                        # simply replace the current batch with random data
+                        self.insert_queue.push(NumpyIdxPair(rand_X, id))
+                    else:
+                        self.insert_queue.push(NumpyIdxPair(X,id))
+            else:
+                print(f"DROPPING DATA {id[0]}:{id[-1]}")
+                pass
+
         return
 
     def delete(self, id):
@@ -174,6 +205,22 @@ class CongestionDropWorker(AbstractThread):
         self.my_index_algo.query(X,k)
         self.res = self.my_index_algo.res
         return
+
+    def enableScenario(self, randomContamination=False, randomContaminationProb=0.0, randomDrop=False,
+                       randomDropProb=0.0, outOfOrder=False):
+        self.randomDropProb = randomDropProb
+        if(randomDropProb):
+            print("Enabling random dropping!")
+        self.randomDrop = randomDrop
+
+        self.randomContamination = randomContamination
+        if(randomContamination):
+            print("Enabling random contamination!")
+        self.randomContaminationprob = randomContaminationProb
+
+        if(outOfOrder):
+            print("Enabling outta order ingestion!")
+        self.outOfOrder = outOfOrder
 
 class BaseCongestionDropANN(BaseANN):
     workers: List[CongestionDropWorker]
@@ -317,5 +364,12 @@ class BaseCongestionDropANN(BaseANN):
     def replace(self,X,ids):
         self.delete(X,ids)
         self.insert(X,ids)
+
+
+    def enableScenario(self, randomContamination=False, randomContaminationProb=0.0, randomDrop=False,
+                       randomDropProb=0.0, outOfOrder=False):
+        for i in range(self.parallel_workers):
+            self.workers[i].enableScenario(self, randomContamination, randomContaminationProb, randomDrop, randomDropProb, outOfOrder)
+
 
 
