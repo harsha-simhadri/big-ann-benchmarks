@@ -3,13 +3,14 @@ random-xs:
   1:
     operation: "startHPC"
   2:
-    operation: "enableScenario"
-    randomContamination: 1
-    randomContaminationProb: 0.15
-  3:
     operation: "initial"
     start: 0
     end: 5000
+  3:
+    operation: "enableScenario"
+    randomContamination: 1
+    randomContaminationProb: 0.15
+
   4:
     operation: "batch_insert"
     start: 5000
@@ -29,13 +30,13 @@ sift:
   1:
     operation: "startHPC"
   2:
-    operation: "enableScenario"
-    randomContamination: 1
-    randomContaminationProb: 0.15
-  3:
     operation: "initial"
     start: 0
     end: 50000
+  3:
+    operation: "enableScenario"
+    randomContamination: 1
+    randomContaminationProb: 0.15
   4:
     operation: "batch_insert"
     start: 50000

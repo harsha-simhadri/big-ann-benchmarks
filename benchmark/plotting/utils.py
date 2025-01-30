@@ -112,6 +112,10 @@ def compute_metrics_all_runs(dataset, dataset_name, res, recompute=False,
                     true_nn_across_steps.append(true_nn)
 
                 if entry['operation'] == 'batch_insert':
+                    temp_gt_dir = gt_dir
+                    if entry['batchSize']==2500 and runbook_path!='neurips23/runbooks/congestion/test_experiment.yaml':
+                        temp_gt_dir = benchmark.congestion.compute_gt.gt_dir(dataset, 'neurips23/runbooks/congestion/general_experiment/general_experiment.yaml')
+
                     true_nn_across_batches.append([])
                     end = entry['end']
                     start = entry['start']
@@ -121,14 +125,14 @@ def compute_metrics_all_runs(dataset, dataset_name, res, recompute=False,
                     for i in range(batch_step):
                         continuous_counter += batchSize
                         if(continuous_counter >= (end-start)/100):
-                            step_gt_path = os.path.join(gt_dir, 'batch' +str(num_batch_insert) +"_"+str(i) + '.gt100')
+                            step_gt_path = os.path.join(temp_gt_dir, 'batch' +str(num_batch_insert) +"_"+str(i) + '.gt100')
                             true_nn = knn_result_read(step_gt_path)
                             true_nn_across_batches[-1].append(true_nn)
                             continuous_counter = 0
                     if (start + batch_step * batchSize < end and start + (batch_step + 1) * batchSize > end):
                         continuous_counter += batchSize
                         if(continuous_counter>=(end-start)/100):
-                            step_gt_path = os.path.join(gt_dir, 'batch' + str(num_batch_insert) + "_" + str(batch_step) + '.gt100')
+                            step_gt_path = os.path.join(temp_gt_dir, 'batch' + str(num_batch_insert) + "_" + str(batch_step) + '.gt100')
 
                             true_nn = knn_result_read(step_gt_path)
                             true_nn_across_batches[-1].append(true_nn)

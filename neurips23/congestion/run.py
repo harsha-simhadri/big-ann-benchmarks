@@ -6,6 +6,7 @@ from benchmark.algorithms.base_runner import BaseRunner
 from benchmark.datasets import DATASETS
 from benchmark.results import get_result_filename
 import tracemalloc
+import random
 
 def generateTimestamps(rows, eventRate=4000):
     """
@@ -127,6 +128,13 @@ class CongestionRunner(BaseRunner):
             'querySize':ds.nq,
             'insertThroughput':[]
         }
+
+        randomDrop = False
+        randomContamination = False
+        outOfOrder = False
+        randomContaminationProb = 0.0
+        randomDropProb = 0.0
+
         totalStart = time.time()
         for step, entry in enumerate(runbook):
             start_time = time.time()
@@ -140,9 +148,7 @@ class CongestionRunner(BaseRunner):
                     print(type(algo))
                     algo.startHPC()
                 case 'enableScenario':
-                    randomDrop = False
-                    randomContamination = False
-                    outOfOrder = False
+
                     if(entry.get("randomContamination", 0)==1):
                         randomContamination = True
                     if(entry.get("randomDrop", 0 )==1):
@@ -179,9 +185,27 @@ class CongestionRunner(BaseRunner):
                     attrs["latencyInsert"].append(0)
                     attrs['continuousQueryLatencies'].append([])
                     attrs['continuousQueryResults'].append([])
+
+
+
                     start_time = time.time()
                     continuous_counter = 0
                     for i in range(batch_step):
+
+                        data = ds.get_data_in_range(start+i*batchSize,start+(i+1)*batchSize)
+                        insert_ids = ids[i*batchSize:(i+1)*batchSize]
+                        if(randomContamination ):
+                            if(random.random()<randomContaminationProb):
+                                print(f"RANDOM CONTAMINATING DATA {ids[0]}:{ids[-1]}")
+                                data = np.random.random(data.shape)
+
+                        if(outOfOrder):
+                            length = data.shape[0]
+                            order = np.random.permutation(length)
+                            temp_data = data
+                            data = data[order]
+                            insert_ids = insert_ids[order]
+
                         tNow = (time.time()-start_time)*1e6
                         tExpectedArrival = eventTimeStamps[(i+1)*batchSize-1]
                         while tNow<tExpectedArrival:
@@ -189,9 +213,16 @@ class CongestionRunner(BaseRunner):
                             tNow = (time.time()-start_time)*1e6
                         arrivalTimeStamps[i*batchSize:(i+1)*batchSize] = tExpectedArrival
 
-                        print(f'step {start+i*batchSize}:{start+(i+1)*batchSize}')
+
+
+                        #print(f'step {start+i*batchSize}:{start+(i+1)*batchSize}')
+
+
+
+
+
                         t0 = time.time()
-                        algo.insert(ds.get_data_in_range(start+i*batchSize,start+(i+1)*batchSize), ids[i*batchSize:(i+1)*batchSize])
+                        algo.insert(data, insert_ids)
                         attrs["latencyInsert"][-1]+=(time.time()-t0)*1e6
                         processedTimeStamps[i*batchSize:(i+1)*batchSize] = (time.time()-start_time)*1e6
 
@@ -217,9 +248,27 @@ class CongestionRunner(BaseRunner):
                         while tNow<tExpectedArrival:
                             # busy waiting for a batch to arrive
                             tNow = (time.time()-start_time)*1e6
+
+                        data = ds.get_data_in_range(start+i*batchSize,start+(i+1)*batchSize)
+                        insert_ids = ids[i*batchSize:(i+1)*batchSize]
+                        if(randomContamination):
+                            if(random.random()<randomContaminationProb):
+                                print(f"RANDOM CONTAMINATING DATA {ids[0]}:{ids[-1]}")
+                                data = np.random.random(data.shape)
+
+                        if(outOfOrder):
+                            length = data.shape[0]
+                            order = np.random.permutation(length)
+                            data = data[order]
+                            insert_ids = insert_ids[order]
+
+
                         print(f'last {start+batch_step*batchSize}:{end}')
                         t0=time.time()
-                        algo.insert(ds.get_data_in_range(start+batch_step*batchSize,end), ids[batch_step*batchSize:])
+
+
+
+                        algo.insert(data, insert_ids)
                         attrs["latencyInsert"][-1]+=(time.time()-t0)*1e6
                         processedTimeStamps[batch_step*batchSize:end] = (time.time() - start_time) * 1e6
                         arrivalTimeStamps[batch_step*batchSize:end] = tExpectedArrival

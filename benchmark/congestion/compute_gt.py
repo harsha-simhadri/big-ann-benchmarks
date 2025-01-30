@@ -45,6 +45,8 @@ def get_next_set(tag_to_id: np.ndarray, entry):
             return tag_to_id
         case 'waitPending':
             return tag_to_id
+        case 'enableScenario':
+            return tag_to_id
         case _:       
             raise ValueError('Undefined entry in runbook')
         
@@ -94,7 +96,10 @@ def output_gt(ds, tag_to_id, step, gt_cmdline, runbook_path):
     os.system(rm_cmdline)
 
 
-def output_gt_batch(ds, tag_to_id, num_batch_insert, step, gt_cmdline, runbook_path):
+def output_gt_batch(ds, tag_to_id, num_batch_insert, step, gt_cmdline, runbook_path, batchSize):
+    if batchSize==2500 and runbook_path!='neurips23/runbooks/congestion/test_experiment.yaml' and runbook_path!="neurips23/runbooks/congestion/general_experiment/general_experiment.yaml":
+        return
+
     ids_list = []
     tags_list = []
     for tag, id in tag_to_id.items():
@@ -212,7 +217,7 @@ def main():
                 continuous_counter+=batchSize
                 if(continuous_counter>=(end-start)/100):
                     print(f"{i}: {start + i * batchSize}~{start + (i + 1) * batchSize} output gt")
-                    output_gt_batch(ds, tag_to_id, num_batch_insert, i, common_cmd, args.runbook_file)
+                    output_gt_batch(ds, tag_to_id, num_batch_insert, i, common_cmd, args.runbook_file, batchSize)
                     continuous_counter = 0
 
             if (start + batch_step * batchSize < end and start + (batch_step + 1) * batchSize > end):
@@ -223,7 +228,7 @@ def main():
                 continuous_counter+=batchSize
                 if(continuous_counter>=(end-start)/100):
                     print(f"{batch_step}: {start + batch_step * batchSize}~{end} output gt")
-                    output_gt_batch(ds, tag_to_id, num_batch_insert, batch_step, common_cmd, args.runbook_file)
+                    output_gt_batch(ds, tag_to_id, num_batch_insert, batch_step, common_cmd, args.runbook_file, batchSize)
                     continuous_counter = 0
 
             num_batch_insert += 1
