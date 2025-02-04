@@ -217,3 +217,14 @@ gt_url = "https://comp21storage.z5.web.core.windows.net/comp21/MSFT-TURING-ANNS/
 max_points = 270000
 gen_exp_time_runbook(dataset_name, dataset_size, max_t, dataset_file, ratios, timesteps, seed, True, gt_url, max_points)
 
+ratios = (0, 4, 18)
+timesteps = (0, 50, 5)
+seed = 5554
+dataset_file = 'msturingpq-100K_expiration_time_runbook.yaml'
+dataset_name = 'msturingpq-100K'
+dataset_size = 100000
+max_t = 100
+gt_url = None
+max_points = 28000
+gen_exp_time_runbook(dataset_name, dataset_size, max_t, dataset_file, ratios, timesteps, seed, False, gt_url, True, max_points)
+
