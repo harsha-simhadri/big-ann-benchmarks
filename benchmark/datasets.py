@@ -1560,8 +1560,8 @@ class REDDIT(DatasetCompetitionFormat):
 class COCO(DatasetCompetitionFormat):
     def __init__(self):
         self.d = 768
-        self.nb = 10000
-        self.nq = 100
+        self.nb = 100000
+        self.nq = 500
         self.dtype = "float32"
         self.ds_fn = f"data_{self.nb}_{self.d}"
         self.qs_fn = f"queries_{self.nq}_{self.d}"
@@ -1610,8 +1610,8 @@ class COCO(DatasetCompetitionFormat):
 class CIRR(DatasetCompetitionFormat):
     def __init__(self):
         self.d = 768
-        self.nb = 10000
-        self.nq = 100
+        self.nb = 101335
+        self.nq = 4181
         self.dtype = "float32"
         self.ds_fn = f"data_{self.nb}_{self.d}"
         self.qs_fn = f"queries_{self.nq}_{self.d}"
