@@ -15,4 +15,3 @@ for RUN in "${RUNBOOKS[@]}"; do
   done
 done
 
-echo "All experiments completed."

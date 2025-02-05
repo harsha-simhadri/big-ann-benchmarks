@@ -95,7 +95,7 @@ if __name__ == "__main__":
     neurips23tracks = ['streaming', 'none', 'congestion']
     tracks = [args.track]
     is_first = True
-    # datasets = ['random-xs']
+    datasets = ['sift']
     for track in tracks:
         for dataset_name in datasets:
             print(f"Looking at track:{track}, dataset:{dataset_name}")
@@ -120,15 +120,50 @@ if __name__ == "__main__":
                                     #'neurips23/runbooks/streaming/msmarco-100M_expirationtime_runbook.yaml'
                                     ]
             if track == 'congestion':
-                runbook_paths = [#'neurips23/runbooks/congestion/simple_runbook_2.yaml',
-                                 #'neurips23/runbooks/congestion/simple_runbook.yaml',
-                                 #'neurips23/runbooks/congestion/test_experiment.yaml',
-                                 'neurips23/runbooks/congestion/general_experiment/general_experiment.yaml',
-                                 'neurips23/runbooks/congestion/outOfOrder/outOfOrder.yaml',
-                                 'neurips23/runbooks/congestion/randomDrop/randomDrop0.25.yaml',
-                                 'neurips23/runbooks/congestion/randomContamination/randomContamination0.25.yaml',
-                                 'neurips23/runbooks/congestion/randomContamination/randomContamination0.05.yaml'
-                                ]
+                runbook_paths = []
+                if args.output == "gen":
+                    runbook_paths = [#'neurips23/runbooks/congestion/simple_runbook_2.yaml',
+                                     #'neurips23/runbooks/congestion/simple_runbook.yaml',
+                                     #'neurips23/runbooks/congestion/test_experiment.yaml',
+                                     'neurips23/runbooks/congestion/general_experiment/general_experiment.yaml'
+                                    ]
+                if args.output == "batch":
+                    runbook_paths = ['neurips23/runbooks/congestion/batchSizes/batch100.yaml',
+                                     'neurips23/runbooks/congestion/batchSizes/batch500.yaml',
+                                     'neurips23/runbooks/congestion/batchSizes/batch1000.yaml',
+                                     'neurips23/runbooks/congestion/batchSizes/batch2500.yaml',
+                                     'neurips23/runbooks/congestion/batchSizes/batch5000.yaml',
+                                     'neurips23/runbooks/congestion/batchSizes/batch10000.yaml',
+                                     'neurips23/runbooks/congestion/batchSizes/batch20000.yaml',
+                                     'neurips23/runbooks/congestion/batchSizes/batch50000.yaml',
+                                     ]
+                if args.output == "event":
+                    runbook_paths = ['neurips23/runbooks/congestion/eventRates/event100.yaml',
+                                     'neurips23/runbooks/congestion/eventRates/event500.yaml',
+                                     'neurips23/runbooks/congestion/eventRates/event1000.yaml',
+                                     'neurips23/runbooks/congestion/eventRates/event2500.yaml',
+                                     'neurips23/runbooks/congestion/eventRates/event5000.yaml',
+                                     'neurips23/runbooks/congestion/eventRates/event10000.yaml',
+                                     'neurips23/runbooks/congestion/eventRates/event20000.yaml',
+                                     'neurips23/runbooks/congestion/eventRates/event50000.yaml'
+                                     ]
+                if args.output=='conceptDrift':
+                    runbook_paths=['neurips23/runbooks/congestion/conceptDrift/conceptDrift_experiment.yaml']
+                if args.output=='randomContamination':
+                    runbook_paths=['neurips23/runbooks/congestion/randomContamination/randomContamination0.05.yaml',
+                                   'neurips23/runbooks/congestion/randomContamination/randomContamination0.10.yaml',
+                                   'neurips23/runbooks/congestion/randomContamination/randomContamination0.15.yaml',
+                                   'neurips23/runbooks/congestion/randomContamination/randomContamination0.20.yaml',
+                                   'neurips23/runbooks/congestion/randomContamination/randomContamination0.25.yaml']
+                if args.output == 'randomDrop':
+                    runbook_paths=['neurips23/runbooks/congestion/randomDrop/randomDrop0.05.yaml',
+                                   'neurips23/runbooks/congestion/randomDrop/randomDrop0.10.yaml',
+                                   'neurips23/runbooks/congestion/randomDrop/randomDrop0.15.yaml',
+                                   'neurips23/runbooks/congestion/randomDrop/randomDrop0.20.yaml',
+                                   'neurips23/runbooks/congestion/randomDrop/randomDrop0.25.yaml']
+                if args.output == 'wordContamination':
+                    runbook_paths=['neurips23/runbooks/congestion/wordContamination/wordContamination_experiment.yaml']
+
             for runbook_path in runbook_paths:
                 print("Looking for runbook ", runbook_path)
                 results = load_all_results(dataset_name, neurips23track=track, runbook_path=runbook_path)

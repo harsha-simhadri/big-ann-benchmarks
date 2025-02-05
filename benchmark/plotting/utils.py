@@ -112,8 +112,9 @@ def compute_metrics_all_runs(dataset, dataset_name, res, recompute=False,
                     true_nn_across_steps.append(true_nn)
 
                 if entry['operation'] == 'batch_insert':
+                    batchSize = entry['batchSize']
                     temp_gt_dir = gt_dir
-                    if entry['batchSize']==2500 and runbook_path!='neurips23/runbooks/congestion/test_experiment.yaml':
+                    if batchSize==2500 and runbook_path!='neurips23/runbooks/congestion/test_experiment.yaml':
                         temp_gt_dir = benchmark.congestion.compute_gt.gt_dir(dataset, 'neurips23/runbooks/congestion/general_experiment/general_experiment.yaml')
 
                     true_nn_across_batches.append([])
