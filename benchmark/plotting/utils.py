@@ -111,7 +111,7 @@ def compute_metrics_all_runs(dataset, dataset_name, res, recompute=False,
                     true_nn = knn_result_read(step_gt_path)
                     true_nn_across_steps.append(true_nn)
 
-                if entry['operation'] == 'batch_insert':
+                if entry['operation'] == 'batch_insert' or entry['operation'] == 'batch_insert_delete':
                     batchSize = entry['batchSize']
                     temp_gt_dir = gt_dir
                     if batchSize==2500 and runbook_path!='neurips23/runbooks/congestion/test_experiment.yaml':

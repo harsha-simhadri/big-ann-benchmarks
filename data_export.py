@@ -95,7 +95,6 @@ if __name__ == "__main__":
     neurips23tracks = ['streaming', 'none', 'congestion']
     tracks = [args.track]
     is_first = True
-    datasets = ['sift']
     for track in tracks:
         for dataset_name in datasets:
             print(f"Looking at track:{track}, dataset:{dataset_name}")
@@ -163,6 +162,18 @@ if __name__ == "__main__":
                                    'neurips23/runbooks/congestion/randomDrop/randomDrop0.25.yaml']
                 if args.output == 'wordContamination':
                     runbook_paths=['neurips23/runbooks/congestion/wordContamination/wordContamination_experiment.yaml']
+                if args.output == 'bulkDeletion':
+                    runbook_paths = ['neurips23/runbooks/congestion/bulkDeletion/bulkDeletion0.1.yaml',
+                                     'neurips23/runbooks/congestion/bulkDeletion/bulkDeletion0.2.yaml',
+                                     'neurips23/runbooks/congestion/bulkDeletion/bulkDeletion0.3.yaml',
+                                     'neurips23/runbooks/congestion/bulkDeletion/bulkDeletion0.4.yaml',
+                                     'neurips23/runbooks/congestion/bulkDeletion/bulkDeletion0.5.yaml']
+                if args.output == 'batchDeletion':
+                    runbook_paths = ['neurips23/runbooks/congestion/batchDeletion/batchDeletion0.1.yaml',
+                                     'neurips23/runbooks/congestion/batchDeletion/batchDeletion0.2.yaml',
+                                     'neurips23/runbooks/congestion/batchDeletion/batchDeletion0.3.yaml',
+                                     'neurips23/runbooks/congestion/batchDeletion/batchDeletion0.4.yaml',
+                                     'neurips23/runbooks/congestion/batchDeletion/batchDeletion0.5.yaml']
 
             for runbook_path in runbook_paths:
                 print("Looking for runbook ", runbook_path)

@@ -32,6 +32,11 @@ def get_next_set(tag_to_id: np.ndarray, entry):
             for i in range(entry['end'] - entry['start']):
                 tag_to_id[i + entry['start']] = i + entry['start']
             return tag_to_id
+
+        case 'batch_insert_delete':
+            percentage = entry['deletion_percentage']
+            for i in range(entry['end'] - entry['start']):
+                tag_to_id[i + entry['start']] = i + entry['start']
         case 'replace':
             # replace key with value
             for i in range(entry['tags_end'] - entry['tags_start']):
@@ -96,8 +101,8 @@ def output_gt(ds, tag_to_id, step, gt_cmdline, runbook_path):
     os.system(rm_cmdline)
 
 
-def output_gt_batch(ds, tag_to_id, num_batch_insert, step, gt_cmdline, runbook_path, batchSize):
-    if batchSize==2500 and runbook_path!='neurips23/runbooks/congestion/test_experiment.yaml' and runbook_path!="neurips23/runbooks/congestion/general_experiment/general_experiment.yaml":
+def output_gt_batch(ds, tag_to_id, num_batch_insert, step, gt_cmdline, runbook_path, batchSize, with_deletion = False):
+    if not with_deletion and batchSize==2500 and runbook_path!='neurips23/runbooks/congestion/test_experiment.yaml' and runbook_path!="neurips23/runbooks/congestion/general_experiment/general_experiment.yaml":
         return
 
     ids_list = []
@@ -198,7 +203,7 @@ def main():
         # the first step must be an HPC and second must be initial
         if step == 1:
             tag_to_id = get_range_start_end(entry, {})
-        elif (entry['operation']!='batch_insert'):
+        elif (entry['operation']!='batch_insert' and entry['operation']!='batch_insert_delete'):
             tag_to_id = get_next_set(tag_to_id, entry)
         if (entry['operation'] == 'search'):
             output_gt(ds, tag_to_id, step, common_cmd, args.runbook_file)
@@ -229,6 +234,42 @@ def main():
                 if(continuous_counter>=(end-start)/100):
                     print(f"{batch_step}: {start + batch_step * batchSize}~{end} output gt")
                     output_gt_batch(ds, tag_to_id, num_batch_insert, batch_step, common_cmd, args.runbook_file, batchSize)
+                    continuous_counter = 0
+
+            num_batch_insert += 1
+        if (entry['operation'] == 'batch_insert_delete'):
+            batchSize = entry['batchSize']
+            end = entry['end']
+            start = entry['start']
+            percentage = entry['deletion_percentage']
+            batch_step = (end - start) // batchSize
+            continuous_counter = 0
+            for i in range(batch_step):
+
+
+                for j in range(start+i*batchSize,start+(i+1)*batchSize):
+                    tag_to_id[j] = j
+
+                for j in range(int(start+(i+1)*batchSize-batchSize*percentage), start+(i+1)*batchSize):
+                    tag_to_id.pop(j)
+
+                continuous_counter+=batchSize
+                if(continuous_counter>=(end-start)/100):
+                    print(f"{i}: {start + i * batchSize}~{start + (i + 1) * batchSize} output gt")
+                    output_gt_batch(ds, tag_to_id, num_batch_insert, i, common_cmd, args.runbook_file, batchSize, True)
+                    continuous_counter = 0
+
+            if (start + batch_step * batchSize < end and start + (batch_step + 1) * batchSize > end):
+
+                for j in range(start+batch_step*batchSize,end):
+                    tag_to_id[j] = j
+                for j in range(int(start+end-batchSize*percentage), end):
+                    tag_to_id.pop(j)
+
+                continuous_counter+=batchSize
+                if(continuous_counter>=(end-start)/100):
+                    print(f"{batch_step}: {start + batch_step * batchSize}~{end} output gt")
+                    output_gt_batch(ds, tag_to_id, num_batch_insert, batch_step, common_cmd, args.runbook_file, batchSize, True)
                     continuous_counter = 0
 
             num_batch_insert += 1

@@ -309,9 +309,141 @@ class CongestionRunner(BaseRunner):
                     counts['insert'] +=1
                 case 'delete':
                     ids = np.arange(entry['start'], entry['end'], dtype=np.uint32)
+                    print(f'delete {start}:{end}')
                     algo.delete(ids)
 
                     counts['delete'] +=1
+                case 'batch_insert_delete':
+                    tracemalloc.start()
+                    start = entry['start']
+                    end = entry['end']
+                    batchSize = entry['batchSize']
+                    eventRate = entry['eventRate']
+                    deletion_percentage = entry['deletion_percentage']
+                    print(f"Inserting with batch size={batchSize}")
+                    batch_step = (end - start) // batchSize
+                    ids = np.arange(start, end, dtype=np.uint32)
+                    eventTimeStamps = generateTimestamps(rows=end - start, eventRate=eventRate)
+                    arrivalTimeStamps = np.zeros(end - start, dtype=int)
+                    processedTimeStamps = np.zeros(end - start, dtype=int)
+                    attrs["latencyInsert"].append(0)
+                    attrs['continuousQueryLatencies'].append([])
+                    attrs['continuousQueryResults'].append([])
+
+                    start_time = time.time()
+                    continuous_counter = 0
+                    for i in range(batch_step):
+
+                        data = ds.get_data_in_range(start + i * batchSize, start + (i + 1) * batchSize)
+                        insert_ids = ids[i * batchSize:(i + 1) * batchSize]
+                        if (randomContamination):
+                            if (random.random() < randomContaminationProb):
+                                print(f"RANDOM CONTAMINATING DATA {ids[0]}:{ids[-1]}")
+                                data = np.random.random(data.shape)
+
+                        if (outOfOrder):
+                            length = data.shape[0]
+                            order = np.random.permutation(length)
+                            temp_data = data
+                            data = data[order]
+                            insert_ids = insert_ids[order]
+
+                        tNow = (time.time() - start_time) * 1e6
+                        tExpectedArrival = eventTimeStamps[(i + 1) * batchSize - 1]
+                        while tNow < tExpectedArrival:
+                            # busy waiting for a batch to arrive
+                            tNow = (time.time() - start_time) * 1e6
+                        arrivalTimeStamps[i * batchSize:(i + 1) * batchSize] = tExpectedArrival
+
+                        # print(f'step {start+i*batchSize}:{start+(i+1)*batchSize}')
+
+                        t0 = time.time()
+                        algo.insert(data, insert_ids)
+
+                        deletion_ids = ids[(int)((i+1) * batchSize-batchSize*deletion_percentage):(i + 1) * batchSize]
+                        algo.delete(deletion_ids)
+                        attrs["latencyInsert"][-1] += (time.time() - t0) * 1e6
+                        print(f'delete {deletion_ids[0]}:{deletion_ids[-1]}')
+
+                        processedTimeStamps[i * batchSize:(i + 1) * batchSize] = (time.time() - start_time) * 1e6
+
+                        # algo.waitPendingOperations()
+                        # continuous query phase
+                        continuous_counter += batchSize
+                        if (continuous_counter >= (end - start) / 100):
+                            print(f"{i}: {start + i * batchSize}~{start + (i + 1) * batchSize} querying")
+                            t0 = time.time()
+                            algo.query(Q, count)
+                            attrs['continuousQueryLatencies'][-1].append((time.time() - t0) * 1e6)
+
+                            results = algo.get_results()
+                            attrs[f'continuousQueryResults'][-1].append(results)
+                            # attrs[f'continuousQueryRecall{num_batch}_{i}'] = results
+                            continuous_counter = 0
+
+                        # process the rest
+                    if (start + batch_step * batchSize < end and start + (batch_step + 1) * batchSize > end):
+                        tNow = (time.time() - start_time) * 1e6
+                        tExpectedArrival = eventTimeStamps[end - start - 1]
+                        while tNow < tExpectedArrival:
+                            # busy waiting for a batch to arrive
+                            tNow = (time.time() - start_time) * 1e6
+
+                        data = ds.get_data_in_range(start + batch_step * batchSize, end)
+                        insert_ids = ids[batch_step * batchSize:end]
+                        if (randomContamination):
+                            if (random.random() < randomContaminationProb):
+                                print(f"RANDOM CONTAMINATING DATA {ids[0]}:{ids[-1]}")
+                                data = np.random.random(data.shape)
+
+                        if (outOfOrder):
+                            length = data.shape[0]
+                            order = np.random.permutation(length)
+                            data = data[order]
+                            insert_ids = insert_ids[order]
+
+                        print(f'last {start + batch_step * batchSize}:{end}')
+                        t0 = time.time()
+
+                        algo.insert(data, insert_ids)
+
+
+                        deletion_ids = ids[int(end - batchSize * deletion_percentage):end]
+                        algo.delete(deletion_ids)
+                        attrs["latencyInsert"][-1] += (time.time() - t0) * 1e6
+                        print(f'delete {deletion_ids[0]}:{deletion_ids[-1]}')
+                        processedTimeStamps[batch_step * batchSize:end] = (time.time() - start_time) * 1e6
+                        arrivalTimeStamps[batch_step * batchSize:end] = tExpectedArrival
+
+                        # algo.waitPendingOperations()
+                        # continuous query phase
+                        continuous_counter += batchSize
+                        if (continuous_counter >= (end - start) / 100):
+                            print(f"{i}: {start + i * batchSize}~{end} querying")
+
+                            t0 = time.time()
+                            algo.query(Q, count)
+                            attrs['continuousQueryLatencies'][-1].append((time.time() - t0) * 1e6)
+
+                            results = algo.get_results()
+                            attrs['continuousQueryResults'][-1].append(results)
+                            # attrs[f'continuousQueryRecall{num_batch}_{batch_step}'] = results
+                            continuous_counter = 0
+
+                    attrs['insertThroughput'].append((end - start) / ((attrs['latencyInsert'][-1]) / 1e6))
+                    filename = get_result_filename(dataset, count, definition, query_arguments, neurips23track="congestion",
+                                                   runbook_path=runbook_path)
+                    store_timestamps_to_csv(filename, ids, eventTimeStamps, arrivalTimeStamps, processedTimeStamps,
+                                            counts['batch_insert'])
+                    counts['batch_insert'] += 1
+
+                    current, peak = tracemalloc.get_traced_memory()
+                    if peak > attrs['updateMemoryFootPrint']:
+                        attrs['updateMemoryFootPrint'] = peak
+                    tracemalloc.stop()
+
+                    num_batch += 1
+
                 case 'replace':
                     tags_to_replace = np.arange(entry['tags_start'], entry['tags_end'], dtype=np.uint32)
                     ids_start = entry['ids_start']

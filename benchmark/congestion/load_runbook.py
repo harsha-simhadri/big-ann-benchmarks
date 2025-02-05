@@ -9,7 +9,7 @@ def load_runbook_congestion(dataset_name, max_pts, runbook_file):
         run_list = []
         while i in runbook:
             entry = runbook.get(i)
-            if entry['operation'] not in {'initial','insert', 'delete', 'search', 'replace', 'batch_insert','startHPC', 'endHPC', 'waitPending', 'enableScenario'}:
+            if entry['operation'] not in {'initial','insert', 'delete', 'search', 'replace', 'batch_insert','startHPC', 'endHPC', 'waitPending', 'enableScenario', 'batch_insert_delete'}:
                 raise Exception('Undefined runbook operation')
             if entry['operation'] in {'batch_insert'}:
                 if 'start' not in entry:
