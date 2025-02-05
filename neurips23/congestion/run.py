@@ -249,8 +249,8 @@ class CongestionRunner(BaseRunner):
                             # busy waiting for a batch to arrive
                             tNow = (time.time()-start_time)*1e6
 
-                        data = ds.get_data_in_range(start+i*batchSize,start+(i+1)*batchSize)
-                        insert_ids = ids[i*batchSize:(i+1)*batchSize]
+                        data = ds.get_data_in_range(start+batch_step*batchSize,end)
+                        insert_ids = ids[batch_step*batchSize:]
                         if(randomContamination):
                             if(random.random()<randomContaminationProb):
                                 print(f"RANDOM CONTAMINATING DATA {ids[0]}:{ids[-1]}")
@@ -270,8 +270,8 @@ class CongestionRunner(BaseRunner):
 
                         algo.insert(data, insert_ids)
                         attrs["latencyInsert"][-1]+=(time.time()-t0)*1e6
-                        processedTimeStamps[batch_step*batchSize:end] = (time.time() - start_time) * 1e6
-                        arrivalTimeStamps[batch_step*batchSize:end] = tExpectedArrival
+                        processedTimeStamps[batch_step*batchSize:end-start] = (time.time() - start_time) * 1e6
+                        arrivalTimeStamps[batch_step*batchSize:end-start] = tExpectedArrival
 
                         #algo.waitPendingOperations()
                         # continuous query phase
@@ -390,7 +390,7 @@ class CongestionRunner(BaseRunner):
                             tNow = (time.time() - start_time) * 1e6
 
                         data = ds.get_data_in_range(start + batch_step * batchSize, end)
-                        insert_ids = ids[batch_step * batchSize:end]
+                        insert_ids = ids[batch_step * batchSize:]
                         if (randomContamination):
                             if (random.random() < randomContaminationProb):
                                 print(f"RANDOM CONTAMINATING DATA {ids[0]}:{ids[-1]}")
@@ -408,12 +408,12 @@ class CongestionRunner(BaseRunner):
                         algo.insert(data, insert_ids)
 
 
-                        deletion_ids = ids[int(end - batchSize * deletion_percentage):end]
+                        deletion_ids = ids[int(end - batchSize * deletion_percentage):]
                         algo.delete(deletion_ids)
                         attrs["latencyInsert"][-1] += (time.time() - t0) * 1e6
                         print(f'delete {deletion_ids[0]}:{deletion_ids[-1]}')
-                        processedTimeStamps[batch_step * batchSize:end] = (time.time() - start_time) * 1e6
-                        arrivalTimeStamps[batch_step * batchSize:end] = tExpectedArrival
+                        processedTimeStamps[batch_step * batchSize:end-start] = (time.time() - start_time) * 1e6
+                        arrivalTimeStamps[batch_step * batchSize:end-start] = tExpectedArrival
 
                         # algo.waitPendingOperations()
                         # continuous query phase
