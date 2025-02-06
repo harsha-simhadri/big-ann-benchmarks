@@ -10,7 +10,7 @@ done
 
 
 DATASETS=("random-plus-experiment" "sift")
-RUNBOOKS=("100.yaml" "500.yaml" "1000.yaml" "2500.yaml" "5000.yaml" "10000.yaml" "20000.yaml")
+RUNBOOKS=("100.yaml" "500.yaml" "5000.yaml" "20000.yaml" "50000.yaml")
 # Iterate through each combination of algorithm and dataset
 for RUN in "${RUNBOOKS[@]}"; do
   for DS in "${DATASETS[@]}"; do
@@ -26,7 +26,7 @@ for DS in "${DATASETS[@]}"; do
 done
 
 DATASETS=("random-plus-experiment" "sift")
-RUNBOOKS=("100.yaml" "500.yaml" "1000.yaml" "2500.yaml" "5000.yaml" "10000.yaml" "20000.yaml" "50000.yaml")
+RUNBOOKS=("1000.yaml" "2500.yaml" "5000.yaml" "20000.yaml" "50000.yaml")
 
 # Iterate through each combination of algorithm and dataset
 for RUN in "${RUNBOOKS[@]}"; do
