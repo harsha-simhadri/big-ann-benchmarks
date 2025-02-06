@@ -1915,7 +1915,10 @@ class RandomPlus(DatasetCompetitionFormat):
         self.ds_fn = f"data_{self.nb}_{self.d}"
         self.qs_fn = f"queries_{self.nq}_{self.d}"
         self.gt_fn = f"gt_{self.nb}_{self.nq}_{self.d}"
-        self.basedir = os.path.join(BASEDIR, f"{basedir}{self.nb}")
+        if self.d == 768:
+            self.basedir = os.path.join(BASEDIR, f"{basedir}{self.nb}")
+        else:
+            self.basedir = os.path.join(BASEDIR, f"{basedir}_{self.nb}_{self.d}")
         self.drift_position = drift_position
         self.drift_offset = drift_offset
         self.query_noise_fraction = query_noise_fraction
@@ -1981,6 +1984,9 @@ class RandomPlus(DatasetCompetitionFormat):
         return 10
 
 DATASETS = {
+    'random-plus(500000,1000,4096)': lambda : RandomPlus(500000, 1000, 4096, 7758258, 0, 0.5, 0, "randomplus"),
+    'random-plus(500000,1000,2048)': lambda : RandomPlus(500000, 1000, 2048, 7758258, 0, 0.5, 0, "randomplus"),
+    'random-plus(500000,1000,1024)': lambda : RandomPlus(500000, 1000, 1024, 7758258, 0, 0.5, 0, "randomplus"),
     'bigann-1B': lambda : BigANNDataset(1000),
     'bigann-100M': lambda : BigANNDataset(100),
     'bigann-10M': lambda : BigANNDataset(10),

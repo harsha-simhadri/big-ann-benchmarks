@@ -592,3 +592,47 @@ random-plus(500000,1000,1024):
   6:
     operation: "search"
   gt_url: "none"
+
+random-plus(500000,1000,2048):
+  max_pts: 500000
+  1:
+    operation: "insert"
+    start: 0
+    end: 500000
+  2:
+    operation: "search"
+  3:
+    operation: "delete"
+    start: 0
+    end: 250000
+  4:
+    operation: "search"
+  5:
+    operation: "insert"
+    start: 0
+    end: 250000
+  6:
+    operation: "search"
+  gt_url: "none"
+
+random-plus(500000,1000,4096):
+  max_pts: 500000
+  1:
+    operation: "insert"
+    start: 0
+    end: 500000
+  2:
+    operation: "search"
+  3:
+    operation: "delete"
+    start: 0
+    end: 250000
+  4:
+    operation: "search"
+  5:
+    operation: "insert"
+    start: 0
+    end: 250000
+  6:
+    operation: "search"
+  gt_url: "none"
