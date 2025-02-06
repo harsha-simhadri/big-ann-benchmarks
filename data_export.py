@@ -176,6 +176,8 @@ if __name__ == "__main__":
                                      'neurips23/runbooks/congestion/batchDeletion/batchDeletion0.5.yaml']
                 if args.output == "curseDim":
                     runbook_paths = ['neurips23/runbooks/congestion/dimensions/dimensions_experiment.yaml']
+                if args.output == "multiModal":
+                    runbook_paths = ['neurips23/runbooks/congestion/multiModal/multiModal_experiment.yaml']
 
             for runbook_path in runbook_paths:
                 print("Looking for runbook ", runbook_path)

@@ -102,7 +102,8 @@ def output_gt(ds, tag_to_id, step, gt_cmdline, runbook_path):
 
 
 def output_gt_batch(ds, tag_to_id, num_batch_insert, step, gt_cmdline, runbook_path, batchSize, with_deletion = False):
-    if not with_deletion and batchSize==2500 and runbook_path!='neurips23/runbooks/congestion/test_experiment.yaml' and runbook_path!="neurips23/runbooks/congestion/general_experiment/general_experiment.yaml":
+    if not with_deletion and batchSize==2500 and runbook_path!='neurips23/runbooks/congestion/test_experiment.yaml' and runbook_path!="neurips23/runbooks/congestion/general_experiment/general_experiment.yaml"\
+            and "batchDeletion" not in runbook_path and "bulkDeletion" not in runbook_path and "conceptDrift" not in runbook_path and "dimensions" not in runbook_path and "multiModal" not in runbook_path and "wordContamination" not in runbook_path:
         return
 
     ids_list = []

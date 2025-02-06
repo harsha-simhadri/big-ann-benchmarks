@@ -114,7 +114,7 @@ def compute_metrics_all_runs(dataset, dataset_name, res, recompute=False,
                 if entry['operation'] == 'batch_insert' or entry['operation'] == 'batch_insert_delete':
                     batchSize = entry['batchSize']
                     temp_gt_dir = gt_dir
-                    if batchSize==2500 and runbook_path!='neurips23/runbooks/congestion/test_experiment.yaml':
+                    if batchSize==2500 and runbook_path!='neurips23/runbooks/congestion/test_experiment.yaml' and "batchDeletion" not in runbook_path and "bulkDeletion" not in runbook_path and "conceptDrift" not in runbook_path and "dimensions" not in runbook_path and "multiModal" not in runbook_path and "wordContamination" not in runbook_path:
                         temp_gt_dir = benchmark.congestion.compute_gt.gt_dir(dataset, 'neurips23/runbooks/congestion/general_experiment/general_experiment.yaml')
 
                     true_nn_across_batches.append([])

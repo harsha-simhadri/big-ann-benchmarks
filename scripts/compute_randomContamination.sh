@@ -1,0 +1,11 @@
+#!/bin/bash
+
+DATASETS=("sift")
+RUNBOOKS=("0.05.yaml" "0.10.yaml" "0.15.yaml" "0.20.yaml" "0.25.yaml")
+# Iterate through each combination of algorithm and dataset
+
+for RUN in "${RUNBOOKS[@]}"; do
+  for DS in "${DATASETS[@]}"; do
+    python3 benchmark/congestion/compute_gt.py --runbook neurips23/runbooks/congestion/randomContamination/randomContamination"$RUN" --dataset "$DS" --gt_cmdline_tool ~/DiskANN/build/apps/utils/compute_groundtruth
+  done
+done
