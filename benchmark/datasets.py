@@ -25,41 +25,37 @@ BASEDIR = "data/"
 
 
 def load_data(path):
-    import torch
     with open(path, "rb") as f:
-        nb_d = np.fromfile(f, dtype=np.int32, count=2)
+        nb_d = np.fromfile(f, dtype=numpy.int32,count=2)
         nb, d = nb_d[0], nb_d[1]
-        vectors = np.fromfile(f, dtype=np.int32).reshape((nb, d))
-    vectors_tensor = torch.tensor(vectors, dtype=torch.float32)
-    return nb, d, vectors_tensor
+        vectors = np.fromfile(f,dtype=numpy.float32).reshape((nb, d))
+    return nb, d, vectors
 
 def sample_vectors(vectors, nb, nq):
-    import torch
     num = vectors.shape[0]
-    if num < nb + nq:
-        raise ValueError("Not enough vectors to sample!")
+    if num >= nb + nq:
 
-    indices = torch.randperm(nb + nq)
+        indices = numpy.random.permutation(nb + nq)
 
-    index_vectors = vectors[indices[:nb]]
+        index_vectors = vectors[indices[:nb]]
 
-    query_vectors = vectors[indices[nb:nb + nq]]
-    return index_vectors, query_vectors
+        query_vectors = vectors[indices[nb:nb + nq]]
+        return index_vectors, query_vectors
+    else:
+        indices = numpy.random.permutation(num)
+        query_vectors = vectors[indices[:nq]]
+        return vectors, query_vectors
 
-def save_data(vectors_index_tensor, dataset=None, type=None, basedir=None):
-    import torch
+def save_data(vectors_index, dataset=None, type=None, basedir=None):
     if basedir is None:
         basedir = Path.cwd()
         if dataset is not None:
             basedir = basedir/'dataset'/dataset
             basedir.mkdir(parents=True, exist_ok=True)
 
-    if isinstance(vectors_index_tensor, np.ndarray):
-        vectors_index_tensor = torch.tensor(vectors_index_tensor, dtype=torch.float32)
-
     # 获取数据的维度
-    nb = vectors_index_tensor.shape[0]  # 索引向量的数量
-    d = vectors_index_tensor.shape[1]  # 向量的维度
+    nb = vectors_index.shape[0]  # 索引向量的数量
+    d = vectors_index.shape[1]  # 向量的维度
 
     path = os.path.join(basedir, type + '_' + str(nb) + '_' + str(d))
     # 保存索引数据
@@ -67,7 +63,7 @@ def save_data(vectors_index_tensor, dataset=None, type=None, basedir=None):
         # 保存 nb 和 d
         np.array([nb, d], dtype='uint32').tofile(f)
         # 保存索引向量
-        vectors_index_tensor.numpy().astype('float32').tofile(f)
+        vectors_index.tofile(f)
 
     return path
 
@@ -1712,7 +1708,7 @@ class WTE(DatasetCompetitionFormat):
     def __init__(self, dataset_name):
         self.d = 768
         self.nb = 100000
-        self.nq = 100
+        self.nq = 1000
         self.dtype = "float32"
         self.dataset_name = dataset_name
         self.ds_fn = f"data_{self.nb}_{self.d}"
@@ -1752,12 +1748,11 @@ class WTE(DatasetCompetitionFormat):
 
         if prepocessflag == 0:
             num, dim, vectors = load_data(self.basedir+'/data_100000_768')
-            index_vectors, _ = sample_vectors(vectors, self.nb, self.nq)
+            index_vectors, query_vectors = sample_vectors(vectors, self.nb, self.nq)
             save_data(index_vectors, type='data', basedir=self.basedir)
 
-            num, dim, vectors = load_data(self.basedir+'/queries_100000_768')
-            _, query_vectors = sample_vectors(vectors, 0, self.nq)
             save_data(query_vectors, type='queries', basedir=self.basedir)
+
 
     def search_type(self):
         return "knn"
@@ -1936,34 +1931,33 @@ class RandomPlus(DatasetCompetitionFormat):
             return
 
         from sklearn.neighbors import NearestNeighbors
-        import torch
 
-        torch.manual_seed(self.seed)
+
         np.random.seed(self.seed)
-        data = torch.rand((self.nb, self.d), dtype=torch.float32)
+        data = np.random.rand(self.nb, self.d)
 
         if self.drift_position > 0 and self.drift_position < self.nb:
             print(f"I will introduce concept drift from {self.drift_position}, drift offset={self.drift_offset}")
             data[self.drift_position:] = data[self.drift_position:] * (1.0 - self.drift_offset)
 
-        indices = torch.randperm(data.size(0))[:self.nq]
-        queries = data[indices]
+        indices = numpy.random.permutation(data.shape[0])
+        queries = data[indices][:self.nq]
 
         if self.query_noise_fraction > 0:
-            queries = (1 - self.query_noise_fraction) * queries + self.query_noise_fraction * torch.rand_like(queries)
+            queries = (1 - self.query_noise_fraction) * queries + self.query_noise_fraction * numpy.random.rand(queries.shape[0], queries.shape[1])
 
         # print(os.path.join(self.basedir, self.ds_fn))
         with open(os.path.join(self.basedir, self.ds_fn), "wb") as f:
             np.array([self.nb, self.d], dtype='uint32').tofile(f)
-            data.numpy().astype('float32').tofile(f)
+            data.astype('float32').tofile(f)
 
         # print(os.path.join(self.basedir, self.qs_fn))
         with open(os.path.join(self.basedir, self.qs_fn), "wb") as f:
             np.array([self.nq, self.d], dtype='uint32').tofile(f)
-            queries.numpy().astype('float32').tofile(f)
+            queries.astype('float32').tofile(f)
 
-        nbrs = NearestNeighbors(n_neighbors=100, metric="euclidean", algorithm='brute').fit(data.numpy())
-        D, I = nbrs.kneighbors(queries.numpy())
+        nbrs = NearestNeighbors(n_neighbors=100, metric="euclidean", algorithm='brute').fit(data)
+        D, I = nbrs.kneighbors(queries)
 
         # print(os.path.join(self.basedir, self.gt_fn))
         with open(os.path.join(self.basedir, self.gt_fn), "wb") as f:
