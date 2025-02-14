@@ -1,0 +1,25 @@
+random-xs:
+  SONG:
+    docker-tag: neurips23-streaming-SONG
+    module: neurips23.streaming.SONG.SONG
+    constructor: SONG
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{"indexkey": "SONG"}]
+        query-args: |
+          [{"ef":30}]
+
+msturing-30M-clustered:
+  SONG:
+    docker-tag: neurips23-streaming-SONG
+    module: neurips23.streaming.SONG.SONG
+    constructor: SONG
+    base-args: ["@metric"]
+    run-groups:
+      dynamic4M:
+        args: |
+          [{"indexkey": "SONG"}]
+        query-args: |
+          [{"ef":30}]
