@@ -224,7 +224,29 @@ dataset_file = 'msturingpq-100K_expiration_time_runbook.yaml'
 dataset_name = 'msturingpq-100K'
 dataset_size = 100000
 max_t = 100
-gt_url = None
-max_points = 28000
+gt_url = "https://comp21storage.z5.web.core.windows.net/comp21/MSFT-TURING-ANNS/msturing-100K_expiration_time_runbook.yaml"
+max_points = None
 gen_exp_time_runbook(dataset_name, dataset_size, max_t, dataset_file, ratios, timesteps, seed, False, gt_url, True, max_points)
+
+ratios = (0, 4, 18)
+timesteps = (0, 50, 5)
+seed = 5554
+dataset_file = 'msturingpq-100K_expiration_time_replace_delete_runbook.yaml'
+dataset_name = 'msturingpq-100K'
+dataset_size = 100000
+max_t = 100
+gt_url = "https://comp21storage.z5.web.core.windows.net/comp21/MSFT-TURING-ANNS/msturing-100K_expiration_time_replace_delete_runbook.yaml"
+max_points = None
+gen_exp_time_runbook(dataset_name, dataset_size, max_t, dataset_file, ratios, timesteps, seed, True, gt_url, True, max_points)
+
+ratios = (0, 4, 18)
+timesteps = (0, 50, 5)
+seed = 5554
+dataset_file = 'msturingpq-100K_expiration_time_replace_only_runbook.yaml'
+dataset_name = 'msturingpq-100K'
+dataset_size = 100000
+max_t = 100
+gt_url = "https://comp21storage.z5.web.core.windows.net/comp21/MSFT-TURING-ANNS/msturing-100K_expiration_time_replace_only_runbook.yaml"
+max_points = None
+gen_exp_time_runbook(dataset_name, dataset_size, max_t, dataset_file, ratios, timesteps, seed, True, gt_url, False, max_points)
 

@@ -1,4 +1,4 @@
-msturing-100K:
+msturingpq-100K:
   1:
     end: 1000
     operation: insert
@@ -915,5 +915,5 @@ msturing-100K:
     start: 94000
   279:
     operation: search
-  max_pts: 28000
+  max_pts: 24000
   gt_url: https://comp21storage.z5.web.core.windows.net/comp21/MSFT-TURING-ANNS/msturing-100K_expiration_time_runbook.yaml
