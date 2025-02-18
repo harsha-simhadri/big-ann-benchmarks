@@ -185,35 +185,35 @@ max_t = 1000
 gen_exp_time_runbook(dataset_name, dataset_size, max_t, dataset_file, ratios, timesteps, seed, False, None)
 
 ratios = (0, 4, 18)
-timesteps = (0, 100, 20)
+timesteps = (0, 50, 5)
 seed = 5554
 dataset_file = 'msturingpq-1M_expiration_time_runbook.yaml'
 dataset_name = 'msturingpq-1M'
 dataset_size = 1000000
 max_t = 100
-gt_url = "https://comp21storage.z5.web.core.windows.net/comp21/MSFT-TURING-ANNS/msturingpq-1M_expiration_time_runbook.yaml"
-max_points = 450000
+gt_url = "https://comp21storage.z5.web.core.windows.net/comp21/MSFT-TURING-ANNS/msturing-1M_expiration_time_runbook.yaml"
+max_points = None
 gen_exp_time_runbook(dataset_name, dataset_size, max_t, dataset_file, ratios, timesteps, seed, False, gt_url, max_points)
 
 ratios = (0, 4, 18)
-timesteps = (0, 100, 20)
+timesteps = (0, 50, 5)
 seed = 762
 dataset_file = 'msturingpq-1M_expiration_time_replace_only_runbook.yaml'
-dataset_name = 'msturing-1M'
+dataset_name = 'msturingpq-1M'
 dataset_size = 1000000
 max_t = 100
-gt_url = "https://comp21storage.z5.web.core.windows.net/comp21/MSFT-TURING-ANNS/msturingpq-1M_expiration_time_replace_only_runbook.yaml"
+gt_url = "https://comp21storage.z5.web.core.windows.net/comp21/MSFT-TURING-ANNS/msturing-1M_expiration_time_replace_only_runbook.yaml"
 max_points = None
 gen_exp_time_runbook(dataset_name, dataset_size, max_t, dataset_file, ratios, timesteps, seed, True, gt_url, False, max_points)
 
 ratios = (1, 8, 18)
-timesteps = (0, 100, 20)
+timesteps = (0, 50, 5)
 seed = 83
 dataset_file = 'msturingpq-1M_expiration_time_replace_delete_runbook.yaml'
 dataset_name = 'msturingpq-1M'
 dataset_size = 1000000
 max_t = 100
-gt_url = "https://comp21storage.z5.web.core.windows.net/comp21/MSFT-TURING-ANNS/msturingpq-1M_expiration_time_replace_delete_runbook.yaml"
+gt_url = "https://comp21storage.z5.web.core.windows.net/comp21/MSFT-TURING-ANNS/msturing-1M_expiration_time_replace_delete_runbook.yaml"
 max_points = 270000
 gen_exp_time_runbook(dataset_name, dataset_size, max_t, dataset_file, ratios, timesteps, seed, True, gt_url, max_points)
 

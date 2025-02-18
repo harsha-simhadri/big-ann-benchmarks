@@ -124,724 +124,480 @@ msturingpq-1M:
     operation: insert
     start: 200000
   42:
-    end: 10000
-    operation: delete
-    start: 0
-  43:
     operation: search
-  44:
+  43:
     end: 220000
     operation: insert
     start: 210000
-  45:
+  44:
     operation: search
-  46:
+  45:
     end: 230000
     operation: insert
     start: 220000
+  46:
+    operation: search
   47:
-    end: 30000
-    operation: delete
-    start: 20000
+    end: 240000
+    operation: insert
+    start: 230000
   48:
     operation: search
   49:
-    end: 240000
+    end: 250000
     operation: insert
-    start: 230000
+    start: 240000
   50:
     operation: search
   51:
-    end: 250000
-    operation: insert
-    start: 240000
-  52:
-    end: 50000
-    operation: delete
-    start: 40000
-  53:
-    operation: search
-  54:
     end: 260000
     operation: insert
     start: 250000
+  52:
+    operation: search
+  53:
+    end: 270000
+    operation: insert
+    start: 260000
+  54:
+    operation: search
   55:
-    end: 60000
-    operation: delete
-    start: 50000
+    end: 280000
+    operation: insert
+    start: 270000
   56:
     operation: search
   57:
-    end: 270000
+    end: 290000
     operation: insert
-    start: 260000
+    start: 280000
   58:
-    end: 70000
-    operation: delete
-    start: 60000
-  59:
     operation: search
-  60:
-    end: 280000
+  59:
+    end: 300000
     operation: insert
-    start: 270000
+    start: 290000
+  60:
+    operation: search
   61:
-    end: 80000
-    operation: delete
-    start: 70000
+    end: 310000
+    operation: insert
+    start: 300000
   62:
     operation: search
   63:
-    end: 290000
-    operation: insert
-    start: 280000
-  64:
-    end: 90000
-    operation: delete
-    start: 80000
-  65:
-    operation: search
-  66:
-    end: 300000
-    operation: insert
-    start: 290000
-  67:
-    end: 100000
-    operation: delete
-    start: 90000
-  68:
-    operation: search
-  69:
-    end: 310000
-    operation: insert
-    start: 300000
-  70:
-    end: 110000
-    operation: delete
-    start: 100000
-  71:
-    operation: search
-  72:
     end: 320000
     operation: insert
     start: 310000
-  73:
-    end: 120000
-    operation: delete
-    start: 110000
-  74:
+  64:
     operation: search
-  75:
+  65:
     end: 330000
     operation: insert
     start: 320000
-  76:
-    end: 130000
-    operation: delete
-    start: 120000
-  77:
+  66:
     operation: search
-  78:
+  67:
     end: 340000
     operation: insert
     start: 330000
-  79:
-    end: 140000
-    operation: delete
-    start: 130000
-  80:
+  68:
     operation: search
-  81:
+  69:
     end: 350000
     operation: insert
     start: 340000
-  82:
-    end: 150000
-    operation: delete
-    start: 140000
-  83:
+  70:
     operation: search
-  84:
+  71:
     end: 360000
     operation: insert
     start: 350000
-  85:
-    end: 160000
-    operation: delete
-    start: 150000
-  86:
+  72:
     operation: search
-  87:
+  73:
     end: 370000
     operation: insert
     start: 360000
-  88:
-    end: 170000
-    operation: delete
-    start: 160000
-  89:
+  74:
     operation: search
-  90:
+  75:
     end: 380000
     operation: insert
     start: 370000
-  91:
-    end: 180000
-    operation: delete
-    start: 170000
-  92:
+  76:
     operation: search
-  93:
+  77:
     end: 390000
     operation: insert
     start: 380000
-  94:
-    end: 190000
-    operation: delete
-    start: 180000
-  95:
+  78:
     operation: search
-  96:
+  79:
     end: 400000
     operation: insert
     start: 390000
-  97:
-    end: 200000
-    operation: delete
-    start: 190000
-  98:
+  80:
     operation: search
-  99:
+  81:
     end: 410000
     operation: insert
     start: 400000
-  100:
-    end: 210000
-    operation: delete
-    start: 200000
-  101:
+  82:
     operation: search
-  102:
+  83:
     end: 420000
     operation: insert
     start: 410000
-  103:
-    end: 220000
-    operation: delete
-    start: 210000
-  104:
+  84:
     operation: search
-  105:
+  85:
     end: 430000
     operation: insert
     start: 420000
-  106:
+  86:
     operation: search
-  107:
+  87:
     end: 440000
     operation: insert
     start: 430000
-  108:
-    end: 240000
-    operation: delete
-    start: 230000
-  109:
+  88:
     operation: search
-  110:
+  89:
     end: 450000
     operation: insert
     start: 440000
-  111:
-    end: 250000
-    operation: delete
-    start: 240000
-  112:
+  90:
     operation: search
-  113:
+  91:
     end: 460000
     operation: insert
     start: 450000
-  114:
-    end: 260000
-    operation: delete
-    start: 250000
-  115:
+  92:
     operation: search
-  116:
+  93:
     end: 470000
     operation: insert
     start: 460000
-  117:
-    end: 270000
-    operation: delete
-    start: 260000
-  118:
+  94:
     operation: search
-  119:
+  95:
     end: 480000
     operation: insert
     start: 470000
-  120:
-    end: 280000
-    operation: delete
-    start: 270000
-  121:
+  96:
     operation: search
-  122:
+  97:
     end: 490000
     operation: insert
     start: 480000
-  123:
-    end: 290000
-    operation: delete
-    start: 280000
-  124:
+  98:
     operation: search
-  125:
+  99:
     end: 500000
     operation: insert
     start: 490000
-  126:
-    end: 300000
-    operation: delete
-    start: 290000
-  127:
+  100:
     operation: search
-  128:
+  101:
     end: 510000
     operation: insert
     start: 500000
-  129:
-    end: 310000
-    operation: delete
-    start: 300000
-  130:
+  102:
     operation: search
-  131:
+  103:
     end: 520000
     operation: insert
     start: 510000
-  132:
+  104:
     operation: search
-  133:
+  105:
     end: 530000
     operation: insert
     start: 520000
-  134:
-    end: 330000
-    operation: delete
-    start: 320000
-  135:
+  106:
     operation: search
-  136:
+  107:
     end: 540000
     operation: insert
     start: 530000
-  137:
-    end: 340000
-    operation: delete
-    start: 330000
-  138:
+  108:
     operation: search
-  139:
+  109:
     end: 550000
     operation: insert
     start: 540000
-  140:
+  110:
     operation: search
-  141:
+  111:
     end: 560000
     operation: insert
     start: 550000
-  142:
+  112:
     operation: search
-  143:
+  113:
     end: 570000
     operation: insert
     start: 560000
-  144:
-    end: 370000
-    operation: delete
-    start: 360000
-  145:
+  114:
     operation: search
-  146:
+  115:
     end: 580000
     operation: insert
     start: 570000
-  147:
+  116:
     operation: search
-  148:
+  117:
     end: 590000
     operation: insert
     start: 580000
-  149:
+  118:
     operation: search
-  150:
+  119:
     end: 600000
     operation: insert
     start: 590000
-  151:
-    end: 400000
-    operation: delete
-    start: 390000
-  152:
+  120:
     operation: search
-  153:
+  121:
     end: 610000
     operation: insert
     start: 600000
-  154:
-    end: 410000
-    operation: delete
-    start: 400000
-  155:
+  122:
     operation: search
-  156:
+  123:
     end: 620000
     operation: insert
     start: 610000
-  157:
-    end: 420000
-    operation: delete
-    start: 410000
-  158:
+  124:
     operation: search
-  159:
+  125:
     end: 630000
     operation: insert
     start: 620000
-  160:
-    end: 430000
-    operation: delete
-    start: 420000
-  161:
+  126:
     operation: search
-  162:
+  127:
     end: 640000
     operation: insert
     start: 630000
-  163:
-    end: 440000
-    operation: delete
-    start: 430000
-  164:
+  128:
     operation: search
-  165:
+  129:
     end: 650000
     operation: insert
     start: 640000
-  166:
-    end: 450000
-    operation: delete
-    start: 440000
-  167:
+  130:
     operation: search
-  168:
+  131:
     end: 660000
     operation: insert
     start: 650000
-  169:
-    end: 460000
-    operation: delete
-    start: 450000
-  170:
+  132:
     operation: search
-  171:
+  133:
     end: 670000
     operation: insert
     start: 660000
-  172:
+  134:
     operation: search
-  173:
+  135:
     end: 680000
     operation: insert
     start: 670000
-  174:
-    end: 480000
-    operation: delete
-    start: 470000
-  175:
+  136:
     operation: search
-  176:
+  137:
     end: 690000
     operation: insert
     start: 680000
-  177:
-    end: 490000
-    operation: delete
-    start: 480000
-  178:
+  138:
     operation: search
-  179:
+  139:
     end: 700000
     operation: insert
     start: 690000
-  180:
-    end: 500000
-    operation: delete
-    start: 490000
-  181:
+  140:
     operation: search
-  182:
+  141:
     end: 710000
     operation: insert
     start: 700000
-  183:
-    end: 510000
-    operation: delete
-    start: 500000
-  184:
+  142:
     operation: search
-  185:
+  143:
     end: 720000
     operation: insert
     start: 710000
-  186:
-    end: 520000
-    operation: delete
-    start: 510000
-  187:
+  144:
     operation: search
-  188:
+  145:
     end: 730000
     operation: insert
     start: 720000
-  189:
-    end: 530000
-    operation: delete
-    start: 520000
-  190:
+  146:
     operation: search
-  191:
+  147:
     end: 740000
     operation: insert
     start: 730000
-  192:
-    end: 540000
-    operation: delete
-    start: 530000
-  193:
+  148:
     operation: search
-  194:
+  149:
     end: 750000
     operation: insert
     start: 740000
-  195:
-    end: 550000
-    operation: delete
-    start: 540000
-  196:
+  150:
     operation: search
-  197:
+  151:
     end: 760000
     operation: insert
     start: 750000
-  198:
+  152:
     operation: search
-  199:
+  153:
     end: 770000
     operation: insert
     start: 760000
-  200:
-    end: 570000
-    operation: delete
-    start: 560000
-  201:
+  154:
     operation: search
-  202:
+  155:
     end: 780000
     operation: insert
     start: 770000
-  203:
-    end: 580000
-    operation: delete
-    start: 570000
-  204:
+  156:
     operation: search
-  205:
+  157:
     end: 790000
     operation: insert
     start: 780000
-  206:
-    end: 590000
-    operation: delete
-    start: 580000
-  207:
+  158:
     operation: search
-  208:
+  159:
     end: 800000
     operation: insert
     start: 790000
-  209:
+  160:
     operation: search
-  210:
+  161:
     end: 810000
     operation: insert
     start: 800000
-  211:
+  162:
     operation: search
-  212:
+  163:
     end: 820000
     operation: insert
     start: 810000
-  213:
+  164:
     operation: search
-  214:
+  165:
     end: 830000
     operation: insert
     start: 820000
-  215:
-    end: 630000
-    operation: delete
-    start: 620000
-  216:
+  166:
     operation: search
-  217:
+  167:
     end: 840000
     operation: insert
     start: 830000
-  218:
-    end: 640000
-    operation: delete
-    start: 630000
-  219:
+  168:
     operation: search
-  220:
+  169:
     end: 850000
     operation: insert
     start: 840000
-  221:
+  170:
     operation: search
-  222:
+  171:
     end: 860000
     operation: insert
     start: 850000
-  223:
+  172:
     operation: search
-  224:
+  173:
     end: 870000
     operation: insert
     start: 860000
-  225:
+  174:
     operation: search
-  226:
+  175:
     end: 880000
     operation: insert
     start: 870000
-  227:
-    end: 680000
-    operation: delete
-    start: 670000
-  228:
+  176:
     operation: search
-  229:
+  177:
     end: 890000
     operation: insert
     start: 880000
-  230:
-    end: 690000
-    operation: delete
-    start: 680000
-  231:
+  178:
     operation: search
-  232:
+  179:
     end: 900000
     operation: insert
     start: 890000
-  233:
+  180:
     operation: search
-  234:
+  181:
     end: 910000
     operation: insert
     start: 900000
-  235:
+  182:
     operation: search
-  236:
+  183:
     end: 920000
     operation: insert
     start: 910000
-  237:
-    end: 720000
-    operation: delete
-    start: 710000
-  238:
+  184:
     operation: search
-  239:
+  185:
     end: 930000
     operation: insert
     start: 920000
-  240:
-    end: 730000
-    operation: delete
-    start: 720000
-  241:
+  186:
     operation: search
-  242:
+  187:
     end: 940000
     operation: insert
     start: 930000
-  243:
-    end: 740000
-    operation: delete
-    start: 730000
-  244:
+  188:
     operation: search
-  245:
+  189:
     end: 950000
     operation: insert
     start: 940000
-  246:
-    end: 750000
-    operation: delete
-    start: 740000
-  247:
+  190:
     operation: search
-  248:
+  191:
     end: 960000
     operation: insert
     start: 950000
-  249:
-    end: 760000
-    operation: delete
-    start: 750000
-  250:
+  192:
     operation: search
-  251:
+  193:
     end: 970000
     operation: insert
     start: 960000
-  252:
-    end: 770000
-    operation: delete
-    start: 760000
-  253:
+  194:
     operation: search
-  254:
+  195:
     end: 980000
     operation: insert
     start: 970000
-  255:
-    end: 780000
-    operation: delete
-    start: 770000
-  256:
+  196:
     operation: search
-  257:
+  197:
     end: 990000
     operation: insert
     start: 980000
-  258:
+  198:
     operation: search
-  259:
+  199:
     end: 1000000
     operation: insert
     start: 990000
-  260:
-    end: 800000
-    operation: delete
-    start: 790000
-  261:
+  200:
     operation: search
-  max_pts: 400000
-  gt_url: https://comp21storage.z5.web.core.windows.net/comp21/MSFT-TURING-ANNS/msturingpq-1M_expiration_time_runbook.yaml
+  max_pts: 1000000
+  gt_url: https://comp21storage.z5.web.core.windows.net/comp21/MSFT-TURING-ANNS/msturing-1M_expiration_time_runbook.yaml
