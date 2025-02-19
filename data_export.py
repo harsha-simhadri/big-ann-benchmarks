@@ -178,6 +178,8 @@ if __name__ == "__main__":
                     runbook_paths = ['neurips23/runbooks/congestion/dimensions/dimensions_experiment.yaml']
                 if args.output == "multiModal":
                     runbook_paths = ['neurips23/runbooks/congestion/multiModal/multiModal_experiment.yaml']
+                if args.output == "algoOpt":
+                    runbook_paths = ['neurips23/runbooks/congestion/algo_optimizations/algo_optimizations.yaml']
 
             for runbook_path in runbook_paths:
                 print("Looking for runbook ", runbook_path)

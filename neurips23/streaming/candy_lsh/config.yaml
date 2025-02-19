@@ -1,0 +1,36 @@
+random-xs:
+  candy_l2h:
+    docker-tag: neurips23-streaming-candy_l2h
+    module: neurips23.streaming.candy_l2h.candy_l2h
+    constructor: candy_l2h
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{"indexkey": "onlineIVFLSH"}]
+        query-args: |
+            [{"ef":30}, {"ef":50}, {"ef":100}]
+random-xs128:
+  candy_l2h:
+    docker-tag: neurips23-streaming-candy_l2h
+    module: neurips23.streaming.candy_l2h.candy_l2h
+    constructor: candy_l2h
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{"indexkey": "onlineIVFLSH"}]
+        query-args: |
+            [{"ef":30}, {"ef":50}, {"ef":100}]
+msturing-10M-clustered:
+  candy_l2h:
+    docker-tag: neurips23-streaming-candy_l2h
+    module: neurips23.streaming.candy_l2h.candy_l2h
+    constructor: candy_l2h
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{"indexkey": "onlineIVFLSH"}]
+        query-args: |
+          [{"ef":30}, {"ef":50}, {"ef":100}]

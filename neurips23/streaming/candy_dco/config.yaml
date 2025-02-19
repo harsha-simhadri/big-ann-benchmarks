@@ -1,0 +1,36 @@
+random-xs:
+  candy_dco:
+    docker-tag: neurips23-streaming-candy_dco
+    module: neurips23.streaming.candy_dco.candy_dco
+    constructor: candy_dco
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{"indexkey": "dcoNaive"}]
+        query-args: |
+            [{"ef":30}, {"ef":50}, {"ef":100}]
+random-xs128:
+  candy_dco:
+    docker-tag: neurips23-streaming-candy_dco
+    module: neurips23.streaming.candy_dco.candy_dco
+    constructor: candy_dco
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{"indexkey": "dcoNaive"}]
+        query-args: |
+            [{"ef":30}, {"ef":50}, {"ef":100}]
+msturing-10M-clustered:
+  candy_dco:
+    docker-tag: neurips23-streaming-candy_dco
+    module: neurips23.streaming.candy_dco.candy_dco
+    constructor: candy_dco
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{"indexkey": "dcoNaive"}]
+        query-args: |
+          [{"ef":30}, {"ef":50}, {"ef":100}]

@@ -1,0 +1,263 @@
+random-xs:
+  max_pts: 10000
+  1:
+    operation: "startHPC"
+  2:
+    operation: "initial"
+    start: 0
+    end: 5000
+  3:
+    operation: "batch_insert"
+    start: 5000
+    end: 10000
+    batchSize: 1000
+    eventRate: 1000
+  4:
+    operation: "waitPending"
+  5:
+    operation: "search"
+  6:
+    operation: "endHPC"
+  gt_url: "https://comp21storage.z5.web.core.windows.net/comp23/str_gt/random10000/10000/simple_runbook.yaml"
+
+sun:
+  max_pts: 79100
+  1:
+    operation: "startHPC"
+  2:
+    operation: "initial"
+    start: 0
+    end: 20000
+  3:
+    operation: "batch_insert"
+    start: 20000
+    end: 50000
+    batchSize: 1000
+    eventRate: 1000
+  4:
+    operation: "waitPending"
+  5:
+    operation: "search"
+  6:
+    operation: "endHPC"
+  gt_url: "none"
+
+glove:
+  max_pts: 1192514
+  1:
+    operation: "startHPC"
+  2:
+    operation: "initial"
+    start: 0
+    end: 20000
+  3:
+    operation: "batch_insert"
+    start: 20000
+    end: 50000
+    batchSize: 1000
+    eventRate: 1000
+  4:
+    operation: "waitPending"
+  5:
+    operation: "search"
+  6:
+    operation: "endHPC"
+  gt_url: "none"
+
+msong:
+  max_pts: 992272
+  1:
+    operation: "startHPC"
+  2:
+    operation: "initial"
+    start: 0
+    end: 20000
+  3:
+    operation: "batch_insert"
+    start: 20000
+    end: 50000
+    batchSize: 1000
+    eventRate: 1000
+  4:
+    operation: "waitPending"
+  5:
+    operation: "search"
+  6:
+    operation: "endHPC"
+  gt_url: "none"
+
+trevi:
+  max_pts: 99900
+  1:
+    operation: "startHPC"
+  2:
+    operation: "initial"
+    start: 0
+    end: 20000
+  3:
+    operation: "batch_insert"
+    start: 20000
+    end: 50000
+    batchSize: 1000
+    eventRate: 1000
+  4:
+    operation: "waitPending"
+  5:
+    operation: "search"
+  6:
+    operation: "endHPC"
+  gt_url: "none"
+
+dpr:
+  max_pts: 100000
+  1:
+    operation: "startHPC"
+  2:
+    operation: "initial"
+    start: 0
+    end: 20000
+  3:
+    operation: "batch_insert"
+    start: 20000
+    end: 50000
+    batchSize: 1000
+    eventRate: 1000
+  4:
+    operation: "waitPending"
+  5:
+    operation: "search"
+  6:
+    operation: "endHPC"
+  gt_url: "none"
+
+reddit:
+  max_pts: 100000
+  1:
+    operation: "startHPC"
+  2:
+    operation: "initial"
+    start: 0
+    end: 20000
+  3:
+    operation: "batch_insert"
+    start: 20000
+    end: 50000
+    batchSize: 1000
+    eventRate: 1000
+  4:
+    operation: "waitPending"
+  5:
+    operation: "search"
+  6:
+    operation: "endHPC"
+  gt_url: "none"
+
+sift:
+  max_pts: 1000000
+  1:
+    operation: "startHPC"
+  2:
+    operation: "initial"
+    start: 0
+    end: 20000
+  3:
+    operation: "batch_insert"
+    start: 20000
+    end: 50000
+    batchSize: 1000
+    eventRate: 1000
+  4:
+    operation: "waitPending"
+  5:
+    operation: "search"
+  6:
+    operation: "endHPC"
+  gt_url: "none"
+
+msturing-10M-clustered:
+  max_pts: 10000000
+  1:
+    operation: "startHPC"
+  2:
+    operation: "initial"
+    start: 0
+    end: 20000
+  3:
+    operation: "batch_insert"
+    start: 20000
+    end: 50000
+    batchSize: 1000
+    eventRate: 1000
+  4:
+    operation: "waitPending"
+  5:
+    operation: "search"
+  6:
+    operation: "endHPC"
+  gt_url: "none"
+
+msturing-30M-clustered:
+  max_pts: 29990000
+  1:
+    operation: "startHPC"
+  2:
+    operation: "initial"
+    start: 0
+    end: 20000
+  3:
+    operation: "batch_insert"
+    start: 20000
+    end: 50000
+    batchSize: 1000
+    eventRate: 1000
+  4:
+    operation: "waitPending"
+  5:
+    operation: "search"
+  6:
+    operation: "endHPC"
+  gt_url: "none"
+
+random-plus-experiment:
+  max_pts: 500000
+  1:
+    operation: "startHPC"
+  2:
+    operation: "initial"
+    start: 0
+    end: 20000
+  3:
+    operation: "batch_insert"
+    start: 20000
+    end: 50000
+    batchSize: 1000
+    eventRate: 1000
+  4:
+    operation: "waitPending"
+  5:
+    operation: "search"
+  6:
+    operation: "endHPC"
+  gt_url: "none"
+
+random-experiment:
+  max_pts: 500000
+  1:
+    operation: "startHPC"
+  2:
+    operation: "initial"
+    start: 0
+    end: 20000
+  3:
+    operation: "batch_insert"
+    start: 20000
+    end: 50000
+    batchSize: 1000
+    eventRate: 1000
+  4:
+    operation: "waitPending"
+  5:
+    operation: "search"
+  6:
+    operation: "endHPC"
+  gt_url: "none"

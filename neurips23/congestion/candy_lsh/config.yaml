@@ -1,0 +1,24 @@
+random-xs:
+  candy_lsh:
+    docker-tag: neurips23-congestion-candy_lsh
+    module: neurips23.congestion.candy_lsh.candy_lsh
+    constructor: candy_lsh
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{"indexkey": "onlineIVFLSH"}]
+        query-args: |
+            [{"ef":30}]
+msturing-10M-clustered:
+  candy_lsh:
+    docker-tag: neurips23-congestion-candy_lsh
+    module: neurips23.congestion.candy_lsh.candy_lsh
+    constructor: candy_lsh
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{"indexkey": "onlineIVFLSH"}]
+        query-args: |
+          [{"ef":30}]

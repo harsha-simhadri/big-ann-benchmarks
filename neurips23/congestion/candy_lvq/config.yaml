@@ -1,0 +1,24 @@
+random-xs:
+  candy_lvq:
+    docker-tag: neurips23-congestion-candy_lvq
+    module: neurips23.congestion.candy_lvq.candy_lvq
+    constructor: candy_lvq
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{"indexkey": "HNSWNaive"}]
+        query-args: |
+            [{"ef":30}]
+msturing-10M-clustered:
+  candy_lvq:
+    docker-tag: neurips23-congestion-candy_lvq
+    module: neurips23.congestion.candy_lvq.candy_lvq
+    constructor: candy_lvq
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{"indexkey": "HNSWNaive"}]
+        query-args: |
+          [{"ef":30}]
