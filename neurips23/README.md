@@ -123,7 +123,7 @@ Alternately, to compute ground truth for an arbitrary runbook, [clone and build 
 ```
 python benchmark/streaming/compute_gt.py --dataset msspacev-10M --runbook neurips23/runbooks/simple_runbook.yaml --gt_cmdline_tool ~/DiskANN/build/apps/utils/compute_groundtruth
 ```
-Consider also the examples in runbooks [here]]neurips23/runbooks/clustered_runbook.yaml) and [here](neurips23/runbooks/delete_runbook.yaml). The datasets here are [generated](neurips23/runbooks/clustered_data_gen.py) by clustering the original dataset with k-means and packing points in the same cluster into contiguous indices. Then insertions are then performed one cluster at a time. This runbook tests if an indexing algorithm can adapt to data draft. The `max_pts` entry for the dataset in the runbook indicates an upper bound on the number of active points that the index must support during the runbook execution.
+Consider also the examples in runbooks [here](neurips23/runbooks/clustered_runbook.yaml) and [here](neurips23/runbooks/delete_runbook.yaml). The datasets here are [generated](neurips23/runbooks/clustered_data_gen.py) by clustering the original dataset with k-means and packing points in the same cluster into contiguous indices. Then insertions are then performed one cluster at a time. This runbook tests if an indexing algorithm can adapt to data draft. The `max_pts` entry for the dataset in the runbook indicates an upper bound on the number of active points that the index must support during the runbook execution.
 
 
 To make the results available for post-processing, change permissions of the results folder
@@ -237,7 +237,7 @@ python eval/show_operating_points.py --algorithm $ALGO --threshold $THRESHOLD re
 
 A submission is composed of a pull request to this repo with the following. 
 * Your algorithm's python class, inheriting from the task-specific base class, in `neurips23/[task]/[team]/`
-* A Dockerfile `neurips23/[task]/[team]/Dockerfile describing how to retrieve, compile and set up requirements for your algorithm.
+* A Dockerfile `neurips23/[task]/[team]/Dockerfile` describing how to retrieve, compile and set up requirements for your algorithm.
 * A config file `neurips23/[task]/[team]/config.yml` that specifies 
   * 1 index build configuration 
   * up to 10 search configuration (2 for streaming track)
@@ -262,7 +262,7 @@ In particular, `--dataset, --neurips23track, --algorithm` have to be supported.
 The script takes care of mounting the following directories from the host into the container: `data/` (read-only) and `results` (read-write). It copies a config file `config.yml` that contains index build and search parameters. 
 
 Input data must be read from `data/` as show-cased in [datasets.py](../benchmark/datasets.py) using I/O functions similar to the ones provided in [dataset_io.py](../benchmark/dataset_io.py). Results must be written in a HDF5 format as showcased in [results.py](../benchmark/results.py) in the same folder structure as used by the evaluation framework. 
-In particular, all steps mentioned in <#measuring_your_algorithm> must be possible from the result files.
+In particular, all steps mentioned in [Measuring_Your_Algorithm](#measuring_your_algorithm) must be possible from the result files.
 
 
 
