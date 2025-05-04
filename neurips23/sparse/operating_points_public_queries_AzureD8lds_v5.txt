@@ -5,3 +5,4 @@ sparse-full cufe        104.768194
             nle        2358.590429
             pyanns     8732.172708
             shnsw      7136.927865
+            sustech-whu 1015.434114
