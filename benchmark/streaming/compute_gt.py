@@ -2,22 +2,35 @@ import argparse
 import os
 import numpy as np
 
+import sys
+[sys.path.append(i) for i in ['.', '..']]
+
 from benchmark.datasets import DATASETS
 from benchmark.streaming.load_runbook import load_runbook
 
-def get_range_start_end(entry):
-    return np.arange(entry['start'],  entry['end'], dtype=np.uint32)
+def get_range_start_end(entry, tag_to_id):
+    for i in range(entry['end'] - entry['start']):
+        tag_to_id[i+entry['start']] = i+entry['start']
+    return tag_to_id
 
-def get_next_set(ids: np.ndarray, entry):
+def get_next_set(tag_to_id: np.ndarray, entry):
     match entry['operation']:
         case 'insert':
-            range = get_range_start_end(entry)
-            return np.union1d(ids, range)
+            for i in range(entry['end'] - entry['start']):
+                tag_to_id[i+entry['start']] = i+entry['start']
+            return tag_to_id
         case 'delete':
-            range = get_range_start_end(entry)
-            return np.setdiff1d(ids, range, assume_unique=True)
+            # delete is by key 
+            for i in range(entry['end'] - entry['start']):
+                tag_to_id.pop(i + entry['start'])
+            return tag_to_id
+        case 'replace':
+            # replace key with value
+            for i in range(entry['tags_end'] - entry['tags_start']):
+                tag_to_id[i + entry['tags_start']] = entry['ids_start'] + i
+            return tag_to_id
         case 'search':
-            return ids
+            return tag_to_id
         case _:       
             raise ValueError('Undefined entry in runbook')
         
@@ -25,9 +38,19 @@ def gt_dir(ds, runbook_path):
     runbook_filename = os.path.split(runbook_path)[1]
     return os.path.join(ds.basedir, str(ds.nb), runbook_filename)
 
-def output_gt(ds, ids, step, gt_cmdline, runbook_path):
+def output_gt(ds, tag_to_id, step, gt_cmdline, runbook_path):
+    ids_list = []
+    tags_list = []
+    for tag, id in tag_to_id.items():
+        ids_list.append(id)
+        tags_list.append(tag)
+
+    ids = np.array(ids_list, dtype = np.uint32)
+    tags = np.array(tags_list, dtype = np.uint32)
+
+
     data = ds.get_data_in_range(0, ds.nb)
-    data_slice = data[ids]
+    data_slice = data[np.array(ids)]
 
     dir = gt_dir(ds, runbook_path)
     prefix = os.path.join(dir, 'step') + str(step) 
@@ -39,9 +62,9 @@ def output_gt(ds, ids, step, gt_cmdline, runbook_path):
 
     with open(tags_file, 'wb') as tf:
         one = 1
-        tf.write(ids.size.to_bytes(4, byteorder='little'))
+        tf.write(tags.size.to_bytes(4, byteorder='little'))
         tf.write(one.to_bytes(4, byteorder='little'))
-        ids.tofile(tf)
+        tags.tofile(tf)    
     with open(data_file, 'wb') as f:
         f.write(ids.size.to_bytes(4, byteorder='little')) #npts
         f.write(ds.d.to_bytes(4, byteorder='little'))
@@ -111,14 +134,15 @@ def main():
 
     step = 1
     ids = np.empty(0, dtype=np.uint32)
+
     for entry in runbook:
+        # the first step must be an insertion
         if step == 1:
-            ids = get_range_start_end(entry)
+            tag_to_id = get_range_start_end(entry, {})
         else:
-            ids = get_next_set(ids, entry)
-        print(ids)
+            tag_to_id = get_next_set(tag_to_id, entry)
         if (entry['operation'] == 'search'):
-            output_gt(ds, ids, step, common_cmd, args.runbook_file)
+            output_gt(ds, tag_to_id, step, common_cmd, args.runbook_file)
         step += 1
 
 if __name__ == '__main__':

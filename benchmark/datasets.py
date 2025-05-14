@@ -153,6 +153,9 @@ class DatasetCompetitionFormat(Dataset):
         fn = self.ds_fn
         sourceurl = os.path.join(self.base_url, fn)
         outfile = os.path.join(self.basedir, fn)
+        if self.nb != original_size:
+            outfile = outfile + '.crop_nb_%d' % self.nb
+            
         if os.path.exists(outfile):
             print("file %s already exists" % outfile)
             return
@@ -164,7 +167,6 @@ class DatasetCompetitionFormat(Dataset):
         else:
             # download cropped version of file
             file_size = 8 + self.d * self.nb * np.dtype(self.dtype).itemsize
-            outfile = outfile + '.crop_nb_%d' % self.nb
             if os.path.exists(outfile):
                 print("file %s already exists" % outfile)
                 return
@@ -513,6 +515,7 @@ class WikipediaDataset(BillionScaleDatasetCompetitionFormat):
         self.qs_fn = "wikipedia_query.bin"
         self.gt_fn = (
             "wikipedia-35M" if self.nb == 35000000 else
+            "wikipedia-10M" if self.nb == 10000000 else
             "wikipedia-1M" if self.nb == 1000000 else
             "wikipedia-100K" if self.nb == 100000 else
             None
@@ -1301,6 +1304,7 @@ DATASETS = {
     'sparse-full': lambda: SparseDataset("full"), 
 
     'wikipedia-35M': lambda : WikipediaDataset(35000000),
+    'wikipedia-10M': lambda : WikipediaDataset(10000000),
     'wikipedia-1M': lambda : WikipediaDataset(1000000),
     'wikipedia-100K': lambda : WikipediaDataset(100000),
 

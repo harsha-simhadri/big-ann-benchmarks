@@ -96,14 +96,24 @@ if __name__ == "__main__":
             dataset = DATASETS[dataset_name]()
             runbook_paths = [None]
             if track == 'streaming':
-                runbook_paths = ['neurips23/streaming/simple_runbook.yaml',
-                                    'neurips23/streaming/clustered_runbook.yaml',
-                                    'neurips23/streaming/delete_runbook.yaml',
-                                    'neurips23/streaming/final_runbook.yaml',
-                                    'neurips23/streaming/msturing-10M_slidingwindow_runbook.yaml',
-                                    'neurips23/streaming/wikipedia-35M_expirationtime_runbook.yaml',
-                                    'neurips23/streaming/msmarco-100M_expirationtime_runbook.yaml']
+                runbook_paths = ['neurips23/runbooks/simple_runbook.yaml',
+                                    'neurips23/runbooks/simple_replace_runbook.yaml',
+                                    'neurips23/runbooks/random_replace_runbook.yaml',
+                                    'neurips23/runbooks/clustered_replace_runbook.yaml',
+                                    'neurips23/runbooks/clustered_runbook.yaml',
+                                    'neurips23/runbooks/clustered_runbook.yaml',
+                                    'neurips23/runbooks/delete_runbook.yaml',
+                                    'neurips23/runbooks/final_runbook.yaml',
+                                    'neurips23/runbooks/msturing-10M_slidingwindow_runbook.yaml',
+                                    'neurips23/runbooks/wikipedia-35M_expirationtime_runbook.yaml',
+                                    'neurips23/runbooks/wikipedia-1M_expiration_time_runbook.yaml',
+                                    'neurips23/runbooks/wikipedia-35M_expiration_time_replace_only_runbook.yaml',
+                                    'neurips23/runbooks/wikipedia-1M_expiration_time_replace_only_runbook.yaml',
+                                    'neurips23/runbooks/wikipedia-35M_expiration_time_replace_delete_runbook.yaml',
+                                    'neurips23/runbooks/wikipedia-1M_expiration_time_replace_delete_runbook.yaml',
+                                    'neurips23/runbooks/msmarco-100M_expirationtime_runbook.yaml']
             for runbook_path in runbook_paths:
+                print("Looking for runbook ", runbook_path)
                 results = load_all_results(dataset_name, neurips23track=track, runbook_path=runbook_path)
                 results = compute_metrics_all_runs(dataset, dataset_name, results, args.recompute, \
                     args.sensors, args.search_times, args.private_query, \
