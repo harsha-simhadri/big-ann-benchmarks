@@ -36,6 +36,14 @@ The Practical Vector Search challenge at NeurIPS 2023 has four different tasks:
 
 ## Datasets
 
+| **Track**     | **Dataset**        | **Datatype** | **Dim.** | **Distance** | **# Vectors** | **# Queries** | **Terms**                                                                 |
+|---------------|--------------------|--------------|----------|--------------|----------------|---------------|---------------------------------------------------------------------------|
+| *Filtered*    | YFCC               | `uint8`      | 192      | ℓ₂           | 10M            | 100K          | CC BY 4.0                                                                 |
+| *OOD*         | Yandex T2I         | `float32`    | 200      | IP           | 10M            | 100K          | CC BY 4.0                                                                 |
+| *Sparse*      | MSMARCO/SPLADE     | `float32`    | <10⁵     | IP           | 8.8M           | 7K            | CC BY 4.0                                                                 |
+| *Streaming*   | MS Turing          | `float32`    | 100      | ℓ₂           | N/A            | N/A           | [Terms link](https://big-ann-benchmarks.com/MSFT-Turing-ANNS-terms.txt) |
+
+
 The evaluation framework takes care of downloading the datasets and provides a transparent interface to work with them in Python.
 To separately download the datasets for the competition in one step, please carry out the following command:
 
