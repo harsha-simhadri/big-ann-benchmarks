@@ -3,7 +3,8 @@
 
 ## Table Of Contents
 
-- [Introduction](#introduction)  
+- [Introduction](#introduction)
+- [Datasets](#datasets)  
 - [For Participants](#for_participants) 
   - [Getting Started](#getting_started) 
   - [Starting Your Development](#starting_your_development)
@@ -32,6 +33,25 @@ The Practical Vector Search challenge at NeurIPS 2023 has four different tasks:
     The text embeddings are extracted with a variant of the DSSM model.
 
 **Task Sparse:**  This task is based on the common MSMARCO passage retrieval dataset, which has 8,841,823 text passages, encoded into sparse vectors using the SPLADE model. The vectors have a large dimension (less than 100,000), but each vector in the base dataset has an average of approximately 120 nonzero elements. The query set comprises of 6,980 text queries, embedded by the same SPLADE model. The average number of nonzero elements in the query set is approximately 49 (since text queries are generally shorter). Given a sparse query vector, the index should return the top-k results according to the maximal inner product between the vectors.
+
+## Datasets
+
+| **Track**     | **Dataset**        | **Datatype** | **Dim.** | **Distance** | **# Vectors** | **# Queries** | **Terms**                                                                 |
+|---------------|--------------------|--------------|----------|--------------|----------------|---------------|---------------------------------------------------------------------------|
+| *Filtered*    | YFCC               | `uint8`      | 192      | ℓ₂           | 10M            | 100K          | CC BY 4.0                                                                 |
+| *OOD*         | Yandex T2I         | `float32`    | 200      | IP           | 10M            | 100K          | CC BY 4.0                                                                 |
+| *Sparse*      | MSMARCO/SPLADE     | `float32`    | <10⁵     | IP           | 8.8M           | 7K            | CC BY 4.0                                                                 |
+| *Streaming*   | MS Turing          | `float32`    | 100      | ℓ₂           | N/A            | N/A           | [Terms link](https://big-ann-benchmarks.com/MSFT-Turing-ANNS-terms.txt) |
+
+
+The evaluation framework takes care of downloading the datasets and provides a transparent interface to work with them in Python.
+To separately download the datasets for the competition in one step, please carry out the following command:
+
+```bash
+for dataset in yfcc-10M sparse-full text2image-10M msturing-30M-clustered; do python create_dataset.py --dataset $dataset; done 
+```
+
+The datasets are then available in the `data/$TASK/` folder.
 
 ## Build time limit
 
