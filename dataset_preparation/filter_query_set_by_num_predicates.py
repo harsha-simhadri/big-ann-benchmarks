@@ -10,9 +10,9 @@ Output:
 
 import argparse
 import sys
-import time
 import numpy as np
 from pathlib import Path
+from filter_query_set_utils import write_filtered_labels, write_filtered_vectors, build_inverted_index, parse_query_labels
 
 def parse_args():
     p = argparse.ArgumentParser(description=__doc__)
@@ -39,17 +39,13 @@ def parse_args():
                    help="Data type of query vectors: uint8 or float32 (default: uint8)")
     return p.parse_args()
 
-def main():
-    args = parse_args()
-    start_all = time.time()
-
-    # Scan label file
-    print(f"Scanning queries (keep predicates in "
-          f"[{args.min_predicates}, {args.max_predicates if args.max_predicates is not None else '∞'}]) …")
-    t_scan = time.time()
-
+def filter_queries_by_predicate_count(args):
+    """Filter queries based on the number of predicates they contain."""
     keep_idx = []
     keep_lines = []
+
+    print(f"Scanning queries (keep predicates in "
+          f"[{args.min_predicates}, {args.max_predicates if args.max_predicates is not None else '∞'}]) …")
 
     with args.query_label_file.open() as fin:
         for qidx, raw in enumerate(fin):
@@ -60,8 +56,7 @@ def main():
                 print(f"  processed {qidx+1:>11} queries")
 
             # normalize separators & count predicates
-            replaced = line.replace("&", ",")
-            preds = [s for s in replaced.split(",") if s]
+            preds = parse_query_labels(line)
             count = len(preds)
 
             # decide whether to keep
@@ -86,9 +81,12 @@ def main():
                 keep_lines.append(out_line)
 
     print(f"Rows kept with ≥{args.min_predicates} predicates : "
-          f"{len(keep_idx):>11}   [{time.time() - t_scan:.2f}s]")
+          f"{len(keep_idx):>11}")
+    
+    return keep_idx, keep_lines
 
-    # Enforce num_queries if specified
+def validate_query_count(args, keep_idx):
+    """Validate that we have enough queries and print status."""
     if args.num_queries is not None:
         if len(keep_idx) < args.num_queries:
             print(
@@ -100,48 +98,12 @@ def main():
     else:
         print(f"All kept ({len(keep_idx):,} rows) (no --num-queries).")
 
-    # Write filtered label file
-    t_label = time.time()
-    print(f"Writing labels → {args.out_label_file}")
-    with args.out_label_file.open("w") as fout:
-        fout.writelines(keep_lines)
-    print(f"Label file written   [{time.time() - t_label:.2f}s]\n")
-
-    # Write filtered vector file
-    t_vec = time.time()
-    print(f"Writing vectors → {args.out_vec_file}")
-    # read header (u32 little-endian)
-    with args.query_vec_file.open("rb") as fin:
-        num_pts = int(np.fromfile(fin, dtype=np.uint32, count=1)[0])
-        num_dims = int(np.fromfile(fin, dtype=np.uint32, count=1)[0])
-        
-    # memmap body as uint8 or float32
-    if args.vec_dtype == "uint8":
-        dtype = np.uint8
-    elif args.vec_dtype in ("float32", "float"):
-        dtype = np.float32
-    else:
-        raise ValueError(f"Unsupported dtype: {args.vec_dtype}")
-
-    vecs = np.memmap(
-        args.query_vec_file,
-        dtype=dtype,
-        mode="r",
-        offset=8,
-        shape=(num_pts, num_dims),
-    )
-
-    # write new header + selected rows
-    with args.out_vec_file.open("wb") as fout:
-        # header
-        np.array([len(keep_idx)], dtype=np.uint32).tofile(fout)
-        np.array([num_dims],      dtype=np.uint32).tofile(fout)
-        # data
-        for row in keep_idx:
-            fout.write(vecs[row].tobytes())
-
-    print(f"Vector file written   [{time.time() - t_vec:.2f}s]")
-    print(f"Total runtime: {time.time() - start_all:.2f}s")
+def main():
+    args = parse_args()
+    keep_idx, keep_lines = filter_queries_by_predicate_count(args)
+    validate_query_count(args, keep_idx)
+    write_filtered_labels(args.out_label_file, keep_lines)
+    write_filtered_vectors(args.query_vec_file, args.out_vec_file, keep_idx, args.vec_dtype)
 
 if __name__ == "__main__":
     main()

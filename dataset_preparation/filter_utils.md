@@ -25,7 +25,7 @@ All tools produce two output files:
   label1,label2,label3
   ```
 
-- **Query labels**: Text file with comma or ampersand-separated predicates per line (one line per query vector)
+- **Query labels**: Text file with comma or ampersand-separated predicates per line (one line per query vector). **Note: it is _not_ exactly the same as the format for the filter competition dataset.**
   ```
   label1,label2
   label3&label4&label5

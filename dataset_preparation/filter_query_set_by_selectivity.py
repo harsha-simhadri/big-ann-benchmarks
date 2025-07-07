@@ -16,8 +16,8 @@ import time
 import random
 import numpy as np
 from pathlib import Path
-from collections import defaultdict
 from concurrent.futures import ProcessPoolExecutor
+from filter_query_set_utils import write_filtered_labels, write_filtered_vectors, build_inverted_index, parse_query_labels
 
 def parse_args():
     p = argparse.ArgumentParser(description=__doc__)
@@ -48,22 +48,6 @@ def parse_args():
                    help="Data type of query vectors: uint8 or float32 (default: uint8)")
     return p.parse_args()
 
-def build_inverted_index(path: Path):
-    inv = defaultdict(set)
-    total = 0
-    t0 = time.time()
-    with path.open() as f:
-        for idx, line in enumerate(f):
-            lbls = line.strip()
-            if not lbls:
-                continue
-            total += 1
-            # Rust splits only on commas here
-            for lab in lbls.split(","):
-                inv[lab].add(idx)
-    print(f"Indexed {total:>11} base vectors, {len(inv):>11} distinct labels   [{time.time()-t0:.2f}s]")
-    return inv, total
-
 def worker_task(args):
     slice_data, = args
     kept_i, kept_l, kept_s = [], [], []
@@ -73,7 +57,7 @@ def worker_task(args):
 
     for qidx, raw in slice_data:
         # split labels
-        labs = [lab for lab in raw.replace("&", ",").split(",") if lab]
+        labs = parse_query_labels(raw)
         # gather postings, bail on missing
         try:
             posts = [inv_local[lab] for lab in labs]
@@ -92,33 +76,31 @@ def worker_task(args):
 
     return kept_i, kept_l, kept_s
 
-def main():
-    args = parse_args()
-    random.seed(args.rand_seed)
-    start_all = time.time()
+def load_query_labels(args):
+    """Load all query labels into memory."""
+    print("Loading all query labels into RAM …")
+    with args.query_label_file.open() as f:
+        all_lines = [(i, line.strip()) for i, line in enumerate(f) if line.strip()]
+    
+    n = len(all_lines)
+    print(f"  {n:,} non-empty queries loaded")
+    return all_lines
 
-    # Build index
-    inv, total_base = build_inverted_index(args.base_label_file)
-
+def filter_queries_by_selectivity(args, inv, total_base, all_lines):
+    """Filter queries based on their selectivity using parallel processing."""
     # share these with workers via attributes (copy-on-write on fork)
     worker_task.inv        = inv
     worker_task.total_base = total_base
     worker_task.min_sel    = args.min_selectivity
     worker_task.max_sel    = args.max_selectivity
 
-    # Load all queries into memory
-    print("Loading all query labels into RAM …")
-    with args.query_label_file.open() as f:
-        all_lines = [(i, line.strip()) for i, line in enumerate(f) if line.strip()]
-
-    n = len(all_lines)
-    print(f"  {n:,} non-empty queries loaded   [{time.time()-start_all:.2f}s]")
-
     # Split into chunks for workers
     workers = args.workers or None
     if workers is None:
         import multiprocessing
         workers = multiprocessing.cpu_count()
+    
+    n = len(all_lines)
     chunk_size = (n + workers - 1) // workers
     chunks = [all_lines[i : i + chunk_size] for i in range(0, n, chunk_size)]
 
@@ -133,7 +115,11 @@ def main():
             kept_lines.extend(kl)
             sel_stats.extend(ks)
     print(f"  Qualified {len(kept_idx):,} queries   [{time.time()-t1:.2f}s]")
+    
+    return kept_idx, kept_lines, sel_stats
 
+def sample_qualified_queries(args, kept_idx, kept_lines, sel_stats):
+    """Sample the required number of queries from qualified ones."""
     # check qualify
     if len(kept_idx) < args.num_queries:
         sys.exit(f"Need {args.num_queries}, but only {len(kept_idx)} qualify.")
@@ -151,37 +137,22 @@ def main():
     mn = min(sel_stats); mean = sum(sel_stats)/len(sel_stats); mx = max(sel_stats)
     print(f"Selected {args.num_queries} queries   (min/mean/max sel = "
           f"{mn:.6f}/{mean:.6f}/{mx:.6f})")
+    
+    return picked, global_rows
 
-    # Write labels
-    t2 = time.time()
-    args.out_label_file.write_text("".join(kept_lines[i] for i in picked))
-    print(f"Labels written   [{time.time()-t2:.2f}s]")
-
-    # Write vectors in bulk
-    t3 = time.time()
-    with args.query_vec_file.open("rb") as f:
-        num_pts = int(np.fromfile(f, dtype=np.uint32, count=1)[0])
-        num_dim = int(np.fromfile(f, dtype=np.uint32, count=1)[0])
-
-    # Support uint8 and float32
-    if args.vec_dtype == "uint8":
-        dtype = np.uint8
-    elif args.vec_dtype == "float32":
-        dtype = np.float32
-    else:
-        raise ValueError(f"Unsupported dtype: {args.vec_dtype}")
-
-    vecs = np.memmap(args.query_vec_file, dtype=dtype,
-                     mode="r", offset=8, shape=(num_pts, num_dim))
-    selected = vecs[global_rows]  # fancy-index all at once
-
-    with args.out_vec_file.open("wb") as f:
-        np.array([args.num_queries], dtype=np.uint32).tofile(f)
-        np.array([num_dim],      dtype=np.uint32).tofile(f)
-        selected.tofile(f)
-    print(f"Vectors written   [{time.time()-t3:.2f}s]")
-
-    print(f"Total runtime: {time.time()-start_all:.2f}s")
+def main():
+    args = parse_args()
+    random.seed(args.rand_seed)
+    start_time = time.time()
+    inv, total_base = build_inverted_index(args.base_label_file)
+    all_lines = load_query_labels(args)
+    kept_idx, kept_lines, sel_stats = filter_queries_by_selectivity(args, inv, total_base, all_lines)
+    picked, global_rows = sample_qualified_queries(args, kept_idx, kept_lines, sel_stats)
+    keep_lines_all = [kept_lines[i] for i in picked]
+    write_filtered_labels(args.out_label_file, keep_lines_all)
+    write_filtered_vectors(args.query_vec_file, args.out_vec_file, global_rows, args.vec_dtype)
+    end_time = time.time()
+    print(f"Total runtime: {end_time - start_time:.2f}s")
 
 if __name__ == "__main__":
     main()
