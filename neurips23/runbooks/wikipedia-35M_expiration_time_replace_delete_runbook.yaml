@@ -4435,5 +4435,5 @@ wikipedia-35M:
     tags_start: 32400000
   1150:
     operation: search
-  max_pts: 6682767
-  gt_url: "https://comp21storage.z5.web.core.windows.net/wiki-cohere-35M/wikipedia-35M_expiration_time_replace_delete_runbook.yaml"
+  max_pts: 11906951
+  gt_url: https://comp21storage.z5.web.core.windows.net/wiki-cohere-35M/wikipedia-35M_expiration_time_replace_delete_runbook.yaml

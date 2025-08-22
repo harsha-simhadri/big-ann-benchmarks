@@ -1207,5 +1207,5 @@ wikipedia-1M:
     tags_start: 890000
   316:
     operation: search
-  max_pts: 293233
-  gt_url: "https://comp21storage.z5.web.core.windows.net/wiki-cohere-35M/wikipedia-1M_expiration_time_replace_delete_runbook.yaml"
+  max_pts: 415355
+  gt_url: https://comp21storage.z5.web.core.windows.net/wiki-cohere-35M/wikipedia-1M_expiration_time_replace_delete_runbook.yaml
