@@ -16,9 +16,6 @@ def gen_exp_time_runbook(dataset_name, dataset_size, max_t, runbook_filename, ra
     random.seed(seed)
     data = {dataset_name: {}}
 
-    max_num_points=0
-    num_points=0
-
     batch_size = dataset_size//max_t
     to_delete=[[] for _ in range(max_t)]
     to_replace=[[] for _ in range(max_t)]
@@ -44,11 +41,6 @@ def gen_exp_time_runbook(dataset_name, dataset_size, max_t, runbook_filename, ra
             'end': end
         }
         t+=1
-
-        num_points+=int(fraction*batch_size)
-
-        max_num_points=max(max_num_points,num_points)
-
         
         data_type = random.randint(0, ratios[2])
         if do_delete:
@@ -82,7 +74,6 @@ def gen_exp_time_runbook(dataset_name, dataset_size, max_t, runbook_filename, ra
                 'end': end
             }
             t+=1
-            num_points-=batch_size
         
         for (tags_start, tags_end, ids_start, ids_end) in to_replace[i]:
             data[dataset_name][t] ={
@@ -99,7 +90,27 @@ def gen_exp_time_runbook(dataset_name, dataset_size, max_t, runbook_filename, ra
         }
         t+=1
 
-    data[dataset_name]["max_pts"]=max_num_points
+    # replay each data in data[dataset_name]
+    cur_points =0
+    max_points = 0 
+    for t, d in data[dataset_name].items():
+        # Skip non-operation entries (like max_pts, gt_url)
+        if not isinstance(d, dict) or 'operation' not in d:
+            continue
+            
+        if d['operation'] == 'insert':
+            cur_points += (d['end'] - d['start'])
+            max_points = max(max_points, cur_points)
+        elif d['operation'] == 'delete':
+            cur_points -= (d['end'] - d['start'])
+        elif d['operation'] == 'replace':
+            continue
+        elif d['operation'] == 'search':
+            continue
+        else:
+            continue
+
+    data[dataset_name]["max_pts"]=max_points
 
     if gt_url is not None:
         data[dataset_name]["gt_url"] = gt_url
