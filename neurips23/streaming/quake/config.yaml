@@ -1,0 +1,12 @@
+msturing-30M-clustered:
+    quake: 
+      docker-tag: neurips23-streaming-quake
+      module: neurips23.streaming.quake.quake_wrapper
+      constructor: quake
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+            [{"nc" : 8192, "insert_chunk_size" : 1000, "delete_chunk_size" : 2500, "query_chunk_size" : 1000, "delete_threshold" : 10.0, "split_threshold" : 10.0, "refinement_radius": 25, "refinement_iterations" : 3}]
+          query-args: |
+            [{"num_search_workers" : 64, "nprobe" : 1, "recall_target" : 0.9, "batched_scan_threshold" : 75, "initial_search_threshold" : 0.05, "recompute_threshold" : 0.1, "flush_period_us" : 50, "num_job_distribute_workers" : 4}]
