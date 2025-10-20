@@ -32,7 +32,6 @@ RUN wget -qO /tmp/cmake.sh https://github.com/Kitware/CMake/releases/download/v3
 # -----------------------------
 # Clone Quake
 # -----------------------------
-RUN echo "Cloning the quake repo"
 WORKDIR /home/app/
 RUN git clone https://github.com/marius-team/quake.git --branch devesh/multi_level_bigann
 WORKDIR /home/app/quake

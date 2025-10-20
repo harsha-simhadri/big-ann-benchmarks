@@ -7,6 +7,6 @@ msturing-30M-clustered:
       run-groups:
         base:
           args: |
-            [{"nc" : 8192, "insert_chunk_size" : 1000, "delete_chunk_size" : 2500, "query_chunk_size" : 1000, "delete_threshold" : 10.0, "split_threshold" : 10.0, "refinement_radius": 25, "refinement_iterations" : 3}]
+            [{"nc" : 8192, "insert_chunk_size" : 2500, "delete_chunk_size" : 2500, "query_chunk_size" : 2500, "run_mainteance" : "True", "split_threshold" : 250, "delete_threshold_ns" : 5000, "refinement_radius" : 25, "refinement_iterations" : 2, "min_partition_size" : 32, "max_partition_size" : 8192, "enable_split_rejection" : "True", "enable_delete_rejection" : "False", "window_size" : 50000}]
           query-args: |
-            [{"num_search_workers" : 64, "nprobe" : 1, "recall_target" : 0.9, "batched_scan_threshold" : 75, "initial_search_threshold" : 0.05, "recompute_threshold" : 0.1, "flush_period_us" : 50, "num_job_distribute_workers" : 4}]
+            [{"num_search_workers" : 16, "num_merge_workers" : 1, "use_numa" : "True", "nprobe" : 32, "recall_target" : 0.9, "use_batch_scan" : "False", "initial_search_threshold" : 0.05, "recompute_threshold" : 0.1, "flush_period_us" : 50, "num_job_distribute_workers" : 2}]

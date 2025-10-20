@@ -5,12 +5,22 @@ import time
 import numpy as np
 import logging
 import torch
+import torch.nn as nn
 import math
 
 from quake import MaintenancePolicyParams
 from quake.index_wrappers.quake import QuakeWrapper
 
 from neurips23.streaming.base import BaseStreamingANN
+
+# Use to save tensor in a way that can be read by C++ code
+class TensorWrapper(nn.Module):
+    def __init__(self, tensor):
+        super(TensorWrapper, self).__init__()
+        self.register_buffer('tensor', tensor)
+
+    def forward(self, x):
+        return x
 
 # The implementation of this class is based on the diskann implementation
 class quake(BaseStreamingANN):
@@ -30,7 +40,14 @@ class quake(BaseStreamingANN):
 
         self.intial_insert_args_ = [] # Store all of the inserts before the first build
         self.initial_delete_args_ = [] # Store all of the deletes before the first build
-        self.index_ = None 
+        self.index_ = None
+
+        # Parameters related to saving the arguments
+        self.save_args_ = False
+        if self.save_args_:
+            self.save_dir_ = "/home/app/data/MSTuring-30M-clustered/index_arguments"
+            os.makedirs(self.save_dir_, exist_ok=True)
+            self.step_num_ = 1
     
     def extract_build_args(self):
         # Get the index related arguments
@@ -40,7 +57,9 @@ class quake(BaseStreamingANN):
         self.query_chunk_size_ = self.index_params_.get("query_chunk_size", 500)
 
         # Create the mainteance params
+        self.run_mainteance_ = str(self.index_params_.get("run_mainteance", "True")).lower() == "true"
         self.m_params = MaintenancePolicyParams()
+
         if "delete_threshold" in self.index_params_:
             self.m_params.delete_threshold_ns = self.index_params_["delete_threshold"]
         if "split_threshold" in self.index_params_:
@@ -49,6 +68,16 @@ class quake(BaseStreamingANN):
             self.m_params.refinement_radius = self.index_params_["refinement_radius"]
         if "refinement_iterations" in self.index_params_:
             self.m_params.refinement_iterations = self.index_params_["refinement_iterations"]
+        if "enable_split_rejection" in self.index_params_:
+            self.m_params.enable_split_rejection = str(self.index_params_["enable_split_rejection"]).lower() == "true"
+        if "enable_delete_rejection" in self.index_params_:
+            self.m_params.enable_delete_rejection = str(self.index_params_["enable_delete_rejection"]).lower() == "true"
+        if "window_size" in self.index_params_:
+            self.m_params.window_size = self.index_params_["window_size"]
+        if "min_partition_size" in self.index_params_:
+            self.m_params.min_partition_size = self.index_params_["min_partition_size"]
+        if "max_partition_size" in self.index_params_:
+            self.m_params.max_partition_size = self.index_params_["max_partition_size"]
     
     def set_query_arguments(self, query_args):
         self.query_args_ = query_args
@@ -57,11 +86,13 @@ class quake(BaseStreamingANN):
         self.num_workers_ = self.query_args_.get("num_search_workers", 16)
         self.nprobe_ = self.query_args_.get("nprobe", 16)
         self.recall_target_ = self.query_args_.get("recall_target", 0.9)
-        self.batched_scan_threshold_ = self.query_args_.get("batched_scan_threshold", 50)
+        self.use_batch_scan_ = str(self.query_args_.get("use_batch_scan", "False")).lower() == "true"
         self.initial_search_fraction_ = self.query_args_.get("initial_search_threshold", 0.05)
         self.recompute_threshold_ = self.query_args_.get("recompute_threshold", 0.1)
         self.aps_flush_period_us_ = self.query_args_.get("flush_period_us", 50)
         self.num_job_distribute_workers_ = self.query_args_.get("num_job_distribute_workers", 1)
+        self.num_merge_workers_ = self.query_args_.get("num_merge_workers", 1)
+        self.use_numa_ = str(self.query_args_.get("use_numa", "True")).lower() == "true"
     
     def setup(self, dtype, max_pts, ndim):
         # Verify that the data type is float32 because that is all that quake supports
@@ -71,7 +102,29 @@ class quake(BaseStreamingANN):
         self.max_pts_ = max_pts
         self.code_size_ = ndim
     
+    def perform_mainteance(self):
+        if self.run_mainteance_ and self.index_ is not None:
+            mainteance_result = self.index_.maintenance()
+            print(f"Mainteance Result: Num Splits - {mainteance_result.n_splits}, Num Deletes - {mainteance_result.n_deletes}, Time us - {mainteance_result.total_time_us}")
+    
+    def save_buffer_to_disk(self, save_suffix, save_buffer):
+        # Determine the save path
+        save_name = f"step_{self.step_num_}_{save_suffix}.pth"
+        save_path = os.path.join(self.save_dir_, save_name)
+
+        # Serialize and save the tensors
+        wrapper_module = TensorWrapper(save_buffer)
+        scripted_module = torch.jit.script(wrapper_module)
+        torch.jit.save(scripted_module, save_path)
+        
     def insert(self, X, ids):
+        # If save is enabled then save the arguments
+        if self.save_args_:
+            save_suffix = "insert"
+            self.save_buffer_to_disk(save_suffix + "_vectors", torch.from_numpy(X).to(torch.float32))
+            self.save_buffer_to_disk(save_suffix + "_ids", torch.from_numpy(ids).to(torch.int64))
+            self.step_num_ += 1
+            
         # Record these as the tensors to initialize the vector with
         if self.index_ is None:
             self.intial_insert_args_.append((X, ids))
@@ -96,11 +149,15 @@ class quake(BaseStreamingANN):
 
             # Add in the chunk into the index
             self.index_.add(chunk_vectors, chunk_ids)
-
-        # Finally run mainteance over the index
-        self.index_.maintenance()
+        
+        self.perform_mainteance()
     
     def delete(self, ids):
+        # If save is enabled then save the arguments
+        if self.save_args_:
+            self.save_buffer_to_disk("delete_ids", torch.from_numpy(ids).to(torch.int64))
+            self.step_num_ += 1
+
         # Store the queries to run when the index is build
         if self.index_ is None:
             self.initial_delete_args_.append(ids)
@@ -123,11 +180,14 @@ class quake(BaseStreamingANN):
             
             # Remove the ids from the index
             self.index_.remove(chunk_ids)
-
-        # Finally run mainteance over the index
-        self.index_.maintenance()
+        
+        self.perform_mainteance()
     
     def query(self, X, k):
+        if self.save_args_:
+            self.save_buffer_to_disk("search_vectors", torch.from_numpy(X).to(torch.float32))
+            self.step_num_ += 1
+
         if self.index_ is None:
             if len(self.intial_insert_args_) == 0:
                 raise Exception("Query called before any inserts")
@@ -147,7 +207,9 @@ class quake(BaseStreamingANN):
                 metric=self.metric_,
                 ids=build_ids,
                 num_workers=self.num_workers_,
-                code_size=self.code_size_
+                code_size=self.code_size_,
+                num_merge_workers=self.num_merge_workers_,
+                use_numa=self.use_numa_
             )
 
             # TODO: Currently we are naively calling delete after building the index but later combine the inserts
@@ -162,7 +224,6 @@ class quake(BaseStreamingANN):
             
         # Convert the input into the right format
         num_queries = X.shape[0]
-        use_batched_scan = num_queries >= self.batched_scan_threshold_ 
         queries = torch.from_numpy(X).to(torch.float32)
 
         # Run the queries against the index in chunks
@@ -182,20 +243,19 @@ class quake(BaseStreamingANN):
                 chunk_vectors,
                 k=k,
                 nprobe=self.nprobe_,
-                batched_scan=use_batched_scan,
+                batched_scan=self.use_batch_scan_,
                 recall_target=self.recall_target_,
                 initial_search_fraction=self.initial_search_fraction_,
                 recompute_threshold=self.recompute_threshold_,
-                aps_flush_period_us=self.aps_flush_period_us_
+                aps_flush_period_us=self.aps_flush_period_us_,
+                n_threads=self.num_job_distribute_workers_
             )
             chunk_resuls.append(search_result.ids)
 
         # Combine the chunk results
         combined_result = torch.cat(chunk_resuls, 0)
         self.res = combined_result.numpy().astype(np.uint32)
-
-        # Run mainteance on the index
-        self.index_.maintenance()
+        self.perform_mainteance()
     
     def create_index_dir(self, dataset):
         index_dir = os.path.join(os.getcwd(), "data", "indices", "streaming")
