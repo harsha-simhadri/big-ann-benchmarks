@@ -8,7 +8,8 @@ import torch
 import torch.nn as nn
 import math
 
-from quake import MaintenancePolicyParams
+from quake import MaintenancePolicyParams, IndexBuildParams, SearchParams
+from quake import QuakeIndex
 from quake.index_wrappers.quake import QuakeWrapper
 
 from neurips23.streaming.base import BaseStreamingANN
@@ -42,57 +43,64 @@ class quake(BaseStreamingANN):
         self.initial_delete_args_ = [] # Store all of the deletes before the first build
         self.index_ = None
 
-        # Parameters related to saving the arguments
+        # Parameters related to saving the arguments for debugging
         self.save_args_ = False
         if self.save_args_:
             self.save_dir_ = "/home/app/data/MSTuring-30M-clustered/index_arguments"
             os.makedirs(self.save_dir_, exist_ok=True)
             self.step_num_ = 1
+        
+        self.log_debug_info_ = False
     
     def extract_build_args(self):
         # Get the index related arguments
-        self.nc_ = self.index_params_.get("nc", 1024)
-        self.insert_chunk_size_ = self.index_params_.get("insert_chunk_size", 500)
-        self.delete_chunk_size_ = self.index_params_.get("delete_chunk_size", 500)
-        self.query_chunk_size_ = self.index_params_.get("query_chunk_size", 500)
+        self.insert_chunk_size_ = self.index_params_.get("insert_chunk_size", 5000)
+        self.delete_chunk_size_ = self.index_params_.get("delete_chunk_size", 5000)
+        self.query_chunk_size_ = self.index_params_.get("query_chunk_size", 5000)
 
         # Create the mainteance params
-        self.run_mainteance_ = str(self.index_params_.get("run_mainteance", "True")).lower() == "true"
+        self.run_mainteance_ = self.index_params_.get("run_mainteance", True)
         self.m_params = MaintenancePolicyParams()
-
-        if "delete_threshold" in self.index_params_:
-            self.m_params.delete_threshold_ns = self.index_params_["delete_threshold"]
-        if "split_threshold" in self.index_params_:
-            self.m_params.split_threshold_ns = self.index_params_["split_threshold"]
-        if "refinement_radius" in self.index_params_:
-            self.m_params.refinement_radius = self.index_params_["refinement_radius"]
-        if "refinement_iterations" in self.index_params_:
-            self.m_params.refinement_iterations = self.index_params_["refinement_iterations"]
-        if "enable_split_rejection" in self.index_params_:
-            self.m_params.enable_split_rejection = str(self.index_params_["enable_split_rejection"]).lower() == "true"
-        if "enable_delete_rejection" in self.index_params_:
-            self.m_params.enable_delete_rejection = str(self.index_params_["enable_delete_rejection"]).lower() == "true"
-        if "window_size" in self.index_params_:
-            self.m_params.window_size = self.index_params_["window_size"]
-        if "min_partition_size" in self.index_params_:
-            self.m_params.min_partition_size = self.index_params_["min_partition_size"]
-        if "max_partition_size" in self.index_params_:
-            self.m_params.max_partition_size = self.index_params_["max_partition_size"]
+        self.m_params.delete_threshold_ns = self.index_params_.get("delete_threshold", 5000)
+        self.m_params.split_threshold_ns = self.index_params_.get("split_threshold", 25)
+        self.m_params.refinement_radius = self.index_params_.get("refinement_radius", 50)
+        self.m_params.refinement_iterations = self.index_params_.get("refinement_iterations", 3)
+        self.m_params.enable_split_rejection = self.index_params_.get("enable_split_rejection", True)
+        self.m_params.enable_delete_rejection = self.index_params_.get("enable_delete_rejection", True)
+        self.m_params.window_size = self.index_params_.get("window_size", 5000)
+        self.m_params.min_partition_size = self.index_params_.get("min_partition_size", 32)
     
     def set_query_arguments(self, query_args):
         self.query_args_ = query_args
 
-        # Extract the query args
-        self.num_workers_ = self.query_args_.get("num_search_workers", 16)
-        self.nprobe_ = self.query_args_.get("nprobe", 16)
-        self.recall_target_ = self.query_args_.get("recall_target", 0.9)
-        self.use_batch_scan_ = str(self.query_args_.get("use_batch_scan", "False")).lower() == "true"
-        self.initial_search_fraction_ = self.query_args_.get("initial_search_threshold", 0.05)
-        self.recompute_threshold_ = self.query_args_.get("recompute_threshold", 0.1)
-        self.aps_flush_period_us_ = self.query_args_.get("flush_period_us", 50)
-        self.num_job_distribute_workers_ = self.query_args_.get("num_job_distribute_workers", 1)
-        self.num_merge_workers_ = self.query_args_.get("num_merge_workers", 1)
-        self.use_numa_ = str(self.query_args_.get("use_numa", "True")).lower() == "true"
+        # Extract the index build and search parameters at each level
+        self.build_params_ = IndexBuildParams()
+        curr_level_build_params = self.build_params_
+        self.search_params_ = SearchParams()
+        curr_level_search_params = self.search_params_
+
+        all_levels = self.query_args_["levels"]
+        for curr_level_idx in range(len(all_levels)):
+            # Extract the build params for the current level
+            curr_level_details = all_levels[curr_level_idx]
+            curr_level_build_params.metric = self.metric_
+            curr_level_build_params.nlist = curr_level_details.get("nc", 1024)
+            curr_level_build_params.num_workers = curr_level_details.get("num_search_workers", 8)
+            curr_level_build_params.use_numa = curr_level_details.get("use_numa", True)
+
+            # Extract the search params for the current level
+            curr_level_search_params.nprobe = curr_level_details.get("nprobe", 32)
+            curr_level_search_params.recall_target = curr_level_details.get("recall_target", 0.9)
+            curr_level_search_params.batched_scan = curr_level_details.get("batch_scan", True)
+            curr_level_search_params.batch_size = curr_level_details.get("batch_size", 128)
+
+            # If this is not the last level then add in another level to both of the index
+            if curr_level_idx < (len(all_levels) - 1):
+                curr_level_build_params.parent_params = IndexBuildParams()
+                curr_level_build_params = curr_level_build_params.parent_params
+
+                curr_level_search_params.parent_params = SearchParams()
+                curr_level_search_params = curr_level_search_params.parent_params
     
     def setup(self, dtype, max_pts, ndim):
         # Verify that the data type is float32 because that is all that quake supports
@@ -105,7 +113,9 @@ class quake(BaseStreamingANN):
     def perform_mainteance(self):
         if self.run_mainteance_ and self.index_ is not None:
             mainteance_result = self.index_.maintenance()
-            print(f"Mainteance Result: Num Splits - {mainteance_result.n_splits}, Num Deletes - {mainteance_result.n_deletes}, Time us - {mainteance_result.total_time_us}")
+
+            if self.log_debug_info_:
+                print(f"Mainteance Result: Num Splits - {mainteance_result.n_splits}, Num Deletes - {mainteance_result.n_deletes}, Total Time us - {mainteance_result.total_time_us}, Delete Time us - {mainteance_result.delete_time_us}, Split Time us - {mainteance_result.split_time_us}, Refinement Time us - {mainteance_result.refinement_time_us}")
     
     def save_buffer_to_disk(self, save_suffix, save_buffer):
         # Determine the save path
@@ -137,6 +147,7 @@ class quake(BaseStreamingANN):
         
         # Insert in the vectors to the index in chunks
         num_chunks = int(math.ceil(num_vectors/self.insert_chunk_size_))
+        start_time = time.time()
         for chunk_idx in range(num_chunks):
             # Determine the vector and ids in this chunk
             start_idx = int(chunk_idx * self.insert_chunk_size_)
@@ -149,6 +160,12 @@ class quake(BaseStreamingANN):
 
             # Add in the chunk into the index
             self.index_.add(chunk_vectors, chunk_ids)
+        end_time = time.time()
+
+        if self.log_debug_info_:
+            insert_time_sec = end_time - start_time
+            insertion_throughput = num_vectors/insert_time_sec
+            print("Inserting", num_vectors, "vectors took", insert_time_sec, "seconds resulting in throughput", insertion_throughput)
         
         self.perform_mainteance()
     
@@ -169,6 +186,7 @@ class quake(BaseStreamingANN):
 
         # Remove the ids from the index in chunks
         num_chunks = int(math.ceil(num_ids/self.delete_chunk_size_))
+        start_time = time.time()
         for chunk_idx in range(num_chunks):
             # Determine the ids in this chunk
             start_idx = int(chunk_idx * self.delete_chunk_size_)
@@ -180,10 +198,18 @@ class quake(BaseStreamingANN):
             
             # Remove the ids from the index
             self.index_.remove(chunk_ids)
+        end_time = time.time()
+
+        if self.log_debug_info_:
+            delete_time_sec = end_time - start_time
+            delete_througput = num_ids/delete_time_sec
+            print("Deleting", num_ids, "vectors took", delete_time_sec, "seconds resulting in throughput", delete_througput)
         
         self.perform_mainteance()
     
     def query(self, X, k):
+        self.search_params_.k = k # Update k based on input argument
+
         if self.save_args_:
             self.save_buffer_to_disk("search_vectors", torch.from_numpy(X).to(torch.float32))
             self.step_num_ += 1
@@ -199,18 +225,10 @@ class quake(BaseStreamingANN):
             build_ids = torch.from_numpy(combined_vectors_arr).to(torch.int64)
 
             # Now build the index
-            print("Building initial quake index with", build_ids.shape[0], "vectors")
+            # print("Building initial quake index with", build_ids.shape[0], "vectors")
             self.index_ = QuakeWrapper()
-            self.index_.build(
-                build_vectors,
-                self.nc_,
-                metric=self.metric_,
-                ids=build_ids,
-                num_workers=self.num_workers_,
-                code_size=self.code_size_,
-                num_merge_workers=self.num_merge_workers_,
-                use_numa=self.use_numa_
-            )
+            self.index_.index = QuakeIndex()
+            self.index_.index.build(build_vectors, build_ids, self.build_params_)
 
             # TODO: Currently we are naively calling delete after building the index but later combine the inserts
             # and deletes before calling build
@@ -229,6 +247,7 @@ class quake(BaseStreamingANN):
         # Run the queries against the index in chunks
         num_chunks = int(math.ceil(num_queries/self.query_chunk_size_))
         chunk_resuls = []
+        start_time = time.time()
         for chunk_idx in range(num_chunks):
             # Determine the vector in this chunk
             start_idx = int(chunk_idx * self.query_chunk_size_)
@@ -239,22 +258,19 @@ class quake(BaseStreamingANN):
             chunk_vectors = queries[start_idx : end_idx, : ]
 
             # Run the query against the index and save the result
-            search_result = self.index_.search(
-                chunk_vectors,
-                k=k,
-                nprobe=self.nprobe_,
-                batched_scan=self.use_batch_scan_,
-                recall_target=self.recall_target_,
-                initial_search_fraction=self.initial_search_fraction_,
-                recompute_threshold=self.recompute_threshold_,
-                aps_flush_period_us=self.aps_flush_period_us_,
-                n_threads=self.num_job_distribute_workers_
-            )
+            search_result = self.index_.index.search(chunk_vectors, self.search_params_)
             chunk_resuls.append(search_result.ids)
 
         # Combine the chunk results
         combined_result = torch.cat(chunk_resuls, 0)
         self.res = combined_result.numpy().astype(np.uint32)
+        end_time = time.time()
+
+        if self.log_debug_info_:
+            query_time_sec = end_time - start_time
+            query_throughput = num_queries/query_time_sec
+            print("Querying", num_queries, "vectors took", query_time_sec, "seconds resulting in throughput", query_throughput)
+
         self.perform_mainteance()
     
     def create_index_dir(self, dataset):
