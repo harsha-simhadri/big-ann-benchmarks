@@ -1,6 +1,5 @@
-Release Terms for the Microsoft-Turing-ANNS dataset
 ---------------------------------------------------
-
+ 
 The MS-Turing-ANNS datasets are intended for non-commercial research
 purposes only to promote advancement in the field of artificial
 intelligence and related areas, and is made available free of charge
@@ -11,11 +10,11 @@ documents. We are not be liable for any damages related to use of the
 dataset. Feedback is voluntarily given and can be used as we see
 fit. Upon violation of any of these terms, your rights to use the
 dataset will end automatically.
-
-
+ 
+ 
 Disclaimer
 ----------
-
+ 
 Data sets are intended for research and academic purposes. Please note
 that inputs or outputs may include content that users find offensive,
 shocking, and/or otherwise harmful.
