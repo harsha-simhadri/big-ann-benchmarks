@@ -1,0 +1,19 @@
+\section{Conclusion}
+\label{sec:conclusion}
+
+The Big ANN Challenge at NeurIPS 2023 significantly advanced the field of Approximate Nearest Neighbor (ANN) search by addressing complex real-world scenarios such as filtered, out-of-distribution, sparse and streaming searches. The competition featured significant improvements in search accuracy and efficiency over state-of-the-art baselines through innovative approaches from both academic and industrial participants. 
+Key advancements included improvements in graph-based indexing, quantization techniques, hybrid structures for vector and metadata indexing, and efficient memory access strategies. 
+Advancement have been achieved in two ways: through fundamental algorithmic advances accounting for the task specific setting or by careful engineering and adapting existing implementations.
+The competition fostered broad participation by emphasizing resource-efficient solutions and open-source contributions.
+
+
+% \harsha{Amir: Do the optimizations of PyANNS and GrassRMA compose?}
+% \amir{good question. Seems that they might. I haven't checked. I'll mention this in the summary as an interesting open question}
+
+
+
+The Big ANN Challenge has already catalyzed ongoing research efforts in the field, with several new advancements improving the top results of the challenge such as \cite{bruch2024efficient}, \cite{pinecone_blog}, \cite{DBLP:journals/pvldb/ChenZHJW24} and others. Researchers and practitioners are encouraged to contribute and stay updated with the latest developments through the ongoing leaderboard, accessible at \url{https://github.com/harsha-simhadri/big-ann-benchmarks/blob/main/neurips23/ongoing_leaderboard/leaderboard.md}.
+
+\section{Acknowledgements}
+We are grateful to Dax Pryce for developing the Python wrappers for the diskann library used as a baseline in two tracks,
+and to Erkang Zhu for a detailed analysis of the recall trends of DiskANN and HNSW under deletions.

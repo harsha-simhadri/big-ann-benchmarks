@@ -1,0 +1,163 @@
+\documentclass{article}
+
+% \documentclass[pmlr,x11names,table]{jmlr}% new name PMLR (Proceedings of Machine Learning)
+
+
+
+\newif\ifarxiv
+\newif\ifnotarxiv
+
+\arxivfalse
+\notarxivtrue
+
+% if you need to pass options to natbib, use, e.g.:
+%     \PassOptionsToPackage{numbers, compress}{natbib}
+% before loading neurips_2023
+
+
+\usepackage{graphicx}
+% \usepackage{amsthm}
+
+% \theoremstyle{definition}
+\newtheorem{definition}{Definition}
+
+% to compile a preprint version, e.g., for submission to arXiv, add add the
+% [preprint] option:
+\usepackage[dandb, final]{neurips_2025}
+
+
+
+
+
+% to avoid loading the natbib package, add option nonatbib:
+%    \usepackage[nonatbib]{neurips_2023}
+
+\newcommand{\harsha}[1]{{\color{green!40!blue}[\textbf{Harsha}:#1]}}
+\newcommand{\martin}[1]{{\color{blue!20!red}[\textbf{Martin}:#1]}}
+\newcommand{\matthijs}[1]{{\color{blue}[\textbf{Matthijs}:#1]}}
+\newcommand{\georgew}[1]{{\color{orange}[\textbf{GeorgeW}:#1]}}
+\newcommand{\magdalen}[1]{{\color{magenta}[\textbf{Magdalen}: #1]}}
+\newcommand{\amir}[1]{{\color{blue!50!purple}[\textbf{Amir}:#1]}}
+
+% \newcommand{\Name}[1]{{#1}}
+% \newcommand{\Email}[1]{{\texttt{#1}}}
+
+\newcommand{\eg}{\emph{e.g.}\@\xspace}
+\newcommand{\etc}{\emph{etc.}\@\xspace}
+\newcommand{\ie}{\emph{i.e.}\@\xspace}
+\newcommand{\etal}{\emph{et al}\@\xspace}
+\newcommand{\wrt}{\emph{w.r.t.}\@\xspace}
+
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{xcolor}         % colors
+
+\usepackage[font=small,labelfont=bf]{caption}
+
+\renewcommand{\paragraph}[1]{\noindent\textbf{#1}\quad}
+
+
+\title{Results of the Big ANN: NeurIPS'23 competition}
+
+
+% The \author macro works with any number of authors. There are two commands
+% used to separate the names and addresses of multiple authors: \And and \AND.
+%
+% Using \And between authors leaves it to LaTeX to determine where to break the
+% lines. Using \AND forces a line break at that point. So, if LaTeX puts 3 of 4
+% authors names on the first line, and the last on the second line, try using
+% \AND instead of \And before the third author name.
+
+\newcommand{\aff}[1]{\textsuperscript{#1}}
+
+\author{%
+ \Name{Harsha Vardhan Simhadri\aff{1}} \Email{harshasi@microsoft.com}\\
+ \Name{Martin Aum\"uller\aff{2}} \Email{maau@itu.dk}\\
+ \Name{Dmitry Baranchuk\aff{3}} \Email{dbaranchuk@yandex-team.ru}\\
+ \Name{Matthijs Douze\aff{4}} \Email{matthijs@meta.com}\\
+ \Name{Edo Liberty\aff{5}} \Email{edo@pinecone.io}\\
+ \Name{Amir Ingber\aff{5}} \Email{ingber@pinecone.io}\\
+ \Name{Frank Liu\aff{6}} \Email{frank.liu@zilliz.com} \\
+ \Name{George Williams\aff{7}} \Email{gwilliams@ieee.org}\\
+ \Name{Ben Landrum\aff{10}}~~ 
+ \Name{Magdalen Dobson Manohar \aff{11}}~~
+ \Name{Mazin Karjikar\aff{10}}~~
+ \Name{Laxman Dhulipala\aff{10}}\\
+  \Name{Meng Chen\aff{8}}~
+  \Name{Yue Chen\aff{8}}~
+  \Name{Rui Ma\aff{8}}~
+  \Name{Kai Zhang\aff{8}}~
+  \Name{Yuzheng Cai\aff{8}}~
+  \Name{Jiayang Shi\aff{8}}~
+  \Name{Yizhuo Chen\aff{8}}~
+  \Name{Weiguo Zheng\aff{8}} \\
+  \Name{Zihao Wang\aff{9}}~~
+  \Name{Jie Yin\aff{12}}~~
+  \Name{Ben Huang\aff{12}}
+  \rm \small \\
+  \aff{1} Microsoft
+  \aff{2} IT University of Copenhagen 
+  \aff{3} Yandex
+  \aff{4} Meta AI Research 
+  \aff{5} Pinecone
+  \aff{6} Zilliz \\
+  \aff{7} Independent researcher  
+  \aff{8} Fudan University
+  \aff{9} Shanghai Jiao Tong University \\
+  \aff{10} University of Maryland
+  \aff{11} Carnegie Mellon University
+  \aff{12} Baidu\\
+}
+
+
+ 
+% \author{
+%     Harsha Vardhan Simhadri\thanks{Lead organizer.} \\ Microsoft  \\  \tt{harshasi@microsoft.com}\\ \And
+%     %\thanks{Leader and Backup(s) organizers should read and acknowledge  Competition Chairs' communications.} \and 
+%     Martin Aumüller \\ IT University of Copenhagen \\ \tt{maau@itu.dk} \And 
+%     Dmitry Baranchuk \\ Yandex \\ \tt{dbaranchuk@yandex-team.ru} \And
+%     Matthijs Douze \\ Meta AI Research \\ \tt{matthijs@meta.com} \And
+%     Edo Liberty \\ Pinecone.io \\ \tt{edo@pinecone.io} \And 
+%     Amir Ingber \\ Pinecone.io \\ \tt{ingber@pinecone.io} \And
+%     Frank Liu \\ Zilliz \\ \tt{frank.liu@zilliz.com} \And
+%     George Williams \\ Independent Researcher \\ \tt{gwilliams@ieee.org}
+% }
+
+\begin{document}
+
+\maketitle
+
+\input{abstract}
+
+%\subsection*{Keywords}
+%Dense Retrieval, Approximate Nearest Neighbor Search, Search.
+
+% Decision: we write the submission analysis ourselves 
+
+\input{intro}
+
+\input{tracks}
+
+\input{evaluation}
+
+\input{results}
+
+\input{discussion}
+
+\input{conclusion}
+
+\bibliographystyle{plain}
+\bibliography{ref}
+
+\input{checklist2025}
+
+%\input{checklist}
+
+\end{document}

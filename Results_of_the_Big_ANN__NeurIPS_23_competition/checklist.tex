@@ -1,0 +1,62 @@
+\section*{Checklist}
+
+\begin{enumerate}
+
+\item For all authors...
+\begin{enumerate}
+  \item Do the main claims made in the abstract and introduction accurately reflect the paper's contributions and scope?
+    \answerYes{} The main aim of this paper is to summarize the competition format and the performance and innovation of its winning entries. The competition format is discussed in Section~\ref{sec:tracks}, and its specific evaluation metrics are discussed in Section~\ref{sec:eval}. Section~\ref{sec:results} summarizes the performance of entrants on each track, with details on the winning entrants.
+  \item Did you describe the limitations of your work?
+    \answerYes{} The limitations are explicitly discussed in Section~\ref{sec:intro}.
+  \item Did you discuss any potential negative societal impacts of your work?
+    \answerYes{} The societal impacts are explicitly discussed in Section~\ref{sec:intro}.
+  \item Have you read the ethics review guidelines and ensured that your paper conforms to them?
+    \answerYes{} We have read the guidelines in full and verified that our paper conforms to them.
+\end{enumerate}
+
+\item If you are including theoretical results...
+\begin{enumerate}
+  \item Did you state the full set of assumptions of all theoretical results?
+    \answerNA{} Our paper does not include theoretical results.
+	\item Did you include complete proofs of all theoretical results?
+    \answerNA{} See above.
+\end{enumerate}
+
+\item If you ran experiments (e.g. for benchmarks)...
+\begin{enumerate}
+  \item Did you include the code, data, and instructions needed to reproduce the main experimental results (either in the supplemental material or as a URL)?
+    \answerYes{} The main experimental results are the performance of the entries on each competition track. Everything from downloading the datasets to running the competition entries to scoring their output is automated at the competition Github, which is linked in Section~\ref{sec:conclusion}.
+  \item Did you specify all the training details (e.g., data splits, hyperparameters, how they were chosen)?
+    \answerNA{} We did not train any datasets for this submission.
+	\item Did you report error bars (e.g., with respect to the random seed after running experiments multiple times)?
+    \answerNA{} The format of the competition did not inject randomness into the experimental results, other than randomness from potential machine anomalies, which was ameliorated by running each benchmark query five times and reporting average throughput.
+	\item Did you include the total amount of compute and the type of resources used (e.g., type of GPUs, internal cluster, or cloud provider)?
+    \answerYes{} In Section~\ref{sec:eval} we detail both the specific hardware and the time that competition entrants were allotted for their submissions.
+\end{enumerate}
+
+\item If you are using existing assets (e.g., code, data, models) or curating/releasing new assets...
+\begin{enumerate}
+  \item If your work uses existing assets, did you cite the creators?
+    \answerYes{} The creators of all existing datasets are cited in Table~\ref{tab:data_details}
+  \item Did you mention the license of the assets?
+    \answerYes{} The licenses of datasets used are included in Table~\ref{tab:data_details}.
+  \item Did you include any new assets either in the supplemental material or as a URL?
+    \answerYes{} The only new asset we introduce is the competition framework and its baselines, which are linked in Section~\ref{sec:conclusion}.
+  \item Did you discuss whether and how consent was obtained from people whose data you're using/curating?
+    \answerYes{} As discussed in Section~\ref{sec:tracks}, all data we curate was gathered in compliance with the user agreements of the relevant platforms or services, or by research subjects who consented to collection.
+  \item Did you discuss whether the data you are using/curating contains personally identifiable information or offensive content?
+    \answerYes{} We are curating datasets rather than creating them. We discuss this information to the best of our knowledge in Section~\ref{sec:tracks}.
+\end{enumerate}
+
+\item If you used crowdsourcing or conducted research with human subjects...
+\begin{enumerate}
+  \item Did you include the full text of instructions given to participants and screenshots, if applicable?
+    \answerNA{} We did not use crowdsourcing or conduct research with human subjects.
+  \item Did you describe any potential participant risks, with links to Institutional Review Board (IRB) approvals, if applicable?
+    \answerNA{} See above.
+  \item Did you include the estimated hourly wage paid to participants and the total amount spent on participant compensation?
+    \answerNA{} See above.
+\end{enumerate}
+
+\end{enumerate}
+

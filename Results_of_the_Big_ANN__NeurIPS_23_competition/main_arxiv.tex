@@ -1,0 +1,193 @@
+% \documentclass[10pt,twocolumn,letterpaper]{fairmeta}
+
+
+\documentclass[9pt,twocolumn,a4paper]{article}
+
+\usepackage{geometry}
+ \geometry{
+ a4paper,
+ left=20mm,
+ top=20mm,
+ right=20mm,
+ bottom=20mm,
+}
+
+%\documentclass[10pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{foreign}
+
+
+\newif\ifarxiv
+\newif\ifnotarxiv
+
+\arxivtrue
+\notarxivfalse
+
+\usepackage[font=footnotesize]{caption}
+
+% \newif\ifarxiv
+% \newif\ifnotarxiv
+
+
+\usepackage{palatino}
+
+
+\usepackage{enumitem}
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{xspace}
+\usepackage{graphicx}
+%\usepackage[caption=false]{subfig}
+\usepackage{footnote}
+\usepackage{hyperref}
+\usepackage{multirow}
+\usepackage{subfig}
+\usepackage{enumitem}
+\usepackage{comment}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+
+% to compile a preprint version, e.g., for submission to arXiv, add add the
+% [preprint] option:
+
+
+% to compile a camera-ready version, add the [final] option, e.g.:
+%\usepackage[final]{neurips_2023}
+
+
+% to avoid loading the natbib package, add option nonatbib:
+%    \usepackage[nonatbib]{neurips_2023}
+
+\newcommand{\harsha}[1]{{\color{green!40!blue}[\textbf{Harsha}:#1]}}
+\newcommand{\martin}[1]{{\color{blue!20!red}[\textbf{Martin}:#1]}}
+\newcommand{\matthijs}[1]{{\color{blue}[\textbf{Matthijs}:#1]}}
+\newcommand{\georgew}[1]{{\color{orange}[\textbf{GeorgeW}:#1]}}
+\newcommand{\magdalen}[1]{{\color{magenta}[\textbf{Magdalen}: #1]}}
+\newcommand{\amir}[1]{{\color{blue!50!purple}[\textbf{Amir}:#1]}}
+
+\newcommand{\Name}[1]{{#1}}
+\newcommand{\Email}[1]{{\texttt{#1}}}
+
+\newcommand{\eg}{\emph{e.g.}\@\xspace}
+\newcommand{\etc}{\emph{etc.}\@\xspace}
+\newcommand{\ie}{\emph{i.e.}\@\xspace}
+\newcommand{\etal}{\emph{et al}\@\xspace}
+\newcommand{\wrt}{\emph{w.r.t.}\@\xspace}
+
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{xcolor}         % colors
+
+\usepackage[font=small,labelfont=bf]{caption}
+
+\date{}
+
+\title{Results of the Big ANN: NeurIPS'23 competition}
+
+
+% The \author macro works with any number of authors. There are two commands
+% used to separate the names and addresses of multiple authors: \And and \AND.
+%
+% Using \And between authors leaves it to LaTeX to determine where to break the
+% lines. Using \AND forces a line break at that point. So, if LaTeX puts 3 of 4
+% authors names on the first line, and the last on the second line, try using
+% \AND instead of \And before the third author name.
+
+\newcommand{\aff}[1]{\textsuperscript{#1}}
+
+
+\newcommand{\authplusaff}[2]{
+\begin{minipage}{5cm}
+\centering
+{ #1} \\
+\small{#2}
+\vspace{4mm}
+\end{minipage}
+}
+
+\newcommand{\authplusaffW}[2]{
+\begin{minipage}{15cm}
+\centering
+{#1} \\
+\small{#2}
+\vspace{4mm}
+\end{minipage}
+}
+
+\author{%
+\begin{tabular}{ccc}
+\authplusaff{Harsha Vardhan Simhadri}{Microsoft} & 
+\authplusaff{Martin Aum\"uller}{IT University of Copenhagen} & 
+\authplusaff{Amir Ingber}{Pinecone} \\
+\authplusaff{Matthijs Douze}{Meta AI Research} &
+\authplusaff{George Williams}{} &
+\authplusaff{Dmitry Baranchuk}{Yandex} \\
+\authplusaff{Edo Liberty}{Pinecone} &
+\authplusaff{Frank Liu}{Zilliz} &
+\authplusaff{Ben Landrum}{University of Maryland} \\
+\authplusaff{Magdalen Dobson Manohar}{Carnegie Mellon University} &
+\authplusaff{Mazin Karjikar}{University of Maryland} &
+\authplusaff{Laxman Dhulipala}{University of Maryland} \\
+\multicolumn{3}{c}{
+\authplusaffW{Meng Chen, Yue Chen, Rui Ma, Kai Zhang, Yuzheng Cai, \\
+Jiayang Shi, Yizhuo Chen, Weiguo Zheng}{Fudan University}} \\
+\authplusaff{Zihao Wang}{Shanghai Jiao Tong University} & 
+\authplusaff{Jie Yin}{Baidu}  &
+\authplusaff{Ben Huang}{Baidu}  \\
+\end{tabular}
+}
+
+
+ 
+% \author{
+%     Harsha Vardhan Simhadri\thanks{Lead organizer.} \\ Microsoft  \\  \tt{harshasi@microsoft.com}\\ \And
+%     %\thanks{Leader and Backup(s) organizers should read and acknowledge  Competition Chairs' communications.} \and 
+%     Martin Aumüller \\ IT University of Copenhagen \\ \tt{maau@itu.dk} \And 
+%     Dmitry Baranchuk \\ Yandex \\ \tt{dbaranchuk@yandex-team.ru} \And
+%     Matthijs Douze \\ Meta AI Research \\ \tt{matthijs@meta.com} \And
+%     Edo Liberty \\ Pinecone.io \\ \tt{edo@pinecone.io} \And 
+%     Amir Ingber \\ Pinecone.io \\ \tt{ingber@pinecone.io} \And
+%     Frank Liu \\ Zilliz \\ \tt{frank.liu@zilliz.com} \And
+%     George Williams \\ Independent Researcher \\ \tt{gwilliams@ieee.org}
+% }
+
+\begin{document}
+
+\maketitle
+
+\input{abstract}
+
+% Decision: we write the submission analysis ourselves 
+
+\input{intro}
+
+\input{tracks}
+
+\input{evaluation}
+
+\input{results}
+
+\input{discussion}
+
+\input{conclusion}
+
+\bibliographystyle{plain}
+\bibliography{ref}
+
+
+\end{document}

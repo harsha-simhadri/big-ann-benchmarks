@@ -1,0 +1,103 @@
+
+\section{Evaluation}
+\label{sec:eval}
+
+\newcommand{\recall}[2]{${#1}$-recall$@{#2}$} 
+
+The entries were run by the organizers on the standard Azure D8lds\_v5-series Virtual Machine with
+8 vCPUs and 16GB RAM (memory shared by index with OS and standard libraries).
+Entries for all tracks could use all resources available, except for the streaming track which limited memory to 8GB.
+
+\subsection{Metrics}
+
+Each of the four tasks had an independent leaderboard that participants could submit independent entries to.
+%
+For each entry,  the participants provided a single set of configuration for building an index 
+and a limited list of configurations specifying hyperparameters for querying.
+%
+The evaluation is carried out with the final query set and the best run is selected.
+%
+This is akin to the measurements in~\cite{FaissBenchmarks,Benchmark, DBLP:conf/nips/SimhadriWADBBCH21}.
+
+\paragraph{Search accuracy.}
+We measured 10-recall@10 where recall is defined as follows:
+
+\begin{definition}
+  \label{def:recall}
+  For a query vector $q$ over dataset $P$, suppose that (a) $G
+  \subseteq P$ is the set of actual $k$ nearest neighbors in $P$, and
+  (b) $X \subseteq P$ is the output of a $k'$-ANNS query to an index
+  for $k' \geq k$ nearest neighbors. Then the \recall{k}{k'} for the
+  index for query $q$ is $\frac{|X \cap G|}{k}$. Recall for a set of
+  queries refers to the average recall over all queries.
+\end{definition}
+
+The definition is easily modified for the streaming scenario and filtered queries.
+%
+For the streaming scenario, the recall is computed against the set $P$ consisting
+of all insertions, minus deletions, at the point at which the query was issued to the index.
+%
+%The recall for a run is the average recall at all query points in the index.
+%
+For the filtered search, the recall is computed against the subset of $P$ relevant
+to the filters specified in the query. 
+
+\noindent{\bf Throughput.} We measured the overall query
+throughput on the standardized machine.
+%
+All queries are provided at once, and the entry could use all the threads available 
+to batch process the queries.
+%
+We measured the wall clock time
+between the ingestion of the vectors and when all the results are output.
+%
+The resulting measure is the number of queries per second (QPS).
+
+
+\noindent{\bf Scoring.} For filtered, out-of-distribution, and sparse tasks,
+we measured the query throughput of each configuration, and picked the
+highest throughput that achieved at least 90\% \recall{10}{10}. 
+%
+The leader board lists entries in decreasing throughput at this recall cut-off.
+
+For the streaming scenario, we averaged the recall of queries at various checkpoints
+over runs that complete in an execution window.
+%
+That is, the algorithm must complete all insertions, deletions and searches in 1 hour,
+and only those runs will be scored and ranked by maximum recall across searches.
+
+
+
+
+\subsection{Evaluation protocol}
+
+We extended the benchmarking framework developed by \cite{DBLP:conf/nips/SimhadriWADBBCH21} 
+to standardize and automate the evaluation of the four tracks. 
+%
+The framework is open sourced at GitHub\footnote{\url{https://github.com/harsha-simhadri/big-ann-benchmarks/releases/tag/v0.3.0}}.
+%
+The framework takes care of downloading and preparing the datasets,
+running the entries, and evaluating the results in terms of providing summarizing metrics and plots.
+%
+Entries are required to specify the installation steps to build a Docker container from
+their code (or provide such a Docker container) and need to implement 
+the interface required by the targeted contest track in Python.
+%
+Each submission was allowed to submit one set of build parameters (per track) and at most 10 sets of hyperparameters defining search-specific behavior. 
+The different hyperparameter settings are intended to strike different speed-accuracy tradeoffs.
+%
+Except for the streaming track, each submission had to build the index used to carry 
+out the search in at most 12 hours using all resources available on the evaluation machine.
+
+
+The entry submission was handled using Github's pull requests initiated by the authors of an implementation.
+%
+Authors had the opportunity to give feedback on the experimental runs carried out by the organizers during 
+an interactive round in which organizers reported on the success of the installation and published the result
+of the evaluation on the public query set.
+%
+These conversations are recorded in public on the respective pull requests.
+%
+For the filtered and sparse track, the final evaluation was carried out on a query workload that was kept private to the organizers to avoid overfitted solutions.
+
+\paragraph{Details of a submission.} A participant has to submit a Python solution\footnote{In practice, the performance-critical parts are implemented in a low-level programming language, and a wrapper is used to make this code usable from within Python.} that implements a solution using a straight-forward interface. The evaluation of the sparse, filter, and OOD track contains two parts: In the first part, the evaluation framework provides the dataset $X$ to the implementation. Given $X$, it builds an index $\mathcal{I}$. In the second phase, the evaluation framework presents the query workload $Y$ (in one batch) and asks for the 10 nearest neighbors for each query in $Y$ in $X$ under the task constraints. The implementation will use its search method on $\mathcal{I}$ to produce the resulting set of indices and distances of the approximate solution to the query workload. This set, as well as timing information regarding build and search time, is then stored for further post-processing. For example, in the context of the sparse track, $X$ and $Y$ are CSR matrices to efficiently represent the sparse, high-dimensional vectors. In the context of the filtered track, each vector in $X$ comes with a set of tags, and each vector of $Y$ comes with at most two tags. For the streaming task, there is no preprocessing phase, and the query phase will instead emulate a ``runbook’’ of insert, remove, and searches, as detailed in the previous section.

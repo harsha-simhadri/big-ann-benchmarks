@@ -1,0 +1,62 @@
+
+\section{Introduction}
+\label{sec:intro}
+
+%\matthijs{Formatting instructions here: \url{}}
+
+Approximate Nearest Neighbor (ANN) search is an important tool in various fields including computer vision, 
+natural language processing, information retrieval, and retrieval-augmentation.
+For example, in the context of Large-Language-Models (LLMs), ANN search is used to add knowledge after model training~\cite{DBLP:conf/iclr/KhandelwalLJZL20} via retrieval-augmented generation.
+The necessary similarity search operations such as \emph{nearest neighbor queries}
+are often required on large datasets, often with  \emph{billions} of \emph{high-dimensional, real-valued} vectors,
+and response times in milliseconds are needed for LLMs to use these in multi-turn reasoning.
+As result, efficient and accurate ANN search algorithms are essential.
+
+As ANN search becomes commonplace, many variants have become critical  in practice.
+For example, database
+queries use a combination of vector similarity and predicates over attributes. Multi-modal
+search involves vectors representing different modalities and thus potentially different distributions.
+New sparse embedding models are being invented for interpretability and to incorporate text search~\cite{formal2022splade}.
+Indices are continually updated to reflect changing content and database transactions.
+These complex scenarios are the current reality in the industry, and require
+indices that work well in constrained  computational environments.
+
+
+% The 2023 Big ANN Challenge, 
+% hosted at 
+% aimed to push the boundaries of current indexing and search methodologies
+% by addressing four challenging variants of ANN search: filtered search, out-of-distribution data, sparse vectors, and streaming scenarios.
+% These variants represent realistic and complex scenarios encountered in practical applications,
+% moving beyond the well-trodden path of standard dense vector indexing.
+
+Our goal was to shine more light on these variants through a competition with new datasets and baselines,
+and encourage the research community to develop  new indexing and search algorithms, and their optimized implementations.
+To ensure broad participation and accessibility, the scale of the tasks in the competition was chosen
+to be large enough to be interesting and small enough to experiment on laptops, small workstations, or virtual machines.
+The datasets were carefully curated to be representative yet manageable in size, and the evaluation was
+conducted on standardized Azure virtual machines with limited computational power and memory.
+Small grants for cloud compute credits provided by Pinecone and AWS further encouraged participation.
+The competition emphasized open-source contributions, promoting transparency and reproducibility.
+
+This paper summarizes the competition, detailing the specific tracks and datasets used (Section~\ref{sec:tracks}),
+the evaluation metrics employed (Section~\ref{sec:eval}), and the notable approaches taken by the participants (Section~\ref{sec:results}). 
+By highlighting the advancements made during the challenge, we aim to provide valuable insights 
+into the current state of ANN research and identify promising directions for future work.
+
+%By addressing these specific challenges, the competition aimed to stimulate innovative solutions and attract participation from both academic and industrial communities.
+
+\paragraph{Broader Impact.}  
+While the previous NeurIPS’21 competition on billion-scale approximate nearest neighbor search \cite{DBLP:conf/nips/SimhadriWADBBCH21} focused on establishing datasets and the experimental methodology for evaluating large-scale ANN search systems, the present paper proposes novel, industry-motivated search tasks and evaluates the state of the art. We establish clear task definitions, suggest datasets and workloads for them, and introduce the experimental framework that defines the methodology. 
+We believe that this competition had positive impact on this research community.
+By using small datasets and accessible hardware, as well as issuing generous grants for development, the competition ensured that anyone could participate regardless of their own resources.
+After the competition, people used our proposal in their own research, see for example \cite{DBLP:conf/sigir/BruchNRV24,DBLP:journals/debu/KrishnaswamyMS24,DBLP:journals/corr/abs-2502-13826,DBLP:journals/corr/abs-2502-13245,upreti2025costeffectivelowlatencyvector}.
+Moreover, the detailed description of competition entries led to top-tier publications such as~\cite{DBLP:journals/pvldb/ChenZHJW24}.
+
+\paragraph{Limitations.}
+Applications of ANN search, such as ranking or recommendation, can be used towards unethical ends.
+However, this competition focuses on developing faster algorithms for existing problems,
+and does not meaningfully enhance any existing capacity for unethical behavior. The limitations of this work are inherent to the task of creating a competition with well-defined evaluation metrics: 
+the metrics and tracks cannot capture every nuance of a robust ANN search algorithm. 
+However, the tracks captured diverse scenarios and used the most widely accepted evaluation
+metrics in the community.
+%\magdalen{I added this paragraph to comply with the checklist.}

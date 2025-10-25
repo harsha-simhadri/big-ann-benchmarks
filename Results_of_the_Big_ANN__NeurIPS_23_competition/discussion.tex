@@ -1,0 +1,69 @@
+\section{Discussion}
+\label{sec:discussion}
+
+\paragraph{General remarks.}
+ Compared to the 2021 issue of the competition, there was more participation and the
+performance gap between the submissions and the baseline was much wider. 
+We attribute this to 
+(1) the fact that the competition needed accessible hardware which allowed more teams to iterate more often on their algorithms,
+(2) smaller datasets of 10 million vectors in size, as opposed to billion scale used in the last competition, 
+(3) lesser effort placed in the optimization of the baselines by the organizers,
+%\matthijs{do we want to mention how excellent Pincone's internal results were at that point? ;-P} \amir{of course we do, I'll add in the conclusions.} \amir{also, I think the baselines were optimized enough. Improving the baselines is part of the competitions. This is a good thing.}
+(4) larger interest in this topic given its importance to retrieval-augmented generative AI use cases, and
+(5) community awareness of the benchmark through citations and prior participation.
+%
+We interpret this large gap as a sign that there were nontrivial improvements to do on several tracks. 
+
+As detailed in the individual discussion, improvements were achieved both through careful algorithmic design choices, for example on how to handle the filtering constraints or how to add information about the ``OOD-ness'' of the query set to the graph, as well as careful engineering choices on the implementation level, in particular exemplified by the PyANNS submission.
+No winning entry achieved their performance through hyperparameter tuning of the baseline approach.
+
+There was a considerable difference in the participation level in the individual tasks: In particular the filtered and OOD track received many interesting implementations with a large variety of ideas. On the other hand, 
+the sparse and streaming track received less attention. We speculate that this is due to the difficulty of the tasks and the short timespan in which teams had to come up with a solution.
+
+% Compared to the 2021 issue of the competition, the performance gap between the submissions and the baseline was much wider. 
+% We attribute this to 
+% (1) the fact that the competition required  hardware accessible to most academic teams,
+% (2) smaller datasets of 10 million vectors in size, as opposed to billion scale used in the last competition, which allowed participants to iterate more often on their algorithms,
+% (3) a larger interest in this topic from the industry and academic community given its importance to retrieval-augmented generative AI use cases,
+% (4) Community awareness of the benchmark through citations and prior participation, 
+% (5) lesser effort put in the optimization of the baselines by the organizers \matthijs{do we want to mention how excellent Pincone's internal results were at that point? ;-P} \amir{of course we do, I'll add in the conclusions.} \amir{also, I think the baselines were optimized enough. Improving the baselines is part of the competitions. This is a good thing. The fact that there was a large gap means that there was indeed some good research / nontrivial improvements to do on several tracks.}
+
+% \paragraph{Per track discussion.}
+
+The filtered search track did restrict the filter predicates to 1 or 2 words. 
+This was done on purpose to narrow down the scope of the competition. 
+However, it also encouraged the participants to develop specialized data structures that may be less interesting for a more general setting. 
+The OOD track encouraged the use of query data samples in the construction of the index as intended.
+
+
+\paragraph{Organization glitches.}
+Here we identify unforeseen issues in the organization, apart from the technical error in streaming track evaluation, to help future organizers avoid similar pitfalls. 
+
+Building a dataset is error prone and sometimes requires making arbitrary choices. 
+Once results on the dataset are published, it is hard to come back on choices made before. 
+We re-used datasets from previous competitions that are frozen, i.e.,
+it is not possible to generate more data from the same distributions. 
+Therefore, it was not possible to get private query sets for all tracks. 
+The process of building the filtered search database was complicated, since it required several stages
+of metadata extraction, re-balancing, handling of missing data or metadata. 
+In the process we forgot to de-duplicate near exact vectors. 
+This makes the ordering of ground-truth search results arbitrary, and did introduce some jitter in the measurements. 
+However, we could verify that the maximum jitter on recalls is below 0.00015. 
+
+% see evaluation here: https://gist.github.com/mdouze/a27db591cf4e4e6805002cfb03fa70c1
+
+Communication with participants required considerable effort -- in particular matching registrations received via CMT 
+and pull requests. 
+%
+This made it difficult to reliably identify the affiliation of some (unresponsive) participants. 
+%
+In future iterations, entries are to be submitted with non-anonymous Github accounts and a reference to CMT entries with affiliations.
+
+
+While there was general agreement on the organizers not competing,
+there was no written rule published about this, and no exact defininition of an organizer
+(e.g., would \emph{all} employees of a organizer's  company or university be disallowed from competing?). 
+%
+This caused some tensions between organizers and required to take ad-hoc decisions for participants distantly affiliated with organizers. 
+%
+This could have been avoided with clearer rules. 
