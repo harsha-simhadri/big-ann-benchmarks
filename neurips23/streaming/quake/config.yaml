@@ -1,0 +1,48 @@
+random-xs:
+    quake: 
+      docker-tag: neurips23-streaming-quake
+      module: neurips23.streaming.quake.quake_wrapper
+      constructor: quake
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+            [{"insert_chunk_size" : 10000, "delete_chunk_size" : 10000, "query_chunk_size" : 10000, "run_mainteance" : true, "split_threshold" : 75, "delete_threshold_ns" : 5000, "refinement_radius" : 50, "refinement_iterations" : 2, "min_partition_size" : 128, "enable_split_rejection" : true, "enable_delete_rejection" : true, "window_size" : 5000}]
+          query-args: |
+            [{ "levels" : [{"nc" : 256, "num_search_workers" : 8, "use_numa" : true, "nprobe" : 32, "recall_target" : 0.95, "batch_scan" : true, "batch_size" : 1000}] }]
+random-xs-clustered:
+    quake: 
+      docker-tag: neurips23-streaming-quake
+      module: neurips23.streaming.quake.quake_wrapper
+      constructor: quake
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+            [{"insert_chunk_size" : 10000, "delete_chunk_size" : 10000, "query_chunk_size" : 10000, "run_mainteance" : true, "split_threshold" : 75, "delete_threshold_ns" : 5000, "refinement_radius" : 50, "refinement_iterations" : 2, "min_partition_size" : 128, "enable_split_rejection" : true, "enable_delete_rejection" : true, "window_size" : 5000}]
+          query-args: |
+            [{ "levels" : [{"nc" : 32, "num_search_workers" : 4, "use_numa" : true, "nprobe" : 8, "recall_target" : 0.95, "batch_scan" : true, "batch_size" : 1000}] }]
+msturing-10M-clustered:
+    quake: 
+      docker-tag: neurips23-streaming-quake
+      module: neurips23.streaming.quake.quake_wrapper
+      constructor: quake
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+            [{"insert_chunk_size" : 10000, "delete_chunk_size" : 10000, "query_chunk_size" : 10000, "run_mainteance" : true, "split_threshold" : 75, "delete_threshold_ns" : 5000, "refinement_radius" : 50, "refinement_iterations" : 2, "min_partition_size" : 128, "enable_split_rejection" : true, "enable_delete_rejection" : true, "window_size" : 5000}]
+          query-args: |
+            [{ "levels" : [{"nc" : 8192, "num_search_workers" : 8, "use_numa" : true, "nprobe" : 32, "recall_target" : 0.95, "batch_scan" : true, "batch_size" : 1000}] }]
+msturing-30M-clustered:
+    quake: 
+      docker-tag: neurips23-streaming-quake
+      module: neurips23.streaming.quake.quake_wrapper
+      constructor: quake
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+            [{"insert_chunk_size" : 10000, "delete_chunk_size" : 10000, "query_chunk_size" : 10000, "run_mainteance" : true, "split_threshold" : 75, "delete_threshold_ns" : 5000, "refinement_radius" : 50, "refinement_iterations" : 2, "min_partition_size" : 128, "enable_split_rejection" : true, "enable_delete_rejection" : true, "window_size" : 5000}]
+          query-args: |
+            [{ "levels" : [{"nc" : 8192, "num_search_workers" : 8, "use_numa" : true, "nprobe" : 32, "recall_target" : 0.9, "batch_scan" : true, "batch_size" : 1000}] }]
