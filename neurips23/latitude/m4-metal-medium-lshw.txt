@@ -1,0 +1,1291 @@
+server1
+    description: Computer
+    product: AS -2115GT-HNTR (To be filled by O.E.M.)
+    vendor: Supermicro
+    version: 0123456789
+    serial: S502653X4120976B
+    width: 64 bits
+    capabilities: smbios-3.5.0 dmi-3.5.0 smp vsyscall32
+    configuration: boot=normal family=Family sku=To be filled by O.E.M. uuid=00000000-0000-0000-0000-7CC25550B9DF
+  *-core
+       description: Motherboard
+       product: H13SST-G
+       vendor: Supermicro
+       physical id: 0
+       version: 1.10A
+       serial: OM234S600780
+       slot: Node 2
+     *-firmware
+          description: BIOS
+          vendor: American Megatrends International, LLC.
+          physical id: 0
+          version: 1.6
+          date: 11/30/2023
+          size: 64KiB
+          capacity: 32MiB
+          capabilities: pci upgrade shadowing cdboot bootselect socketedrom edd int13floppynec int13floppytoshiba int13floppy360 int13floppy1200 int13floppy720 int13floppy2880 int5printscreen int14serial int17printer int10video acpi usb biosbootspecification uefi
+     *-cache:0
+          description: L1 cache
+          physical id: 20
+          slot: L1 Cache
+          size: 1MiB
+          capacity: 1MiB
+          clock: 1GHz (1.0ns)
+          capabilities: pipeline-burst internal write-back unified
+          configuration: level=1
+     *-cache:1
+          description: L2 cache
+          physical id: 21
+          slot: L2 Cache
+          size: 16MiB
+          capacity: 16MiB
+          clock: 1GHz (1.0ns)
+          capabilities: pipeline-burst internal write-back unified
+          configuration: level=2
+     *-cache:2
+          description: L3 cache
+          physical id: 22
+          slot: L3 Cache
+          size: 64MiB
+          capacity: 64MiB
+          clock: 1GHz (1.0ns)
+          capabilities: pipeline-burst internal write-back unified
+          configuration: level=3
+     *-cpu
+          description: CPU
+          product: AMD EPYC 9124 16-Core Processor
+          vendor: Advanced Micro Devices [AMD]
+          physical id: 23
+          bus info: cpu@0
+          version: AMD EPYC 9124 16-Core Processor
+          serial: Unknown
+          slot: CPU
+          size: 1480MHz
+          capacity: 3700MHz
+          width: 64 bits
+          clock: 100MHz
+          capabilities: lm fpu fpu_exception wp vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp x86-64 constant_tsc rep_good nopl nonstop_tsc cpuid extd_apicid aperfmperf pni pclmulqdq monitor ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand lahf_lm cmp_legacy svm extapic cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw ibs skinit wdt tce topoext perfctr_core perfctr_nb bpext perfctr_llc mwaitx cpb cat_l3 cdp_l3 invpcid_single hw_pstate ssbd mba ibrs ibpb stibp vmmcall fsgsbase bmi1 avx2 smep bmi2 erms invpcid cqm rdt_a avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local avx512_bf16 clzero irperf xsaveerptr wbnoinvd arat npt lbrv svm_lock nrip_save tsc_scale vmcb_clean flushbyasid decodeassists pausefilter pfthreshold avic v_vmsave_vmload vgif avx512vbmi umip pku ospke avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid overflow_recov succor smca flush_l1d cpufreq
+          configuration: cores=16 enabledcores=16 threads=32
+     *-memory
+          description: System Memory
+          physical id: 26
+          slot: System board or motherboard
+          size: 128GiB
+          capacity: 6TiB
+          capabilities: ecc
+          configuration: errordetection=multi-bit-ecc
+        *-bank:0
+             description: DIMM Synchronous Registered (Buffered) 4800 MHz (0.2 ns)
+             product: M321R8GA0BB0-CQKZJ
+             vendor: Samsung
+             physical id: 0
+             serial: 80CE04233446870977
+             slot: DIMMA1
+             size: 64GiB
+             width: 64 bits
+             clock: 505MHz (2.0ns)
+        *-bank:1
+             description: [empty]
+             product: NO DIMM
+             vendor: NO DIMM
+             physical id: 1
+             serial: NO DIMM
+             slot: DIMMB1
+        *-bank:2
+             description: [empty]
+             product: NO DIMM
+             vendor: NO DIMM
+             physical id: 2
+             serial: NO DIMM
+             slot: DIMMC1
+        *-bank:3
+             description: [empty]
+             product: NO DIMM
+             vendor: NO DIMM
+             physical id: 3
+             serial: NO DIMM
+             slot: DIMMD1
+        *-bank:4
+             description: [empty]
+             product: NO DIMM
+             vendor: NO DIMM
+             physical id: 4
+             serial: NO DIMM
+             slot: DIMME1
+        *-bank:5
+             description: [empty]
+             product: NO DIMM
+             vendor: NO DIMM
+             physical id: 5
+             serial: NO DIMM
+             slot: DIMMF1
+        *-bank:6
+             description: DIMM Synchronous Registered (Buffered) 4800 MHz (0.2 ns)
+             product: M321R8GA0BB0-CQKZJ
+             vendor: Samsung
+             physical id: 6
+             serial: 80CE042334468713FE
+             slot: DIMMG1
+             size: 64GiB
+             width: 64 bits
+             clock: 505MHz (2.0ns)
+        *-bank:7
+             description: [empty]
+             product: NO DIMM
+             vendor: NO DIMM
+             physical id: 7
+             serial: NO DIMM
+             slot: DIMMH1
+        *-bank:8
+             description: [empty]
+             product: NO DIMM
+             vendor: NO DIMM
+             physical id: 8
+             serial: NO DIMM
+             slot: DIMMI1
+        *-bank:9
+             description: [empty]
+             product: NO DIMM
+             vendor: NO DIMM
+             physical id: 9
+             serial: NO DIMM
+             slot: DIMMJ1
+        *-bank:10
+             description: [empty]
+             product: NO DIMM
+             vendor: NO DIMM
+             physical id: a
+             serial: NO DIMM
+             slot: DIMMK1
+        *-bank:11
+             description: [empty]
+             product: NO DIMM
+             vendor: NO DIMM
+             physical id: b
+             serial: NO DIMM
+             slot: DIMML1
+     *-pci:0
+          description: Host bridge
+          product: Advanced Micro Devices, Inc. [AMD]
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 100
+          bus info: pci@0000:00:00.0
+          version: 01
+          width: 32 bits
+          clock: 33MHz
+        *-generic:0 UNCLAIMED
+             description: IOMMU
+             product: Advanced Micro Devices, Inc. [AMD]
+             vendor: Advanced Micro Devices, Inc. [AMD]
+             physical id: 0.2
+             bus info: pci@0000:00:00.2
+             version: 01
+             width: 32 bits
+             clock: 33MHz
+             capabilities: msi ht bus_master cap_list
+             configuration: latency=0
+        *-generic:1 UNCLAIMED
+             description: Generic system peripheral
+             product: Advanced Micro Devices, Inc. [AMD]
+             vendor: Advanced Micro Devices, Inc. [AMD]
+             physical id: 0.3
+             bus info: pci@0000:00:00.3
+             version: 00
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pm pciexpress msi ht bus_master cap_list
+             configuration: latency=0
+        *-pci:0
+             description: PCI bridge
+             product: Advanced Micro Devices, Inc. [AMD]
+             vendor: Advanced Micro Devices, Inc. [AMD]
+             physical id: 1.1
+             bus info: pci@0000:00:01.1
+             version: 01
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pci pm pciexpress msi ht normal_decode bus_master cap_list
+             configuration: driver=pcieport
+             resources: irq:38 ioport:1000(size=4096) memory:f6800000-f68fffff ioport:30081000000(size=2097152)
+           *-storage
+                description: Non-Volatile memory controller
+                product: Samsung Electronics Co Ltd
+                vendor: Samsung Electronics Co Ltd
+                physical id: 0
+                bus info: pci@0000:01:00.0
+                version: 00
+                width: 64 bits
+                clock: 33MHz
+                capabilities: storage pm msi pciexpress msix nvm_express bus_master cap_list rom
+                configuration: driver=nvme latency=0
+                resources: irq:90 memory:f6810000-f6813fff memory:f6800000-f680ffff
+              *-nvme2
+                   description: NVMe device
+                   product: SAMSUNG MZQL21T9HCJR-00A07
+                   physical id: 0
+                   logical name: /dev/nvme2
+                   version: GDC5A02Q
+                   serial: S64GNN0WB14940
+                   configuration: nqn=nqn.1994-11.com.samsung:nvme:PM9A3:2.5-inch:S64GNN0WB14940 state=live
+                 *-namespace
+                      description: NVMe namespace
+                      physical id: 1
+                      logical name: /dev/nvme2n1
+                      size: 1788GiB (1920GB)
+                      configuration: logicalsectorsize=512 sectorsize=4096
+        *-pci:1
+             description: PCI bridge
+             product: Advanced Micro Devices, Inc. [AMD]
+             vendor: Advanced Micro Devices, Inc. [AMD]
+             physical id: 1.2
+             bus info: pci@0000:00:01.2
+             version: 01
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pci pm pciexpress msi ht normal_decode bus_master cap_list
+             configuration: driver=pcieport
+             resources: irq:39 memory:f6700000-f67fffff ioport:30081200000(size=2097152)
+           *-storage
+                description: Non-Volatile memory controller
+                product: Samsung Electronics Co Ltd
+                vendor: Samsung Electronics Co Ltd
+                physical id: 0
+                bus info: pci@0000:02:00.0
+                version: 00
+                width: 64 bits
+                clock: 33MHz
+                capabilities: storage pm msi pciexpress msix nvm_express bus_master cap_list rom
+                configuration: driver=nvme latency=0
+                resources: irq:90 memory:f6710000-f6713fff memory:f6700000-f670ffff
+              *-nvme3
+                   description: NVMe device
+                   product: SAMSUNG MZQL21T9HCJR-00A07
+                   physical id: 0
+                   logical name: /dev/nvme3
+                   version: GDC5A02Q
+                   serial: S64GNN0WB14963
+                   configuration: nqn=nqn.1994-11.com.samsung:nvme:PM9A3:2.5-inch:S64GNN0WB14963 state=live
+                 *-namespace
+                      description: NVMe namespace
+                      physical id: 1
+                      logical name: /dev/nvme3n1
+                      size: 1788GiB (1920GB)
+                      configuration: logicalsectorsize=512 sectorsize=4096
+        *-pci:2
+             description: PCI bridge
+             product: Advanced Micro Devices, Inc. [AMD]
+             vendor: Advanced Micro Devices, Inc. [AMD]
+             physical id: 1.3
+             bus info: pci@0000:00:01.3
+             version: 01
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pci pm pciexpress msi ht normal_decode bus_master cap_list
+             configuration: driver=pcieport
+             resources: irq:40 memory:f6600000-f66fffff ioport:30081400000(size=2097152)
+        *-pci:3
+             description: PCI bridge
+             product: Advanced Micro Devices, Inc. [AMD]
+             vendor: Advanced Micro Devices, Inc. [AMD]
+             physical id: 1.4
+             bus info: pci@0000:00:01.4
+             version: 01
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pci pm pciexpress msi ht normal_decode bus_master cap_list
+             configuration: driver=pcieport
+             resources: irq:41 memory:f6500000-f65fffff ioport:30081600000(size=2097152)
+        *-pci:4
+             description: PCI bridge
+             product: Advanced Micro Devices, Inc. [AMD]
+             vendor: Advanced Micro Devices, Inc. [AMD]
+             physical id: 3.1
+             bus info: pci@0000:00:03.1
+             version: 01
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pci pm pciexpress msi ht normal_decode bus_master cap_list
+             configuration: driver=pcieport
+             resources: irq:42 memory:f6400000-f64fffff ioport:30081800000(size=50331648)
+           *-network:0
+                description: Ethernet interface
+                product: Ethernet Controller X710 for 10GBASE-T
+                vendor: Intel Corporation
+                physical id: 0
+                bus info: pci@0000:05:00.0
+                logical name: eno1
+                logical name: /dev/fb0
+                version: 02
+                serial: 7c:c2:55:a7:cb:d6
+                size: 10Gbit/s
+                capacity: 10Gbit/s
+                width: 64 bits
+                clock: 33MHz
+                capabilities: pm msi msix pciexpress vpd bus_master cap_list rom ethernet physical tp 100bt-fd 1000bt-fd 10000bt-fd autonegotiation fb
+                configuration: autonegotiation=on broadcast=yes depth=32 driver=i40e driverversion=2.8.20-k duplex=full firmware=9.00 0x8000d28f 1.3295.0 ip=45.250.254.211 latency=0 link=yes mode=1024x768 multicast=yes port=twisted pair speed=10Gbit/s visual=truecolor xres=1024 yres=768
+                resources: iomemory:3000-2fff iomemory:3000-2fff irq:89 memory:30082000000-30082ffffff memory:30084000000-30084007fff memory:f6480000-f64fffff memory:30081800000-30081bfffff memory:30084010000-3008410ffff
+           *-network:1
+                description: Ethernet interface
+                product: Ethernet Controller X710 for 10GBASE-T
+                vendor: Intel Corporation
+                physical id: 0.1
+                bus info: pci@0000:05:00.1
+                logical name: eno2
+                version: 02
+                serial: 7c:c2:55:a7:cb:d7
+                size: 10Gbit/s
+                capacity: 10Gbit/s
+                width: 64 bits
+                clock: 33MHz
+                capabilities: pm msi msix pciexpress vpd bus_master cap_list rom ethernet physical tp 100bt-fd 1000bt-fd 10000bt-fd autonegotiation
+                configuration: autonegotiation=on broadcast=yes driver=i40e driverversion=2.8.20-k duplex=full firmware=9.00 0x8000d28f 1.3295.0 ip=100.64.16.161 latency=0 link=yes multicast=yes port=twisted pair speed=10Gbit/s
+                resources: iomemory:3000-2fff iomemory:3000-2fff irq:89 memory:30083000000-30083ffffff memory:30084008000-3008400ffff memory:f6400000-f647ffff memory:30081c00000-30081ffffff memory:30084110000-3008420ffff
+        *-pci:5
+             description: PCI bridge
+             product: Advanced Micro Devices, Inc. [AMD]
+             vendor: Advanced Micro Devices, Inc. [AMD]
+             physical id: 7.1
+             bus info: pci@0000:00:07.1
+             version: 01
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pci pm pciexpress msi normal_decode bus_master cap_list
+             configuration: driver=pcieport
+             resources: irq:43 memory:f6000000-f62fffff ioport:40080f00000(size=1048576)
+           *-generic:0 UNCLAIMED
+                description: Non-Essential Instrumentation
+                product: Advanced Micro Devices, Inc. [AMD]
+                vendor: Advanced Micro Devices, Inc. [AMD]
+                physical id: 0
+                bus info: pci@0000:06:00.0
+                version: 01
+                width: 32 bits
+                clock: 33MHz
+                capabilities: pm pciexpress bus_master cap_list
+                configuration: latency=0
+           *-generic:1 UNCLAIMED
+                description: System peripheral
+                product: Advanced Micro Devices, Inc. [AMD]
+                vendor: Advanced Micro Devices, Inc. [AMD]
+                physical id: 0.1
+                bus info: pci@0000:06:00.1
+                version: 00
+                width: 64 bits
+                clock: 33MHz
+                capabilities: pm pciexpress msi msix bus_master cap_list
+                configuration: latency=0
+                resources: iomemory:4000-3fff iomemory:4000-3fff memory:40080f80000-40080ffffff memory:40080f00000-40080f7ffff
+           *-usb
+                description: USB controller
+                product: Advanced Micro Devices, Inc. [AMD]
+                vendor: Advanced Micro Devices, Inc. [AMD]
+                physical id: 0.4
+                bus info: pci@0000:06:00.4
+                version: da
+                width: 64 bits
+                clock: 33MHz
+                capabilities: pm pciexpress msi msix xhci bus_master cap_list
+                configuration: driver=xhci_hcd latency=0
+                resources: irq:60 memory:f6100000-f61fffff
+              *-usbhost:0
+                   product: xHCI Host Controller
+                   vendor: Linux 5.4.0-181-generic xhci-hcd
+                   physical id: 0
+                   bus info: usb@3
+                   logical name: usb3
+                   version: 5.04
+                   capabilities: usb-2.00
+                   configuration: driver=hub slots=2 speed=480Mbit/s
+                 *-usb:0
+                      description: USB hub
+                      product: USB2.0 Hub
+                      vendor: Genesys Logic, Inc.
+                      physical id: 1
+                      bus info: usb@3:1
+                      version: 61.60
+                      capabilities: usb-2.00
+                      configuration: driver=hub maxpower=100mA slots=4 speed=480Mbit/s
+                 *-usb:1
+                      description: USB hub
+                      product: USB2.0 Hub
+                      vendor: Genesys Logic, Inc.
+                      physical id: 2
+                      bus info: usb@3:2
+                      version: 61.60
+                      capabilities: usb-2.00
+                      configuration: driver=hub maxpower=100mA slots=4 speed=480Mbit/s
+              *-usbhost:1
+                   product: xHCI Host Controller
+                   vendor: Linux 5.4.0-181-generic xhci-hcd
+                   physical id: 1
+                   bus info: usb@4
+                   logical name: usb4
+                   version: 5.04
+                   capabilities: usb-3.10
+                   configuration: driver=hub slots=2 speed=10000Mbit/s
+           *-generic:2 UNCLAIMED
+                description: Encryption controller
+                product: Advanced Micro Devices, Inc. [AMD]
+                vendor: Advanced Micro Devices, Inc. [AMD]
+                physical id: 0.5
+                bus info: pci@0000:06:00.5
+                version: 00
+                width: 32 bits
+                clock: 33MHz
+                capabilities: pm pciexpress msi msix bus_master cap_list
+                configuration: latency=0
+                resources: memory:f6000000-f60fffff memory:f6200000-f6201fff
+        *-pci:6
+             description: PCI bridge
+             product: Advanced Micro Devices, Inc. [AMD]
+             vendor: Advanced Micro Devices, Inc. [AMD]
+             physical id: 7.2
+             bus info: pci@0000:00:07.2
+             version: 01
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pci pm pciexpress msi normal_decode bus_master cap_list
+             configuration: driver=pcieport
+             resources: irq:44 memory:f6300000-f63fffff
+           *-sata
+                description: SATA controller
+                product: FCH SATA Controller [AHCI mode]
+                vendor: Advanced Micro Devices, Inc. [AMD]
+                physical id: 0
+                bus info: pci@0000:07:00.0
+                version: 91
+                width: 32 bits
+                clock: 33MHz
+                capabilities: sata pm pciexpress msi ahci_1.0 bus_master cap_list
+                configuration: driver=ahci latency=0
+                resources: irq:323 memory:f6300000-f63007ff
+        *-serial
+             description: SMBus
+             product: FCH SMBus Controller
+             vendor: Advanced Micro Devices, Inc. [AMD]
+             physical id: 14
+             bus info: pci@0000:00:14.0
+             version: 71
+             width: 32 bits
+             clock: 66MHz
+             configuration: driver=piix4_smbus latency=0
+             resources: irq:0
+        *-isa
+             description: ISA bridge
+             product: FCH LPC Bridge
+             vendor: Advanced Micro Devices, Inc. [AMD]
+             physical id: 14.3
+             bus info: pci@0000:00:14.3
+             version: 51
+             width: 32 bits
+             clock: 66MHz
+             capabilities: isa bus_master
+             configuration: latency=0
+     *-pci:1
+          description: Host bridge
+          product: Advanced Micro Devices, Inc. [AMD]
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 101
+          bus info: pci@0000:00:01.0
+          version: 01
+          width: 32 bits
+          clock: 33MHz
+     *-pci:2
+          description: Host bridge
+          product: Advanced Micro Devices, Inc. [AMD]
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 102
+          bus info: pci@0000:00:02.0
+          version: 01
+          width: 32 bits
+          clock: 33MHz
+     *-pci:3
+          description: Host bridge
+          product: Advanced Micro Devices, Inc. [AMD]
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 103
+          bus info: pci@0000:00:03.0
+          version: 01
+          width: 32 bits
+          clock: 33MHz
+     *-pci:4
+          description: Host bridge
+          product: Advanced Micro Devices, Inc. [AMD]
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 104
+          bus info: pci@0000:00:04.0
+          version: 01
+          width: 32 bits
+          clock: 33MHz
+     *-pci:5
+          description: Host bridge
+          product: Advanced Micro Devices, Inc. [AMD]
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 105
+          bus info: pci@0000:00:05.0
+          version: 01
+          width: 32 bits
+          clock: 33MHz
+     *-pci:6
+          description: Host bridge
+          product: Advanced Micro Devices, Inc. [AMD]
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 106
+          bus info: pci@0000:00:07.0
+          version: 01
+          width: 32 bits
+          clock: 33MHz
+     *-pci:7
+          description: Host bridge
+          product: Advanced Micro Devices, Inc. [AMD]
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 107
+          bus info: pci@0000:00:18.0
+          version: 00
+          width: 32 bits
+          clock: 33MHz
+     *-pci:8
+          description: Host bridge
+          product: Advanced Micro Devices, Inc. [AMD]
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 108
+          bus info: pci@0000:00:18.1
+          version: 00
+          width: 32 bits
+          clock: 33MHz
+     *-pci:9
+          description: Host bridge
+          product: Advanced Micro Devices, Inc. [AMD]
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 109
+          bus info: pci@0000:00:18.2
+          version: 00
+          width: 32 bits
+          clock: 33MHz
+     *-pci:10
+          description: Host bridge
+          product: Advanced Micro Devices, Inc. [AMD]
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 10a
+          bus info: pci@0000:00:18.3
+          version: 00
+          width: 32 bits
+          clock: 33MHz
+     *-pci:11
+          description: Host bridge
+          product: Advanced Micro Devices, Inc. [AMD]
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 10b
+          bus info: pci@0000:00:18.4
+          version: 00
+          width: 32 bits
+          clock: 33MHz
+     *-pci:12
+          description: Host bridge
+          product: Advanced Micro Devices, Inc. [AMD]
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 10c
+          bus info: pci@0000:00:18.5
+          version: 00
+          width: 32 bits
+          clock: 33MHz
+     *-pci:13
+          description: Host bridge
+          product: Advanced Micro Devices, Inc. [AMD]
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 10d
+          bus info: pci@0000:00:18.6
+          version: 00
+          width: 32 bits
+          clock: 33MHz
+     *-pci:14
+          description: Host bridge
+          product: Advanced Micro Devices, Inc. [AMD]
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 10e
+          bus info: pci@0000:00:18.7
+          version: 00
+          width: 32 bits
+          clock: 33MHz
+     *-pci:15
+          description: Host bridge
+          product: Advanced Micro Devices, Inc. [AMD]
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 10f
+          bus info: pci@0000:40:00.0
+          version: 01
+          width: 32 bits
+          clock: 33MHz
+        *-generic:0 UNCLAIMED
+             description: IOMMU
+             product: Advanced Micro Devices, Inc. [AMD]
+             vendor: Advanced Micro Devices, Inc. [AMD]
+             physical id: 0.2
+             bus info: pci@0000:40:00.2
+             version: 01
+             width: 32 bits
+             clock: 33MHz
+             capabilities: msi ht bus_master cap_list
+             configuration: latency=0
+        *-generic:1 UNCLAIMED
+             description: Generic system peripheral
+             product: Advanced Micro Devices, Inc. [AMD]
+             vendor: Advanced Micro Devices, Inc. [AMD]
+             physical id: 0.3
+             bus info: pci@0000:40:00.3
+             version: 00
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pm pciexpress msi ht bus_master cap_list
+             configuration: latency=0
+        *-pci:0
+             description: PCI bridge
+             product: Advanced Micro Devices, Inc. [AMD]
+             vendor: Advanced Micro Devices, Inc. [AMD]
+             physical id: 1.1
+             bus info: pci@0000:40:01.1
+             version: 01
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pci pm pciexpress msi ht normal_decode bus_master cap_list
+             configuration: driver=pcieport
+             resources: irq:45 memory:b0300000-b03fffff ioport:40081000000(size=2097152)
+        *-pci:1
+             description: PCI bridge
+             product: Advanced Micro Devices, Inc. [AMD]
+             vendor: Advanced Micro Devices, Inc. [AMD]
+             physical id: 1.2
+             bus info: pci@0000:40:01.2
+             version: 01
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pci pm pciexpress msi ht normal_decode bus_master cap_list
+             configuration: driver=pcieport
+             resources: irq:46 ioport:4000(size=4096) memory:b0200000-b02fffff ioport:40081200000(size=2097152)
+        *-pci:2
+             description: PCI bridge
+             product: Advanced Micro Devices, Inc. [AMD]
+             vendor: Advanced Micro Devices, Inc. [AMD]
+             physical id: 1.3
+             bus info: pci@0000:40:01.3
+             version: 01
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pci pm pciexpress msi ht normal_decode bus_master cap_list
+             configuration: driver=pcieport
+             resources: irq:47 ioport:3000(size=4096) memory:b0100000-b01fffff ioport:40081400000(size=2097152)
+        *-pci:3
+             description: PCI bridge
+             product: Advanced Micro Devices, Inc. [AMD]
+             vendor: Advanced Micro Devices, Inc. [AMD]
+             physical id: 1.4
+             bus info: pci@0000:40:01.4
+             version: 01
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pci pm pciexpress msi ht normal_decode bus_master cap_list
+             configuration: driver=pcieport
+             resources: irq:48 ioport:2000(size=4096) memory:b0000000-b00fffff ioport:40081600000(size=2097152)
+        *-pci:4
+             description: PCI bridge
+             product: Advanced Micro Devices, Inc. [AMD]
+             vendor: Advanced Micro Devices, Inc. [AMD]
+             physical id: 7.1
+             bus info: pci@0000:40:07.1
+             version: 01
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pci pm pciexpress msi normal_decode bus_master cap_list
+             configuration: driver=pcieport
+             resources: irq:50 ioport:50080f00000(size=1048576)
+           *-generic:0 UNCLAIMED
+                description: Non-Essential Instrumentation
+                product: Advanced Micro Devices, Inc. [AMD]
+                vendor: Advanced Micro Devices, Inc. [AMD]
+                physical id: 0
+                bus info: pci@0000:45:00.0
+                version: 01
+                width: 32 bits
+                clock: 33MHz
+                capabilities: pm pciexpress bus_master cap_list
+                configuration: latency=0
+           *-generic:1 UNCLAIMED
+                description: System peripheral
+                product: Advanced Micro Devices, Inc. [AMD]
+                vendor: Advanced Micro Devices, Inc. [AMD]
+                physical id: 0.1
+                bus info: pci@0000:45:00.1
+                version: 00
+                width: 64 bits
+                clock: 33MHz
+                capabilities: pm pciexpress msi msix bus_master cap_list
+                configuration: latency=0
+                resources: iomemory:5000-4fff iomemory:5000-4fff memory:50080f80000-50080ffffff memory:50080f00000-50080f7ffff
+     *-pci:16
+          description: Host bridge
+          product: Advanced Micro Devices, Inc. [AMD]
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 110
+          bus info: pci@0000:40:01.0
+          version: 01
+          width: 32 bits
+          clock: 33MHz
+     *-pci:17
+          description: Host bridge
+          product: Advanced Micro Devices, Inc. [AMD]
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 111
+          bus info: pci@0000:40:02.0
+          version: 01
+          width: 32 bits
+          clock: 33MHz
+     *-pci:18
+          description: Host bridge
+          product: Advanced Micro Devices, Inc. [AMD]
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 112
+          bus info: pci@0000:40:03.0
+          version: 01
+          width: 32 bits
+          clock: 33MHz
+     *-pci:19
+          description: Host bridge
+          product: Advanced Micro Devices, Inc. [AMD]
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 113
+          bus info: pci@0000:40:04.0
+          version: 01
+          width: 32 bits
+          clock: 33MHz
+     *-pci:20
+          description: Host bridge
+          product: Advanced Micro Devices, Inc. [AMD]
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 114
+          bus info: pci@0000:40:05.0
+          version: 01
+          width: 32 bits
+          clock: 33MHz
+     *-pci:21
+          description: Host bridge
+          product: Advanced Micro Devices, Inc. [AMD]
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 115
+          bus info: pci@0000:40:07.0
+          version: 01
+          width: 32 bits
+          clock: 33MHz
+     *-pci:22
+          description: Host bridge
+          product: Advanced Micro Devices, Inc. [AMD]
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 116
+          bus info: pci@0000:80:00.0
+          version: 01
+          width: 32 bits
+          clock: 33MHz
+        *-generic:0 UNCLAIMED
+             description: IOMMU
+             product: Advanced Micro Devices, Inc. [AMD]
+             vendor: Advanced Micro Devices, Inc. [AMD]
+             physical id: 0.2
+             bus info: pci@0000:80:00.2
+             version: 01
+             width: 32 bits
+             clock: 33MHz
+             capabilities: msi ht bus_master cap_list
+             configuration: latency=0
+        *-generic:1 UNCLAIMED
+             description: Generic system peripheral
+             product: Advanced Micro Devices, Inc. [AMD]
+             vendor: Advanced Micro Devices, Inc. [AMD]
+             physical id: 0.3
+             bus info: pci@0000:80:00.3
+             version: 00
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pm pciexpress msi ht bus_master cap_list
+             configuration: latency=0
+        *-pci
+             description: PCI bridge
+             product: Advanced Micro Devices, Inc. [AMD]
+             vendor: Advanced Micro Devices, Inc. [AMD]
+             physical id: 7.1
+             bus info: pci@0000:80:07.1
+             version: 01
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pci pm pciexpress msi normal_decode bus_master cap_list
+             configuration: driver=pcieport
+             resources: irq:37 ioport:30020f00000(size=1048576)
+           *-generic:0 UNCLAIMED
+                description: Non-Essential Instrumentation
+                product: Advanced Micro Devices, Inc. [AMD]
+                vendor: Advanced Micro Devices, Inc. [AMD]
+                physical id: 0
+                bus info: pci@0000:81:00.0
+                version: 01
+                width: 32 bits
+                clock: 33MHz
+                capabilities: pm pciexpress bus_master cap_list
+                configuration: latency=0
+           *-generic:1 UNCLAIMED
+                description: System peripheral
+                product: Advanced Micro Devices, Inc. [AMD]
+                vendor: Advanced Micro Devices, Inc. [AMD]
+                physical id: 0.1
+                bus info: pci@0000:81:00.1
+                version: 00
+                width: 64 bits
+                clock: 33MHz
+                capabilities: pm pciexpress msi msix bus_master cap_list
+                configuration: latency=0
+                resources: iomemory:3000-2fff iomemory:3000-2fff memory:30020f80000-30020ffffff memory:30020f00000-30020f7ffff
+     *-pci:23
+          description: Host bridge
+          product: Advanced Micro Devices, Inc. [AMD]
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 117
+          bus info: pci@0000:80:01.0
+          version: 01
+          width: 32 bits
+          clock: 33MHz
+     *-pci:24
+          description: Host bridge
+          product: Advanced Micro Devices, Inc. [AMD]
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 118
+          bus info: pci@0000:80:02.0
+          version: 01
+          width: 32 bits
+          clock: 33MHz
+     *-pci:25
+          description: Host bridge
+          product: Advanced Micro Devices, Inc. [AMD]
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 119
+          bus info: pci@0000:80:03.0
+          version: 01
+          width: 32 bits
+          clock: 33MHz
+     *-pci:26
+          description: Host bridge
+          product: Advanced Micro Devices, Inc. [AMD]
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 11a
+          bus info: pci@0000:80:04.0
+          version: 01
+          width: 32 bits
+          clock: 33MHz
+     *-pci:27
+          description: Host bridge
+          product: Advanced Micro Devices, Inc. [AMD]
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 11b
+          bus info: pci@0000:80:05.0
+          version: 01
+          width: 32 bits
+          clock: 33MHz
+     *-pci:28
+          description: Host bridge
+          product: Advanced Micro Devices, Inc. [AMD]
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 11c
+          bus info: pci@0000:80:07.0
+          version: 01
+          width: 32 bits
+          clock: 33MHz
+     *-pci:29
+          description: Host bridge
+          product: Advanced Micro Devices, Inc. [AMD]
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 11d
+          bus info: pci@0000:c0:00.0
+          version: 01
+          width: 32 bits
+          clock: 33MHz
+        *-generic:0 UNCLAIMED
+             description: IOMMU
+             product: Advanced Micro Devices, Inc. [AMD]
+             vendor: Advanced Micro Devices, Inc. [AMD]
+             physical id: 0.2
+             bus info: pci@0000:c0:00.2
+             version: 01
+             width: 32 bits
+             clock: 33MHz
+             capabilities: msi ht bus_master cap_list
+             configuration: latency=0
+        *-generic:1 UNCLAIMED
+             description: Generic system peripheral
+             product: Advanced Micro Devices, Inc. [AMD]
+             vendor: Advanced Micro Devices, Inc. [AMD]
+             physical id: 0.3
+             bus info: pci@0000:c0:00.3
+             version: 00
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pm pciexpress msi ht bus_master cap_list
+             configuration: latency=0
+        *-pci:0
+             description: PCI bridge
+             product: Advanced Micro Devices, Inc. [AMD]
+             vendor: Advanced Micro Devices, Inc. [AMD]
+             physical id: 1.1
+             bus info: pci@0000:c0:01.1
+             version: 01
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pci pm pciexpress msi ht normal_decode bus_master cap_list
+             configuration: driver=pcieport
+             resources: irq:31 memory:bb500000-bb5fffff
+           *-storage
+                description: Non-Volatile memory controller
+                product: Micron Technology Inc
+                vendor: Micron Technology Inc
+                physical id: 0
+                bus info: pci@0000:c1:00.0
+                version: 01
+                width: 64 bits
+                clock: 33MHz
+                capabilities: storage pm msi msix pciexpress nvm_express bus_master cap_list rom
+                configuration: driver=nvme latency=0
+                resources: irq:69 memory:bb540000-bb57ffff memory:bb500000-bb53ffff
+              *-nvme0
+                   description: NVMe device
+                   product: Micron_7450_MTFDKBA480TFR
+                   physical id: 0
+                   logical name: /dev/nvme0
+                   version: E2MU205
+                   serial: 235045A4BF69
+                   configuration: nqn=nqn.2016-08.com.micron:nvme:nvm-subsystem-sn-235045A4BF69 state=live
+                 *-namespace
+                      description: NVMe namespace
+                      physical id: 1
+                      logical name: /dev/nvme0n1
+                      size: 447GiB (480GB)
+                      capabilities: gpt-1.00 partitioned partitioned:gpt
+                      configuration: guid=5a479909-bb1f-4e30-81e6-b4e7676e9965 logicalsectorsize=512 sectorsize=4096
+                    *-volume:0
+                         description: BIOS Boot partition
+                         vendor: EFI
+                         physical id: 1
+                         logical name: /dev/nvme0n1p1
+                         serial: 61a3252b-626d-49a0-bb36-86c8f5cb742b
+                         capacity: 1023KiB
+                         capabilities: nofs
+                    *-volume:1
+                         description: EXT4 volume
+                         vendor: Linux
+                         physical id: 2
+                         logical name: /dev/nvme0n1p2
+                         logical name: /
+                         version: 1.0
+                         serial: 23df59fe-0d5e-4d5e-a178-5560f46a90ab
+                         size: 447GiB
+                         capacity: 447GiB
+                         capabilities: journaled extended_attributes large_files huge_files dir_nlink recover 64bit extents ext4 ext2 initialized
+                         configuration: created=2024-05-12 23:18:58 filesystem=ext4 label=root lastmountpoint=/ modified=2024-05-12 23:22:14 mount.fstype=ext4 mount.options=rw,relatime,stripe=16 mounted=2024-05-12 23:22:15 state=mounted
+        *-pci:1
+             description: PCI bridge
+             product: Advanced Micro Devices, Inc. [AMD]
+             vendor: Advanced Micro Devices, Inc. [AMD]
+             physical id: 1.2
+             bus info: pci@0000:c0:01.2
+             version: 01
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pci pm pciexpress msi ht normal_decode bus_master cap_list
+             configuration: driver=pcieport
+             resources: irq:32 memory:bb400000-bb4fffff
+           *-storage
+                description: Non-Volatile memory controller
+                product: Micron Technology Inc
+                vendor: Micron Technology Inc
+                physical id: 0
+                bus info: pci@0000:c2:00.0
+                version: 01
+                width: 64 bits
+                clock: 33MHz
+                capabilities: storage pm msi msix pciexpress nvm_express bus_master cap_list rom
+                configuration: driver=nvme latency=0
+                resources: irq:69 memory:bb440000-bb47ffff memory:bb400000-bb43ffff
+              *-nvme1
+                   description: NVMe device
+                   product: Micron_7450_MTFDKBA480TFR
+                   physical id: 0
+                   logical name: /dev/nvme1
+                   version: E2MU205
+                   serial: 235045A4C000
+                   configuration: nqn=nqn.2016-08.com.micron:nvme:nvm-subsystem-sn-235045A4C000 state=live
+                 *-namespace
+                      description: NVMe namespace
+                      physical id: 1
+                      logical name: /dev/nvme1n1
+                      size: 447GiB (480GB)
+                      configuration: logicalsectorsize=512 sectorsize=4096
+        *-pci:2
+             description: PCI bridge
+             product: Advanced Micro Devices, Inc. [AMD]
+             vendor: Advanced Micro Devices, Inc. [AMD]
+             physical id: 5.2
+             bus info: pci@0000:c0:05.2
+             version: 01
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pci pm pciexpress msi ht normal_decode bus_master cap_list
+             configuration: driver=pcieport
+             resources: irq:33 ioport:f000(size=4096) memory:ba000000-bb0fffff
+           *-pci
+                description: PCI bridge
+                product: AST1150 PCI-to-PCI Bridge
+                vendor: ASPEED Technology, Inc.
+                physical id: 0
+                bus info: pci@0000:c3:00.0
+                version: 06
+                width: 32 bits
+                clock: 33MHz
+                capabilities: pci msi pm pciexpress normal_decode bus_master cap_list
+                resources: ioport:f000(size=4096) memory:ba000000-bb0fffff
+              *-display
+                   description: VGA compatible controller
+                   product: ASPEED Graphics Family
+                   vendor: ASPEED Technology, Inc.
+                   physical id: 0
+                   bus info: pci@0000:c4:00.0
+                   version: 52
+                   width: 32 bits
+                   clock: 33MHz
+                   capabilities: pm msi vga_controller cap_list rom
+                   configuration: driver=ast latency=0
+                   resources: irq:25 memory:ba000000-baffffff memory:bb000000-bb03ffff ioport:f000(size=128) memory:c0000-dffff
+        *-pci:3
+             description: PCI bridge
+             product: Advanced Micro Devices, Inc. [AMD]
+             vendor: Advanced Micro Devices, Inc. [AMD]
+             physical id: 7.1
+             bus info: pci@0000:c0:07.1
+             version: 01
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pci pm pciexpress msi normal_decode bus_master cap_list
+             configuration: driver=pcieport
+             resources: irq:34 memory:bb300000-bb3fffff ioport:20020f00000(size=1048576)
+           *-generic:0 UNCLAIMED
+                description: Non-Essential Instrumentation
+                product: Advanced Micro Devices, Inc. [AMD]
+                vendor: Advanced Micro Devices, Inc. [AMD]
+                physical id: 0
+                bus info: pci@0000:c5:00.0
+                version: 01
+                width: 32 bits
+                clock: 33MHz
+                capabilities: pm pciexpress bus_master cap_list
+                configuration: latency=0
+           *-generic:1 UNCLAIMED
+                description: System peripheral
+                product: Advanced Micro Devices, Inc. [AMD]
+                vendor: Advanced Micro Devices, Inc. [AMD]
+                physical id: 0.1
+                bus info: pci@0000:c5:00.1
+                version: 00
+                width: 64 bits
+                clock: 33MHz
+                capabilities: pm pciexpress msi msix bus_master cap_list
+                configuration: latency=0
+                resources: iomemory:2000-1fff iomemory:2000-1fff memory:20020f80000-20020ffffff memory:20020f00000-20020f7ffff
+           *-usb
+                description: USB controller
+                product: Advanced Micro Devices, Inc. [AMD]
+                vendor: Advanced Micro Devices, Inc. [AMD]
+                physical id: 0.4
+                bus info: pci@0000:c5:00.4
+                version: da
+                width: 64 bits
+                clock: 33MHz
+                capabilities: pm pciexpress msi msix xhci bus_master cap_list
+                configuration: driver=xhci_hcd latency=0
+                resources: irq:51 memory:bb300000-bb3fffff
+              *-usbhost:0
+                   product: xHCI Host Controller
+                   vendor: Linux 5.4.0-181-generic xhci-hcd
+                   physical id: 0
+                   bus info: usb@1
+                   logical name: usb1
+                   version: 5.04
+                   capabilities: usb-2.00
+                   configuration: driver=hub slots=2 speed=480Mbit/s
+                 *-usb
+                      description: USB hub
+                      product: USB Virtual Hub
+                      vendor: Aspeed
+                      physical id: 1
+                      bus info: usb@1:1
+                      version: 1.00
+                      serial: 00000000
+                      capabilities: usb-2.00
+                      configuration: driver=hub slots=7 speed=480Mbit/s
+                    *-usb:0
+                         description: Keyboard
+                         product: SMCI HID KM
+                         vendor: Linux 5.4.62 with aspeed_vhub
+                         physical id: 1
+                         bus info: usb@1:1.1
+                         version: 5.04
+                         capabilities: usb-2.00
+                         configuration: driver=usbhid maxpower=2mA speed=480Mbit/s
+                    *-usb:1 DISABLED
+                         description: Ethernet interface
+                         product: RNDIS/Ethernet Gadget
+                         vendor: Linux 5.4.62 with aspeed_vhub
+                         physical id: 2
+                         bus info: usb@1:1.2
+                         logical name: usb0
+                         version: 5.04
+                         serial: d6:19:ec:6f:e9:a6
+                         capabilities: usb-2.00 ethernet physical
+                         configuration: broadcast=yes driver=rndis_host driverversion=22-Aug-2005 firmware=RNDIS device link=no maxpower=2mA multicast=yes speed=480Mbit/s
+              *-usbhost:1
+                   product: xHCI Host Controller
+                   vendor: Linux 5.4.0-181-generic xhci-hcd
+                   physical id: 1
+                   bus info: usb@2
+                   logical name: usb2
+                   version: 5.04
+                   capabilities: usb-3.10
+                   configuration: driver=hub slots=2 speed=10000Mbit/s
+        *-pci:4
+             description: PCI bridge
+             product: Advanced Micro Devices, Inc. [AMD]
+             vendor: Advanced Micro Devices, Inc. [AMD]
+             physical id: 7.2
+             bus info: pci@0000:c0:07.2
+             version: 01
+             width: 32 bits
+             clock: 33MHz
+             capabilities: pci pm pciexpress msi normal_decode bus_master cap_list
+             configuration: driver=pcieport
+             resources: irq:35 memory:bb200000-bb2fffff
+           *-sata:0
+                description: SATA controller
+                product: FCH SATA Controller [AHCI mode]
+                vendor: Advanced Micro Devices, Inc. [AMD]
+                physical id: 0
+                bus info: pci@0000:c6:00.0
+                version: 91
+                width: 32 bits
+                clock: 33MHz
+                capabilities: sata pm pciexpress msi ahci_1.0 bus_master cap_list
+                configuration: driver=ahci latency=0
+                resources: irq:73 memory:bb201000-bb2017ff
+           *-sata:1
+                description: SATA controller
+                product: FCH SATA Controller [AHCI mode]
+                vendor: Advanced Micro Devices, Inc. [AMD]
+                physical id: 0.1
+                bus info: pci@0000:c6:00.1
+                version: 91
+                width: 32 bits
+                clock: 33MHz
+                capabilities: sata pm pciexpress msi ahci_1.0 bus_master cap_list
+                configuration: driver=ahci latency=0
+                resources: irq:200 memory:bb200000-bb2007ff
+     *-pci:30
+          description: Host bridge
+          product: Advanced Micro Devices, Inc. [AMD]
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 11e
+          bus info: pci@0000:c0:01.0
+          version: 01
+          width: 32 bits
+          clock: 33MHz
+     *-pci:31
+          description: Host bridge
+          product: Advanced Micro Devices, Inc. [AMD]
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 11f
+          bus info: pci@0000:c0:02.0
+          version: 01
+          width: 32 bits
+          clock: 33MHz
+     *-pci:32
+          description: Host bridge
+          product: Advanced Micro Devices, Inc. [AMD]
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 120
+          bus info: pci@0000:c0:03.0
+          version: 01
+          width: 32 bits
+          clock: 33MHz
+     *-pci:33
+          description: Host bridge
+          product: Advanced Micro Devices, Inc. [AMD]
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 121
+          bus info: pci@0000:c0:04.0
+          version: 01
+          width: 32 bits
+          clock: 33MHz
+     *-pci:34
+          description: Host bridge
+          product: Advanced Micro Devices, Inc. [AMD]
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 122
+          bus info: pci@0000:c0:05.0
+          version: 01
+          width: 32 bits
+          clock: 33MHz
+     *-pci:35
+          description: Host bridge
+          product: Advanced Micro Devices, Inc. [AMD]
+          vendor: Advanced Micro Devices, Inc. [AMD]
+          physical id: 123
+          bus info: pci@0000:c0:07.0
+          version: 01
+          width: 32 bits
+          clock: 33MHz
+     *-pnp00:00
+          product: PnP device PNP0c01
+          physical id: 1
+          capabilities: pnp
+          configuration: driver=system
+     *-pnp00:01
+          product: PnP device PNP0b00
+          physical id: 2
+          capabilities: pnp
+          configuration: driver=rtc_cmos
+     *-pnp00:02
+          product: PnP device PNP0c02
+          physical id: 3
+          capabilities: pnp
+          configuration: driver=system
+     *-pnp00:03
+          product: PnP device PNP0501
+          physical id: 4
+          capabilities: pnp
+          configuration: driver=serial
+     *-pnp00:04
+          product: PnP device PNP0501
+          physical id: 5
+          capabilities: pnp
+          configuration: driver=serial
+     *-pnp00:05
+          product: PnP device PNP0c02
+          physical id: 6
+          capabilities: pnp
+          configuration: driver=system
+  *-power:0 UNCLAIMED
+       description: PWS-2K21A-BR
+       product: PWS-2K21A-BR
+       vendor: SUPERMICRO
+       physical id: 1
+       version: 2.3
+       serial: P2K21CN17CB0169
+       capacity: 2200mWh
+  *-power:1 UNCLAIMED
+       description: PWS-2K21A-BR
+       product: PWS-2K21A-BR
+       vendor: SUPERMICRO
+       physical id: 2
+       version: 2.3
+       serial: P2K21CN17CB0170
+       capacity: 2200mWh
