@@ -277,7 +277,7 @@
                    <TD> <a href="https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/bigann/base.1B.u8bin">1B points</a> </TD>
                    <TD> <a href="https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/bigann/learn.100M.u8bin">100M base points</a> </TD>
                    <TD> <a href="https://dl.fbaipublicfiles.com/billion-scale-ann-benchmarks/bigann/query.public.10K.u8bin">10K queries</a> </TD>
-                   <TD> <a href="https://comp21storage.blob.core.windows.net/publiccontainer/comp21/bigann/public_query_gt100.bin">link</a> </TD>
+                   <TD> <a href="https://comp21storage.z5.web.core.windows.net/comp21/bigann/public_query_gt100.bin">link</a> </TD>
                    <TD> <a href="https://creativecommons.org/share-your-work/public-domain/cc0/">CC0</a> </TD>
                 </TR>
                 <TR>
@@ -298,10 +298,10 @@
                 <TD> 100 </TD>
                 <TD> L2 </TD>
                 <TD> k-NN </TD>
-                <TD> <a href="https://comp21storage.blob.core.windows.net/publiccontainer/comp21/MSFT-TURING-ANNS/base1b.fbin"> 1B points</a></TD>
+                <TD> <a href="https://comp21storage.z5.web.core.windows.net/comp21/MSFT-TURING-ANNS/base1b.fbin"> 1B points</a></TD>
                 <TD> N/A </TD>
-                <TD> <a href="https://comp21storage.blob.core.windows.net/publiccontainer/comp21/MSFT-TURING-ANNS/query100K.fbin">100K queries</a> </TD>
-                <TD> <a href="https://comp21storage.blob.core.windows.net/publiccontainer/comp21/MSFT-TURING-ANNS/query_gt100.bin">link</a> </TD>
+                <TD> <a href="https://comp21storage.z5.web.core.windows.net/comp21/MSFT-TURING-ANNS/query100K.fbin">100K queries</a> </TD>
+                <TD> <a href="https://comp21storage.z5.web.core.windows.net/comp21/MSFT-TURING-ANNS/query_gt100.bin">link</a> </TD>
                 <TD> <a href="MSFT-Turing-ANNS-terms.txt" target="_blank">link to terms</a> </TD>
               </TR>
               <TR>
@@ -310,10 +310,10 @@
                 <TD> 100 </TD>
                 <TD> L2 </TD>
                 <TD> k-NN </TD>
-                <TD> <a href="https://comp21storage.blob.core.windows.net/publiccontainer/comp21/spacev1b/spacev1b_base.i8bin">1B points</a></TD>
-                <TD> <a href="https://comp21storage.blob.core.windows.net/publiccontainer/comp21/spacev1b/spacev100m_base.i8bin">100M base points</a> </TD>
-                <TD> <a href="https://comp21storage.blob.core.windows.net/publiccontainer/comp21/spacev1b/query.i8bin">29.3K queries</a> </TD>
-                <TD> <a href="https://comp21storage.blob.core.windows.net/publiccontainer/comp21/spacev1b/public_query_gt100.bin">link</a> </TD>
+                <TD> <a href="https://comp21storage.z5.web.core.windows.net/comp21/spacev1b/spacev1b_base.i8bin">1B points</a></TD>
+                <TD> <a href="https://comp21storage.z5.web.core.windows.net/comp21/spacev1b/spacev100m_base.i8bin">100M base points</a> </TD>
+                <TD> <a href="https://comp21storage.z5.web.core.windows.net/comp21/spacev1b/query.i8bin">29.3K queries</a> </TD>
+                <TD> <a href="https://comp21storage.z5.web.core.windows.net/comp21/spacev1b/public_query_gt100.bin">link</a> </TD>
                 <TD> <a href="https://github.com/microsoft/SPTAG/blob/master/datasets/SPACEV1B/LICENSE" target="_blank">O-UDA</a> </TD>
               </TR>
               <TR>
@@ -378,7 +378,7 @@
             </div>  
 
             <BR> 
-              Baseline DiskANN indices for T2 can be downloaded using "azcopy copy 'https://comp21storage.blob.core.windows.net/publiccontainer/comp21/diskann-T2-baseline-indices' 'local_folder' --recursive". 
+              Baseline DiskANN indices for T2 can be downloaded using "azcopy copy 'https://comp21storage.z5.web.core.windows.net/comp21/diskann-T2-baseline-indices' 'local_folder' --recursive". 
                Note that this would take some time as the indices are large. All indices were built using R and L parameters set to 100.
                Search for T2 used 16 threads and beamwidth 4. The Ls parameter was varied to tune recall vs QPS.<BR>
                <strong>Update:</strong> T2 baseline results have been modified after measuring via pybind11 interface on docker. There was a 30-40% QPS loss using this interface
