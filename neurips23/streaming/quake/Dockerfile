@@ -36,7 +36,7 @@ RUN wget -qO /tmp/cmake.sh https://github.com/Kitware/CMake/releases/download/v3
 # Clone Quake
 # -----------------------------
 WORKDIR /home/app/
-RUN echo "Cloning the quake repo"
+RUN echo "Cloning Quake Repo"
 RUN git clone https://github.com/marius-team/quake.git --branch devesh/multi_level_bigann
 WORKDIR /home/app/quake
 RUN git submodule update --init --recursive
@@ -44,6 +44,7 @@ RUN git submodule update --init --recursive
 # -----------------------------
 # Install Quake
 # -----------------------------
+RUN python3 -m pip install --upgrade pip==22.3.1
 RUN python3 -m pip install -r /home/app/quake/requirements.txt
 RUN python3 -m pip install --no-use-pep517 .
 
