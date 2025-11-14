@@ -36,7 +36,7 @@ RUN wget -qO /tmp/cmake.sh https://github.com/Kitware/CMake/releases/download/v3
 # Clone Quake
 # -----------------------------
 WORKDIR /home/app/
-RUN echo "Cloning Quake Repo"
+RUN echo "Cloning the latest Quake Repo"
 RUN git clone https://github.com/marius-team/quake.git --branch devesh/multi_level_bigann
 WORKDIR /home/app/quake
 RUN git submodule update --init --recursive

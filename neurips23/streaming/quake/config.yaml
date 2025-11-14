@@ -1,3 +1,39 @@
+random-xs:
+    quake: 
+      docker-tag: neurips23-streaming-quake
+      module: neurips23.streaming.quake.quake_wrapper
+      constructor: quake
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+            [{ "batch_size" : 10000, "build_args" : { "nlist" : 1024, "search_workers" : 8}, "mainteance_args" : {"run_mainteance" : false } }]
+          query-args: |
+            [{ "search_args" : {"search_fraction" : 0.3, "batch_size" : 500} }]
+random-xs-clustered:
+    quake: 
+      docker-tag: neurips23-streaming-quake
+      module: neurips23.streaming.quake.quake_wrapper
+      constructor: quake
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+            [{ "batch_size" : 10000, "build_args" : { "nlist" : 128, "search_workers" : 8}, "mainteance_args" : {"run_mainteance" : false} }]
+          query-args: |
+            [{ "search_args" : {"search_fraction" : 0.3, "batch_size" : 500} }]
+msturing-1M:
+    quake: 
+      docker-tag: neurips23-streaming-quake
+      module: neurips23.streaming.quake.quake_wrapper
+      constructor: quake
+      base-args: ["@metric"]
+      run-groups:
+        base:
+          args: |
+            [{ "batch_size" : 10000, "build_args" : { "nlist" : 4096, "search_workers" : 8, "niter" : 10}, "mainteance_args" : {"run_mainteance" : false} }]
+          query-args: |
+            [{ "search_args" : {"search_fraction" : 0.25, "batch_size" : 500} }]
 msturing-30M-clustered:
     quake: 
       docker-tag: neurips23-streaming-quake

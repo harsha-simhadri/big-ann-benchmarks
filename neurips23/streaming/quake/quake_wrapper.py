@@ -34,6 +34,7 @@ class quake(BaseStreamingANN):
     def extract_build_args(self):
         # Get the operation related parameters
         batch_size = self.index_params_.get("batch_size", 10000)
+        self.query_chunk_size_ = batch_size
         self.insert_chunk_size_ = batch_size
         self.delete_chunk_size_ = batch_size
 
@@ -188,11 +189,28 @@ class quake(BaseStreamingANN):
         # Configure the nprobe based on the index details
         self.search_params_.nprobe = int(self.search_fraction_ * self.index_.nlist())
 
-        # Run the queries against the index
+        # Run the queries against the index in chunks
         num_queries = X.shape[0]
         queries = torch.from_numpy(X).to(torch.float32)
-        search_result = self.index_.search(queries, self.search_params_)
-        self.res = search_result.ids.numpy().astype(np.uint32)
+
+        num_chunks = int(math.ceil(num_queries/self.query_chunk_size_))
+        chunk_resuls = []
+        start_time = time.time()
+        for chunk_idx in range(num_chunks):
+            # Determine the vectors in this chunk
+            start_idx = int(chunk_idx * self.query_chunk_size_)
+            if start_idx >= num_queries:
+                break
+            end_idx = min(int((chunk_idx + 1) * self.query_chunk_size_), num_queries)
+            chunk_vectors = queries[start_idx : end_idx, : ]
+
+            # Run the query and save the result
+            search_result = self.index_.search(chunk_vectors, self.search_params_)
+            chunk_resuls.append(search_result.ids)
+
+        # Combine the results
+        combined_result = torch.cat(chunk_resuls, 0)
+        self.res = combined_result.numpy().astype(np.uint32)
         end_time = time.time()
 
         self.perform_mainteance()
