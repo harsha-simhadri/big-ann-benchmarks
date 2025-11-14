@@ -7,6 +7,6 @@ msturing-30M-clustered:
       run-groups:
         base:
           args: |
-            [{ "batch_size" : 10000, "build_args" : { "nlist" : 1024, "search_workers" : 8}, "mainteance_args" : {"split_threshold" : 2100, "delete_threshold" : 2750, "reduction_threshold" : 0.45, "min_partition_size" : 1024} }]
+            [{ "batch_size" : 10000, "build_args" : { "nlist" : 1000, "search_workers" : 8}, "mainteance_args" : {"split_threshold" : 2750, "delete_threshold" : 2250, "reduction_threshold" : 0.22, "min_partition_size" : 1024} }]
           query-args: |
-            [{ "search_args" : {"search_fraction" : 0.145, "batch_size" : 500} }]
+            [{ "search_args" : {"search_fraction" : 0.115, "batch_size" : 2500} }]
