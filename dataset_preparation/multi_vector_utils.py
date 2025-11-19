@@ -4,7 +4,8 @@ import numpy as np
 # all in binary
 # the number of points, followed by the dimension, followed by the total number of chunks, as uint32
 # then a num_points length array of chunk counts per document, as uint32
-# then a flat array of float32 embedding data of shape (total_number_of_chunks, dimension)
+# then a flat array of embedding data of shape (total_number_of_chunks, dimension) 
+# with dtype specified by the caller (e.g., np.float32)
 def read_multivec_embedding_file(file_path, dtype):
     with open(file_path, 'rb') as f:
         num_points = int.from_bytes(f.read(4), 'little')
