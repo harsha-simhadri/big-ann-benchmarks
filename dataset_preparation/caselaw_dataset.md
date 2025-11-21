@@ -17,7 +17,7 @@ wget https://comp21storage.z5.web.core.windows.net/caselaw/caselaw_base_embeddin
 wget https://comp21storage.z5.web.core.windows.net/caselaw/caselaw_query_embeddings.bin
 ```
 
-We calculated ground truth (the top-100 nearest neighbors) for the query set with respect to the full base set, as well as the first 100,000 and 1,000,000 prefixes of the base set. Ground truth is calculated with respect to the Chamfer aggregation metric, where given two collections of vectors $$A$$ and $$B$$, the distance from $$A$$ to $$B$$ is calculated by:
+We calculated ground truth (the top-100 nearest neighbors) for the query set with respect to the full base set, as well as the first 100,000 and 1,000,000 prefixes of the base set. Ground truth is calculated with respect to the Chamfer aggregation metric, where given two collections of vectors $A$ and $B$, the distance from $A$ to $B$ is calculated by:
 
 $$
 \sum_{i=1}^n \min_{b_j \in B} ||a_i, b_j||
