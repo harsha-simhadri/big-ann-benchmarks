@@ -37,7 +37,7 @@ The metadata is released in jsonl format, with one line per document, and the fo
 
 1. "doc_id": the document id based on the document's numeric order in the base file.
 2. "case_id": a unique identifier drawn from the original parquet files; can be used to match a case back to its complete metadata and opinion text.
-3. "date_filed": the date the case was filed in YYY-MM-DD format.
+3. "date_filed": the date the case was filed. Originally in YYYY-MM-DD format, we converted dates to ordinals using Python's `datetime` library for ease of use for comparative operators. They can be converted back to the original format using `datetime`'s `fromordinal()` function.
 4. "court_jurisdiction": the place of jurisdiction of the court. Typically either a US state or the entire United States.
 5. "court_type": the court type as a one- or two-letter abbreviation (appeals, criminal, circuit, and so on).
 6. "court_full_name": the full name of the court.
@@ -45,10 +45,22 @@ The metadata is released in jsonl format, with one line per document, and the fo
 Filters for the base and query sets can be downloaded using the following urls:
 
 ```bash
-wget https://comp21storage.z5.web.core.windows.net/caselaw/caselaw_base_filters.jsonl
-wget https://comp21storage.z5.web.core.windows.net/caselaw/caselaw_query_filters.jsonl
+wget https://comp21storage.z5.web.core.windows.net/caselaw/caselaw_base_metadata.jsonl
+wget https://comp21storage.z5.web.core.windows.net/caselaw/caselaw_query_metadata.jsonl
 ```
 
+In addition to releasing metadata, we also curated a set of filtered queries from the query metadata and computed ground truth with respect to points satisfying those queries, again using Chamfer distance. The filter queries as well as groundtruth for the full dataset and the first 1M and 100K vectors can be downloaded using the following links:
+
+```bash
+wget https://comp21storage.z5.web.core.windows.net/caselaw/caselaw_query_filters.jsonl
+wget https://comp21storage.z5.web.core.windows.net/caselaw/caselaw_filtered_gt.bin
+wget https://comp21storage.z5.web.core.windows.net/caselaw/caselaw_filtered_gt_1M.bin
+wget https://comp21storage.z5.web.core.windows.net/caselaw/caselaw_filtered_gt_100K.bin
+```
+
+The filtered groundtruth is calculated for up to the top 100 points, but since some very selective queries may have fewer than 100 points satisfying the filter predicate, we use the range groundtruth format for storing the groundtruth files. It consists of the number of points, followed by the total number of results, the number of results per point, and then the identifiers of the ground truth points. A reader for this format can be found in the function `range_result_read` in `benchmark/dataset_io.py`.
+
+Python functions for reading the jsonl metadata files and checking whether a line satisfies a given filter query are included in `jsonl_filter_utils.py`. Unfortunately they are not currently compatible with the utilities described in `filter_utils.md`. 
 
 ## Development
 
@@ -57,6 +69,14 @@ This section contains details on the development of the dataset which may be use
 ### Embedding Generation
 
 Each legal case was formatted as a JSON string encoding all its fields, with the "opinion" field at the end. If the total number of tokens was larger than the 8192-token context window, the string was chunked into multiple text strings with 512-token overlap between chunks. Strings were embedded using OpenAI's [text-embedding-3-small](https://platform.openai.com/docs/models/text-embedding-3-small), with 1532 floating-point dimensions.
+
+### Filter Curation
+
+Here we provide a brief summary of how we selected a filter query for each query. Each of the four nontrivial metadata fields (excluding the document ids from consideration) was converted to a predicate. For fields "court_full_name", "court_jurisdiction", and "court_type", the predicate is in the form of equality to the string value. For "date_filed", a date range around the date of filing was used. For dates prior to 1900, a twenty-year radius around the date filed was used. For dates between 1900-1950, a ten-year radius was used; for dates 1950-present, a four-year radius was used. 
+
+Each query was randomly assigned a single predicate with probability one-third or a logical AND of two predicates with probability two-thirds. For the purposes of this document, a date radius query was counted as a single predicate, even though it is technically encoded as an AND of two predicates (less than a particular date and greater than a particular date). For the single-predicate queries, one of the four fields was randomly chosen with a slight bias towards court name to help keep the average specificity low. For the double-predicate queries, the first field was randomly chosen, but since the name of a court implies its type and jurisdiction, if "court_name" was the first field selected we disallowed type and jurisdiction for the second field, and similarly if type or jurisdiction were selected as the first field, we disallowed name as the second field. 
+
+The average specificity (proportion of base points satisfying a given query) was about 4.5%, with maximum value 38% and minimum 0%. We did not disallow non-satisfiable queries as they are a phenomenon that can validly occur in filter scenarios, but they were empirically very rare.
 
 ### Notes
 
