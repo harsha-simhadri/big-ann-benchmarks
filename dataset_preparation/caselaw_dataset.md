@@ -62,6 +62,22 @@ The filtered groundtruth is calculated for up to the top 100 points, but since s
 
 Python functions for reading the jsonl metadata files and checking whether a line satisfies a given filter query are included in `jsonl_filter_utils.py`. Unfortunately they are not currently compatible with the utilities described in `filter_utils.md`. 
 
+### Single Vector Files
+
+For ease of use for those who wish to work with single-vector datasets instead of multi-vector datasets, we also release a utility for splitting the dataset and query set into those documents which were embedded into a single vector (due to being short enough to fit within the embedding context token maximum), versus those which were embedded to multi-vectors. Due to the Pareto-like distribution of the document lengths, this resulted in 7414023 base vectors and 89812 query vectors after withholding multi-vector documents. The utility for this conversion is found in `multi_vector_utils.py`. This utility was used to isolate the base and query documents, metadata, and filters that embedded to single vectors. We then computed both filtered and unfiltered groundtruth for the single-vector base and query sets, as well as 100K and 1M prefixes of the base set. Note that the groundtruth ids are re-indexed, so the id of a vector in the groundtruth below does not correspond to the same vector as in the groundtruth files above.
+
+The groundtruth can be downloaded using the following links:
+
+```bash
+wget https://comp21storage.z5.web.core.windows.net/caselaw/caselaw_singlevec_gt.bin
+wget https://comp21storage.z5.web.core.windows.net/caselaw/caselaw_singlevec_gt_1M.bin
+wget https://comp21storage.z5.web.core.windows.net/caselaw/caselaw_singlevec_gt_100K.bin
+
+wget https://comp21storage.z5.web.core.windows.net/caselaw/caselaw_singlevec_gt_filtered.bin
+wget https://comp21storage.z5.web.core.windows.net/caselaw/caselaw_singlevec_gt_filtered_1M.bin
+wget https://comp21storage.z5.web.core.windows.net/caselaw/caselaw_singlevec_gt_filtered_100K.bin
+```
+
 ## Development
 
 This section contains details on the development of the dataset which may be useful for interpreting any results from the dataset.
