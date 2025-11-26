@@ -3,6 +3,10 @@ import { BarChart, Search, Database, RefreshCw, Trophy, Users, Zap, Target } fro
 import './index.css';
 import filtered from './filteredcomplete.jpg';
 import qr from './qr2.jpg';
+import fr from './filterresults.jpg';
+import or from './oodresults.jpg';
+import sr from './sparseresults.jpg';
+import str from './streamingresults.jpg';
 
 const BigAnnPoster = () => {
   return (
@@ -34,7 +38,7 @@ const BigAnnPoster = () => {
           
           <div className="flex flex-wrap justify-center gap-x-8 gap-y-2 opacity-90 text-center px-12">
             <span>Harsha Vardhan Simhadri (Microsoft)</span>
-            <span>Martin Aumüller (IT U. of Copenhagen)</span>
+            <span>Martin Aumüller (IT U. Copenhagen)</span>
             <span>Amir Ingber (Pinecone)</span>
             <span>Matthijs Douze (Meta AI)</span>
             <span>George Williams</span>
@@ -154,7 +158,7 @@ const BigAnnPoster = () => {
                 </div>
               </div>
               <p className="mt-4 italic text-gray-600 border-t pt-2">
-                "Ranking based on highest throughput (QPS) achieving at least 90% recall."
+                Ranking based on highest throughput (QPS) achieving at least 90% recall.  Streaming track used highest recall across searches.
               </p>
             </section>
 
@@ -168,31 +172,64 @@ const BigAnnPoster = () => {
                   <h3 className="font-bold text-green-900">Filtered Track</h3>
                   <span className="text-green-700 font-bold">Winner: ParlayANN</span>
                 </div>
-                <div className="bg-white p-4 rounded shadow-sm">
-                  <ul className="list-disc ml-5 space-y-2">
-                    <li><strong>ParlayANN</strong> achieved 11x baseline speed.</li>
-                    <li><strong>Strategy:</strong> Inverted index for tags + Vamana graph for dense vectors.</li>
-                    <li>Used efficient bit-vector intersections for low-cardinality tags.</li>
-                  </ul>
+                <div style={{
+                            display: "flex"
+                        }} >
+                  <div style={{
+                                float: "left"
+                            }} >
+                    <div className="bg-white p-4 rounded shadow-sm">
+                          <ul className="list-disc ml-5 space-y-2">
+                            <li><strong>ParlayANN</strong> 11x baseline speed using inverted index for tags + Vamana graph for dense vectors. </li>
+                          </ul>
+                    </div>
+                 </div>
+                 <div style={{
+                                margin: "0px 0px 0xp 0px",
+                                float: "left"
+                            }} > 
+                            <img src={fr} alt="" width="3000"></img>
+                 </div>
+                 <div style={{
+                            clear: "both"
+                            }} >   
+                 </div>
+               </div>
                 {/*
                   <div className="mt-4 h-32 bg-green-100 rounded flex items-center justify-center text-green-800 font-mono text-sm">
                     [Chart Placeholder: ParlayANN dominating QPS vs Recall curve]
                   </div>
                 */}
-                </div>
               </div>
 
               <div className="mb-8">
                 <div className="flex justify-between items-baseline mb-2 border-b border-green-200 pb-1">
                   <h3 className="font-bold text-green-900">OOD Track</h3>
-                  <span className="text-green-700 font-bold">Winners: RoarANN & PyANNS</span>
+                  <span className="text-green-700 font-bold">Winners: MysteryANN & PyANNS</span>
                 </div>
-                <div className="bg-white p-4 rounded shadow-sm">
-                  <ul className="list-disc ml-5 space-y-2">
-                    <li><strong>Challenge:</strong> Database query distribution mismatch.</li>
-                    <li><strong>RoarANN (MysteryANN):</strong> Used a bipartite graph between base and query samples to adapt the index structure.</li>
-                    <li><strong>PyANNS:</strong> Relied on highly optimized Vamana graph + quantization (VNNI instructions).</li>
-                  </ul>
+                <div style={{
+                            display: "flex"
+                        }} >
+                  <div style={{
+                                float: "left"
+                            }} >
+                    <div className="bg-white p-4 rounded shadow-sm">
+                      <ul className="list-disc ml-5 space-y-2">
+                        <li><strong>MysteryANN:</strong> Bipartite graph between base and query samples to adapt the index.</li>
+                        <li><strong>PyANNS:</strong> Relied on highly optimized Vamana graph + quantization.</li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div style={{
+                                margin: "0px 0px 0xp 0px",
+                                float: "left"
+                            }} >
+                            <img src={or} alt="" width="445"></img>
+                  </div>     
+                  <div style={{
+                            clear: "both"
+                            }} >   
+                  </div>
                 </div>
               </div>
               
@@ -201,13 +238,29 @@ const BigAnnPoster = () => {
                   <h3 className="font-bold text-green-900">Sparse Track</h3>
                   <span className="text-green-700 font-bold">Winners: PyANNS & GrassRMA</span>
                 </div>
-                <div className="bg-white p-4 rounded shadow-sm">
-                  <ul className="list-disc ml-5 space-y-2">
-                    <li><strong>Baseline:</strong> Linscan (inverted index).</li>
-                    <li><strong>Winning Approach:</strong> Graph-based indices outperformed inverted indices.</li>
-                    <li><strong>PyANNS:</strong> Quantized HNSW. Refinement step used full vectors to recover accuracy.</li>
-                    <li><strong>GrassRMA:</strong> Optimized memory access patterns for sparse data in graphs.</li>
-                  </ul>
+                <div style={{
+                            display: "flex"
+                        }} >
+                  <div style={{
+                                float: "left"
+                            }} >
+                    <div className="bg-white p-4 rounded shadow-sm">
+                      <ul className="list-disc ml-5 space-y-2">
+                        <li><strong>PyANNS:</strong> Quantized HNSW. Refinement step used full vectors to recover accuracy.</li>
+                        <li><strong>GrassRMA:</strong> Optimized memory access patterns for sparse data in graphs.</li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div style={{
+                                margin: "0px 0px 0xp 0px",
+                                float: "left"
+                            }} >
+                            <img src={sr} alt="" width="845"></img>
+                  </div>
+                  <div style={{
+                            clear: "both"
+                            }} >
+                  </div>
                 </div>
               </div>
               
@@ -216,17 +269,32 @@ const BigAnnPoster = () => {
                   <h3 className="font-bold text-green-900">Streaming Track</h3>
                   <span className="text-green-700 font-bold">Winner: PyANNS</span>
                 </div>
-                <div className="bg-white p-4 rounded shadow-sm">
-                  <p className="mb-2 text-gray-700"><strong>Scenario:</strong> 4:4:1 ratio of Insert:Delete:Search.</p>
-                  <ul className="list-disc ml-5 space-y-2">
-                    <li><strong>Winner Strategy:</strong> DiskANN[4] with 8-bit scalar quantization.</li>
-                    <li>Quantization allowed deeper graph search within the time limit, maintaining high recall despite deletions.</li>
-                  </ul>
-                  <div className="mt-2 text-red-500 font-semibold">
-                    *Note: Original competition results were corrected post-event due to a caching error in recall calculation.
+
+                <div style={{
+                            backgroundColor: "white",
+                            display: "flex"
+                        }} >
+                  <div style={{
+                                float: "left"
+                            }} >
+                    <div className="bg-white p-4 rounded shadow-sm">
+                      <ul className="list-disc ml-5 space-y-2">
+                        <li><strong>PyANNS:</strong> Used DiskANN[4] strategy with 8-bit scalar quantization. Quantization allowed deeper graph search within the time limit, maintaining high recall despite deletions.</li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div style={{
+                                margin: "0px 0px 0xp 0px",
+                                float: "left"
+                            }} >
+                            <img src={str} alt="" width="1600"></img>
+                  </div> 
+                  <div style={{
+                            clear: "both"
+                            }} >
                   </div>
                 </div>
-              </div>
+             </div>
 
             </section>
           </div>
@@ -273,7 +341,7 @@ const BigAnnPoster = () => {
                                 float: "left"
                             }}
                         >
-                            We open-sourced the competition evaluation framework and all the participating algorithms.  Scan the QR Code and get involved!
+                            We open-sourced the competition evaluation framework and all the participating algorithms.  Scan the QR Code and get detailed analysis, access to the algorithms, and more information about getting involved with future competitions!
                         </div>
                         <div style={{ 
                                 margin: "0px 0px 0xp 100px",
@@ -295,7 +363,7 @@ const BigAnnPoster = () => {
                 <strong>References:</strong>
                     <div>[1] Simhadri et al. "Results of the NeurIPS'21 Challenge on Billion-Sclae Approximate Nearest Neighbor Search." NeurIPS Competition and Demos, PMLR, 2021.
                     </div>
-                    <div>[2] Thomee et al. "YFCC100M: The new data in multimedia research" Comm. ACM, 2016.
+                    <div>[2] Thomee et al. "YFCC100M: The New Data in Multimedia Research" Comm. ACM, 2016.
                     </div>
                     <div>[3] Nguyen et al. "MS MARCO: A Human Generated Machine Reading Comprehension Dataset.", 2016.
                     </div>
