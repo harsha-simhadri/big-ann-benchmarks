@@ -78,6 +78,16 @@ wget https://comp21storage.z5.web.core.windows.net/caselaw/caselaw_singlevec_gt_
 wget https://comp21storage.z5.web.core.windows.net/caselaw/caselaw_singlevec_gt_filtered_100K.bin
 ```
 
+### Parquet Files
+
+We also release the original parquet files for the dataset augmented with the vectors. The number of vectors is stored under the field "num_vectors", while the embeddings are stored as a flat list of floats under the field "embeddings." To make download easier, the parquet files are uploaded in 32 parts, corresponding to the 32 parts in the original HuggingFace dataset. Part 00025 is the part with one record, with "case_id" 4292693, omitted.
+
+```bash
+wget https://comp21storage.z5.web.core.windows.net/caselaw/part-00000.parquet
+...
+wget https://comp21storage.z5.web.core.windows.net/caselaw/part-00031.parquet
+```
+
 ## Development
 
 This section contains details on the development of the dataset which may be useful for interpreting any results from the dataset.
