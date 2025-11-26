@@ -25,5 +25,5 @@ I was more comfortable with react than LaTex, given the quick turnaround time an
   * width 48 inches
   * height 36 inches
   * no margins
-* select print to PDF (1st page only( and save
+* select print to PDF (1st page only) and save
 * open the PDF and make sure the content is not clipped
