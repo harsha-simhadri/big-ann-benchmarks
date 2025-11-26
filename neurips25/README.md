@@ -7,7 +7,7 @@ I used react/html to generate the poster, and not Latex.
 
 # Why React/HTML ?
 
-Unfortunately, I had to generate the poster quickly due to a tight convention center deadline.
+Unfortunately, I had to generate the poster quickly due to a tight venue deadline.
 
 I was more comfortable with react than LaTex, given the quick turnaround time and nearly everyone was on Thanksgiving vacation.
 

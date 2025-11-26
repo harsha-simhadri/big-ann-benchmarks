@@ -1,6 +1,8 @@
 import React from 'react';
 import { BarChart, Search, Database, RefreshCw, Trophy, Users, Zap, Target } from 'lucide-react';
 import './index.css';
+import filtered from './filteredcomplete.jpg';
+import qr from './qr2.jpg';
 
 const BigAnnPoster = () => {
   return (
@@ -18,12 +20,12 @@ const BigAnnPoster = () => {
           fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
           margin: '0px 0px 0x 0px'
         }}
-      >
+      >      
         {/* Header Section */}
         <header className="bg-blue-900 text-white p-8 border-b-8 border-yellow-400">
           <div className="flex justify-between items-center mb-4">
             <div className="font-bold tracking-widest opacity-80">NeurIPS 2025 | SAN DIEGO</div>
-            <div className="font-bold tracking-widest opacity-80">TRACK: SYSTEMS & BENCHMARKS</div>
+            <div className="font-bold tracking-widest opacity-80">TRACK: BENCHMARKS AND DATASETS </div>
           </div>
           
           <h1 className="font-extrabold mb-6 leading-tight text-center">
@@ -32,19 +34,17 @@ const BigAnnPoster = () => {
           
           <div className="flex flex-wrap justify-center gap-x-8 gap-y-2 opacity-90 text-center px-12">
             <span>Harsha Vardhan Simhadri (Microsoft)</span>
+            <span>Martin Aumüller (IT U. of Copenhagen)</span>
+            <span>Amir Ingber (Pinecone)</span>
             <span>Matthijs Douze (Meta AI)</span>
+            <span>George Williams</span>
             <span>Dmitry Baranchuk (Yandex)</span>
-            <span>Ben Landrum (UMD)</span>
-            <span>Martin Aumüller (ITU)</span>
-            <span>George Williams (Ansible AI)</span>
             <span>Edo Liberty (Pinecone)</span>
-            <span>Mazin Karjikar (UMD)</span>
             <span>Frank Liu (Zilliz)</span>
-            <span>Laxman Dhulipala (UMD)</span>
           </div>
           
           <div className="mt-6 text-center text-blue-200 italic">
-            Participating Teams: Shanghai Jiao Tong University, Fudan University, Baidu, and others.
+            Participating Teams: Shanghai Jiao Tong University, Fudan University, Baidu, University of Maryland. and Carnegie Mellon University.
           </div>
         </header>
 
@@ -82,10 +82,28 @@ const BigAnnPoster = () => {
                   <h3 className="font-bold text-indigo-700 mb-2 flex items-center gap-2">
                     1. Filtered Search
                   </h3>
-                  <p className="mb-2 text-gray-600"><strong>Dataset:</strong> YFCC 100M[2] (CLIP embeddings + Tags)</p>
-                  <p className="mb-2">Search for nearest neighbors that <em>also</em> match specific metadata tags (e.g., "camera model", "country").</p>
-                  <div className="bg-gray-100 p-2 rounded">
-                    Query: Image_Emb + ["freight", "country_GB"]
+                  <div style={{
+                            display: "flex"
+                        }}
+                  >
+                    <div style={{ 
+                            float: "left"
+                        }}
+                    >
+                      <p className="mb-2 text-gray-600"><strong>Dataset:</strong> YFCC 100M[2] (CLIP embeddings + Tags)</p>
+                      <p className="mb-2">Search for nearest neighbors that <em>also</em> match specific metadata tags.</p>
+                    </div>
+                    <div style={{ 
+                            float: "left"
+                        }}
+                    >
+                        <img src={filtered} alt="" width="1800"></img>
+                    </div>
+                    <div style={{
+                            clear: "both"
+                        }}
+                    >
+                    </div>
                   </div>
                 </div>
 
@@ -241,6 +259,37 @@ const BigAnnPoster = () => {
                   </ul>
                 </div>
               </div>
+             
+              <h2 className="font-bold text-yellow-800 mb-4 flex items-center gap-3">
+                <Zap size={32} /> Github Repository
+              </h2>
+              <p className="mb-4 text-justify">
+                  <div>
+                    <div style={{
+                            display: "flex"
+                        }}
+                    >
+                        <div style={{ 
+                                float: "left"
+                            }}
+                        >
+                            We open-sourced the competition evaluation framework and all the participating algorithms.  Scan the QR Code and get involved!
+                        </div>
+                        <div style={{ 
+                                margin: "0px 0px 0xp 100px",
+                                float: "left"
+                            }}
+                        >
+                            <img src={qr} alt="" width="3500"></img>
+                        </div>
+                        <div style={{
+                            clear: "both"
+                            }}
+                        >
+                        </div>
+                    </div>
+                  </div>
+              </p>
               
               <div className="mt-auto pt-4 border-t border-yellow-200 text-gray-500">
                 <strong>References:</strong>
