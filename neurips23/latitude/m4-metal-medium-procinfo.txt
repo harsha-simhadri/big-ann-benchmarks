@@ -1,0 +1,151 @@
+Memory:        Total        Used        Free     Buffers                       
+RAM:       131686024    76556808    55129216      603408                       
+Swap:        8388604       11008     8377596                                   
+
+Bootup: Sun May 12 23:22:02 2024   Load average: 0.00 0.00 0.01 2/536 84530    
+
+user  :      7w 4d 17:50:10.54   1.6%  page in :         85965809              
+nice  :            00:12:50.49   0.0%  page out:       1538353068              
+system:         3d 11:52:05.90   0.1%  page act:        121435732              
+IOwait:            00:21:11.41   0.0%  page dea:         17233633              
+hw irq:            00:00:00.00   0.0%  page flt:      20391650101              
+sw irq:            14:35:20.27   0.0%  swap in :             1576              
+idle  :       484w 08:36:38.74  98.3%  swap out:             3406              
+uptime:   3m 2w 1d 17:26:16.69         context :      49461214480              
+
+irq   0:         73  2-edge timer        irq 168:    1130921  2621451-edge i40e
+irq   3:       2734  3-edge ttyS1        irq 169:    3391949  2621452-edge i40e
+irq   4:         64  4-edge              irq 170:    1284291  2621453-edge i40e
+irq   6:          0  6-edge AMDI0010:0   irq 171:    1434178  2621454-edge i40e
+irq   7:          0  7-fasteoi pinctrl   irq 172:     424861  2621455-edge i40e
+irq   8:          1  8-edge rtc0         irq 173:    1523121  2621456-edge i40e
+irq   9:          0  9-fasteoi acpi      irq 174:     752701  2621457-edge i40e
+irq  10:          0  10-edge AMDI0010:   irq 175:    1233346  2621458-edge i40e
+irq  11:          0  11-edge AMDI0010:   irq 176:    1349656  2621459-edge i40e
+irq  12:          0  12-edge AMDI0010:   irq 177:    2041483  2621460-edge i40e
+irq  14:          0  14-edge AMDI0010:   irq 178:    1795385  2621461-edge i40e
+irq  15:          0  15-edge AMDI0010:   irq 179:    3367344  2621462-edge i40e
+irq  27:          0  100667392-edge AM   irq 180:    1061350  2621463-edge i40e
+irq  28:          0  67112960-edge AMD   irq 181:    1573875  2621464-edge i40e
+irq  29:          0  4096-edge AMD-Vi    irq 182:    1493380  2621465-edge i40e
+irq  30:          0  33558528-edge AMD   irq 183:    2142924  2621466-edge i40e
+irq  31:          0  100681728-edge PC   irq 184:    1456309  2621467-edge i40e
+irq  32:          0  100683776-edge PC   irq 185:    3072988  2621468-edge i40e
+irq  33:          0  100749312-edge PC   irq 186:    1982538  2621469-edge i40e
+irq  34:          0  100780032-edge PC   irq 187:     683928  2621470-edge i40e
+irq  35:          0  100782080-edge PC   irq 188:    1347492  2621471-edge i40e
+irq  37:          0  67225600-edge PCI   irq 189:     382072  2621472-edge i40e
+irq  38:          1  18432-edge PCIe P   irq 190:          0  2621473-edge i40e
+irq  39:          1  20480-edge PCIe P   irq 200:          0  103811072-edge ah
+irq  40:          1  22528-edge PCIe P   irq 201:          0  103811073-edge ah
+irq  41:          1  24576-edge PCIe P   irq 202:          0  103811074-edge ah
+irq  42:          0  51200-edge PCIe P   irq 203:          0  103811075-edge ah
+irq  43:          0  116736-edge PCIe    irq 204:          0  103811076-edge ah
+irq  44:          0  118784-edge PCIe    irq 205:          0  103811077-edge ah
+irq  45:          1  33572864-edge PCI   irq 206:          0  103811078-edge ah
+irq  46:          1  33574912-edge PCI   irq 207:          0  103811079-edge ah
+irq  47:          1  33576960-edge PCI   irq 216:          0  524289-edge nvme2
+irq  48:          1  33579008-edge PCI   irq 217:          8  524290-edge nvme2
+irq  50:          0  33671168-edge PCI   irq 218:          0  524291-edge nvme2
+irq  52:        132  103292928-edge xh   irq 219:          0  524292-edge nvme2
+irq  53:          0  103292929-edge xh   irq 220:          9  524293-edge nvme2
+irq  54:          0  103292930-edge xh   irq 221:          8  524294-edge nvme2
+irq  55:          0  103292931-edge xh   irq 222:          8  524295-edge nvme2
+irq  56:          0  103292932-edge xh   irq 223:          0  524296-edge nvme2
+irq  57:          0  103292933-edge xh   irq 224:          0  524297-edge nvme2
+irq  58:          0  103292934-edge xh   irq 225:         54  524298-edge nvme2
+irq  59:          0  103292935-edge xh   irq 226:          0  524299-edge nvme2
+irq  61:         89  3153920-edge xhci   irq 227:          4  524300-edge nvme2
+irq  62:          0  3153921-edge xhci   irq 228:          2  524301-edge nvme2
+irq  63:          0  3153922-edge xhci   irq 229:         12  524302-edge nvme2
+irq  64:          0  3153923-edge xhci   irq 230:         38  524303-edge nvme2
+irq  65:          0  3153924-edge xhci   irq 231:          1  524304-edge nvme2
+irq  66:          0  3153925-edge xhci   irq 232:          0  524305-edge nvme2
+irq  67:          0  3153926-edge xhci   irq 233:         46  524306-edge nvme2
+irq  68:          0  3153927-edge xhci   irq 234:          0  524307-edge nvme2
+irq  70:        283  101187584-edge nv   irq 235:          0  524308-edge nvme2
+irq  71:        283  101711872-edge nv   irq 236:         54  524309-edge nvme2
+irq  76:          0  103809027-edge ah   irq 237:          8  524310-edge nvme2
+irq  78:          0  103809029-edge ah   irq 238:          0  524311-edge nvme2
+irq  91:        283  524288-edge nvme2   irq 239:          8  524312-edge nvme2
+irq  92:        283  1048576-edge nvme   irq 240:          0  524313-edge nvme2
+irq  93:    1075877  101187585-edge nv   irq 241:          0  524314-edge nvme2
+irq  94:    1701082  101187586-edge nv   irq 242:         10  524315-edge nvme2
+irq  95:    1354189  101187587-edge nv   irq 243:          0  524316-edge nvme2
+irq  96:    1234032  101187588-edge nv   irq 244:          1  524317-edge nvme2
+irq  97:     370967  101187589-edge nv   irq 245:          0  524318-edge nvme2
+irq  98:     294721  101187590-edge nv   irq 246:          8  524319-edge nvme2
+irq  99:     287523  101187591-edge nv   irq 247:         17  524320-edge nvme2
+irq 100:     262766  101187592-edge nv   irq 248:          0  1048577-edge nvme
+irq 101:     261811  101187593-edge nv   irq 249:          8  1048578-edge nvme
+irq 102:     299001  101187594-edge nv   irq 250:          0  1048579-edge nvme
+irq 103:     261807  101187595-edge nv   irq 251:          0  1048580-edge nvme
+irq 104:     306874  101187596-edge nv   irq 252:          9  1048581-edge nvme
+irq 105:     264540  101187597-edge nv   irq 253:          8  1048582-edge nvme
+irq 106:     247844  101187598-edge nv   irq 254:          8  1048583-edge nvme
+irq 107:     249377  101187599-edge nv   irq 255:          2  1048584-edge nvme
+irq 108:     220539  101187600-edge nv   irq 256:          0  1048585-edge nvme
+irq 109:     957885  101187601-edge nv   irq 257:         54  1048586-edge nvme
+irq 110:     858352  101187602-edge nv   irq 258:          0  1048587-edge nvme
+irq 111:     796171  101187603-edge nv   irq 259:          1  1048588-edge nvme
+irq 112:     755540  101187604-edge nv   irq 260:          2  1048589-edge nvme
+irq 113:     286286  101187605-edge nv   irq 261:          3  1048590-edge nvme
+irq 114:     247370  101187606-edge nv   irq 262:          2  1048591-edge nvme
+irq 115:     238660  101187607-edge nv   irq 263:          2  1048592-edge nvme
+irq 116:     243342  101187608-edge nv   irq 264:          0  1048593-edge nvme
+irq 117:     229991  101187609-edge nv   irq 265:          0  1048594-edge nvme
+irq 118:     237718  101187610-edge nv   irq 266:          0  1048595-edge nvme
+irq 119:     208959  101187611-edge nv   irq 267:          0  1048596-edge nvme
+irq 120:     244555  101187612-edge nv   irq 268:         54  1048597-edge nvme
+irq 121:     270290  101187613-edge nv   irq 269:         10  1048598-edge nvme
+irq 122:     235842  101187614-edge nv   irq 270:          0  1048599-edge nvme
+irq 123:     236394  101187615-edge nv   irq 271:         50  1048600-edge nvme
+irq 124:     226601  101187616-edge nv   irq 272:          0  1048601-edge nvme
+irq 125:          0  101711873-edge nv   irq 273:          0  1048602-edge nvme
+irq 126:          8  101711874-edge nv   irq 274:         10  1048603-edge nvme
+irq 127:          0  101711875-edge nv   irq 275:         46  1048604-edge nvme
+irq 128:         46  101711876-edge nv   irq 276:          2  1048605-edge nvme
+irq 129:          9  101711877-edge nv   irq 277:          0  1048606-edge nvme
+irq 130:          8  101711878-edge nv   irq 278:          8  1048607-edge nvme
+irq 131:          8  101711879-edge nv   irq 279:         17  1048608-edge nvme
+irq 132:          0  101711880-edge nv   irq 280:          0  2623488-edge i40e
+irq 133:          0  101711881-edge nv   irq 281:        775  2623489-edge i40e
+irq 134:         54  101711882-edge nv   irq 282:        961  2623490-edge i40e
+irq 135:          0  101711883-edge nv   irq 283:       1432  2623491-edge i40e
+irq 136:          1  101711884-edge nv   irq 284:       5734  2623492-edge i40e
+irq 137:          2  101711885-edge nv   irq 285:       1867  2623493-edge i40e
+irq 138:          0  101711886-edge nv   irq 286:       3811  2623494-edge i40e
+irq 139:          5  101711887-edge nv   irq 287:       2041  2623495-edge i40e
+irq 140:          0  101711888-edge nv   irq 288:       2875  2623496-edge i40e
+irq 141:          0  101711889-edge nv   irq 289:       5656  2623497-edge i40e
+irq 142:          0  101711890-edge nv   irq 290:       3515  2623498-edge i40e
+irq 143:          0  101711891-edge nv   irq 291:       2206  2623499-edge i40e
+irq 144:          0  101711892-edge nv   irq 292:       3247  2623500-edge i40e
+irq 145:         54  101711893-edge nv   irq 293:       4061  2623501-edge i40e
+irq 146:          8  101711894-edge nv   irq 294:       6619  2623502-edge i40e
+irq 147:          0  101711895-edge nv   irq 295:       6081  2623503-edge i40e
+irq 148:          8  101711896-edge nv   irq 296:       4024  2623504-edge i40e
+irq 149:         46  101711897-edge nv   irq 297:       1063  2623505-edge i40e
+irq 150:          3  101711898-edge nv   irq 298:       4385  2623506-edge i40e
+irq 151:         10  101711899-edge nv   irq 299:       2271  2623507-edge i40e
+irq 152:          0  101711900-edge nv   irq 300:       1350  2623508-edge i40e
+irq 153:          0  101711901-edge nv   irq 301:       2482  2623509-edge i40e
+irq 154:          1  101711902-edge nv   irq 302:       7104  2623510-edge i40e
+irq 155:          8  101711903-edge nv   irq 303:    4404411  2623511-edge i40e
+irq 156:         17  101711904-edge nv   irq 304:       5791  2623512-edge i40e
+irq 157:          0  2621440-edge i40e   irq 305:       2454  2623513-edge i40e
+irq 158:    2267119  2621441-edge i40e   irq 306:       2678  2623514-edge i40e
+irq 159:     477663  2621442-edge i40e   irq 307:       2957  2623515-edge i40e
+irq 160:     934591  2621443-edge i40e   irq 308:      17688  2623516-edge i40e
+irq 161:     938608  2621444-edge i40e   irq 309:       2971  2623517-edge i40e
+irq 162:     995476  2621445-edge i40e   irq 310:       4972  2623518-edge i40e
+irq 163:    3114955  2621446-edge i40e   irq 311:       3509  2623519-edge i40e
+irq 164:    1739044  2621447-edge i40e   irq 312:      18314  2623520-edge i40e
+irq 165:    1863750  2621448-edge i40e   irq 313:          0  2623521-edge i40e
+irq 166:    1368893  2621449-edge i40e   irq 323:          0  3670016-edge ahci
+irq 167:    2979007  2621450-edge i40e                                         
+
+
+docker0     TX 60.03GiB      RX 179.63MiB     lo          TX 961.03KiB     RX 961.03KiB    
+eno1        TX 12.22GiB      RX 149.31GiB     usb0        TX 0.00B         RX 0.00B        
+eno2        TX 7.05MiB       RX 450.00MiB                                      
