@@ -664,7 +664,6 @@ class OpenAIArXivDataset(DatasetCompetitionFormat):
         return sanitize(slice)
 
     def distance(self):
-        # vectors are normalized, so euclidean = inner product
         return "euclidean"
 
 
@@ -718,6 +717,7 @@ class YFCCImagesDataset(DatasetCompetitionFormat):
         return sanitize(slice)
 
     def distance(self):
+        # vectors are normalized, so euclidean = inner product
         return "euclidean"
 
 class RandomClusteredDS(DatasetCompetitionFormat):
