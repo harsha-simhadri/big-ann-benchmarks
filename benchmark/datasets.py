@@ -666,6 +666,60 @@ class OpenAIArXivDataset(DatasetCompetitionFormat):
     def distance(self):
         return "euclidean"
 
+
+'''
+YFCCImages consists of 98,735,605 1280-dimensional CLIP embeddings (model = hf://laion/CLIP-ViT-bigG-14-laion2B-39B-b160k) 
+for images in the YFCC100M dataset, with additional 100K queries drawn from the same source.
+Not all images from the original dataset were successfully embedded, so the final dataset
+contains 98.7M vectors + 100K queries instead of 99.2M.
+The YFCC100M dataset was released by Yahoo and can be found here:
+https://multimediacommons.wordpress.com/yfcc100m-core-dataset/
+We suggest using the `yfcc100m` pip package to download the dataset from AWS.
+'''
+class YFCCImagesDataset(DatasetCompetitionFormat):
+    def __init__(self, nb=98735605):
+        self.nb = nb
+        self.d = 1280
+        self.nq = 100000
+        self.dtype = "float32"
+        self.ds_fn =  (
+            "yfcc100m_vecs_sampled_1m.fbin" if self.nb == 1000000 else
+            "yfcc100m_vecs_sampled_10m.fbin" if self.nb == 10000000 else
+            "yfcc100m_vecs.fbin"
+        )
+        self.qs_fn = "yfcc100m_query_vecs.fbin"
+        self.gt_fn = (
+            "yfcc100m_query_gt100_sampled_1m.bin" if self.nb == 1000000 else
+            "yfcc100m_query_gt100_sampled_10m.bin" if self.nb == 10000000 else
+            "yfcc100m_query_gt100.bin" if self.nb == 98735605 else
+            None
+        )
+        self.basedir = os.path.join(BASEDIR, "YFCC100MImages")
+        self.base_url = "https://comp21storage.z5.web.core.windows.net/yfcc100m_images/"
+
+        self.private_qs_url = None
+        self.private_gt_url = None
+
+    def prepare(self, skip_data=False, original_size=98735605):
+        return super().prepare(skip_data, 98735605)
+
+    def get_dataset_fn(self):
+        fn = os.path.join(self.basedir, self.ds_fn)
+        if self.nb not in [98735605, 1000000, 10000000]:
+            fn += '.crop_nb_%d' % self.nb
+        if os.path.exists(fn):
+            return fn
+        else:
+            raise RuntimeError("file %s not found" %fn)
+        
+    def get_dataset(self):
+        slice = next(self.get_dataset_iterator(bs=self.nb))
+        return sanitize(slice)
+
+    def distance(self):
+        # vectors are normalized, so euclidean = inner product
+        return "euclidean"
+
 class RandomClusteredDS(DatasetCompetitionFormat):
     def __init__(self, basedir="random-clustered"):
         self.nb = 10000
@@ -1298,6 +1352,10 @@ DATASETS = {
     'yfcc-10M-unfiltered': lambda: YFCC100MDataset(filtered=False),
     'yfcc-10M-dummy': lambda: YFCC100MDataset(dummy=True),
     'yfcc-10M-dummy-unfiltered': lambda: YFCC100MDataset(filtered=False, dummy=True),
+    
+    'yfcc-images-100M': lambda: YFCCImagesDataset(),
+    'yfcc-images-10M': lambda: YFCCImagesDataset(nb=10000000),
+    'yfcc-images-1M': lambda: YFCCImagesDataset(nb=1000000),
 
     'sparse-small': lambda: SparseDataset("small"),
     'sparse-1M': lambda: SparseDataset("1M"),
