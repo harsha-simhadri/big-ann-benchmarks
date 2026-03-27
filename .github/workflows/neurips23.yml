@@ -114,6 +114,9 @@ jobs:
           - algorithm: zilliz
             dataset: random-filter-s
             track: filter
+          - algorithm: prism
+            dataset: random-filter-s
+            track: filter
       fail-fast: false
 
     steps:
