@@ -325,6 +325,7 @@ def run_docker(definition, dataset, count, runs, timeout, rebuild,
         logger.error('Container.wait for container %s failed with exception' % container.short_id)
         logger.error('Invoked with %s' % cmd)
         traceback.print_exc()
+        raise
     finally:
         container.remove(force=True)
 
@@ -342,6 +343,7 @@ def _handle_container_return_value(return_value, container, logger):
     if exit_code not in [0, None]:
         logger.error(colors.color(container.logs().decode(), fg='red'))
         logger.error(msg)
+        raise RuntimeError(msg)
 
 
 def run_no_docker(definition, dataset, count, runs, timeout, rebuild,

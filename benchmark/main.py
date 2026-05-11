@@ -39,6 +39,7 @@ def positive_int(s):
 
 def run_worker(args, queue):
     print("RW", args)
+    failures = []
     while not queue.empty():
         definition = queue.get()
         memory_margin = 500e6  # reserve some extra memory for misc stuff
@@ -46,21 +47,29 @@ def run_worker(args, queue):
         #mem_limit = 128e9 # 128gb for competition
         cpu_limit = "0-%d" % (multiprocessing.cpu_count() - 1)
 
-        if args.nodocker:
-            run_no_docker(definition, args.dataset, args.count,
-                          args.runs, args.timeout, args.rebuild, cpu_limit, mem_limit,
-                          args.t3, args.power_capture,
-                          args.upload_index, args.download_index,
-                          args.blob_prefix, args.sas_string,
-                          args.private_query, args.neurips23track, args.runbook_path)
+        try:
+            if args.nodocker:
+                run_no_docker(definition, args.dataset, args.count,
+                              args.runs, args.timeout, args.rebuild, cpu_limit, mem_limit,
+                              args.t3, args.power_capture,
+                              args.upload_index, args.download_index,
+                              args.blob_prefix, args.sas_string,
+                              args.private_query, args.neurips23track, args.runbook_path)
 
-        else:
-            run_docker(definition, args.dataset, args.count,
-                       args.runs, args.timeout, args.rebuild, cpu_limit, mem_limit,
-                       args.t3, args.power_capture,
-                       args.upload_index, args.download_index,
-                       args.blob_prefix, args.sas_string,
-                       args.private_query, args.neurips23track, args.runbook_path)
+            else:
+                run_docker(definition, args.dataset, args.count,
+                           args.runs, args.timeout, args.rebuild, cpu_limit, mem_limit,
+                           args.t3, args.power_capture,
+                           args.upload_index, args.download_index,
+                           args.blob_prefix, args.sas_string,
+                           args.private_query, args.neurips23track, args.runbook_path)
+        except Exception:
+            logging.error('Algorithm %s failed with exception' % definition.algorithm)
+            traceback.print_exc()
+            failures.append(definition.algorithm)
+
+    if failures:
+        raise RuntimeError('The following algorithms failed: %s' % ', '.join(failures))
 
 
 def main():
@@ -266,3 +275,6 @@ def main():
                for i in range(1)]
     [worker.start() for worker in workers]
     [worker.join() for worker in workers]
+
+    if any(worker.exitcode != 0 for worker in workers):
+        raise RuntimeError('One or more algorithm runs failed')
