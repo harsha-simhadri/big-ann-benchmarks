@@ -700,8 +700,15 @@ class YFCCImagesDataset(DatasetCompetitionFormat):
         self.private_qs_url = None
         self.private_gt_url = None
 
-    def prepare(self, skip_data=False, original_size=98735605):
-        return super().prepare(skip_data, 98735605)
+    def prepare(self, skip_data=False, original_size=None):
+        if self.nb == 1000000:
+            original_size = 1000000
+        elif self.nb == 10000000:
+            original_size = 10000000
+        else:
+            original_size = 98735605
+
+        return super().prepare(skip_data, original_size)
 
     def get_dataset_fn(self):
         fn = os.path.join(self.basedir, self.ds_fn)
