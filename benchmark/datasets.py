@@ -668,6 +668,50 @@ class OpenAIArXivDataset(DatasetCompetitionFormat):
 
 
 '''
+See `dataset_preparation/caselaw_dataset.md' for details of this dataset, including
+additional multi-vector and filter options
+'''
+class CaselawDataset(BillionScaleDatasetCompetitionFormat):
+    def __init__(self, nb=7414023):
+        self.nb = nb
+        self.d = 1536
+        self.nq = 89812
+        self.dtype = "float32"
+        self.ds_fn = "caselaw_base_embeddings.bin"
+        self.qs_fn = "caselaw_query_embeddings.bin"
+        self.gt_fn = (
+            "caselaw_gt.bin" if self.nb == 7414023 else
+            "caselaw_gt_1M.bin" if self.nb == 1000000 else
+            "caselaw_gt_100K.bin" if self.nb == 100000 else
+            None
+        )
+        self.basedir = os.path.join(BASEDIR, "caselaw")
+        self.base_url = "https://comp21storage.z5.web.core.windows.net/caselaw/single_vector/"
+
+        self.private_qs_url = None
+        self.private_gt_url = None
+
+    def prepare(self, skip_data=False, original_size=7414023):
+        return super().prepare(skip_data, 7414023)
+
+    def get_dataset_fn(self):
+        fn = os.path.join(self.basedir, self.ds_fn)
+        if self.nb != 7414023:
+            fn += '.crop_nb_%d' % self.nb
+        if os.path.exists(fn):
+            return fn
+        else:
+            raise RuntimeError("file %s not found" %fn)
+        
+    def get_dataset(self):
+        slice = next(self.get_dataset_iterator(bs=self.nb))
+        return sanitize(slice)
+
+    def distance(self):
+        return "euclidean"
+
+
+'''
 YFCCImages consists of 98,735,605 1280-dimensional CLIP embeddings (model = hf://laion/CLIP-ViT-bigG-14-laion2B-39B-b160k) 
 for images in the YFCC100M dataset, with additional 100K queries drawn from the same source.
 Not all images from the original dataset were successfully embedded, so the final dataset
@@ -1384,4 +1428,8 @@ DATASETS = {
     'random-filter-s': lambda : RandomFilterDS(100000, 1000, 50),
 
     'openai-embedding-1M': lambda: OpenAIEmbedding1M(93652),
+
+    'caselaw-7M': lambda: CaselawDataset(7414023),
+    'caselaw-1M': lambda: CaselawDataset(1000000),
+    'caselaw-100K': lambda: CaselawDataset(100000),
 }

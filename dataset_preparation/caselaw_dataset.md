@@ -64,19 +64,55 @@ Python functions for reading the jsonl metadata files and checking whether a lin
 
 ### Single Vector Files
 
-For ease of use for those who wish to work with single-vector datasets instead of multi-vector datasets, we also release a utility for splitting the dataset and query set into those documents which were embedded into a single vector (due to being short enough to fit within the embedding context token maximum), versus those which were embedded to multi-vectors. Due to the Pareto-like distribution of the document lengths, this resulted in 7414023 base vectors and 89812 query vectors after withholding multi-vector documents. The utility for this conversion is found in `multi_vector_utils.py`. This utility was used to isolate the base and query documents, metadata, and filters that embedded to single vectors. We then computed both filtered and unfiltered groundtruth for the single-vector base and query sets, as well as 100K and 1M prefixes of the base set. Note that the groundtruth ids are re-indexed, so the id of a vector in the groundtruth below does not correspond to the same vector as in the groundtruth files above.
+For those who wish to work with single-vector datasets instead of multi-vector datasets, we also release in a separate file the embeddings for documents which were embedded into a single vector (due to being short enough to fit within the embedding context token maximum). Due to the Pareto-like distribution of the document lengths, this resulted in 7414023 base vectors and 89812 query vectors after withholding multi-vector documents. 
 
-The groundtruth can be downloaded using the following links:
+The single-vector dataset and query set, along with ground truth for the entire dataset and 1M and 100K prefixes, can be downloaded using the `create_dataset` utility alongside other single-vector datasets in this benchmark:
 
 ```bash
-wget https://comp21storage.z5.web.core.windows.net/caselaw/caselaw_singlevec_gt.bin
-wget https://comp21storage.z5.web.core.windows.net/caselaw/caselaw_singlevec_gt_1M.bin
-wget https://comp21storage.z5.web.core.windows.net/caselaw/caselaw_singlevec_gt_100K.bin
-
-wget https://comp21storage.z5.web.core.windows.net/caselaw/caselaw_singlevec_gt_filtered.bin
-wget https://comp21storage.z5.web.core.windows.net/caselaw/caselaw_singlevec_gt_filtered_1M.bin
-wget https://comp21storage.z5.web.core.windows.net/caselaw/caselaw_singlevec_gt_filtered_100K.bin
+python3.10 create_dataset.py --dataset caselaw-7M
+python3.10 create_dataset.py --dataset caselaw-1M
+python3.10 create_dataset.py --dataset caselaw-100K
 ```
+
+We also release filter metadata and filtered groundtruth for the single-vector dataset, which can be downloaded using the following commands:
+
+```bash
+wget https://comp21storage.z5.web.core.windows.net/caselaw/single_vector/caselaw_base_metadata.jsonl
+wget https://comp21storage.z5.web.core.windows.net/caselaw/single_vector/caselaw_query_filters.jsonl
+wget https://comp21storage.z5.web.core.windows.net/caselaw/single_vector/caselaw_query_metadata.jsonl
+
+wget https://comp21storage.z5.web.core.windows.net/caselaw/single_vector/caselaw_gt_filtered.bin
+wget https://comp21storage.z5.web.core.windows.net/caselaw/single_vector/caselaw_gt_filtered_1M.bin
+wget https://comp21storage.z5.web.core.windows.net/caselaw/single_vector/caselaw_gt_filtered_100K.bin
+```
+
+Furthermore, we release separate query, filter, and groundtruth files for those wishing to separate the query set by match rate (the percent of base dataset points which satisfy the query filter). We choose three match rate regimes and isolate 10000 queries fitting that regime from the base set. The regimes and download links are as follows:
+
+For match rate .005-.01:
+
+```bash
+wget https://comp21storage.z5.web.core.windows.net/caselaw/single_vector/low/query.bin
+wget https://comp21storage.z5.web.core.windows.net/caselaw/single_vector/low/GT.bin
+wget https://comp21storage.z5.web.core.windows.net/caselaw/single_vector/low/query_filters.jsonl
+```
+
+For match rate .01-.1:
+
+```bash
+wget https://comp21storage.z5.web.core.windows.net/caselaw/single_vector/medium/query.bin
+wget https://comp21storage.z5.web.core.windows.net/caselaw/single_vector/medium/GT.bin
+wget https://comp21storage.z5.web.core.windows.net/caselaw/single_vector/medium/query_filters.jsonl
+```
+
+For match rate .1-.5:
+
+```bash
+wget https://comp21storage.z5.web.core.windows.net/caselaw/single_vector/high/query.bin
+wget https://comp21storage.z5.web.core.windows.net/caselaw/single_vector/high/GT.bin
+wget https://comp21storage.z5.web.core.windows.net/caselaw/single_vector/high/query_filters.jsonl
+```
+
+
 
 ### Parquet Files
 
@@ -100,9 +136,9 @@ Each legal case was formatted as a JSON string encoding all its fields, with the
 
 Here we provide a brief summary of how we selected a filter query for each query. Each of the four nontrivial metadata fields (excluding the document ids from consideration) was converted to a predicate. For fields "court_full_name", "court_jurisdiction", and "court_type", the predicate is in the form of equality to the string value. For "date_filed", a date range around the date of filing was used. For dates prior to 1900, a twenty-year radius around the date filed was used. For dates between 1900-1950, a ten-year radius was used; for dates 1950-present, a four-year radius was used. 
 
-Each query was randomly assigned a single predicate with probability one-third or a logical AND of two predicates with probability two-thirds. For the purposes of this document, a date radius query was counted as a single predicate, even though it is technically encoded as an AND of two predicates (less than a particular date and greater than a particular date). For the single-predicate queries, one of the four fields was randomly chosen with a slight bias towards court name to help keep the average specificity low. For the double-predicate queries, the first field was randomly chosen, but since the name of a court implies its type and jurisdiction, if "court_name" was the first field selected we disallowed type and jurisdiction for the second field, and similarly if type or jurisdiction were selected as the first field, we disallowed name as the second field. 
+Each query was randomly assigned a single predicate with probability one-third or a logical AND of two predicates with probability two-thirds. For the purposes of this document, a date radius query was counted as a single predicate, even though it is technically encoded as an AND of two predicates (less than a particular date and greater than a particular date). For the single-predicate queries, one of the four fields was randomly chosen with a slight bias towards court name to help keep the average match rate low. For the double-predicate queries, the first field was randomly chosen, but since the name of a court implies its type and jurisdiction, if "court_name" was the first field selected we disallowed type and jurisdiction for the second field, and similarly if type or jurisdiction were selected as the first field, we disallowed name as the second field. 
 
-The average specificity (proportion of base points satisfying a given query) was about 4.5%, with maximum value 38% and minimum 0%. We did not disallow non-satisfiable queries as they are a phenomenon that can validly occur in filter scenarios, but they were empirically very rare.
+The average match rate (proportion of base points satisfying a given query) was about 4.5%, with maximum value 38% and minimum 0%. We did not disallow non-satisfiable queries as they are a phenomenon that can validly occur in filter scenarios, but they were empirically very rare.
 
 ### Notes
 
