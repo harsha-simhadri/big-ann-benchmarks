@@ -64,7 +64,7 @@ Python functions for reading the jsonl metadata files and checking whether a lin
 
 ### Single Vector Files
 
-For those who wish to work with single-vector datasets instead of multi-vector datasets, we also release in a separate file the embeddings for documents which were embedded into a single vector (due to being short enough to fit within the embedding context token maximum). Due to the Pareto-like distribution of the document lengths, this resulted in 7414023 base vectors and 89812 query vectors after withholding multi-vector documents. 
+For those who wish to work with single-vector datasets instead of multi-vector datasets, we also release in a separate file the embeddings for documents which were embedded into a single vector (due to being short enough to fit within the embedding context token maximum). The multi-vectors are dropped from the file. Due to the Pareto-like distribution of the document lengths, this resulted in 7414023 base vectors and 89812 query vectors after withholding multi-vector documents. The documents can be mapped back to their vectors in the larger base set and/or underlying data using the unique "case_id" field, but the groundtruth is re-indexed from 0 to 7414022.
 
 The single-vector dataset and query set, along with ground truth for the entire dataset and 1M and 100K prefixes, can be downloaded using the `create_dataset` utility alongside other single-vector datasets in this benchmark:
 
