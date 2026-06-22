@@ -75,5 +75,7 @@ wget https://comp21storage.z5.web.core.windows.net/yfcc/multiple-medium/GT.bin
 wget https://comp21storage.z5.web.core.windows.net/yfcc/multiple-medium/GT_1M.bin
 ```
 
+The license of the original images used in this dataset is mix of [CC {BY, BY-SA, BY-ND, BY-NC, NY-NC-SA, BY-NC-ND}](https://code.flickr.net/2014/10/15/the-ins-and-outs-of-the-yahoo-flickr-100-million-creative-commons-dataset/). This additional processed metadata and groundtruth are released under the same license as the image they represent.
+
 
 
