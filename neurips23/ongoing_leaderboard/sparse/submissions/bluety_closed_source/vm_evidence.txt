@@ -1,0 +1,26 @@
+﻿
+Fri Jun 26 13:42:48 UTC 2026
+
+Linux ty 6.8.0-1059-azure #65~22.04.1-Ubuntu SMP Thu May 28 16:59:19 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux
+
+Distributor ID:	Ubuntu
+Description:	Ubuntu 22.04.5 LTS
+Release:	22.04
+Codename:	jammy
+
+nproc:8
+               total        used        free      shared  buff/cache   available
+Mem:            15Gi       662Mi       7.9Gi       4.0Mi       7.0Gi        14Gi
+Swap:             0B          0B          0B
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/root       248G   85G  164G  34% /
+
+Docker version 29.6.0, build fb59821
+
+a23f887192492c3df49a263f2c74e57bea871bf5
+?? .venv/
+?? PROGRESS.md
+?? neurips23/sparse/bluety/
+?? res_sparse-1M.csv
+?? res_sparse-full.csv
+?? res_sparse-small.csv
