@@ -28,4 +28,4 @@ Bluety is a sparse maximum inner-product search system for SPLADE/MSMARCO-style 
 
 ## Confidentiality note
 
-This PR intentionally does not include implementation source code, Dockerfiles, wrappers, or private implementation details. If maintainers require additional reproducibility artifacts, we can discuss a private binary/container review path.
+This PR intentionally does not include implementation source code, Dockerfiles, wrappers, or private implementation details. A private closed-source reproducibility package is available to maintainers as `bluety_sparse_closed_submission_nodoc.tar.gz`. It contains the BigANN wrapper, config, offline installer, verification script, and runtime wheels, and intentionally excludes technical writeups/source notes.
