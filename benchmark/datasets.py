@@ -16,7 +16,7 @@ from urllib.request import urlretrieve
 from .dataset_io import (
     xbin_mmap, download_accelerated, download, sanitize,
     knn_result_read, range_result_read, read_sparse_matrix,
-    write_sparse_matrix,
+    write_sparse_matrix, bvecs_mmap,
 )
 
 
@@ -1366,6 +1366,145 @@ class OpenAIEmbedding1M(DatasetCompetitionFormat):
         return f"{self.__class__.__name__}-{self.nb}"
 
 
+class DINO10BDataset(BillionScaleDatasetCompetitionFormat):
+    """
+    Dense vector benchmark of 1024-d uint8 vectors extracted from YFCC100M
+    image patches using a DINOv3 ViT-L/16 model
+    (facebook/dinov3-vitl16-pretrain-lvd1689m). The full corpus has 10B
+    vectors; this class exposes subsets of up to 2B vectors -- the largest
+    size whose vector count still fits the uint32 header of the .u8bin
+    competition format (max ~4.29B).
+
+    Two base files are published on the Meta public CDN:
+      * dino_vitl_1B_base.u8bin  -- the first 1,000,000,000 vectors
+      * dino_vitl_2B_base.u8bin  -- the first 2,000,000,000 vectors
+    A size of exactly 1B or 2B downloads the matching full file with the
+    download accelerator. Every smaller size downloads only the first N
+    vectors of the 1B file (a cropped prefix, with the header count rewritten)
+    so that researchers on small machines never have to fetch the whole file.
+    Queries are shared across sizes; ground truth (top-100) is pre-computed per
+    size.
+
+    This is a BillionScaleDatasetCompetitionFormat, so the standard runner can
+    locate the base file (``ds_fn``/``get_dataset_fn``), stream it
+    (``get_dataset_iterator``), and read queries/ground truth like any other
+    competition dataset.
+    """
+
+    FULL_1B = 10**9
+    FULL_2B = 2 * 10**9
+
+    def __init__(self, nb_M=1000):
+        self.nb_M = nb_M
+        # nb_M is in millions; it may be fractional for the sub-million sizes
+        # (e.g. 0.1 -> 100K), so round to an exact integer vector count.
+        self.nb = round(nb_M * 10**6)
+        assert 0 < self.nb <= self.FULL_2B, (
+            "DINO supports sizes up to 2B vectors; got nb=%d" % self.nb)
+        # Only the 1B and 2B files are published, so a size is buildable only
+        # if it is <= 1B (a prefix of the 1B file) or exactly 2B. A size
+        # strictly between 1B and 2B cannot be cropped from the 1B file.
+        assert self.nb <= self.FULL_1B or self.nb == self.FULL_2B, (
+            "DINO sizes between 1B and 2B are not buildable (no source file); "
+            "use a size <= 1B or exactly 2B; got nb=%d" % self.nb)
+        self.d = 1024
+        self.nq = 100_000
+        self.dtype = "uint8"
+        self.basedir = os.path.join(BASEDIR, "dino_vitl_10B")
+        self.base_url = (
+            "http://dl.fbaipublicfiles.com/large_objects/dino_vitl_10B/")
+        # Base vectors: 2B has its own file; every size <= 1B is a prefix of
+        # the 1B file (downloaded whole at exactly 1B, cropped below 1B).
+        self.ds_fn = ("dino_vitl_2B_base.u8bin" if self.nb == self.FULL_2B
+                      else "dino_vitl_1B_base.u8bin")
+        self.qs_fn = "queries_clean.bvecs"
+        self.gt_fn = "gts_dino_patch_%d_k100.bin" % self.nb
+        self.private_nq = 0
+        self.private_qs_url = None
+        self.private_gt_url = None
+
+    def _uses_full_file(self):
+        """True when nb maps to a complete published file (no cropping)."""
+        return self.nb in (self.FULL_1B, self.FULL_2B)
+
+    def _local_data_path(self):
+        """Local path of the (possibly cropped) base file, no existence check."""
+        fn = os.path.join(self.basedir, self.ds_fn)
+        if not self._uses_full_file():
+            fn += '.crop_nb_%d' % self.nb
+        return fn
+
+    def get_dataset_fn(self):
+        fn = self._local_data_path()
+        if os.path.exists(fn):
+            return fn
+        raise RuntimeError("file %s not found" % fn)
+
+    def prepare(self, skip_data=False):
+        if not os.path.exists(self.basedir):
+            os.makedirs(self.basedir)
+
+        # Small files first: shared queries (bvecs) and per-size ground truth.
+        qs_path = os.path.join(self.basedir, self.qs_fn)
+        if not os.path.exists(qs_path):
+            download(self.base_url + self.qs_fn, qs_path)
+
+        gt_path = os.path.join(self.basedir, self.gt_fn)
+        if not os.path.exists(gt_path):
+            download(self.base_url + "gts_bin/" + self.gt_fn, gt_path)
+
+        if skip_data:
+            return
+
+        outfile = self._local_data_path()
+        if os.path.exists(outfile):
+            print("file %s already exists" % outfile)
+            return
+
+        sourceurl = self.base_url + self.ds_fn
+        if self._uses_full_file():
+            # Exactly 1B or 2B: fetch the whole published file.
+            download_accelerated(sourceurl, outfile)
+        else:
+            # Smaller size: download only the first nb vectors of the 1B file
+            # (8-byte header + nb*d bytes), then rewrite the header count so
+            # the prefix is itself a valid .u8bin file. Build into a temp file
+            # and rename atomically, so an interrupted download never leaves a
+            # half-written file in place of the real one.
+            file_size = 8 + self.d * self.nb * np.dtype(self.dtype).itemsize
+            tmp = outfile + ".tmp"
+            if os.path.exists(tmp):
+                os.remove(tmp)
+            download(sourceurl, tmp, max_size=file_size)
+            actual = os.path.getsize(tmp)
+            assert actual == file_size, (
+                "cropped download is %d bytes, expected %d (source smaller "
+                "than requested?)" % (actual, file_size))
+            header = np.memmap(tmp, shape=2, dtype='uint32', mode='r+')
+            assert header[0] == self.FULL_1B, (
+                "unexpected source vector count %d (expected %d)"
+                % (header[0], self.FULL_1B))
+            assert header[1] == self.d, (
+                "unexpected source dimension %d (expected %d)"
+                % (header[1], self.d))
+            header[0] = self.nb
+            header.flush()
+            del header
+            os.replace(tmp, outfile)
+
+    def get_queries(self):
+        # Queries are stored in .bvecs (per-vector dim prefix), unlike the
+        # .u8bin base file, so override the generic xbin reader.
+        qs_path = os.path.join(self.basedir, self.qs_fn)
+        q = bvecs_mmap(qs_path)[:self.nq]
+        assert q.shape == (self.nq, self.d), (
+            "queries shape %s != (%d, %d)" % (q.shape, self.nq, self.d))
+        return sanitize(q)
+
+    def distance(self):
+        return "euclidean"
+
+
 
 DATASETS = {
     'bigann-1B': lambda : BigANNDataset(1000),
@@ -1436,6 +1575,19 @@ DATASETS = {
 
     'openai-embedding-1M': lambda: OpenAIEmbedding1M(93652),
 
+    'dino-2B': lambda: DINO10BDataset(2000),
+    'dino-1B': lambda: DINO10BDataset(1000),
+    'dino-500M': lambda: DINO10BDataset(500),
+    'dino-200M': lambda: DINO10BDataset(200),
+    'dino-100M': lambda: DINO10BDataset(100),
+    'dino-50M': lambda: DINO10BDataset(50),
+    'dino-20M': lambda: DINO10BDataset(20),
+    'dino-10M': lambda: DINO10BDataset(10),
+    'dino-5M': lambda: DINO10BDataset(5),
+    'dino-1M': lambda: DINO10BDataset(1),
+    'dino-500K': lambda: DINO10BDataset(0.5),
+    'dino-200K': lambda: DINO10BDataset(0.2),
+    'dino-100K': lambda: DINO10BDataset(0.1),
     'caselaw-7M': lambda: CaselawDataset(7414023),
     'caselaw-1M': lambda: CaselawDataset(1000000),
     'caselaw-100K': lambda: CaselawDataset(100000),
