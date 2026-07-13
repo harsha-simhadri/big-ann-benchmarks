@@ -1,0 +1,42 @@
+hnsw_common: &hnsw_common
+  docker-tag: neurips23-streaming-hnsw
+  module: neurips23.streaming.hnsw.hnsw
+  constructor: hnsw
+  base-args: ["@metric"]
+  
+random-xs:
+    hnsw: 
+      <<: *hnsw_common
+      run-groups:
+        base:
+          args: |
+            [{"M":32, "ef_construction":50, "threads":16}]
+          query-args: |
+            [{"ef_search":50}]
+wikipedia-1M:
+    hnsw: 
+      <<: *hnsw_common
+      run-groups:
+        base:
+          args: |
+            [{"M":48, "ef_construction":128, "threads":16}]
+          query-args: |
+            [{"ef_search":128}]
+msturing-10M:
+    hnsw: 
+      <<: *hnsw_common
+      run-groups:
+        base:
+          args: |
+            [{"M":48, "ef_construction":128, "threads":16}]
+          query-args: |
+            [{"ef_search":128}]
+msturing-30M-clustered:
+    hnsw: 
+      <<: *hnsw_common
+      run-groups:
+        base:
+          args: |
+            [{"M":48, "ef_construction":128, "threads":16}]
+          query-args: |
+            [{"ef_search":128}]
