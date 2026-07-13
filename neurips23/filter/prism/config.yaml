@@ -1,0 +1,40 @@
+random-filter-s:
+  prism:
+    docker-tag: neurips23-filter-prism
+    module: neurips23.filter.prism.prism
+    constructor: Prism
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{"n_clusters": 100, "kmeans_iters": 3}]
+        query-args: |
+          [
+          {"ef": 50, "nprobe": 10},
+          {"ef": 50, "nprobe": 20},
+          {"ef": 50, "nprobe": 30}
+          ]
+
+yfcc-10M:
+  prism:
+    docker-tag: neurips23-filter-prism
+    module: neurips23.filter.prism.prism
+    constructor: Prism
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{"n_clusters": 4000, "kmeans_iters": 5}]
+        query-args: |
+          [
+          {"ef": 50, "nprobe": 30},
+          {"ef": 50, "nprobe": 40},
+          {"ef": 50, "nprobe": 50},
+          {"ef": 50, "nprobe": 55},
+          {"ef": 50, "nprobe": 60},
+          {"ef": 50, "nprobe": 80},
+          {"ef": 50, "nprobe": 100},
+          {"ef": 100, "nprobe": 60},
+          {"ef": 200, "nprobe": 100},
+          {"ef": 500, "nprobe": 150}
+          ]
