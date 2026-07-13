@@ -1,0 +1,22 @@
+{
+  "submission": "bluety_roargraph_ood_closed_source",
+  "track": "ood",
+  "dataset": "text2image-10M",
+  "algorithm": "bluety-roargraph-ood-closed",
+  "closed_source": true,
+  "reproducibility_package": "private wheel package available to maintainers",
+  "metric": "QPS at recall@10 >= 0.90",
+  "best_qps": 47058.8,
+  "recall_at_10": 0.900239,
+  "three_run_qps": [46992.5, 47036.7, 47058.8],
+  "hardware": "Azure Standard D8lds v5 class, 8 vCPU / 16 GiB, Ubuntu 22.04, Python 3.10, x86_64",
+  "package_contents": [
+    "BigANN OOD wrapper",
+    "config.yaml",
+    "offline install.py",
+    "verify_install.py",
+    "closed-source Python wheel",
+    "evidence CSV"
+  ],
+  "archive_sha256_private": "b1e4450f41eae5f28199862c70c977474e3f6a30f23efa9019a5f343377bce23"
+}

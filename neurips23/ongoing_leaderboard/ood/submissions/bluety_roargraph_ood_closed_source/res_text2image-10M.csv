@@ -1,0 +1,2 @@
+algorithm,parameters,dataset,count,qps,distcomps,build,indexsize,mean_ssd_ios,mean_latency,track,recall/ap
+bluety-roargraph-ood-closed,"RoarGraph OOD closed-source wheel, cap42_pf4_pa10_rr20_es62_q2048_s4_L117, PGO build",text2image-10M,10,47058.8,0.0,2265.42,103059000.0,0,0.02125,ood,0.900239

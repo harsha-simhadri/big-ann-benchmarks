@@ -1,0 +1,2 @@
+algorithm,parameters,dataset,count,qps,distcomps,build,indexsize,mean_ssd_ios,mean_latency,track,recall/ap
+bluety-filter-closed,"Bluety Filter closed-source wheel, nlist256, verified high-recall operating point",yfcc-10M,10,97823.5,0.0,0.0,0.0,0,1.022248,filter,0.910264

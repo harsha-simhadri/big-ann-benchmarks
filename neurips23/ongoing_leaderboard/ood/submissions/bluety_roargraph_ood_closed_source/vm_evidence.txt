@@ -1,0 +1,19 @@
+Closed-source reproducibility package prepared for maintainers.
+
+Track: OOD
+Dataset: text2image-10M
+Hardware: Azure Standard D8lds v5 class, 8 vCPU / 16 GiB
+Environment: Ubuntu 22.04 / Python 3.10 / x86_64
+Metric: max QPS with recall@10 >= 0.90
+
+Three-run evidence CSV:
+117,46992.5,2265.42,0.02128,0.900239,103.059
+117,47036.7,2265.42,0.02126,0.900239,103.059
+117,47058.8,2265.42,0.02125,0.900239,103.059
+
+Closed-source package archive SHA256:
+b1e4450f41eae5f28199862c70c977474e3f6a30f23efa9019a5f343377bce23  roargraph_ood_closed_submission.tar.gz
+
+The private package contains the BigANN OOD wrapper, config, offline installer,
+verification script, closed-source Python wheel, NumPy wheel, and evidence CSV.
+It intentionally excludes source code, optimization notes, and technical writeups.
