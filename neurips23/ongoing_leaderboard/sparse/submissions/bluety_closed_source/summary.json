@@ -1,0 +1,116 @@
+{
+  "sparse-small": {
+    "bluety": {
+      "qps": 38971.38792157865,
+      "recall": 0.9647994269340975,
+      "row": {
+        "algorithm": "bluety",
+        "parameters": "bluety(np2000_cf0.2_mc2_se0.5_mf3.0_dc15_knn0,qc4_hf0.9_qknn0_fsTrue)",
+        "dataset": "sparse-small",
+        "count": "10",
+        "qps": "38971.38792157865",
+        "distcomps": "0.0",
+        "build": "40.00194001197815",
+        "indexsize": "1033988.0",
+        "mean_ssd_ios": "0",
+        "mean_latency": "0",
+        "track": "sparse",
+        "recall/ap": "0.9647994269340975"
+      }
+    },
+    "linscan": {
+      "qps": 12561.5789116878,
+      "recall": 0.9284383954154729,
+      "row": {
+        "algorithm": "linscan",
+        "parameters": "linscan",
+        "dataset": "sparse-small",
+        "count": "10",
+        "qps": "12561.5789116878",
+        "distcomps": "0.0",
+        "build": "5.882516384124756",
+        "indexsize": "132652.0",
+        "mean_ssd_ios": "0",
+        "mean_latency": "0",
+        "track": "sparse",
+        "recall/ap": "0.9284383954154729"
+      }
+    }
+  },
+  "sparse-1M": {
+    "bluety": {
+      "qps": 27022.086487314697,
+      "recall": 0.9632234957020056,
+      "row": {
+        "algorithm": "bluety",
+        "parameters": "bluety(np2000_cf0.2_mc2_se0.5_mf3.0_dc15_knn0,qc4_hf0.9_qknn0_fsTrue)",
+        "dataset": "sparse-1M",
+        "count": "10",
+        "qps": "27022.086487314697",
+        "distcomps": "0.0",
+        "build": "-1.0",
+        "indexsize": "2323820.0",
+        "mean_ssd_ios": "0",
+        "mean_latency": "0",
+        "track": "sparse",
+        "recall/ap": "0.9632234957020056"
+      }
+    },
+    "linscan": {
+      "qps": 1376.7856797037762,
+      "recall": 0.9392550143266476,
+      "row": {
+        "algorithm": "linscan",
+        "parameters": "linscan",
+        "dataset": "sparse-1M",
+        "count": "10",
+        "qps": "1376.7856797037762",
+        "distcomps": "0.0",
+        "build": "58.152251958847046",
+        "indexsize": "1225520.0",
+        "mean_ssd_ios": "0",
+        "mean_latency": "0",
+        "track": "sparse",
+        "recall/ap": "0.9392550143266476"
+      }
+    }
+  },
+  "sparse-full": {
+    "bluety": {
+      "qps": 37750.12594016714,
+      "recall": 0.905243553008596,
+      "row": {
+        "algorithm": "bluety",
+        "parameters": "bluety(np2000_cf0.2_mc2_se0.5_mf3.0_dc15_knn10,qc3_hf1.0_qknn10_fsTrue)",
+        "dataset": "sparse-full",
+        "count": "10",
+        "qps": "37750.12594016714",
+        "distcomps": "0.0",
+        "build": "1823.226285457611",
+        "indexsize": "10263200.0",
+        "mean_ssd_ios": "0",
+        "mean_latency": "0",
+        "track": "sparse",
+        "recall/ap": "0.905243553008596"
+      }
+    },
+    "linscan": {
+      "qps": 98.58673772432171,
+      "recall": 0.9013180515759313,
+      "row": {
+        "algorithm": "linscan",
+        "parameters": "linscan",
+        "dataset": "sparse-full",
+        "count": "10",
+        "qps": "98.58673772432171",
+        "distcomps": "0.0",
+        "build": "516.5678541660309",
+        "indexsize": "9688584.0",
+        "mean_ssd_ios": "0",
+        "mean_latency": "0",
+        "track": "sparse",
+        "recall/ap": "0.9013180515759313"
+      }
+    }
+  }
+}
