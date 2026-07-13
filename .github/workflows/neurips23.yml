@@ -96,6 +96,9 @@ jobs:
           - algorithm: puck
             dataset: random-xs
             track: streaming
+          - algorithm: quake
+            dataset: random-xs
+            track: streaming
           - algorithm: puck
             dataset: random-filter-s
             track: filter
