@@ -1,6 +1,12 @@
 
 # Practical Vector Search: NeurIPS 2023 Competition
 
+## Important: Post-Competition Additions to the Leaderboard
+
+We periodically get requests for new additions to the leaderboard since the competition's conclusion, including some closed-source algorithms. While we do accept submissions whose source code is not fully available to the public, we require the pull request to Big ANN Benchmarks to be completely self-contained and public---the organizers must be able to reproduce the results without any private communication with the authors. We highly encourage open sourcing or sharing as many details as possible, since this resource is meant to benefit the research community. The acceptance of closed-source submissions is not a permanent commitment, and it may be revised in the future.
+
+Since this leaderboard is no longer attached to a competition and maintained on a purely volunteer basis, please be aware it may take several weeks for an organizer to validate a new submission.
+
 ## Table Of Contents
 
 - [Introduction](#introduction)
