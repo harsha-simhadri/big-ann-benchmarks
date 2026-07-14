@@ -148,7 +148,6 @@ def build_index(args, ds):
         train_index = faiss.index_cpu_to_all_gpus(
                 faiss.IndexFlatL2(index_ivf.d))
         index_ivf.clustering_index = train_index
-
     index.train(xt2)
     print("  Total train time %.3f s" % (time.time() - t0))
 
@@ -190,6 +189,9 @@ def build_index(args, ds):
                 print("  adding %d:%d / %d [%.3f s, RSS %d kiB] " % (
                     i0, i1, ds.nb, time.time() - t0,
                     faiss.get_mem_usage_kb()))
+    
+                xblock = xblock.astype('f4')
+
                 index.add_core(
                     len(xblock),
                     faiss.swig_ptr(xblock),
@@ -236,7 +238,7 @@ def eval_setting_knn(index, xq, gt, k, inter, min_time):
     ms_per_query = ((t1 - t0) * 1000.0 / nq / nrun)
     if inter:
         rank = k
-        inter_measure = compute_inter(gt[:, :rank], I[:, :rank])
+        inter_measure = compute_inter(gt_I[:, :rank], I[:, :rank])
         print("%.4f" % inter_measure, end=' ')
     else:
         for rank in 1, 10, 100:
@@ -316,12 +318,7 @@ class IndexQuantizerOnGPU:
         t0 = time.time()
         for i0, xblock, Dc, Ic in stage2:
             ni = len(xblock)
-            self.index_ivf.search_preassigned(
-                ni, faiss.swig_ptr(xblock),
-                k, sp(Ic), sp(Dc),
-                sp(D[i0:]), sp(I[i0:]),
-                False
-            )
+            D[i0:i0+ni], I[i0:i0+ni] = self.index_ivf.search_preassigned(xblock, k, Ic, Dc)
 
         return D, I
 
@@ -512,6 +509,7 @@ def main():
 
     nq, d = ds.nq, ds.d
     nb, d = ds.nq, ds.d
+
 
     if args.prepare:
         print("downloading dataset...")
