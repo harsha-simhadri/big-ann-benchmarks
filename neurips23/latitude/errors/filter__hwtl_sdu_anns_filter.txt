@@ -1,0 +1,268 @@
++ set -e
++ python install.py --neurips23track filter --algorithm hwtl_sdu_anns_filter
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 556B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/ubuntu:jammy
+#2 DONE 0.1s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 66B done
+#3 DONE 0.0s
+
+#4 [1/8] FROM docker.io/library/ubuntu:jammy@sha256:adbb90115a21969d2fe6fa7f9af4253e16d45f8d4c1e930182610c4731962658
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 321B done
+#5 DONE 0.0s
+
+#6 [4/8] RUN cp azcopy_folder/azcopy /usr/bin
+#6 CACHED
+
+#7 [2/8] RUN apt-get update && apt-get install -y python3-numpy python3-scipy python3-pip build-essential git axel wget
+#7 CACHED
+
+#8 [5/8] RUN pip3 install -U pip
+#8 CACHED
+
+#9 [3/8] RUN wget https://aka.ms/downloadazcopy-v10-linux && mv downloadazcopy-v10-linux azcopy.tgz && tar xzf azcopy.tgz --transform 's!^[^/]\+\($\|/\)!azcopy_folder\1!'
+#9 CACHED
+
+#10 [6/8] WORKDIR /home/app
+#10 CACHED
+
+#11 [7/8] COPY requirements_py3.10.txt run_algorithm.py ./
+#11 CACHED
+
+#12 [8/8] RUN pip3 install -r requirements_py3.10.txt
+#12 CACHED
+
+#13 exporting to image
+#13 exporting layers done
+#13 writing image sha256:2c76bbc113266e4782270104c7c70525aab0dcc93687ee5293516e33e09661ca done
+#13 naming to docker.io/library/neurips23 done
+#13 DONE 0.0s
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 1.44kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/neurips23:latest
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 66B done
+#3 DONE 0.0s
+
+#4 [ 1/18] FROM docker.io/library/neurips23:latest
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 185B done
+#5 DONE 0.0s
+
+#6 [15/18] RUN git clone https://github.com/WPJiang/HWTL_SDU-ANNS-filter.git
+#6 CACHED
+
+#7 [ 7/18] RUN apt update && apt install -y wget swig
+#7 CACHED
+
+#8 [ 6/18] RUN DEBIAN_FRONTEND=noninteractive apt install -y git make cmake g++ libaio-dev libgoogle-perftools-dev libunwind-dev clang-format libboost-dev libboost-program-options-dev libmkl-full-dev libcpprest-dev python3.10 python3-numpy python3-scipy python3-pip build-essential git libblas-dev liblapack-dev wget libaio-dev libgoogle-perftools-dev clang-format libboost-all-dev libopenblas-dev liblapacke-dev
+#8 CACHED
+
+#9 [ 2/18] RUN apt update
+#9 CACHED
+
+#10 [ 5/18] RUN add-apt-repository -y ppa:git-core/ppa
+#10 CACHED
+
+#11 [16/18] RUN cp ./HWTL_SDU-ANNS-filter/bow_id_selector.py  ./
+#11 CACHED
+
+#12 [13/18] WORKDIR /home/app/
+#12 CACHED
+
+#13 [12/18] RUN python3 -m pip install -r requirements_conda.txt
+#13 CACHED
+
+#14 [14/18] RUN pip3 install -U pip pybind11 numpy
+#14 CACHED
+
+#15 [ 9/18] RUN bash Anaconda3-2023.03-0-Linux-x86_64.sh -b
+#15 CACHED
+
+#16 [ 8/18] RUN wget https://repo.anaconda.com/archive/Anaconda3-2023.03-0-Linux-x86_64.sh
+#16 CACHED
+
+#17 [11/18] COPY install/requirements_conda.txt ./
+#17 CACHED
+
+#18 [ 4/18] RUN apt update && apt install -y software-properties-common
+#18 CACHED
+
+#19 [10/18] RUN conda install -c pytorch faiss-cpu
+#19 CACHED
+
+#20 [ 3/18] RUN apt install apt-utils
+#20 CACHED
+
+#21 [17/18] RUN cp ./HWTL_SDU-ANNS-filter/_bow_id_selector.so  ./
+#21 CACHED
+
+#22 [18/18] RUN python3 -c 'import faiss; print(faiss.IndexFlatL2); print(faiss.__version__)'
+#22 0.283 
+#22 0.283 A module that was compiled using NumPy 1.x cannot be run in
+#22 0.283 NumPy 2.1.0 as it may crash. To support both 1.x and 2.x
+#22 0.283 versions of NumPy, modules must be compiled with NumPy 2.0.
+#22 0.283 Some module may need to rebuild instead e.g. with 'pybind11>=2.12'.
+#22 0.283 
+#22 0.283 If you are a user of the module, the easiest solution will be to
+#22 0.283 downgrade to 'numpy<2' or try to upgrade the affected module.
+#22 0.283 We expect that some modules will need time to support NumPy 2.
+#22 0.283 
+#22 0.283 Traceback (most recent call last):  File "<string>", line 1, in <module>
+#22 0.283   File "/root/anaconda3/lib/python3.10/site-packages/faiss/__init__.py", line 16, in <module>
+#22 0.283     from .loader import *
+#22 0.283   File "/root/anaconda3/lib/python3.10/site-packages/faiss/loader.py", line 75, in <module>
+#22 0.283     from .swigfaiss_avx512 import *
+#22 0.283   File "/root/anaconda3/lib/python3.10/site-packages/faiss/swigfaiss_avx512.py", line 13, in <module>
+#22 0.283     from . import _swigfaiss_avx512
+#22 0.283 Traceback (most recent call last):
+#22 0.283   File "/root/anaconda3/lib/python3.10/site-packages/numpy/core/_multiarray_umath.py", line 44, in __getattr__
+#22 0.284     raise ImportError(msg)
+#22 0.284 ImportError: 
+#22 0.284 A module that was compiled using NumPy 1.x cannot be run in
+#22 0.284 NumPy 2.1.0 as it may crash. To support both 1.x and 2.x
+#22 0.284 versions of NumPy, modules must be compiled with NumPy 2.0.
+#22 0.284 Some module may need to rebuild instead e.g. with 'pybind11>=2.12'.
+#22 0.284 
+#22 0.284 If you are a user of the module, the easiest solution will be to
+#22 0.284 downgrade to 'numpy<2' or try to upgrade the affected module.
+#22 0.284 We expect that some modules will need time to support NumPy 2.
+#22 0.284 
+#22 0.284 
+#22 0.291 
+#22 0.291 A module that was compiled using NumPy 1.x cannot be run in
+#22 0.291 NumPy 2.1.0 as it may crash. To support both 1.x and 2.x
+#22 0.291 versions of NumPy, modules must be compiled with NumPy 2.0.
+#22 0.291 Some module may need to rebuild instead e.g. with 'pybind11>=2.12'.
+#22 0.291 
+#22 0.291 If you are a user of the module, the easiest solution will be to
+#22 0.291 downgrade to 'numpy<2' or try to upgrade the affected module.
+#22 0.291 We expect that some modules will need time to support NumPy 2.
+#22 0.291 
+#22 0.291 Traceback (most recent call last):  File "<string>", line 1, in <module>
+#22 0.291   File "/root/anaconda3/lib/python3.10/site-packages/faiss/__init__.py", line 16, in <module>
+#22 0.291     from .loader import *
+#22 0.291   File "/root/anaconda3/lib/python3.10/site-packages/faiss/loader.py", line 87, in <module>
+#22 0.291     from .swigfaiss_avx2 import *
+#22 0.291   File "/root/anaconda3/lib/python3.10/site-packages/faiss/swigfaiss_avx2.py", line 13, in <module>
+#22 0.291     from . import _swigfaiss_avx2
+#22 0.291 Traceback (most recent call last):
+#22 0.291   File "/root/anaconda3/lib/python3.10/site-packages/numpy/core/_multiarray_umath.py", line 44, in __getattr__
+#22 0.291     raise ImportError(msg)
+#22 0.291 ImportError: 
+#22 0.291 A module that was compiled using NumPy 1.x cannot be run in
+#22 0.291 NumPy 2.1.0 as it may crash. To support both 1.x and 2.x
+#22 0.291 versions of NumPy, modules must be compiled with NumPy 2.0.
+#22 0.291 Some module may need to rebuild instead e.g. with 'pybind11>=2.12'.
+#22 0.291 
+#22 0.291 If you are a user of the module, the easiest solution will be to
+#22 0.291 downgrade to 'numpy<2' or try to upgrade the affected module.
+#22 0.291 We expect that some modules will need time to support NumPy 2.
+#22 0.291 
+#22 0.291 
+#22 0.298 
+#22 0.298 A module that was compiled using NumPy 1.x cannot be run in
+#22 0.298 NumPy 2.1.0 as it may crash. To support both 1.x and 2.x
+#22 0.298 versions of NumPy, modules must be compiled with NumPy 2.0.
+#22 0.298 Some module may need to rebuild instead e.g. with 'pybind11>=2.12'.
+#22 0.298 
+#22 0.298 If you are a user of the module, the easiest solution will be to
+#22 0.298 downgrade to 'numpy<2' or try to upgrade the affected module.
+#22 0.298 We expect that some modules will need time to support NumPy 2.
+#22 0.298 
+#22 0.298 Traceback (most recent call last):  File "<string>", line 1, in <module>
+#22 0.298   File "/root/anaconda3/lib/python3.10/site-packages/faiss/__init__.py", line 16, in <module>
+#22 0.298     from .loader import *
+#22 0.298   File "/root/anaconda3/lib/python3.10/site-packages/faiss/loader.py", line 98, in <module>
+#22 0.298     from .swigfaiss import *
+#22 0.298   File "/root/anaconda3/lib/python3.10/site-packages/faiss/swigfaiss.py", line 13, in <module>
+#22 0.298     from . import _swigfaiss
+#22 0.298 Traceback (most recent call last):
+#22 0.298   File "/root/anaconda3/lib/python3.10/site-packages/numpy/core/_multiarray_umath.py", line 44, in __getattr__
+#22 0.298     raise ImportError(msg)
+#22 0.298 ImportError: 
+#22 0.298 A module that was compiled using NumPy 1.x cannot be run in
+#22 0.298 NumPy 2.1.0 as it may crash. To support both 1.x and 2.x
+#22 0.298 versions of NumPy, modules must be compiled with NumPy 2.0.
+#22 0.298 Some module may need to rebuild instead e.g. with 'pybind11>=2.12'.
+#22 0.298 
+#22 0.298 If you are a user of the module, the easiest solution will be to
+#22 0.298 downgrade to 'numpy<2' or try to upgrade the affected module.
+#22 0.298 We expect that some modules will need time to support NumPy 2.
+#22 0.298 
+#22 0.298 
+#22 0.299 Traceback (most recent call last):
+#22 0.299   File "<string>", line 1, in <module>
+#22 0.299   File "/root/anaconda3/lib/python3.10/site-packages/faiss/__init__.py", line 16, in <module>
+#22 0.299     from .loader import *
+#22 0.299   File "/root/anaconda3/lib/python3.10/site-packages/faiss/loader.py", line 98, in <module>
+#22 0.299     from .swigfaiss import *
+#22 0.299   File "/root/anaconda3/lib/python3.10/site-packages/faiss/swigfaiss.py", line 13, in <module>
+#22 0.299     from . import _swigfaiss
+#22 0.299 ImportError: numpy.core.multiarray failed to import
+#22 ERROR: process "/bin/sh -c python3 -c 'import faiss; print(faiss.IndexFlatL2); print(faiss.__version__)'" did not complete successfully: exit code: 1
+------
+ > [18/18] RUN python3 -c 'import faiss; print(faiss.IndexFlatL2); print(faiss.__version__)':
+0.298 
+0.299 Traceback (most recent call last):
+0.299   File "<string>", line 1, in <module>
+0.299   File "/root/anaconda3/lib/python3.10/site-packages/faiss/__init__.py", line 16, in <module>
+0.299     from .loader import *
+0.299   File "/root/anaconda3/lib/python3.10/site-packages/faiss/loader.py", line 98, in <module>
+0.299     from .swigfaiss import *
+0.299   File "/root/anaconda3/lib/python3.10/site-packages/faiss/swigfaiss.py", line 13, in <module>
+0.299     from . import _swigfaiss
+0.299 ImportError: numpy.core.multiarray failed to import
+------
+Dockerfile:30
+--------------------
+  28 |     
+  29 |     ENV LD_PRELOAD /root/anaconda3/lib/libmkl_core.so:/root/anaconda3/lib/libmkl_sequential.so
+  30 | >>> RUN python3 -c 'import faiss; print(faiss.IndexFlatL2); print(faiss.__version__)'
+  31 |     
+  32 |     
+--------------------
+ERROR: failed to solve: process "/bin/sh -c python3 -c 'import faiss; print(faiss.IndexFlatL2); print(faiss.__version__)'" did not complete successfully: exit code: 1
+Building base image...
+Building algorithm images... with (1) processes
+Building neurips23-filter-hwtl_sdu_anns_filter...
+docker build  --rm -t neurips23-filter-hwtl_sdu_anns_filter -f neurips23/filter/hwtl_sdu_anns_filter/Dockerfile .
+
+
+Install Status:
+{'neurips23-filter-hwtl_sdu_anns_filter': 'fail'}
++ python3 run.py --dataset yfcc-10M --algorithm hwtl_sdu_anns_filter --neurips23track filter
+file data/yfcc100M/query.public.100K.u8bin already exists
+file data/yfcc100M/GT.public.ibin already exists
+file data/yfcc100M/query.private.2727415019.100K.u8bin already exists
+file data/yfcc100M/GT.private.2727415019.ibin already exists
+file data/yfcc100M/base.10M.u8bin already exists
+file data/yfcc100M/base.metadata.10M.spmat already exists
+file data/yfcc100M/query.metadata.public.100K.spmat already exists
+file data/yfcc100M/query.metadata.private.2727415019.100K.spmat already exists
+2024-08-30 00:39:41,333 - annb - INFO - running only hwtl_sdu_anns_filter
+2024-08-30 00:39:41,455 - annb - INFO - not all docker images available, only: {'neurips23-streaming-cufe', 'neurips23-ood-diskann', 'neurips23-ood-epsearch', 'neurips23-sparse-spmat', 'neurips23-ood-pyanns', 'neurips23-streaming-pinecone', 'neurips23-sparse-linscan', 'neurips23-sparse-nle', 'neurips23-sparse-cufe', 'neurips23-streaming-hwtl_sdu_anns_stream', 'neurips23-filter-pyanns', 'neurips23-ood-cufe', 'neurips23-filter-zilliz', 'neurips23-streaming-diskann', 'neurips23-ood-sustech-ood', 'neurips23-filter-cufe', 'neurips23-streaming-pyanns', 'neurips23-sparse-pinecone_smips', 'neurips23-ood-puck', 'neurips23-filter-faissplus', 'neurips23-filter-wm_filter', 'neurips23-filter-faiss', 'neurips23-ood-mysteryann-dif', 'neurips23-ood-scann', 'neurips23-ood-zilliz', 'neurips23-filter-parlayivf', 'neurips23-ood-mysteryann', 'neurips23', 'neurips23-filter-puck', 'neurips23-filter-pinecone', 'neurips23-sparse-zilliz', 'neurips23-streaming-scann', 'neurips23-sparse-pyanns', 'neurips23-ood-vamana', 'neurips23-sparse-shnsw', 'neurips23-streaming-puck', 'neurips23-ood-pinecone-ood', 'neurips23-ood-ngt'}
+2024-08-30 00:39:41,455 - annb - INFO - missing docker images: {'neurips23-filter-hwtl_sdu_anns_filter'}
+Traceback (most recent call last):
+  File "/home/gwilliams/Projects/BigANN/big-ann-benchmarks/run.py", line 6, in <module>
+    main()
+  File "/home/gwilliams/Projects/BigANN/big-ann-benchmarks/benchmark/main.py", line 257, in main
+    raise Exception('Nothing to run')
+Exception: Nothing to run
