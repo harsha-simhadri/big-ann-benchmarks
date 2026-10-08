@@ -1,0 +1,246 @@
+any:
+  hingezero_full_v2:
+    docker-tag: billion-scale-benchmark-hingezero_full_v2
+    module: benchmark.algorithms.hingezero_full_v2.module
+    constructor: HingeZeroFullANN
+    base-args:
+    - '@metric'
+    - nlist: 256
+      pq_m: 64
+      pq_bits: 8
+      train_size: 20000
+      threads: 4
+      mode: full
+    run-groups:
+      default:
+        args: []
+        query-args:
+        - - nprobe: 8
+            candidates: 512
+            rounds: 1
+            steps: 8
+            alpha: 4.5
+            eps: 0.1
+            lam: 0.02
+            commit_margin: 0.1
+            route_mix: 0.1
+            expansion_candidates: 256
+            retention_mix: 0.2
+          - nprobe: 32
+            candidates: 512
+            rounds: 1
+            steps: 8
+            alpha: 4.5
+            eps: 0.1
+            lam: 0.02
+            commit_margin: 0.1
+            route_mix: 0.1
+            expansion_candidates: 256
+            retention_mix: 0.2
+          - nprobe: 128
+            candidates: 512
+            rounds: 1
+            steps: 8
+            alpha: 4.5
+            eps: 0.1
+            lam: 0.02
+            commit_margin: 0.1
+            route_mix: 0.1
+            expansion_candidates: 256
+            retention_mix: 0.2
+  hingezero_no_hz_v2:
+    docker-tag: billion-scale-benchmark-hingezero_full_v2
+    module: benchmark.algorithms.hingezero_full_v2.module
+    constructor: HingeZeroFullANN
+    base-args:
+    - '@metric'
+    - nlist: 256
+      pq_m: 64
+      pq_bits: 8
+      train_size: 20000
+      threads: 4
+      mode: without_hz
+    run-groups:
+      default:
+        args: []
+        query-args:
+        - - nprobe: 8
+            candidates: 512
+            rounds: 1
+            steps: 8
+            alpha: 4.5
+            eps: 0.1
+            lam: 0.02
+            commit_margin: 0.1
+            route_mix: 0.1
+            expansion_candidates: 256
+            retention_mix: 0.2
+          - nprobe: 32
+            candidates: 512
+            rounds: 1
+            steps: 8
+            alpha: 4.5
+            eps: 0.1
+            lam: 0.02
+            commit_margin: 0.1
+            route_mix: 0.1
+            expansion_candidates: 256
+            retention_mix: 0.2
+          - nprobe: 128
+            candidates: 512
+            rounds: 1
+            steps: 8
+            alpha: 4.5
+            eps: 0.1
+            lam: 0.02
+            commit_margin: 0.1
+            route_mix: 0.1
+            expansion_candidates: 256
+            retention_mix: 0.2
+  hingezero_zero_steps_v2:
+    docker-tag: billion-scale-benchmark-hingezero_full_v2
+    module: benchmark.algorithms.hingezero_full_v2.module
+    constructor: HingeZeroFullANN
+    base-args:
+    - '@metric'
+    - nlist: 256
+      pq_m: 64
+      pq_bits: 8
+      train_size: 20000
+      threads: 4
+      mode: zero_steps
+    run-groups:
+      default:
+        args: []
+        query-args:
+        - - nprobe: 8
+            candidates: 512
+            rounds: 1
+            steps: 8
+            alpha: 4.5
+            eps: 0.1
+            lam: 0.02
+            commit_margin: 0.1
+            route_mix: 0.1
+            expansion_candidates: 256
+            retention_mix: 0.2
+          - nprobe: 32
+            candidates: 512
+            rounds: 1
+            steps: 8
+            alpha: 4.5
+            eps: 0.1
+            lam: 0.02
+            commit_margin: 0.1
+            route_mix: 0.1
+            expansion_candidates: 256
+            retention_mix: 0.2
+          - nprobe: 128
+            candidates: 512
+            rounds: 1
+            steps: 8
+            alpha: 4.5
+            eps: 0.1
+            lam: 0.02
+            commit_margin: 0.1
+            route_mix: 0.1
+            expansion_candidates: 256
+            retention_mix: 0.2
+  hingezero_no_retention_v2:
+    docker-tag: billion-scale-benchmark-hingezero_full_v2
+    module: benchmark.algorithms.hingezero_full_v2.module
+    constructor: HingeZeroFullANN
+    base-args:
+    - '@metric'
+    - nlist: 256
+      pq_m: 64
+      pq_bits: 8
+      train_size: 20000
+      threads: 4
+      mode: no_retention
+    run-groups:
+      default:
+        args: []
+        query-args:
+        - - nprobe: 8
+            candidates: 512
+            rounds: 1
+            steps: 8
+            alpha: 4.5
+            eps: 0.1
+            lam: 0.02
+            commit_margin: 0.1
+            route_mix: 0.1
+            expansion_candidates: 256
+            retention_mix: 0.2
+          - nprobe: 32
+            candidates: 512
+            rounds: 1
+            steps: 8
+            alpha: 4.5
+            eps: 0.1
+            lam: 0.02
+            commit_margin: 0.1
+            route_mix: 0.1
+            expansion_candidates: 256
+            retention_mix: 0.2
+          - nprobe: 128
+            candidates: 512
+            rounds: 1
+            steps: 8
+            alpha: 4.5
+            eps: 0.1
+            lam: 0.02
+            commit_margin: 0.1
+            route_mix: 0.1
+            expansion_candidates: 256
+            retention_mix: 0.2
+  hingezero_query_expansion_v2:
+    docker-tag: billion-scale-benchmark-hingezero_full_v2
+    module: benchmark.algorithms.hingezero_full_v2.module
+    constructor: HingeZeroFullANN
+    base-args:
+    - '@metric'
+    - nlist: 256
+      pq_m: 64
+      pq_bits: 8
+      train_size: 20000
+      threads: 4
+      mode: query_expansion
+    run-groups:
+      default:
+        args: []
+        query-args:
+        - - nprobe: 8
+            candidates: 512
+            rounds: 1
+            steps: 8
+            alpha: 4.5
+            eps: 0.1
+            lam: 0.02
+            commit_margin: 0.1
+            route_mix: 0.1
+            expansion_candidates: 256
+            retention_mix: 0.2
+          - nprobe: 32
+            candidates: 512
+            rounds: 1
+            steps: 8
+            alpha: 4.5
+            eps: 0.1
+            lam: 0.02
+            commit_margin: 0.1
+            route_mix: 0.1
+            expansion_candidates: 256
+            retention_mix: 0.2
+          - nprobe: 128
+            candidates: 512
+            rounds: 1
+            steps: 8
+            alpha: 4.5
+            eps: 0.1
+            lam: 0.02
+            commit_margin: 0.1
+            route_mix: 0.1
+            expansion_candidates: 256
+            retention_mix: 0.2

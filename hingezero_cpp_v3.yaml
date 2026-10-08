@@ -1,0 +1,44 @@
+{
+  "any": {
+    "hingezero_cpp_full_v3": {
+      "docker-tag": "billion-scale-benchmark-hingezero_cpp_v3",
+      "module": "benchmark.algorithms.hingezero_cpp_v3.module",
+      "constructor": "HingeZeroCppANN",
+      "base-args": [
+        "@metric",
+        {
+          "nlist": 256,
+          "pq_m": 64,
+          "pq_bits": 8,
+          "train_size": 20000,
+          "threads": 4,
+          "mode": "full",
+          "batch_size": 32
+        }
+      ],
+      "run-groups": {
+        "default": {
+          "args": [],
+          "query-args": [
+            [
+              {
+                "nprobe": 32,
+                "candidates": 512,
+                "expansion_candidates": 256,
+                "steps": 8,
+                "rounds": 1,
+                "batch_size": 32,
+                "alpha": 4.5,
+                "eps": 0.1,
+                "lam": 0.02,
+                "commit_margin": 0.1,
+                "route_mix": 0.1,
+                "retention_mix": 0.2
+              }
+            ]
+          ]
+        }
+      }
+    }
+  }
+}

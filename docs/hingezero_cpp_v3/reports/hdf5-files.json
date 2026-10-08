@@ -1,0 +1,8 @@
+[
+  {
+    "original_path": "results/openai-100K/10/hingezero_cpp_full_v3/5_batch_size_32_candidates_512_commit_margin_0_1_eps_0_1_expansion_candidates_256_lam_0_02_nprobe_32_retention_mix_0_2_rounds_1_route_mix_0_1_steps_8.hdf5",
+    "submitted_path": "docs/hingezero_cpp_v3/reports/hdf5/5_batch_size_32_candidates_512_commit_margin_0_1_eps_0_1_expansion_candidates_256_lam_0_02_nprobe_32_retention_mix_0_2_rounds_1_route_mix_0_1_steps_8.hdf5",
+    "sha256": "4d8e9d5b0fb689e53c23cb42d40c0a7be2a286e73a504039a389a9c22ade19ef",
+    "size_bytes": 811264
+  }
+]
