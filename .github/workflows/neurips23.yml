@@ -117,6 +117,9 @@ jobs:
           - algorithm: prism
             dataset: random-filter-s
             track: filter
+          - algorithm: hms
+            dataset: random-xs
+            track: streaming
       fail-fast: false
 
     steps:
