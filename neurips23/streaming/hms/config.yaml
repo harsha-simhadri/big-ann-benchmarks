@@ -7,7 +7,7 @@ random-xs:
     run-groups:
       base:
         args: |
-          [{"R":32, "L":64, "T":8}]
+          [{"R":32, "L":64, "alpha":1.0, "T":8}]
         query-args: |
           [{"ef":64}]
 random-xs-clustered:
@@ -19,7 +19,7 @@ random-xs-clustered:
     run-groups:
       base:
         args: |
-          [{"R":32, "L":64, "T":8}]
+          [{"R":32, "L":64, "alpha":1.0, "T":8}]
         query-args: |
           [{"ef":64}]
 msturing-10M-clustered:
@@ -31,7 +31,7 @@ msturing-10M-clustered:
     run-groups:
       base:
         args: |
-          [{"R":32, "L":64, "T":8}]
+          [{"R":32, "L":64, "alpha":1.0, "T":8}]
         query-args: |
           [{"ef":256}, {"ef":512}]
 msturing-30M-clustered:
@@ -43,6 +43,6 @@ msturing-30M-clustered:
     run-groups:
       base:
         args: |
-          [{"R":32, "L":64, "T":8}]
+          [{"R":32, "L":64, "alpha":1.0, "T":8}]
         query-args: |
           [{"ef":256}, {"ef":512}]

@@ -19,7 +19,7 @@ class HMS(BaseStreamingANN):
         self._metric = metric
         self.R = index_params["R"]
         self.L = index_params["L"]
-        self.alpha = index_params.get("alpha", 1.2)
+        self.alpha = index_params.get("alpha", 1.0)
         self.threads = index_params.get("T", 0)
         self.delta_ratio = index_params.get("delta_ratio", 1.0)
         self.deleted_ratio = index_params.get("deleted_ratio", 0.3)
