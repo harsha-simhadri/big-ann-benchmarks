@@ -31,9 +31,9 @@ msturing-10M-clustered:
     run-groups:
       base:
         args: |
-          [{"R":32, "L":64, "alpha":1.0, "T":8}]
+          [{"R":32, "L":64, "alpha":1.0, "T":8, "merge":true, "delta_ratio":1.0, "deleted_ratio":0.3, "rebuild_after":3.0}]
         query-args: |
-          [{"ef":256}, {"ef":512}]
+          [{"ef":512}]
 msturing-30M-clustered:
   hms:
     docker-tag: neurips23-streaming-hms
@@ -43,6 +43,6 @@ msturing-30M-clustered:
     run-groups:
       base:
         args: |
-          [{"R":32, "L":64, "alpha":1.0, "T":8}]
+          [{"R":32, "L":64, "alpha":1.0, "T":8, "merge":true, "delta_ratio":1.0, "deleted_ratio":0.3, "min_delta":100000, "rebuild_after":1.0}]
         query-args: |
-          [{"ef":256}, {"ef":512}]
+          [{"ef":256, "rerank":256}]

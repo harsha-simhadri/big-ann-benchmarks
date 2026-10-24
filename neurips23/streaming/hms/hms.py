@@ -3,14 +3,22 @@ import shutil
 
 import numpy as np
 
+from benchmark.datasets import DATASETS
 from holographic_memory import UpdatableIndex
 from neurips23.streaming.base import BaseStreamingANN
+from neurips23.streaming.hms.streaming_io import MSTuring10MRangeReader, MSTuring30MRangeReader
+
+DATASETS.update({"msturing-10M-clustered": MSTuring10MRangeReader,
+                 "msturing-30M-clustered": MSTuring30MRangeReader})
 
 
 class HMS(BaseStreamingANN):
     """Holographic Memory's updatable graph index: a memory-mapped quantized base graph,
-    an in-memory graph of rows inserted since the last consolidation, and a rebuild of the
-    base over the live rows when the delta or the deleted share passes a threshold."""
+    an in-memory graph of rows inserted since the last consolidation, and a consolidation
+    when the delta or the deleted share passes a threshold. With "merge" the consolidation
+    links the delta into the previous base graph and splices deleted rows out of it, and
+    rebuilds only once the rows changed by merges reach "rebuild_after" times the live rows;
+    otherwise every consolidation rebuilds the base over the live rows."""
 
     def __init__(self, metric, index_params):
         if metric not in ("euclidean", "angular"):
@@ -24,6 +32,8 @@ class HMS(BaseStreamingANN):
         self.delta_ratio = index_params.get("delta_ratio", 1.0)
         self.deleted_ratio = index_params.get("deleted_ratio", 0.3)
         self.min_delta = index_params.get("min_delta", 100_000)
+        self.merge = bool(index_params.get("merge", False))
+        self.rebuild_after = index_params.get("rebuild_after", 1.0)
         self.ef = 64
         self.rerank = 64
         self.index = None
@@ -46,7 +56,7 @@ class HMS(BaseStreamingANN):
     def _maybe_consolidate(self):
         self._used = True
         if self.index.needs_consolidation(self.delta_ratio, self.deleted_ratio, self.min_delta):
-            self.index.consolidate()
+            self.index.consolidate(merge=self.merge, rebuild_after=self.rebuild_after)
 
     def insert(self, X, ids):
         self.index.insert(np.ascontiguousarray(X, dtype=np.float32), ids.astype(np.int64))
