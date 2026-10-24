@@ -1,0 +1,73 @@
+{
+  "mode": "final",
+  "hms_sha": "12c80decb094d57ee13ba187a01bf1de8788ca2f",
+  "harness_sha": "89a3aba",
+  "build": {
+    "R": 24,
+    "L": 48,
+    "alpha": 1.0,
+    "T": 8,
+    "merge": true,
+    "delta_ratio": 1.0,
+    "deleted_ratio": 0.6,
+    "min_delta": 100000,
+    "rebuild_after": 3.0
+  },
+  "search": {
+    "ef": 256,
+    "rerank": 256
+  },
+  "cpus": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "memory_limit_bytes": 8589934592,
+  "started": 1792829973.8288732,
+  "status": "complete",
+  "data_location": "container_local_copy",
+  "adapter_source_sha256": {
+    "hms.py": "d735804ca021a4c5dd3ec9bd43e4bd0b994ac03a5d96c7127d9ffab287c94ddd",
+    "streaming_io.py": "259a8a178c1f1d446ba568abf87ed681981e8752b16e3c36ec7df3e1f8271e44",
+    "prepare_gt.py": "96e1e275c4a42fdfa21f60b4bca90b9fddf52ebc9fc4bc61d9907b9467da51e4",
+    "streaming_results.py": "96f1992baedd025019a89221e615d2cafc3ae9b41862626179d08a8c157be13b"
+  },
+  "launcher_sha256": "3978dcb26d53a46a8170c8015f4b60fdb42a97681817ac73bcfba1163c37762a",
+  "dataset_io": "bounded-fbin-range",
+  "dataset": "msturing-30M-clustered",
+  "runbook": "/bab/neurips23/runbooks/final_runbook.yaml",
+  "eligibility_validation": {
+    "search_checkpoints": 640,
+    "queries": 6400000,
+    "returned_ids": 64000000,
+    "all_returned_ids_live_and_unique": true
+  },
+  "throughput": {
+    "search": {
+      "count": 6400000,
+      "seconds": 652.1942584514618,
+      "per_second": 9813.027203268926
+    },
+    "insert": {
+      "count": 29998834,
+      "seconds": 852.5458784103394,
+      "per_second": 35187.35444001671
+    },
+    "delete": {
+      "count": 27630980,
+      "seconds": 678.7442646026611,
+      "per_second": 40708.97013940185
+    },
+    "replace": {
+      "count": 0,
+      "seconds": 0.0,
+      "per_second": null
+    }
+  },
+  "elapsed_seconds": 2389.3796949386597
+}

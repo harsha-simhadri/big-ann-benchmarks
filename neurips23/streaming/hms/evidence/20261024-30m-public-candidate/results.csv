@@ -1,0 +1,2 @@
+algorithm,parameters,dataset,count,distcomps,build,indexsize,mean_ssd_ios,mean_latency,track,recall/ap
+hms,"hms(R24_L48, {'ef': 256, 'rerank': 256})",msturing-30M-clustered(final_runbook.yaml),10,0.0,0.45366835594177246,11344.0,0.0,0.0,streaming,0.810018125
