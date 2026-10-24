@@ -1,0 +1,111 @@
+{
+  "status": "verified_complete_public_candidate",
+  "receipt": {
+    "mode": "final",
+    "hms_sha": "12c80decb094d57ee13ba187a01bf1de8788ca2f",
+    "harness_sha": "89a3aba",
+    "build": {
+      "R": 24,
+      "L": 48,
+      "alpha": 1.0,
+      "T": 8,
+      "merge": true,
+      "delta_ratio": 1.0,
+      "deleted_ratio": 0.6,
+      "min_delta": 100000,
+      "rebuild_after": 3.0
+    },
+    "search": {
+      "ef": 256,
+      "rerank": 256
+    },
+    "cpus": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "memory_limit_bytes": 8589934592,
+    "started": 1792829973.8288732,
+    "status": "complete",
+    "data_location": "container_local_copy",
+    "adapter_source_sha256": {
+      "hms.py": "d735804ca021a4c5dd3ec9bd43e4bd0b994ac03a5d96c7127d9ffab287c94ddd",
+      "streaming_io.py": "259a8a178c1f1d446ba568abf87ed681981e8752b16e3c36ec7df3e1f8271e44",
+      "prepare_gt.py": "96e1e275c4a42fdfa21f60b4bca90b9fddf52ebc9fc4bc61d9907b9467da51e4",
+      "streaming_results.py": "96f1992baedd025019a89221e615d2cafc3ae9b41862626179d08a8c157be13b"
+    },
+    "launcher_sha256": "3978dcb26d53a46a8170c8015f4b60fdb42a97681817ac73bcfba1163c37762a",
+    "dataset_io": "bounded-fbin-range",
+    "dataset": "msturing-30M-clustered",
+    "runbook": "/bab/neurips23/runbooks/final_runbook.yaml",
+    "eligibility_validation": {
+      "search_checkpoints": 640,
+      "queries": 6400000,
+      "returned_ids": 64000000,
+      "all_returned_ids_live_and_unique": true
+    },
+    "throughput": {
+      "search": {
+        "count": 6400000,
+        "seconds": 652.1942584514618,
+        "per_second": 9813.027203268926
+      },
+      "insert": {
+        "count": 29998834,
+        "seconds": 852.5458784103394,
+        "per_second": 35187.35444001671
+      },
+      "delete": {
+        "count": 27630980,
+        "seconds": 678.7442646026611,
+        "per_second": 40708.97013940185
+      },
+      "replace": {
+        "count": 0,
+        "seconds": 0.0,
+        "per_second": null
+      }
+    },
+    "elapsed_seconds": 2389.3796949386597
+  },
+  "runbook_sha256": "92347aff3bdc378b3bead517df33311bec615be2a9c8af0f5b5e0a14e51865f2",
+  "operation_timings": 1280,
+  "local_returned_id_revalidation": {
+    "search_checkpoints": 640,
+    "queries": 6400000,
+    "returned_ids": 64000000,
+    "all_returned_ids_live_and_unique": true
+  },
+  "replay_wall_seconds": 2189.91,
+  "mean_recall_at_10": 0.810018125,
+  "cost_usd_requested_resource_estimate": 0.8808846475340526,
+  "resource_evidence": "8 CPUs and quarter-second summed-process RSS guard; strict Modal cgroup enforcement unproven; unmatched Azure hardware, diagnostic timing",
+  "sha256": {
+    "export.log": "7e3d141de1ae6c8ba4faad54b412ae3e3eb1f1c0cf09ea5edf309cf9712d7ed6",
+    "export.rss.jsonl": "28b73fd444be8229c2ff0dbcc2f91618f0a09ebe6e6661e051e08b6f9a8e8f0e",
+    "ground-truth.log": "2bf953c250cda26e1b95aaf60ef9e75c855c6f7e0ff8ad907e9cecc5a4938f87",
+    "ground-truth.rss.jsonl": "2e9c53412277ebe8f6623f2bdbd9650d1c1fdfe8bbe8cb6220d74ff06b606c58",
+    "prepare.log": "941ece48c68fba546b77ecee80de450f3694b57530d6282fab13a41e91111818",
+    "prepare.rss.jsonl": "a30def628b7da78bbcff6b80d5c8f1bc021c3810ce47638611f3235e9304bdab",
+    "receipt.json": "4456df978eb6350156774d81e3e245dcf947a8f4972ad139c0130cfd44f73f38",
+    "results.csv": "5e34e6c6823fb02e45c0d5b56e02d18c388b9f7935e0ffe5974413f939696e99",
+    "run.log": "6cb568d99e37f774b188ea20e9157489a4fe60d8dff2bb1651b4bfd692a1a900",
+    "run.rss.jsonl": "0ef10a1278317c9792de9644e6ec0ead8f3515318f7e3fac98df4dc55b9715b1",
+    "time.txt": "fea1e7eb2ae204fad9dcca2b2309c55a39e7c447c58e8d33f7c488bcade0bb43",
+    "raw-results/neurips23/streaming/final_runbook.yaml/msturing-30M-clustered/10/hms/euclidean_L_48_R_24_T_8_alpha_1_0_deleted_ratio_0_6_delta_ratio_1_0_merge_true_min_delta_100000_rebuild_after_3_0_ef_256_rerank_256.hdf5": "2b2cb0be20c953c4a0fbe329362d837b7447883a4fbe5a0330120bda77308fe9"
+  },
+  "allocation_interpretation": {
+    "requested_modal_physical_cores": 8,
+    "aws_gcp_vcpu_equivalents_at_pricing_page_definition": 16,
+    "gvisor_affinity_cpus": 8,
+    "thread_counts_independent_of_allocation": true,
+    "source": "https://modal.com/pricing",
+    "source_receipt": "/Volumes/A/hms-coordination/reports/modal-pricing-20261024.json"
+  },
+  "cost_notes": "Conservative rounded runner rates; requested-resource function elapsed only, not a hard invoice cap; excludes greater actual use, startup/idle tails, builds, storage/network/plan fees and credits."
+}
