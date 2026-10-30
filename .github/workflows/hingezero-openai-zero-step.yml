@@ -1,0 +1,61 @@
+name: HingeZero OpenAI-100K zero-step single-core score
+on:
+  push:
+    branches:
+      - t2/hingezero-full-v2
+    paths:
+      - .github/workflows/hingezero-openai-zero-step.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  openai100k:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 150
+    env:
+      OMP_NUM_THREADS: "1"
+      OPENBLAS_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      NUMBA_NUM_THREADS: "1"
+      PYTHONUNBUFFERED: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install build and benchmark requirements
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y g++ libgomp1
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements_py3.12.txt faiss-cpu==1.12.0 requests==2.32.3
+      - name: Fetch original OpenAI-100K data and ground truth
+        run: |
+          python -u create_dataset.py --dataset openai-100K
+      - name: Run original runner with zero refinement on one core
+        run: |
+          python -u run_hingezero_cpp_v3.py --dataset openai-100K --steps 0 --rounds 0 --threads 1 --batch-size 32 --nprobe 32 --candidates 512 --expansion-candidates 0
+      - name: Verify reported zero-step metadata
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          files=sorted(Path("results/hingezero_cpp_v3_reports").glob("*/summary.json"))
+          assert files, "Missing official benchmark summary"
+          records=json.loads(files[-1].read_text())
+          assert len(records)==1, "Expected one measured configuration"
+          rec=records[0]
+          assert rec["dataset"]=="openai-100K" and rec["query_count"]==20000 and rec["bank_count"]==100000, rec
+          assert rec["recall_at_10"] is not None and rec["qps"]>0, rec
+          assert rec["hz_steps"]==0 and rec["hz_rounds"]==0 and rec["native_threads"]==1, rec
+          assert rec["failed_checks"]==0 and rec["seed_score_regressions"]==0, rec
+          print("HINGEZERO_OPENAI_100K_ZERO_STEP_SCORE", json.dumps(rec, sort_keys=True), flush=True)
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: hingezero-openai-100k-zero-step-scores
+          path: |
+            results/hingezero_cpp_v3_reports/
+            results/openai-100K/
+          if-no-files-found: warn
