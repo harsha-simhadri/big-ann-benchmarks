@@ -2,6 +2,10 @@
 
 <http://big-ann-benchmarks.com/>
 
+## New Leaderboard Submissions
+
+If you wish to make a new leaderboard submission to the NeurIPS 2023 ongoing leaderboard, please read the section on ongoing submissions in the [NeurIPS'23 README](./neurips23/README.md).
+
 ## Datasets
 
 See <http://big-ann-benchmarks.com/> for details on the different datasets.
