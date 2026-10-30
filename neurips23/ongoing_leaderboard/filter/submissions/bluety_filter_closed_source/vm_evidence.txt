@@ -1,0 +1,15 @@
+Closed-source reproducibility package prepared for maintainers.
+
+Track: Filter
+Dataset: yfcc-10M
+Hardware: Azure Standard D8lds v5 class, 8 vCPU / 16 GiB
+Environment: Ubuntu 22.04 / Python 3.10 / x86_64
+Metric: max QPS with recall@10 >= 0.90
+
+Best archived verified operating point:
+QPS: 97823.5
+recall@10: 0.910264
+
+The private package contains the BigANN Filter wrapper, config, offline installer,
+verification script, and closed-source Python wheel. It intentionally excludes
+source code, optimization notes, and technical writeups.

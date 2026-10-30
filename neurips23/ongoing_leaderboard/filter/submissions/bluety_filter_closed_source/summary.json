@@ -1,0 +1,20 @@
+{
+  "submission": "bluety_filter_closed_source",
+  "track": "filter",
+  "dataset": "yfcc-10M",
+  "algorithm": "bluety-filter-closed",
+  "closed_source": true,
+  "reproducibility_package": "private wheel package available to maintainers",
+  "metric": "QPS at recall@10 >= 0.90",
+  "best_verified_qps": 97823.5,
+  "recall_at_10": 0.910264,
+  "hardware": "Azure Standard D8lds v5 class, 8 vCPU / 16 GiB, Ubuntu 22.04, Python 3.10, x86_64",
+  "package_contents": [
+    "BigANN Filter wrapper",
+    "config.yaml",
+    "offline install.py",
+    "verify_install.py",
+    "closed-source Python wheel"
+  ],
+  "archive_sha256_private": "44191fb31528afd7901b693f610d041d5d9b7a70b917842b1aeca79fb095ad1f"
+}
