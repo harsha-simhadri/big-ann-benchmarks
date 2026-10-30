@@ -1,0 +1,8 @@
+FROM python:3.12-slim
+RUN apt-get update && apt-get install -y --no-install-recommends libgomp1 && rm -rf /var/lib/apt/lists/*
+ENV OMP_NUM_THREADS=4 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1
+RUN python -m pip install --no-cache-dir numpy==1.26.4 faiss-cpu==1.12.0 h5py==3.16.0 psutil==7.1.0 ansicolors==1.1.8 docker==7.1.0 PyYAML==6.0.3 scipy==1.16.2 scikit-learn==1.7.2 matplotlib==3.10.6 jinja2==3.1.6 pandas==2.3.3 requests==2.34.2
+WORKDIR /home/app
+COPY . /home/app
+ENV PYTHONPATH=/home/app
+ENTRYPOINT ["python", "-u", "run_algorithm.py"]

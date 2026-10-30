@@ -1,0 +1,27 @@
+[
+  {
+    "path": "docs/hingezero_full_v2/reports/hdf5/hingezero_no_hz_v2/20000_alpha_4_5_candidates_512_commit_margin_0_1_eps_0_1_expansion_candidates_256_lam_0_02_nprobe_32_retention_mix_0_2_rounds_1_route_mix_0_1_steps_8.hdf5",
+    "sha256": "b4631dcb77531690b6f38f6df2d5d73861e2236f672383ddfafd47ab4bcdcbcc",
+    "bytes": 810240
+  },
+  {
+    "path": "docs/hingezero_full_v2/reports/hdf5/hingezero_full_v2/20000_alpha_4_5_candidates_512_commit_margin_0_1_eps_0_1_expansion_candidates_256_lam_0_02_nprobe_32_retention_mix_0_2_rounds_1_route_mix_0_1_steps_8.hdf5",
+    "sha256": "2a46803ec36c43b13a4f9139df0b668efc8ed4c8a7e58b56acdf3763e31bbfba",
+    "bytes": 810240
+  },
+  {
+    "path": "docs/hingezero_full_v2/reports/hdf5/hingezero_zero_steps_v2/20000_alpha_4_5_candidates_512_commit_margin_0_1_eps_0_1_expansion_candidates_256_lam_0_02_nprobe_32_retention_mix_0_2_rounds_1_route_mix_0_1_steps_8.hdf5",
+    "sha256": "f79bbf813a6ac94b9c6052b24d09d59a866ed8af30afd0107cea12d115dbb99b",
+    "bytes": 810240
+  },
+  {
+    "path": "docs/hingezero_full_v2/reports/hdf5/hingezero_no_retention_v2/20000_alpha_4_5_candidates_512_commit_margin_0_1_eps_0_1_expansion_candidates_256_lam_0_02_nprobe_32_retention_mix_0_2_rounds_1_route_mix_0_1_steps_8.hdf5",
+    "sha256": "80e6c5997a181c710c542328d4b5fadc5ddfa8da2ebec25582f6bf2d6ccf2a71",
+    "bytes": 810240
+  },
+  {
+    "path": "docs/hingezero_full_v2/reports/hdf5/hingezero_query_expansion_v2/20000_alpha_4_5_candidates_512_commit_margin_0_1_eps_0_1_expansion_candidates_256_lam_0_02_nprobe_32_retention_mix_0_2_rounds_1_route_mix_0_1_steps_8.hdf5",
+    "sha256": "52b632adf7ddb7daee734b327b4745114488966d0a3401d88e695fd236bea5b7",
+    "bytes": 810240
+  }
+]

@@ -1,0 +1,29 @@
+{
+  "passed": true,
+  "checks": 174,
+  "core_sha256": "dd4c7e82c9823ea6c69b972113ef6a3a132d152d6b319551658fe00333e7bfa8",
+  "metrics": {
+    "euclidean": {
+      "queries": 11,
+      "all_candidate_exact_checks": 11,
+      "witness_checks": 132
+    },
+    "ip": {
+      "queries": 11,
+      "all_candidate_exact_checks": 11,
+      "witness_checks": 132
+    },
+    "angular": {
+      "queries": 11,
+      "all_candidate_exact_checks": 11,
+      "witness_checks": 132
+    }
+  },
+  "data": "synthetic correctness fixtures; no OpenAI/CASMI performance claims",
+  "versions": {
+    "python": "3.12.14",
+    "numpy": "1.26.4",
+    "faiss": "1.12.0",
+    "h5py": "3.16.0"
+  }
+}

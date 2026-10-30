@@ -1,0 +1,27 @@
+name: HingeZero container review
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  random-xs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install runner dependencies
+        run: python -m pip install -r requirements_py3.12.txt requests
+      - name: Build HingeZero container
+        run: docker build -f install/Dockerfile.hingezero_full_v2 -t billion-scale-benchmark-hingezero_full_v2 .
+      - name: Create public fixture
+        run: python create_dataset.py --dataset random-xs
+      - name: Run organizer fixture
+        run: python run.py --algorithm hingezero_full_v2 --dataset random-xs --count 10 --runs 1 --timeout 600
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: hingezero-random-xs-results
+          path: results/random-xs/

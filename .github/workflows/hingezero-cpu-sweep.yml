@@ -1,0 +1,49 @@
+name: HingeZero OpenAI-100K multithread accuracy-speed sweep
+on:
+  push:
+    branches:
+      - t2/hingezero-full-v2
+    paths:
+      - .github/workflows/hingezero-cpu-sweep.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  sweep:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 150
+    env:
+      OMP_NUM_THREADS: "4"
+      OPENBLAS_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      NUMBA_NUM_THREADS: "1"
+      PYTHONUNBUFFERED: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install native compiler and benchmark dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y g++ libgomp1
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements_py3.12.txt faiss-cpu==1.12.0 requests==2.32.3
+      - name: Report runner CPU limits and review test plan
+        run: |
+          nproc
+          grep Cpus_allowed_list /proc/self/status || true
+          (cat /sys/fs/cgroup/cpu.max || true)
+          python -m py_compile run_hingezero_cpu_sweep.py
+      - name: Download official 100K dataset, queries, and published truth
+        run: python -u create_dataset.py --dataset openai-100K
+      - name: Run full-query CPU accuracy versus speed experiments
+        run: python -u run_hingezero_cpu_sweep.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: hingezero-cpu-sweep-openai100k
+          path: |
+            results/hingezero_cpu_sweep/
+            results/openai-100K/
+          if-no-files-found: warn
