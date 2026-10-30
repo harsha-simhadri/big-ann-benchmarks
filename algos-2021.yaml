@@ -1686,6 +1686,35 @@ msturing-10M:
 
           '
 openai-100K:
+  hingezero_cpp_zero_steps_v3:
+    docker-tag: billion-scale-benchmark-hingezero_cpp_v3
+    module: benchmark.algorithms.hingezero_cpp_v3.module
+    constructor: HingeZeroCppANN
+    base-args:
+    - '@metric'
+    - nlist: 256
+      pq_m: 64
+      pq_bits: 8
+      train_size: 20000
+      threads: 1
+      mode: zero_steps
+      batch_size: 32
+    run-groups:
+      default:
+        args: []
+        query-args:
+        - - nprobe: 32
+            candidates: 512
+            expansion_candidates: 0
+            steps: 0
+            rounds: 0
+            batch_size: 32
+            alpha: 4.5
+            eps: 0.1
+            lam: 0.02
+            commit_margin: 0.1
+            route_mix: 0.1
+            retention_mix: 0.2
   hingezero_full_v2:
     docker-tag: billion-scale-benchmark-hingezero_full_v2
     module: benchmark.algorithms.hingezero_full_v2.module
