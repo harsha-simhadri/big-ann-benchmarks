@@ -23,7 +23,7 @@ python run_hingezero_cpp_v3.py --dataset openai-100K \
 
 This invokes the existing official runner via `run_hingezero_cpp_v3.py`, queries **every public query**, records provenance and HDF5 results, and scores recall@10 against `openai-100K` ground truth only **after** retrieval. Check `hz_steps=0`, `hz_rounds=0`, `native_threads=1`, `failed_checks=0`, and the run's actual recall/QPS before registering a new official method configuration.
 
-The default existing v3 submission and its historical measured result remain untouched. **No NeurIPS score is claimed for this unrun configuration.** To submit this configuration officially, the precise tested parameters must be registered in `algos-2021.yaml` and assessed under the organizers' rules, with reference-hardware rerun requested.
+The default existing v3 submission and its historical measured result remain untouched. The alternate `hingezero_cpp_zero_steps_v3` configuration is now registered under `openai-100K` in `algos-2021.yaml` so the existing pull request exposes it for organizer evaluation. **No NeurIPS score is claimed for this unrun configuration.** Maintainer acceptance and an official reference-hardware rerun remain pending.
 
 ## Methodological limitations
 
