@@ -100,3 +100,7 @@ if __name__ == "__main__":
         pool.join()
 
     print('\n\nInstall Status:\n' + '\n'.join(str(algo) for algo in install_status))
+
+    failures = [tag for result in install_status for tag, status in result.items() if status == 'fail']
+    if failures:
+        raise RuntimeError('The following Docker builds failed: %s' % ', '.join(failures))
