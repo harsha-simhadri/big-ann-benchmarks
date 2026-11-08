@@ -23,9 +23,11 @@ yfcc-10M:
             [{"ivf_min": 5000, "cluster_size": 1000, "max_lists": 2048,
               "bitset_min": 20000, "copy_min": 50000, "threads": 8}]
           query-args: |
-            [{"brute_max": 5000, "target": 2500},
-             {"brute_max": 10000, "target": 2500},
-             {"brute_max": 20000, "target": 2500},
-             {"brute_max": 5000, "target": 3000},
+            [{"brute_max": 10000, "target": 2500},
+             {"brute_max": 10000, "target": 2750},
              {"brute_max": 10000, "target": 3000},
-             {"brute_max": 5000, "target": 4000}]
+             {"brute_max": 10000, "target": 3500},
+             {"brute_max": 10000, "target": 4000},
+             {"brute_max": 15000, "target": 2500},
+             {"brute_max": 5000, "target": 2500},
+             {"brute_max": 5000, "target": 2750}]
