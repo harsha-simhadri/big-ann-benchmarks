@@ -43,6 +43,6 @@ msturing-30M-clustered:
     run-groups:
       base:
         args: |
-          [{"R":32, "L":64, "alpha":1.0, "T":8, "merge":true, "delta_ratio":1.0, "deleted_ratio":0.3, "min_delta":100000, "rebuild_after":1.0}]
+          [{"mode":"partition", "lists":5000, "train_at":1000000, "reorder":317, "T":8}]
         query-args: |
-          [{"ef":256, "rerank":256}]
+          [{"nprobe":300}]
