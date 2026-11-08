@@ -43,6 +43,6 @@ msturing-30M-clustered:
     run-groups:
       base:
         args: |
-          [{"mode":"partition", "lists":5000, "train_at":1000000, "reorder":317, "T":8}]
+          [{"mode":"partition", "lists":5000, "train_at":1000000, "reorder":1000, "T":8}]
         query-args: |
-          [{"nprobe":300}]
+          [{"nprobe":400}]

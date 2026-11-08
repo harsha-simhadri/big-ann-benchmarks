@@ -7,7 +7,7 @@ RUN pip3 install maturin
 
 # WARM (WritersLogic Adaptive Retention & Memory), pinned to one commit. This ARG is the only
 # place the revision is set; change it here and rebuild.
-ARG WARM_COMMIT=e29b62fc53c1e5f652520e6f63288bc53796324f
+ARG WARM_COMMIT=459a54031a7293be86227c62755d6b82de81dd2f
 RUN GIT_LFS_SKIP_SMUDGE=1 git clone https://github.com/writerslogic/warm.git /home/app/warm \
     && cd /home/app/warm && git checkout ${WARM_COMMIT} \
     && maturin build --release --features python,experimental -i python3 -o /home/app/wheels \
