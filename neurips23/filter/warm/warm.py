@@ -65,12 +65,14 @@ class Warm(BaseFilterANN):
 
     def set_query_arguments(self, query_args):
         self._query = dict(query_args)
-        self.index.set_search(
-            brute_max=int(query_args.get("brute_max", 20_000)),
-            target=int(query_args.get("target", 5_000)),
-            min_lists=int(query_args.get("min_lists", 1)),
-            intersect_max=int(query_args.get("intersect_max", 200_000)),
-        )
+        # Integer knobs; anything not named keeps the engine default. The boolean and
+        # prefetch knobs (sort_queries, block_filter, skip_tombstones, cache_intersections,
+        # prefetch) change speed only, never a result.
+        ints = ("brute_max", "target", "min_lists", "intersect_max", "prefetch")
+        flags = ("sort_queries", "block_filter", "skip_tombstones", "cache_intersections", "wide")
+        kwargs = {k: int(query_args[k]) for k in ints if k in query_args}
+        kwargs.update({k: bool(query_args[k]) for k in flags if k in query_args})
+        self.index.set_search(**kwargs)
 
     def filtered_query(self, X, filter, k):
         self.res = self.index.search(self._to_u8(X), filter.indptr, filter.indices, k)

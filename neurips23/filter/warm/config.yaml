@@ -20,14 +20,12 @@ yfcc-10M:
       run-groups:
         base:
           args: |
-            [{"ivf_min": 5000, "cluster_size": 1000, "max_lists": 2048,
+            [{"ivf_min": 5000, "cluster_size": 500, "max_lists": 4096,
               "bitset_min": 20000, "copy_min": 50000, "threads": 8}]
           query-args: |
-            [{"brute_max": 10000, "target": 2500},
-             {"brute_max": 10000, "target": 2750},
-             {"brute_max": 10000, "target": 3000},
-             {"brute_max": 10000, "target": 3500},
-             {"brute_max": 10000, "target": 4000},
-             {"brute_max": 15000, "target": 2500},
-             {"brute_max": 5000, "target": 2500},
-             {"brute_max": 5000, "target": 2750}]
+            [{"brute_max": 5000, "target": 1650, "intersect_max": 1000000, "prefetch": 32},
+             {"brute_max": 5000, "target": 1750, "intersect_max": 1000000, "prefetch": 32},
+             {"brute_max": 5000, "target": 1850, "intersect_max": 1000000, "prefetch": 32},
+             {"brute_max": 5000, "target": 2000, "intersect_max": 1000000, "prefetch": 32},
+             {"brute_max": 7500, "target": 1750, "intersect_max": 1000000, "prefetch": 32},
+             {"brute_max": 3000, "target": 1750, "intersect_max": 1000000, "prefetch": 32}]
