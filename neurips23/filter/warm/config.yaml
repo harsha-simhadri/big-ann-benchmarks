@@ -20,12 +20,9 @@ yfcc-10M:
       run-groups:
         base:
           args: |
-            [{"ivf_min": 5000, "cluster_size": 500, "max_lists": 4096,
-              "bitset_min": 20000, "copy_min": 50000, "threads": 8}]
+            [{"ivf_min": 1500, "cluster_size": 500, "max_lists": 4096, "bitset_min": 20000, "copy_min": 4611686018427387904, "pq_m": 48, "threads": 8}]
           query-args: |
-            [{"brute_max": 5000, "target": 1650, "intersect_max": 1000000, "prefetch": 32},
-             {"brute_max": 5000, "target": 1750, "intersect_max": 1000000, "prefetch": 32},
-             {"brute_max": 5000, "target": 1850, "intersect_max": 1000000, "prefetch": 32},
-             {"brute_max": 5000, "target": 2000, "intersect_max": 1000000, "prefetch": 32},
-             {"brute_max": 7500, "target": 1750, "intersect_max": 1000000, "prefetch": 32},
-             {"brute_max": 3000, "target": 1750, "intersect_max": 1000000, "prefetch": 32}]
+            [{"sort_queries": 1, "block_filter": 1, "skip_tombstones": 1, "cache_intersections": 1, "prefetch": 32, "intersect_max": 1000000, "brute_max": 600, "target": 2200, "rerank": 96, "edges": [5000, 30000, 150000], "targets": [2800, 2800, 5000, 3600, 1200, 450, 800, 800], "reranks": [64, 64, 64, 96, 48, 48, 48, 48]},
+             {"sort_queries": 1, "block_filter": 1, "skip_tombstones": 1, "cache_intersections": 1, "prefetch": 32, "intersect_max": 1000000, "brute_max": 600, "target": 2200, "rerank": 96, "edges": [5000, 30000, 150000], "targets": [2800, 2800, 5000, 3600, 1200, 450, 600, 600], "reranks": [64, 64, 64, 96, 48, 48, 48, 48]},
+             {"sort_queries": 1, "block_filter": 1, "skip_tombstones": 1, "cache_intersections": 1, "prefetch": 32, "intersect_max": 1000000, "brute_max": 600, "target": 2200, "rerank": 96, "edges": [5000, 30000, 150000], "targets": [2800, 2800, 3600, 3600, 1200, 600, 600, 600], "reranks": [64, 64, 64, 96, 48, 48, 48, 48]},
+             {"sort_queries": 1, "block_filter": 1, "skip_tombstones": 1, "cache_intersections": 1, "prefetch": 32, "intersect_max": 1000000, "brute_max": 600, "target": 2200, "rerank": 96, "edges": [5000, 30000, 150000], "targets": [2800, 2800, 5000, 3600, 1200, 450, 600, 600], "reranks": [64, 64, 96, 96, 48, 48, 48, 48]}]

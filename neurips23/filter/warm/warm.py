@@ -11,10 +11,12 @@ from benchmark.datasets import DATASETS
 class Warm(BaseFilterANN):
     """WARM label-filtered index (writerslogic_warm.FilteredIndex).
 
-    Per-label posting lists route each query by the size of its rarest label: small ones are
-    scored exactly over every match, large ones probe a k-means inverted file trained on that
-    label's members, skipping members that lack the other query labels. Distances are exact
-    integer L2 on the uint8 rows.
+    Labels with more than `ivf_min` members keep k-means lists of their own members, stored as
+    4-bit product-quantizer codes (one quantizer for the whole set). A query is routed by its
+    rarest label: small ones are scored exactly over every match; larger ones probe the lists,
+    screen with the 4-bit codes while skipping members that lack the other query labels, and
+    rescore the best `rerank` candidates exactly on the uint8 rows. Probe effort (`target`,
+    `rerank`) is set per query class by label count and rarest-label size.
     """
 
     def __init__(self, metric, index_params):
@@ -65,14 +67,8 @@ class Warm(BaseFilterANN):
 
     def set_query_arguments(self, query_args):
         self._query = dict(query_args)
-        # Integer knobs; anything not named keeps the engine default. The boolean and
-        # prefetch knobs (sort_queries, block_filter, skip_tombstones, cache_intersections,
-        # prefetch) change speed only, never a result.
-        ints = ("brute_max", "target", "min_lists", "intersect_max", "prefetch")
-        flags = ("sort_queries", "block_filter", "skip_tombstones", "cache_intersections", "wide")
-        kwargs = {k: int(query_args[k]) for k in ints if k in query_args}
-        kwargs.update({k: bool(query_args[k]) for k in flags if k in query_args})
-        self.index.set_search(**kwargs)
+        bools = {"sort_queries", "wide", "skip_tombstones", "block_filter", "cache_intersections"}
+        self.index.set_search(**{k: (bool(v) if k in bools else [int(x) for x in v] if isinstance(v, list) else int(v)) for k, v in query_args.items()})
 
     def filtered_query(self, X, filter, k):
         self.res = self.index.search(self._to_u8(X), filter.indptr, filter.indices, k)
