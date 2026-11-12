@@ -45,4 +45,4 @@ msturing-30M-clustered:
         args: |
           [{"mode":"partition", "lists":5000, "train_at":1000000, "reorder":1000, "T":8}]
         query-args: |
-          [{"nprobe":650}]
+          [{"nprobe":830}]
