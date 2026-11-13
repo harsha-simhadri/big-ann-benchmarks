@@ -78,6 +78,9 @@ jobs:
           - algorithm: pyanns
             dataset: sparse-small
             track: sparse
+          - algorithm: warm
+            dataset: sparse-small
+            track: sparse
           - algorithm: pyanns
             dataset: random-filter-s
             track: filter

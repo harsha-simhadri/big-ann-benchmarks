@@ -1,0 +1,51 @@
+sparse-small:
+  warm:
+    docker-tag: neurips23-sparse-warm
+    module: neurips23.sparse.warm.warm
+    constructor: Warm
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{"block_fraction": 0.25, "summary_coords": 256}]
+        query-args: |
+          [
+          {"query_cut": 5, "heap_factor": 1.04, "residual": 0.12}
+          ]
+sparse-1M:
+  warm:
+    docker-tag: neurips23-sparse-warm
+    module: neurips23.sparse.warm.warm
+    constructor: Warm
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{"block_fraction": 0.25, "summary_coords": 256}]
+        query-args: |
+          [
+          {"query_cut": 5, "heap_factor": 1.04, "residual": 0.12}
+          ]
+sparse-full:
+  warm:
+    docker-tag: neurips23-sparse-warm
+    module: neurips23.sparse.warm.warm
+    constructor: Warm
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{"block_fraction": 0.25, "summary_coords": 256}]
+        query-args: |
+          [
+          {"query_cut": 5, "heap_factor": 1.04, "residual": 0.1},
+          {"query_cut": 6, "heap_factor": 1.0, "residual": 0.12},
+          {"query_cut": 6, "heap_factor": 1.04, "residual": 0.1},
+          {"query_cut": 5, "heap_factor": 1.0, "residual": 0.14},
+          {"query_cut": 5, "heap_factor": 1.04, "residual": 0.12},
+          {"query_cut": 6, "heap_factor": 1.0, "residual": 0.14},
+          {"query_cut": 5, "heap_factor": 1.04, "residual": 0.14},
+          {"query_cut": 6, "heap_factor": 1.04, "residual": 0.12},
+          {"query_cut": 5, "heap_factor": 1.0, "residual": 0.16},
+          {"query_cut": 6, "heap_factor": 1.0, "residual": 0.16}
+          ]
