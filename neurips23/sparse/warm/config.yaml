@@ -1,0 +1,49 @@
+sparse-small:
+  warm:
+    docker-tag: neurips23-sparse-warm
+    module: neurips23.sparse.warm.warm
+    constructor: Warm
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{"block_fraction": 0.25, "summary_coords": 256, "sketch_len": 40}]
+        query-args: |
+          [
+          {"query_cut": 5, "heap_factor": 1.08, "residual": 0.12, "seed": 2, "tail": 0.25, "col_cut": 0.08, "batch": 16}
+          ]
+sparse-1M:
+  warm:
+    docker-tag: neurips23-sparse-warm
+    module: neurips23.sparse.warm.warm
+    constructor: Warm
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{"block_fraction": 0.25, "summary_coords": 256, "sketch_len": 40}]
+        query-args: |
+          [
+          {"query_cut": 5, "heap_factor": 1.08, "residual": 0.12, "seed": 2, "tail": 0.25, "col_cut": 0.08, "batch": 16}
+          ]
+sparse-full:
+  warm:
+    docker-tag: neurips23-sparse-warm
+    module: neurips23.sparse.warm.warm
+    constructor: Warm
+    base-args: ["@metric"]
+    run-groups:
+      base:
+        args: |
+          [{"block_fraction": 0.25, "summary_coords": 256, "sketch_len": 40}]
+        query-args: |
+          [
+          {"query_cut": 5, "heap_factor": 1.08, "residual": 0.12, "seed": 2, "tail": 0.25, "col_cut": 0.08, "batch": 16},
+          {"query_cut": 5, "heap_factor": 1.08, "residual": 0.12, "seed": 2, "tail": 0.25, "col_cut": 0.08, "batch": 24},
+          {"query_cut": 6, "heap_factor": 1.06, "residual": 0.12, "seed": 2, "tail": 0.25, "col_cut": 0.08, "batch": 24},
+          {"query_cut": 5, "heap_factor": 1.06, "residual": 0.12, "seed": 2, "tail": 0.25, "col_cut": 0.06, "batch": 24},
+          {"query_cut": 5, "heap_factor": 1.06, "residual": 0.12, "seed": 2, "tail": 0.28, "col_cut": 0.06, "batch": 16},
+          {"query_cut": 5, "heap_factor": 1.1, "residual": 0.12, "seed": 2, "tail": 0.25, "col_cut": 0.1, "batch": 24},
+          {"query_cut": 5, "heap_factor": 1.1, "residual": 0.12, "seed": 2, "tail": 0.25, "col_cut": 0.08, "batch": 16},
+          {"query_cut": 6, "heap_factor": 1.04, "residual": 0.12, "seed": 2, "tail": 0.25, "col_cut": 0.06, "batch": 24}
+          ]
