@@ -12,7 +12,7 @@ class Warm(BaseSparseANN):
     """WARM learned-sparse index (writerslogic_warm.SparseIndex).
 
     A blocked inverted index over statically pruned posting lists, one summary vector per
-    block, and a half-float forward index. A query walks its heaviest coordinates, scores a
+    block, and a byte forward index. A query walks its heaviest coordinates, scores a
     block only when its summary can still reach the current k-th score, and scores every
     candidate exactly against the forward index.
     """
